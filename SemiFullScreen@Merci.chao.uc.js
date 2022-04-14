@@ -127,8 +127,8 @@ SemiFullScreen.prototype = {
 									}
 								}
 								
-								:root[inFullscreen] .titlebar-spacer {
-									display: -moz-box !important;
+								#main-window:root[inFullscreen] .titlebar-spacer {
+									display: -moz-box;
 								}
 							`;
 						this.styleElt = document.body.appendChild(document.createElement("style"));
