@@ -1,7 +1,5 @@
 # History Submenus II (HistorySubmenus2@Merci.chao.uc.js)
-Add sub-menus to History Menu for previous days' history.
-
-[Add-on Page (Web Archive)](https://web.archive.org/web/20181102024750/https://addons.mozilla.org/en-US/firefox/addon/history-submenus-2/)
+Add sub-menus to History Menu for previous days' history. [Add-on Page (web archive)](https://web.archive.org/web/20181102024750/https://addons.mozilla.org/en-US/firefox/addon/history-submenus-2/)
 
 Note: There is no setting panel and you need to modify the parameters inside the .js file, including:
 
@@ -14,9 +12,7 @@ Note: There is no setting panel and you need to modify the parameters inside the
 
 
 # Page Title in URL Bar (PageTitle@Merci.chao.uc.js)
-Show page title in URL Bar.
-
-[Add-on Page (Web Archive)](https://web.archive.org/web/20181101232504/https://addons.mozilla.org/en-US/firefox/addon/page-title/)
+Show page title in URL Bar. [Add-on Page (web archive)](https://web.archive.org/web/20181101232504/https://addons.mozilla.org/en-US/firefox/addon/page-title/)
 
 Paramaters:
 
@@ -28,9 +24,7 @@ Paramaters:
 ![screenshot](https://web.archive.org/web/20181009205610if_/https://addons.cdn.mozilla.net/user-media/previews/full/165/165890.png?modified=1530208887)
 
 # Semi-Full Screen / Picture-in-Picture Mode (SemiFullScreen@Merci.chao.uc.js)
-Full screen with keeping your task bar visible, or hide the toolbars when not maximized (picture-in-picture).
-
-[Add-on Page (Web Archive)](https://web.archive.org/web/20181101232504/https://addons.mozilla.org/en-US/firefox/addon/page-title/)
+Full screen with keeping your task bar visible, or hide the toolbars when not maximized (picture-in-picture). [Add-on Page (web archive)](https://web.archive.org/web/20181101232504/https://addons.mozilla.org/en-US/firefox/addon/page-title/)
 
 Hotkeys:
 
@@ -38,8 +32,11 @@ Hotkeys:
 - `Alt + F11` - Enter picture-in-picture mode and hide the toolbars (only when the window is not maximized).
 - `Shift + F11` - Enter normal full screen mode.
 
-
-
 Paramaters:
 
 - `REVERSE` - Whether to use F11 to enter semi-full screen and Shift+F11 to normal full screen or not.
+
+# Float Toolbars in Full Screen (FloatToolbarsInFullScreen@Merci.chao.uc.js)
+Float the toolbars over the page in full screen mode, instead of making the web page jumpy when the toolbars showing / hiding. [Add-on Page (web achive)](https://web.archive.org/web/20181017035437/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/)
+
+![screenshot](https://web.archive.org/web/20181012014653if_/https://addons.cdn.mozilla.net/user-media/previews/full/180/180636.png?modified=1530209532)
