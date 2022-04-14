@@ -1,7 +1,7 @@
 "use strict";
 if (location == "chrome://browser/content/browser.xhtml") try {(()=>{
 
-let REVERSE = true;
+let REVERSE = false;
 try {REVERSE = Services.prefs.getBoolPref("extensions.SemiFullScreen@Merci.chao.reverse")} catch(e) {}
 
 function SemiFullScreen(window) {
@@ -51,15 +51,16 @@ SemiFullScreen.prototype = {
 						root.removeAttribute("data-semi-fullscreen-lwtheme");
 						
 						this.LAZY_HANDLED_EVENTS.forEach(e => window.removeEventListener(e, this, true));
-					} else if (val && (REVERSE && !this.shift || !REVERSE && this.shift)) {
+					} else if (val && !this.shift) {
+						let pip = this.alt == REVERSE;
 						this.on = true;
 						this.normalSizeBefore = !root.matches("[sizemode=maximized]");
 						if (!this.normalSizeBefore)
-							this.alt = false;
-						if (!this.alt)
+							pip = false;
+						if (!pip)
 							window.maximize();
 
-						let borderWidth =  this.alt && navigator.oscpu.startsWith("Windows NT 1") ?
+						let borderWidth =  pip && navigator.oscpu.startsWith("Windows NT 1") ?
 								0 : (window.outerWidth - root.clientWidth) / 2;
 						let style = `
 							#main-window {
@@ -106,7 +107,7 @@ SemiFullScreen.prototype = {
 								display: -moz-box;
 							}
 						`;
-						if (this.alt)
+						if (pip)
 							style += `
 								@media (-moz-windows-compositor) {
 									@media not (-moz-platform: windows-win7) {
