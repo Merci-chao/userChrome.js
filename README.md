@@ -5,7 +5,9 @@ https://web.archive.org/web/20181102024750/https://addons.mozilla.org/en-US/fire
 
 Note: There is no setting panel and you need to modify the parameters inside the .js file, including:
 
-MAX_RESULTS, SUBMENU_COUNT, DATE_FORMAT
+- MAX_RESULTS
+- SUBMENU_COUNT
+- DATE_FORMAT
 
 ![screenshot](https://web.archive.org/web/20181007203210if_/https://addons.cdn.mozilla.net/user-media/previews/full/134/134638.png?modified=1530208752) 
 ![screenshot](https://web.archive.org/web/20181007203207if_/https://addons.cdn.mozilla.net/user-media/previews/full/63/63969.png?modified=1530208752)
