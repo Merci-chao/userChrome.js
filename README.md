@@ -24,17 +24,21 @@ Paramaters:
 ![screenshot](https://web.archive.org/web/20181009205610if_/https://addons.cdn.mozilla.net/user-media/previews/full/165/165890.png?modified=1530208887)
 
 # Semi-Full Screen / Picture-in-Picture Mode (SemiFullScreen@Merci.chao.uc.js)
-Full screen with keeping your task bar visible, or hide the toolbars when not maximized (picture-in-picture). [Add-on Page (web archive)](https://web.archive.org/web/20181101232504/https://addons.mozilla.org/en-US/firefox/addon/page-title/)
+Full screen with keeping your task bar visible, or hide the toolbars when not maximized (picture-in-picture). [Add-on Page (web archive)](https://web.archive.org/web/20181102230042/https://addons.mozilla.org/en-US/firefox/addon/semi-full-screen/)
+
+![screenshot](https://web.archive.org/web/20181013030904if_/https://addons.cdn.mozilla.net/user-media/previews/full/173/173740.png?modified=1530209326)
+
+**CAUTION: This version of Semi-Full Screen is not tested on Mac OS and Ubuntu (Linux). It is probably glitchy or simply not work at all. Use it at your own risk.**
 
 Hotkeys:
 
-- `F11` - Enter semi-full screen mode, taskbar and sidebar (if any) will keep visible.
-- `Alt + F11` - Enter picture-in-picture mode and hide the toolbars (only when the window is not maximized).
-- `Shift + F11` - Enter normal full screen mode.
+- `F11` / `Full Screen Button` - Hide the toolbars and enter picture-in-picture mode.
+- `Alt + F11` / `Alt + Full Screen Button` - Mazimize the window and enter semi-full screen mode, taskbar and sidebar (if any) will keep visible.
+- `Shift + F11` / `Shift + Full Screen Button` - Enter normal full screen mode.
 
 Paramaters:
 
-- `REVERSE` - Whether to use F11 to enter semi-full screen and Shift+F11 to normal full screen or not.
+- `REVERSE` - Whether to use `F11` for semi-full screen and `Alt + F11` for picture-in-picture or not.
 
 # Float Toolbars in Full Screen (FloatToolbarsInFullScreen@Merci.chao.uc.js)
 Float the toolbars over the page in full screen mode, instead of making the web page jumpy when the toolbars showing / hiding. [Add-on Page (web achive)](https://web.archive.org/web/20181017035437/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/)
