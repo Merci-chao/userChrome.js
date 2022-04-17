@@ -47,9 +47,11 @@ SemiFullScreen.prototype = {
 						this.normalSizeBefore && window.restore();
 						this.styleElt.remove();
 						this.styleElt = null;
-						root.removeAttribute("data-semi-fullscreen-ready");
-						root.removeAttribute("data-semi-fullscreen-lwtheme");
-						
+						root.removeAttribute("semi-fullscreen-transparent");
+						if (this.hideToolboxTimeout) {
+							window.clearTimeout(this.hideToolboxTimeout);
+							this.hideToolboxTimeout = null;
+						}
 						this.LAZY_HANDLED_EVENTS.forEach(e => window.removeEventListener(e, this, true));
 					} else if (val && !this.shift) {
 						let pip = this.alt == REVERSE;
@@ -59,48 +61,59 @@ SemiFullScreen.prototype = {
 							pip = false;
 						if (!pip)
 							window.maximize();
-
+						
+						if (/firefox-compact-(light|dark)@mozilla\.org/.test(Services.prefs.getCharPref("extensions.activeThemeID")))
+							root.setAttribute("semi-fullscreen-transparent", true);
+						
 						let borderWidth =  pip && navigator.oscpu.startsWith("Windows NT 1") ?
 								0 : (window.outerWidth - root.clientWidth) / 2;
 						let style = `
-							#main-window {
-								margin-top: ${borderWidth}px !important;
+							:root {
+								--semi-fullscreen-border-width: ${borderWidth}px;
 							}
 							
-							#main-window[sizemode=maximized] {
-								height: ${root.clientHeight - borderWidth}px !important;
-							}							
-							
-							#fullscr-toggler {
-								top: ${borderWidth}px !important;
+							:root:is([sizemode=maximized], [semi-fullscreen-transparent]) #titlebar {
+								margin-top: calc(0px - var(--semi-fullscreen-border-width)) !important;
 							}
 							
-							#titlebar {
-								margin-top: ${-borderWidth - 1}px; !important;
+							:root:is([sizemode=maximized], [semi-fullscreen-transparent]) {
+								margin-top: var(--semi-fullscreen-border-width) !important;
 							}
 							
-							@media (-moz-platform: windows-win7) {
-								#main-window[data-semi-fullscreen-ready] {
-									-moz-appearance: -moz-win-borderless-glass !important;
+							:root:is([sizemode=maximized], [semi-fullscreen-transparent]) #fullscr-toggler {
+								top: var(--semi-fullscreen-border-width) !important;
+							}
+							
+							:root:is([sizemode=maximized], [semi-fullscreen-transparent]) {
+								height: calc(100vh - var(--semi-fullscreen-border-width)) !important;
+							}
+							
+							@media not (-moz-platform: windows-win7) {
+								@media not (-moz-platform: windows-win8) {
+									.titlebar-buttonbox {
+										appearance: none !important;
+									}
 								}
 							}
 							
-							#navigator-toolbox {
-								background-image: var(--lwt-additional-images) !important;
-								background-color: var(--lwt-accent-color, ActiveCaption);
-								background-attachment: fixed;
-							}
-							
-							#main-window[lwtheme-image] #navigator-toolbox {
-								background-image: var(--lwt-header-image) !important;
-							}
-							
-							#navigator-toolbox:-moz-window-inactive {
-								background-color: var(--lwt-accent-color, InactiveCaption);
-							}
-							
-							.titlebar-buttonbox {
-								appearance: none !important;
+							@media (-moz-windows-default-theme) {
+								@media (-moz-windows-compositor) {
+									.titlebar-buttonbox {
+										width: 0;
+									}
+									
+									@media (-moz-platform: windows-win8) {
+										.titlebar-buttonbox {
+											height: 20px;
+										}
+									}
+								
+									@media (-moz-platform: windows-win7) {
+										.titlebar-buttonbox {
+											height: 18px;
+										}
+									}
+								}
 							}
 							
 							.titlebar-button {
@@ -127,13 +140,12 @@ SemiFullScreen.prototype = {
 									}
 								}
 								
-								#main-window:root[inFullscreen] .titlebar-spacer {
+								:root:root[inFullscreen] .titlebar-spacer {
 									display: -moz-box;
 								}
 							`;
 						this.styleElt = document.body.appendChild(document.createElement("style"));
 						this.styleElt.innerHTML = style;
-						setTimeout(() => root.setAttribute("data-semi-fullscreen-ready", ""), 100);
 						
 						this.LAZY_HANDLED_EVENTS.forEach(e => window.addEventListener(e, this, true));
 					} else {
@@ -205,7 +217,7 @@ SemiFullScreen.prototype = {
 					if (!FullScreen.navToolboxHidden)
 						this.hideToolboxTimeout = window.setTimeout(() => {
 							window.FullScreen.hideNavToolbox();
-						}, 600);
+						}, 800);
 				}
 				break;
 			}
