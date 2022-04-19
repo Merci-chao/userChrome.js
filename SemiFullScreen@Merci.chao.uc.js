@@ -11,7 +11,7 @@ function SemiFullScreen(window) {
 		on: false,
 		normalSizeBefore: false,
 		shift: false,
-		alt: false,
+		ctrl: false,
 		
 		originalFullScreen: null,
 		styleElt: null,
@@ -48,13 +48,10 @@ SemiFullScreen.prototype = {
 						this.normalSizeBefore && window.restore();
 						this.styleElt.remove();
 						this.styleElt = null;
+						this.clearHideToolboxTimeout();
 						root.removeAttribute("semi-fullscreen-transparent");
-						if (this.hideToolboxTimeout) {
-							window.clearTimeout(this.hideToolboxTimeout);
-							this.hideToolboxTimeout = null;
-						}
 					} else if (val && !this.shift) {
-						let pip = this.alt == REVERSE;
+						let pip = this.ctrl == REVERSE;
 						this.on = true;
 						this.normalSizeBefore = !root.matches("[sizemode=maximized]");
 						if (!this.normalSizeBefore)
@@ -160,19 +157,26 @@ SemiFullScreen.prototype = {
 		});
 	},
 	
+	clearHideToolboxTimeout() {
+		if (this.hideToolboxTimeout) {
+			window.clearTimeout(this.hideToolboxTimeout);
+			this.hideToolboxTimeout = null;
+		}
+	},
+	
 	handleEvent(e) {
-		let {type, key, shiftKey, altKey, clientY, target} = e, {window} = this;
+		let {type, key, shiftKey, ctrlKey, clientY, target} = e, {window} = this;
 		switch (type) {
 			case "keydown":
 				switch (key) {
 					case "Shift":
 						this.shift = true;
 						break;
-					case "Alt":
-						this.alt = true;
+					case "Control":
+						this.ctrl = true;
 						break;
 					case "F11":
-						if (shiftKey || altKey)
+						if (shiftKey || ctrlKey)
 							window.BrowserFullScreen();
 						break;
 				}
@@ -182,8 +186,8 @@ SemiFullScreen.prototype = {
 					case "Shift":
 						this.shift = false;
 						break;
-					case "Alt":
-						this.alt = false;
+					case "Control":
+						this.ctrl = false;
 						break;
 				}
 				break;
@@ -191,20 +195,16 @@ SemiFullScreen.prototype = {
 				if (this.on)
 					if (window.windowState == window.STATE_NORMAL)
 						window.fullScreen = false;
-					else if (window.windowState == window.STATE_MAXIMIZED)
-						setTimeout(() => {
-							this.normalSizeBefore = false;
-							window.fullScreen = false;
-						}, 100);
+					else if (window.windowState == window.STATE_MAXIMIZED) {
+						this.normalSizeBefore = false;
+						window.fullScreen = false;
+					}
 				break;
 			case "deactivate":
-				this.shift = false;
+				this.shift = this.ctrl = false;
 				break;
 			case "mouseenter": {
-				if (this.hideToolboxTimeout) {
-					window.clearTimeout(this.hideToolboxTimeout);
-					this.hideToolboxTimeout = null;
-				}
+				this.clearHideToolboxTimeout();
 				break;
 			} case "mouseleave": {
 				let {document} = window, {documentElement} = document;
