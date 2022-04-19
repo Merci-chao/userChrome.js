@@ -43,6 +43,7 @@ SemiFullScreen.prototype = {
 				
 				if (val != window.fullScreen)
 					if (this.on) {
+						this.LAZY_HANDLED_EVENTS.forEach(e => window.removeEventListener(e, this, true));
 						this.on = false;
 						this.normalSizeBefore && window.restore();
 						this.styleElt.remove();
@@ -52,7 +53,6 @@ SemiFullScreen.prototype = {
 							window.clearTimeout(this.hideToolboxTimeout);
 							this.hideToolboxTimeout = null;
 						}
-						this.LAZY_HANDLED_EVENTS.forEach(e => window.removeEventListener(e, this, true));
 					} else if (val && !this.shift) {
 						let pip = this.alt == REVERSE;
 						this.on = true;
@@ -98,18 +98,16 @@ SemiFullScreen.prototype = {
 							
 							@media (-moz-windows-default-theme) {
 								@media (-moz-windows-compositor) {
-									.titlebar-buttonbox {
-										width: 0;
-									}
-									
 									@media (-moz-platform: windows-win8) {
 										.titlebar-buttonbox {
+											width: 0;
 											height: 20px;
 										}
 									}
 								
 									@media (-moz-platform: windows-win7) {
 										.titlebar-buttonbox {
+											width: 0;
 											height: 18px;
 										}
 									}
@@ -210,7 +208,7 @@ SemiFullScreen.prototype = {
 				break;
 			} case "mouseleave": {
 				let {document} = window, {documentElement} = document;
-				if (target == documentElement) {
+				if (target == documentElement && window.gNavToolbox.style.pointerEvents != "none") {
 					if (FullScreen.navToolboxHidden)
 						if (clientY < (window.outerWidth - documentElement.clientWidth) / 2 + 2)
 							FullScreen._fullScrToggler.dispatchEvent(new window.Event("mouseover"));
