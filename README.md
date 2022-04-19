@@ -33,12 +33,12 @@ Full screen with keeping your task bar visible, or hide the toolbars when not ma
 Hotkeys:
 
 - `F11` / `Full Screen Button` - Hide the toolbars and enter picture-in-picture mode.
-- `Alt + F11` / `Alt + Full Screen Button` - Mazimize the window and enter semi-full screen mode, taskbar and sidebar (if any) will keep visible.
+- `Ctrl + F11` / `Ctrl + Full Screen Button` - Mazimize the window and enter semi-full screen mode, taskbar and sidebar (if any) will keep visible.
 - `Shift + F11` / `Shift + Full Screen Button` - Enter normal full screen mode.
 
 Paramaters:
 
-- `REVERSE` - Whether to use `F11` for semi-full screen and `Alt + F11` for picture-in-picture or not.
+- `REVERSE` - Whether to use `F11` for semi-full screen and `Ctrl + F11` for picture-in-picture or not.
 
 # Float Toolbars in Full Screen (FloatToolbarsInFullScreen@Merci.chao.uc.js)
 Float the toolbars over the page in full screen mode, instead of making the web page jumpy when the toolbars showing / hiding. [Add-on Page (web achive)](https://web.archive.org/web/20181017035437/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/)
