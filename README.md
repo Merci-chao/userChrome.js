@@ -56,4 +56,5 @@ Display the Undo Close Tabs, Recently Closed Tabs, Recently Closed Windows and R
 # restart-button.uc.js
 Restart Firefox by middle-clicking on the Exit button in Application menu.
 
-
+# showScrollbarInMenus.uc.js
+Display scrollbar for long menus (Bookmarks menu, for instance), instead of arrows at the top and bottom.
