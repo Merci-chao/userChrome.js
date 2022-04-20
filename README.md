@@ -47,5 +47,8 @@ Float the toolbars over the page in full screen mode, instead of making the web 
 
 ![screenshot](https://web.archive.org/web/20181012014653if_/https://addons.cdn.mozilla.net/user-media/previews/full/180/180636.png?modified=1530209532)
 
+# MultiRowTab-scrollable.uc.js
+A modified version of [MultiRowTab-scrollable.uc.js (version 12/02/2021 02:18)](https://github.com/Izheil/Quantum-Nox-Firefox-Dark-Full-Theme/tree/master/Multirow and other functions/Multirow tabs), with some minor bug fixes. Just for my personal use and may not follow the fixings of the original one.
+
 # undoCloseTab.uc.js
 Display the Undo Close Tabs, Recently Closed Tabs, Recently Closed Windows and Restore Previous Session at the top of tabbar context menu.
