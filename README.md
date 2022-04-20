@@ -54,4 +54,4 @@ A modified version of [MultiRowTab-scrollable.uc.js (version 12/02/2021)](https:
 Display the Undo Close Tabs, Recently Closed Tabs, Recently Closed Windows and Restore Previous Session at the top of tabbar context menu.
 
 # restart-button.uc.js
-Restart Firefox by middle-clicking on the Exit button in app-menu.
+Restart Firefox by middle-clicking on the Exit button in Application menu.
