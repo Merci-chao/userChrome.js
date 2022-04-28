@@ -1,3 +1,6 @@
+/*
+update 2022/04/28: fix - page jumps down when open a new tab and move the cursor downward for some distance
+*/
 if (location == "chrome://browser/content/browser.xhtml") try {(()=>{
 
 function FloatToolbarsInFullScreen(window) {
@@ -165,11 +168,12 @@ FloatToolbarsInFullScreen.prototype = {
 						FullScreen._fullScrToggler.style.display = "";
 					};
 					gNavToolbox.addEventListener("transitionend", this.transitionEndListener, true);
-				} else
+				} else if (FullScreen.navToolboxHidden) {
 					Object.assign(contentDeck.style, {
 						transitionDuration: "",
 						marginTop: "",
 					});
+				}
 		};
 		
 		FullScreen.setAutohide = () => {
