@@ -1,3 +1,6 @@
+/*
+update 2022/04/29: now minimize then restore window won't exit the fullscreen state
+*/
 "use strict";
 if (location == "chrome://browser/content/browser.xhtml") try {(()=>{
 
@@ -10,6 +13,7 @@ function SemiFullScreen(window) {
 		
 		on: false,
 		normalSizeBefore: false,
+		previousSizeMode: null,
 		shift: false,
 		ctrl: false,
 		
@@ -48,6 +52,7 @@ SemiFullScreen.prototype = {
 						this.normalSizeBefore && window.restore();
 						this.styleElt.remove();
 						this.styleElt = null;
+						this.previousSizeMode = null;
 						this.clearHideToolboxTimeout();
 						root.removeAttribute("semi-fullscreen-transparent");
 					} else if (val && !this.shift) {
@@ -192,13 +197,15 @@ SemiFullScreen.prototype = {
 				}
 				break;
 			case "sizemodechange":
-				if (this.on)
+				if (this.on && this.previousSizeMode != window.STATE_MINIMIZED) {
 					if (window.windowState == window.STATE_NORMAL)
 						window.fullScreen = false;
 					else if (window.windowState == window.STATE_MAXIMIZED) {
 						this.normalSizeBefore = false;
 						window.fullScreen = false;
 					}
+				}
+				this.previousSizeMode = window.windowState;
 				break;
 			case "deactivate":
 				this.shift = this.ctrl = false;
