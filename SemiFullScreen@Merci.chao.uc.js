@@ -1,4 +1,5 @@
 /*
+update 2022/06/08: update for fx 101
 update 2022/04/29: now minimize then restore window won't exit the fullscreen state
 */
 "use strict";
@@ -33,6 +34,12 @@ SemiFullScreen.prototype = {
 	bind() {
 		let {window} = this;
 		window[SemiFullScreen.SYMBOL] = this;
+		[7,8].some(v => {
+			if (window.matchMedia(`(-moz-platform: windows-win${v})`).matches) {
+				window.document.documentElement.setAttribute("semi-fullscreen-win", v);
+				return true;
+			}
+		});
 		this.HANDLED_EVENTS.forEach(e => window.addEventListener(e, this, false));
 		
 		this.originalFullScreen = Object.getOwnPropertyDescriptor(window, "fullScreen");
@@ -74,20 +81,24 @@ SemiFullScreen.prototype = {
 								--semi-fullscreen-border-width: ${borderWidth}px;
 							}
 							
-							:root:is([sizemode=maximized], [semi-fullscreen-transparent]) #titlebar {
-								margin-top: calc(0px - var(--semi-fullscreen-border-width)) !important;
-							}
-							
-							:root:is([sizemode=maximized], [semi-fullscreen-transparent]) {
-								margin-top: var(--semi-fullscreen-border-width) !important;
-							}
-							
-							:root:is([sizemode=maximized], [semi-fullscreen-transparent]) #fullscr-toggler {
-								top: var(--semi-fullscreen-border-width) !important;
-							}
-							
-							:root:is([sizemode=maximized], [semi-fullscreen-transparent]) {
-								height: calc(100vh - var(--semi-fullscreen-border-width)) !important;
+							@media (-moz-platform: windows-win7), (-moz-platform: windows-win8) {
+								:root[semi-fullscreen-transparent][semi-fullscreen-win='7'] #titlebar,
+								:root[sizemode=maximized][semi-fullscreen-win='7'],
+								:root[sizemode=maximized][semi-fullscreen-win='8'] #titlebar {
+									margin-top: calc(0px - var(--semi-fullscreen-border-width)) !important;
+								}
+								
+								:root:is([sizemode=maximized], [semi-fullscreen-transparent][semi-fullscreen-win='7']) {
+									margin-top: var(--semi-fullscreen-border-width) !important;
+								}
+								
+								:root:is([sizemode=maximized], [semi-fullscreen-transparent][semi-fullscreen-win='7']) #fullscr-toggler {
+									top: var(--semi-fullscreen-border-width) !important;
+								}
+								
+								:root:is([sizemode=maximized], [semi-fullscreen-transparent]) {
+									height: calc(100vh - var(--semi-fullscreen-border-width)) !important;
+								}
 							}
 							
 							@media not (-moz-platform: windows-win7) {
@@ -140,8 +151,8 @@ SemiFullScreen.prototype = {
 									}
 								}
 								
-								:root:root[inFullscreen] .titlebar-spacer {
-									display: -moz-box;
+								:root[inFullscreen] .titlebar-spacer {
+									display: block !important;
 								}
 							`;
 						this.styleElt = document.body.appendChild(document.createElement("style"));
