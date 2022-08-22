@@ -1,4 +1,5 @@
 /*
+update 2022/08/22: update for fx 103
 update 2022/06/08: update for fx 101
 update 2022/04/29: now minimize then restore window won't exit the fullscreen state
 */
@@ -139,7 +140,7 @@ SemiFullScreen.prototype = {
 											@media (-moz-windows-default-theme) {
 												@media (-moz-windows-accent-color-in-titlebar) {
 													#fullscr-toggler {
-														background: -moz-accent-color;
+														background: AccentColor;
 														display: block !important;
 													}
 													#fullscr-toggler:-moz-window-inactive {
