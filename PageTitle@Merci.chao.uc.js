@@ -282,7 +282,7 @@ let PageTitle = window.PageTitle = {
 	
 	updatePrefAttributes: () => {
 		docEle.toggleAttribute("data-pageTitleShowDomain", SHOW_DOMAIN);
-		docEle.toggleAttribute("data-highlightIdentity", HIGHLIGHT_IDENTITY_BOX);
+		docEle.toggleAttribute("data-pageTitleHighlightIdentity", HIGHLIGHT_IDENTITY_BOX);
 		docEle.toggleAttribute("data-pageTitleShowUriOnHover", SHOW_URI_ON_HOVER);
 	},
 	tabsMutationObserver: new MutationObserver(records => {
@@ -468,23 +468,23 @@ style.innerHTML = `
 	padding-inline-start: 2px;
 }
 
-:root[data-highlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box {
+:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box {
 	background-color: var(--urlbar-box-bgcolor);
 	color: var(--urlbar-box-text-color);
 	padding-inline: 8px;
 	border-radius: var(--urlbar-icon-border-radius);
 }
 
-:root[data-highlightIdentity][data-pageTitleShowDomain] #urlbar[focused=true]:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box {
+:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain] #urlbar[focused=true]:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box {
 	background-color: var(--urlbar-box-focus-bgcolor);
 }
 
-:root[data-highlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box:hover:not([open]) {
+:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box:hover:not([open]) {
 	background-color: var(--urlbar-box-hover-bgcolor);
 	color: var(--urlbar-box-hover-text-color);
 }
 
-:root[data-highlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box:is(:hover:active, [open]) {
+:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box:is(:hover:active, [open]) {
 	background-color: var(--urlbar-box-active-bgcolor);
 	color: var(--urlbar-box-hover-text-color);
 }
