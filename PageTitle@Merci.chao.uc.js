@@ -1,6 +1,6 @@
 if (location == "chrome://browser/content/browser.xhtml") try {(()=>{
 
-let SHOW_DOMAIN = true, SHOW_SUB_TITLE = true, SHOW_URI_ON_HOVER = true, DECODE_HASH_AND_SEARCH = true, FORMATTING_ENABLED = true;
+let HIGHLIGHT_IDENTITY_BOX = true, SHOW_DOMAIN = true, SHOW_SUB_TITLE = true, SHOW_URI_ON_HOVER = true, DECODE_HASH_AND_SEARCH = true, FORMATTING_ENABLED = true;
 try {SHOW_DOMAIN = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.showDomain")} catch(e) {}
 try {SHOW_SUB_TITLE = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.showSubTitle")} catch(e) {}
 try {SHOW_URI_ON_HOVER = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.showUriOnHover")} catch(e) {}
@@ -282,6 +282,7 @@ let PageTitle = window.PageTitle = {
 	
 	updatePrefAttributes: () => {
 		docEle.toggleAttribute("data-pageTitleShowDomain", SHOW_DOMAIN);
+		docEle.toggleAttribute("data-highlightIdentity", HIGHLIGHT_IDENTITY_BOX);
 		docEle.toggleAttribute("data-pageTitleShowUriOnHover", SHOW_URI_ON_HOVER);
 	},
 	tabsMutationObserver: new MutationObserver(records => {
@@ -364,7 +365,7 @@ style.innerHTML = `
 	text-align: end;
 }
 
-:-moz-any(#identity-icon-subdomain, #identity-icon-port) {
+:is(#identity-icon-subdomain, #identity-icon-port) {
 	opacity: .5;
 }
 
@@ -372,7 +373,7 @@ style.innerHTML = `
 	position: relative;
 }
 
-:-moz-any(#urlbar-pagetitle, #urlbar-pageurl) {
+:is(#urlbar-pagetitle, #urlbar-pageurl) {
 	-moz-appearance: none !important;
 	background: none !important;
 	padding: 0 !important;
@@ -388,34 +389,34 @@ style.innerHTML = `
 	pointer-events: none;
 }
 
-:-moz-any(#urlbar-pagetitle, #urlbar-pageurl) {
+:is(#urlbar-pagetitle, #urlbar-pageurl) {
 	width: 100%;
 }
 
-:-moz-any(#urlbar-pagetitle, #urlbar-pageurl):-moz-locale-dir(rtl) {
+:is(#urlbar-pagetitle, #urlbar-pageurl):-moz-locale-dir(rtl) {
 	text-align: end;
 }
 
-:-moz-any(#urlbar-pagetitle, #urlbar-pageurl)[overflowed] {
+:is(#urlbar-pagetitle, #urlbar-pageurl)[overflowed] {
 	mask-image: linear-gradient(to left, transparent, black 1em);
 }
 
-:-moz-any(#urlbar-pagetitle, #urlbar-pageurl)[overflowed]:-moz-locale-dir(rtl) {
+:is(#urlbar-pagetitle, #urlbar-pageurl)[overflowed]:-moz-locale-dir(rtl) {
 	mask-image: linear-gradient(to right, transparent, black 1em);
 }
 
-:root:not([pageTitleTabSwitching]) :-moz-any(#urlbar-pagetitle, #urlbar-pageurl) {
+:root:not([pageTitleTabSwitching]) :is(#urlbar-pagetitle, #urlbar-pageurl) {
 	transition: opacity .1s ease-out;
 }
 
-#urlbar:-moz-any([focused=true], [pageproxystate=invalid]) #urlbar-pagetitle,
+#urlbar:is([focused=true], [pageproxystate=invalid]) #urlbar-pagetitle,
 #urlbar:not([pageproxystate=invalid]):not([focused=true]):not([nopagetitle=true]) #urlbar-input {
 	opacity: 0;
 	cursor: default;
 }
 
-#urlbar:-moz-any([nopagetitle=true], [focused=true], [pageproxystate=invalid])
-		:-moz-any(#urlbar-pagetitle, #urlbar-pageurl) {
+#urlbar:is([nopagetitle=true], [focused=true], [pageproxystate=invalid])
+		:is(#urlbar-pagetitle, #urlbar-pageurl) {
 	visibility: hidden;
 }
 
@@ -428,7 +429,7 @@ style.innerHTML = `
 }
 
 /*effect for hover*/
-#urlbar .urlbar-input-box:hover :-moz-any(#urlbar-pagetitle, #urlbar-pageurl) {
+#urlbar .urlbar-input-box:hover :is(#urlbar-pagetitle, #urlbar-pageurl) {
 	transition-delay: .2s !important;
 }
 
@@ -465,6 +466,27 @@ style.innerHTML = `
 #notification-popup-box {
 	margin-block: 0;
 	padding-inline-start: 2px;
+}
+
+:root[data-highlightIdentity] #urlbar:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box {
+	background-color: var(--urlbar-box-bgcolor);
+	color: var(--urlbar-box-text-color);
+	padding-inline: 8px;
+	border-radius: var(--urlbar-icon-border-radius);
+}
+
+:root[data-highlightIdentity] #urlbar[focused=true]:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box {
+	background-color: var(--urlbar-box-focus-bgcolor);
+}
+
+:root[data-highlightIdentity] #urlbar:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box:hover:not([open]) {
+	background-color: var(--urlbar-box-hover-bgcolor);
+	color: var(--urlbar-box-hover-text-color);
+}
+
+:root[data-highlightIdentity] #urlbar:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box:is(:hover:active, [open]) {
+	background-color: var(--urlbar-box-active-bgcolor);
+	color: var(--urlbar-box-hover-text-color);
 }
 `;
 
