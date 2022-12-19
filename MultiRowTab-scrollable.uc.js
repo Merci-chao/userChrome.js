@@ -17,8 +17,7 @@ var css =`
 
 #tabbrowser-tabs{
 	min-height: unset !important;
-	padding-inline-start: 0px !important;
-	height: var(--tab-min-height);
+	padding-inline-start: 0 !important;
 }
 
 @-moz-document url(chrome://browser/content/browser.xhtml){
