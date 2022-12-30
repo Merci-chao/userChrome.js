@@ -1,6 +1,6 @@
 if (location == "chrome://browser/content/browser.xhtml") try {(()=>{
 
-let HIGHLIGHT_IDENTITY_BOX = true, SHOW_DOMAIN = true, SHOW_SUB_TITLE = true, SHOW_URI_ON_HOVER = true, DECODE_HASH_AND_SEARCH = true, FORMATTING_ENABLED = true;
+let HIDE_WWW = false, HIGHLIGHT_IDENTITY_BOX = true, SHOW_DOMAIN = true, SHOW_SUB_TITLE = true, SHOW_URI_ON_HOVER = true, DECODE_HASH_AND_SEARCH = true, FORMATTING_ENABLED = true;
 try {SHOW_DOMAIN = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.showDomain")} catch(e) {}
 try {SHOW_SUB_TITLE = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.showSubTitle")} catch(e) {}
 try {SHOW_URI_ON_HOVER = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.showUriOnHover")} catch(e) {}
@@ -284,6 +284,7 @@ let PageTitle = window.PageTitle = {
 		docEle.toggleAttribute("data-pageTitleShowDomain", SHOW_DOMAIN);
 		docEle.toggleAttribute("data-pageTitleHighlightIdentity", HIGHLIGHT_IDENTITY_BOX);
 		docEle.toggleAttribute("data-pageTitleShowUriOnHover", SHOW_URI_ON_HOVER);
+		docEle.toggleAttribute("data-pageTitleHideWww", HIDE_WWW);
 	},
 	tabsMutationObserver: new MutationObserver(records => {
 		records.some(record => {
@@ -407,6 +408,10 @@ style.innerHTML = `
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box:is(:hover:active, [open]) {
 	background-color: var(--urlbar-box-active-bgcolor);
 	color: var(--urlbar-box-hover-text-color);
+}
+
+:root[data-pageTitleHideWww] #identity-icon-subdomain[value="www."i] {
+	display: none;
 }
 `;
 
