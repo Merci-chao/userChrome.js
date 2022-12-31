@@ -1,6 +1,8 @@
 if (location == "chrome://browser/content/browser.xhtml") try {(()=>{
 
 let HIDE_WWW = false, HIGHLIGHT_IDENTITY_BOX = true, SHOW_DOMAIN = true, SHOW_SUB_TITLE = true, SHOW_URI_ON_HOVER = true, DECODE_HASH_AND_SEARCH = true, FORMATTING_ENABLED = true;
+try {HIDE_WWW = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.hideWww")} catch(e) {}
+try {HIGHLIGHT_IDENTITY_BOX = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.highlightIdentityBox")} catch(e) {}
 try {SHOW_DOMAIN = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.showDomain")} catch(e) {}
 try {SHOW_SUB_TITLE = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.showSubTitle")} catch(e) {}
 try {SHOW_URI_ON_HOVER = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.showUriOnHover")} catch(e) {}
@@ -131,7 +133,7 @@ let PageTitle = window.PageTitle = {
 			//some about: pages does not show url in url bar but just waits for inputing url
 			//so we keep the url bar in input mode
 			} else {
-				if (/^about:((blank|home|newtab|privatebrowsing|sessionrestore|welcomeback)|(blocked|certerror|neterror)(\?.*)?)$/i
+				if (/^about:((blank|home|newtab|privatebrowsing|sessionrestore|welcome(back)?)|(blocked|certerror|neterror)(\?.*)?)$/i
 						.test(documentURL)) {
 					title = null;
 				//here is the right time for us to do something
@@ -174,19 +176,22 @@ let PageTitle = window.PageTitle = {
 
 							if (baseDomain != domain)
 								subDomain = domain.slice(0, -baseDomain.length);
-
-							subDomainLabel.value = subDomain;
-							domainLabel.value = urlObj.host.substring(subDomain.length);
-							portLabel.value = urlObj.port != -1 ? ":" + urlObj.port : "";
 							
-							if (SHOW_DOMAIN)
+							let needToHide3W = HIDE_WWW && subDomain.toLowerCase() == "www.";
+							
+							if (SHOW_DOMAIN) {
 								subURL = path.replace(/^\//, "");
-							else {
-								subURL = urlObj.hostPort;
+								domainLabel.value = urlObj.host.substring(subDomain.length);
+								portLabel.value = urlObj.port != -1 ? ":" + urlObj.port : "";
+								subDomainLabel.value = needToHide3W ? "" : subDomain;
+							} else {
+								subURL = urlObj.hostPort.substr(needToHide3W ? 4 : 0);
 								if (path != "/")
 									subURL += path;
 							}
-							
+
+							if (needToHide3W)
+								subDomain = "";
 						}
 					else
 						//if the protocol is unknown, use the whole url for subURL
@@ -236,7 +241,7 @@ let PageTitle = window.PageTitle = {
 					let titleSelection = titleController.getSelection(titleController.SELECTION_URLSECONDARY);
 					
 					if (SHOW_SUB_TITLE && subURL)
-						if (!SHOW_DOMAIN && subDomain && FORMATTING_ENABLED) {
+						if (!SHOW_DOMAIN && FORMATTING_ENABLED) {
 							let baseDomainIdx = rtl ?
 									subDomain.length
 									: title.length + subTitleSeperator.length + subDomain.length;
@@ -284,7 +289,6 @@ let PageTitle = window.PageTitle = {
 		docEle.toggleAttribute("data-pageTitleShowDomain", SHOW_DOMAIN);
 		docEle.toggleAttribute("data-pageTitleHighlightIdentity", HIGHLIGHT_IDENTITY_BOX);
 		docEle.toggleAttribute("data-pageTitleShowUriOnHover", SHOW_URI_ON_HOVER);
-		docEle.toggleAttribute("data-pageTitleHideWww", HIDE_WWW);
 	},
 	tabsMutationObserver: new MutationObserver(records => {
 		records.some(record => {
@@ -311,6 +315,14 @@ if (!UrlbarInput.prototype.__PageTitleInit) {
 		return r;
 	};
 	UrlbarInput.prototype.__PageTitleInit = true;
+}
+if (!AboutReaderParent.__PageTitleInit) {
+	let originalFunc = AboutReaderParent.toggleReaderMode;
+	AboutReaderParent.toggleReaderMode = function(event) {
+		event.target.ownerGlobal.gBrowser.selectedTab.label += "\u200B";
+		return originalFunc.apply(this, arguments);
+	};
+	AboutReaderParent.__PageTitleInit = true;
 }
 
 let style = document.body.appendChild(document.createElement("style"));
@@ -408,10 +420,6 @@ style.innerHTML = `
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box:is(:hover:active, [open]) {
 	background-color: var(--urlbar-box-active-bgcolor);
 	color: var(--urlbar-box-hover-text-color);
-}
-
-:root[data-pageTitleHideWww] #identity-icon-subdomain[value="www."i] {
-	display: none;
 }
 `;
 
