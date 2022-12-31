@@ -407,6 +407,9 @@ style.innerHTML = `
 	opacity: 0 !important;
 }
 
+:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-box {
+	margin-inline-end: 8px;
+}
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle=true], [pageproxystate=invalid])) #identity-icon-box {
 	background-color: var(--urlbar-box-bgcolor);
 }
