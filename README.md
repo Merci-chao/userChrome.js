@@ -20,7 +20,7 @@ Paramaters:
 - `SHOW_SUB_TITLE` - Whether to display the url path after the page title or not.
 - `SHOW_URI_ON_HOVER` - Whether to display the url temporarily when mouse hovering or not.
 - `DECODE_HASH_AND_SEARCH` - Whether to decode the hash and the query part or not, e.g. `/index.html#hello%20world` to `/index.html#hello world`.
-- `HIDE_WWW` - Whether to hide the `www.` sub-domain or not.
+- `HIDE_WWW` - Whether to hide the `www` sub-domain or not.
 - `HIGHLIGHT_IDENTITY_BOX` - Whether to add a backgrond for identity box or not (only when `SHOW_DOMAIN` is `true`).
 
 ![screenshot](https://web.archive.org/web/20181009205610if_/https://addons.cdn.mozilla.net/user-media/previews/full/165/165890.png?modified=1530208887)
