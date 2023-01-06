@@ -134,32 +134,32 @@ let HistorySubmenus2 = {
 					},
 				},
 				
-				// BEH: {
-				// 	fillInBHTooltip: BookmarksEventHandler.fillInBHTooltip,
-				// },
+				BEH: {
+					fillInBHTooltip: BookmarksEventHandler.fillInBHTooltip,
+				},
 			};
 			
-			// /*
-			//  * wrap the fillInBHTooltip to fill the browse time of history item
-			//  */
-			// BookmarksEventHandler.fillInBHTooltip = function BEH_fillInBHTooltip(aDocument, aEvent) {
-			// 	let tooltipTime = aDocument.getElementById("bhtTimeText");
+			/*
+			 * wrap the fillInBHTooltip to fill the browse time of history item
+			 */
+			BookmarksEventHandler.fillInBHTooltip = function BEH_fillInBHTooltip(tooltip, aEvent) {
+				let tooltipTime = tooltip.querySelector("#bhtTimeText");
 
-			// 	if (tooltipTime) {
-			// 		let {tooltipNode} = aDocument;
+				if (tooltipTime) {
+					let {triggerNode} = tooltip;
 					
-			// 		let node = tooltipNode && tooltipNode._placesNode;
-			// 		if (node && tooltipNode.closest("[historypopup]")) {
-			// 			let date = new Date(node.time / 1000);
-			// 			tooltipTime.value = new Services.intl.DateTimeFormat(HistorySubmenus2.locale, {dateStyle: "long", timeStyle: "long"})
-			// 					.format(date);
-			// 			tooltipTime.hidden = false;
-			// 		} else
-			// 			tooltipTime.hidden = true;
-			// 	}
+					let node = triggerNode && triggerNode._placesNode;
+					if (node && triggerNode.closest("[historypopup]")) {
+						let date = new Date(node.time / 1000);
+						tooltipTime.value = new Services.intl.DateTimeFormat(HistorySubmenus2.locale, {dateStyle: "long", timeStyle: "long"})
+								.format(date);
+						tooltipTime.hidden = false;
+					} else
+						tooltipTime.hidden = true;
+				}
 
-			// 	return HistorySubmenus2_OriginalFunctions.BEH.fillInBHTooltip.apply(this, arguments);
-			// };
+				return HistorySubmenus2_OriginalFunctions.BEH.fillInBHTooltip.apply(this, arguments);
+			};
 
 			/*
 			 * wrap the setter of property "place"
