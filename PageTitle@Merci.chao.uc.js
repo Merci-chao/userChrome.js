@@ -421,6 +421,7 @@ style.innerHTML = `
 
 /* margin inline end of identity-box */
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
+		#identity-box[pageproxystate=valid]:not(.notSecureText):not(.chromeUI):not(.extensionPage)
 		#identity-permission-box:not([open=true]):not([hasPermissions]):not([hasSharingIcon]) ~ #notification-popup-box[hidden] {
 	visibility: visible;
 	margin-inline-end: 4px;
