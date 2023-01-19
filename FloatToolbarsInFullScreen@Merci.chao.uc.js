@@ -1,6 +1,3 @@
-/*
-update 2022/04/28: fix - page jumps down when open a new tab and move the cursor downward for some distance
-*/
 if (location == "chrome://browser/content/browser.xhtml") try {(()=>{
 
 function FloatToolbarsInFullScreen(window) {
@@ -97,7 +94,7 @@ FloatToolbarsInFullScreen.prototype = {
 					if (!gNavToolbox.hasAttribute("fullscreenShouldAnimate"))
 						contentDeck.style.marginTop =  `-${gNavToolbox.getBoundingClientRect().height}px`;
 				});
-			FullScreen._fullScrToggler.style.display = "";
+			FullScreen.fullScreenToggler.style.display = "";
 			gNavToolbox.style.pointerEvents = "";
 			gNavToolbox.removeEventListener("transitionend", this.transitionEndListener, true);
 		};
@@ -150,7 +147,7 @@ FloatToolbarsInFullScreen.prototype = {
 					});
 					
 					gNavToolbox.style.pointerEvents = "none";
-					FullScreen._fullScrToggler.style.display = "none";
+					FullScreen.fullScreenToggler.style.display = "none";
 					
 					this.transitionEndListener = e => {
 						if (e.target != e.currentTarget)
@@ -165,7 +162,7 @@ FloatToolbarsInFullScreen.prototype = {
 							transitionTimingFunction: "",
 						});
 						gNavToolbox.style.pointerEvents = "";
-						FullScreen._fullScrToggler.style.display = "";
+						FullScreen.fullScreenToggler.style.display = "";
 					};
 					gNavToolbox.addEventListener("transitionend", this.transitionEndListener, true);
 				} else if (FullScreen.navToolboxHidden) {
