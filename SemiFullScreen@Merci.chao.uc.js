@@ -230,7 +230,7 @@ SemiFullScreen.prototype = {
 				if (target == documentElement && window.gNavToolbox.style.pointerEvents != "none") {
 					if (FullScreen.navToolboxHidden)
 						if (clientY < (window.outerWidth - documentElement.clientWidth) / 2 + 2)
-							FullScreen._fullScrToggler.dispatchEvent(new window.Event("mouseover"));
+							FullScreen.fullScreenToggler.dispatchEvent(new window.Event("mouseover"));
 					if (!FullScreen.navToolboxHidden)
 						this.hideToolboxTimeout = window.setTimeout(() => {
 							window.FullScreen.hideNavToolbox();
