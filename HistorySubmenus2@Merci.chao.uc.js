@@ -543,9 +543,13 @@ let HistorySubmenus2 = {
 							
 							let {scrollTop} = viewBody;
 							let viewContainer = viewBody.closest(".panel-viewcontainer");
+							let subViewShown = false;
 							viewContainer.addEventListener("transitionstart", function f(e) {
-								viewContainer.removeEventListener("transitionstart", f, true);
-								viewBody.scrollTop = scrollTop;
+								if (subViewShown) {
+									viewContainer.removeEventListener("transitionstart", f, true);
+									viewBody.scrollTop = scrollTop;
+								} else
+									subViewShown = true;
 							}, true);
 						}, true);
 						
