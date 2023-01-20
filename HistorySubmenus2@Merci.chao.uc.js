@@ -507,7 +507,8 @@ let HistorySubmenus2 = {
 				if (!this._panelMenuView) {
 					/* init history panel when it is the first time to open on current window */
 					if (!PanelUI._subResult) {
-						let appHM = window.PanelMultiView.getViewNode(document, "PanelUI-history").querySelector("#appMenu_historyMenu");
+						let viewBody = window.PanelMultiView.getViewNode(document, "PanelUI-history").querySelector(".panel-subview-body");
+						let appHM = viewBody.querySelector("#appMenu_historyMenu");
 						
 						let subPanelView = document.getElementById("appMenu-viewCache")
 								.content.appendChild(document.createXULElement("panelview"));
@@ -515,7 +516,7 @@ let HistorySubmenus2 = {
 						body.className = "panel-subview-body";
 						body.setAttribute("historypopup", true);
 						body.tooltip = "bhTooltip";
-								
+						
 						subPanelView.id = SUBMENU_ID;
 						subPanelView.addEventListener("ViewShowing", function(e) {
 							/* initialize sub-menu panel, a dummy places view is used */
@@ -539,6 +540,13 @@ let HistorySubmenus2 = {
 								},
 							};
 							PanelUI._subPlaceView._rebuildPopup(body);
+							
+							let {scrollTop} = viewBody;
+							let viewContainer = viewBody.closest(".panel-viewcontainer");
+							viewContainer.addEventListener("transitionstart", function f(e) {
+								viewContainer.addEventListener("transitionstart", f, true);
+								viewBody.scrollTop = scrollTop;
+							}, true);
 						}, true);
 						
 						/* build sub-menus */
