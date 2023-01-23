@@ -17,7 +17,7 @@ var css =`
 
 #tabbrowser-tabs{
 	min-height: unset !important;
-	padding-inline-start: 0 !important;
+	padding-inline-start: 0px !important;
 }
 
 @-moz-document url(chrome://browser/content/browser.xhtml){
@@ -65,7 +65,7 @@ var css =`
 	margin-inline-start: calc(0px - var(--tabs-newtab-button-width)) !important;
 }
 
-.tabbrowser-tab:last-of-type {
+.tabbrowser-tab[last-visible-tab] {
 	margin-inline-end: var(--tabs-newtab-button-width) !important;
 }
 `;
