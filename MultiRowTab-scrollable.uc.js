@@ -53,19 +53,17 @@ var css =`
 
 .tabbrowser-tab > stack{ width: 100%; height: 100% }
 
-#alltabs-button,
-:root:not([customizing]) #TabsToolbar #new-tab-button,
-#tabbrowser-arrowscrollbox > spacer{ display: none !important }
+#alltabs-button { display: none !important }
 
 .titlebar-spacer[type="pre-tabs"] {
 	border-inline-end: 0 !important;
 }
 
-#tabs-newtab-button {
+#tabbrowser-tabs:not([hashiddentabs]) #tabs-newtab-button {
 	margin-inline-start: calc(0px - var(--tabs-newtab-button-width)) !important;
 }
 
-.tabbrowser-tab[last-visible-tab] {
+#tabbrowser-tabs:not([hashiddentabs]) .tabbrowser-tab:last-of-type {
 	margin-inline-end: var(--tabs-newtab-button-width) !important;
 }
 `;
