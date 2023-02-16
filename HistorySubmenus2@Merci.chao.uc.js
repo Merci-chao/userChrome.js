@@ -101,10 +101,12 @@ let HistorySubmenus2 = {
 
 		/*with (window)*/ {
 			let {
-				HistoryMenu, BookmarksEventHandler, HistorySubmenus2,
+				BookmarksEventHandler, HistorySubmenus2,
 				PlacesUtils, document, setInterval,
 				clearInterval,
 			} = window;
+			let HistoryMenu = window.Function("return HistoryMenu")();
+			let PlacesMenu = window.Function("return PlacesMenu")();
 			
 			let HMProto = HistoryMenu.prototype;
 			
@@ -120,17 +122,17 @@ let HistorySubmenus2 = {
 
 					get placeProperty() {
 						return this.HM_placeProperty
-								|| Object.getOwnPropertyDescriptor(window.PlacesMenu.prototype, "place")
-								|| Object.getOwnPropertyDescriptor(window.PlacesViewBase.prototype, "place");
+								|| Object.getOwnPropertyDescriptor(PlacesMenu.prototype, "place")
+								|| Object.getOwnPropertyDescriptor(window.Function("return PlacesViewBase")().prototype, "place");
 					},
 					get rebuildPopup() {
-						return this.HM_rebuildPopup || window.PlacesMenu.prototype._rebuildPopup;
+						return this.HM_rebuildPopup || PlacesMenu.prototype._rebuildPopup;
 					},
 					get ensureMarkers() {
-						return this.HM_ensureMarkers || window.PlacesMenu.prototype._ensureMarkers;
+						return this.HM_ensureMarkers || PlacesMenu.prototype._ensureMarkers;
 					},
 					get uninit() {
-						return this.HM_uninit || window.PlacesMenu.prototype.uninit;
+						return this.HM_uninit || PlacesMenu.prototype.uninit;
 					},
 				},
 				
@@ -422,22 +424,20 @@ let HistorySubmenus2 = {
 			/*
 			 * view for sub-menus
 			 */
-			let HistorySubMenu = window.HistorySubMenu = function HistorySubMenu(aPopupShowingEvent) {
-				/*
-				 * since the sub-menus doesn't use query result, so we give some junk places string for
-				 * construction. but i think there should be a places uri that is better than the default "place:"...
-				 */
-				window.PlacesMenu.call(this, aPopupShowingEvent, "");
-			}
-
-			HistorySubMenu.prototype = {
-				__proto__: window.PlacesMenu.prototype,
+			class HistorySubMenu extends PlacesMenu {
+				constructor(popupShowingEvent) {
+					/*
+					 * since the sub-menus doesn't use query result, so we give some junk places string for
+					 * construction. but i think there should be a places uri that is better than the default "place:"...
+					 */
+					super(popupShowingEvent, "");
+				}
 				
-				_onPopupShowing: function HSM_onPopupShowing(event) {
+				_onPopupShowing(event) {
 					this._rebuildPopup(event.originalTarget);
-				},
+				}
 
-				_rebuildPopup: function HSM_rebuildPopup(popup) {
+				_rebuildPopup(popup) {
 					this._cleanPopup(popup);
 					
 					let result = popup.parentNode._result;
@@ -453,7 +453,19 @@ let HistorySubmenus2 = {
 
 					this._setEmptyPopupStatus(popup, !result.length);
 				}
-			};
+			}
+			window.HistorySubMenu = HistorySubMenu;
+			
+			
+			// let HistorySubMenu = window.HistorySubMenu = function HistorySubMenu(aPopupShowingEvent) {
+				
+				// window.Function("return PlacesMenu")().constructor.apply(this, aPopupShowingEvent, "");
+			// }
+
+			// HistorySubMenu.prototype = {
+				// __proto__: window.Function("return PlacesMenu")().prototype,
+				
+			// };
 
 			/*
 			 * visit time in tooltip
@@ -523,9 +535,9 @@ let HistorySubmenus2 = {
 							/* the view will be uninitialized when history panel is closed */
 							if (!PanelUI._subPlaceView) {
 								PanelUI._subPlaceView = new window.PlacesPanelview(
+									"place:queryType=" + Ci.nsINavHistoryQueryOptions.QUERY_TYPE_HISTORY + "&maxResults=1",
 									body,
 									subPanelView,
-									"place:queryType=" + Ci.nsINavHistoryQueryOptions.QUERY_TYPE_HISTORY + "&maxResults=1"
 								);
 								body._placesNode.containerOpen = false;
 							}
@@ -570,12 +582,12 @@ let HistorySubmenus2 = {
 					}
 					
 					/* build the top level of history panel */
-					let descriptor = Object.getOwnPropertyDescriptor(window.PlacesViewBase.prototype, "place");
+					let descriptor = Object.getOwnPropertyDescriptor(window.Function("return PlacesViewBase")().prototype, "place");
 					let {set} = descriptor;
 					descriptor.set = function(val) {
 						set.call(this, val.replace(/maxResults=\d+/, "maxResults=" + (MAX_RESULTS || 1)));
 					};
-					Object.defineProperty(window.PlacesViewBase.prototype, "place", descriptor);
+					Object.defineProperty(window.Function("return PlacesViewBase")().prototype, "place", descriptor);
 					
 					widget.__HSM2_onViewShowing.apply(this, arguments);
 					
@@ -583,10 +595,10 @@ let HistorySubmenus2 = {
 						target.querySelectorAll("#appMenu_historyMenu, #appMenu_historyMenu + .HSM2-endSubMarker").forEach(e => e.collapsed = true);
 					
 					descriptor.set = set;
-					Object.defineProperty(window.PlacesViewBase.prototype, "place", descriptor);
+					Object.defineProperty(window.Function("return PlacesViewBase")().prototype, "place", descriptor);
 					
 					/* update the label and results of each sub-menus */
-					window.HistoryMenu.prototype._updateSubMenus.call(PanelUI);
+					window.Function("return HistoryMenu")().prototype._updateSubMenus.call(PanelUI);
 				} else
 					widget.__HSM2_onViewShowing.apply(this, arguments);
 			};
