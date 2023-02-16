@@ -226,5 +226,5 @@ tabs._getDropIndex = function(event, isLink) {
 	listener.events.forEach(e => tabs.addEventListener(e, listener, true));
 }
 
-})()} catch(e) {alert(e);console.error(e)}
+})()} catch(e) {alert("MultiRowTab-scrollable.uc.js\n"+e);console.error(e)}
 
