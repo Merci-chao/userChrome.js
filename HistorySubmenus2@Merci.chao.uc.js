@@ -620,4 +620,4 @@ let HistorySubmenus2 = {
 HistorySubmenus2.bind(window);
 HistorySubmenus2.PanelUI.enable();
 
-})()} catch(e) {alert(e);console.error(e)}
+})()} catch(e) {alert("HistorySubmenus2@Merci.chao.uc.js\n"+e);console.error(e)}
