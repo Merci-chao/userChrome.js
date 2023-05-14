@@ -174,9 +174,13 @@ FloatToolbarsInFullScreen.prototype = {
 		};
 		
 		FullScreen.setAutohide = () => {
+			originalFunctions.setAutohide.call(FullScreen);
 			if (Services.prefs.getBoolPref("browser.fullscreen.autohide"))
 				contentDeck.style.marginTop = "";
-			originalFunctions.setAutohide.call(FullScreen);
+			else
+				//since the autohide is set via context menu, the hideNavToolbox may be called when the toolbox is trying to display
+				//call the showNavToolbox again to fix some weird conflict
+				FullScreen.showNavToolbox();
 		};
 	},
 };
