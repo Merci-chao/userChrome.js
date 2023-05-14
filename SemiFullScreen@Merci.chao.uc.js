@@ -1,4 +1,5 @@
 /*
+update 2023/05/14: udpate for fx 113
 update 2022/08/22: update for fx 103
 update 2022/06/08: update for fx 101
 update 2022/04/29: now minimize then restore window won't exit the fullscreen state
@@ -129,7 +130,7 @@ SemiFullScreen.prototype = {
 							}
 							
 							.titlebar-button {
-								display: -moz-box;
+								display: block;
 							}
 						`;
 						if (pip)
