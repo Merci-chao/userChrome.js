@@ -1,4 +1,5 @@
 /*
+update 2023/06/16: fix - height of titlebar buttons increases in full screen (win10)
 update 2023/05/14: udpate for fx 113
 update 2022/08/22: update for fx 103
 update 2022/06/08: update for fx 101
@@ -130,7 +131,7 @@ SemiFullScreen.prototype = {
 							}
 							
 							.titlebar-button {
-								display: block;
+								display: flex;
 							}
 						`;
 						if (pip)
