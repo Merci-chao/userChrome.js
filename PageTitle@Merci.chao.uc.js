@@ -163,10 +163,11 @@ let PageTitle = window.PageTitle = {
 							// getBaseDomainFromHost doesn't recognize IPv6 literals in brackets as IPs (bug 667159)
 							if (domain[0] != "[")
 								try {
+									const IDNService = Cc["@mozilla.org/network/idn-service;1"].getService(Ci.nsIIDNService);
+									domain = IDNService.convertACEtoUTF8(domain);
 									baseDomain = Services.eTLD.getBaseDomainFromHost(domain);
 									if (!domain.endsWith(baseDomain)) {
 										// getBaseDomainFromHost converts its resultant to ACE.
-										const IDNService = Cc["@mozilla.org/network/idn-service;1"].getService(Ci.nsIIDNService);
 										baseDomain = IDNService.convertACEtoUTF8(baseDomain);
 									}
 								} catch (e) {}
@@ -178,11 +179,13 @@ let PageTitle = window.PageTitle = {
 							
 							if (SHOW_DOMAIN) {
 								subURL = path.replace(/^\//, "");
-								domainLabel.value = urlObj.host.substring(subDomain.length);
 								portLabel.value = urlObj.port != -1 ? ":" + urlObj.port : "";
+								domainLabel.value = baseDomain;
 								subDomainLabel.value = needToHide3W ? "" : subDomain;
 							} else {
-								subURL = urlObj.hostPort.substr(needToHide3W ? 4 : 0);
+								subURL = domain.substr(needToHide3W ? 4 : 0);
+								if (urlObj.port != -1)
+									subURL += ":" + urlObj.port;
 								if (path != "/")
 									subURL += path;
 							}
