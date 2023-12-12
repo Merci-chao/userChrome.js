@@ -342,9 +342,6 @@ style.innerHTML = `
 :root:not([data-pageTitleShowDomain]) #identity-icon-hostport-box {
 	display: none;
 }
-#identity-icon-subdomain-wrapper {
-	max-width: 15em;
-}
 #identity-icon-subdomain {
 	text-align: end;
 }
