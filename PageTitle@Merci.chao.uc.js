@@ -334,6 +334,9 @@ style.innerHTML = `
 	margin-inline-start: 4px;
 	direction: ltr;
 }
+#identity-icon-hostport-box label {
+	margin: 0;
+}
 #urlbar[focused] #identity-icon-hostport-box,
 #identity-box[pageproxystate=invalid] #identity-icon-hostport-box,
 #urlbar[nopagetitle] #identity-icon-hostport-box {
