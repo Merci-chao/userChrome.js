@@ -12,6 +12,11 @@ try {(()=>{
 		let undo = $("#context_undoCloseTab");
 		undo.parentNode.insertBefore(document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "menuseparator"), undo.nextSibling);
 	}
+	if (!items[0].menupopup.matches("[onpopupshowing*=populateUndoSubmenu]"))
+		["populateUndoSubmenu", "populateUndoWindowSubmenu"].forEach((v, i) => items[i].menupopup.addEventListener("popupshowing", e => {
+			if (e.target == e.currentTarget && !e.target.closest("#main-menubar"))
+				goPopup.parentNode._placesView[v]();
+		}, true));
 	$$("#tabContextMenu, #toolbar-context-menu").forEach(menu => {
 		menu.addEventListener("popupshowing", e => {
 			if (e.target != e.currentTarget)
