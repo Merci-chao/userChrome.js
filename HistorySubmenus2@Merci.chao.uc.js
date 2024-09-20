@@ -554,14 +554,15 @@ let HistorySubmenus2 = {
 							PanelUI._subPlaceView._rebuildPopup(body);
 							
 							let {scrollTop} = viewBody;
-							let viewContainer = viewBody.closest(".panel-viewcontainer");
+							let viewStack = viewBody.closest(".panel-viewstack");
 							let subViewShown = false;
-							viewContainer.addEventListener("transitionstart", function f(e) {
-								if (subViewShown) {
-									viewContainer.removeEventListener("transitionstart", f, true);
-									viewBody.scrollTop = scrollTop;
-								} else
-									subViewShown = true;
+							viewStack.addEventListener("transitionstart", function f(e) {
+								if (e.propertyName == "transform")
+									if (subViewShown) {
+										viewStack.removeEventListener("transitionstart", f, true);
+										viewBody.scrollTop = scrollTop;
+									} else
+										subViewShown = true;
 							}, true);
 						}, true);
 						
