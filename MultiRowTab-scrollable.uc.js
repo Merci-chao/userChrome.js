@@ -15,7 +15,7 @@ var css =`
 
 /* Uncommenting the above makes you unable to drag the window from empty space in the tab strip but normal draggable spaces will continue to work */
 
-#tabbrowser-tabs{
+#tabbrowser-tabs {
 	min-height: unset !important;
 	padding-inline-start: 0px !important;
 }
@@ -25,7 +25,8 @@ var css =`
 	#scrollbutton-up,
 	#scrollbutton-down{ display: var(--scrollbutton-display-model,initial) }
 
-	scrollbox[part][orient="horizontal"]{
+	scrollbox[part][orient="horizontal"],
+	scrollbox[part][orient="horizontal"] > slot {
 		display: flex;
 		flex-wrap: wrap;
 		overflow-y: auto;
@@ -35,7 +36,7 @@ var css =`
 }
 
 .scrollbox-clip[orient="horizontal"],
-#tabbrowser-arrowscrollbox{
+#tabbrowser-arrowscrollbox {
 	overflow: -moz-hidden-unscrollable;
 	display: block;
 	--scrollbutton-display-model: none;
