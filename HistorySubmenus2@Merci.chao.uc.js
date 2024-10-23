@@ -1,11 +1,21 @@
-if (location == "chrome://browser/content/browser.xhtml") try {(()=>{
+if (location == "chrome://browser/content/browser.xhtml") setTimeout(()=>{try{
 	
 let {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 
-let MAX_RESULTS = 25, SUBMENU_COUNT = 7, DATE_FORMAT = "%a";
-try {MAX_RESULTS = Services.prefs.getIntPref("extensions.HistorySubmenus2@Merci.chao.historyCount")} catch(e) {}
-try {SUBMENU_COUNT = Services.prefs.getIntPref("extensions.HistorySubmenus2@Merci.chao.submenuCount")} catch(e) {}
-try {DATE_FORMAT = Services.prefs.getComplexValue("extensions.HistorySubmenus2@Merci.chao.dateFormat", Ci.nsIPrefLocalizedString).data} catch(e) {}
+let prefBranchStr = "extensions.HistorySubmenus2@Merci.chao.";
+let defPrefs = {
+	historyCount: 25,
+	submenuCount: 7,
+	dateFormat: "%a",
+};
+
+let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
+		branch[`set${{string:"Char",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name, value));
+let getPrefs = (branch, data) => Object.fromEntries(Object.entries(data).map(([name, value]) =>
+		[name, branch[`get${{string:"Char",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name)]));
+setDefaultPrefs(Services.prefs.getDefaultBranch(prefBranchStr), defPrefs);
+let prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defPrefs);
+
 
 let SUBMENU_ID = "appMenu-HSM2-submenu";
 
@@ -173,8 +183,8 @@ let HistorySubmenus2 = {
 				 * update the max results property
 				 */
 				let currentMaxResults = /\d+/.exec(/maxResults=\d+/.exec(val));
-				if (currentMaxResults != (MAX_RESULTS || 1))
-					val = val.replace("maxResults=" + currentMaxResults, "maxResults=" + (MAX_RESULTS || 1));
+				if (currentMaxResults != (prefs.historyCount || 1))
+					val = val.replace("maxResults=" + currentMaxResults, "maxResults=" + (prefs.historyCount || 1));
 
 				HistorySubmenus2_OriginalFunctions.HM.placeProperty.set.call(this, val);
 			});
@@ -190,7 +200,7 @@ let HistorySubmenus2 = {
 			HMProto._subMenus = null;
 
 			HMProto._updateSubMenus = function HM_prepareSubMenus() {
-				if (!SUBMENU_COUNT)
+				if (!prefs.submenuCount)
 					return false;
 				
 				/*
@@ -219,7 +229,7 @@ let HistorySubmenus2 = {
 				 */
 				let resultRoot = this._subResult.root;
 				let {childCount} = resultRoot;
-				let currentChildIndex = MAX_RESULTS;
+				let currentChildIndex = prefs.historyCount;
 
 				for (let i in this._subMenus) {
 					let submenu = this._subMenus[i];
@@ -258,7 +268,7 @@ let HistorySubmenus2 = {
 					} else {
 						hasSubShow = true;
 						submenu.hidden = false;
-						submenu.setAttribute("label", HistorySubmenus2.formatDate(new Date(timeOfSub), DATE_FORMAT));
+						submenu.setAttribute("label", HistorySubmenus2.formatDate(new Date(timeOfSub), prefs.dateFormat));
 
 						if (submenu.open && submenu.tagName == "menu")
 							submenu._placesView._rebuildPopup(submenu.lastChild);
@@ -301,7 +311,7 @@ let HistorySubmenus2 = {
 				 * a little trick, remove the additional item here
 				 * please read HistoryMenu.prototype.place
 				 */
-				if (!MAX_RESULTS) {
+				if (!prefs.historyCount) {
 					this._setEmptyPopupStatus(popup, true);
 					let lastHistory = popup._startMarker.nextSibling;
 					if (lastHistory._placesNode)
@@ -355,7 +365,7 @@ let HistorySubmenus2 = {
 				 * create submenus
 				 */
 				let fragment = document.createDocumentFragment();
-				for (let age = 0; age < SUBMENU_COUNT; age++) {
+				for (let age = 0; age < prefs.submenuCount; age++) {
 					let submenu = fragment.appendChild(document.createXULElement("menu"));
 					submenu.className = "history-submenu menu-iconic bookmark-item";
 					submenu.setAttribute("query", true);
@@ -571,14 +581,14 @@ let HistorySubmenus2 = {
 						appHM.setAttribute("historypopup", true);
 						let frag = document.createDocumentFragment();
 						frag.appendChild(document.createXULElement("toolbarseparator")).className = "HSM2-endSubMarker";
-						let subMenus = HistorySubmenus2.PanelUI._subMenus = new Array(SUBMENU_COUNT).fill().map((v, i) => {
+						let subMenus = HistorySubmenus2.PanelUI._subMenus = new Array(prefs.submenuCount).fill().map((v, i) => {
 							let btn = frag.appendChild(document.createXULElement("toolbarbutton"));
 							btn.setAttribute("closemenu", "none");
 							btn.setAttribute("oncommand", `PanelUI.showSubView('${SUBMENU_ID}', this)`);
 							btn.className = "HSM2-submenu subviewbutton subviewbutton-iconic subviewbutton-nav";
 							return btn;
 						});
-						if (SUBMENU_COUNT)
+						if (prefs.submenuCount)
 							appHM.parentNode.insertBefore(frag, appHM.nextSibling);
 					}
 					
@@ -586,13 +596,13 @@ let HistorySubmenus2 = {
 					let descriptor = Object.getOwnPropertyDescriptor(window.Function("return PlacesViewBase")().prototype, "place");
 					let {set} = descriptor;
 					descriptor.set = function(val) {
-						set.call(this, val.replace(/maxResults=\d+/, "maxResults=" + (MAX_RESULTS || 1)));
+						set.call(this, val.replace(/maxResults=\d+/, "maxResults=" + (prefs.historyCount || 1)));
 					};
 					Object.defineProperty(window.Function("return PlacesViewBase")().prototype, "place", descriptor);
 					
 					widget.__HSM2_onViewShowing.apply(this, arguments);
 					
-					if (!MAX_RESULTS)
+					if (!prefs.historyCount)
 						target.querySelectorAll("#appMenu_historyMenu, #appMenu_historyMenu + .HSM2-endSubMarker").forEach(e => e.collapsed = true);
 					
 					descriptor.set = set;
@@ -621,4 +631,7 @@ let HistorySubmenus2 = {
 HistorySubmenus2.bind(window);
 HistorySubmenus2.PanelUI.enable();
 
-})()} catch(e) {alert("HistorySubmenus2@Merci.chao.uc.js\n"+e);console.error(e)}
+} catch(e) {
+	alert(["HistorySubmenus2@Merci.chao.uc.js",e,e.stack].join("\n"))
+	console.error(e);
+}});
