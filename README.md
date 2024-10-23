@@ -1,11 +1,11 @@
 # History Submenus II (HistorySubmenus2@Merci.chao.uc.js)
 Add sub-menus to History Menu for previous days' history. [Add-on Page (web archive)](https://web.archive.org/web/20181102024750/https://addons.mozilla.org/en-US/firefox/addon/history-submenus-2/)
 
-Note: There is no setting panel and you need to modify the parameters inside the .js file, including:
+Note: There is no setting panel and you need to modify the settings through `about:config`, including:
 
-- `MAX_RESULTS` - Count of items listing directly in the History menu.
-- `SUBMENU_COUNT` - Count of sub-menus.
-- `DATE_FORMAT` - The format of the name of sub-menus.
+- `extensions.HistorySubmenus2@Merci.chao.submenuCount` - Count of items listing directly in the History menu.
+- `extensions.HistorySubmenus2@Merci.chao.historyCount` - Count of sub-menus.
+- `extensions.HistorySubmenus2@Merci.chao.dateFormat` - The format of the name of sub-menus.
 
 ![screenshot](https://web.archive.org/web/20181007203210if_/https://addons.cdn.mozilla.net/user-media/previews/full/134/134638.png?modified=1530208752) 
 ![screenshot](https://web.archive.org/web/20181007203207if_/https://addons.cdn.mozilla.net/user-media/previews/full/63/63969.png?modified=1530208752)
