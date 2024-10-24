@@ -10,9 +10,9 @@ let defPrefs = {
 };
 
 let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
-		branch[`set${{string:"Char",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name, value));
+		branch[`set${{string:"String",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name, value));
 let getPrefs = (branch, data) => Object.fromEntries(Object.entries(data).map(([name, value]) =>
-		[name, branch[`get${{string:"Char",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name)]));
+		[name, branch[`get${{string:"String",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name)]));
 setDefaultPrefs(Services.prefs.getDefaultBranch(prefBranchStr), defPrefs);
 let prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defPrefs);
 
