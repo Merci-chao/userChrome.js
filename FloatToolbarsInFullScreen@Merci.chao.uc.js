@@ -15,7 +15,7 @@ FloatToolbarsInFullScreen.prototype = {
 	bind() {
 		let {window, originalFunctions} = this, {FullScreen, gNavToolbox, document} = window;
 		let docElt = document.documentElement;
-		let contentDeck = document.getElementById("appcontent");
+		let contentDeck = document.getElementById("browser");
 		
 		if (window.fullScreen)
 			window.fullScreen = false;
