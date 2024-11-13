@@ -879,15 +879,8 @@ ${debug == 2 ? `
 	//make updateScrollButtonsDisabledState gets a correct result when the first / last tab is translated
 	arrowScrollbox._boundsWithoutFlushing = function(ele) {
 		let r = _boundsWithoutFlushing.apply(this, arguments);
-		if (ele.style.transform) {
-			r = {...r};
-			let x = ele.screenX - root.screenX;
-			let y = ele.screenY - root.screenY;
-			r.x = r.left = x;
-			r.y = r.top = y;
-			r.right = x + r.width;
-			r.bottom = y + r.height;
-		}
+		if (ele.style.transform)
+			assign(r, {x: ele.screenX - root.screenX, y: ele.screenY - root.screenY});
 		return r;
 	};
 
