@@ -61,15 +61,16 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 # [History Submenus II](https://github.com/Merci-chao/userChrome.js/blob/main/HistorySubmenus2%40Merci.chao.uc.js)
 Add sub-menus to History Menu for previous days' history. [Add-on Page (web archive)](https://web.archive.org/web/20181102024750/https://addons.mozilla.org/en-US/firefox/addon/history-submenus-2/)
 
-Note: There is no setting panel and you need to modify the settings through `about:config`, including:
-
-- `extensions.HistorySubmenus2@Merci.chao.submenuCount` - Count of items listing directly in the History menu.
-- `extensions.HistorySubmenus2@Merci.chao.historyCount` - Count of sub-menus.
-- `extensions.HistorySubmenus2@Merci.chao.dateFormat` - The format of the name of sub-menus.
-
 ![screenshot](https://web.archive.org/web/20181007203210if_/https://addons.cdn.mozilla.net/user-media/previews/full/134/134638.png?modified=1530208752) 
 ![screenshot](https://web.archive.org/web/20181007203207if_/https://addons.cdn.mozilla.net/user-media/previews/full/63/63969.png?modified=1530208752)
 
+## Settings
+There is no setting panel and you need to open `about:config` and search for the prefix `extensions.HistorySubmenus2@Merci.chao`. Settings will apply to new windows. 
+| Name | Description |
+| ------------- | ------------- |
+| `submenuCount` | Count of items listing directly in the History menu.|
+| `historyCount` | Count of sub-menus.|
+| `dateFormat` | The format of the name of sub-menus.|
 
 # [Page Title in URL Bar](https://github.com/Merci-chao/userChrome.js/blob/main/PageTitle%40Merci.chao.uc.js)
 Show page title in URL Bar. [Add-on Page (web archive)](https://web.archive.org/web/20181101232504/https://addons.mozilla.org/en-US/firefox/addon/page-title/)
