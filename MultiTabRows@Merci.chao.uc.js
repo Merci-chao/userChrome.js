@@ -4,7 +4,8 @@
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @compatibility  Firefox 115, 132 - 133b
 // @author         Merci chao
-// @version        1.0
+// @version        2024/11/13-2 bugfix
+// @version        2024/11/13-1 first publish
 // ==/UserScript==
 
 try {
@@ -13,7 +14,7 @@ if (Services.prefs.getPrefType("sidebar.verticalTabs") == Services.prefs.PREF_BO
 
 if (gBrowser._initialized) {
 	setup();
-	gBrowser.tabContainer.uiDensityChanged();	
+	gBrowser.tabContainer.uiDensityChanged();
 	gBrowser.tabContainer._handleTabSelect(true);
 } else {
 	let {init} = gBrowser;
@@ -769,13 +770,13 @@ ${debug == 2 ? `
 		if (underflow) {
 			for (let tab of gBrowser._removingTabs)
 				gBrowser.removeTab(tab);
-			
+
 			document.getElementById("tab-preview-panel")?.removeAttribute("rolluponmousewheel");
 		}
 
 		if (appVersion == 115)
 			arrowScrollbox._updateScrollButtonsDisabledState();
-		
+
 		if (gBrowser[PINNED_TAB_COUNT])
 			tabContainer._positionPinnedTabs();
 		else
@@ -831,7 +832,7 @@ ${debug == 2 ? `
 {
 	//fx 115, reset the cache in case the script is load after the box is overflowed
 	delete arrowScrollbox._startEndProps;
-	
+
 	Object.defineProperty(arrowScrollbox, "lineScrollAmount", {get: () => tabHeight * prefs.linesToScroll, configurable: true});
 	Object.defineProperty(arrowScrollbox, "scrollIncrement", {get: () => tabHeight * prefs.linesToDragScroll, configurable: true});
 	if (!("overflowing" in arrowScrollbox)) //fx 115
@@ -841,7 +842,7 @@ ${debug == 2 ? `
 		});
 
 	let {getAttribute, on_scroll, on_scrollend, _boundsWithoutFlushing} = arrowScrollbox;
-	
+
 	//Make it think it's vertical and save a lot of modifications.
 	//Do not modify the attribute directly as it may break the layout.
 	arrowScrollbox.getAttribute = function(n) {
@@ -879,6 +880,7 @@ ${debug == 2 ? `
 	arrowScrollbox._boundsWithoutFlushing = function(ele) {
 		let r = _boundsWithoutFlushing.apply(this, arguments);
 		if (ele.style.transform) {
+			r = {...r};
 			let x = ele.screenX - root.screenX;
 			let y = ele.screenY - root.screenY;
 			r.x = r.left = x;
@@ -952,7 +954,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function(args) {
 		_handleTabSelect, uiDensityChanged,
 	} = tabContainer;
 	let lockScrollTimeout;
-	
+
 	if (!("overflowing" in tabContainer)) //fx 115
 		Object.defineProperty(tabContainer, "overflowing", {
 			get: function() {return this.hasAttribute("overflow")},
@@ -2045,23 +2047,23 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function(args) {
 
 		_unlockTabSizing.call(this);
 	};
-	
+
 	tabContainer.uiDensityChanged = function() {
 		time("uiDensityChanged");
-		
+
 		let {newTabButton} = this;
-		
+
 		newTabButton.style.setProperty("display", "flex", "important");
 		newTabButtonWidth = newTabButton.clientWidthDouble;
 		newTabButton.style.display = "";
-		
+
 		root.style.setProperty("--tab-height", (tabHeight = gBrowser.selectedTab.clientHeight) + "px");
 		this.style.setProperty("--new-tab-button-width", newTabButtonWidth + "px");
-		
+
 		timeEnd("uiDensityChanged");
-		
+
 		uiDensityChanged.apply(this, arguments);
-		
+
 		updateNavToolboxNetHeight();
 		tabContainer._updateTabsbarPlaceHolder();
 	};
@@ -2195,7 +2197,7 @@ function updateNavToolboxNetHeight(e) {
 		personalbar.collapsed = false;
 
 	root.style.setProperty("--nav-toolbox-net-height", (gNavToolbox.getBoundingClientRect().height - scrollbox.clientHeight) + "px");
-	
+
 	if (menubarAutoHide)
 		menubar.setAttribute("inactive", true);
 	if (personalbarAutoHide)
