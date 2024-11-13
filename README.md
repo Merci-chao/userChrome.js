@@ -97,15 +97,18 @@ Full screen with keeping your task bar visible, or hide the toolbars when not ma
 
 ![screenshot](https://web.archive.org/web/20181013030904if_/https://addons.cdn.mozilla.net/user-media/previews/full/173/173740.png?modified=1530209326)
 
-Hotkeys:
+## Hotkeys
+| Hotkey | Function |
+| ------------- | ------------- |
+| `F11` or `Full Screen Button` | Hide the toolbars and enter picture-in-picture mode. |
+| `Ctrl + F11` or `Ctrl + Full Screen Button` | Mazimize the window and enter semi-full screen mode, taskbar and sidebar (if any) will keep visible. |
+| `Shift + F11` or `Shift + Full Screen Button` | Enter normal full screen mode. |
 
-- `F11` / `Full Screen Button` - Hide the toolbars and enter picture-in-picture mode.
-- `Ctrl + F11` / `Ctrl + Full Screen Button` - Mazimize the window and enter semi-full screen mode, taskbar and sidebar (if any) will keep visible.
-- `Shift + F11` / `Shift + Full Screen Button` - Enter normal full screen mode.
-
-Paramaters:
-
-- `REVERSE` - Whether to use `F11` for semi-full screen and `Ctrl + F11` for picture-in-picture or not.
+## Settings
+Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.chao`. Settings will apply to new windows. 
+| Name | Description |
+| ------------- | ------------- |
+| `reverse` | Use `F11` for semi-full screen and `Ctrl + F11` for picture-in-picture.|
 
 # [Float Toolbars in Full Screen](https://github.com/Merci-chao/userChrome.js/blob/main/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
 Float the toolbars over the page in full screen mode, instead of making the web page jumpy when the toolbars showing / hiding. [Add-on Page (web achive)](https://web.archive.org/web/20181017035437/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/)
