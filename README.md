@@ -50,7 +50,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - Compatibility with Linux not tested.
 
 ## Won't Fixed Compatibility Issues
-- Other scripts / legacy tab management extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus))
+- Other tab management related scripts / legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus))
 - Firefox Nightly
 - Firefox 116 to the previous versions of latest released
 - macOS
