@@ -30,7 +30,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. |
 | `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. |
 | `tabsUnderControlButtons` | Show tabs below window control buttons when there are multiple rows: `0` - never, `1` - when not more than maximum, `2` - always (not yet implemented). |
-| `tabsbarItemsAlign` | Alignment of the Tabs Bar, allowed values are | `start`, `center`, `end`. |
+| `tabsbarItemsAlign` | Alignment of the Tabs Bar, allowed values are: `start`, `center` and `end`. |
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. |
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
