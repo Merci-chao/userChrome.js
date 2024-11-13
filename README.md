@@ -21,7 +21,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 
 | Name | Description |
 | ------------- | ------------- |
-| `maxTabRows` | Maximum number of rows, no limit when set to `0` (currently not fully supported) |
+| `maxTabRows` | Maximum number of rows. The minimum value is `1`. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
 | `rowIncreaseEvery` | Each time the window width is increased by this amount, one more row is allowed. The minimum value is `1`. |
 | `spaceAfterTabs` | Empty space before the window control buttons. The minimum value is `0`. |
