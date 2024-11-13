@@ -17,7 +17,7 @@ Make Firefox support multiple tab rows.
 - Support general script loaders, like [xiaoxiaoflood's userChromeJS](https://github.com/xiaoxiaoflood/firefox-scripts)
 
 ## Settings
-Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.chao.`. Settings will apply to new windows. 
+Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.chao`. Settings will apply to new windows. 
 
 | Name | Description |
 | ------------- | ------------- |
