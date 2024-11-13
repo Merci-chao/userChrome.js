@@ -1,5 +1,6 @@
 "use strict";
 // ==UserScript==
+// @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @compatibility  Firefox 115, 132 - 133b
 // @author         Merci chao
