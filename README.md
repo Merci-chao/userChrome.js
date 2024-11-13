@@ -4,8 +4,10 @@ Make Firefox support multiple tab rows.
  ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/themesupport.png)
 
 ## Highlights
-- Tab-dragging animation is available in multi-row mode. ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/tabdragging.png)
-- While the tab bar is scrollable, pinned tabs remain pinned and placed in a compact grid layout, allowing you to have a large number of pinned tabs. ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/pinnedtabs.png)
+- Tab-dragging animation is available in multi-row mode.
+![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/tabdragging.png)
+- While the tab bar is scrollable, pinned tabs remain pinned and placed in a compact grid layout, allowing you to have a large number of pinned tabs.
+![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/pinnedtabs.png)
 - Maximize space utilization, e.g. fully utilize the space under the window control buttons.
 - Highly integrated with Firefox's well-designed behavior, allowing Firefox to support multiple rows like native.
 - Compatible with themes even if you have massive rows.
