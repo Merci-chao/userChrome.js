@@ -1,5 +1,6 @@
 /*
-update 2023/06/16: fix - height of titlebar buttons increases in full screen (win10)
+update 2024/11/13: display settings in about:config
+update 2024/05/16: recover the border top of window in pip mode
 update 2023/05/14: udpate for fx 113
 update 2022/08/22: update for fx 103
 update 2022/06/08: update for fx 101
@@ -8,8 +9,21 @@ update 2022/04/29: now minimize then restore window won't exit the fullscreen st
 "use strict";
 if (location == "chrome://browser/content/browser.xhtml") try {(()=>{
 
-let REVERSE = false;
-try {REVERSE = Services.prefs.getBoolPref("extensions.SemiFullScreen@Merci.chao.reverse")} catch(e) {}
+let prefs;
+{
+	let prefBranchStr = "extensions.SemiFullScreen@Merci.chao.";
+	let defPrefs = {
+		reverse: false,
+	};
+
+	let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
+			value != null && branch[`set${{string:"String",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name, value));
+	let getPrefs = (branch, data) => Object.fromEntries(Object.entries(data)
+			.filter(([name, value]) => value != null)
+			.map(([name, value]) => [name, branch[`get${{string:"String",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name)]));
+	setDefaultPrefs(Services.prefs.getDefaultBranch(prefBranchStr), defPrefs);
+	prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defPrefs);
+}
 
 function SemiFullScreen(window) {
 	Object.assign(this, {
@@ -66,7 +80,7 @@ SemiFullScreen.prototype = {
 						this.clearHideToolboxTimeout();
 						root.removeAttribute("semi-fullscreen-transparent");
 					} else if (val && !this.shift) {
-						let pip = this.ctrl == REVERSE;
+						let pip = this.ctrl == prefs.reverse;
 						this.on = true;
 						this.normalSizeBefore = !root.matches("[sizemode=maximized]");
 						if (!this.normalSizeBefore)
@@ -136,22 +150,12 @@ SemiFullScreen.prototype = {
 						`;
 						if (pip)
 							style += `
-								@media (-moz-windows-compositor) {
-									@media not (-moz-platform: windows-win7) {
-										@media not (-moz-platform: windows-win8) {
-											@media (-moz-windows-default-theme) {
-												@media (-moz-windows-accent-color-in-titlebar) {
-													#fullscr-toggler {
-														background: AccentColor;
-														display: block !important;
-													}
-													#fullscr-toggler:-moz-window-inactive {
-														background: rgb(57,57,57);
-													}
-												}
-											}
-										}
-									}
+								#fullscr-toggler {
+									background: AccentColor;
+									display: block !important;
+								}
+								#fullscr-toggler:-moz-window-inactive {
+									background: rgb(57,57,57);
 								}
 								
 								:root[inFullscreen] .titlebar-spacer {
