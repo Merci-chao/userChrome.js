@@ -52,7 +52,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 ## Won't Fixed Compatibility Issues
 - Other scripts / extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus))
 - Firefox Nightly
-- Firefox 116 to previous version of the latest released
+- Firefox 116 to the previous versions of latest released
 - macOS
 - Vertical tabs, obviously
 
