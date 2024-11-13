@@ -1,3 +1,5 @@
+<ins>You're welcome to post your suggestions and bug reports [here](https://github.com/Merci-chao/userChrome.js/issues/new).</ins>
+
 # [Multi Tab Rows](https://github.com/Merci-chao/userChrome.js/blob/main/MultiTabRows%40Merci.chao.uc.js)
 Make Firefox support multiple tab rows.
 
