@@ -1,4 +1,32 @@
-# History Submenus II (HistorySubmenus2@Merci.chao.uc.js)
+# Multi Tab Rows ([MultiTabRows@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/MultiTabRows%40Merci.chao.uc.js))
+Make Firefox support multiple tab rows.
+
+ ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/themesupport.png)
+
+<ins>**Highlights**</ins>
+- Tab-dragging animation is available in multi-row mode. ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/tabdragging.png)
+- While the tab bar is scrollable, pinned tabs remain pinned and placed in a compact grid layout, allowing you to have a large number of pinned tabs. ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/pinnedtabs.png)
+- Maximize space utilization, e.g. fully utilize the space under the window control buttons.
+- Highly integrated with Firefox's well-designed behavior, allowing Firefox to support multiple rows like native.
+- Compatible with themes even if you have massive rows.
+
+
+
+<ins>**Known Issues**</ins>
+- Settings only apply to new windows, but not immediately.
+- When the tab bar is scrollable, the tabs are restricted and no longer placed below the window control buttons. A solution may be coming, but it may not be perfect.
+- Tabs opening/closing by themselves (e.g. pop-ups) while dragging tabs may cause strange behavior.
+- Not support the native tab-groups feature of Firefox Nightly.
+- Compatibility with Linux not tested.
+
+<ins>**Won't Fixed Compatibility Issues**</ins>
+- Other scripts / extensions (e.g. Tab Mix Plus)
+- Firefox Nightly
+- Firefox 116 - 131
+- macOS
+- Vertical tabs, obviously
+
+# History Submenus II ([HistorySubmenus2@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/HistorySubmenus2%40Merci.chao.uc.js))
 Add sub-menus to History Menu for previous days' history. [Add-on Page (web archive)](https://web.archive.org/web/20181102024750/https://addons.mozilla.org/en-US/firefox/addon/history-submenus-2/)
 
 Note: There is no setting panel and you need to modify the settings through `about:config`, including:
@@ -11,7 +39,7 @@ Note: There is no setting panel and you need to modify the settings through `abo
 ![screenshot](https://web.archive.org/web/20181007203207if_/https://addons.cdn.mozilla.net/user-media/previews/full/63/63969.png?modified=1530208752)
 
 
-# Page Title in URL Bar (PageTitle@Merci.chao.uc.js)
+# Page Title in URL Bar ([PageTitle@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/PageTitle%40Merci.chao.uc.js))
 Show page title in URL Bar. [Add-on Page (web archive)](https://web.archive.org/web/20181101232504/https://addons.mozilla.org/en-US/firefox/addon/page-title/)
 
 Paramaters:
@@ -25,7 +53,7 @@ Paramaters:
 
 ![screenshot](https://web.archive.org/web/20181009205610if_/https://addons.cdn.mozilla.net/user-media/previews/full/165/165890.png?modified=1530208887)
 
-# Semi-Full Screen / Picture-in-Picture Mode (SemiFullScreen@Merci.chao.uc.js)
+# Semi-Full Screen / Picture-in-Picture Mode ([SemiFullScreen@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/SemiFullScreen%40Merci.chao.uc.js))
 Full screen with keeping your task bar visible, or hide the toolbars when not maximized (picture-in-picture). [Add-on Page (web archive)](https://web.archive.org/web/20181102230042/https://addons.mozilla.org/en-US/firefox/addon/semi-full-screen/)
 
 **CAUTION: This version of Semi-Full Screen is not tested on Mac OS and Ubuntu (Linux). It is probably glitchy or simply doesn't work at all.**
@@ -42,21 +70,18 @@ Paramaters:
 
 - `REVERSE` - Whether to use `F11` for semi-full screen and `Ctrl + F11` for picture-in-picture or not.
 
-# Float Toolbars in Full Screen (FloatToolbarsInFullScreen@Merci.chao.uc.js)
+# Float Toolbars in Full Screen ([FloatToolbarsInFullScreen@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/FloatToolbarsInFullScreen%40Merci.chao.uc.js))
 Float the toolbars over the page in full screen mode, instead of making the web page jumpy when the toolbars showing / hiding. [Add-on Page (web achive)](https://web.archive.org/web/20181017035437/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/)
 
 **CAUTION: This version of Float Toolbars in Full Screen is not tested on Mac OS and Ubuntu (Linux). It is probably glitchy or simply doesn't work at all.**
 
 ![screenshot](https://web.archive.org/web/20181012014653if_/https://addons.cdn.mozilla.net/user-media/previews/full/180/180636.png?modified=1530209532)
 
-# MultiRowTab-scrollable.uc.js
-A modified version of [MultiRowTab-scrollable.uc.js (version 12/02/2021)](https://github.com/Izheil/Quantum-Nox-Firefox-Dark-Full-Theme/tree/master/Multirow%20and%20other%20functions/Multirow%20tabs), with some minor bug fixes for better drag & drop and full screen browsing experience. Just for my personal use and may not follow the fixings of the original one.
-
-# undoCloseTab.uc.js
+# [undoCloseTab.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/undoCloseTab.uc.js)
 Display the Undo Close Tabs, Recently Closed Tabs, Recently Closed Windows and Restore Previous Session at the top of tabbar context menu.
 
-# restart-button.uc.js
+# [restart-button.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/restart-button.uc.js)
 Restart Firefox by middle-clicking on the Exit button in Application menu.
 
-# showScrollbarInMenus.uc.js
+# [showScrollbarInMenus.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
 Display scrollbar for long menus (Bookmarks menu, for instance), instead of arrows at the top and bottom.
