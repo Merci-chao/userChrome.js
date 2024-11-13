@@ -74,16 +74,20 @@ Note: There is no setting panel and you need to modify the settings through `abo
 # [Page Title in URL Bar](https://github.com/Merci-chao/userChrome.js/blob/main/PageTitle%40Merci.chao.uc.js)
 Show page title in URL Bar. [Add-on Page (web archive)](https://web.archive.org/web/20181101232504/https://addons.mozilla.org/en-US/firefox/addon/page-title/)
 
-Paramaters:
-
-- `SHOW_DOMAIN` - Whether to display the domain nearby the lock icon or not.
-- `SHOW_SUB_TITLE` - Whether to display the url path after the page title or not.
-- `SHOW_URI_ON_HOVER` - Whether to display the url temporarily when mouse hovering or not.
-- `DECODE_HASH_AND_SEARCH` - Whether to decode the hash and the query part or not, e.g. `/index.html#hello%20world` to `/index.html#hello world`.
-- `HIDE_WWW` - Whether to hide the `www` sub-domain or not.
-- `HIGHLIGHT_IDENTITY_BOX` - Whether to add a backgrond for identity box or not (only when `SHOW_DOMAIN` is `true`).
-
 ![screenshot](https://web.archive.org/web/20181009205610if_/https://addons.cdn.mozilla.net/user-media/previews/full/165/165890.png?modified=1530208887)
+
+## Settings
+Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao`. Settings will apply to new windows. 
+
+| Name | Description |
+| ------------- | ------------- |
+| `showDomain` | Display the domain nearby the lock icon. |
+| `showSubTitle` | Display the url path after the page title. |
+| `showUriOnHover` | Display the url temporarily when mouse hovering. |
+| `decodeHashAndSearch` | Decode the hash and the query part, e.g. `/index.html#hello%20world` to `/index.html#hello world`. |
+| `hideWww` | Hide the `www` sub-domain. |
+| `highlightIdentityBox` | Add a backgrond for identity box (only when `showDomain` is `true`). |
+| `formattingEnabled` | Highlight the domain (only when `showDomain` is `false`). |
 
 # [Semi-Full Screen / Picture-in-Picture Mode](https://github.com/Merci-chao/userChrome.js/blob/main/SemiFullScreen%40Merci.chao.uc.js)
 Full screen with keeping your task bar visible, or hide the toolbars when not maximized (picture-in-picture). [Add-on Page (web archive)](https://web.archive.org/web/20181102230042/https://addons.mozilla.org/en-US/firefox/addon/semi-full-screen/)
