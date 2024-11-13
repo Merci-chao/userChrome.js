@@ -3,26 +3,54 @@ Make Firefox support multiple tab rows.
 
  ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/themesupport.png)
 
-<ins>**Highlights**</ins>
+## Highlights
 - Tab-dragging animation is available in multi-row mode. ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/tabdragging.png)
 - While the tab bar is scrollable, pinned tabs remain pinned and placed in a compact grid layout, allowing you to have a large number of pinned tabs. ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/pinnedtabs.png)
 - Maximize space utilization, e.g. fully utilize the space under the window control buttons.
 - Highly integrated with Firefox's well-designed behavior, allowing Firefox to support multiple rows like native.
 - Compatible with themes even if you have massive rows.
 
+## Compatibility
+- Firefox 115, the latest released and beta versions.
+- Support general script loaders, like [xiaoxiaoflood's userChromeJS](https://github.com/xiaoxiaoflood/firefox-scripts)
+
+## Settings
+Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.chao.`:
+
+| Name | Description |
+| ------------- | ------------- |
+| `maxTabRows` | Maximum number of rows, no limit when set to `0` (currently not fully supported) |
+| `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
+| `rowIncreaseEvery` | Each time the window width is increased by this amount, one more row is allowed. When set to `0`, the maximum number of rows is directly allowed to be displayed. |
+| `spaceAfterTabs` | Empty space before the window control buttons. |
+| `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. |
+| `spaceBeforeTabs` | Empty space on the left side of the window. |
+| `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. |
+| `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. |
+| `tabsUnderControlButtons` | Show tabs below window control buttons when there are multiple rows, `0` | never, `1` | when not more than maximum, `2` | always (not yet implemented). |
+| `tabsbarItemsAlign` | Alignment of the Tabs Bar, allowed values are | `start`, `center`, `end`. |
+| `linesToScroll` | How many rows to scroll when using the mouse wheel. |
+| `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. |
+| `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
+| `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color or variable. |
+| `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color or variable. |
+| `dynamicThemeImageSize` | When using themes, the size of the background image changes with the current number of rows. |
+| `hideAllTabs` | Hide the "List all tabs" button. (only available on Firefox 115) |
+| `compactControlButtons` | Display the window control buttons to a compact size. (only available on Windows 10 and above) |
+| `debugMode` | Mode for debugging, not for general use. |
 
 
-<ins>**Known Issues**</ins>
+## Known Issues
 - Settings only apply to new windows, but not immediately.
 - When the tab bar is scrollable, the tabs are restricted and no longer placed below the window control buttons. A solution may be coming, but it may not be perfect.
 - Tabs opening/closing by themselves (e.g. pop-ups) while dragging tabs may cause strange behavior.
 - Not support the native tab-groups feature of Firefox Nightly.
 - Compatibility with Linux not tested.
 
-<ins>**Won't Fixed Compatibility Issues**</ins>
-- Other scripts / extensions (e.g. Tab Mix Plus)
+## Won't Fixed Compatibility Issues
+- Other scripts / extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus))
 - Firefox Nightly
-- Firefox 116 - 131
+- Firefox 116 previous version of the latest released
 - macOS
 - Vertical tabs, obviously
 
