@@ -1,13 +1,26 @@
 if (location == "chrome://browser/content/browser.xhtml") try {(()=>{
 
-let HIDE_WWW = false, HIGHLIGHT_IDENTITY_BOX = true, SHOW_DOMAIN = true, SHOW_SUB_TITLE = true, SHOW_URI_ON_HOVER = true, DECODE_HASH_AND_SEARCH = true, FORMATTING_ENABLED = true;
-try {HIDE_WWW = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.hideWww")} catch(e) {}
-try {HIGHLIGHT_IDENTITY_BOX = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.highlightIdentityBox")} catch(e) {}
-try {SHOW_DOMAIN = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.showDomain")} catch(e) {}
-try {SHOW_SUB_TITLE = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.showSubTitle")} catch(e) {}
-try {SHOW_URI_ON_HOVER = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.showUriOnHover")} catch(e) {}
-try {DECODE_HASH_AND_SEARCH = Services.prefs.getBoolPref("extensions.PageTitle@Merci.chao.decodeHashAndSearch")} catch(e) {}
-try {FORMATTING_ENABLED = Services.prefs.getBoolPref("browser.urlbar.formatting.enabled")} catch(e) {}
+let prefs;
+{
+	let prefBranchStr = "extensions.PageTitle@Merci.chao.";
+	let defPrefs = {
+		hideWww: false,
+		highlightIdentityBox: true,
+		showDomain: true,
+		showSubTitle: true,
+		showUriOnHover: true,
+		decodeHashAndSearch: true,
+		formattingEnabled: true,
+	};
+
+	let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
+			value != null && branch[`set${{string:"String",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name, value));
+	let getPrefs = (branch, data) => Object.fromEntries(Object.entries(data)
+			.filter(([name, value]) => value != null)
+			.map(([name, value]) => [name, branch[`get${{string:"String",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name)]));
+	setDefaultPrefs(Services.prefs.getDefaultBranch(prefBranchStr), defPrefs);
+	prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defPrefs);
+}
 
 let docEle = document.documentElement;
 let rtl = window.getComputedStyle(docEle).direction == "rtl";
@@ -144,7 +157,7 @@ let PageTitle = window.PageTitle = {
 							 */
 							domainLabel.value = protocol[0].replace(/:$/, "");
 							if (protocol != "view-source:")
-								subURL = SHOW_DOMAIN ? url.replace(new RegExp("^" + protocol[0] + "\/*"), "") : url;
+								subURL = prefs.showDomain ? url.replace(new RegExp("^" + protocol[0] + "\/*"), "") : url;
 							else
 								url = subURL;
 						} else {
@@ -175,9 +188,9 @@ let PageTitle = window.PageTitle = {
 							if (baseDomain != domain)
 								subDomain = domain.slice(0, -baseDomain.length);
 							
-							let needToHide3W = HIDE_WWW && subDomain.toLowerCase() == "www.";
+							let needToHide3W = prefs.hideWww && subDomain.toLowerCase() == "www.";
 							
-							if (SHOW_DOMAIN) {
+							if (prefs.showDomain) {
 								subURL = path.replace(/^\//, "");
 								portLabel.value = urlObj.port != -1 ? ":" + urlObj.port : "";
 								domainLabel.value = baseDomain;
@@ -214,7 +227,7 @@ let PageTitle = window.PageTitle = {
 							
 					}
 					
-					if (DECODE_HASH_AND_SEARCH)
+					if (prefs.decodeHashAndSearch)
 						try {
 							subURL = subURL
 									.replace(/\?[^#]+/, matched => decodeURIComponent(matched.replace(/\+/g, " ")))
@@ -222,7 +235,7 @@ let PageTitle = window.PageTitle = {
 						} catch (e) {}
 					
 					let finalURL = subURL || title;
-					let finalTitle = subURL && SHOW_SUB_TITLE ?
+					let finalTitle = subURL && prefs.showSubTitle ?
 							rtl ? subURL + subTitleSeperator + title : title + subTitleSeperator + subURL
 							: title;
 					
@@ -240,8 +253,8 @@ let PageTitle = window.PageTitle = {
 					let titleTextNode = pageTitle.editor.rootElement.firstChild;
 					let titleSelection = titleController.getSelection(titleController.SELECTION_URLSECONDARY);
 					
-					if (SHOW_SUB_TITLE && subURL)
-						if (!SHOW_DOMAIN && FORMATTING_ENABLED) {
+					if (prefs.showSubTitle && subURL)
+						if (!prefs.showDomain && prefs.formattingEnabled) {
 							let baseDomainIdx = rtl ?
 									subDomain.length
 									: title.length + subTitleSeperator.length + subDomain.length;
@@ -260,8 +273,8 @@ let PageTitle = window.PageTitle = {
 					let urlTextNode = pageURL.editor.rootElement.firstChild;
 					let urlSelection = urlController.getSelection(urlController.SELECTION_URLSECONDARY);
 					
-					if (SHOW_URI_ON_HOVER && FORMATTING_ENABLED)
-						if (!subURL || SHOW_DOMAIN && baseDomain)
+					if (prefs.showUriOnHover && prefs.formattingEnabled)
+						if (!subURL || prefs.showDomain && baseDomain)
 							formatRange(urlSelection, urlTextNode, 0, finalURL.length);
 						else if (baseDomain) {
 							if (subDomain)
@@ -286,9 +299,9 @@ let PageTitle = window.PageTitle = {
 	},
 	
 	updatePrefAttributes: () => {
-		docEle.toggleAttribute("data-pageTitleShowDomain", SHOW_DOMAIN);
-		docEle.toggleAttribute("data-pageTitleHighlightIdentity", HIGHLIGHT_IDENTITY_BOX);
-		docEle.toggleAttribute("data-pageTitleShowUriOnHover", SHOW_URI_ON_HOVER);
+		docEle.toggleAttribute("data-pageTitleShowDomain", prefs.showDomain);
+		docEle.toggleAttribute("data-pageTitleHighlightIdentity", prefs.highlightIdentityBox);
+		docEle.toggleAttribute("data-pageTitleShowUriOnHover", prefs.showUriOnHover);
 	},
 	tabsMutationObserver: new MutationObserver(records => {
 		records.some(record => {
