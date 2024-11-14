@@ -4,6 +4,7 @@
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @compatibility  Firefox 115, 132 - 133b
 // @author         Merci chao
+// @version        2024/11/14-1 fix visual bug when moving tabs together
 // @version        2024/11/13-2 bugfix
 // @version        2024/11/13-1 first publish
 // ==/UserScript==
@@ -879,8 +880,10 @@ ${debug == 2 ? `
 	//make updateScrollButtonsDisabledState gets a correct result when the first / last tab is translated
 	arrowScrollbox._boundsWithoutFlushing = function(ele) {
 		let r = _boundsWithoutFlushing.apply(this, arguments);
-		if (ele.style.transform)
-			assign(r, {x: ele.screenX - root.screenX, y: ele.screenY - root.screenY});
+		if (ele.style.transform) {
+			r.x = ele.screenX - root.screenX;
+			r.y = ele.screenY - root.screenY;
+		}
 		return r;
 	};
 
@@ -1354,6 +1357,17 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function(args) {
 
 		//the animate maybe interrupted and restart, don't initialize again
 		if (firstRun && !_dragData.tabRects) {
+			//update the attribute first to ensure a reflow before querying the position of tabs.
+			//don't know why the position is incorrect when moving the first tab in each row together.
+			//setting the attribute first can fix this problem.
+			//setup the attributes at the end can save 10ms+ reflow time though.
+			this.toggleAttribute("movingpinnedtab", pinned);
+			this.toggleAttribute("movingsingletab", _dragData.movingTabs.length == 1);
+			this.setAttribute("movingtab", true);
+			gNavToolbox.setAttribute("movingtab", true);
+			if (!draggedTab.multiselected)
+				this.selectedItem = draggedTab;
+			
 			let boxStart, boxEnd;
 			let {top: boxTop, bottom: boxBottom} = getRect(scrollbox);
 			let numPinned = gBrowser[PINNED_TAB_COUNT];
@@ -1538,16 +1552,6 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function(args) {
 		setTransform(tranInfos, tabs, scrollTop);
 
 		timeEnd("_animateTabMove");
-
-		if (firstRun) {
-			//setup the attributes at the end can save 10ms+ reflow time
-			this.toggleAttribute("movingpinnedtab", pinned);
-			this.toggleAttribute("movingsingletab", _dragData.movingTabs.length == 1);
-			this.setAttribute("movingtab", true);
-			gNavToolbox.setAttribute("movingtab", true);
-			if (!draggedTab.multiselected)
-				this.selectedItem = draggedTab;
-		}
 
 		function rect(tab) {
 			let r = {...tabRects[tab._tPos]};
