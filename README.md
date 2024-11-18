@@ -50,13 +50,13 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - Tabs opening/closing by themselves (e.g. pop-ups) while dragging tabs may cause strange behavior.
 - Not support the native tab-groups feature of Firefox Nightly.
 - Compatibility with touch device not tested.
-- Compatibility with Windows 11 not tested.
+- Compatibility with Windows 11 and Linux not tested.
 
 ## Won't Fixed Compatibility Issues
 - Other tab management related scripts / legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus))
 - Firefox Nightly
 - Firefox 116 to the previous versions of latest released
-- macOS and Linux
+- macOS
 - Vertical tabs, obviously
 
 # [History Submenus II](https://github.com/Merci-chao/userChrome.js/blob/main/HistorySubmenus2%40Merci.chao.uc.js)
