@@ -43,6 +43,9 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 | `compactControlButtons` | Display the window control buttons to a compact size. (only available on Windows 10 and above) |
 | `debugMode` | Mode for debugging, not for general use. |
 
+## Caution
+- Since this script contains many sensitive layout calculations designed for native Firefox, any tab or tab toolbar-related legacy extensions, user scripts or stylesheets may cause weird glitches and bugs. Please check your legacy extensions, scripts and stylesheets (if any) before and after applying this script.
+- This script is developed for Windows and may not (and probably doesn't) work on Linux or macOS.
 
 ## Known Issues
 - Settings only apply to new windows, but not immediately.
@@ -50,13 +53,13 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - Tabs opening/closing by themselves (e.g. pop-ups) while dragging tabs may cause strange behavior.
 - Not support the native tab-groups feature of Firefox Nightly.
 - Compatibility with touch device not tested.
-- Compatibility with Windows 11 and Linux not tested.
+- Compatibility with Windows 11 not tested.
 
 ## Won't Fixed Compatibility Issues
-- Other tab related scripts / styles / legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus))
+- Other tab related scripts, stylesheets, and legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus))
 - Firefox Nightly
 - Firefox 116 to the previous versions of latest released
-- macOS
+- macOS and Linux
 - Vertical tabs, obviously
 
 # [History Submenus II](https://github.com/Merci-chao/userChrome.js/blob/main/HistorySubmenus2%40Merci.chao.uc.js)
