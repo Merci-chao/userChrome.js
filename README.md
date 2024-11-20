@@ -16,7 +16,7 @@ Make Firefox support multiple tab rows.
 
 ## Compatibility
 - Firefox 115, the latest released and beta versions, for Windows 7 to 10.
-- Support general script loaders, like [xiaoxiaoflood's userChromeJS](https://github.com/xiaoxiaoflood/firefox-scripts)
+- Support general script loaders, like [xiaoxiaoflood's userChromeJS](https://github.com/xiaoxiaoflood/firefox-scripts).
 
 ## Settings
 Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.chao`. Settings will apply to new windows. 
