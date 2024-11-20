@@ -45,7 +45,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 
 ## Cautions
 - Since this script contains many sensitive layout calculations designed for native Firefox, any tab or tabs toolbar-related legacy extensions, user scripts or stylesheets may cause weird glitches and bugs. Please check your legacy extensions, scripts and stylesheets (if any) before and after applying this script.
-- This script is developed for Windows and probably does not work on Linux or macOS.
+- This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Known Issues
 - Settings only apply to new windows, but not immediately.
