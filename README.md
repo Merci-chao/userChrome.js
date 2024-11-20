@@ -43,7 +43,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 | `compactControlButtons` | Display the window control buttons to a compact size. (only available on Windows 10 and above) |
 | `debugMode` | Mode for debugging, not for general use. |
 
-## Caution
+## Cautions
 - Since this script contains many sensitive layout calculations designed for native Firefox, any tab or tab toolbar-related legacy extensions, user scripts or stylesheets may cause weird glitches and bugs. Please check your legacy extensions, scripts and stylesheets (if any) before and after applying this script.
 - This script is developed for Windows and may not (and probably doesn't) work on Linux or macOS.
 
