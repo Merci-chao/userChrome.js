@@ -44,7 +44,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 | `debugMode` | Mode for debugging, not for general use. |
 
 ## Cautions
-- Since this script contains many sensitive layout calculations designed for native Firefox, any tab or tab toolbar-related legacy extensions, user scripts or stylesheets may cause weird glitches and bugs. Please check your legacy extensions, scripts and stylesheets (if any) before and after applying this script.
+- Since this script contains many sensitive layout calculations designed for native Firefox, any tab or tabs toolbar-related legacy extensions, user scripts or stylesheets may cause weird glitches and bugs. Please check your legacy extensions, scripts and stylesheets (if any) before and after applying this script.
 - This script is developed for Windows and may not (and probably doesn't) work on Linux or macOS.
 
 ## Known Issues
