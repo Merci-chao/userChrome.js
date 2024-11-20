@@ -52,8 +52,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - When the tab bar is scrollable, the tabs are restricted and no longer placed below the window control buttons. A solution may be coming, but it may not be perfect.
 - Tabs opening/closing by themselves (e.g. pop-ups) while dragging tabs may cause strange behavior.
 - Not support the native tab-groups feature of Firefox Nightly.
-- Compatibility with touch device not tested.
-- Compatibility with Windows 11 not tested.
+- Not tested on Windows 11 and touch devices.
 
 ## Won't Fixed Compatibility Issues
 - Other tab related scripts, stylesheets, and legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus))
