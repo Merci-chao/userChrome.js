@@ -56,7 +56,7 @@ Version 2.0
 - Change `scrollbarTrackColor` and `scrollbarThumbColor` default value to `auto`.
 - Settings are applied immediately.
 - Better scrolling experience on tabs.
-- Support firefox 134.
+- Support Firefox 134.
 - Various improvements and bug fixes.
 
 Version 1.0
