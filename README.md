@@ -4,11 +4,12 @@ You're welcome to post your suggestions and bug reports [here](https://github.co
 
 Since the scripts may not fully work on new versions of Firefox, please check here for newer versions of script if you encounter any issues. You may subscribe to this repository to receive notifications of updates:
 
-1. Click the `Watch` button and choose `Custom`:
+1. Sign up GitHub: https://github.com/signup
+2. Click the `Watch` button and choose `Custom`:
 
      ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/gitwatch-0.png)
 
-2. Select `Releases` and click `Apply`:
+3. Select `Releases` and click `Apply`:
 
      ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/gitwatch-2.png)
 
