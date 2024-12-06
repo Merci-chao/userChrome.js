@@ -2,7 +2,7 @@ You're welcome to post your suggestions and bug reports [here](https://github.co
 
 # IMPORTANT
 
-Since the scripts may not fully work on new versions of Firefox, please check here for newer versions of script if you encounter any issues. Please subscribe to this repository to receive notifications of updates:
+Since the scripts may not fully work on new versions of Firefox, please check here for newer versions of script if you encounter any issues. You may subscribe to this repository to receive notifications of updates:
 ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/gitwatch-1.png)
 ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/gitwatch-2.png)
 
