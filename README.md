@@ -6,11 +6,11 @@ Since the scripts may not fully work on new versions of Firefox, please check he
 
 1. Click the `Watch` button and choose `Custom`:
 
-![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/gitwatch-1.png)
+     ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/gitwatch-0.png)
 
 2. Select `Releases` and click `Apply`:
 
-![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/gitwatch-2.png)
+     ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/gitwatch-2.png)
 
 # [Multi Tab Rows](https://github.com/Merci-chao/userChrome.js/blob/main/MultiTabRows%40Merci.chao.uc.js)
 Make Firefox support multiple tab rows.
