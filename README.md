@@ -15,7 +15,7 @@ Make Firefox support multiple tab rows.
 - Compatible with themes even if you have massive rows.
 
 ## Compatibility
-- Firefox 115, the latest released version, for Windows 7 to 10.
+- Firefox 115, 133 and 134 Beta, for Windows 7 to 11.
 - Support general script loaders, like [xiaoxiaoflood's userChromeJS](https://github.com/xiaoxiaoflood/firefox-scripts).
 
 ## Settings
@@ -31,28 +31,43 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 | `spaceBeforeTabs` | Empty space on the left side of the window. The minimum value is `0`. |
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. The minimum value is `0`. |
 | `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. The minimum value is `0`. |
-| `tabsUnderControlButtons` | Show tabs below window control buttons when there are multiple rows: `0` (never), `1` (when rows are not overflowing), `2` (always, not yet implemented). |
-| `tabsbarItemsAlign` | Alignment of the Tabs Bar, allowed values are: `start` (top), `center` and `end` (bottom). This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with rows overflowing. |
+| `tabsUnderControlButtons` | Show tabs below window control buttons when there are multiple rows: `0` (never), `1` (when rows are not scrolling), `2` (always). |
+| `tabsbarItemsAlign` | Alignment of the Tabs Bar, allowed values are: `start` (top), `center` and `end` (bottom). This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with rows scrolling. |
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. The minimum value is `1`. |
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. The minimum value is `1`. |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
-| `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color or variable. |
-| `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color or variable. |
+| `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`. |
+| `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
 | `dynamicThemeImageSize` | When using themes, the size of the background image changes with the current number of rows. |
 | `hideAllTabs` | Hide the "List all tabs" button. (only available on Firefox 115) |
-| `compactControlButtons` | Display the window control buttons to a compact size. (only available on Windows 10 and above) |
+| `compactControlButtons` | Display the window control buttons to a compact size. (only available on Windows 10 and Windows 11, disabled when Mica is activated) |
+| `floatingBackdropClip` | Clip the area covered by items on the tabs toolbar when scrolling, available when `tabsUnderControlButtons` is `2`. |
+| `floatingBackdropBlurriness` | How blurry the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The minimum value is `0`. Not available on Firefox 115. |
+| `floatingBackdropOpacity` | How opaque the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be between `0` and `100`. |
+| `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when scrolling, available when `tabsUnderControlButtons` is `2`. |
 | `debugMode` | Mode for debugging, not for general use. |
 
 ## Cautions
 - Since this script contains many sensitive layout calculations designed for native Firefox, any tab or tabs toolbar-related legacy extensions, user scripts or stylesheets may cause weird glitches and bugs. Please check your legacy extensions, scripts and stylesheets (if any) before and after applying this script.
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
+## Changelog
+2.0
+- Implement `tabsUnderControlButtons = 2` (default).
+- Add new settings: `floatingBackdropClip`, `floatingBackdropBlurriness`, `floatingBackdropOpacity`, `hideEmptyPlaceholderWhenScrolling`.
+- Change `scrollbarTrackColor` and `scrollbarThumbColor` default value to `auto`.
+- Settings are applied instantly.
+- Better scrolling experience on tabs.
+- Support firefox 134.
+- Various improvements and bug fixes.
+
+1.0
+- First release.
+
 ## Known Issues
-- Settings only apply to new windows, but not immediately.
-- When the tab bar is scrollable, the tabs are restricted and no longer placed below the window control buttons. A solution may be coming, but it may not be perfect.
 - Tabs opening/closing by themselves (e.g. pop-ups) while dragging tabs may cause strange behavior.
-- Not support the native tab-groups feature of Firefox Nightly.
-- Not tested on Windows 11 and touch devices.
+- Not support the native tab-groups feature of Firefox Beta and Nightly.
+- Not tested on touch devices.
 
 ## Won't Fixed Compatibility Issues
 - Other tab related scripts, stylesheets, and legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus))
