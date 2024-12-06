@@ -1,5 +1,11 @@
 You're welcome to post your suggestions and bug reports [here](https://github.com/Merci-chao/userChrome.js/issues/new).
 
+# IMPORTANT
+
+Since the scripts may not fully work on new versions of Firefox, please check here for newer versions of script if you encounter any issues. Please subscribe to this repository to receive notifications of updates:
+![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/gitwatch-1.png)
+![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/gitwatch-2.png)
+
 # [Multi Tab Rows](https://github.com/Merci-chao/userChrome.js/blob/main/MultiTabRows%40Merci.chao.uc.js)
 Make Firefox support multiple tab rows.
 
@@ -47,7 +53,6 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 ## Cautions
 - Since this script contains many sensitive layout calculations designed for native Firefox, any tab or tabs toolbar-related legacy extensions, user scripts or stylesheets may cause weird glitches and bugs. Please check your legacy extensions, scripts and stylesheets (if any) before and after applying this script.
 - This script is developed for Windows and probably does not work on Linux and macOS.
-- This script may not fully work on newer versions of Firefox. If you encounter problems, please check here to see if there is a new version.
 
 ## Changelog
 Version 2.0
