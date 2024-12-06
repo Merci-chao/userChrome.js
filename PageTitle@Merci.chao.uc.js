@@ -22,6 +22,8 @@ let prefs;
 	prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defPrefs);
 }
 
+
+
 let docEle = document.documentElement;
 let rtl = window.getComputedStyle(docEle).direction == "rtl";
 let create = (tagName, parent, props = {}, insertPoint = null) =>
@@ -111,22 +113,22 @@ let IIOService = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOServ
 let PageTitle = window.PageTitle = {
 	updateURLBarPageTitleText: (tab = gBrowser.selectedTab) => {
 		let browser = tab.linkedBrowser;
-		
+
 		//clear the value of our stuffs
 		[pageTitle, pageURL, subDomainLabel, domainLabel, portLabel]
 				.forEach(elt => elt.value = "");
 
 		//get the page title and url
 		let title = browser.contentTitle;
-		
+
 		let subURL = "";
 		let subTitleSeperator = " - ";
 		let baseDomain = "";
 		let subDomain = "";
-		
+
 		let url = browser.currentURI.spec;
 		let documentURL = browser.documentURI?.spec;
-		
+
 		//remove the prefix of container and get the real url of page
 		let wrappedUrl = /(?:about:reader\?url=)(.+)/i.exec(url);
 		if (wrappedUrl)
@@ -170,9 +172,9 @@ let PageTitle = window.PageTitle = {
 							let matchedURL = prePath.match(/^((?:[a-z]+:\/\/)?(?:[^\/]+@)?)(.+?)(?::\d+)?(?:\/|$)/);
 							let [, preDomain, domain] = matchedURL;
 							let path = urlObj.path || url.substr(urlObj.prePath.length);
-							
+
 							baseDomain = domain;
-								
+
 							// getBaseDomainFromHost doesn't recognize IPv6 literals in brackets as IPs (bug 667159)
 							if (domain[0] != "[")
 								try {
@@ -187,9 +189,9 @@ let PageTitle = window.PageTitle = {
 
 							if (baseDomain != domain)
 								subDomain = domain.slice(0, -baseDomain.length);
-							
+
 							let needToHide3W = prefs.hideWww && subDomain.toLowerCase() == "www.";
-							
+
 							if (prefs.showDomain) {
 								subURL = path.replace(/^\//, "");
 								portLabel.value = urlObj.port != -1 ? ":" + urlObj.port : "";
@@ -224,21 +226,21 @@ let PageTitle = window.PageTitle = {
 								const txtToSubURIService = Cc["@mozilla.org/intl/texttosuburi;1"].getService(Ci.nsITextToSubURI);
 								subURL = txtToSubURIService.unEscapeNonAsciiURI(charset, subURL);
 							} catch (e) {}
-							
+
 					}
-					
+
 					if (prefs.decodeHashAndSearch)
 						try {
 							subURL = subURL
 									.replace(/\?[^#]+/, matched => decodeURIComponent(matched.replace(/\+/g, " ")))
 									.replace(/#.+/, matched => decodeURIComponent(matched.replace(/\.(?=[0-9a-f]{2})/ig, "%")));
 						} catch (e) {}
-					
+
 					let finalURL = subURL || title;
 					let finalTitle = subURL && prefs.showSubTitle ?
 							rtl ? subURL + subTitleSeperator + title : title + subTitleSeperator + subURL
 							: title;
-					
+
 					pageTitle.value = finalTitle;
 					pageURL.value = finalURL;
 					{
@@ -248,11 +250,11 @@ let PageTitle = window.PageTitle = {
 						} catch(e) {}
 						tooltip.label = Array.from(new Set([title, decodedUrl])).filter(v => v).join("\n");
 					}
-					
+
 					let titleController = pageTitle.editor.selectionController;
 					let titleTextNode = pageTitle.editor.rootElement.firstChild;
 					let titleSelection = titleController.getSelection(titleController.SELECTION_URLSECONDARY);
-					
+
 					if (prefs.showSubTitle && subURL)
 						if (!prefs.showDomain && prefs.formattingEnabled) {
 							let baseDomainIdx = rtl ?
@@ -268,18 +270,18 @@ let PageTitle = window.PageTitle = {
 							formatRange(titleSelection, titleTextNode,
 									rtl ? 0 : title.length,
 									rtl ? finalTitle.length - title.length : finalTitle.length);
-					
+
 					let urlController = pageURL.editor.selectionController;
 					let urlTextNode = pageURL.editor.rootElement.firstChild;
 					let urlSelection = urlController.getSelection(urlController.SELECTION_URLSECONDARY);
-					
+
 					if (prefs.showUriOnHover && prefs.formattingEnabled)
 						if (!subURL || prefs.showDomain && baseDomain)
 							formatRange(urlSelection, urlTextNode, 0, finalURL.length);
 						else if (baseDomain) {
 							if (subDomain)
 								formatRange(urlSelection, urlTextNode, 0, subDomain.length);
-							
+
 							formatRange(urlSelection, urlTextNode, subDomain.length + baseDomain.length, subURL.length);
 						}
 				}
@@ -293,11 +295,11 @@ let PageTitle = window.PageTitle = {
 		//set the flag for css to control the visibility of our stuffs
 		urlbar.toggleAttribute("nopagetitle", !title);
 	},
-	
+
 	onTabSelect: e => {
 		PageTitle.updateURLBarPageTitleText();
 	},
-	
+
 	updatePrefAttributes: () => {
 		docEle.toggleAttribute("data-pageTitleShowDomain", prefs.showDomain);
 		docEle.toggleAttribute("data-pageTitleHighlightIdentity", prefs.highlightIdentityBox);
@@ -313,8 +315,14 @@ let PageTitle = window.PageTitle = {
 	}),
 };
 
-PageTitle.tabsMutationObserver.observe(gBrowser.tabContainer, {attributes: true, subtree: true});
-gBrowser.tabContainer.addEventListener("TabSelect", PageTitle.onTabSelect, true);
+function setupTabContainer() {
+	PageTitle.tabsMutationObserver.observe(gBrowser.tabContainer, {attributes: true, subtree: true});
+	gBrowser.tabContainer.addEventListener("TabSelect", PageTitle.onTabSelect, true);
+}
+if (gBrowser?._initialized)
+	setupTabContainer();
+else
+	addEventListener("DOMContentLoaded", setupTabContainer, {once: true});
 
 if (!UrlbarInput.prototype.__PageTitleInit) {
 	let originalSetURI = UrlbarInput.prototype.setURI;
