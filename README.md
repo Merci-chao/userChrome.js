@@ -54,7 +54,7 @@ Version 2.0
 - Implement `tabsUnderControlButtons = 2` (default).
 - Add new settings: `floatingBackdropClip`, `floatingBackdropBlurriness`, `floatingBackdropOpacity`, `hideEmptyPlaceholderWhenScrolling`.
 - Change `scrollbarTrackColor` and `scrollbarThumbColor` default value to `auto`.
-- Settings are applied instantly.
+- Settings are applied immediately.
 - Better scrolling experience on tabs.
 - Support firefox 134.
 - Various improvements and bug fixes.
