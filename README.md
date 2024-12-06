@@ -47,9 +47,10 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 ## Cautions
 - Since this script contains many sensitive layout calculations designed for native Firefox, any tab or tabs toolbar-related legacy extensions, user scripts or stylesheets may cause weird glitches and bugs. Please check your legacy extensions, scripts and stylesheets (if any) before and after applying this script.
 - This script is developed for Windows and probably does not work on Linux and macOS.
+- This script may not fully work on newer versions of Firefox. If you encounter problems, please check here to see if there is a new version.
 
 ## Changelog
-2.0
+Version 2.0
 - Implement `tabsUnderControlButtons = 2` (default).
 - Add new settings: `floatingBackdropClip`, `floatingBackdropBlurriness`, `floatingBackdropOpacity`, `hideEmptyPlaceholderWhenScrolling`.
 - Change `scrollbarTrackColor` and `scrollbarThumbColor` default value to `auto`.
@@ -58,7 +59,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - Support firefox 134.
 - Various improvements and bug fixes.
 
-1.0
+Version 1.0
 - First release.
 
 ## Known Issues
