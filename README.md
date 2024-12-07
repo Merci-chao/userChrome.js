@@ -63,7 +63,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 
 ## Changelog
 Version 2.0.1
-- Bug fix: Changing settings or themes when there are multiple windows could cause Firefox to lag or freeze.
+- Bug fix: Changing settings or theme when there are multiple windows could cause Firefox to lag or freeze.
 
 Version 2.0
 - Implement `tabsUnderControlButtons = 2` (default).
