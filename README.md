@@ -62,6 +62,9 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Changelog
+Version 2.0.1
+- Bug fix: Changing settings or themes when there are multiple windows could cause Firefox to lag or freeze.
+
 Version 2.0
 - Implement `tabsUnderControlButtons = 2` (default).
 - Add new settings: `floatingBackdropClip`, `floatingBackdropBlurriness`, `floatingBackdropOpacity`, `hideEmptyPlaceholderWhenScrolling`.
