@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.0
+// @version        2.0.1
 // ==/UserScript==
 
 try {
@@ -98,23 +98,29 @@ let prefs;
 		prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), prefs);
 	}
 
-	let updating;
 	function onPrefChange(pref, type, name) {
-		if (updating) return;
+		if ("MultiTabRows_updatingPref" in window && MultiTabRows_updatingPref != name) return;
 
 		log(name);
 		
 		if (name == "extensions.activeThemeID")
 			updateThemeStatus();
 
-		updating = true
+		let browsers = [...Services.wm.getEnumerator("navigator:browser")];
+		
+		for (let win of browsers)
+			win.MultiTabRows_updatingPref = name;
+		
 		updatePrefsDependency(false);
 		loadPrefs();
 		updatePrefsDependency(true);
+		
+		for (let win of browsers)
+			delete win.MultiTabRows_updatingPref;
+		
 		//since locking the prefs makes them back to the default value,
 		//load again to make sure using the values shown in about:config
 		loadPrefs();
-		updating = false;
 
 		switch(name.replace(prefBranchStr, "")) {
 			case "browser.toolbars.bookmarks.visibility":
