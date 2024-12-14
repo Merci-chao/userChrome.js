@@ -62,6 +62,9 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Changelog
+Version 2.1
+- Improve the behavior when closing tabs.
+
 Version 2.0.1
 - Bug fix: Changing settings or theme when there are multiple windows could cause Firefox to lag or freeze.
 
