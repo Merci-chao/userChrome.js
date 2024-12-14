@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.0.1
+// @version        2.1
 // ==/UserScript==
 
 try {
@@ -99,25 +99,25 @@ let prefs;
 	}
 
 	function onPrefChange(pref, type, name) {
-		if ("MultiTabRows_updatingPref" in window && MultiTabRows_updatingPref != name) return;
+		if (window.MultiTabRows_updatingPref) return;
 
 		log(name);
-		
+
 		if (name == "extensions.activeThemeID")
 			updateThemeStatus();
 
 		let browsers = [...Services.wm.getEnumerator("navigator:browser")];
-		
+
 		for (let win of browsers)
-			win.MultiTabRows_updatingPref = name;
-		
+			win.MultiTabRows_updatingPref = true;
+
 		updatePrefsDependency(false);
 		loadPrefs();
 		updatePrefsDependency(true);
-		
+
 		for (let win of browsers)
 			delete win.MultiTabRows_updatingPref;
-		
+
 		//since locking the prefs makes them back to the default value,
 		//load again to make sure using the values shown in about:config
 		loadPrefs();
@@ -603,7 +603,7 @@ ${_}:not([pinned], [fadein]) {
 	z-index: 3;
 }
 
-#TabsToolbar:not([customizing]) #tabbrowser-tabs:not([overflow])[hasadjacentnewtabbutton]
+#TabsToolbar:not([customizing]) #tabbrowser-tabs:not([overflow], [closing-tab-ignore-newtab-width])[hasadjacentnewtabbutton]
 		${lastTab} {
 	--adjacent-newtab-button-adjustment: var(--new-tab-button-width);
 }
@@ -634,7 +634,15 @@ ${appVersion == 115 ? `
 	}
 ` : ``}
 
-#tabs-newtab-button {
+${_="#tabbrowser-arrowscrollbox-periphery"} {
+	transition: margin-inline-end var(--tab-animation);
+}
+
+#tabbrowser-tabs:not([overflow])${condition="[closing-tab-ignore-newtab-width]"} ${_} {
+	margin-inline-end: calc(var(--new-tab-button-width) * -1);
+}
+
+#tabbrowser-tabs:not(${condition}) #tabs-newtab-button {
 	margin-inline-start: calc(var(--new-tab-button-width) * -1) !important;
 }
 
@@ -724,7 +732,7 @@ ${prefs.tabsUnderControlButtons ? `
 			--placeholder-background-color: InactiveCaption;
 		}
 	` : ``}
-	
+
 	${mica ? `
 		/*the colors should be replaced by variables (if exist)*/
 		${_} {
@@ -831,11 +839,11 @@ ${prefs.tabsUnderControlButtons ? `
 		margin-inline-start: 0;
 	}
 
-	${context="#TabsToolbar"+showPlaceHolder} ${_} {
+	#TabsToolbar:not([customizing], [tabs-hide-placeholder]) ${_} {
 		margin-inline: var(--expansion) !important;
 	}
 
-	${context} ${_}[overflow][hasadjacentnewtabbutton] ${lastTab} {
+	${context="#TabsToolbar"+showPlaceHolder} ${_}[overflow][hasadjacentnewtabbutton]:not([closing-tab-ignore-newtab-width]) ${lastTab} {
 		--adjacent-newtab-button-adjustment: var(--new-tab-button-width);
 	}
 
@@ -1033,7 +1041,7 @@ ${prefs.tabsUnderControlButtons ? `
 		border-bottom-${END}-radius: var(--tabs-placeholder-border-radius);
 	}
 
-	${context="#TabsToolbar:not([tabs-hide-placeholder])[tabs-multirows]"} ${_}::before {
+	${context="#TabsToolbar:not([tabs-hide-placeholder])"} ${_}::before {
 		width: var(--pre-tabs-items-width);
 	}
 
@@ -1357,13 +1365,21 @@ ${debug ? `
 	${_}::part(fake-scrollbar) {
 		scrollbar-color: var(--toolbarbutton-icon-fill) orange;
 	}
+
+	${_}[style*="--slot-height"] {
+		outline: 3px solid orange;
+	}
 ` : ""}
 ${debug == 2 ? `
 	#TabsToolbar {
 		--tabs-item-opacity-transition: 1s ease;
 	}
-	#tabbrowser-tabs {
+	${_="#tabbrowser-tabs"}, #tabbrowser-arrowscrollbox {
 		clip-path: none !important;
+	}
+
+	${_}[closing-tab-ignore-newtab-width] {
+		outline: 5px solid lime;
 	}
 
 	#TabsToolbar[movingtab]::before,
@@ -1919,16 +1935,16 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		tabsBar.toggleAttribute("positionpinnedtabs", floatPinnedTabs);
 		tabsBar.toggleAttribute("pinned-tabs-wraps-placeholder", !!wrapPlaceholder);
 
-		if (isPositioned != floatPinnedTabs) {
-			if (floatPinnedTabs && !scrollbox.scrollTopMax) {
-				console.error("positionpinnedtabs makes underflow!");
-				//TODO?
-			}
-		}
-
 		tabs = tabs.slice(0, numPinned);
 		if (floatPinnedTabs) {
 			this.style.setProperty("--tab-overflow-pinned-tabs-width", columns * width + "px");
+
+			// requestAnimationFrame(() => requestAnimationFrame(() => {
+				// if (!isPositioned && !scrollbox.scrollTopMax) {
+					// console.error("positionpinnedtabs makes underflow!");
+					// //TODO?
+				// }
+			// }));
 
 			tabs.forEach((tab, i) => {
 				i += spacers + Math.max(columns - numPinned, 0);
@@ -3113,108 +3129,162 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 	//tabWidthClosedByClick is provided only if the function is called by original closed by mouse event
 	tabContainer._lockTabSizing = function(actionTab, tabWidthClosedByClick) {
 		let tabs = gBrowser.visibleTabs.slice(gBrowser.pinnedTabCount);
-		if (!tabs.length) return;
+		if (!tabs.length || this._isClosingLastTab) return;
 		time("_lockTabSizing");
 
 		let lastTab = tabs.at(-1);
-		let lastRowTop = lastTab.screenY;
-		timeLog("_lockTabSizing", "reflow");
+		let last2ndTab = tabs.at(-2);
 		let {closing, _tPos, screenY: actionTabTop} = actionTab;
+		timeLog("_lockTabSizing", "reflow");
+		let isEndTab = _tPos > lastTab?._tPos;
+		let is2ndEndTab = !isEndTab && _tPos > last2ndTab?._tPos;
+		let lastRowTop = (isEndTab ? actionTab : lastTab)?.screenY;
 		let isLastRow = actionTabTop == lastRowTop;
-		let isEndTab = _tPos > lastTab._tPos;
 		let nearByTab = closing ?
 				tabs.findLast(t => t._tPos < _tPos)
 				: tabs.find(t => t._tPos > _tPos);
 		let isRowEdge = nearByTab?.screenY != actionTabTop;
-
-		timeLog("_lockTabSizing", "calculation");
+		let adjacentNewTab = this.hasAttribute("hasadjacentnewtabbutton");
+		let {overflowing} = this;
+		let spacer = this._closingTabsSpacer;
 
 		if (tabWidthClosedByClick)
 			this._lastTabClosedByMouse = true;
 
-		if (isEndTab && !isRowEdge) {
+		let tabMinWidth = getTabMinWidth();
+		let last2ndRowIs1stRow = true;
+		let lastRowTabsCount = tabs.length - tabs.findLastIndex(t => t.screenY != lastRowTop) - 1;
+		let last2ndRowTabsCount = tabs.length - tabs.findLastIndex(t => t.screenY < lastRowTop - tabHeight && !(last2ndRowIs1stRow = false)) - 1;
+		let tempWidth = Math.round(last2ndRowTabsCount * last2ndTab?.getBoundingClientRect().width) + newTabButtonWidth;
+		let finalWidth = last2ndRowTabsCount * tabMinWidth + newTabButtonWidth;
+		let {width: rowWidth, end: rowEnd} = getRect(slot);
+		let data = lastLayoutData;
+		if (closing && last2ndRowIs1stRow && data) {
+			rowWidth -= data.base;
+			if (!this.hasAttribute("positionpinnedtabs"))
+				rowWidth -= data.pinnedWidth * data.numPinned + prefs.gapAfterPinned;
+			rowEnd -= data.postTabsItemsSize * DIR;
+		}
+
+		let willDecreaseRow = finalWidth <= rowWidth;
+
+		//Because not leaving the new tab button alone would make things too complicated,
+		//the following criteria are not well-thought-out, they just make things seem to work.
+		//Need fully review and test.
+		if (isEndTab && (!isRowEdge || last2ndTab?.style.maxWidth && adjacentNewTab && !willDecreaseRow)
+				|| is2ndEndTab && !isLastRow && adjacentNewTab && lastRowTabsCount < 2 && !willDecreaseRow) {
 			//prevent unlocking tabs when lock tabs concurrently
 			if (tabWidthClosedByClick || !this._hasTabTempMaxWidth) {
 				//let the tabs in the last row to expand to fit
-				for (let i = tabs.length - 1; tabs[i]?.screenY == actionTabTop; i--)
-					assign(tabs[i].style, {maxWidth: "", minWidth: ""});
+				for (let tab of tabs)
+					assign(tab.style, {maxWidth: "", minWidth: ""});
+
+				if (!adjacentNewTab && isEndTab && isRowEdge && !overflowing) {
+					unlockSlotSize(true);
+					spacer.style.width = 0;
+					this.removeAttribute("using-closing-tabs-spacer");
+				}
 
 				//in case there is some space after the spacer, such as the last tab is shrunk to math the previous
-				let emptySpace = pointDeltaH(getRect(slot).end, getRect(arrowScrollbox.lastChild).end);
-				if (emptySpace) {
-					let {style} = this._closingTabsSpacer;
-					style.setProperty("transition", "none", "important");
-					this._expandSpacerBy(emptySpace);
-					requestAnimationFrame(() => requestAnimationFrame(() => style.transition = ""));
+				if (tabWidthClosedByClick && isEndTab && adjacentNewTab) {
+					let emptySpace = pointDeltaH(rowEnd, getRect(arrowScrollbox.lastChild).end);
+					//it can be minus due to subpixel problem
+					if (emptySpace > 0) {
+						lockSlotSize();
+						let {style} = spacer;
+						style.setProperty("transition", "none", "important");
+						this._expandSpacerBy(emptySpace);
+						requestAnimationFrame(() => requestAnimationFrame(() => style.transition = ""));
+					}
 				}
 			}
 		} else {
-			let lockLastRowWhenOpening;
-			if (!closing) {
-				let lastRowTabsCount = tabs.length - tabs.findLastIndex(t => t.screenY != lastRowTop) - 1;
-				let totalWidth = (lastRowTabsCount + (!isLastRow && isRowEdge ? 1 : 0)) * getTabMinWidth();
-				if (totalWidth > getRect(slot).width)
-					lockLastRowWhenOpening = true;
+			let lockLastRowWhenOpening, ignoreNewTabWhenCosing, needShrinkLastTab,
+					dontLock, shouldKeepSpacer;
+			if (closing) {
+				if (tabWidthClosedByClick)
+					if (lastRowTabsCount < 2 && adjacentNewTab && last2ndTab) {
+						ignoreNewTabWhenCosing = willDecreaseRow && tempWidth >= rowWidth;
+						needShrinkLastTab = ignoreNewTabWhenCosing || tempWidth < rowWidth;
+						dontLock = (isLastRow && isEndTab || !isLastRow && is2ndEndTab) && !willDecreaseRow;
+						shouldKeepSpacer = !lastRowTabsCount && isEndTab && !willDecreaseRow;
+					} else if (overflowing && !this.hasAttribute("using-closing-tabs-spacer")
+							&& this.hasAttribute("closing-tab-ignore-newtab-width"))
+						ignoreNewTabWhenCosing = true;
+			} else {
+				let totalWidth = (lastRowTabsCount + (!isLastRow && isRowEdge ? 1 : 0)) * tabMinWidth;
+				if (adjacentNewTab)
+					totalWidth += newTabButtonWidth;
+				lockLastRowWhenOpening = totalWidth > rowWidth;
 			}
 
-			//lock the current row, and the previous row if closing the first tab of current row
-			let lockTabs = tabs.filter(tab => {
-				let {screenY} = tab;
-				return !tab.closing && tab._fullyOpen
-					&& (screenY == actionTabTop && (!isLastRow || lockLastRowWhenOpening || tabWidthClosedByClick)
-							|| isRowEdge && screenY == actionTabTop + tabHeight * (closing ? -1 : 1)
-									&& !(!closing && screenY == lastRowTop && !lockLastRowWhenOpening));
-			});
-			if (!closing)
-				lockTabs = lockTabs.slice(0, -1);
-
-			if (lockTabs.length) {
-				let sizes = lockTabs.map(t => t.getBoundingClientRect().width + "px");
-				lockTabs.forEach((tab, i) => {
-					let width = sizes[i];
-					assign(tab.style, {maxWidth: width, minWidth: width, transition: "none"});
+			if (!dontLock) {
+				//lock the current row, and the previous row if closing the first tab of current row
+				let lockTabs = tabs.filter(tab => {
+					let {screenY} = tab;
+					return !tab.closing && tab._fullyOpen
+						&& (screenY == actionTabTop && (!isLastRow || lockLastRowWhenOpening || tabWidthClosedByClick)
+								|| isRowEdge && screenY == actionTabTop + tabHeight * (closing ? -1 : 1)
+										&& !(!closing && screenY == lastRowTop && !lockLastRowWhenOpening));
 				});
+				if (!closing && !lockLastRowWhenOpening)
+					lockTabs = lockTabs.slice(0, -1);
 
-				//the last tab usually has a different width when it is unwrapped from the last row,
-				//resize it to match the others
-				if (tabWidthClosedByClick && !isLastRow) {
-					let last = lockTabs.at(-1);
-					if (last == lastTab || tabs[tabs.indexOf(last) + 1] == lastTab) {
-						let secLast = last == lastTab ? lockTabs.at(-2) : last;
-						if (secLast) {
-							let value = secLast.style.maxWidth;
-							assign(lastTab.style, {maxWidth: value, minWidth: value});
+				if (lockTabs.length) {
+					let sizes = lockTabs.map(t => t.getBoundingClientRect().width + "px");
+					lockTabs.forEach((tab, i) => {
+						let width = sizes[i];
+						assign(tab.style, {maxWidth: width, minWidth: width, transition: "none"});
+					});
+
+					//the last tab usually has a different width when it is unwrapped from the last row,
+					//resize it to match the others
+					if (needShrinkLastTab) {
+						let last = lockTabs.at(-1);
+						if (last == lastTab || tabs[tabs.indexOf(last) + 1] == lastTab) {
+							let secLast = last == lastTab ? lockTabs.at(-2) : last;
+							if (secLast) {
+								//sometimes the last tab just doesn't want to unwrap to the last second row,
+								//make it a little bit smaller can help
+								let value = `calc(${secLast.style.maxWidth} - ${1/60}px)`;
+								assign(lastTab.style, {maxWidth: value, minWidth: value, transition: "none"});
+							}
+							if (last != lastTab)
+								lockTabs.push(lastTab);
 						}
-						if (last != lastTab)
-							lockTabs.push(lastTab);
 					}
-				}
 
-				promiseDocumentFlushed(() => {}).then(() => requestAnimationFrame(() => {
-					for (let tab of lockTabs)
-						tab.style.transition = "";
-				}));
+					requestAnimationFrame(() => requestAnimationFrame(() => {
+						for (let tab of lockTabs)
+							tab.style.transition = "";
+
+						this.toggleAttribute("closing-tab-ignore-newtab-width", !!ignoreNewTabWhenCosing);
+					}));
+
+					this._hasTabTempMaxWidth = true;
+				}
 
 				//prevent unlocking tabs when lock tabs concurrently
 				if (tabWidthClosedByClick || !this._hasTabTempMaxWidth)
 					for (let tab of tabs.slice(tabs.indexOf(lockTabs.at(-1)) + 1))
 						assign(tab.style, {maxWidth: "", minWidth: ""});
-
-				this._hasTabTempMaxWidth = true;
 			}
 
 			if (tabWidthClosedByClick) {
-				if (isLastRow)
+				if (this.hasAttribute("closing-tab-ignore-newtab-width"))
+					tabWidthClosedByClick -= newTabButtonWidth;
+				if (isLastRow && !isEndTab)
 					//add 2 rAF to prevent the spacer from growing earlier then the tab shrinking
 					requestAnimationFrame(() => requestAnimationFrame(() => this._expandSpacerBy(tabWidthClosedByClick)));
-				else {
-					this._closingTabsSpacer.style.width = 0;
+				else if (!shouldKeepSpacer) {
+					spacer.style.width = 0;
 					this.removeAttribute("using-closing-tabs-spacer");
 					gBrowser.addEventListener("mousemove", this);
 					addEventListener("mouseout", this);
 				}
+
 				//lock the slot to prevent the spacer cause overflowing of the scrollbox
-				if (this.overflowing || isLastRow)
+				if (overflowing || isLastRow && !ignoreNewTabWhenCosing && (!isEndTab || adjacentNewTab))
 					lockSlotSize();
 				else
 					unlockSlotSize(true);
@@ -3241,37 +3311,26 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			}
 		}
 
+		if (this.overflowing && this.hasAttribute("using-closing-tabs-spacer"))
+			this.removeAttribute("closing-tab-ignore-newtab-width");
+		else {
+			let done;
+			let cleanUp = () => {
+				done = true;
+				this.removeAttribute("closing-tab-ignore-newtab-width");
+			};
+			Promise.all(animations).then(cleanUp);
+			//in case the animation is not performed
+			setTimeout(() => {
+				if (done) return;
+				cleanUp();
+				console.error("transition is not ended");
+			}, debug == 2 ? 3000: 300);
+		}
+
 		timeEnd("_unlockTabSizing");
 
 		_unlockTabSizing.call(this);
-
-		if (prefs.tabsUnderControlButtons && this.hasAttribute("multirows") && getRowCount() == 1) {
-			let lockTabs = !animations[0] && gBrowser.visibleTabs.slice(gBrowser.pinnedTabCount);
-			if (lockTabs)
-				for (let tab of lockTabs) {
-					let {width} = tab.getBoundingClientRect();
-					assign(tab.style, {
-						maxWidth: width + "px",
-						minWidth: width + "px",
-						transition: "none",
-					});
-				}
-			requestAnimationFrame(() => {
-				if (lockTabs)
-					for (let tab of lockTabs) {
-						animations.push(new Promise(rs => tab.addEventListener("TabAnimationEnd", rs, {once: true})));
-						assign(tab.style, {transition: "", maxWidth: "", minWidth: ""});
-					}
-				let spacerStyle = this._closingTabsSpacer.style;
-				spacerStyle.display = "none";
-				slot.style.setProperty("flex-wrap", "nowrap", "important");
-				Promise.all(animations).then(() => {
-					slot.style.flexWrap = "";
-					spacerStyle.display = "";
-					onTabsResize();
-				});
-			});
-		}
 	};
 
 	tabContainer.uiDensityChanged = function() {
@@ -3382,12 +3441,16 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 	gBrowser.removeTab = function(tab) {
 		let toHandle = !tab.pinned && !tab.closing;
 
-		if (toHandle)
+		if (toHandle) {
 			//ensure the animation is kicked off when concurrently closing tabs,
 			//as the tab may be locked when the previous tab closed
 			assign(tab.style, {minWidth: "", transition: ""});
+			tabContainer._isClosingLastTab = !tab.hidden && this.visibleTabs.length == 1;
+		}
 
 		removeTab.apply(this, arguments);
+
+		delete tabContainer._isClosingLastTab;
 
 		//if there is no animation, the tab is removed directly
 		if (!tab.isConnected) {
