@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.1
+// @version        2.1.1
 // ==/UserScript==
 
 try {
@@ -606,6 +606,10 @@ ${_}:not([pinned], [fadein]) {
 #TabsToolbar:not([customizing]) #tabbrowser-tabs:not([overflow], [closing-tab-ignore-newtab-width])[hasadjacentnewtabbutton]
 		${lastTab} {
 	--adjacent-newtab-button-adjustment: var(--new-tab-button-width);
+}
+
+#tabbrowser-tabs[forced-overflow] ${lastTab} {
+	--adjacent-newtab-button-adjustment: var(--forced-overflow-adjustment) !important;
 }
 
 /*move the margin-start to the last pinned, so that the first normal tab won't
@@ -1877,8 +1881,9 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				scrollStartOffset: gap,
 			};
 
-		let isPositioned = this.hasAttribute("positionpinnedtabs");
-		let tabs = gBrowser.visibleTabs;
+		let isPositioned = this.hasAttribute("positionpinnedtabs") && !this.hasAttribute("forced-overflow");;
+		let {visibleTabs} = gBrowser;
+		let tabs = visibleTabs;
 		let floatPinnedTabs = numPinned && tabs.length > numPinned && arrowScrollbox.overflowing;
 		let {tabsUnderControlButtons} = prefs;
 		if (this._isCustomizing)
@@ -1931,6 +1936,12 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			this._handleTabSelect(true);
 		}
 
+		if (!isPositioned && floatPinnedTabs)
+			slot.style.minHeight = tabHeight * (prefs.maxTabRows + 1) + "px";
+
+		this.removeAttribute("forced-overflow");
+		this.style.removeProperty("--forced-overflow-adjustment");
+
 		this.toggleAttribute("positionpinnedtabs", floatPinnedTabs);
 		tabsBar.toggleAttribute("positionpinnedtabs", floatPinnedTabs);
 		tabsBar.toggleAttribute("pinned-tabs-wraps-placeholder", !!wrapPlaceholder);
@@ -1939,12 +1950,20 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		if (floatPinnedTabs) {
 			this.style.setProperty("--tab-overflow-pinned-tabs-width", columns * width + "px");
 
-			// requestAnimationFrame(() => requestAnimationFrame(() => {
-				// if (!isPositioned && !scrollbox.scrollTopMax) {
-					// console.error("positionpinnedtabs makes underflow!");
-					// //TODO?
-				// }
-			// }));
+			if (!isPositioned) {
+				let lastTab = visibleTabs.at(-1);
+				let lastTabRect = getRect(lastTab);
+				let slotRect = getRect(slot);
+				if (lastTabRect.bottom != slotRect.bottom) {
+					let lastRowTabsCount = visibleTabs.length - visibleTabs.findLastIndex(t => t.screenY != lastTabRect.top) - 1;
+					this.setAttribute("forced-overflow", "");
+					this.style.setProperty("--forced-overflow-adjustment",
+							slotRect.widthDouble - (lastRowTabsCount - 1) * getTabMinWidth() + "px");
+					log("positionpinnedtabs makes underflow!");
+				}
+			}
+			
+			slot.style.minHeight = "";
 
 			tabs.forEach((tab, i) => {
 				i += spacers + Math.max(columns - numPinned, 0);
@@ -2978,7 +2997,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		let winWidth = winRect.width;
 		let normalMinWidth = getTabMinWidth();
 		let winMaxWidth = Math.max(screen.width - screen.left + 8, winWidth + normalMinWidth);
-		let minWinWidth = parseInt(getComputedStyle(root).minWidth);
+		let winMinWidth = parseInt(getComputedStyle(root).minWidth);
 		let pinnedWidth = numPinned && !positionPinned ? firstTabRect.widthDouble : 0;
 		let firstStaticWidth = pinnedWidth || normalMinWidth;
 		let pinnedGap = prefs.gapAfterPinned;
@@ -2993,7 +3012,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		let layoutData = {
 			preTabsItemsSize, postTabsItemsSize, base, firstStaticWidth, scrollbarWidth, adjacentNewTab,
-			newTabButtonWidth, pinnedWidth, numPinned, minWinWidth, winMaxWidth, normalMinWidth,
+			newTabButtonWidth, pinnedWidth, numPinned, winMinWidth, winMaxWidth, normalMinWidth,
 		};
 		timeLog("_updateInlinePlaceHolder", "gather all info");
 
@@ -3061,7 +3080,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			//wrap pinned tabs
 			for (let i = 1; i < numPinned; i++) {
 				let min = base, max = (base += pinnedWidth) - 1;
-				if (max >= minWinWidth)
+				if (max >= winMinWidth)
 					css += `
 						@media (min-width: ${min}px) and (max-width: ${max}px) {
 							.tabbrowser-tab:nth-child(${i} of :not([hidden])):not(:nth-last-child(1 of :is(.tabbrowser-tab, tab-group):not([hidden]))) ~ * {order: 2}
@@ -3113,11 +3132,13 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 	//pinned tabs can't be hidden thus TabShow and TabHide don't bother
 	["TabClose", "TabOpen", "TabPinned", "TabUnpinned"].forEach(n =>
-			tabContainer.addEventListener(n, ({target}) => {
+			tabContainer.addEventListener(n, function({target}) {
 				if (target.pinned || ["TabPinned", "TabUnpinned"].includes(n))
 					//pinnedTabCount doesn't update yet when TabClose is dispatched
-					tabContainer._updateInlinePlaceHolder(gBrowser.pinnedTabCount - (n == "TabClose" ? 1 : 0));
-			}, true));
+					this._updateInlinePlaceHolder(gBrowser.pinnedTabCount - (n == "TabClose" ? 1 : 0));
+				this.removeAttribute("forced-overflow");
+				this.style.removeProperty("--forced-overflow-adjustment");
+			}));
 
 	tabContainer._handleTabSelect = function() {
 		if (!arrowScrollbox._isScrolling && !this.hasAttribute("movingtab") && !this.hasAttribute("dragging"))
@@ -3500,7 +3521,7 @@ function onTabsResize() {
 	let {scrollTopMax} = scrollbox;
 
 	timeEnd("tabContainer ResizeObserver");
-
+	
 	if (arrowScrollbox.overflowing != scrollTopMax)
 		scrollbox.dispatchEvent(new CustomEvent(scrollTopMax ? "overflow" : "underflow"));
 	else
