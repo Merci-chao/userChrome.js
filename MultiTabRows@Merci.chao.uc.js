@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.1.2
+// @version        2.1.2.1
 // ==/UserScript==
 
 try {
@@ -3204,13 +3204,13 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		if (data)
 			if (closing && last2ndRowIs1stRow || !closing && lastRowTop == slotTop) {
 				rowWidth -= data.base;
-				if (!this.hasAttribute("positionpinnedtabs"))
+				if (data.numPinned && !this.hasAttribute("positionpinnedtabs"))
 					rowWidth -= data.pinnedWidth * data.numPinned + prefs.gapAfterPinned;
 				rowEnd -= data.postTabsItemsSize * DIR;
 			}
 
 		let willDecreaseRow = finalWidth <= rowWidth;
-
+		
 		//Because not leaving the new tab button alone would make things too complicated,
 		//the following criteria are not well-thought-out, they just make things seem to work.
 		//Need fully review and test.
