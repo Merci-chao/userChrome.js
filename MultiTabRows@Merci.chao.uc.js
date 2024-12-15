@@ -1006,7 +1006,7 @@ ${prefs.tabsUnderControlButtons ? `
 				);
 			}
 
-			${win8 && defaultTheme ? `
+			${defaultTheme ? `
 				.tabs-placeholder::before {
 					--control-box-adjustment: 1px;
 				}
