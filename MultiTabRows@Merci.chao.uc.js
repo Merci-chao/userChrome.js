@@ -3327,7 +3327,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				}
 
 				//lock the slot to prevent the spacer cause overflowing of the scrollbox
-				if (overflowing || isLastRow && !ignoreNewTabWhenCosing && (!isEndTab || adjacentNewTab))
+				if (overflowing || isLastRow && !ignoreNewTabWhenCosing && !isEndTab)
 					lockSlotSize();
 				else
 					unlockSlotSize(true);
