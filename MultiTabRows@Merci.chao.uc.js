@@ -169,7 +169,7 @@ let prefs;
 		lock("rowIncreaseEvery", singleRow);
 		lock("hideEmptyPlaceholderWhenScrolling", singleRow || prefs.tabsUnderControlButtons < 2);
 		lock("tabsbarItemsAlign", singleRow || prefs.tabsUnderControlButtons == 2);
-		lock("dynamicThemeImageSize", singleRow);
+		lock("dynamicThemeImageSize", singleRow || defaultTheme);
 		lock("tabsUnderControlButtons", singleRow);
 		lock("floatingBackdropClip", singleRow || prefs.tabsUnderControlButtons < 2);
 		lock("floatingBackdropBlurriness",
@@ -1069,6 +1069,10 @@ ${prefs.tabsUnderControlButtons ? `
 		transition: var(--tabs-item-opacity-transition);
 		transition-property: box-shadow, backdrop-filter, border-color, opacity;
 	}
+	
+	#TabsToolbar[tabs-scrolledtostart] ${_} {
+		transition-property: box-shadow, backdrop-filter, border-color, opacity, height, margin-top;
+	}
 
 	${prefs.floatingBackdropOpacity && !prefs.floatingBackdropClip ? `
 		${_}::before {
@@ -1186,8 +1190,8 @@ ${prefs.tabsUnderControlButtons ? `
 		backdrop-filter: none;
 	}
 
-	${hideMenubar} + ${_}:not([tabs-scrolledtostart])
-			:is(#tabs-placeholder-pre-tabs, #tabs-placeholder-post-tabs) {
+	${hideMenubar} + *
+			:is(${_}:not(${staticPreTabsPlaceHolder}) #tabs-placeholder-pre-tabs, #tabs-placeholder-post-tabs) {
 		height: calc(var(--tab-height) + var(--tabs-top-space));
 		margin-top: calc(var(--tabs-top-space) * -1);
 	}
@@ -1954,6 +1958,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				let lastTab = visibleTabs.at(-1);
 				let lastTabRect = getRect(lastTab);
 				let slotRect = getRect(slot);
+				//innerWidth: 1740, numPinned: 3, expansion: -80px -182px
 				if (lastTabRect.bottom != slotRect.bottom) {
 					let lastRowTabsCount = visibleTabs.length - visibleTabs.findLastIndex(t => t.screenY != lastTabRect.top) - 1;
 					this.setAttribute("forced-overflow", "");
