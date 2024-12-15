@@ -53,7 +53,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 | `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and Windows 11, disabled when Mica is activated. |
 | `floatingBackdropClip` | Clip the area covered by items on the tabs toolbar when scrolling, available when `tabsUnderControlButtons` is `2`. |
 | `floatingBackdropBlurriness` | How blurry the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The minimum value is `0`. Not available on Firefox 115. |
-| `floatingBackdropOpacity` | How opaque the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be between `0` and `100`. |
+| `floatingBackdropOpacity` | How opaque the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when scrolling, available when `tabsUnderControlButtons` is `2`. |
 | `debugMode` | Mode for debugging, not for general use. |
 
