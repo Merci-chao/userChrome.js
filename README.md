@@ -63,7 +63,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 
 ## Changelog
 Version 2.1.2
-- Fix bug since version 2.1: buttons before tabs cannot be clicked when there is only one row.
+- Fix a bug since version 2.1: buttons before tabs cannot be clicked when there is only one row.
 
 Version 2.1.1
 - Fixed a bug where tabs kept bouncing in some cases.
