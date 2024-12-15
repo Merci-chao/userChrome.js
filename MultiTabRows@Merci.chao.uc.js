@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.1.1.1
+// @version        2.1.2
 // ==/UserScript==
 
 try {
@@ -240,7 +240,8 @@ let dropOnItemsExt = "#TabsToolbar[tabs-dragging-ext] :is(#new-tab-button, #new-
 let shownMenubar = "#toolbar-menubar:is(:not([inactive]), [autohide=false])";
 let hideMenubar = "#toolbar-menubar[autohide=true][inactive]";
 let topMostTabsBar = `:root[tabsintitlebar] ${hideMenubar} + #TabsToolbar`;
-let showPlaceHolder = "[tabs-multirows]:not([customizing], [tabs-hide-placeholder])";
+let hidePlaceHolder = "[customizing], [tabs-hide-placeholder]";
+let showPlaceHolder = `:not(${hidePlaceHolder})`;
 let tbDraggingHidePlaceHolder = ":is([tabs-dragging], [movingtab]):not([moving-positioned-tab])";
 let staticPreTabsPlaceHolder = ":is([tabs-scrolledtostart], [pinned-tabs-wraps-placeholder])";
 
@@ -701,7 +702,7 @@ ${prefs.tabsUnderControlButtons ? `
 				.match(/(?<=\dpx \w+ ).+|$/)[0] || "color-mix(in srgb, currentColor 25%, transparent)"};
 		--tabs-placeholder-border-width: 1px;
 		--tabs-placeholder-border: var(--tabs-placeholder-border-width) solid var(--tabs-placeholder-border-color);
-		--tabs-placeholder-border-radius: ${prefs.floatingBackdropClip ? 0 : "var(--tab-border-radius)"};
+		--tabs-placeholder-border-radius: ${prefs.floatingBackdropClip && prefs.tabsUnderControlButtons == 2 ? 0 : "var(--tab-border-radius)"};
 		--tabs-placeholder-backdrop: ${!prefs.floatingBackdropClip && prefs.floatingBackdropBlurriness && prefs.floatingBackdropOpacity < 100 && !mica ?
 				`blur(${prefs.floatingBackdropBlurriness}px)` : "none"};
 		--placeholder-background-color: var(${appVersion == 115 ?
@@ -840,7 +841,7 @@ ${prefs.tabsUnderControlButtons ? `
 		}
 	` : ``}
 
-	#TabsToolbar:not([customizing], [tabs-hide-placeholder]) :is(
+	#TabsToolbar${showPlaceHolder} :is(
 		:root:not([privatebrowsingmode], [firefoxviewhidden]) :is(toolbarbutton, toolbarpaletteitem),
 		:root[privatebrowsingmode]:not([firefoxviewhidden]) :is(toolbarbutton:not(#firefox-view-button), toolbarpaletteitem:not(#wrapper-firefox-view-button))
 	) ~ ${_="#tabbrowser-tabs"} {
@@ -852,7 +853,7 @@ ${prefs.tabsUnderControlButtons ? `
 		margin-inline-start: 0;
 	}
 
-	#TabsToolbar:not([customizing], [tabs-hide-placeholder]) ${_} {
+	#TabsToolbar${showPlaceHolder} ${_} {
 		margin-inline: var(--expansion) !important;
 	}
 
@@ -896,7 +897,7 @@ ${prefs.tabsUnderControlButtons ? `
 		`;
 	})() : ``}
 
-	${prefs.floatingBackdropClip ? `
+	${prefs.floatingBackdropClip && prefs.tabsUnderControlButtons == 2 ? `
 		${context="#TabsToolbar"+showPlaceHolder} ${_="#tabbrowser-tabs"} {
 			clip-path: polygon(
 				${START_PC} ${y="var(--tab-height)"},
@@ -1004,7 +1005,7 @@ ${prefs.tabsUnderControlButtons ? `
 					${x} 100%
 				);
 			}
-			
+
 			${win8 && defaultTheme ? `
 				.tabs-placeholder::before {
 					--control-box-adjustment: 1px;
@@ -1015,7 +1016,7 @@ ${prefs.tabsUnderControlButtons ? `
 
 	${win8 && defaultDarkTheme ? `
 		#TabsToolbar:not([tabs-scrolledtostart])${prefs.floatingBackdropClip ?
-						tbDraggingHidePlaceHolder : ":not([customizing], [tabs-hide-placeholder])"}
+						tbDraggingHidePlaceHolder : showPlaceHolder}
 				:is(
 					#TabsToolbar:not(${condition="[pinned-tabs-wraps-placeholder]"}) ${_="#personal-bookmarks"},
 					#TabsToolbar${condition} #tabbrowser-tabs ~ ${_}
@@ -1043,7 +1044,7 @@ ${prefs.tabsUnderControlButtons ? `
 		height: var(--tab-height);
 	}
 
-	${context="#TabsToolbar:is([customizing], [tabs-hide-placeholder])"} ${_}::before,
+	${context=`#TabsToolbar:is(${hidePlaceHolder})`} ${_}::before,
 	${context} ${_}::after {
 		display: none;
 	}
@@ -1084,7 +1085,7 @@ ${prefs.tabsUnderControlButtons ? `
 		transition: var(--tabs-item-opacity-transition);
 		transition-property: box-shadow, backdrop-filter, border-color, opacity;
 	}
-	
+
 	#TabsToolbar[tabs-scrolledtostart] ${_} {
 		transition-property: box-shadow, backdrop-filter, border-color, opacity, height, margin-top;
 	}
@@ -1220,7 +1221,7 @@ ${prefs.tabsUnderControlButtons ? `
 	${_}:not([has-items-pre-tabs]) #tabs-placeholder-pre-tabs,
 	${_}:not([has-items-post-tabs]) #tabs-placeholder-post-tabs,
 	#tabbrowser-tabs:not([hasadjacentnewtabbutton]) #tabs-placeholder-new-tab-button,
-	${_}:is([customizing], [tabs-hide-placeholder], :not([tabs-overflow])) .tabs-placeholder {
+	${_}:is(${hidePlaceHolder}, :not([tabs-overflow])) .tabs-placeholder {
 		visibility: collapse;
 	}
 
@@ -1982,7 +1983,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 					log("positionpinnedtabs makes underflow!");
 				}
 			}
-			
+
 			slot.style.minHeight = "";
 
 			tabs.forEach((tab, i) => {
@@ -3198,14 +3199,15 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		let last2ndRowTabsCount = tabs.length - tabs.findLastIndex(t => t.screenY < lastRowTop - tabHeight && !(last2ndRowIs1stRow = false)) - 1;
 		let tempWidth = Math.round(last2ndRowTabsCount * last2ndTab?.getBoundingClientRect().width) + newTabButtonWidth;
 		let finalWidth = last2ndRowTabsCount * tabMinWidth + newTabButtonWidth;
-		let {width: rowWidth, end: rowEnd} = getRect(slot);
+		let {width: rowWidth, end: rowEnd, top: slotTop} = getRect(slot);
 		let data = lastLayoutData;
-		if (closing && last2ndRowIs1stRow && data) {
-			rowWidth -= data.base;
-			if (!this.hasAttribute("positionpinnedtabs"))
-				rowWidth -= data.pinnedWidth * data.numPinned + prefs.gapAfterPinned;
-			rowEnd -= data.postTabsItemsSize * DIR;
-		}
+		if (data)
+			if (closing && last2ndRowIs1stRow || !closing && lastRowTop == slotTop) {
+				rowWidth -= data.base;
+				if (!this.hasAttribute("positionpinnedtabs"))
+					rowWidth -= data.pinnedWidth * data.numPinned + prefs.gapAfterPinned;
+				rowEnd -= data.postTabsItemsSize * DIR;
+			}
 
 		let willDecreaseRow = finalWidth <= rowWidth;
 
@@ -3525,9 +3527,6 @@ if (appVersion == 115)
 	toggleAllTabsButton();
 
 function onTabsResize() {
-	if (tabContainer._hasTabTempMaxWidth && tabContainer._lastTabClosedByMouse)
-		return;
-
 	time("tabContainer ResizeObserver");
 
 	log("scrollbox width", root.getAttribute("sizemode"), scrollbox.clientWidthDouble);
@@ -3541,7 +3540,7 @@ function onTabsResize() {
 	let {scrollTopMax} = scrollbox;
 
 	timeEnd("tabContainer ResizeObserver");
-	
+
 	if (arrowScrollbox.overflowing != scrollTopMax)
 		scrollbox.dispatchEvent(new CustomEvent(scrollTopMax ? "overflow" : "underflow"));
 	else
