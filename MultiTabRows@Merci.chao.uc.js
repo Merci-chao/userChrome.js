@@ -257,7 +257,9 @@ ${[...Array(maxRows).keys()].slice(1).map(i => `
 
 ${_="#TabsToolbar"} {
 	position: relative;
-	--tabs-top-space: calc(var(--tabs-margin-top, 0px) + var(--tabs-padding-top, 0px));
+	--tabs-padding-top: 0px;
+	--tabs-margin-top: 0px;
+	--tabs-top-space: calc(var(--tabs-margin-top) + var(--tabs-padding-top));
 	--space-before-tabs: ${prefs.spaceBeforeTabs}px;
 	--space-after-tabs: ${prefs.spaceAfterTabs}px;
 	--tabs-scrollbar-width: 0px;
@@ -1192,8 +1194,8 @@ ${prefs.tabsUnderControlButtons ? `
 
 	${hideMenubar} + *
 			:is(${_}:not(${staticPreTabsPlaceHolder}) #tabs-placeholder-pre-tabs, #tabs-placeholder-post-tabs) {
-		height: calc(var(--tab-height) + var(--tabs-top-space));
-		margin-top: calc(var(--tabs-top-space) * -1);
+		height: calc(var(--tab-height) + var(--tabs-padding-top));
+		margin-top: calc(var(--tabs-padding-top) * -1);
 	}
 
 	${_}:not([tabs-hide-placeholder], [pinned-tabs-wraps-placeholder]) #tabbrowser-arrowscrollbox[overflowing]::part(slot)::before,
