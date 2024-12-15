@@ -291,11 +291,11 @@ ${win7 || win8 ? `
 		${_} {
 			--tabs-padding-top: 4px;
 		}
-		
-		@media (-moz-windows-glass) {
-			${_}:-moz-lwtheme {
-				--nav-toolbox-padding-top: 1px;
-			}
+	` : ``}
+
+	${!defaultTheme ? `
+		${_} {
+			--nav-toolbox-padding-top: 1px;
 		}
 	` : ``}
 ` : ``}
@@ -999,11 +999,17 @@ ${prefs.tabsUnderControlButtons ? `
 					${x=START_PC} 100%,
 					${x} 0%,
 					${x=`calc(${END_PC} - (var(--control-box-reserved-width) - var(--tabs-scrollbar-width)) * ${DIR})`} 0%,
-					${x} ${y="var(--control-box-reserved-height)"},
+					${x} ${y="calc(var(--control-box-reserved-height) - var(--control-box-adjustment, 0px))"},
 					${x=END_PC} ${y},
 					${x} 100%
 				);
 			}
+			
+			${win8 && defaultTheme ? `
+				.tabs-placeholder::before {
+					--control-box-adjustment: 1px;
+				}
+			` : ``}
 		` : ``}
 	` : ``}
 
