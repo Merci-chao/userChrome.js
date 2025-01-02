@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.1.2.1
+// @version        2.1.3
 // ==/UserScript==
 
 try {
@@ -597,9 +597,14 @@ ${_}:not([pinned], [fadein]) {
 }
 
 #tabbrowser-tabs:not([movingtab])
-		${_}:not([pinned], [multiselected-move-together], [tab-grouping], [tabdrop-samewindow]) {
+		${_}${condition=":not([pinned], [multiselected-move-together], [tab-grouping], [tabdrop-samewindow])"} {
 	transition: var(--tab-animation);
 	transition-property: max-width, min-width, padding;
+}
+
+#tabbrowser-tabs:not([movingtab])
+		${_}[fadein]${condition} {
+	transition-property: max-width, min-width, padding-inline-end;
 }
 
 /*avoid min/max width transition when resizing the dragged tabs*/
@@ -694,6 +699,9 @@ ${prefs.tabsUnderControlButtons ? `
 		--scrollbar-clip-reserved: 0px;
 		--control-box-reserved-height: 0px;
 		--control-box-reserved-width: 0px;
+		--control-box-margin-end: 0px;
+		--control-box-radius-start: 0px;
+		--control-box-radius-end: 0px;
 		--control-box-clip-scrollbar: ${mica ? "0px" : "var(--control-box-reserved-height)"};
 		--control-box-clip-scrollbar-reserved: var(--scrollbar-clip-reserved);
 		--tabs-placeholder-shadow: var(--tab-selected-shadow,
@@ -867,16 +875,14 @@ ${prefs.tabsUnderControlButtons ? `
 		let width, height;
 		if (mica)
 			box.style.alignSelf = "start";
-		if (box.clientHeightDouble) {
-			height = box.clientHeightDouble;
-			width = box.clientWidthDouble;
-		} else {
+		if (box.clientHeightDouble)
+			({heightDouble: height, widthDouble: width} = getRect(box, {box: "margin"}));
+		else {
 			//as long as the title bar is not shown...
 			let s = box.style, ps = box.parentNode.style;
 			s.visibility = ps.visibility = "collapse";
 			s.display = ps.display = "flex";
-			height = box.clientHeightDouble;
-			width = box.clientWidthDouble;
+			({heightDouble: height, widthDouble: width} = getRect(box, {box: "margin"}));
 			s.display = s.visibility = ps.display = ps.visibility = "";
 		}
 		if (mica) {
@@ -894,6 +900,25 @@ ${prefs.tabsUnderControlButtons ? `
 				--control-box-reserved-height: ${height - (normal && !mica ? 2 : 0)}px;
 				--control-box-reserved-width: ${width + (normal && !mica ? 4 : 0)}px;
 			}
+
+			${win7 || win8 ? `
+				@media (-moz-windows-compositor) {
+					[sizemode=maximized]${_} {
+						--control-box-margin-end: 3px;
+					}
+
+					${win7 ? `
+						${_} {
+							--control-box-radius-start: 3px;
+							--control-box-radius-end: 1px;
+						}
+
+						[sizemode=maximized]${_} {
+							--control-box-radius-end: 3px;
+						}
+					` : ``}
+				}
+			` : ``}
 		`;
 	})() : ``}
 
@@ -910,11 +935,14 @@ ${prefs.tabsUnderControlButtons ? `
 					${x} ${y="var(--tab-height)"},
 					${x=`calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)) * ${DIR})`} ${y}
 				),
-				var(--scrollbar-clip,
+				/*var(--scrollbar-clip,*/
 					${x} ${y=`calc(var(--control-box-reserved-height) - var(--tabs-top-space))`},
-					${END_PC} ${y}
-				),
-				${END_PC} 100%,
+					${x=`calc(${END_PC} - (var(--control-box-margin-end) + var(--control-box-radius-end)) * ${DIR})`} ${y},
+					${x=`calc(${END_PC} - var(--control-box-margin-end) * ${DIR})`} calc(var(--control-box-reserved-height) - var(--tabs-top-space) - var(--control-box-radius-end)),
+					${x} 0,
+					${x=END_PC} 0,
+				/*),*/
+				${x} 100%,
 				var(--new-tab-clip, ${END_PC} 100%),
 				${START_PC} 100%
 			);
@@ -926,6 +954,7 @@ ${prefs.tabsUnderControlButtons ? `
 			}
 		` : ``}
 
+		/*
 		#TabsToolbar${tbDraggingHidePlaceHolder} ${_} {
 			--top-placeholder-clip:
 					${START_PC} calc(var(--tabs-top-space) * -1),
@@ -935,8 +964,9 @@ ${prefs.tabsUnderControlButtons ? `
 		#TabsToolbar${tbDraggingHidePlaceHolder}:not([tabs-scrolledtostart]) ${_} {
 			--scrollbar-clip: ${END_PC} calc(var(--tabs-top-space) * -1);
 		}
+		*/
 
-		${context}:not(${tbDraggingHidePlaceHolder}) ${_}[overflow][hasadjacentnewtabbutton] {
+		${context}/*:not(${tbDraggingHidePlaceHolder})*/ ${_}[overflow][hasadjacentnewtabbutton] {
 			--new-tab-clip:
 				${x=`calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)) * ${DIR})`} 100%,
 				${x} ${y=`calc(100% - var(--tab-height))`},
@@ -954,7 +984,10 @@ ${prefs.tabsUnderControlButtons ? `
 				${x=`calc(${END_PC} - (var(--post-tabs-items-width) - var(--post-tabs-clip-reserved)) * ${DIR})`} ${y},
 				${x} ${y="var(--tab-height)"},
 				${x=`calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)) * ${DIR})`} ${y},
-				${x} ${y=`calc(var(--control-box-clip-scrollbar) - var(--tabs-top-space))`},
+				${x} ${y="calc(var(--control-box-clip-scrollbar) - var(--tabs-top-space))"},
+				${x=`calc(${END_PC} - (var(--control-box-margin-end) + var(--control-box-radius-end)) * ${DIR})`} ${y},
+				${x=`calc(${END_PC} - var(--control-box-margin-end) * ${DIR})`} ${y="calc(var(--control-box-clip-scrollbar) - var(--tabs-top-space) - var(--control-box-radius-end))"},
+				${x} ${y="calc(var(--tabs-top-space) * -1)"},
 				${x=END_PC} ${y},
 				${x} 100%
 			);
@@ -962,18 +995,22 @@ ${prefs.tabsUnderControlButtons ? `
 
 		${win7 || win8 || mica ? `
 			/*Clip the control buttons*/
-			${topMostTabsBar}${showPlaceHolder}:not(${tbDraggingHidePlaceHolder})
-					#tabbrowser-tabs[overflow] {
-				clip-path: polygon(
-					${x=START_PC} 100%,
-					${x} ${y="calc(var(--tabs-top-space) * -1)"},
-					${x=`calc(${END_PC} - var(--control-box-reserved-width) * ${DIR})`} ${y},
-					${x} ${y=`calc(var(--control-box-reserved-height) - var(--tabs-top-space))`},
-					${x=`calc(${END_PC} - var(--control-box-clip-scrollbar-reserved) * ${DIR})`} ${y},
-					${x} ${y="calc(var(--tabs-top-space) * -1)"},
-					${x=END_PC} ${y},
-					${x} 100%
-				);
+			@media not ${singleRow} {
+				${topMostTabsBar}${showPlaceHolder}:not(${tbDraggingHidePlaceHolder})
+						#tabbrowser-tabs[overflow] {
+					clip-path: polygon(
+						${x=START_PC} 100%,
+						${x} ${y="calc(var(--tabs-top-space) * -1)"},
+						${x=`calc(${END_PC} - var(--control-box-reserved-width) * ${DIR})`} ${y},
+						${x} ${y="calc(var(--control-box-reserved-height) - var(--tabs-top-space) - var(--control-box-radius-start))"},
+						${x=`calc(${END_PC} - (var(--control-box-reserved-width) - var(--control-box-radius-start)) * ${DIR})`} ${y="calc(var(--control-box-reserved-height) - var(--tabs-top-space))"},
+						${x=`calc(${END_PC} - (var(--control-box-clip-scrollbar-reserved) + var(--control-box-margin-end) + var(--control-box-radius-end)) * ${DIR})`} ${y},
+						${x=`calc(${END_PC} - (var(--control-box-clip-scrollbar-reserved) + var(--control-box-margin-end)) * ${DIR})`} ${y="calc(var(--control-box-reserved-height) - var(--tabs-top-space) - var(--control-box-radius-end))"},
+						${x} ${y="calc(var(--tabs-top-space) * -1)"},
+						${x=END_PC} ${y},
+						${x} 100%
+					);
+				}
 			}
 		` : ``}
 	`}
@@ -986,7 +1023,10 @@ ${prefs.tabsUnderControlButtons ? `
 				${x=START_PC} 100%,
 				${x} ${y="calc(var(--tabs-top-space) * -1)"},
 				${x=`calc(${END_PC} - var(--tabs-scrollbar-width) * ${DIR})`} ${y},
-				${x} ${y=`calc(var(--control-box-reserved-height) - var(--tabs-top-space))`},
+				${x} ${y="calc(var(--control-box-reserved-height) - var(--tabs-top-space))"},
+				${x=`calc(${END_PC} - (var(--control-box-margin-end) + var(--control-box-radius-end)) * ${DIR})`} ${y},
+				${x=`calc(${END_PC} - var(--control-box-margin-end) * ${DIR})`} ${y="calc(var(--control-box-reserved-height) - var(--tabs-top-space) - var(--control-box-radius-end))"},
+				${x} ${y="calc(var(--tabs-top-space) * -1)"},
 				${x=END_PC} ${y},
 				${x} 100%
 			);
@@ -1000,7 +1040,8 @@ ${prefs.tabsUnderControlButtons ? `
 					${x=START_PC} 100%,
 					${x} 0%,
 					${x=`calc(${END_PC} - (var(--control-box-reserved-width) - var(--tabs-scrollbar-width)) * ${DIR})`} 0%,
-					${x} ${y="calc(var(--control-box-reserved-height) - var(--control-box-adjustment, 0px))"},
+					${x} ${y="calc(var(--control-box-reserved-height) - var(--control-box-adjustment, 0px) - var(--control-box-radius-start))"},
+					${x=`calc(${END_PC} - (var(--control-box-reserved-width) - var(--tabs-scrollbar-width) - var(--control-box-radius-start)) * ${DIR})`} ${y="calc(var(--control-box-reserved-height) - var(--control-box-adjustment, 0px))"},
 					${x=END_PC} ${y},
 					${x} 100%
 				);
@@ -1883,14 +1924,13 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 	//which will cause weird bouncing of the scroll position,
 	//plus the positioning is not the same logic, thus rewrite it and not wrap it.
 	tabContainer._positionPinnedTabs = function(numPinned = gBrowser.pinnedTabCount) {
-		if (this._hasTabTempMaxWidth) return;
-
-		if (!numPinned && !this._lastNumPinned)
+		if (this._hasTabTempMaxWidth || !numPinned && !this._lastNumPinned
+				|| appVersion == 115 && new Error().stack.includes("_initializeArrowScrollbox/<@chrome://browser/content/tabbrowser-tabs.js"))
 			return;
 
 		time("_positionPinnedTabs - calculation");
 
-		let width, rows, columns, spacers, preTabItemsWidth, wrapPlaceholder;
+		let width, rows, columns, spacers, preTabsItemsSize, wrapPlaceholder;
 		let gap = prefs.gapAfterPinned;
 
 		let layoutData = this._pinnedTabsLayoutCache;
@@ -1904,18 +1944,19 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		let isPositioned = this.hasAttribute("positionpinnedtabs") && !this.hasAttribute("forced-overflow");;
 		let {visibleTabs} = gBrowser;
 		let tabs = visibleTabs;
-		let floatPinnedTabs = numPinned && tabs.length > numPinned && arrowScrollbox.overflowing;
+		//not using arrowScrollbox.overflowing in case it is not updated in time
+		let floatPinnedTabs = numPinned && tabs.length > numPinned && scrollbox.scrollTopMax;
 		let {tabsUnderControlButtons} = prefs;
 		if (this._isCustomizing)
 			tabsUnderControlButtons = 0;
 
 		if (floatPinnedTabs) {
 			width = (layoutData.width ||= getRect(tabs[0]).widthDouble);
-			preTabItemsWidth = getRect(this._placeholderPreTabs, {box: "margin", visible: true}).widthDouble;
+			preTabsItemsSize = getRect(this._placeholderPreTabs, {box: "margin", visible: true}).widthDouble;
 			rows = getRowCount();
 			if (rows > 1) {
 				if (tabsUnderControlButtons == 2) {
-					spacers = Math.ceil(preTabItemsWidth / width);
+					spacers = Math.ceil(preTabsItemsSize / width);
 					if (spacers && spacers == numPinned - 1)
 						spacers++;
 				} else
@@ -1928,21 +1969,20 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				spacers = 0;
 			}
 			let boxWidth = getRect(this, {box: "padding"}).widthDouble;
-			let pinnedNetSize = columns * width + gap + scrollbox.scrollbarWidth
-					+ (tabsUnderControlButtons == 2 ? newTabButtonWidth : 0);
-			floatPinnedTabs = pinnedNetSize + getTabMinWidth() <= boxWidth
-					&& pinnedNetSize <= boxWidth - getRect(this._placeholderPostTabs, {box: "content", visible: true}).widthDouble;
-			wrapPlaceholder = floatPinnedTabs && columns * width + gap >= preTabItemsWidth;
-			//TODO remove if all ok
-			if (debug)
-				log({
-					isPositioned, floatPinnedTabs, columns, rows, spacers,
-					atLeastOneTab: pinnedNetSize + getTabMinWidth() <= boxWidth,
-					placeHolderNotOverlapPinned: pinnedNetSize <= boxWidth - getRect(this._placeholderPostTabs, {box: "content", visible: true}).widthDouble,
-					expectWidth: pinnedNetSize + getTabMinWidth(),
-					pinnedNetSize, boxWidth,
-					placeholder: getRect(this._placeholderPostTabs, {box: "content", visible: true}).widthDouble,
-				});
+			floatPinnedTabs = columns * width + gap + getTabMinWidth() + this.newTabButton.clientWidth
+					+ getRect(this._placeholderPostTabs, {box: "content", visible: true}).widthDouble + scrollbox.scrollbarWidth
+							<= boxWidth;
+			wrapPlaceholder = floatPinnedTabs && columns * width + gap >= preTabsItemsSize;
+			// //TODO remove if all ok
+			// if (debug)
+				// log({
+					// isPositioned, floatPinnedTabs, columns, rows, spacers,
+					// atLeastOneTab: pinnedNetSize + getTabMinWidth() <= boxWidth,
+					// expectWidth: pinnedNetSize + getTabMinWidth(),
+					// pinnedNetSize, boxWidth,
+					// preTabsItemsSize,
+					// placeholder: getRect(this._placeholderPostTabs, {box: "content", visible: true}).widthDouble,
+				// });
 		}
 
 		timeEnd("_positionPinnedTabs - calculation");
@@ -2971,9 +3011,12 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		tabsBar.toggleAttribute("tabs-is-first-visible",
 				tabContainer.matches(":nth-child(1 of :not([hidden=true], [collapsed=true]))"));
+				
+		//not using this.overflowing in case it is not updated in time
+		let overflowing = !!scrollbox.scrollTopMax;
 
 		let onlyUnderflow = prefs.tabsUnderControlButtons < 2
-		if (this.overflowing && onlyUnderflow
+		if (overflowing && onlyUnderflow
 				|| innerWidth < prefs.rowStartIncreaseFrom + prefs.rowIncreaseEvery
 				|| this._isCustomizing
 				|| !prefs.tabsUnderControlButtons) {
@@ -3012,7 +3055,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		this._positionPinnedTabs(numPinned);
 
-		let adjacentNewTab = !this.overflowing && this.hasAttribute("hasadjacentnewtabbutton");
+		let adjacentNewTab = !overflowing && this.hasAttribute("hasadjacentnewtabbutton");
 		let positionPinned = this.hasAttribute("positionpinnedtabs");
 		let firstTabRect = getRect(gBrowser.visibleTabs[positionPinned ? numPinned : 0]);
 		let winWidth = winRect.width;
@@ -3032,8 +3075,8 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		let base = Math.max(preTabsItemsSize + tabsStartSeparator, pinnedReservedWidth) + postTabsItemsSize;
 
 		let layoutData = {
-			preTabsItemsSize, postTabsItemsSize, base, firstStaticWidth, scrollbarWidth, adjacentNewTab,
-			newTabButtonWidth, pinnedWidth, numPinned, winMinWidth, winMaxWidth, normalMinWidth,
+			preTabsItemsSize, postTabsItemsSize, tabsStartSeparator, base, firstStaticWidth, scrollbarWidth,
+			adjacentNewTab, newTabButtonWidth, pinnedWidth, numPinned, winMinWidth, winMaxWidth, normalMinWidth,
 		};
 		timeLog("_updateInlinePlaceHolder", "gather all info");
 
@@ -3061,14 +3104,14 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 						#tabbrowser-arrowscrollbox::part(slot)::before {
 					width: calc(100% - var(--tabstrip-size)) !important;
 					margin-inline-end: 0;
-					border-inline-end: 0;
+					border-inline-end-width: 0;
 					border-bottom-${END}-radius: 0;
 					padding-inline-end: var(--tabstrip-size);
 				}
 				#tabs-placeholder-pre-tabs {
 					--tabstrip-padding: 0;
 					width: calc(100vw - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)));
-					border-inline-end: 0;
+					border-inline-end-width: 0;
 					border-radius: 0;
 					clip-path: inset(0 0 var(--clip-shadow) 0);
 				}
@@ -3210,7 +3253,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			}
 
 		let willDecreaseRow = finalWidth <= rowWidth;
-		
+
 		//Because not leaving the new tab button alone would make things too complicated,
 		//the following criteria are not well-thought-out, they just make things seem to work.
 		//Need fully review and test.
@@ -3531,17 +3574,17 @@ function onTabsResize() {
 
 	log("scrollbox width", root.getAttribute("sizemode"), scrollbox.clientWidthDouble);
 
+	//the underflow event isn't always fired, here we refer to the ResizeObserver in the constructor of MozArrowScrollbox
+	let {scrollTopMax} = scrollbox;
+
 	let count = getRowCount();
 	tabsBar.toggleAttribute("tabs-multirows", count > 1);
 	tabContainer.toggleAttribute("multirows", count > 1);
 	root.style.setProperty("--tab-rows", count);
 
-	//the underflow event isn't always fired, here we refer to the ResizeObserver in the constructor of MozArrowScrollbox
-	let {scrollTopMax} = scrollbox;
-
 	timeEnd("tabContainer ResizeObserver");
 
-	if (arrowScrollbox.overflowing != scrollTopMax)
+	if (arrowScrollbox.overflowing != !!scrollTopMax)
 		scrollbox.dispatchEvent(new CustomEvent(scrollTopMax ? "overflow" : "underflow"));
 	else
 		tabContainer._updateInlinePlaceHolder();
