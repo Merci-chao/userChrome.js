@@ -717,7 +717,7 @@ ${prefs.tabsUnderControlButtons ? `
 				(win7 && defaultDarkTheme ? "--tab-icon-overlay-fill"
 						: (win8 && defaultTheme ? "--tab-selected-bgcolor, var(--lwt-selected-tab-background-color)"
 								: "--lwt-accent-color")) :
-				"--toolbox-bgcolor, var(--lwt-accent-color, var(--tab-selected-bgcolor, var(--lwt-selected-tab-background-color)))"});
+				"--toolbox-bgcolor, var(--toolbox-non-lwt-bgcolor, var(--lwt-accent-color, var(--tab-selected-bgcolor, var(--lwt-selected-tab-background-color))))"});
 	}
 
 	@media (-moz-overlay-scrollbars) {
@@ -743,7 +743,7 @@ ${prefs.tabsUnderControlButtons ? `
 				(win7 && defaultDarkTheme ? "--tab-icon-overlay-fill"
 						: (win8 && defaultTheme ? "--tab-selected-bgcolor, var(--lwt-selected-tab-background-color)"
 								: "--lwt-accent-color-inactive, var(--lwt-accent-color)")) :
-				"--toolbox-bgcolor-inactive, var(--lwt-accent-color-inactive, var(--tab-selected-bgcolor, var(--lwt-selected-tab-background-color)))"});
+				"--toolbox-bgcolor-inactive, var(--toolbox-non-lwt-bgcolor-inactive, var(--lwt-accent-color-inactive, var(--tab-selected-bgcolor, var(--lwt-selected-tab-background-color))))"});
 	}
 
 	${micaEnabled && accentColorInTitlebarMQ.matches && defaultAutoTheme ? `
