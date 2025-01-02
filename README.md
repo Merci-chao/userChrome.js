@@ -49,7 +49,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 | `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`. |
 | `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
 | `dynamicThemeImageSize` | When using themes, the size of the background image changes with the current number of rows. |
-| `hideAllTabs` | Hide the "List all tabs" button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by customizing the toolbar. |
+| `hideAllTabs` | Hide the "List all tabs" button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing "Remove from Toolbar". |
 | `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11, unavailable when Mica is activated and "Accent Color on Title Bars" is inactivated. |
 | `floatingBackdropClip` | Clip the area covered by items on the tabs toolbar when scrolling, available when `tabsUnderControlButtons` is `2`. |
 | `floatingBackdropBlurriness` | How blurry the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The minimum value is `0`. Not available on Firefox 115. |
