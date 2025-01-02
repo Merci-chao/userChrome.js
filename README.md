@@ -62,6 +62,9 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Changelog
+Version 2.1.3
+- Bug fix: tabs keep bouncing in some spacial cases, typically happens when there are many pinned tabs.
+
 Version 2.1.2
 - Fix a bug since version 2.1: buttons before tabs cannot be clicked when there is only one row.
 
