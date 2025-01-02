@@ -173,7 +173,7 @@ let prefs;
 		lock("tabsUnderControlButtons", singleRow);
 		lock("floatingBackdropClip", singleRow || prefs.tabsUnderControlButtons < 2);
 		lock("floatingBackdropBlurriness",
-				prefs.floatingBackdropOpacity == 100 || prefs.floatingBackdropClip
+				prefs.floatingBackdropOpacity >= 100 || prefs.floatingBackdropClip
 						|| singleRow || prefs.tabsUnderControlButtons < 2 || mica);
 		lock("floatingBackdropOpacity", prefs.floatingBackdropClip || singleRow || prefs.tabsUnderControlButtons < 2);
 
