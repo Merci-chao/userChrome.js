@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.1.3
+// @version        2.1.3.1
 // ==/UserScript==
 
 try {
@@ -59,7 +59,7 @@ let prefs;
 			scrollbarTrackColor: "auto",
 			scrollbarThumbColor: "auto",
 			dynamicThemeImageSize: false,
-			tabsUnderControlButtons: 2,
+			tabsUnderControlButtons: tabGroupsEnabled() ? 0 : 2,
 			debugMode: 0,
 			floatingBackdropClip: win7 || win8 ? defaultTheme : mica,
 			floatingBackdropBlurriness: appVersion > 115 ? 5 : null,
@@ -80,7 +80,7 @@ let prefs;
 	updatePrefsDependency(true);
 
 	Object.keys(prefs).forEach(n => Services.prefs.addObserver(prefBranchStr + n, onPrefChange));
-	let observedBrowserPrefs = ["extensions.activeThemeID", "browser.toolbars.bookmarks.visibility"];
+	let observedBrowserPrefs = ["extensions.activeThemeID", "browser.toolbars.bookmarks.visibility", "browser.tavs.groups.enabled"];
 	for (let p of observedBrowserPrefs)
 		Services.prefs.addObserver(p, onPrefChange);
 	accentColorInTitlebarMQ.onchange = () => onPrefChange(null, null, "-moz-windows-accent-color-in-titlebar");
@@ -136,6 +136,7 @@ let prefs;
 				tabsBar.removeAttribute("has-items-post-tabs");
 				tabContainer._updateInlinePlaceHolder();
 				break;
+			case "browser.tavs.groups.enabled":
 			case "tabsUnderControlButtons":
 				setStyle();
 				tabsBar.toggleAttribute("tabs-hide-placeholder",
@@ -170,7 +171,7 @@ let prefs;
 		lock("hideEmptyPlaceholderWhenScrolling", singleRow || prefs.tabsUnderControlButtons < 2);
 		lock("tabsbarItemsAlign", singleRow || prefs.tabsUnderControlButtons == 2);
 		lock("dynamicThemeImageSize", singleRow || defaultTheme);
-		lock("tabsUnderControlButtons", singleRow);
+		lock("tabsUnderControlButtons", singleRow || tabGroupsEnabled());
 		lock("floatingBackdropClip", singleRow || prefs.tabsUnderControlButtons < 2);
 		lock("floatingBackdropBlurriness",
 				prefs.floatingBackdropOpacity >= 100 || prefs.floatingBackdropClip
@@ -3011,7 +3012,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		tabsBar.toggleAttribute("tabs-is-first-visible",
 				tabContainer.matches(":nth-child(1 of :not([hidden=true], [collapsed=true]))"));
-				
+
 		//not using this.overflowing in case it is not updated in time
 		let overflowing = !!scrollbox.scrollTopMax;
 
@@ -3664,6 +3665,10 @@ function updateThemeStatus() {
 			.includes(id);
 	defaultDarkTheme = id == "firefox-compact-dark@mozilla.org";
 	defaultAutoTheme = ["", "default-theme@mozilla.org"].includes(id);
+}
+
+function tabGroupsEnabled() {
+	try {return Services.prefs.getBoolPref("browser.tavs.groups.enabled"); } catch(e) { return false; }
 }
 
 function pointDelta(a, b = 0) {
