@@ -41,7 +41,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 | `spaceBeforeTabs` | Empty space on the left side of the window. The minimum value is `0`. |
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. The minimum value is `0`. |
 | `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. The minimum value is `0`. |
-| `tabsUnderControlButtons` | Show tabs below window control buttons when there are multiple rows: `0` (never), `1` (when rows are not scrolling), `2` (always). Currently it is not compatible with the native tab groups feature of Firefox. When tab groups is enabled (`browser.tabs.groups.enabled` = `true`), this setting is forced to be `0`. |
+| `tabsUnderControlButtons` | Show tabs below window control buttons when there are multiple rows: `0` (never), `1` (when rows are not scrolling), `2` (always). Currently it is not compatible with the native tab groups feature of Firefox. When tab groups is enabled (`browser.tabs.groups.enabled` is `true`), this setting is forced to be `0`. |
 | `tabsbarItemsAlign` | Alignment of the Tabs Bar, allowed values are: `start` (top), `center` and `end` (bottom). This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with rows scrolling. |
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. The minimum value is `1`. |
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. The minimum value is `1`. |
@@ -64,7 +64,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 ## Changelog
 Version 2.1.3.1
 - Bug fix: tabs keep bouncing in some spacial cases, typically happens when there are many pinned tabs.
-- `tabsUnderControlButtons` is forced to be `0` now when tab groups is enabled (`browser.tabs.groups.enabled` = `true`).
+- `tabsUnderControlButtons` is forced to be `0` now when tab groups is enabled (`browser.tabs.groups.enabled` is `true`).
 
 Version 2.1.2
 - Fix a bug since version 2.1: buttons before tabs cannot be clicked when there is only one row.
