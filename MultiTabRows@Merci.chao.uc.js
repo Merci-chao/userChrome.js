@@ -80,7 +80,7 @@ let prefs;
 	updatePrefsDependency(true);
 
 	Object.keys(prefs).forEach(n => Services.prefs.addObserver(prefBranchStr + n, onPrefChange));
-	let observedBrowserPrefs = ["extensions.activeThemeID", "browser.toolbars.bookmarks.visibility", "browser.tavs.groups.enabled"];
+	let observedBrowserPrefs = ["extensions.activeThemeID", "browser.toolbars.bookmarks.visibility", "browser.tabs.groups.enabled"];
 	for (let p of observedBrowserPrefs)
 		Services.prefs.addObserver(p, onPrefChange);
 	accentColorInTitlebarMQ.onchange = () => onPrefChange(null, null, "-moz-windows-accent-color-in-titlebar");
@@ -136,7 +136,7 @@ let prefs;
 				tabsBar.removeAttribute("has-items-post-tabs");
 				tabContainer._updateInlinePlaceHolder();
 				break;
-			case "browser.tavs.groups.enabled":
+			case "browser.tabs.groups.enabled":
 			case "tabsUnderControlButtons":
 				setStyle();
 				tabsBar.toggleAttribute("tabs-hide-placeholder",
@@ -3668,7 +3668,7 @@ function updateThemeStatus() {
 }
 
 function tabGroupsEnabled() {
-	try {return Services.prefs.getBoolPref("browser.tavs.groups.enabled"); } catch(e) { return false; }
+	try {return Services.prefs.getBoolPref("browser.tabs.groups.enabled"); } catch(e) { return false; }
 }
 
 function pointDelta(a, b = 0) {
