@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.1.3.1
+// @version        2.1.4
 // ==/UserScript==
 
 try {
@@ -253,7 +253,7 @@ mainStyle.innerHTML = `
 
 ${[...Array(maxRows).keys()].slice(1).map(i => `
 	@media (min-width: ${rSIF + rIE * i}px) {
-		:root { --max-tab-rows: ${i + 1} }
+		:root { --max-tab-rows: ${i + 1}; }
 	}
 `).join("\n")}
 
@@ -924,7 +924,7 @@ ${prefs.tabsUnderControlButtons ? `
 	})() : ``}
 
 	${prefs.floatingBackdropClip && prefs.tabsUnderControlButtons == 2 ? `
-		${context="#TabsToolbar"+showPlaceHolder} ${_="#tabbrowser-tabs"} {
+		${context="#TabsToolbar"+showPlaceHolder}:not(${tbDraggingHidePlaceHolder}) ${_="#tabbrowser-tabs"} {
 			clip-path: polygon(
 				${START_PC} ${y="var(--tab-height)"},
 				var(--top-placeholder-clip,
@@ -934,7 +934,7 @@ ${prefs.tabsUnderControlButtons ? `
 					),
 					${x=`calc(${END_PC} - (var(--post-tabs-items-width) - var(--post-tabs-clip-reserved)) * ${DIR})`} ${y},
 					${x} ${y="var(--tab-height)"},
-					${x=`calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)) * ${DIR})`} ${y}
+					${x=`calc(${END_PC} - var(--scollbar-clip-width, (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved))) * ${DIR})`} ${y}
 				),
 				/*var(--scrollbar-clip,*/
 					${x} ${y=`calc(var(--control-box-reserved-height) - var(--tabs-top-space))`},
@@ -947,6 +947,10 @@ ${prefs.tabsUnderControlButtons ? `
 				var(--new-tab-clip, ${END_PC} 100%),
 				${START_PC} 100%
 			);
+		}
+
+		${context}:not(${tbDraggingHidePlaceHolder})[tabs-scrolledtostart] ${_} {
+			--scollbar-clip-width: var(--tabs-scrollbar-visual-width);
 		}
 
 		${prefs.hideEmptyPlaceholderWhenScrolling ? `
@@ -967,7 +971,7 @@ ${prefs.tabsUnderControlButtons ? `
 		}
 		*/
 
-		${context}/*:not(${tbDraggingHidePlaceHolder})*/ ${_}[overflow][hasadjacentnewtabbutton] {
+		${context}:not([tabs-scrolledtoend])/*:not(${tbDraggingHidePlaceHolder})*/ ${_}[overflow][hasadjacentnewtabbutton] {
 			--new-tab-clip:
 				${x=`calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)) * ${DIR})`} 100%,
 				${x} ${y=`calc(100% - var(--tab-height))`},
@@ -984,7 +988,7 @@ ${prefs.tabsUnderControlButtons ? `
 				${x} ${y="calc(var(--tabs-top-space) * -1)"},
 				${x=`calc(${END_PC} - (var(--post-tabs-items-width) - var(--post-tabs-clip-reserved)) * ${DIR})`} ${y},
 				${x} ${y="var(--tab-height)"},
-				${x=`calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)) * ${DIR})`} ${y},
+				${x=`calc(${END_PC} - var(--tabs-scrollbar-visual-width) * ${DIR})`} ${y},
 				${x} ${y="calc(var(--control-box-clip-scrollbar) - var(--tabs-top-space))"},
 				${x=`calc(${END_PC} - (var(--control-box-margin-end) + var(--control-box-radius-end)) * ${DIR})`} ${y},
 				${x=`calc(${END_PC} - var(--control-box-margin-end) * ${DIR})`} ${y="calc(var(--control-box-clip-scrollbar) - var(--tabs-top-space) - var(--control-box-radius-end))"},
@@ -1011,6 +1015,10 @@ ${prefs.tabsUnderControlButtons ? `
 						${x=END_PC} ${y},
 						${x} 100%
 					);
+				}
+
+				${topMostTabsBar}${showPlaceHolder}:not(${tbDraggingHidePlaceHolder}, :has(.titlebar-close:hover))[tabs-scrolledtostart] {
+					--control-box-clip-scrollbar-reserved: var(--scrollbar-visual-width);
 				}
 			}
 		` : ``}
@@ -1205,13 +1213,17 @@ ${prefs.tabsUnderControlButtons ? `
 		}
 	` : ``}
 
-	#tabs-placeholder-post-tabs {
+	${_="#tabs-placeholder-post-tabs"} {
 		${END}: calc(var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved));
 		width: calc(var(--post-tabs-items-width) - var(--tabs-scrollbar-width) - var(--scrollbar-clip-reserved));
 		border-top-width: 0;
 		border-inline-end: 0;
 		border-bottom-${START}-radius: var(--tabs-placeholder-border-radius);
 		clip-path: inset(var(--clip-shadow) ${RTL_UI ? "var(--clip-shadow)" : 0} var(--clip-shadow) ${RTL_UI ? 0 : "var(--clip-shadow)"});
+	}
+
+	#TabsToolbar[tabs-scrolledtostart] :is(${_}, #tabs-placeholder-pre-tabs) {
+		pointer-events: none;
 	}
 
 	${context=`${shownMenubar} + #TabsToolbar`}
@@ -1931,7 +1943,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		time("_positionPinnedTabs - calculation");
 
-		let width, rows, columns, spacers, preTabsItemsSize, wrapPlaceholder;
+		let width, rows, maxRows, columns, spacers, preTabsItemsSize, wrapPlaceholder;
 		let gap = prefs.gapAfterPinned;
 
 		let layoutData = this._pinnedTabsLayoutCache;
@@ -1942,7 +1954,8 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				scrollStartOffset: gap,
 			};
 
-		let isPositioned = this.hasAttribute("positionpinnedtabs") && !this.hasAttribute("forced-overflow");;
+		let forcedOverflow = this.hasAttribute("forced-overflow");
+		let isPositioned = this.hasAttribute("positionpinnedtabs") && !forcedOverflow;
 		let {visibleTabs} = gBrowser;
 		let tabs = visibleTabs;
 		//not using arrowScrollbox.overflowing in case it is not updated in time
@@ -1955,6 +1968,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			width = (layoutData.width ||= getRect(tabs[0]).widthDouble);
 			preTabsItemsSize = getRect(this._placeholderPreTabs, {box: "margin", visible: true}).widthDouble;
 			rows = getRowCount();
+			maxRows = maxTabRows();
 			if (rows > 1) {
 				if (tabsUnderControlButtons == 2) {
 					spacers = Math.ceil(preTabsItemsSize / width);
@@ -1998,7 +2012,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		}
 
 		if (!isPositioned && floatPinnedTabs)
-			slot.style.minHeight = tabHeight * (prefs.maxTabRows + 1) + "px";
+			slot.style.minHeight = tabHeight * (maxRows + 1) + "px";
 
 		this.removeAttribute("forced-overflow");
 		this.style.removeProperty("--forced-overflow-adjustment");
@@ -2016,7 +2030,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				let lastTabRect = getRect(lastTab);
 				let slotRect = getRect(slot);
 				//innerWidth: 1740, numPinned: 3, expansion: -80px -182px
-				if (lastTabRect.bottom != slotRect.bottom) {
+				if (lastTabRect.bottom < slotRect.bottom) {
 					let lastRowTabsCount = visibleTabs.length - visibleTabs.findLastIndex(t => t.screenY != lastTabRect.top) - 1;
 					this.setAttribute("forced-overflow", "");
 					this.style.setProperty("--forced-overflow-adjustment",
@@ -2037,7 +2051,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			});
 
 			log(`position pinned tabs`, true, {columns, spacers, numPinned});
-		} else if (isPositioned) {
+		} else if (isPositioned || forcedOverflow) {
 			log(`position pinned tabs`, false);
 
 			for (let tab of tabs) {
@@ -3070,8 +3084,9 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				parseFloat(this.style.getPropertyValue("--tab-overflow-pinned-tabs-width")) + pinnedGap : 0;
 
 		let inlinePreTabCS = getComputedStyle(slot, "::before");
+		//it seems only the border is affected by dpr
 		let tabsStartSeparator = parseFloat(inlinePreTabCS.marginInlineEnd)
-				+ parseFloat(inlinePreTabCS.borderInlineEndWidth) + parseFloat(inlinePreTabCS.paddingInlineEnd);
+				+ parseFloat(inlinePreTabCS.borderInlineEndWidth) * devicePixelRatio + parseFloat(inlinePreTabCS.paddingInlineEnd);
 
 		let base = Math.max(preTabsItemsSize + tabsStartSeparator, pinnedReservedWidth) + postTabsItemsSize;
 
@@ -3254,6 +3269,8 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			}
 
 		let willDecreaseRow = finalWidth <= rowWidth;
+		let rowCount = getRowCount(true);
+		let maxRows = maxTabRows();
 
 		//Because not leaving the new tab button alone would make things too complicated,
 		//the following criteria are not well-thought-out, they just make things seem to work.
@@ -3289,7 +3306,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			let lockLastRowWhenOpening, ignoreNewTabWhenCosing, needShrinkLastTab,
 					dontLock, shouldKeepSpacer;
 			if (closing) {
-				if (tabWidthClosedByClick)
+				if (tabWidthClosedByClick || !(overflowing && willDecreaseRow && rowCount == maxRows + 1))
 					if (lastRowTabsCount < 2 && adjacentNewTab && last2ndTab) {
 						ignoreNewTabWhenCosing = willDecreaseRow && tempWidth >= rowWidth;
 						needShrinkLastTab = ignoreNewTabWhenCosing || tempWidth < rowWidth;
@@ -3597,8 +3614,12 @@ function toggleAllTabsButton() {
 	document.getElementById("alltabs-button").hidden = prefs.hideAllTabs;
 }
 
-function getRowCount() {
-	return ~~(scrollbox.clientHeight / tabHeight);
+function getRowCount(allRows) {
+	return ~~((allRows ? slot : scrollbox).clientHeight / tabHeight);
+}
+
+function maxTabRows() {
+	return +getComputedStyle(scrollbox).getPropertyValue("--max-tab-rows");
 }
 
 function getTabMinWidth() {
