@@ -62,6 +62,11 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Changelog
+Version 2.2
+- Update the appearance of the scrollbar on Windows 11.
+- Bug fix: layout may break when the display scaling is not 100%.
+- Bug fix: tabs keep bouncing in some circumstances.
+
 Version 2.1.3.1
 - Bug fix: tabs keep bouncing in some spacial cases, typically happens when there are many pinned tabs.
 - `tabsUnderControlButtons` is forced to be `0` now when tab groups is enabled (`browser.tabs.groups.enabled` is `true`).
