@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.1.4
+// @version        2.2
 // ==/UserScript==
 
 try {
@@ -29,6 +29,7 @@ let defaultDarkTheme, defaultAutoTheme, defaultTheme;
 let appVersion = parseInt(Services.appinfo.version);
 let [START, END, START_PC, END_PC, DIR]
 		= RTL_UI ? ["right", "left", "100%", "0%", -1] : ["left", "right", "0%", "100%", 1];
+let EPSILON = .001;
 let {assign} = Object;
 
 let root = document.documentElement;
@@ -228,9 +229,9 @@ function setStyle() {
 let _, context, condition, x, y;
 let floatingButtonStyle;
 let {rowStartIncreaseFrom: rSIF, rowIncreaseEvery: rIE, maxTabRows: maxRows} = prefs;
-let singleRow = maxRows < 2 ? "screen" : `(max-width: ${rSIF + rIE - 1}px)`;
+let singleRow = maxRows < 2 ? "screen" : `(max-width: ${rSIF + rIE - EPSILON}px)`;
 let multiRows = `(min-width: ${rSIF + rIE}px)`;
-let twoOrLessRows = maxRows < 3 ? "screen" : `(max-width: ${rSIF + rIE * 2 - 1}px)`;
+let twoOrLessRows = maxRows < 3 ? "screen" : `(max-width: ${rSIF + rIE * 2 - EPSILON}px)`;
 let lastTab = `:is(
 	:not(tab-group) > .tabbrowser-tab:nth-last-child(2 of :not([hidden])),
 	tab-group:nth-last-child(2 of :not([hidden])) .tabbrowser-tab:nth-last-child(1 of :not([hidden]))
@@ -863,7 +864,7 @@ ${prefs.tabsUnderControlButtons ? `
 	}
 
 	#TabsToolbar${showPlaceHolder} ${_} {
-		margin-inline: var(--expansion) !important;
+		margin-inline: calc(var(--pre-tabs-items-width) * -1) calc(var(--post-tabs-items-width) * -1) !important;
 	}
 
 	${context="#TabsToolbar"+showPlaceHolder} ${_}[overflow][hasadjacentnewtabbutton]:not([closing-tab-ignore-newtab-width]) ${lastTab} {
@@ -981,14 +982,13 @@ ${prefs.tabsUnderControlButtons ? `
 	` : `
 		/*Clip the top right corner to hide the tabs that temporarily appear
 		  behind the inline placeholder when some tab is opening/closing*/
-		${_="#TabsToolbar"}${showPlaceHolder}:not([movingtab])[tabs-scrolledtostart]
-				#tabbrowser-arrowscrollbox {
+		${_=`#TabsToolbar${showPlaceHolder}:not([movingtab]) #tabbrowser-arrowscrollbox[scrolledtostart]`} {
 			clip-path: polygon(
 				${x=`calc(${START_PC} - var(--tab-overflow-pinned-tabs-width) * ${DIR})`} 100%,
 				${x} ${y="calc(var(--tabs-top-space) * -1)"},
 				${x=`calc(${END_PC} - (var(--post-tabs-items-width) - var(--post-tabs-clip-reserved)) * ${DIR})`} ${y},
 				${x} ${y="var(--tab-height)"},
-				${x=`calc(${END_PC} - var(--tabs-scrollbar-visual-width) * ${DIR})`} ${y},
+				${x=`calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)) * ${DIR})`} ${y},
 				${x} ${y="calc(var(--control-box-clip-scrollbar) - var(--tabs-top-space))"},
 				${x=`calc(${END_PC} - (var(--control-box-margin-end) + var(--control-box-radius-end)) * ${DIR})`} ${y},
 				${x=`calc(${END_PC} - var(--control-box-margin-end) * ${DIR})`} ${y="calc(var(--control-box-clip-scrollbar) - var(--tabs-top-space) - var(--control-box-radius-end))"},
@@ -996,6 +996,12 @@ ${prefs.tabsUnderControlButtons ? `
 				${x=END_PC} ${y},
 				${x} 100%
 			);
+		}
+
+		@media (-moz-overlay-scrollbars) {
+			${_}[overflowing] {
+				--scrollbar-clip-reserved: var(--tabs-scrollbar-visual-width);
+			}
 		}
 
 		${win7 || win8 || mica ? `
@@ -1102,12 +1108,12 @@ ${prefs.tabsUnderControlButtons ? `
 	${context="#TabsToolbar:not([pinned-tabs-wraps-placeholder])"} ${_}::before {
 		border-inline-end: var(--tabstrip-border);
 		padding-inline-end: var(--tabstrip-padding);
-		margin-inline-end: var(--tabstrip-padding);
+		margin-inline-end: calc(var(--tabstrip-padding) + var(--tabstrip-border-width) * ${1 - 1 / devicePixelRatio});
 	}
 
 	${context}[tabs-multirows] ${_}::before {
 		border-bottom: var(--tabstrip-border);
-		margin-bottom: calc(var(--tabstrip-border-width) * -1);
+		margin-bottom: calc(var(--tabstrip-border-width) / -${devicePixelRatio});
 		border-bottom-${END}-radius: var(--tabs-placeholder-border-radius);
 	}
 
@@ -3041,7 +3047,6 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				tabsBar.style.removeProperty("--post-tabs-items-width");
 				tabsBar.removeAttribute("has-items-pre-tabs");
 				tabsBar.removeAttribute("has-items-post-tabs");
-				this.style.removeProperty("--expansion");
 				lastLayoutData = null;
 			}
 			timeEnd("_updateInlinePlaceHolder");
@@ -3050,15 +3055,10 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		}
 
 		let tabsRect = getRect(this, {box: "margin", accurate: true});
-		let winRect = getRect(root);
+		let winRect = getRect(root, {box: "margin", accurate: true});
 		let preTabsItemsSize = pointDeltaH(tabsRect.start, winRect.start);
 		let postTabsItemsSize = pointDeltaH(winRect.end, tabsRect.end);
 		let {scrollbarWidth} = scrollbox;
-
-		this.style.setProperty("--expansion", `${-preTabsItemsSize}px ${-postTabsItemsSize}px`);
-
-		preTabsItemsSize = Math.round(preTabsItemsSize);
-		postTabsItemsSize = Math.round(postTabsItemsSize);
 
 		tabsBar.style.setProperty("--pre-tabs-items-width", preTabsItemsSize + "px");
 		tabsBar.style.setProperty("--post-tabs-items-width", postTabsItemsSize + "px");
@@ -3084,9 +3084,9 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				parseFloat(this.style.getPropertyValue("--tab-overflow-pinned-tabs-width")) + pinnedGap : 0;
 
 		let inlinePreTabCS = getComputedStyle(slot, "::before");
-		//it seems only the border is affected by dpr
-		let tabsStartSeparator = parseFloat(inlinePreTabCS.marginInlineEnd)
-				+ parseFloat(inlinePreTabCS.borderInlineEndWidth) * devicePixelRatio + parseFloat(inlinePreTabCS.paddingInlineEnd);
+
+		let tabsStartSeparator = Math.round(parseFloat(inlinePreTabCS.marginInlineEnd)
+				+ parseFloat(inlinePreTabCS.borderInlineEndWidth) + parseFloat(inlinePreTabCS.paddingInlineEnd));
 
 		let base = Math.max(preTabsItemsSize + tabsStartSeparator, pinnedReservedWidth) + postTabsItemsSize;
 
@@ -3108,7 +3108,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		onlyUnderflow = onlyUnderflow ? ":not([overflow])" : "";
 		let css = `
-			@media (max-width: ${base + firstStaticWidth - 1}px) {
+			@media (max-width: ${base + firstStaticWidth - EPSILON}px) {
 				${prefs.floatingBackdropClip ? `
 					#tabbrowser-tabs${onlyUnderflow} {
 						--top-placeholder-clip:
@@ -3148,7 +3148,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		`;
 		if (adjacentNewTab)
 			css += `
-				@media (max-width: ${base + firstStaticWidth + newTabButtonWidth - 1}px) {
+				@media (max-width: ${base + firstStaticWidth + newTabButtonWidth - EPSILON}px) {
 					:is(.tabbrowser-tab, tab-group):nth-child(1 of :not([hidden])):nth-last-child(1 of :is(.tabbrowser-tab, tab-group):not([hidden])),
 					:is(.tabbrowser-tab, tab-group):nth-child(1 of :not([hidden])):nth-last-child(1 of :is(.tabbrowser-tab, tab-group):not([hidden])) ~ *
 						{order: 2}
@@ -3159,7 +3159,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 			//wrap pinned tabs
 			for (let i = 1; i < numPinned; i++) {
-				let min = base, max = (base += pinnedWidth) - 1;
+				let min = base, max = (base += pinnedWidth) - EPSILON;
 				if (max >= winMinWidth)
 					css += `
 						@media (min-width: ${min}px) and (max-width: ${max}px) {
@@ -3169,7 +3169,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			}
 			//remove the gap after pinned to prevent the last pinned being wrapped, and force all non-pinned to wrap
 			css += `
-				@media (min-width: ${base}px) and (max-width: ${base + pinnedGap - 1}px) {
+				@media (min-width: ${base}px) and (max-width: ${base + pinnedGap - EPSILON}px) {
 					.tabbrowser-tab:nth-last-child(1 of [pinned]:not([hidden])) {--gap-after-pinned: 0px}
 					.tabbrowser-tab[pinned] ~ :not([pinned]) {order: 2}
 				}
@@ -3177,7 +3177,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			//wrap the last pinned tab adjacent with new tab
 			if (adjacentNewTab)
 				css += `
-					@media (min-width: ${base}px) and (max-width: ${base + newTabButtonWidth - 1}px) {
+					@media (min-width: ${base}px) and (max-width: ${base + newTabButtonWidth - EPSILON}px) {
 						.tabbrowser-tab[pinned]:nth-last-child(2 of :is(.tabbrowser-tab, tab-group):not([hidden])) ~ * {order: 2}
 					}
 				`;
@@ -3192,14 +3192,14 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 			//wrap normal tabs
 			css += `
-				@media (min-width: ${base}px) and (max-width: ${(base += normalMinWidth) - 1}px) {
+				@media (min-width: ${base}px) and (max-width: ${(base += normalMinWidth) - EPSILON}px) {
 					:is(.tabbrowser-tab, tab-group):nth-child(${numPinned + i} of :not([hidden])):not(:nth-last-child(1 of :is(.tabbrowser-tab, tab-group):not([hidden]))) ~ * {order: 2}
 				}
 			`;
 			//wrap the last normal tab adjacent with new tab
 			if (adjacentNewTab && base <= winMaxWidth)
 				css += `
-					@media (min-width: ${base}px) and (max-width: ${base + newTabButtonWidth - 1}px) {
+					@media (min-width: ${base}px) and (max-width: ${base + newTabButtonWidth - EPSILON}px) {
 						:is(.tabbrowser-tab, tab-group):nth-child(${numPinned + i} of :not([hidden])):nth-last-child(2 of :is(.tabbrowser-tab, tab-group):not([hidden])) ~ * {order: 2}
 					}
 				`;
