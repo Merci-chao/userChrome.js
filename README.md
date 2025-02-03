@@ -41,7 +41,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 | `spaceBeforeTabs` | Empty space on the left side of the window. The minimum value is `0`. |
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. The minimum value is `0`. |
 | `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. The minimum value is `0`. |
-| `tabsUnderControlButtons`⚠️ | Show tabs below window control buttons when there are multiple rows: `0` (never), `1` (when rows are not scrolling), `2` (always). Currently it is not compatible with the native tab groups feature of Firefox. When tab groups is enabled (`browser.tabs.groups.enabled` is `true`), this setting is forced to be `0`. **Please note that this feature is experimental** and may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
+| `tabsUnderControlButtons`⚠️ | Show tabs below window control buttons when there are multiple rows: `0` (never), `1` (when rows are not scrolling), `2` (always). It is incompatible with Firefox's native tab groups feature, and will be forcibly disabled if there are any tab groups. **Please note that this feature is experimental** and may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
 | `tabsbarItemsAlign` | Alignment of the Tabs Bar, allowed values are: `start` (top), `center` and `end` (bottom). This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with rows scrolling. |
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. The minimum value is `1`. |
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. The minimum value is `1`. |
@@ -59,9 +59,13 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 
 ## Cautions
 - Since this script contains many sensitive layout calculations designed for native Firefox, any tab or tabs toolbar-related legacy extensions, user scripts or stylesheets may cause weird glitches and bugs. Please check your legacy extensions, scripts and stylesheets (if any) before and after applying this script.
+- This script is incompatible with Firefox's native tab groups feature. Dragging tab to create group is disabled when multiple rows, and drag animation is disabled when there is any tab group.
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Changelog
+Version 2.3
+- Update for the native tab groups feature.
+
 Version 2.2
 - Update the appearance of the scrollbar on Windows 11.
 - Bug fix: layout may break when the display scaling is not 100%.
@@ -97,7 +101,6 @@ Version 1.0
 
 ## Known Issues
 - Tabs opening/closing by themselves (e.g. pop-ups) while dragging tabs may cause strange behavior.
-- Not support the native tab-groups feature of Firefox Beta and Nightly.
 - Not tested on touch devices.
 
 ## Won't Fixed Compatibility Issues
