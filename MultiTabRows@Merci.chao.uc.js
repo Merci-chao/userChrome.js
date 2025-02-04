@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.3
+// @version        2.3.1
 // ==/UserScript==
 
 try {
@@ -2286,14 +2286,12 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 	//original function doesn't perform a transition when the grouping is aborted
 	tabContainer[FINISH_MOVE_TOGETHER_SELECTED_TABS] = function(tab) {
-		let toHandle = tab[MOVE_TOGETHER_SELECTED_TABS_DATA] && !tab[MOVE_TOGETHER_SELECTED_TABS_DATA].finished;
-		let {visibleTabs} = gBrowser;
-		if (toHandle) {
+		if (tab[MOVE_TOGETHER_SELECTED_TABS_DATA] && !tab[MOVE_TOGETHER_SELECTED_TABS_DATA].finished) {
 			time("_finishGroupSelectedTabs");
-
+			let {visibleTabs} = gBrowser;
 			cleanUpTransform();
 
-			let abortedAnimateTab = gBrowser.selectedTabs.find(t => t[MOVE_TOGETHER_SELECTED_TABS_DATA] && t[MOVE_TOGETHER_SELECTED_TABS_DATA].animate);
+			let abortedAnimateTab = gBrowser.selectedTabs.find(t => t[MOVE_TOGETHER_SELECTED_TABS_DATA]?.animate);
 			if (abortedAnimateTab) {
 				//block the removing of attribute [tab-grouping] until transition ended
 				let {removeAttribute, toggleAttribute} = abortedAnimateTab.__proto__;
@@ -2318,7 +2316,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 					abortedAnimateTab.removeEventListener("transitionend", onTransitionEnd);
 					assign(abortedAnimateTab.__proto__, {removeAttribute, toggleAttribute});
 					visibleTabs.forEach(t => t.removeAttribute(MULTISELECTED_MOVE_TOGETHER));
-					tabContainer._handleTabSelect(true);
+					this._handleTabSelect(true);
 				};
 				abortedAnimateTab.addEventListener("transitionend", onTransitionEnd);
 				//in case the animation is not performed
@@ -2327,10 +2325,16 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 					postTransitionCleanup();
 					console.error("transition is not ended");
 				}, debug == 2 ? 3000: 300);
-			}
+			} else if (tab.pinned && this.hasAttribute("positionpinnedtabs"))
+				//clean up the translation immediately to prevent _animateTabMove from collecting translated positions
+				for (let t of visibleTabs.slice(0, gBrowser.pinnedTabCount)) {
+					t.style.transform = "";
+					t.removeAttribute(MULTISELECTED_MOVE_TOGETHER);
+				}
 
 			timeEnd("_finishGroupSelectedTabs");
 		}
+		
 		_finishMoveTogetherSelectedTabs.apply(this, arguments);
 	};
 
@@ -2367,7 +2371,12 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			}, this._dragOverDelay);
 			fakeScrollbar.scrollTop = scrollbox.scrollTop;
 
-			if (animate)
+			if (animate) {
+				//set the attribute earlier to prevent the placeholders hide during moving pinned tabs together
+				let movingPositionPinned = draggedTab?.pinned && this.hasAttribute("positionpinnedtabs");
+				this.toggleAttribute("moving-positioned-tab", movingPositionPinned);
+				tabsBar.toggleAttribute("moving-positioned-tab", movingPositionPinned);
+				
 				if (tabGroupsEnabled() && getRowCount(true) == 1)
 					//apply the original animation handler
 					assign(this, {_animateTabMove, _finishAnimateTabMove});
@@ -2375,6 +2384,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 					//disable _animateTabMove as we don't want to bother with it
 					draggedTab._dragData.fromTabList = true;
 				}
+			}
 
 			timeEnd("on_dragover - setup");
 		}
@@ -2488,8 +2498,6 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		//setting the attribute first can fix this problem.
 		//setup the attributes at the end can save 10ms+ reflow time though.
 		if (!this.hasAttribute("movingtab")) {
-			this.toggleAttribute("moving-positioned-tab", movingPositionPinned);
-			tabsBar.toggleAttribute("moving-positioned-tab", movingPositionPinned);
 			this.toggleAttribute("movingsingletab", _dragData.movingTabs.length == 1);
 			this.setAttribute("movingtab", true);
 			tabsBar.setAttribute("movingtab", "");
@@ -3262,7 +3270,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				this.removeAttribute("forced-overflow");
 				this.style.removeProperty("--forced-overflow-adjustment");
 			}));
-	
+
 	tabContainer.addEventListener("TabGroupCreate", function(e) {
 		if (prefs.tabsUnderControlButtons) {
 			prefs.tabsUnderControlButtons = 0;
@@ -3639,7 +3647,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			}
 		}
 	};
-	
+
 	gBrowser.createTabsForSessionRestore = function(restoreTabsLazily,
 		selectTab,
 		tabDataList,
