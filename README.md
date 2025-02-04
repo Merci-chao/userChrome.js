@@ -65,8 +65,9 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Changelog
-Version 2.3
+Version 2.3.1
 - Update for the native tab groups feature.
+- Fix a visual glitch when moving the selected pinned tabs together and the tabs are scrolling
 
 Version 2.2
 - Update the appearance of the scrollbar on Windows 11.
