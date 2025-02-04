@@ -106,6 +106,7 @@ Version 1.0
 - Not tested on touch devices.
 
 ## Won't Fixed Compatibility Issues
+- Native tab groups support
 - Other tab related scripts, stylesheets, and legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus))
 - Firefox Nightly
 - Firefox 116 to the previous versions of latest released
