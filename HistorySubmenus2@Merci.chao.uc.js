@@ -1,5 +1,5 @@
 if (location == "chrome://browser/content/browser.xhtml") setTimeout(()=>{try{
-	
+
 let {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 
 let prefBranchStr = "extensions.HistorySubmenus2@Merci.chao.";
@@ -117,9 +117,9 @@ let HistorySubmenus2 = {
 			} = window;
 			let HistoryMenu = window.Function("return HistoryMenu")();
 			let PlacesMenu = window.Function("return PlacesMenu")();
-			
+
 			let HMProto = HistoryMenu.prototype;
-			
+
 			/*
 			 * save the original functions of HistoryMenu
 			 */
@@ -145,12 +145,12 @@ let HistorySubmenus2 = {
 						return this.HM_uninit || PlacesMenu.prototype.uninit;
 					},
 				},
-				
+
 				BEH: {
 					fillInBHTooltip: BookmarksEventHandler.fillInBHTooltip,
 				},
 			};
-			
+
 			/*
 			 * wrap the fillInBHTooltip to fill the browse time of history item
 			 */
@@ -159,7 +159,7 @@ let HistorySubmenus2 = {
 
 				if (tooltipTime) {
 					let {triggerNode} = tooltip;
-					
+
 					let node = triggerNode && triggerNode._placesNode;
 					if (node && triggerNode.closest("[historypopup]")) {
 						let date = new Date(node.time / 1000);
@@ -202,7 +202,7 @@ let HistorySubmenus2 = {
 			HMProto._updateSubMenus = function HM_prepareSubMenus() {
 				if (!prefs.submenuCount)
 					return false;
-				
+
 				/*
 				 * create the query result of history
 				 */
@@ -274,7 +274,7 @@ let HistorySubmenus2 = {
 							submenu._placesView._rebuildPopup(submenu.lastChild);
 					}
 				}
-				
+
 				return true;
 			},
 
@@ -377,8 +377,9 @@ let HistorySubmenus2 = {
 					let subpopup = submenu.appendChild(document.createXULElement("menupopup"));
 					subpopup.setAttribute("placespopup", true);
 					subpopup.setAttribute("tooltip", popup.getAttribute("tooltip"));
-					subpopup.setAttribute("onpopupshowing",
-							"if (!this.parentNode._placesView) new HistorySubMenu(event);");
+					subpopup.addEventListener("popupshowing", function(e) {
+						if (!this.parentNode._placesView) new HistorySubMenu(e);
+					}, true);
 
 					this._subMenus.push(submenu);
 				}
@@ -442,14 +443,14 @@ let HistorySubmenus2 = {
 					 */
 					super(popupShowingEvent, "");
 				}
-				
+
 				_onPopupShowing(event) {
 					this._rebuildPopup(event.originalTarget);
 				}
 
 				_rebuildPopup(popup) {
 					this._cleanPopup(popup);
-					
+
 					let result = popup.parentNode._result;
 					let isPanelUI = popup.parentNode.matches(".subviewbutton");
 
@@ -465,16 +466,16 @@ let HistorySubmenus2 = {
 				}
 			}
 			window.HistorySubMenu = HistorySubMenu;
-			
-			
+
+
 			// let HistorySubMenu = window.HistorySubMenu = function HistorySubMenu(aPopupShowingEvent) {
-				
+
 				// window.Function("return PlacesMenu")().constructor.apply(this, aPopupShowingEvent, "");
 			// }
 
 			// HistorySubMenu.prototype = {
 				// __proto__: window.Function("return PlacesMenu")().prototype,
-				
+
 			// };
 
 			/*
@@ -486,7 +487,7 @@ let HistorySubmenus2 = {
 				bhtTimeText.id = "bhtTimeText";
 				bhtTimeText.className = "tooltip-label";
 			}
-			
+
 			document.body.appendChild(document.createElement("style")).innerHTML = `
 				.HSM2-submenu {
 					list-style-image: url("chrome://browser/skin/history.svg");
@@ -497,7 +498,7 @@ let HistorySubmenus2 = {
 				.HSM2-submenu .toolbarbutton-text {
 					padding-inline-start: 8px;
 				}
-				
+
 				.endHistorySubmenusSeparator:last-child,
 				menuseparator:not([hidden]) + .endHistorySubmenusSeparator {
 					visibility: collapse;
@@ -508,37 +509,41 @@ let HistorySubmenus2 = {
 	PanelUI: {
 		_subResult: null,
 		_subPlaceView: null,
-		
+
 		enable() {
-			Cu.import("resource:///modules/CustomizableUI.jsm");
-			Cu.import("resource:///modules/CustomizableWidgets.jsm");
-			
-			let widget = CustomizableWidgets.find(w => w.id == "history-panelmenu");
-			
+			let module;
+			try {
+				module = ChromeUtils.importESModule("resource:///modules/CustomizableWidgets.sys.mjs");
+			} catch(e) {
+				module = Cu.import("resource:///modules/CustomizableWidgets.jsm");
+			}
+
+			let widget = module.CustomizableWidgets.find(w => w.id == "history-panelmenu");
+
 			if (widget.__HSM2_enabled)
 				return;
 			widget.__HSM2_enabled = true;
-			
-			widget.__HSM2_onViewShowing = widget.onViewShowing; 
+
+			widget.__HSM2_onViewShowing = widget.onViewShowing;
 			widget.__HSM2_onPanelMultiViewHidden = widget.onPanelMultiViewHidden;
-			
+
 			widget.onViewShowing = function(event) {
 				let {target} = event, document = target.ownerDocument, window = document.defaultView,
 						{HistorySubmenus2} = window, {PanelUI} = HistorySubmenus2;
-				
+
 				if (!this._panelMenuView) {
 					/* init history panel when it is the first time to open on current window */
 					if (!PanelUI._subResult) {
 						let viewBody = window.PanelMultiView.getViewNode(document, "PanelUI-history").querySelector(".panel-subview-body");
 						let appHM = viewBody.querySelector("#appMenu_historyMenu");
-						
+
 						let subPanelView = document.getElementById("appMenu-viewCache")
 								.content.appendChild(document.createXULElement("panelview"));
 						let body = subPanelView.appendChild(document.createXULElement("vbox"));
 						body.className = "panel-subview-body";
 						body.setAttribute("historypopup", true);
 						body.tooltip = "bhTooltip";
-						
+
 						subPanelView.id = SUBMENU_ID;
 						subPanelView.addEventListener("ViewShowing", function(e) {
 							/* initialize sub-menu panel, a dummy places view is used */
@@ -551,7 +556,7 @@ let HistorySubmenus2 = {
 								);
 								body._placesNode.containerOpen = false;
 							}
-							
+
 							/* build sub-menu items for the selected day */
 							let {_result} = e.explicitOriginalTarget;
 							body._placesNode = {
@@ -562,7 +567,7 @@ let HistorySubmenus2 = {
 								},
 							};
 							PanelUI._subPlaceView._rebuildPopup(body);
-							
+
 							let {scrollTop} = viewBody;
 							let viewStack = viewBody.closest(".panel-viewstack");
 							let subViewShown = false;
@@ -575,7 +580,7 @@ let HistorySubmenus2 = {
 										subViewShown = true;
 							}, true);
 						}, true);
-						
+
 						/* build sub-menus */
 						appHM.tooltip = "bhTooltip";
 						appHM.setAttribute("historypopup", true);
@@ -584,14 +589,16 @@ let HistorySubmenus2 = {
 						let subMenus = HistorySubmenus2.PanelUI._subMenus = new Array(prefs.submenuCount).fill().map((v, i) => {
 							let btn = frag.appendChild(document.createXULElement("toolbarbutton"));
 							btn.setAttribute("closemenu", "none");
-							btn.setAttribute("oncommand", `PanelUI.showSubView('${SUBMENU_ID}', this)`);
+							btn.addEventListener("command", function(e) {
+								this.ownerGlobal.PanelUI.showSubView(SUBMENU_ID, this);
+							}, true);
 							btn.className = "HSM2-submenu subviewbutton subviewbutton-iconic subviewbutton-nav";
 							return btn;
 						});
 						if (prefs.submenuCount)
 							appHM.parentNode.insertBefore(frag, appHM.nextSibling);
 					}
-					
+
 					/* build the top level of history panel */
 					let descriptor = Object.getOwnPropertyDescriptor(window.Function("return PlacesViewBase")().prototype, "place");
 					let {set} = descriptor;
@@ -599,21 +606,21 @@ let HistorySubmenus2 = {
 						set.call(this, val.replace(/maxResults=\d+/, "maxResults=" + (prefs.historyCount || 1)));
 					};
 					Object.defineProperty(window.Function("return PlacesViewBase")().prototype, "place", descriptor);
-					
+
 					widget.__HSM2_onViewShowing.apply(this, arguments);
-					
+
 					if (!prefs.historyCount)
 						target.querySelectorAll("#appMenu_historyMenu, #appMenu_historyMenu + .HSM2-endSubMarker").forEach(e => e.collapsed = true);
-					
+
 					descriptor.set = set;
 					Object.defineProperty(window.Function("return PlacesViewBase")().prototype, "place", descriptor);
-					
+
 					/* update the label and results of each sub-menus */
 					window.Function("return HistoryMenu")().prototype._updateSubMenus.call(PanelUI);
 				} else
 					widget.__HSM2_onViewShowing.apply(this, arguments);
 			};
-			
+
 			widget.onPanelMultiViewHidden = function(event) {
 				widget.__HSM2_onPanelMultiViewHidden.apply(this, arguments);
 				/* uninitialize the view of sub-menu panel to prevent some strange problems, e.g. the places context menu does not work */
