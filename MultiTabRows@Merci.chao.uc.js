@@ -10,6 +10,8 @@ try {
 try {
 	Services.prefs.setBoolPref("sidebar.verticalTabs", false);
 	Services.prefs.lockPref("sidebar.verticalTabs");
+	[...document.querySelectorAll("#toolbar-context-toggle-vertical-tabs, #context_toggleVerticalTabs")]
+			.forEach(e => e.disabled = true);
 } catch(e) {}
 
 if (gBrowser?._initialized) {
