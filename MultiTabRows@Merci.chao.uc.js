@@ -3,11 +3,14 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.3.2
+// @version        2.3.2.1
 // ==/UserScript==
 
 try {
-try {Services.prefs.lockPref("sidebar.verticalTabs")} catch(e) {}
+try {
+	Services.prefs.setBoolPref("sidebar.verticalTabs", false);
+	Services.prefs.lockPref("sidebar.verticalTabs");
+} catch(e) {}
 
 if (gBrowser?._initialized) {
 	setup();
