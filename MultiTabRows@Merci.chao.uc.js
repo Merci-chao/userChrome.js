@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.3.1
+// @version        2.3.2
 // ==/UserScript==
 
 try {
@@ -2861,7 +2861,8 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 						if (incrementDropIndex)
 							dropIndex++;
 					}
-					gBrowser.syncThrobberAnimations(tab);
+					if ("syncThrobberAnimations" in gBrowser)
+						gBrowser.syncThrobberAnimations(tab);
 				};
 				//in extremely special cases _animateTabMove() is not executed in time and the tab is dropped
 				//thus there may be no transformInfos and need to check if it is not null
@@ -3277,6 +3278,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			setStyle();
 		}
 	});
+	//TODO change to TabGroupRemoved when 136 becomes released
 	tabContainer.addEventListener("DOMNodeRemoved", function(e) {
 		if (e.target.tagName != "tab-group" || this.allGroups.length > 1)
 			return;
