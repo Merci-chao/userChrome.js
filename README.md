@@ -25,7 +25,7 @@ Make Firefox support multiple tab rows.
 - Compatible with themes even if you have massive rows.
 
 ## Compatibility
-- Firefox 115, 134 and 135 Beta, for Windows 7 to 11.
+- Firefox 115, 135 and 136 Beta, for Windows 7 to 11.
 - Support general script loaders, like [xiaoxiaoflood's userChromeJS](https://github.com/xiaoxiaoflood/firefox-scripts).
 
 ## Settings
@@ -65,6 +65,9 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Changelog
+Version 2.3.2
+- Update for Firefox 136
+
 Version 2.3.1
 - Update for the native tab groups feature.
 - Fix a visual glitch when moving the selected pinned tabs together and the tabs are scrolling
