@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.3.2.1
+// @version        2.3.2.2
 // ==/UserScript==
 
 try {
@@ -2342,8 +2342,13 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		
 		_finishMoveTogetherSelectedTabs.apply(this, arguments);
 	};
-
+	
 	tabContainer.on_dragover = function(e) {
+		if (["", "none"].includes(this.getDropEffectForTabDrag(e))) {
+			on_dragover.apply(this, arguments);
+			return;
+		}
+		
 		let dt = e.dataTransfer;
 		let draggedTab = dt.mozGetDataAt(TAB_DROP_TYPE, 0);
 		let sameWindow = draggedTab?.ownerDocument == document;
