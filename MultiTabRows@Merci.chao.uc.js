@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.3.2.2
+// @version        2.3.2.3
 // ==/UserScript==
 
 try {
@@ -2190,7 +2190,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		let {pinned} = draggedTab;
 		let {selectedTabs, visibleTabs} = gBrowser;
-		let animate = !gReduceMotion;
+		let animate = !gReduceMotion && (pinned || !hasTabGoups() || getRowCount(true) == 1);
 
 		draggedTab[MOVE_TOGETHER_SELECTED_TABS_DATA] = {finished: !animate};
 
