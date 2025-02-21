@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.3.2.3
+// @version        2.3.3
 // ==/UserScript==
 
 try {
@@ -799,87 +799,89 @@ ${prefs.tabsUnderControlButtons ? `
 		padding-inline-end: var(--tabs-scrollbar-width);
 	}
 
-	/*raise the items to cover the placeholder*/
-	${context=`${_}:not(${condition=tbDraggingHidePlaceHolder})`} >
-			:not(.toolbar-items),
-	${context}
-			#TabsToolbar-customization-target > :not(#tabbrowser-tabs) {
-		z-index: 2;
-	}
-
-	/*raise the tabs to cover the items when dragging*/
-	${context = _ + condition} #tabbrowser-tabs {
-		z-index: 1;
-	}
-
-	/*raise the items that can be dropped on to cover the tabs when dragging*/
-	${context} ${_=dropOnItems},
-	${dropOnItemsExt} {
-		z-index: 2;
-	}
-
-	${context}:not([tabs-scrolledtostart]) :is(${_}, ${dropOnItemsExt}:not(${adjacentNewTab})):is(#tabbrowser-tabs ~ *, #TabsToolbar:not([pinned-tabs-wraps-placeholder]) *)
-			:is(.toolbarbutton-1 .toolbarbutton-icon, .toolbarbutton-badge-stack, #PlacesToolbar) {
-		${floatingButtonStyle = `
-			border-radius: var(--tab-border-radius);
-			box-shadow: var(--tabs-placeholder-shadow), inset 0 0 0 var(--tabs-placeholder-border-width) var(--tabs-placeholder-border-color);
-			backdrop-filter: var(--tabs-placeholder-backdrop);
-			background-color: color-mix(in srgb, var(--placeholder-background-color) ${prefs.floatingBackdropOpacity}%, transparent);
-			transition: var(--tabs-item-opacity-transition) !important;
-			transition-property: box-shadow, backdrop-filter, border-radius, background-color !important;
-		`}
-	}
-
-	${context} .tabs-placeholder:not(${staticPreTabsPlaceHolder} #tabs-placeholder-pre-tabs) {
-		opacity: 0;
-		/*collapse the placeholders to make more rows can be scroll*/
-		visibility: collapse;
-		transition: var(--tabs-item-opacity-transition);
-		transition-property: visibility, opacity;
-	}
-
-	/*hide items pre tabs when dragging*/
-	${context}${condition=`:not(${staticPreTabsPlaceHolder})`} >
-			:not(${_=".toolbar-items"}, ${_} ~ *),
-	${context}${condition}
-			#TabsToolbar-customization-target >
-					:not(${_="#tabbrowser-tabs"}, ${_} ~ *, ${dropOnItems}, ${dropOnItemsExt}),
-	/*hide items post tabs when dragging*/
-	${context}${condition=":not([tabs-scrolledtostart])"} >
-			.toolbar-items ~ *,
-	${context}${condition}
-			#tabbrowser-tabs ~ :not(${_=adjacentNewTab}, ${dropOnItems}, ${dropOnItemsExt}),
-	/*hide adjacent new tab button when dragging*/
-	${context}:not([tabs-scrolledtoend], [tabs-dragging-ext]) ${_} {
-		opacity: 0 !important;
-		transition: opacity var(--tabs-item-opacity-transition);
-	}
-
-	${win7 || win8 ? `
-		/*buggy when applying transition*/
-		${context} .titlebar-buttonbox-container {
-			transition: none !important;
+	@media ${multiRows} {
+		/*raise the items to cover the placeholder*/
+		${context=`${_}:not(${condition=tbDraggingHidePlaceHolder})`} >
+				:not(.toolbar-items),
+		${context}
+				#TabsToolbar-customization-target > :not(#tabbrowser-tabs) {
+			z-index: 2;
 		}
-	` : ``}
 
-	#TabsToolbar${showPlaceHolder} :is(
-		:root:not([privatebrowsingmode], [firefoxviewhidden]) :is(toolbarbutton, toolbarpaletteitem),
-		:root[privatebrowsingmode]:not([firefoxviewhidden]) :is(toolbarbutton:not(#firefox-view-button), toolbarpaletteitem:not(#wrapper-firefox-view-button))
-	) ~ ${_="#tabbrowser-tabs"} {
-		--tabstrip-padding: 2px;
-		--tabstrip-border-width: var(--tabs-placeholder-border-width);
-		--tabstrip-border-color: var(--tabs-placeholder-border-color);
-		border-inline-start: 0;
-		padding-inline-start: var(--tab-overflow-pinned-tabs-width, 0);
-		margin-inline-start: 0;
-	}
+		/*raise the tabs to cover the items when dragging*/
+		${context = _ + condition} #tabbrowser-tabs {
+			z-index: 1;
+		}
 
-	#TabsToolbar${showPlaceHolder} ${_} {
-		margin-inline: calc(var(--pre-tabs-items-width) * -1) calc(var(--post-tabs-items-width) * -1) !important;
-	}
+		/*raise the items that can be dropped on to cover the tabs when dragging*/
+		${context} ${_=dropOnItems},
+		${dropOnItemsExt} {
+			z-index: 2;
+		}
 
-	${context="#TabsToolbar"+showPlaceHolder} ${_}[overflow][hasadjacentnewtabbutton]:not([closing-tab-ignore-newtab-width]) ${lastTab} {
-		--adjacent-newtab-button-adjustment: var(--new-tab-button-width);
+		${context}:not([tabs-scrolledtostart]) :is(${_}, ${dropOnItemsExt}:not(${adjacentNewTab})):is(#tabbrowser-tabs ~ *, #TabsToolbar:not([pinned-tabs-wraps-placeholder]) *)
+				:is(.toolbarbutton-1 .toolbarbutton-icon, .toolbarbutton-badge-stack, #PlacesToolbar) {
+			${floatingButtonStyle = `
+				border-radius: var(--tab-border-radius);
+				box-shadow: var(--tabs-placeholder-shadow), inset 0 0 0 var(--tabs-placeholder-border-width) var(--tabs-placeholder-border-color);
+				backdrop-filter: var(--tabs-placeholder-backdrop);
+				background-color: color-mix(in srgb, var(--placeholder-background-color) ${prefs.floatingBackdropOpacity}%, transparent);
+				transition: var(--tabs-item-opacity-transition) !important;
+				transition-property: box-shadow, backdrop-filter, border-radius, background-color !important;
+			`}
+		}
+
+		${context} .tabs-placeholder:not(${staticPreTabsPlaceHolder} #tabs-placeholder-pre-tabs) {
+			opacity: 0;
+			/*collapse the placeholders to make more rows can be scroll*/
+			visibility: collapse;
+			transition: var(--tabs-item-opacity-transition);
+			transition-property: visibility, opacity;
+		}
+
+		/*hide items pre tabs when dragging*/
+		${context}${condition=`:not(${staticPreTabsPlaceHolder})`} >
+				:not(${_=".toolbar-items"}, ${_} ~ *),
+		${context}${condition}
+				#TabsToolbar-customization-target >
+						:not(${_="#tabbrowser-tabs"}, ${_} ~ *, ${dropOnItems}, ${dropOnItemsExt}),
+		/*hide items post tabs when dragging*/
+		${context}${condition=":not([tabs-scrolledtostart])"} >
+				.toolbar-items ~ *,
+		${context}${condition}
+				#tabbrowser-tabs ~ :not(${_=adjacentNewTab}, ${dropOnItems}, ${dropOnItemsExt}),
+		/*hide adjacent new tab button when dragging*/
+		${context}:not([tabs-scrolledtoend], [tabs-dragging-ext]) ${_} {
+			opacity: 0 !important;
+			transition: opacity var(--tabs-item-opacity-transition);
+		}
+
+		${win7 || win8 ? `
+			/*buggy when applying transition*/
+			${context} .titlebar-buttonbox-container {
+				transition: none !important;
+			}
+		` : ``}
+
+		#TabsToolbar${showPlaceHolder} :is(
+			:root:not([privatebrowsingmode], [firefoxviewhidden]) :is(toolbarbutton, toolbarpaletteitem),
+			:root[privatebrowsingmode]:not([firefoxviewhidden]) :is(toolbarbutton:not(#firefox-view-button), toolbarpaletteitem:not(#wrapper-firefox-view-button))
+		) ~ ${_="#tabbrowser-tabs"} {
+			--tabstrip-padding: 2px;
+			--tabstrip-border-width: var(--tabs-placeholder-border-width);
+			--tabstrip-border-color: var(--tabs-placeholder-border-color);
+			border-inline-start: 0;
+			padding-inline-start: var(--tab-overflow-pinned-tabs-width, 0);
+			margin-inline-start: 0;
+		}
+
+		#TabsToolbar${showPlaceHolder} ${_} {
+			margin-inline: calc(var(--pre-tabs-items-width) * -1) calc(var(--post-tabs-items-width) * -1) !important;
+		}
+
+		${context="#TabsToolbar"+showPlaceHolder} ${_}[overflow][hasadjacentnewtabbutton]:not([closing-tab-ignore-newtab-width]) ${lastTab} {
+			--adjacent-newtab-button-adjustment: var(--new-tab-button-width);
+		}
 	}
 
 	${win7 || win8 || mica ? (()=>{
@@ -1364,12 +1366,14 @@ ${prefs.tabsUnderControlButtons ? `
 			opacity: 0 !important;
 		}
 
-		:is(
-			#TabsToolbar[tabs-dragging-ext][has-items-post-tabs]:not([tabs-scrolledtostart]),
-			#TabsToolbar[tabs-dragging-ext]:not([has-items-post-tabs], [tabs-scrolledtoend]),
-		) ${adjacentNewTab}
-				.toolbarbutton-icon {
-			${floatingButtonStyle}
+		@media ${multiRows} {
+			:is(
+				#TabsToolbar[tabs-dragging-ext][has-items-post-tabs]:not([tabs-scrolledtostart]),
+				#TabsToolbar[tabs-dragging-ext]:not([has-items-post-tabs], [tabs-scrolledtoend]),
+			) ${adjacentNewTab}
+					.toolbarbutton-icon {
+				${floatingButtonStyle}
+			}
 		}
 
 		/*always display the inline new tab button in case lacking of it causes underflow*/
@@ -2339,16 +2343,16 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 			timeEnd("_finishGroupSelectedTabs");
 		}
-		
+
 		_finishMoveTogetherSelectedTabs.apply(this, arguments);
 	};
-	
+
 	tabContainer.on_dragover = function(e) {
 		if (["", "none"].includes(this.getDropEffectForTabDrag(e))) {
 			on_dragover.apply(this, arguments);
 			return;
 		}
-		
+
 		let dt = e.dataTransfer;
 		let draggedTab = dt.mozGetDataAt(TAB_DROP_TYPE, 0);
 		let sameWindow = draggedTab?.ownerDocument == document;
@@ -2386,7 +2390,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				let movingPositionPinned = draggedTab?.pinned && this.hasAttribute("positionpinnedtabs");
 				this.toggleAttribute("moving-positioned-tab", movingPositionPinned);
 				tabsBar.toggleAttribute("moving-positioned-tab", movingPositionPinned);
-				
+
 				if (tabGroupsEnabled() && getRowCount(true) == 1)
 					//apply the original animation handler
 					assign(this, {_animateTabMove, _finishAnimateTabMove});
@@ -2565,7 +2569,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 					r.bottom += scrollOffset;
 					return [t._tPos, r];
 				})),
-				singleRow: getRowCount() == 1,
+				singleRow: getRowCount(true) == 1,
 				boxStart, boxEnd, boxTop, boxBottom,
 				placeholderStart: boxEnd - placeholderWidth * DIR,
 				placeholderBottom: boxTop + (placeholderWidth && tabHeight),
