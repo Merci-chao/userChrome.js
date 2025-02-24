@@ -2651,71 +2651,54 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			let r = rect(tab);
 			if (pointDelta(r.top, virtualCenterY) <= 0 && pointDelta(virtualCenterY, r.bottom) < 0) {
 				targetWidth = r.width;
-				getTransform();
+				tranWidth = pointDelta(targetWidth, draggedWidthDouble);
+				if (tranWidth) {
+					tranShift = (RTL_UI ? draggedWidthDouble - atTabX : atTabX) * (1 - 1 / draggedWidthDouble * targetWidth) * DIR;
+					virtualStart += tranShift;
+					virtualEnd += tranShift + tranWidth * DIR;
+					virtualCenterX = (virtualStart + virtualEnd) / 2;
+				}
 				break;
 			}
 		}
 
-		let getTranslate = () => {
-			let noSpaceBtwnFirstLast = pointDeltaH(virtualEnd, virtualStart) > pointDeltaH(lastEnd, firstStart)
-					&& pointDelta(lastTop, firstBottom) < tabHeight;
-			let startBound = pointDelta(virtualCenterY, firstBottom) < 0 || singleRow ?
-					firstStart : (pointDelta(lastBottom, virtualCenterY) <= 0 && pointDelta(virtualCenterY, boxBottom) < 0 ? lastStart : boxStart);
-			let endBound = pointDelta(virtualCenterY, lastTop) >= 0 ?
-					lastEnd : (pointDelta(virtualCenterY, firstTop) < 0 && pointDelta(boxTop, virtualCenterY) <= 0 ?
-									firstEnd : (pointDelta(virtualCenterY, placeholderBottom) < 0 ? placeholderStart : boxEnd));
-			let topBound = pointDeltaH(boxStart, firstStart) < 0
-							&& (pointDeltaH(virtualStart, firstStart) < 0 || noSpaceBtwnFirstLast)
-							&& pointDelta(virtualCenterY, firstBottom) >= 0 ?
-					firstBottom : (pointDeltaH(virtualEnd, placeholderStart) > 0
-									&& pointDelta(virtualCenterY, placeholderBottom) >= 0
-									&& pointDelta(firstTop, placeholderBottom) < 0 ?
-							placeholderBottom : firstTop);
-			let bottomBound = pointDeltaH(lastEnd, boxEnd) < 0
-							&& (pointDeltaH(lastEnd, virtualEnd) < 0 || noSpaceBtwnFirstLast)
-							&& pointDelta(virtualCenterY, lastTop) < 0
-							&& pointDelta(firstTop, virtualCenterY) <= 0 ?
-					lastTop : lastBottom;
+		let noSpaceBtwnFirstLast = pointDeltaH(virtualEnd, virtualStart) > pointDeltaH(lastEnd, firstStart)
+				&& pointDelta(lastTop, firstBottom) < tabHeight;
+		let startBound = pointDelta(virtualCenterY, firstBottom) < 0 || singleRow ?
+				firstStart : (pointDelta(lastBottom, virtualCenterY) <= 0 && pointDelta(virtualCenterY, boxBottom) < 0 ? lastStart : boxStart);
+		let endBound = pointDelta(virtualCenterY, lastTop) >= 0 ?
+				lastEnd : (pointDelta(virtualCenterY, firstTop) < 0 && pointDelta(boxTop, virtualCenterY) <= 0 ?
+								firstEnd : (pointDelta(virtualCenterY, placeholderBottom) < 0 ? placeholderStart : boxEnd));
+		let topBound = pointDeltaH(boxStart, firstStart) < 0
+						&& (pointDeltaH(virtualStart, firstStart) < 0 || noSpaceBtwnFirstLast)
+						&& pointDelta(virtualCenterY, firstBottom) >= 0 ?
+				firstBottom : (pointDeltaH(virtualEnd, placeholderStart) > 0
+								&& pointDelta(virtualCenterY, placeholderBottom) >= 0
+								&& pointDelta(firstTop, placeholderBottom) < 0 ?
+						placeholderBottom : firstTop);
+		let bottomBound = pointDeltaH(lastEnd, boxEnd) < 0
+						&& (pointDeltaH(lastEnd, virtualEnd) < 0 || noSpaceBtwnFirstLast)
+						&& pointDelta(virtualCenterY, lastTop) < 0
+						&& pointDelta(firstTop, virtualCenterY) <= 0 ?
+				lastTop : lastBottom;
 
-			if (debug == 2)
-				log({startBound, endBound, topBound, bottomBound});
+		if (debug == 2)
+			log({startBound, endBound, topBound, bottomBound});
 
-			let x = eX - _dragData.screenX + tranShift, y = eY - _dragData.screenY;
-			if (!movingPositionPinned)
-				y += scrollOffset - _dragData.scrollPos;
-			tranX = Math[RTL_UI?"max":"min"](Math[RTL_UI?"min":"max"](x, startBound - draggedStart), endBound - draggedEnd - tranWidth * DIR);
-			tranY = Math.min(Math.max(y, topBound - draggedTop), bottomBound - draggedBottom);
+		let x = eX - _dragData.screenX + tranShift, y = eY - _dragData.screenY;
+		if (!movingPositionPinned)
+			y += scrollOffset - _dragData.scrollPos;
+		tranX = Math[RTL_UI?"max":"min"](Math[RTL_UI?"min":"max"](x, startBound - draggedStart), endBound - draggedEnd - tranWidth * DIR);
+		tranY = Math.min(Math.max(y, topBound - draggedTop), bottomBound - draggedBottom);
 
-			tranCenterX = Math.round(draggedStart + tranX + (targetWidth || draggedWidth) / 2 * DIR);
-			tranCenterY = Math.round(draggedTop + tranY + draggedHeight / 2);
+		tranCenterX = Math.round(draggedStart + tranX + (targetWidth || draggedWidth) / 2 * DIR);
+		tranCenterY = Math.round(draggedTop + tranY + draggedHeight / 2);
 
-			target = tabs.find(tab => {
-				let r = rect(tab);
-				return pointDeltaH(r.start, tranCenterX) <= 0 && pointDeltaH(tranCenterX, r.end) <= 0
-						&& pointDelta(r.top, tranCenterY) <= 0 && pointDelta(tranCenterY, r.bottom) <= 0;
-			});
-
-			if (!target)
-				//the dragged tab center is located at a gap between tabs
-				return;
-
-			({width: targetWidth, top: targetTop, start: targetStart} = rect(target));
-			targetIdx = tabs.indexOf(target);
-		};
-		function getTransform() {
-			tranWidth = pointDelta(targetWidth, draggedWidthDouble);
-			if (tranWidth) {
-				tranShift = (RTL_UI ? draggedWidthDouble - atTabX : atTabX) * (1 - 1 / draggedWidthDouble * targetWidth) * DIR;
-				virtualStart += tranShift;
-				virtualEnd += tranShift + tranWidth * DIR;
-				virtualCenterX = (virtualStart + virtualEnd) / 2;
-			}
-		}
-
-		getTranslate();
-		//run the whole process again after we get the actual target to determine the final tab size
-		getTransform();
-		getTranslate();
+		target = tabs.find(tab => {
+			let r = rect(tab);
+			return pointDeltaH(r.start, tranCenterX) <= 0 && pointDeltaH(tranCenterX, r.end) <= 0
+					&& pointDelta(r.top, tranCenterY) <= 0 && pointDelta(tranCenterY, r.bottom) <= 0;
+		});
 
 		if (debug) {
 			tabs.forEach(t => t.style.outline = t.style.boxShadow = "");
@@ -2739,6 +2722,10 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			timeEnd("_animateTabMove");
 			return;
 		}
+
+		({width: targetWidth, top: targetTop, start: targetStart} = rect(target));
+		targetIdx = tabs.indexOf(target);
+		tranWidth = pointDelta(targetWidth, draggedWidthDouble);
 
 		let moveBackward = targetIdx < draggedTabIdx;
 		let dropIdx = targetIdx + (moveBackward ? -movingBeforeCount : movingAfterCount + 1);
