@@ -65,6 +65,9 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Changelog
+Version 2.3.4
+- Bug fix: tabs cannot be dragged to the first row in a special case.
+
 Version 2.3.3
 - Fix several bugs that occur when the window is too narrow and only one scrolling row is allowed to show.
 
