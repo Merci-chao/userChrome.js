@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.3.4
+// @version        2.3.4.1
 // ==/UserScript==
 
 try {
@@ -2646,6 +2646,16 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		let tranShift = 0, tranWidth = 0;
 		let tranX, tranY, tranCenterX, tranCenterY;
 		let target, targetIdx, targetWidth, targetStart, targetTop;
+
+		for (let tab of tabs) {
+			let r = rect(tab);
+			if (pointDelta(r.top, virtualCenterY) <= 0 && pointDelta(virtualCenterY, r.bottom) < 0) {
+				targetWidth = r.width;
+				getTransform();
+				break;
+			}
+		}
+
 		let getTranslate = () => {
 			let noSpaceBtwnFirstLast = pointDeltaH(virtualEnd, virtualStart) > pointDeltaH(lastEnd, firstStart)
 					&& pointDelta(lastTop, firstBottom) < tabHeight;
@@ -2667,15 +2677,8 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 							&& pointDelta(firstTop, virtualCenterY) <= 0 ?
 					lastTop : lastBottom;
 
-			if (pointDelta(bottomBound, topBound) == tabHeight)
-				for (let tab of tabs) {
-					let r = rect(tab);
-					if (pointDelta(r.top, topBound) <= 0 && pointDelta(bottomBound, r.bottom) <= 0) {
-						targetWidth = r.width;
-						getTransform();
-						break;
-					}
-				}
+			if (debug == 2)
+				log({startBound, endBound, topBound, bottomBound});
 
 			let x = eX - _dragData.screenX + tranShift, y = eY - _dragData.screenY;
 			if (!movingPositionPinned)
@@ -2699,7 +2702,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			({width: targetWidth, top: targetTop, start: targetStart} = rect(target));
 			targetIdx = tabs.indexOf(target);
 		};
-		let getTransform = () => {
+		function getTransform() {
 			tranWidth = pointDelta(targetWidth, draggedWidthDouble);
 			if (tranWidth) {
 				tranShift = (RTL_UI ? draggedWidthDouble - atTabX : atTabX) * (1 - 1 / draggedWidthDouble * targetWidth) * DIR;
@@ -2707,12 +2710,12 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				virtualEnd += tranShift + tranWidth * DIR;
 				virtualCenterX = (virtualStart + virtualEnd) / 2;
 			}
-		};
+		}
 
 		getTranslate();
+		//run the whole process again after we get the actual target to determine the final tab size
 		getTransform();
-		if (tranWidth)
-			getTranslate();
+		getTranslate();
 
 		if (debug) {
 			tabs.forEach(t => t.style.outline = t.style.boxShadow = "");
