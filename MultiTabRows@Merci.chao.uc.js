@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.3.3
+// @version        2.3.4
 // ==/UserScript==
 
 try {
@@ -2649,31 +2649,39 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		let getTranslate = () => {
 			let noSpaceBtwnFirstLast = pointDeltaH(virtualEnd, virtualStart) > pointDeltaH(lastEnd, firstStart)
 					&& pointDelta(lastTop, firstBottom) < tabHeight;
-			let startBound = (pointDelta(virtualCenterY, firstBottom) < 0 || singleRow ?
-					firstStart : (pointDelta(lastBottom, virtualCenterY) <= 0 && pointDelta(virtualCenterY, boxBottom) < 0 ? lastStart : boxStart))
-							- draggedStart;
-			let endBound = (pointDelta(virtualCenterY, lastTop) >= 0 ?
+			let startBound = pointDelta(virtualCenterY, firstBottom) < 0 || singleRow ?
+					firstStart : (pointDelta(lastBottom, virtualCenterY) <= 0 && pointDelta(virtualCenterY, boxBottom) < 0 ? lastStart : boxStart);
+			let endBound = pointDelta(virtualCenterY, lastTop) >= 0 ?
 					lastEnd : (pointDelta(virtualCenterY, firstTop) < 0 && pointDelta(boxTop, virtualCenterY) <= 0 ?
-									firstEnd : (pointDelta(virtualCenterY, placeholderBottom) < 0 ? placeholderStart : boxEnd)))
-							- draggedEnd - tranWidth * DIR;
-			let topBound = (pointDeltaH(boxStart, firstStart) < 0
+									firstEnd : (pointDelta(virtualCenterY, placeholderBottom) < 0 ? placeholderStart : boxEnd));
+			let topBound = pointDeltaH(boxStart, firstStart) < 0
 							&& (pointDeltaH(virtualStart, firstStart) < 0 || noSpaceBtwnFirstLast)
 							&& pointDelta(virtualCenterY, firstBottom) >= 0 ?
 					firstBottom : (pointDeltaH(virtualEnd, placeholderStart) > 0
 									&& pointDelta(virtualCenterY, placeholderBottom) >= 0
 									&& pointDelta(firstTop, placeholderBottom) < 0 ?
-							placeholderBottom : firstTop)) - draggedTop;
-			let bottomBound = (pointDeltaH(lastEnd, boxEnd) < 0
+							placeholderBottom : firstTop);
+			let bottomBound = pointDeltaH(lastEnd, boxEnd) < 0
 							&& (pointDeltaH(lastEnd, virtualEnd) < 0 || noSpaceBtwnFirstLast)
 							&& pointDelta(virtualCenterY, lastTop) < 0
 							&& pointDelta(firstTop, virtualCenterY) <= 0 ?
-					lastTop : lastBottom) - draggedBottom;
+					lastTop : lastBottom;
+
+			if (pointDelta(bottomBound, topBound) == tabHeight)
+				for (let tab of tabs) {
+					let r = rect(tab);
+					if (pointDelta(r.top, topBound) <= 0 && pointDelta(bottomBound, r.bottom) <= 0) {
+						targetWidth = r.width;
+						getTransform();
+						break;
+					}
+				}
 
 			let x = eX - _dragData.screenX + tranShift, y = eY - _dragData.screenY;
 			if (!movingPositionPinned)
 				y += scrollOffset - _dragData.scrollPos;
-			tranX = Math[RTL_UI?"max":"min"](Math[RTL_UI?"min":"max"](x, startBound), endBound);
-			tranY = Math.min(Math.max(y, topBound), bottomBound);
+			tranX = Math[RTL_UI?"max":"min"](Math[RTL_UI?"min":"max"](x, startBound - draggedStart), endBound - draggedEnd - tranWidth * DIR);
+			tranY = Math.min(Math.max(y, topBound - draggedTop), bottomBound - draggedBottom);
 
 			tranCenterX = Math.round(draggedStart + tranX + (targetWidth || draggedWidth) / 2 * DIR);
 			tranCenterY = Math.round(draggedTop + tranY + draggedHeight / 2);
@@ -2691,16 +2699,36 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			({width: targetWidth, top: targetTop, start: targetStart} = rect(target));
 			targetIdx = tabs.indexOf(target);
 		};
+		let getTransform = () => {
+			tranWidth = pointDelta(targetWidth, draggedWidthDouble);
+			if (tranWidth) {
+				tranShift = (RTL_UI ? draggedWidthDouble - atTabX : atTabX) * (1 - 1 / draggedWidthDouble * targetWidth) * DIR;
+				virtualStart += tranShift;
+				virtualEnd += tranShift + tranWidth * DIR;
+				virtualCenterX = (virtualStart + virtualEnd) / 2;
+			}
+		};
 
 		getTranslate();
-
-		tranWidth = pointDelta(targetWidth, draggedWidthDouble);
-		if (tranWidth) {
-			tranShift = (RTL_UI ? draggedWidthDouble - atTabX : atTabX) * (1 - 1 / draggedWidthDouble * targetWidth) * DIR;
-			virtualStart += tranShift;
-			virtualEnd += tranShift + tranWidth * DIR;
-			virtualCenterX = (virtualStart + virtualEnd) / 2;
+		getTransform();
+		if (tranWidth)
 			getTranslate();
+
+		if (debug) {
+			tabs.forEach(t => t.style.outline = t.style.boxShadow = "");
+			first.style.boxShadow = last.style.boxShadow = "0 0 0 1px inset red";
+			target && (target.style.outline = "1px solid lime");
+			let insertPoint = tabs.find(t => t._tPos >= draggedTab._dragData.animDropIndex);
+			insertPoint && (insertPoint.style.outline = "1px solid yellow");
+			if (debug == 2) {
+				let {style} = tabsBar;
+				style.setProperty("--drag-x", virtualCenterX - winSX + "px");
+				style.setProperty("--drag-y", virtualCenterY - winSY + "px");
+				style.setProperty("--drag-tran-width", targetWidth + "px");
+				style.setProperty("--drag-tran-x", tranCenterX - winSX + "px");
+				style.setProperty("--drag-tran-y", tranCenterY - winSY + "px");
+				style.setProperty("--drag-width", draggedWidth + "px");
+			}
 		}
 
 		//todo? the moving tabs won't follow the cursor when the dragged tab center located at a gap if we end here
@@ -2757,23 +2785,6 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			r.top -= scrollOffset;
 			r.bottom -= scrollOffset;
 			return r;
-		}
-
-		if (debug) {
-			tabs.forEach(t => t.style.outline = t.style.boxShadow = "");
-			first.style.boxShadow = last.style.boxShadow = "0 0 0 1px inset red";
-			target.style.outline = "1px solid lime";
-			let insertPoint = tabs.find(t => t._tPos >= draggedTab._dragData.animDropIndex);
-			insertPoint && (insertPoint.style.outline = "1px solid yellow");
-			if (debug == 2) {
-				let {style} = tabsBar;
-				style.setProperty("--drag-x", virtualCenterX - winSX + "px");
-				style.setProperty("--drag-y", virtualCenterY - winSY + "px");
-				style.setProperty("--drag-tran-width", targetWidth + "px");
-				style.setProperty("--drag-tran-x", tranCenterX - winSX + "px");
-				style.setProperty("--drag-tran-y", tranCenterY - winSY + "px");
-				style.setProperty("--drag-width", draggedWidth + "px");
-			}
 		}
 	};
 
