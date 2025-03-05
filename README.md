@@ -65,7 +65,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Changelog
-Version 2.4
+Version 2.3.5
 - Update for Firefox 137.
 
 Version 2.3.4.2
