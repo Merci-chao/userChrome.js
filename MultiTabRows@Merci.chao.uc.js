@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.3.4.2
+// @version        2.4
 // ==/UserScript==
 
 try {
@@ -748,7 +748,7 @@ ${prefs.tabsUnderControlButtons ? `
 	` : ``}
 
 	${_}[tabs-scrolledtostart] {
-		--post-tabs-clip-reserved: calc(var(--tab-shadow-max-size) - var(--tab-overflow-clip-margin, 2px));
+		--post-tabs-clip-reserved: calc(var(--tab-selected-shadow-size, var(--tab-shadow-max-size)) - var(--tab-overflow-clip-margin, 2px));
 	}
 
 	${_}:-moz-window-inactive {
@@ -1143,7 +1143,7 @@ ${prefs.tabsUnderControlButtons ? `
 	}
 
 	${_=".tabs-placeholder"} {
-		--clip-shadow: calc(var(--tab-shadow-max-size) * -1);
+		--clip-shadow: calc(var(--tab-selected-shadow-size, var(--tab-shadow-max-size)) * -1);
 		box-sizing: content-box;
 		height: var(--tab-height);
 		position: absolute;
@@ -2848,11 +2848,13 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		let transitions = [];
 		let shouldHandle = dropEffect != "copy" && draggedTab?.container == this && transformInfos;
-		let {_finishAnimateTabMove} = this, {moveTabTo} = gBrowser;
+		let {_finishAnimateTabMove} = this, {moveTabTo, moveTabsAfter, moveTabsBefore} = gBrowser;
 		if (shouldHandle) {
 			time("on_drop");
 			//prevent the original functions being called when the original on_drop performs later
 			this._finishAnimateTabMove = gBrowser.moveTabTo = () => {};
+			if (moveTabsAfter)
+				gBrowser.moveTabsAfter = gBrowser.moveTabsBefore = gBrowser.moveTabTo;
 
 			let dropIndex;
 			if (_dragData.fromTabList)
@@ -2902,6 +2904,8 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		if (shouldHandle) {
 			this._finishAnimateTabMove = _finishAnimateTabMove;
 			gBrowser.moveTabTo = moveTabTo;
+			if (moveTabsAfter)
+				assign(gBrowser, {moveTabsAfter, moveTabsBefore});
 			//prevent start another dragging before the animate is done
 			this.setAttribute("animate-finishing", "");
 			Promise.all(transitions).then(() => {
