@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.3.5
+// @version        2.3.5.1
 // ==/UserScript==
 
 try {
@@ -2885,13 +2885,23 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				//thus there may be no transformInfos and need to check if it is not null
 				if (info && (info.finalX != info.x || info.finalY != info.y) && animate) {
 					tab.setAttribute("tabdrop-samewindow", true);
-					transitions.push(new Promise(rs => tab.addEventListener("transitionend", function f(e) {
-						if (e.propertyName != "transform" || e.originalTarget != tab)
-							return;
-						tab.removeEventListener("transitionend", f);
-						postTransitionCleanup();
-						rs();
-					})));
+					transitions.push(new Promise(rs => {
+						let done;
+						tab.addEventListener("transitionend", function f(e) {
+							if (e.propertyName != "transform" || e.originalTarget != tab)
+								return;
+							tab.removeEventListener("transitionend", f);
+							postTransitionCleanup();
+							done = true;
+							rs();
+						});
+						//in case the animation is not performed
+						setTimeout(() => {
+							if (done) return;
+							rs();
+							console.error("transition is not ended", tab);
+						}, debug == 2 ? 3000: 300);
+					}));
 					tab.style.transform = `translate(${info.finalX}px, ${info.finalY}px)`;
 				} else
 					postTransitionCleanup();
@@ -2984,7 +2994,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		unlockSlotSize(true);
 		arrowScrollbox.lockScroll = false;
 
-		if (tabGroupsEnabled)
+		if (tabGroupsEnabled())
 			assign(tabContainer, newAnimateFunctions);
 
 		if (debug)
@@ -3800,7 +3810,7 @@ function tabGroupsEnabled() {
 }
 
 function hasTabGoups() {
-	return gBrowser.tabContainer.arrowScrollbox.matches(":has(tab-group)");
+	return appVersion > 115 && gBrowser.tabContainer.arrowScrollbox.matches(":has(tab-group)");
 }
 
 function pointDelta(a, b = 0) {
