@@ -1941,16 +1941,6 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		tabContainer._getDragTargetTab = tabContainer._getDragTarget;
 		tabContainer._rtlMode = RTL_UI;
 	}
-	// [
-		// "#clearDragOverCreateGroupTimer", "#triggerDragOverCreateGroup",
-		// "#setDragOverGroupColor",
-	// ].forEach(m => exposePrivateMethod(MozTabbrowserTabs, m, `
-		// const TAB_PREVIEW_PREF = "browser.tabs.hoverPreview.enabled";
-		// const DIRECTION_BACKWARD = -1;
-		// const DIRECTION_FORWARD = 1;
-		// const GROUP_DROP_ACTION_CREATE = 0x1;
-		// const GROUP_DROP_ACTION_APPEND = 0x2;
-	// `));
 
 	if (!("overflowing" in tabContainer)) //fx 115
 		Object.defineProperty(tabContainer, "overflowing", {
