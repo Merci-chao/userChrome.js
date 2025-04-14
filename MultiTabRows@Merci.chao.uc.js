@@ -4,6 +4,8 @@
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
 // @version        2.4
+// @updateURL      https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js
+// @downloadURL    https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js
 // ==/UserScript==
 
 try {
