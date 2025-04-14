@@ -18,7 +18,7 @@ Make Firefox support multiple tab rows.
 
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/scrolling.png)
 ## Highlights
-- Maximize space utilization, e.g. fully utilize the space under the window control buttons.
+- Maximizes space utilization, e.g. fully utilize the space under the window control buttons.
 - Tab-dragging animation is available in multi-row mode.
 - While the tab bar is scrollable, pinned tabs remain pinned and placed in a compact grid layout, allowing you to have numerous pinned tabs.
 - Highly integrated with Firefox's well-designed behavior, allowing Firefox to support multiple rows like native.
@@ -26,7 +26,7 @@ Make Firefox support multiple tab rows.
 
 ## Compatibility
 - Firefox 115, 137 and 138 Beta, for Windows 7 to 11.
-- Support general script loaders, like xiaoxiaoflood's userChromeJS. You may follow the step 1 of [the instruction of installing Tab Mix Plus](https://github.com/onemen/TabMixPlus?tab=readme-ov-file#installation) to set up the script loader.
+- Supports general script loaders, like xiaoxiaoflood's userChromeJS. You may follow the step 1 of [the instruction of installing Tab Mix Plus](https://github.com/onemen/TabMixPlus?tab=readme-ov-file#installation) to set up the script loader.
 
 ## Settings
 Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.chao`. 
