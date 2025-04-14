@@ -58,7 +58,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 | `debugMode` | Mode for debugging, not for general use. |
 
 ## Cautions
-- This script needs to override some private functions of Firefox and requires `security.allow_unsafe_dangerous_privileged_evil_eval` to be enabled on Firefox 139+ for this purpose, which may weaken the security of your browser in sonme cases. The said setting is needed to be disabled through `about:config` manually after disabling or removing this script. Please note that and use this script at your own risk.
+- This script needs to override some private functions of Firefox and requires `security.allow_unsafe_dangerous_privileged_evil_eval` to be enabled on Firefox 139+ for this purpose, which may weaken the security of your browser in some cases. The said setting is needed to be disabled through `about:config` manually after disabling or removing this script. Please note that and use this script at your own risk.
 - Since this script contains many sensitive layout calculations designed for native Firefox, any tab or tabs toolbar-related legacy extensions, user scripts or stylesheets may cause weird glitches and bugs. Please check your legacy extensions, scripts and stylesheets (if any) before and after applying this script.
 - This script is not fully compatible with Firefox's native tab groups feature when there are multiple rows:
      - Dragging tab to create new group is unsupported;
