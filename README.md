@@ -26,7 +26,12 @@ Make Firefox support multiple tab rows.
 
 ## Compatibility
 - Firefox 115, 137 and 138 Beta, for Windows 7 to 11.
-- Supports general script loaders, like xiaoxiaoflood's userChromeJS. You may follow the step 1 (1.1 to 1.5) of [the instruction of installing Tab Mix Plus](https://github.com/onemen/TabMixPlus?tab=readme-ov-file#installation) to set up the script loader, place the [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) into the `chrome` folder and restart to apply.
+- Supports general script loaders, like xiaoxiaoflood's userChromeJS.
+
+## Installation
+- Follow the step 1 (1.1 to 1.4) of [the instruction of installing Tab Mix Plus](https://github.com/onemen/TabMixPlus?tab=readme-ov-file#installation) to set up the script loader;
+- Download the [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it inside the `chrome` folder;
+- Restart Firefox to apply.
 
 ## Settings
 Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.chao`. 
