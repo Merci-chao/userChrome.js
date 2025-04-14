@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @namespace      https://github.com/Merci-chao/userChrome.js
 // @author         Merci chao
-// @version        2.3.5.1
+// @version        2.4
 // ==/UserScript==
 
 try {
@@ -621,7 +621,7 @@ ${_}:not([pinned], [fadein]) {
 }
 
 /*avoid min/max width transition when resizing the dragged tabs*/
-#tabbrowser-tabs[movingtab] ${_}:is([selected], [multiselected]):not([tabdrop-samewindow]) {
+#tabbrowser-tabs[movingtab] ${_}:is([selected], [multiselected]):not([tabdrop-samewindow], [multiselected-move-together]) {
 	transition: none;
 }
 
@@ -1923,12 +1923,22 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 {
 	let {
 		startTabDrag, on_dragover, on_dragend, on_drop, on_dragleave,
-		_animateTabMove, _finishAnimateTabMove, _unlockTabSizing, _updateCloseButtons,
+		_animateTabMove, _unlockTabSizing, _updateCloseButtons,
 		_handleTabSelect, uiDensityChanged,
 	} = tabContainer;
+	let FINISH_ANIMATE_TAB_MOVE = appVersion > 137 ? "finishAnimateTabMove" : "_finishAnimateTabMove";
+	let finishAnimateTabMove = tabContainer[FINISH_ANIMATE_TAB_MOVE];
 	let passingByTimeout;
-	// let MozTabbrowserTabs = customElements.get("tabbrowser-tabs") ;
 
+	if (!("_getDragTargetTab" in tabContainer)) {
+		let MozTabbrowserTabs = customElements.get("tabbrowser-tabs");
+		exposePrivateMethod(MozTabbrowserTabs, "#getDropIndex", `
+			const isTab = e => gBrowser.isTab(e);
+			const isTabGroupLabel = e => gBrowser.isTabGroupLabel(e);
+		`);
+		tabContainer._getDragTargetTab = tabContainer._getDragTarget;
+		tabContainer._rtlMode = RTL_UI;
+	}
 	// [
 		// "#clearDragOverCreateGroupTimer", "#triggerDragOverCreateGroup",
 		// "#setDragOverGroupColor",
@@ -2221,8 +2231,10 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				} else if (animate) {
 					movingTab[MOVE_TOGETHER_SELECTED_TABS_DATA] = {};
 					addAnimationData(movingTab, basedIdx + i, basedPos + i, centerIdx, movingTab._tPos < _tPos);
-				} else
-					gBrowser.moveTabTo(movingTab, basedPos + i);
+				} else {
+					let tabIndex = basedPos + i;
+					gBrowser.moveTabTo(movingTab, appVersion > 137 ? {tabIndex} : tabIndex);
+				}
 			});
 		});
 
@@ -2239,13 +2251,27 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 			if (!animate)
 				postTransitionCleanup();
-			else
+			else {
+				let finished;
 				movingTab.addEventListener("transitionend", function f(e) {
 					if (e.propertyName != "transform" || e.originalTarget != movingTab)
 						return;
+					finished = true;
 					movingTab.removeEventListener("transitionend", f);
 					postTransitionCleanup();
+
+					//TODO there is some dirty translation of background tabs
+					//     isn't cleaned after grouping selected tabs on fx 138
+					let data = draggedTab._dragData;
+					if (data)
+						data.movedTogether = true;
 				});
+				setTimeout(() => {
+					if (finished) return;
+					postTransitionCleanup();
+					console.error("transition is not ended");
+				}, debug == 2 ? 3000: 300);
+			}
 
 			function postTransitionCleanup() {
 				let data = movingTab[MOVE_TOGETHER_SELECTED_TABS_DATA];
@@ -2294,6 +2320,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 	let _finishMoveTogetherSelectedTabs = tabContainer[FINISH_MOVE_TOGETHER_SELECTED_TABS];
 
 	//original function doesn't perform a transition when the grouping is aborted
+	//TODO Firefox 137 and beyond does not handle aborting
 	tabContainer[FINISH_MOVE_TOGETHER_SELECTED_TABS] = function(tab) {
 		if (tab[MOVE_TOGETHER_SELECTED_TABS_DATA] && !tab[MOVE_TOGETHER_SELECTED_TABS_DATA].finished) {
 			time("_finishGroupSelectedTabs");
@@ -2391,10 +2418,11 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				this.toggleAttribute("moving-positioned-tab", movingPositionPinned);
 				tabsBar.toggleAttribute("moving-positioned-tab", movingPositionPinned);
 
-				if (tabGroupsEnabled() && getRowCount(true) == 1)
+				if (tabGroupsEnabled() && getRowCount(true) == 1) {
 					//apply the original animation handler
-					assign(this, {_animateTabMove, _finishAnimateTabMove});
-				else if (hasTabGoups() && !draggedTab?.pinned) {
+					this._animateTabMove = _animateTabMove;
+					this[FINISH_ANIMATE_TAB_MOVE] = finishAnimateTabMove;
+				} else if (hasTabGoups() && !draggedTab?.pinned) {
 					//disable _animateTabMove as we don't want to bother with it
 					draggedTab._dragData.fromTabList = true;
 				}
@@ -2436,6 +2464,15 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		let firstNormalTab = visibleTabs[numPinned];
 		let useEnd;
 
+		if (appVersion > 137 && target && hasTabGoups())
+			for (let t of [...arrowScrollbox.querySelectorAll("tab,tab-group")])
+				if (t == target)
+					break;
+				else if (t.tagName == "tab-group")
+					pos--;
+				else if (!t.isOpen || !t.visible)
+					pos++;
+
 		if (!this.hasAttribute("movingtab")) {
 			if (draggedTab?._dragData.fromTabList && sameWindow && !copy) {
 				if (draggedTab.pinned) {
@@ -2471,11 +2508,12 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		let newMarginX, newMarginY;
 
 		let tabRect;
+		//target can be null on fx 138+
 
 		if (pos > lastPos) {
 			tabRect = getRect(lastTab);
 			useEnd = true;
-		} else {
+		} else if (target) {
 			let targetRect = getRect(target);
 			let nextTab = visibleTabs.find(t => t._tPos >= pos);
 			tabRect = getRect(nextTab);
@@ -2485,11 +2523,14 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				tabRect = targetRect;
 			}
 		}
-		newMarginX = tabRect[useEnd ? "end" : "start"] - rect.start;
-		newMarginY = tabRect.top + tabRect.heightDouble - rect.top - rect.heightDouble;
-		newMarginY += rect.heightDouble / 2 - tabRect.heightDouble / 2;
 
-		ind.style.transform = `translate(calc(${newMarginX}px + 50% * ${DIR}), ${newMarginY}px)`;
+		if (tabRect) {
+			newMarginX = tabRect[useEnd ? "end" : "start"] - rect.start;
+			newMarginY = tabRect.top + tabRect.heightDouble - rect.top - rect.heightDouble;
+			newMarginY += rect.heightDouble / 2 - tabRect.heightDouble / 2;
+
+			ind.style.transform = `translate(calc(${newMarginX}px + 50% * ${DIR}), ${newMarginY}px)`;
+		}
 
 		timeEnd("on_dragover - update indicator");
 	};
@@ -2511,17 +2552,27 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		//don't know why the position is incorrect when moving the first tab in each row together.
 		//setting the attribute first can fix this problem.
 		//setup the attributes at the end can save 10ms+ reflow time though.
-		if (!this.hasAttribute("movingtab")) {
+		if (!tabsBar.hasAttribute("movingtab")) {
 			this.toggleAttribute("movingsingletab", _dragData.movingTabs.length == 1);
-			this.setAttribute("movingtab", true);
+			if (appVersion < 138) {
+				this.setAttribute("movingtab", true);
+				gNavToolbox.setAttribute("movingtab", true);
+			}
 			tabsBar.setAttribute("movingtab", "");
-			gNavToolbox.setAttribute("movingtab", true);
 			if (!draggedTab.multiselected)
 				this.selectedItem = draggedTab;
 		}
 
 		//the animate maybe interrupted and restart, don't initialize again
 		if (!("lastScreenX" in _dragData)) {
+			let useVisualRect = true;
+			//TODO there is some dirty translation of background tabs
+			//     isn't cleaned after grouping selected tabs on fx 138
+			if (appVersion > 137 && _dragData.movedTogether) {
+				cleanUpTransform();
+				useVisualRect = false;
+			}
+
 			let {visibleTabs, pinnedTabCount: numPinned} = gBrowser;
 			let boxStart, boxEnd, placeholderWidth = 0;
 			let {top: boxTop, bottom: boxBottom} = getRect(scrollbox);
@@ -2548,6 +2599,14 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			let lastMoving = movingTabs.at(-1);
 			let movingCount = movingTabs.length;
 			let movingAfterCount = movingCount - 1 - idxInMoving;
+			let tabRects = tabs.map(t => {
+				let r = getRect(t, {visual: useVisualRect});
+				r.top += scrollOffset;
+				r.bottom += scrollOffset;
+				return [t._tPos, r];
+			});
+			let firstIdx = idxInMoving;
+			let lastIdx = movingAfterCount * -1 - 1;
 
 			assign(_dragData, {
 				visibleTabs, numPinned,
@@ -2560,15 +2619,12 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				movingBeforeCount: idxInMoving,
 				movingAfterCount,
 				movingCount,
-				first: tabs[idxInMoving],
-				last: tabs.at(movingAfterCount * -1 - 1),
+				first: tabs[firstIdx],
+				last: tabs.at(lastIdx),
 				tabs,
-				tabRects: Object.fromEntries(tabs.map(t => {
-					let r = getRect(t, {visual: true});
-					r.top += scrollOffset;
-					r.bottom += scrollOffset;
-					return [t._tPos, r];
-				})),
+				tabRects: Object.fromEntries(tabRects),
+				canFitInFirstRow: tabRects[0][1].top == tabRects[firstIdx][1].top,
+				canFitInLastRow: tabRects.at(-1)[1].top == tabRects.at(lastIdx)[1].top,
 				singleRow: getRowCount(true) == 1,
 				boxStart, boxEnd, boxTop, boxBottom,
 				placeholderStart: boxEnd - placeholderWidth * DIR,
@@ -2580,35 +2636,6 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		}
 
 		let {tabs, tabRects} = _dragData;
-
-		//TODO: Tag position/size change detection is not perfect and may result in false positives,
-		//and the reset calculation of _resetAnimateTabMove does not work with moving tab usually...
-		//just left here for reference
-		/*{
-			let needReset = tabs.length != (pinned ? numPinned : visibleTabs.length - numPinned);
-			if (!needReset) {
-				let {abs} = Math;
-				let lastTab = visibleTabs.at(-1);
-				for (let i in tabs) {
-					let t = tabs[i];
-					if (t == visibleTabs[+i + (pinned ? 0 : numPinned)]) {
-						let nr = getRect(t), or = rect(t);
-						if (abs(or.left - nr.left) <= 1 && abs(or.top - nr.top) <= 1
-								&& (t != lastTab || abs(or.width - nr.width - parseFloat(t.style.getPropertyValue("--moving-tab-width-adjustment") || 0)) <= 1))
-							continue;
-					}
-					needReset = t;
-					break;
-				}
-			}
-			if (needReset) {
-				log("_animateTabMove has tab changed", needReset);
-				_dragData.lastScreenX = eX;
-				this._resetAnimateTabMove();
-				timeEnd("_animateTabMove");
-				return;
-			}
-		}*/
 
 		if (eX == _dragData.lastScreenX && eY == _dragData.lastScreenY
 				&& !arrowScrollbox._isScrolling) {
@@ -2626,6 +2653,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			singleRow, firstMoving, lastMoving,
 			movingBeforeCount, movingAfterCount, movingCount,
 			first, last, firstMovingIdx, lastMovingIdx, draggedTabIdx,
+			canFitInLastRow, canFitInFirstRow,
 		} = _dragData;
 
 		placeholderBottom -= scrollOffset;
@@ -2647,27 +2675,33 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		let tranX, tranY, tranCenterX, tranCenterY;
 		let target, targetIdx, targetWidth, targetStart, targetTop;
 
-		for (let tab of tabs) {
-			let r = rect(tab);
-			if (pointDelta(r.top, virtualCenterY) <= 0 && pointDelta(virtualCenterY, r.bottom) < 0) {
-				targetWidth = r.width;
-				tranWidth = pointDelta(targetWidth, draggedWidthDouble);
-				if (tranWidth) {
-					tranShift = (RTL_UI ? draggedWidthDouble - atTabX : atTabX) * (1 - 1 / draggedWidthDouble * targetWidth) * DIR;
-					virtualStart += tranShift;
-					virtualEnd += tranShift + tranWidth * DIR;
-					virtualCenterX = (virtualStart + virtualEnd) / 2;
+		{
+			let r;
+			if (pointDelta((r = rect(last)).top, virtualCenterY) <= 0) ;
+			else if (pointDelta(virtualCenterY, (r = rect(first)).bottom) < 0) ;
+			else
+				for (let tab of tabs) {
+					r = rect(tab);
+					if (pointDelta(r.top, virtualCenterY) <= 0 && pointDelta(virtualCenterY, r.bottom) < 0)
+						break;
 				}
-				break;
-			}
+			targetWidth = r.width;
+		}
+
+		tranWidth = pointDelta(targetWidth, draggedWidthDouble);
+		if (tranWidth) {
+			tranShift = (RTL_UI ? draggedWidthDouble - atTabX : atTabX) * (1 - 1 / draggedWidthDouble * targetWidth) * DIR;
+			virtualStart += tranShift;
+			virtualEnd += tranShift + tranWidth * DIR;
+			virtualCenterX = (virtualStart + virtualEnd) / 2;
 		}
 
 		let noSpaceBtwnFirstLast = pointDeltaH(virtualEnd, virtualStart) > pointDeltaH(lastEnd, firstStart)
 				&& pointDelta(lastTop, firstBottom) < tabHeight;
 		let startBound = pointDelta(virtualCenterY, firstBottom) < 0 || singleRow ?
-				firstStart : (pointDelta(lastBottom, virtualCenterY) <= 0 && pointDelta(virtualCenterY, boxBottom) < 0 ? lastStart : boxStart);
+				firstStart : (pointDelta(lastBottom, virtualCenterY) <= 0 && !canFitInLastRow ? lastStart : boxStart);
 		let endBound = pointDelta(virtualCenterY, lastTop) >= 0 ?
-				lastEnd : (pointDelta(virtualCenterY, firstTop) < 0 && pointDelta(boxTop, virtualCenterY) <= 0 ?
+				lastEnd : (pointDelta(virtualCenterY, firstTop) < 0 && !canFitInFirstRow ?
 								firstEnd : (pointDelta(virtualCenterY, placeholderBottom) < 0 ? placeholderStart : boxEnd));
 		let topBound = pointDeltaH(boxStart, firstStart) < 0
 						&& (pointDeltaH(virtualStart, firstStart) < 0 || noSpaceBtwnFirstLast)
@@ -2694,7 +2728,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		tranCenterX = Math.round(draggedStart + tranX + (targetWidth || draggedWidth) / 2 * DIR);
 		tranCenterY = Math.round(draggedTop + tranY + draggedHeight / 2);
 
-		target = tabs.find(tab => {
+		target = tabs.slice().reverse().find(tab => {
 			let r = rect(tab);
 			return pointDeltaH(r.start, tranCenterX) <= 0 && pointDeltaH(tranCenterX, r.end) <= 0
 					&& pointDelta(r.top, tranCenterY) <= 0 && pointDelta(tranCenterY, r.bottom) <= 0;
@@ -2848,11 +2882,11 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		let transitions = [];
 		let shouldHandle = dropEffect != "copy" && draggedTab?.container == this && transformInfos;
-		let {_finishAnimateTabMove} = this, {moveTabTo, moveTabsAfter, moveTabsBefore} = gBrowser;
+		let finishAnimateTabMove = this[FINISH_ANIMATE_TAB_MOVE], {moveTabTo, moveTabsAfter, moveTabsBefore} = gBrowser;
 		if (shouldHandle) {
 			time("on_drop");
 			//prevent the original functions being called when the original on_drop performs later
-			this._finishAnimateTabMove = gBrowser.moveTabTo = () => {};
+			this[FINISH_ANIMATE_TAB_MOVE] = gBrowser.moveTabTo = () => {};
 			if (moveTabsAfter)
 				gBrowser.moveTabsAfter = gBrowser.moveTabsBefore = gBrowser.moveTabTo;
 
@@ -2874,12 +2908,11 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				let postTransitionCleanup = () => {
 					tab.removeAttribute("tabdrop-samewindow");
 					if (dropIndex !== false) {
-						moveTabTo.call(gBrowser, tab, dropIndex);
+						moveTabTo.call(gBrowser, tab, appVersion > 137 ? {tabIndex: dropIndex} : dropIndex);
 						if (incrementDropIndex)
 							dropIndex++;
 					}
-					if ("syncThrobberAnimations" in gBrowser)
-						gBrowser.syncThrobberAnimations(tab);
+					gBrowser.syncThrobberAnimations?.(tab);
 				};
 				//in extremely special cases _animateTabMove() is not executed in time and the tab is dropped
 				//thus there may be no transformInfos and need to check if it is not null
@@ -2912,14 +2945,14 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		on_drop.apply(this, arguments);
 
 		if (shouldHandle) {
-			this._finishAnimateTabMove = _finishAnimateTabMove;
+			this[FINISH_ANIMATE_TAB_MOVE] = finishAnimateTabMove;
 			gBrowser.moveTabTo = moveTabTo;
 			if (moveTabsAfter)
 				assign(gBrowser, {moveTabsAfter, moveTabsBefore});
 			//prevent start another dragging before the animate is done
 			this.setAttribute("animate-finishing", "");
 			Promise.all(transitions).then(() => {
-				this._finishAnimateTabMove();
+				this[FINISH_ANIMATE_TAB_MOVE]();
 				this.removeAttribute("animate-finishing");
 			});
 		}
@@ -2927,7 +2960,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		postDraggingCleanup();
 	};
 
-	tabContainer._finishAnimateTabMove = function() {
+	tabContainer[FINISH_ANIMATE_TAB_MOVE] = function() {
 		let transformedTabs;
 		if (this.hasAttribute("movingtab")) {
 			//if tab is dropped, animate-finishing should be set,
@@ -2942,7 +2975,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			cleanUpTransform();
 		}
 
-		_finishAnimateTabMove.apply(this, arguments);
+		finishAnimateTabMove.apply(this, arguments);
 
 		if (transformedTabs) {
 			this.setAttribute("animate-finishing", "");
@@ -2983,7 +3016,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		}
 	};
 
-	let newAnimateFunctions = {_animateTabMove: tabContainer._animateTabMove, _finishAnimateTabMove: tabContainer._finishAnimateTabMove};
+	let newAnimateFunctions = {_animateTabMove: tabContainer._animateTabMove, [FINISH_ANIMATE_TAB_MOVE]: tabContainer[FINISH_ANIMATE_TAB_MOVE]};
 
 	function postDraggingCleanup() {
 		clearTimeout(passingByTimeout);
@@ -3028,7 +3061,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		log("_resetAnimateTabMove", "lastScreenY" in data);
 
 		if ("lastScreenY" in data) {
-			this._finishAnimateTabMove();
+			this[FINISH_ANIMATE_TAB_MOVE]();
 			this.removeAttribute("dragging");
 			delete data.lastScreenX;
 		} else {
@@ -3307,9 +3340,8 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			setStyle();
 		}
 	});
-	//TODO change to TabGroupRemoved when 136 becomes released
-	tabContainer.addEventListener("DOMNodeRemoved", function(e) {
-		if (e.target.tagName != "tab-group" || this.allGroups.length > 1)
+	tabContainer.addEventListener("TabGroupRemoved", function(e) {
+		if (this.allGroups.length > 1)
 			return;
 		let expand = Services.prefs.getIntPref(prefBranchStr + "tabsUnderControlButtons");
 		if (!expand)
@@ -3806,11 +3838,11 @@ function updateThemeStatus() {
 }
 
 function tabGroupsEnabled() {
-	try {return Services.prefs.getBoolPref("browser.tabs.groups.enabled"); } catch(e) {}
+	return gBrowser._tabGroupsEnabled;
 }
 
 function hasTabGoups() {
-	return appVersion > 115 && gBrowser.tabContainer.arrowScrollbox.matches(":has(tab-group)");
+	return !!gBrowser.tabGroups?.[0];
 }
 
 function pointDelta(a, b = 0) {
@@ -3842,12 +3874,23 @@ function exposePrivateMethod(element, method, context) {
 		return;
 	let relatedMehtods = new Set();
 	let code = element.toString().match(new RegExp(`(?<=\\s+)${method}.+|$`, "s"))[0];
-	let idx = 0;
+	let idx = 0, parenthesesIdx = 0, argPartDone;
 	code = code.substr(0, [...code].findIndex(c => {
-		switch(c) {
-			case "{": idx++; break;
-			case "}": if (!--idx) return true;
-		}
+		if (argPartDone)
+			switch(c) {
+				case "{": idx++; break;
+				case "}": if (!--idx) return true;
+			}
+		else
+			switch(c) {
+				case "(":
+					parenthesesIdx++;
+					break;
+				case ")":
+					if (!argPartDone && !--parenthesesIdx)
+						argPartDone = true;
+					break;
+			}
 	}) + 1).replace(/\bthis\s*\.\s*(#[\w\s]+)(\()?/gs, (match, property, bracket = "") => {
 		if (bracket)
 			relatedMehtods.add(property);
@@ -3856,7 +3899,19 @@ function exposePrivateMethod(element, method, context) {
 	if (code)
 		try {
 			let f;
-			eval(`${context}; f = function ${newMethod} ${code};`);
+			try {
+				eval(`${context}; f = function ${newMethod} ${code};`);
+			} catch(e) {
+				let csp = "security.allow_unsafe_dangerous_privileged_evil_eval";
+				if (appVersion > 138 && !Services.prefs.getBoolPref(csp)) {
+					Services.prefs.unlockPref(csp);
+					Services.prefs.setBoolPref(csp, true);
+					let appStartup = Components.classes["@mozilla.org/toolkit/app-startup;1"]
+							.getService(Components.interfaces.nsIAppStartup);
+					appStartup.quit(appStartup.eAttemptQuit | appStartup.eRestart);
+				} else
+					throw e;
+			}
 			element.prototype[newMethod] = f;
 			relatedMehtods.forEach(m => exposePrivateMethod(element, m, context));
 		} catch(e) {
