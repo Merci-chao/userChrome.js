@@ -1,12 +1,12 @@
 "use strict";
 // ==UserScript==
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
-// @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @author         Merci chao
-// @version        2.5
+// @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
+// @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
+// @version        2.4
 // @updateURL      https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js
 // @downloadURL    https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js
-// @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
 // ==/UserScript==
 
 try {
@@ -218,14 +218,19 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		let buttons = p.BUTTON_POS_0 * p.BUTTON_TITLE_YES
 				+ p.BUTTON_POS_1 * p.BUTTON_TITLE_IS_STRING
 				+ p.BUTTON_POS_2 * p.BUTTON_TITLE_NO;
+		let dontAsk = {};
 		switch (p.confirmEx(window, "Update Notification", `Multi Tab Rows version ${remote} is released. Would you want to view it now?`,
-				buttons, "", "Remind Tomorrow", "", "", {})) {
+				buttons, "", "Remind Tomorrow", "", `Stop checking when selecting "No" (strongly not recommended)`, dontAsk)) {
 			case 0:
 				openURL(downloadURL);
 				break;
 			case 1:
 				Services.prefs.setIntPref(prefBranchStr + "checkUpdate",
 						Date.now() / 1000 - (prefs.checkUpdateFrequency - 1) * 24 * 60 * 60);
+				break;
+			case 2:
+				if (dontAsk.value)
+					Services.prefs.setIntPref(prefBranchStr + "checkUpdate", 0);
 				break;
 		}
 	})();
