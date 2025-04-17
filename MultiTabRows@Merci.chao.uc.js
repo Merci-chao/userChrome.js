@@ -76,7 +76,7 @@ let prefs;
 			floatingBackdropOpacity: appVersion > 115 && !mica ? 25 : 75,
 			compactControlButtons: !(win7 || win8) ? mica : null,
 			hideAllTabs: appVersion == 115 ? false : null,
-			checkUpdate: 0,
+			checkUpdate: 1,
 			checkUpdateFrequency: 7,
 		};
 	};
