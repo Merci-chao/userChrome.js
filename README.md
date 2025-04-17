@@ -71,6 +71,10 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Changelog
+Version 2.5
+- Improve the experience of dragging non-continuous tabs.
+- Add check-update feature. Enable it by setting `checkUpdate` to `1`, change `checkUpdateFrequency` to the frequency (days) you want.
+
 Version 2.4
 - Update for Firefox 138.
 - Improvements and bug-fixings for tab dragging animation.
