@@ -38,7 +38,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 
 | Name | Description |
 | ------------- | ------------- |
-| `checkUpdate` | Check for new version of this script. Set it to `1` to enable and `0` to disable. The value will be updated to the last checking time. |
+| `checkUpdate` | Check for new version of this script. Set it to `1` to enable and `0` to disable. The value will be updated to the last checking time. **It is recommended to enable it as the outdated script may not work on new versions of Firefox in high chance.** |
 | `checkUpdateFrequency` | Frequency in days of checking if there is any new version. |
 | `maxTabRows` | Maximum number of rows to display at once. The minimum value is `1`. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
