@@ -203,7 +203,7 @@ let prefs;
 
 setDebug();
 
-if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 >= prefs.checkUpdateFrequency) {
+if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 >= Math.max(prefs.checkUpdateFrequency, 1)) {
 	Services.prefs.setIntPref(prefBranchStr + "checkUpdate", Date.now() / 1000);
 	(async () => {
 		let getVer = code => (code.match(/^\/\/\s*@version\s+(.+)$/mi) || [])[1];
@@ -226,7 +226,7 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 				break;
 			case 1:
 				Services.prefs.setIntPref(prefBranchStr + "checkUpdate",
-						Date.now() / 1000 - (prefs.checkUpdateFrequency - 1) * 24 * 60 * 60);
+						Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60);
 				break;
 			case 2:
 				if (dontAsk.value)
