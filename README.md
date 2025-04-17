@@ -38,7 +38,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 
 | Name | Description |
 | ------------- | ------------- |
-| `checkUpdate` | Check for a new version of this script when Firefox starting up or opening new windows. Set it to `1` to enable or `0` to disable. The value will be updated with the last checking time. **It is recommended to enable it, as outdated scripts will most likely not work on newer versions of Firefox.** |
+| `checkUpdate` | Check for a new version of this script when Firefox starting up or opening new windows. Set it to `1` to enable or `0` to disable. The value will be updated with the last checking time. **It is strongly recommended to enable it, as outdated scripts will most likely not work on newer versions of Firefox.** |
 | `checkUpdateFrequency` | How often to check for new versions (days). Setting it to `0` will cause the check to be triggered every time a new window is opened. |
 | `maxTabRows` | Maximum number of rows to display at once. The minimum value is `1`. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
@@ -75,7 +75,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 ## Changelog
 Version 2.5
 - Improve the experience of dragging non-adjacent tabs.
-- Add check-update feature. Enable it by setting `checkUpdate` to `1`, change `checkUpdateFrequency` to how often (days) you want.
+- Add check-update feature. Change `checkUpdateFrequency` to how often (days) you want, disable it by setting `checkUpdate` to `0`.
 
 Version 2.4
 - Update for Firefox 138.
