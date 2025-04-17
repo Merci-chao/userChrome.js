@@ -75,7 +75,7 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 ## Changelog
 Version 2.5
 - Improve the experience of dragging non-adjacent tabs.
-- Add check-update feature. Enable it by setting `checkUpdate` to `1`, change `checkUpdateFrequency` to the frequency (days) you want.
+- Add check-update feature. Enable it by setting `checkUpdate` to `1`, change `checkUpdateFrequency` to how often (days) you want.
 
 Version 2.4
 - Update for Firefox 138.
