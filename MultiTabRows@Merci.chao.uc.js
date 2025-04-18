@@ -1,11 +1,11 @@
 "use strict";
 // ==UserScript==
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
+// @version        2.5.1
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @supportURL     https://github.com/Merci-chao/userChrome.js#changelog
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
-// @version        2.5.1
 // @updateURL      https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js
 // @downloadURL    https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js
 // ==/UserScript==
