@@ -76,7 +76,7 @@ let prefs;
 			compactControlButtons: !(win7 || win8) ? mica : null,
 			hideAllTabs: appVersion == 115 ? false : null,
 			checkUpdate: 1,
-			checkUpdateFrequency: 7,
+			checkUpdateFrequency: 1,
 		};
 	};
 
