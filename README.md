@@ -73,6 +73,9 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Changelog
+Version 2.5.1
+- Fix a bug that can't drop non-tab things onto tabs bar since the previous version.
+
 Version 2.5
 - Improve the experience of dragging non-adjacent tabs.
 - Add check-update feature. Change `checkUpdateFrequency` to how often (days) you want, disable it by setting `checkUpdate` to `0`.
