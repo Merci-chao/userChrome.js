@@ -4,7 +4,7 @@
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
-// @version        2.5
+// @version        2.5.1
 // @updateURL      https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js
 // @downloadURL    https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js
 // ==/UserScript==
@@ -36,8 +36,7 @@ let mica;
 let defaultDarkTheme, defaultAutoTheme, defaultTheme;
 
 let appVersion = parseInt(Services.appinfo.version);
-let [START, END, START_PC, END_PC, DIR]
-		= RTL_UI ? ["right", "left", "100%", "0%", -1] : ["left", "right", "0%", "100%", 1];
+let [START_PC, END_PC, DIR] = RTL_UI ? ["100%", "0%", -1] : ["0%", "100%", 1];
 let EPSILON = .001;
 let {assign} = Object;
 
@@ -1171,7 +1170,7 @@ ${prefs.tabsUnderControlButtons ? `
 	${context}[tabs-multirows] ${_}::before {
 		border-bottom: var(--tabstrip-border);
 		margin-bottom: calc(var(--tabstrip-border-width) / -${devicePixelRatio});
-		border-bottom-${END}-radius: var(--tabs-placeholder-border-radius);
+		border-end-end-radius: var(--tabs-placeholder-border-radius);
 	}
 
 	${context="#TabsToolbar:not([tabs-hide-placeholder])"} ${_}::before {
@@ -1244,7 +1243,7 @@ ${prefs.tabsUnderControlButtons ? `
 	` : ``}
 
 	#tabs-placeholder-pre-tabs {
-		${START}: 0;
+		inset-inline-start: 0;
 		width: var(--pre-tabs-items-width);
 		padding-inline-end: var(--tabstrip-padding);
 		/*by default, the margin end will be -1 to cancel out the border*/
@@ -1253,7 +1252,7 @@ ${prefs.tabsUnderControlButtons ? `
 		border-inline-start: 0;
 		border-color: var(--tabstrip-border-color);
 		border-top-color: transparent;
-		border-bottom-${END}-radius: var(--tabs-placeholder-border-radius);
+		border-end-end-radius: var(--tabs-placeholder-border-radius);
 		clip-path: inset(var(--clip-shadow) ${RTL_UI ? 0 : "var(--clip-shadow)"} var(--clip-shadow) ${RTL_UI ? "var(--clip-shadow)" : 0});
 	}
 
@@ -1277,11 +1276,11 @@ ${prefs.tabsUnderControlButtons ? `
 	` : ``}
 
 	${_="#tabs-placeholder-post-tabs"} {
-		${END}: calc(var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved));
+		inset-inline-end: calc(var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved));
 		width: calc(var(--post-tabs-items-width) - var(--tabs-scrollbar-width) - var(--scrollbar-clip-reserved));
 		border-top-width: 0;
 		border-inline-end: 0;
-		border-bottom-${START}-radius: var(--tabs-placeholder-border-radius);
+		border-end-start-radius: var(--tabs-placeholder-border-radius);
 		clip-path: inset(var(--clip-shadow) ${RTL_UI ? "var(--clip-shadow)" : 0} var(--clip-shadow) ${RTL_UI ? 0 : "var(--clip-shadow)"});
 	}
 
@@ -1301,20 +1300,20 @@ ${prefs.tabsUnderControlButtons ? `
 	}
 
 	${context}:not(${condition}, ${staticPreTabsPlaceHolder}) #tabs-placeholder-pre-tabs {
-		border-top-${END}-radius: var(--tabs-placeholder-border-radius);
+		border-start-end-radius: var(--tabs-placeholder-border-radius);
 	}
 
 	${context} #tabs-placeholder-post-tabs {
-		border-top-${START}-radius: var(--tabs-placeholder-border-radius);
+		border-start-start-radius: var(--tabs-placeholder-border-radius);
 	}
 
 	#tabs-placeholder-new-tab-button {
 		bottom: 0;
-		${END}: calc(var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved));
+		inset-inline-end: calc(var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved));
 		width: calc(var(--new-tab-button-width) - var(--scrollbar-clip-reserved));
 		border-inline-end: 0;
 		border-bottom: 0;
-		border-top-${START}-radius: var(--tabs-placeholder-border-radius);
+		border-start-start-radius: var(--tabs-placeholder-border-radius);
 		clip-path: inset(var(--clip-shadow) ${RTL_UI ? "var(--clip-shadow)" : 0} 0 ${RTL_UI ? 0 : "var(--clip-shadow)"});
 	}
 
@@ -1357,11 +1356,11 @@ ${prefs.tabsUnderControlButtons ? `
 			${_=adjacentNewTab} {
 				position: absolute;
 				bottom: 0;
-				${END}: 0;
+				inset-inline-end: 0;
 			}
 
 			#TabsToolbar:not([tabs-hide-placeholder])[tabs-overflow] ${_} {
-				${END}: var(--tabs-scrollbar-width);
+				inset-inline-end: var(--tabs-scrollbar-width);
 			}
 
 			${prefs.tabsUnderControlButtons < 2 ? `
@@ -2860,16 +2859,15 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		let transitions = [];
 		let shouldHandle = dropEffect != "copy" && draggedTab?.container == this && transformInfos;
-		let cancelingGroupTabs = appVersion > 136 && draggedTab._moveTogetherSelectedTabsData?.finished === false;
 		let finishAnimateTabMove = this[FINISH_ANIMATE_TAB_MOVE], {moveTabTo, moveTabsAfter, moveTabsBefore} = gBrowser;
-
-		if ((shouldHandle || cancelingGroupTabs) && moveTabsAfter)
-			gBrowser.moveTabsAfter = gBrowser.moveTabsBefore = () => {};
 
 		if (shouldHandle) {
 			time("on_drop");
 			//prevent the original functions being called when the original on_drop performs later
 			this[FINISH_ANIMATE_TAB_MOVE] = gBrowser.moveTabTo = () => {};
+
+			if (moveTabsAfter)
+				gBrowser.moveTabsAfter = gBrowser.moveTabsBefore = () => {};
 
 			let dropIndex;
 			if (_dragData.fromTabList)
@@ -3182,7 +3180,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 					width: calc(100% - var(--tabstrip-size)) !important;
 					margin-inline-end: 0;
 					border-inline-end-width: 0;
-					border-bottom-${END}-radius: 0;
+					border-end-end-radius: 0;
 					padding-inline-end: var(--tabstrip-size);
 				}
 				#tabs-placeholder-pre-tabs {
