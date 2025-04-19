@@ -2588,7 +2588,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 					let s = t.style;
 					s.transition = "none";
 					if (t.multiselected)
-						s.translate = `${o.x + _dragData.oriScreenX - eX}px ${o.y + _dragData.oriScreenY - eY}px`;
+						s.translate = `${o.x}px ${o.y}px`;
 					else {
 						s.transform = `translate(${o.x}px, ${o.y}px)`;
 						t._groupTabsMovingBGTabs = true;
