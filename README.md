@@ -155,7 +155,7 @@ Add sub-menus to History Menu for previous days' history. [Add-on Page (web arch
 ![screenshot](https://web.archive.org/web/20181007203207if_/https://addons.cdn.mozilla.net/user-media/previews/full/63/63969.png?modified=1530208752)
 
 ## Settings
-There is no setting panel and you need to open `about:config` and search for the prefix `extensions.HistorySubmenus2@Merci.chao`. Settings will apply to new windows. 
+There is no setting panel and you need to open `about:config` and search for the prefix `extensions.HistorySubmenus2@Merci.chao`. Settings will be applied after restarting Firefox. 
 | Name | Description |
 | ------------- | ------------- |
 | `submenuCount` | Count of items listing directly in the History menu.|
@@ -168,7 +168,7 @@ Show page title in URL Bar. [Add-on Page (web archive)](https://web.archive.org/
 ![screenshot](https://web.archive.org/web/20181009205610if_/https://addons.cdn.mozilla.net/user-media/previews/full/165/165890.png?modified=1530208887)
 
 ## Settings
-Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao`. Settings will apply to new windows. 
+Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao`. Settings will be applied after restarting Firefox. 
 
 | Name | Description |
 | ------------- | ------------- |
