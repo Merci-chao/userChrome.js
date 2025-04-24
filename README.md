@@ -73,6 +73,10 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Changelog
+Version 2.6
+- Fix layout problem when there are some audio playing/blocked/muted tabs.
+- Fix layout problem when UI density is `Touch`.
+
 Version 2.5.1
 - Fix a bug that can't drop non-tab things onto tabs bar since the previous version.
 
