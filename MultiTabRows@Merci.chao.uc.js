@@ -1,7 +1,7 @@
 "use strict";
 // ==UserScript==
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
-// @version        2.5.1
+// @version        2.6
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @supportURL     https://github.com/Merci-chao/userChrome.js#changelog
@@ -92,7 +92,7 @@ let prefs;
 	updatePrefsDependency(true);
 
 	Object.keys(prefs).forEach(n => Services.prefs.addObserver(prefBranchStr + n, onPrefChange));
-	let observedBrowserPrefs = ["extensions.activeThemeID", "browser.toolbars.bookmarks.visibility"];
+	let observedBrowserPrefs = ["extensions.activeThemeID", "browser.toolbars.bookmarks.visibility", "browser.tabs.tabMinWidth"];
 	for (let p of observedBrowserPrefs)
 		Services.prefs.addObserver(p, onPrefChange);
 	accentColorInTitlebarMQ.onchange = () => onPrefChange(null, null, "-moz-windows-accent-color-in-titlebar");
@@ -166,6 +166,13 @@ let prefs;
 			case "gapAfterPinned":
 				setStyle();
 				tabContainer._updateInlinePlaceHolder();
+				break;
+			case "browser.tabs.tabMinWidth":
+				setTimeout(() => {
+					setStyle();
+					tabContainer.uiDensityChanged();
+					tabContainer._updateCloseButtons();
+				}, 100);
 				break;
 			case "compactControlButtons":
 				setStyle();
@@ -247,6 +254,7 @@ let tabAnimation = getComputedStyle(gBrowser.selectedTab).transition.match(/(?<=
 let dragTransitionSpeed = +getComputedStyle(tabContainer).getPropertyValue("--tab-dragover-transition").match(/\d+(?=ms)|$/)[0] || 200;
 
 let tabHeight = 0;
+let tabMinWidth = 0;
 let newTabButtonWidth = 0;
 let scrollbarWidth = 0;
 
@@ -410,7 +418,6 @@ ${adjacentNewTab} {
 #tabbrowser-tabs {
 	--gap-after-pinned: ${prefs.gapAfterPinned}px;
 	--tab-animation: ${debug == 2 ? "1s ease" : tabAnimation};
-	--touch-extra-tab-width: 0px;
 	--tabstrip-padding: 0px;
 	--tabstrip-border-width: 0px;
 	--tabstrip-border-color: transparent;
@@ -424,12 +431,6 @@ ${adjacentNewTab} {
 		--tab-animation: 0s;
 	}
 }
-
-${appVersion == 115 ? `
-	:root[uidensity=touch] #tabbrowser-tabs {
-		--touch-extra-tab-width: 10px;
-	}
-` : ``}
 
 /*Highlight effect of _notifyBackgroundTab*/
 ${_="#tabbrowser-arrowscrollbox"} {
@@ -466,7 +467,7 @@ ${(() => {
 			  be narrow enough to trigger the deactivation of positioning*/
 			#tabbrowser-tabs[hasadjacentnewtabbutton]:not([positionpinnedtabs]) ${_} {
 				/*list out all possible things in case they are shown and their size is non zero*/
-				min-width: calc(var(--tabstrip-size) + var(--tab-min-width) + var(--touch-extra-tab-width) + var(--new-tab-button-width) + var(--tabs-scrollbar-width)) !important;
+				min-width: calc(var(--tabstrip-size) + var(--calculated-tab-min-width) + var(--new-tab-button-width) + var(--tabs-scrollbar-width)) !important;
 			}
 		`}
 	`;
@@ -491,7 +492,7 @@ ${!CSS.supports("selector(:has(*))") ? `
 
 /*do not limit the box width when [positionpinnedtabs]*/
 #tabbrowser-tabs:not([positionpinnedtabs])[overflow] ${_} {
-	min-width: calc(var(--tab-min-width) + var(--touch-extra-tab-width) + var(--tabs-scrollbar-width)) !important;
+	min-width: calc(var(--calculated-tab-min-width) + var(--tabs-scrollbar-width)) !important;
 }
 
 /*use the start and end indicators for the hint of left and right edges when moving multiple tabs*/
@@ -648,6 +649,19 @@ ${_=".tabbrowser-tab"} {
 	margin-inline-end: calc(var(--moving-tab-width-adjustment, 0px) + var(--adjacent-newtab-button-adjustment, 0px)) !important;
 }
 
+/* for tabs with audio button, fix the size and display the button like pinned tabs */
+#tabbrowser-tabs[orient=horizontal] ${_}[fadein]:is([muted], [soundplaying], [activemedia-blocked]):not([pinned]) {
+	min-width: var(--calculated-tab-min-width);
+	
+	&[mini-audio-button] {
+		--tab-icon-end-margin: 5.5px;
+	
+		.tab-audio-button {
+			display: none !important;
+		}
+	}
+}
+
 /*ensure the closing/not-fully-open tabs can have 0 width*/
 ${_}:not([pinned], [fadein]) {
 	padding-inline: 0;
@@ -702,13 +716,12 @@ ${context} > #tabbrowser-arrowscrollbox > ${_}[closebutton] > .tab-stack > .tab-
 	display: flex;
 }
 
-${appVersion == 115 ? `
-	/*bug fix for fx 115*/
-	:root[uidensity=touch] ${_}:not([pinned], [fadein]) {
-		max-width: .1px;
-		min-width: .1px;
-	}
-` : ``}
+/*bug fix for fx*/
+:root[uidensity=touch] #tabbrowser-tabs[orient=horizontal]
+		${_}:not([pinned], [fadein]) {
+	max-width: .1px;
+	min-width: .1px;
+}
 
 ${_="#tabbrowser-arrowscrollbox-periphery"} {
 	transition: margin-inline-end var(--tab-animation);
@@ -1631,7 +1644,6 @@ ${debug == 2 ? `
 
 /** hack scrollbox **/
 {
-
 	//the scrollbar is regenerated in some situations, ensure it is well set
 	let scrollbar;
 	scrollbox.addEventListener("mouseenter", function(e) {
@@ -2061,26 +2073,15 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				spacers = 0;
 			}
 			let boxWidth = getRect(this, {box: "padding"}).widthDouble;
-			floatPinnedTabs = columns * width + gap + getTabMinWidth() + this.newTabButton.clientWidth
+			floatPinnedTabs = columns * width + gap + tabMinWidth + this.newTabButton.clientWidth
 					+ getRect(this._placeholderPostTabs, {box: "content", visible: true}).widthDouble + scrollbox.scrollbarWidth
 							<= boxWidth;
 			wrapPlaceholder = floatPinnedTabs && columns * width + gap >= preTabsItemsSize;
-			// //TODO remove if all ok
-			// if (debug)
-				// log({
-					// isPositioned, floatPinnedTabs, columns, rows, spacers,
-					// atLeastOneTab: pinnedNetSize + getTabMinWidth() <= boxWidth,
-					// expectWidth: pinnedNetSize + getTabMinWidth(),
-					// pinnedNetSize, boxWidth,
-					// preTabsItemsSize,
-					// placeholder: getRect(this._placeholderPostTabs, {box: "content", visible: true}).widthDouble,
-				// });
 		}
 
 		timeEnd("_positionPinnedTabs - calculation");
 
 		time("_positionPinnedTabs - update");
-
 
 		if (this._lastNumPinned != numPinned) {
 			this.toggleAttribute("haspinnedtabs", numPinned);
@@ -2110,7 +2111,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 					let lastRowTabsCount = visibleTabs.length - visibleTabs.findLastIndex(t => t.screenY != lastTabRect.top) - 1;
 					this.setAttribute("forced-overflow", "");
 					this.style.setProperty("--forced-overflow-adjustment",
-							slotRect.widthDouble - (lastRowTabsCount - 1) * getTabMinWidth() + "px");
+							slotRect.widthDouble - (lastRowTabsCount - 1) * tabMinWidth + "px");
 					log("positionpinnedtabs makes underflow!");
 				}
 			}
@@ -2404,9 +2405,12 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				|| Object.getOwnPropertyDescriptor(ind.__proto__, "hidden");
 		Object.defineProperty(ind, "hidden", {set: v => hidden = v, configurable: true});
 
-		on_dragover.apply(this, arguments);
+		try {
+			on_dragover.apply(this, arguments);
+		} finally {
+			Object.defineProperty(ind, "hidden", opd);
+		}
 
-		Object.defineProperty(ind, "hidden", opd);
 		if (hidden != null)
 			ind.hidden = hidden;
 
@@ -2906,18 +2910,26 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			timeEnd("on_drop");
 		}
 
-		on_drop.apply(this, arguments);
+		try {
+			on_drop.apply(this, arguments);
+		} finally {
+			if (shouldHandle) {
+				if (moveTabsAfter)
+					assign(gBrowser, {moveTabsAfter, moveTabsBefore});
+				this[FINISH_ANIMATE_TAB_MOVE] = finishAnimateTabMove;
+				gBrowser.moveTabTo = moveTabTo;
+			}
+		}
 
-		if (moveTabsAfter)
-			assign(gBrowser, {moveTabsAfter, moveTabsBefore});
 		if (shouldHandle) {
-			this[FINISH_ANIMATE_TAB_MOVE] = finishAnimateTabMove;
-			gBrowser.moveTabTo = moveTabTo;
 			//prevent start another dragging before the animate is done
 			this.setAttribute("animate-finishing", "");
 			Promise.all(transitions).then(() => {
-				this[FINISH_ANIMATE_TAB_MOVE]();
-				this.removeAttribute("animate-finishing");
+				try {
+					this[FINISH_ANIMATE_TAB_MOVE]();
+				} finally {
+					this.removeAttribute("animate-finishing");
+				}
 			});
 		}
 
@@ -3071,8 +3083,15 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		if (!this._closeButtonsUpdatePending)
 			requestAnimationFrame(() => requestAnimationFrame(() => {
 				let {_tabClipWidth} = this;
-				for (let tab of gBrowser.visibleTabs)
-					tab.toggleAttribute("closebutton", !tab.pinned && windowUtils.getBoundsWithoutFlushing(tab).width > _tabClipWidth);
+				for (let tab of gBrowser.visibleTabs) {
+					let {width} = windowUtils.getBoundsWithoutFlushing(tab);
+					let {pinned} = tab;
+					tab.toggleAttribute("closebutton", !pinned && width > _tabClipWidth);
+					if (appVersion > 115) {
+						tab.toggleAttribute("mini-audio-button", !pinned && width < 100);
+						tab.overlayIcon.toggleAttribute("pinned", pinned || width < 100);
+					}
+				}
 			}));
 		_updateCloseButtons.apply(tabContainer, arguments);
 	};
@@ -3088,6 +3107,11 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 	let lastLayoutData = null;
 
 	tabContainer._updateInlinePlaceHolder = function(numPinned = gBrowser.pinnedTabCount) {
+		if (!tabMinWidth) {
+			this.uiDensityChanged();
+			return;
+		}
+		
 		time("_updateInlinePlaceHolder");
 
 		tabsBar.toggleAttribute("tabs-is-first-visible",
@@ -3134,11 +3158,10 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		let positionPinned = this.hasAttribute("positionpinnedtabs");
 		let firstTabRect = getRect(gBrowser.visibleTabs[positionPinned ? numPinned : 0]);
 		let winWidth = winRect.width;
-		let normalMinWidth = getTabMinWidth();
-		let winMaxWidth = Math.max(screen.width - screen.left + 8, winWidth + normalMinWidth);
+		let winMaxWidth = Math.max(screen.width - screen.left + 8, winWidth + tabMinWidth);
 		let winMinWidth = parseInt(getComputedStyle(root).minWidth);
 		let pinnedWidth = numPinned && !positionPinned ? firstTabRect.widthDouble : 0;
-		let firstStaticWidth = pinnedWidth || normalMinWidth;
+		let firstStaticWidth = pinnedWidth || tabMinWidth;
 		let pinnedGap = prefs.gapAfterPinned;
 		let pinnedReservedWidth = positionPinned ?
 				parseFloat(this.style.getPropertyValue("--tab-overflow-pinned-tabs-width")) + pinnedGap : 0;
@@ -3152,7 +3175,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		let layoutData = {
 			preTabsItemsSize, postTabsItemsSize, tabsStartSeparator, base, firstStaticWidth, scrollbarWidth,
-			adjacentNewTab, newTabButtonWidth, pinnedWidth, numPinned, winMinWidth, winMaxWidth, normalMinWidth,
+			adjacentNewTab, newTabButtonWidth, pinnedWidth, numPinned, winMinWidth, winMaxWidth, tabMinWidth,
 		};
 		timeLog("_updateInlinePlaceHolder", "gather all info");
 
@@ -3246,13 +3269,13 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		for (let i = 0; base <= winMaxWidth; i++) {
 			if (!i && !numPinned) {
-				base += normalMinWidth;
+				base += tabMinWidth;
 				continue;
 			}
 
 			//wrap normal tabs
 			css += `
-				@media (min-width: ${base}px) and (max-width: ${(base += normalMinWidth) - EPSILON}px) {
+				@media (min-width: ${base}px) and (max-width: ${(base += tabMinWidth) - EPSILON}px) {
 					.tabbrowser-tab:nth-child(${numPinned + i} of :not([hidden])):not(:nth-last-child(1 of .tabbrowser-tab:not([hidden]))) ~ * {order: 2}
 				}
 			`;
@@ -3308,6 +3331,9 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 	//tabWidthClosedByClick is provided only if the function is called by original closed by mouse event
 	//TODO tab-group
 	tabContainer._lockTabSizing = function(actionTab, tabWidthClosedByClick) {
+		//don't handle anything if dragging a tag group
+		if (!actionTab)
+			return;
 		let tabs = gBrowser.visibleTabs.slice(gBrowser.pinnedTabCount);
 		if (!tabs.length || this._isClosingLastTab) return;
 		time("_lockTabSizing");
@@ -3331,7 +3357,6 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		if (tabWidthClosedByClick)
 			this._lastTabClosedByMouse = true;
 
-		let tabMinWidth = getTabMinWidth();
 		let last2ndRowIs1stRow = true;
 		let lastRowTabsCount = tabs.length - tabs.findLastIndex(t => t.screenY != lastRowTop) - 1;
 		let last2ndRowTabsCount = tabs.length - tabs.findLastIndex(t => t.screenY < lastRowTop - tabHeight && !(last2ndRowIs1stRow = false)) - 1;
@@ -3514,8 +3539,15 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		newTabButtonWidth = getRect(newTabButton).widthDouble;
 		newTabButton.style.display = "";
 
-		root.style.setProperty("--tab-height", (tabHeight = gBrowser.selectedTab.clientHeight) + "px");
+		root.style.setProperty("--tab-height", (tabHeight = getRect(gBrowser.selectedTab).height) + "px");
 		tabsBar.style.setProperty("--new-tab-button-width", newTabButtonWidth + "px");
+
+		let minWidthPref = tabContainer._tabMinWidthPref;
+		let extraWidth = root.getAttribute("uidensity") == "touch" ?
+				(appVersion == 115 ? 10 : Math.max(86 - minWidthPref, 0)) :
+				0;
+		tabContainer.style.setProperty("--calculated-tab-min-width",
+				(tabMinWidth = minWidthPref + extraWidth) + "px");
 
 		timeEnd("uiDensityChanged");
 
@@ -3585,11 +3617,16 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				},
 			});
 
-		let tab = addTab.apply(this, arguments);
+		let tab;
+		try {
+			tab = addTab.apply(this, arguments);
+		} finally {
+			if (animate)
+				assign(tabContainer, {getAttribute, hasAttribute});
+		}
 
 		if (animate) {
 			let {visibleTabs} = gBrowser;
-			assign(tabContainer, {getAttribute, hasAttribute});
 			if (!bulkOrderedOpen) {
 				tabContainer._lockTabSizing(tab);
 				//always unlock in case a TabMove is fired and some another tabs are locked
@@ -3697,7 +3734,11 @@ function onTabsResize() {
 	else
 		tabContainer._updateInlinePlaceHolder();
 
-	tabContainer._resetAnimateTabMove();
+	//when customizing toolbar, dragging another tab will cause visual problem
+	//check and reset the the animation when exiting the customizing mode
+	//however there is some weird problem on firefox 138+ thus not doing it anymore
+	//TODO stop tab drag when customizing toolbar
+	// tabContainer._resetAnimateTabMove();
 }
 
 function toggleAllTabsButton() {
@@ -3710,11 +3751,6 @@ function getRowCount(allRows) {
 
 function maxTabRows() {
 	return +getComputedStyle(scrollbox).getPropertyValue("--max-tab-rows");
-}
-
-function getTabMinWidth() {
-	return tabContainer._tabMinWidthPref
-			+ (appVersion == 115 && root.getAttribute("uidensity") == "touch" ? 10 : 0);
 }
 
 function getScrollbar(box, orient = "vertical") {
