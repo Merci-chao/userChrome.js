@@ -143,7 +143,7 @@ Version 1.0
 - First release.
 
 ## Known Issues
-- Not fully supports the native tab group feature.
+- Not fully support the native tab group feature.
 - Tabs opening/closing by themselves (e.g. pop-ups) while dragging tabs may cause strange behavior.
 - Not tested on touch devices.
 
