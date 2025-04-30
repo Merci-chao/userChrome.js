@@ -28,6 +28,16 @@ Make Firefox support multiple tab rows.
 - Firefox 115, 137 and 138 Beta, for Windows 7 to 11.
 - Supports general script loaders, like xiaoxiaoflood's userChromeJS.
 
+## Cautions
+**⚠️ Please read the following notes carefully before using this script:**
+- This is an unofficial script maintained solely by me. It may contain unforeseen bugs and does not guarantee compatibility with the latest versions of Firefox. In extreme cases, particularly when using an outdated version of this script with a newly updated Firefox, it could cause the browser unusable and potentially result in the permanent loss of your previous browsing session, even after disabling the script. Please use this script only if you are prepared to handle such situations.
+- This script needs to override some functions of Firefox and requires `security.allow_unsafe_dangerous_privileged_evil_eval` to be enabled on Firefox 139+ for this purpose, which may weaken the security of your browser in some special cases. The said setting is needed to be disabled through `about:config` manually after disabling or removing this script. Please note that and use this script at your own risk.
+- Since this script contains many sensitive layout calculations designed for native Firefox, any tab or tabs toolbar-related legacy extensions (e.g. Tab Mix Plus), user scripts or stylesheets may cause weird glitches and bugs. Please check your legacy extensions, scripts and stylesheets (if any) before and after applying this script.
+- This script is not fully compatible with Firefox's native tab groups feature when there are multiple rows:
+     - Dragging tab to create new group is unsupported;
+     - Drag animation is disabled when there are any tab groups, and some tab animation may be glitchy.
+- This script is developed for Windows and probably does not work on Linux and macOS.
+
 ## Installation
 - Follow the step 1 (1.1 to 1.4) of [the instruction of installing Tab Mix Plus](https://github.com/onemen/TabMixPlus?tab=readme-ov-file#installation) to set up the script loader;
 - Download the [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it inside the `chrome` folder;
@@ -63,14 +73,6 @@ Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.c
 | `floatingBackdropOpacity` | How opaque the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when scrolling, available when `tabsUnderControlButtons` is `2`. |
 | `debugMode` | Mode for debugging, not for general use. |
-
-## Cautions
-- This script needs to override some functions of Firefox and requires `security.allow_unsafe_dangerous_privileged_evil_eval` to be enabled on Firefox 139+ for this purpose, which may weaken the security of your browser in some cases. The said setting is needed to be disabled through `about:config` manually after disabling or removing this script. Please note that and use this script at your own risk.
-- Since this script contains many sensitive layout calculations designed for native Firefox, any tab or tabs toolbar-related legacy extensions, user scripts or stylesheets may cause weird glitches and bugs. Please check your legacy extensions, scripts and stylesheets (if any) before and after applying this script.
-- This script is not fully compatible with Firefox's native tab groups feature when there are multiple rows:
-     - Dragging tab to create new group is unsupported;
-     - Drag animation is disabled when there are any tab groups, and some tab animation may be glitchy.
-- This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Changelog
 Version 2.6
