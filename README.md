@@ -14,7 +14,7 @@ Since the scripts may not fully work on new versions of Firefox, please check he
      ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/gitwatch-2.png)
 
 # [Multi Tab Rows](https://github.com/Merci-chao/userChrome.js/blob/main/MultiTabRows%40Merci.chao.uc.js)
-Make Firefox support multiple tab rows.
+Make Firefox support multiple rows of tabs.
 
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/scrolling.png)
 ## Highlights
