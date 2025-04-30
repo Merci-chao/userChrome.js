@@ -44,7 +44,7 @@ Make Firefox support multiple tab rows.
 - Restart Firefox to apply.
 
 ## Settings
-Open `about:config` and search for the prefix `userChromeJS.multiTabRows@Merci.chao`. 
+Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) and search for the prefix `userChromeJS.multiTabRows@Merci.chao`. 
 
 | Name | Description |
 | ------------- | ------------- |
