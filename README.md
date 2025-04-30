@@ -50,29 +50,29 @@ Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox
 | ------------- | ------------- |
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` to enable or `0` to disable. The value will be updated with the last checking time. **It is strongly recommended to enable it, as outdated scripts will most likely not work on newer versions of Firefox.** |
 | `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
+| `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11, unavailable when Mica is activated and "Accent Color on Title Bars" is inactivated. |
+| `debugMode` | Mode for debugging, not for general use. |
+| `dynamicThemeImageSize` | When using themes, the size of the background image changes with the current number of rows. |
+| `floatingBackdropBlurriness` | How blurry the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The minimum value is `0`. Not available on Firefox 115. |
+| `floatingBackdropClip` | Clip the area covered by items on the tabs toolbar when scrolling, available when `tabsUnderControlButtons` is `2`. |
+| `floatingBackdropOpacity` | How opaque the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
+| `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. The minimum value is `0`. |
+| `hideAllTabs` | Hide the "List all tabs" button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing "Remove from Toolbar". |
+| `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when scrolling, available when `tabsUnderControlButtons` is `2`. |
+| `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. The minimum value is `1`. |
+| `linesToScroll` | How many rows to scroll when using the mouse wheel. The minimum value is `1`. |
 | `maxTabRows` | Maximum number of rows to display at once. The minimum value is `1`. |
-| `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
 | `rowIncreaseEvery` | Each time the window width is increased by this amount, one more row is allowed. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
+| `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
+| `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
+| `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`. |
 | `spaceAfterTabs` | Empty space before the window control buttons. The minimum value is `0`. |
 | `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. The minimum value is `0`. |
 | `spaceBeforeTabs` | Empty space on the left side of the window. The minimum value is `0`. |
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. The minimum value is `0`. |
-| `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. The minimum value is `0`. |
-| `tabsUnderControlButtons` | Show tabs below window control buttons when there are multiple rows: `0` (never), `1` (when rows are not scrolling), `2` (always).<br>**⚠️ Please note:**<ul><li>This feature is incompatible with Firefox's native tab groups feature, and will be forcibly disabled if there are any tab groups.</li><li>This feature is experimental and may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature.</li></ul> |
 | `tabsbarItemsAlign` | Alignment of the Tabs Bar, allowed values are: `start` (top), `center` and `end` (bottom). This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with rows scrolling. |
-| `linesToScroll` | How many rows to scroll when using the mouse wheel. The minimum value is `1`. |
-| `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. The minimum value is `1`. |
+| `tabsUnderControlButtons` | Show tabs below window control buttons when there are multiple rows: `0` (never), `1` (when rows are not scrolling), `2` (always).<br>**⚠️ Please note:**<ul><li>This feature is incompatible with Firefox's native tab groups feature, and will be forcibly disabled if there are any tab groups.</li><li>This feature is experimental and may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature.</li></ul> |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
-| `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`. |
-| `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
-| `dynamicThemeImageSize` | When using themes, the size of the background image changes with the current number of rows. |
-| `hideAllTabs` | Hide the "List all tabs" button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing "Remove from Toolbar". |
-| `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11, unavailable when Mica is activated and "Accent Color on Title Bars" is inactivated. |
-| `floatingBackdropClip` | Clip the area covered by items on the tabs toolbar when scrolling, available when `tabsUnderControlButtons` is `2`. |
-| `floatingBackdropBlurriness` | How blurry the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The minimum value is `0`. Not available on Firefox 115. |
-| `floatingBackdropOpacity` | How opaque the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
-| `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when scrolling, available when `tabsUnderControlButtons` is `2`. |
-| `debugMode` | Mode for debugging, not for general use. |
 
 ## Changelog
 Version 2.6
