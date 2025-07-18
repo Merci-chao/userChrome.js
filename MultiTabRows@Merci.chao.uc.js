@@ -1,7 +1,7 @@
 "use strict";
 // ==UserScript==
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
-// @version        2.6
+// @version        3.0
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @supportURL     https://github.com/Merci-chao/userChrome.js#changelog
@@ -11,46 +11,104 @@
 // ==/UserScript==
 
 try {
-
-try {
-	Services.prefs.setBoolPref("sidebar.verticalTabs", false);
-	Services.prefs.lockPref("sidebar.verticalTabs");
-	[...document.querySelectorAll("#toolbar-context-toggle-vertical-tabs, #context_toggleVerticalTabs")]
-			.forEach(e => e.disabled = true);
-} catch(e) {}
-
 if (gBrowser?._initialized) {
 	setup();
-	let {tabContainer} = gBrowser;
-	tabContainer.uiDensityChanged();
-	tabContainer._handleTabSelect(true);
+	let tc = gBrowser.tabContainer;
+	if (gBrowser.pinnedTabsContainer)
+		tc.arrowScrollbox
+				.prepend(...tc.visibleTabs.slice(0, gBrowser.pinnedTabCount));
+	tc.uiDensityChanged();
+	tc._handleTabSelect(true);
+	tc._invalidateCachedTabs();
+	tc._updateInlinePlaceHolder();
 } else
-	addEventListener("DOMContentLoaded", setup, {once: true});
+	addEventListener("DOMContentLoaded", () => {
+		try { setup() } catch(e) { alert(["MultiTabRows@Merci.chao.uc.js",e,e.stack].join("\n"));console.error(e) }
+	}, {once: true});
 
 function setup() {
+const [START, END, LEFT, RIGHT, START_PC, END_PC, DIR] = RTL_UI ?
+		["right", "left", "end", "start", "100%", "0%", -1] : ["left", "right", "start", "end", "0%", "100%", 1];
+const EPSILON = .001;
 
-let win7 = matchMedia("(-moz-platform: windows-win7)").matches;
-let win8 = matchMedia("(-moz-platform: windows-win8)").matches;
-let accentColorInTitlebarMQ = matchMedia("(-moz-windows-accent-color-in-titlebar)");
-let micaEnabled = matchMedia("(-moz-windows-mica)").matches;
+class Rect {
+	constructor(start, y, width = 0, height = 0, widthRoundingDiff = 0, heightRoundingDiff = 0) {
+		assign(this, {start, y, width, height, widthRoundingDiff, heightRoundingDiff, visible: start != null && y != null});
+	}
+
+	#start; #y;
+
+	#pos(n) {
+		let v = n == "y" ? this.#y : this.#start;
+		if (v == null)
+			console.error("Can't access position of a hidden or disconnected element", this.element);
+		return v ?? 0;
+	}
+
+	get start() { return this.#pos("start") }
+	set start(v) { this.#start = v }
+
+	get end() { return this.start + this.width * DIR }
+	set end(v) { this.width = (v - this.start) * DIR }
+
+	get x() { return this[LEFT] }
+	set x(v) { this[LEFT] = v }
+
+	get right() { return this[RIGHT] }
+	set right(v) { this[RIGHT] = v }
+
+	get left() { return this.x }
+	set left(v) { this.x = v }
+
+	get y() { return this.#pos("y") }
+	set y(v) { this.#y = v }
+
+	get top() { return this.y }
+	set top(v) { this.y = v }
+
+	get bottom() { return this.y + this.height }
+	set bottom(v) { this.height = v - this.y }
+
+	clone() {
+		return assign(new Rect(this.#start, this.#y), this);
+	}
+}
+
+const appVersion = parseInt(Services.appinfo.version);
+
+{
+	let {prefs} = Services;
+	let pref = "sidebar.verticalTabs";
+	try {
+		if (prefs.getBoolPref(pref)) {
+			prefs.setBoolPref(pref, false);
+			restartFirefox();
+			return;
+		}
+		prefs.lockPref(pref);
+
+		$$("#toolbar-context-toggle-vertical-tabs, #context_toggleVerticalTabs").forEach(e => e.disabled = true);
+	} catch(e) {}
+}
+
+const CLOSING_THE_ONLY_TAB = Symbol("closingTheOnlyTab");
+
+const win7 = matchMedia("(-moz-platform: windows-win7)").matches;
+const win8 = matchMedia("(-moz-platform: windows-win8)").matches;
+const accentColorInTitlebarMQ = matchMedia("(-moz-windows-accent-color-in-titlebar)");
+const micaEnabled = matchMedia("(-moz-windows-mica)").matches;
 let mica;
 let defaultDarkTheme, defaultAutoTheme, defaultTheme;
 
-let appVersion = parseInt(Services.appinfo.version);
-let [START_PC, END_PC, DIR] = RTL_UI ? ["100%", "0%", -1] : ["0%", "100%", 1];
-let EPSILON = .001;
-let {assign} = Object;
+const root = document.documentElement;
 
-let root = document.documentElement;
+let console, debug;
 
-let debug, log, trace, time, timeLog, timeEnd;
-
-let prefBranchStr = "userChromeJS.multiTabRows@Merci.chao.";
+const prefBranchStr = "userChromeJS.multiTabRows@Merci.chao.";
 let prefs;
 {
-	function createDefaultPrefs() {
-		mica = micaEnabled && defaultAutoTheme
-				&& !accentColorInTitlebarMQ.matches;
+	const createDefaultPrefs = () => {
+		mica = micaEnabled && defaultAutoTheme && !accentColorInTitlebarMQ.matches;
 
 		return {
 			maxTabRows: 4,
@@ -72,18 +130,22 @@ let prefs;
 			tabsUnderControlButtons: 2,
 			debugMode: 0,
 			floatingBackdropClip: win7 || win8 ? defaultTheme : mica,
-			floatingBackdropBlurriness: appVersion > 115 ? 5 : null,
-			floatingBackdropOpacity: appVersion > 115 && !mica ? 25 : 75,
+			floatingBackdropBlurriness: appVersion > 116 ? 5 : null,
+			floatingBackdropOpacity: appVersion > 116 && !mica ? 25 : 75,
 			compactControlButtons: !(win7 || win8) ? mica : null,
-			hideAllTabs: appVersion == 115 ? false : null,
+			hideAllTabs: $("#alltabs-button")?.getAttribute("removable") == "false" ? false : null,
 			checkUpdate: 1,
 			checkUpdateFrequency: 1,
+			// inlinePinnedTabs: false,
+			dragToGroupTabs: gBrowser.tabGroups ? true : null,
+			dynamicMoveOverThreshold: gBrowser.tabGroups ? true : null,
+			nativeWindowStyle: appVersion > 130 ? false : null,
 		};
 	};
 
-	let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
+	const setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
 			value != null && branch[`set${{string:"String",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name, value));
-	let getPrefs = (branch, data) => Object.fromEntries(Object.entries(data)
+	const getPrefs = (branch, data) => Object.fromEntries(Object.entries(data)
 			.filter(([name, value]) => value != null)
 			.map(([name, value]) => [name, branch[`get${{string:"String",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name)]));
 
@@ -92,7 +154,13 @@ let prefs;
 	updatePrefsDependency(true);
 
 	Object.keys(prefs).forEach(n => Services.prefs.addObserver(prefBranchStr + n, onPrefChange));
-	let observedBrowserPrefs = ["extensions.activeThemeID", "browser.toolbars.bookmarks.visibility", "browser.tabs.tabMinWidth"];
+	let observedBrowserPrefs = [
+		"extensions.activeThemeID",
+		"browser.toolbars.bookmarks.visibility",
+		"browser.tabs.tabMinWidth",
+		"browser.tabs.groups.enabled",
+		"browser.tabs.dragDrop.moveOverThresholdPercent",
+	];
 	for (let p of observedBrowserPrefs)
 		Services.prefs.addObserver(p, onPrefChange);
 	accentColorInTitlebarMQ.onchange = () => onPrefChange(null, null, "-moz-windows-accent-color-in-titlebar");
@@ -108,12 +176,21 @@ let prefs;
 		prefs = createDefaultPrefs();
 		setDefaultPrefs(Services.prefs.getDefaultBranch(prefBranchStr), prefs);
 		prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), prefs);
+		let needUpdateStyle;
+		if (prefs.maxTabRows < 2)
+			prefs.tabsUnderControlButtons = 0;
+		if (prefs.floatingBackdropClip)
+			prefs.floatingBackdropOpacity = 75;
+		try {
+			if (Services.prefs.getIntPref("browser.tabs.dragDrop.moveOverThresholdPercent") <= 50)
+				prefs.dynamicMoveOverThreshold = false;
+		} catch(e) {}
 	}
 
 	function onPrefChange(pref, type, name) {
 		if (window.MultiTabRows_updatingPref) return;
 
-		log(name);
+		console.log(name);
 
 		if (name == "extensions.activeThemeID")
 			updateThemeStatus();
@@ -149,8 +226,6 @@ let prefs;
 				tabContainer._updateInlinePlaceHolder();
 				break;
 			case "tabsUnderControlButtons":
-				if (hasTabGoups())
-					prefs.tabsUnderControlButtons = 0;
 				setStyle();
 				tabsBar.toggleAttribute("tabs-hide-placeholder",
 						tabContainer.overflowing && prefs.tabsUnderControlButtons < 2);
@@ -178,8 +253,14 @@ let prefs;
 				setStyle();
 				updateNavToolboxNetHeight();
 				break;
+			case "maxTabRows":
+				setStyle();
+				scrollbox.dispatchEvent(new Event("overflow"));
+				break;
 			case "checkUpdate":
 			case "checkUpdateFrequency":
+			case "browser.tabs.groups.enabled":
+			case "browser.tabs.dragDrop.moveOverThresholdPercent":
 				break;
 			default:
 				setStyle();
@@ -188,6 +269,11 @@ let prefs;
 
 	function updatePrefsDependency(enbale) {
 		let singleRow = prefs.maxTabRows < 2;
+		let nativeDragToGroup;
+		try {
+			nativeDragToGroup = Services.prefs.getBoolPref("browser.tabs.groups.enabled") &&
+					Services.prefs.getIntPref("browser.tabs.dragDrop.moveOverThresholdPercent") > 50;
+		} catch(e) {}
 		lock("compactControlButtons", mica);
 		lock("rowStartIncreaseFrom", singleRow);
 		lock("rowIncreaseEvery", singleRow);
@@ -197,13 +283,21 @@ let prefs;
 		lock("tabsUnderControlButtons", singleRow);
 		lock("floatingBackdropClip", singleRow || prefs.tabsUnderControlButtons < 2);
 		lock("floatingBackdropBlurriness",
-				prefs.floatingBackdropOpacity >= 100 || prefs.floatingBackdropClip
-						|| singleRow || prefs.tabsUnderControlButtons < 2 || mica);
+				prefs.floatingBackdropOpacity >= 100 || prefs.floatingBackdropClip ||
+				singleRow || prefs.tabsUnderControlButtons < 2 || mica || prefs.nativeWindowStyle);
 		lock("floatingBackdropOpacity", prefs.floatingBackdropClip || singleRow || prefs.tabsUnderControlButtons < 2);
 		lock("checkUpdateFrequency", !prefs.checkUpdate);
+		lock("nativeWindowStyle", !defaultTheme);
+		lock("dynamicMoveOverThreshold", !nativeDragToGroup || !prefs.dragToGroupTabs);
+		lock("dragToGroupTabs", !nativeDragToGroup);
 
 		function lock(name, toLock) {
-			try {Services.prefs[enbale && toLock ? "lockPref" : "unlockPref"](prefBranchStr + name)} catch(e) {}
+			try {
+				Services.prefs[enbale && toLock ? "lockPref" : "unlockPref"](prefBranchStr + name);
+			} catch(e) {
+				if (prefs.debug)
+					console.warn(e);
+			}
 		}
 	}
 }
@@ -222,9 +316,9 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		let remote = getVer(remoteScript);
 		if (remote.localeCompare(local, undefined, {numeric: true}) <= 0) return;
 		let p = Services.prompt;
-		let buttons = p.BUTTON_POS_0 * p.BUTTON_TITLE_YES
-				+ p.BUTTON_POS_1 * p.BUTTON_TITLE_IS_STRING
-				+ p.BUTTON_POS_2 * p.BUTTON_TITLE_NO;
+		let buttons = p.BUTTON_POS_0 * p.BUTTON_TITLE_YES +
+				p.BUTTON_POS_1 * p.BUTTON_TITLE_IS_STRING +
+				p.BUTTON_POS_2 * p.BUTTON_TITLE_NO;
 		let dontAsk = {};
 		switch (p.confirmEx(window, "Update Notification", `Multi Tab Rows version ${remote} is released. Would you want to view it now?`,
 				buttons, "", "Remind Tomorrow", "", `Stop checking when selecting "No" (strongly not recommended)`, dontAsk)) {
@@ -243,20 +337,27 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 	})();
 }
 
-time("setup");
+console.time("setup");
 
-let tabsBar = document.getElementById("TabsToolbar");
-let {tabContainer} = gBrowser, {arrowScrollbox} = tabContainer, {scrollbox} = arrowScrollbox;
-let slot = scrollbox.querySelector("slot");
+const tabsBar = document.getElementById("TabsToolbar");
+const {tabContainer} = gBrowser, {arrowScrollbox} = tabContainer, {scrollbox} = arrowScrollbox;
+const slot = $("slot", scrollbox);
 
-let tabAnimation = getComputedStyle(gBrowser.selectedTab).transition.match(/(?<=min-width )[^,]+|$/)[0]
-		|| ".1s ease-out";
-let dragTransitionSpeed = +getComputedStyle(tabContainer).getPropertyValue("--tab-dragover-transition").match(/\d+(?=ms)|$/)[0] || 200;
+const dropToPinSupported = tabContainer.constructor.toString().includes("#updateTabStylesOnDrag");
+
+let tabResizeAnimation = (
+	gBrowser.selectedTab &&
+	getComputedStyle(gBrowser.selectedTab).transition.match(/(?<=min-width )[^,]+|$/)[0]
+) || ".1s ease-out";
+let tabDragoverAnimation = getComputedStyle(root).getPropertyValue("--tab-dragover-transition").match(/\d.+|$/)[0] ||
+		"200ms var(--animation-easing-function)"
+let tabDragoverAnimationSpeed = +tabDragoverAnimation.match(/\d+(?=ms)|$/)[0] || 200;
 
 let tabHeight = 0;
 let tabMinWidth = 0;
 let newTabButtonWidth = 0;
 let scrollbarWidth = 0;
+let animatingLayout;
 
 let fakeScrollbar = document.createXULElement("box");
 fakeScrollbar.part = "fake-scrollbar";
@@ -286,25 +387,31 @@ function setStyle() {
 //fx 115 doesn't support CSS cascade so use some variables to save code
 let _, context, condition, x, y;
 let floatingButtonStyle;
-let {rowStartIncreaseFrom: rSIF, rowIncreaseEvery: rIE, maxTabRows: maxRows} = prefs;
-let singleRow = maxRows < 2 ? "screen" : `(max-width: ${rSIF + rIE - EPSILON}px)`;
-let multiRows = `(min-width: ${rSIF + rIE}px)`;
-let twoOrLessRows = maxRows < 3 ? "screen" : `(max-width: ${rSIF + rIE * 2 - EPSILON}px)`;
-let lastTab = `:is(
-	#tabbrowser-arrowscrollbox > .tabbrowser-tab:nth-last-child(2 of :not([hidden])),
-	tab-group:not([collapsed]):nth-last-child(2 of :not([hidden])) .tabbrowser-tab:nth-last-child(1 of :not([hidden])),
-	tab-group[collapsed]:nth-last-child(2 of :not([hidden])) .tab-group-label-container
+const {rowStartIncreaseFrom: rSIF, rowIncreaseEvery: rIE, maxTabRows: maxRows} = prefs;
+const singleRow = maxRows < 2 ? "screen" : `(max-width: ${rSIF + rIE - EPSILON}px)`;
+const multiRows = `(min-width: ${rSIF + rIE}px)`;
+const twoOrLessRows = maxRows < 3 ? "screen" : `(max-width: ${rSIF + rIE * 2 - EPSILON}px)`;
+const visible = `:not([hidden], [closing])`;
+const lastTab = `:is(
+	#tabbrowser-arrowscrollbox > .tabbrowser-tab:nth-last-child(2 of ${visible}),
+	tab-group:not([collapsed]):nth-last-child(2 of ${visible}) >
+			:nth-last-child(1 of :is(.tabbrowser-tab${visible}, .tab-group-label-container)),
+	tab-group[collapsed]:nth-last-child(2 of ${visible}) > :is(
+		:not([hasactivetab]) > .tab-group-label-container,
+		:not([hasmultipletabs]) > .tabbrowser-tab[selected],
+		[hasactivetab][hasmultipletabs] > .tab-group-overflow-count-container
+	)
 )`;
-let adjacentNewTab = "#tabbrowser-tabs[hasadjacentnewtabbutton] ~ #new-tab-button";
-let dropOnItems = ":is(#home-button, #downloads-button, #bookmarks-menu-button, #personal-bookmarks)";
-let dropOnItemsExt = "#TabsToolbar[tabs-dragging-ext] :is(#new-tab-button, #new-window-button)";
-let shownMenubar = "#toolbar-menubar:is(:not([inactive]), [autohide=false])";
-let hideMenubar = "#toolbar-menubar[autohide=true][inactive]";
-let topMostTabsBar = `:root:is([tabsintitlebar], [customtitlebar]) ${hideMenubar} + #TabsToolbar`;
-let hidePlaceHolder = "[customizing], [tabs-hide-placeholder]";
-let showPlaceHolder = `:not(${hidePlaceHolder})`;
-let tbDraggingHidePlaceHolder = ":is([tabs-dragging], [movingtab]):not([moving-positioned-tab])";
-let staticPreTabsPlaceHolder = ":is([tabs-scrolledtostart], [pinned-tabs-wraps-placeholder])";
+const adjacentNewTab = "#tabbrowser-tabs[hasadjacentnewtabbutton] ~ #new-tab-button";
+const dropOnItems = ":is(#home-button, #downloads-button, #bookmarks-menu-button, #personal-bookmarks)";
+const dropOnItemsExt = "#TabsToolbar[tabs-dragging-ext] :is(#new-tab-button, #new-window-button)";
+const shownMenubar = "#toolbar-menubar:is(:not([inactive]), [autohide=false])";
+const hideMenubar = "#toolbar-menubar[autohide=true][inactive]";
+const topMostTabsBar = `:root:is([tabsintitlebar], [customtitlebar]) ${hideMenubar} + #TabsToolbar`;
+const hidePlaceHolder = "[customizing], [tabs-hide-placeholder]";
+const showPlaceHolder = `:not(${hidePlaceHolder})`;
+const tbDraggingHidePlaceHolder = ":is([tabs-dragging], [movingtab]):not([moving-positioned-tab])";
+const staticPreTabsPlaceHolder = ":is([tabs-scrolledtostart], [pinned-tabs-wraps-placeholder])";
 
 mainStyle.innerHTML = `
 :root {
@@ -327,7 +434,7 @@ ${_="#TabsToolbar"} {
 	--space-after-tabs: ${prefs.spaceAfterTabs}px;
 	--tabs-scrollbar-width: 0px;
 	--tabs-scrollbar-visual-width: 0px;
-	--tabs-item-opacity-transition: ${getComputedStyle(arrowScrollbox.shadowRoot.querySelector("[part=overflow-end-indicator]"))
+	--tabs-item-opacity-transition: ${getComputedStyle($("[part=overflow-end-indicator]", arrowScrollbox.shadowRoot))
 			.transition.match(/\d.+|$/)[0] || ".15s"};
 }
 
@@ -341,6 +448,14 @@ ${_="#TabsToolbar"} {
 	--space-before-tabs: ${prefs.spaceBeforeTabsOnMaximizedWindow}px;
 	--space-after-tabs: ${prefs.spaceAfterTabsOnMaximizedWindow}px;
 }
+
+${prefs.nativeWindowStyle ? `
+	:root:not([inFullscreen]),
+	:root:not([inFullscreen]) #navigator-toolbox {
+		background-color: transparent !important;
+		border-top-color: transparent !important;
+	}
+` : ``}
 
 ${win7 || win8 ? `
 	/*refer to browser-aero.css and browser-aero.css*/
@@ -417,29 +532,41 @@ ${adjacentNewTab} {
 
 #tabbrowser-tabs {
 	--gap-after-pinned: ${prefs.gapAfterPinned}px;
-	--tab-animation: ${debug == 2 ? "1s ease" : tabAnimation};
+	--tab-resize-animation: ${debug > 1 ? `${debug * .5}s ease` : tabResizeAnimation};
+	--tab-dragover-animation-speed: ${debug > 1 ? debug * 500 : tabDragoverAnimationSpeed}ms;
+	--tab-dragover-animation: ${debug > 1 ? `${debug * .5}s ease` : tabDragoverAnimation};
+	--tab-animation: var(--tab-dragover-animation);
 	--tabstrip-padding: 0px;
 	--tabstrip-border-width: 0px;
 	--tabstrip-border-color: transparent;
 	--tabstrip-border: var(--tabstrip-border-width) solid var(--tabstrip-border-color);
 	--tabstrip-size: calc(var(--tabstrip-padding) * 2 + var(--tabstrip-border-width));
+	${appVersion < 132 ? `
+		--tab-overflow-clip-margin: 2px;
+		--tab-inline-padding: 8px;
+	` : ``}
+}
+
+#tabbrowser-tabs[tab-resizing] {
+	--tab-animation: var(--tab-resize-animation);
 }
 
 /*ui.prefersReducedMotion = 1*/
 @media (prefers-reduced-motion: reduce) {
 	#tabbrowser-tabs {
-		--tab-animation: 0s;
+		--tab-resize-animation: 0s;
+		--tab-dragover-animation: 0s;
 	}
 }
 
-/*Highlight effect of _notifyBackgroundTab*/
 ${_="#tabbrowser-arrowscrollbox"} {
+	/*Highlight effect of _notifyBackgroundTab*/
 	--scrollbar-track-color: ${prefs.scrollbarTrackColor == "auto" ?
 			win7 && defaultDarkTheme ? "var(--tab-icon-overlay-fill)" : "var(--toolbar-bgcolor)" : prefs.scrollbarTrackColor};
 	scrollbar-color: ${prefs.scrollbarThumbColor == "auto" ?
 			root.style.getPropertyValue("--toolbarbutton-icon-fill") ?
 				"var(--toolbarbutton-icon-fill)" : "var(--toolbar-color)" : prefs.scrollbarThumbColor} var(--scrollbar-track-color);
-	transition: scrollbar-color ${getComputedStyle(arrowScrollbox.shadowRoot.querySelector("[part=scrollbutton-down]"))
+	transition: scrollbar-color ${getComputedStyle($("[part=scrollbutton-down]", arrowScrollbox.shadowRoot))
 			.transition.match(/\d.+|$/)[0] || "1s ease-out"};
 }
 
@@ -450,16 +577,23 @@ ${_="#tabbrowser-arrowscrollbox"} {
 }
 
 ${_}[highlight] {
-	--scrollbar-track-color: var(${appVersion == 115 ? "--tab-attention-icon-color" : "--attention-dot-color"});
+	--scrollbar-track-color: var(--attention-dot-color, var(--tab-attention-icon-color));
 	transition-duration: 0s;
 }
 
 /*ensure the new tab button won't be wrapped to the new row in any case*/
-/*TODO tab-group support*/
 ${(() => {
 	let css = `
 		${CSS.supports("selector(:has(*))") ? `
-			${_}:has(.tabbrowser-tab:nth-child(1 of :not([hidden])):nth-last-child(1 of .tabbrowser-tab:not([hidden])))::part(slot) {
+			${_}:has(
+				.tabbrowser-tab:is(
+					${_} > *
+				):nth-child(
+					1 of :not([hidden])
+				):nth-last-child(
+					1 of :not([hidden], ${_}-periphery)
+				)
+			)::part(items-wrapper) {
 				flex-wrap: nowrap;
 			}
 		` : `
@@ -482,8 +616,8 @@ ${!CSS.supports("selector(:has(*))") ? `
 	@media ${singleRow} {
 		/*in single row mode, they are wrapped to new line once the box overflows,
 		  hide them to underflow the box*/
-		${_}[overflowing]::part(slot)::before,
-		${_}[overflowing]::part(slot)::after,
+		${_}[overflowing]::part(items-wrapper)::before,
+		${_}[overflowing]::part(items-wrapper)::after,
 		${_}[overflowing] #tabbrowser-arrowscrollbox-periphery {
 			visibility: collapse;
 		}
@@ -493,6 +627,11 @@ ${!CSS.supports("selector(:has(*))") ? `
 /*do not limit the box width when [positionpinnedtabs]*/
 #tabbrowser-tabs:not([positionpinnedtabs])[overflow] ${_} {
 	min-width: calc(var(--calculated-tab-min-width) + var(--tabs-scrollbar-width)) !important;
+}
+
+.tab-drop-indicator {
+	transition: transform var(--tab-dragover-animation);
+	z-index: calc(1/0);
 }
 
 /*use the start and end indicators for the hint of left and right edges when moving multiple tabs*/
@@ -511,7 +650,7 @@ ${_}::part(overflow-end-indicator) {
 	border-left: .5px solid rgba(255,255,255,.2);
 	position: relative;
 	border-bottom: .5px solid transparent;
-	z-index: 4;
+	z-index: calc(4 + var(--tabs-moving-max-z-index, 0));
 	margin-inline: ${RTL_UI ? ".5px -7.5px" : "-.5px -6.5px"};
 }
 
@@ -523,7 +662,7 @@ ${_}::part(overflow-end-indicator) {
 	translate: calc(var(--tabs-scrollbar-width) * -1 * ${DIR});
 }
 
-${context="#tabbrowser-tabs:is([multirows], [overflow])[movingtab]:not([moving-positioned-tab], [movingsingletab], [animate-finishing])"}
+${context="#tabbrowser-tabs:is([multirows], [overflow])[movingtab]:not([moving-positioned-tab], [moving-single-tab], [animate-finishing])"}
 		${_}::part(overflow-start-indicator),
 ${context}
 		${_}::part(overflow-end-indicator) {
@@ -539,7 +678,7 @@ ${_}::part(scrollbutton-up),
 ${_}::part(scrollbutton-down) {
 	--height: calc(var(--tab-height) / 3);
 	position: absolute;
-	z-index: 1;
+	z-index: calc(1/0);
 	width: var(--slot-width, 0);
 	border: 0 !important;
 	padding: 0 !important;
@@ -569,6 +708,7 @@ ${_}::part(scrollbutton-down) {
 ${context="#tabbrowser-tabs[positionpinnedtabs]"} ${_}::part(scrollbutton-up),
 ${context} ${_}::part(scrollbutton-down) {
 	margin-inline-start: var(--gap-after-pinned);
+	z-index: calc(1/0);
 }
 
 ${context="#tabbrowser-tabs[overflow][dragging]:not([moving-positioned-tab])"}
@@ -588,11 +728,13 @@ ${_}::part(scrollbox) {
 ` : ""}
 }
 
-#tabbrowser-tabs[positionpinnedtabs] ${_}::part(scrollbox) {
-	/*padding cause inconsistent width result*/
-	padding-inline: 0 !important;
-	margin-inline-start: var(--gap-after-pinned);
-}
+${!prefs.inlinePinnedTabs ? `
+	#tabbrowser-tabs[positionpinnedtabs] ${_}::part(scrollbox) {
+		/*padding cause inconsistent width result*/
+		padding-inline: 0 !important;
+		margin-inline-start: var(--gap-after-pinned);
+	}
+` : ``}
 
 /*avoid the native drag scroll behavior*/
 #tabbrowser-tabs${condition="[overflow]:is([dragging], [tabmousedown])"} ${_}::part(scrollbox) {
@@ -615,72 +757,283 @@ ${_}::part(fake-scrollbar)::before {
 	width: 1px;
 }
 
-${_}::part(slot) {
-	min-width: 1px; /*ensure it is visible and able to make the scrollbox overflow*/
+${_}::part(items-wrapper) {
 	flex-wrap: wrap;
-	height: var(--slot-height, auto);
-	width: var(--slot-width, auto);
-	align-items: start;
+	min-height: var(--slot-height, var(--tab-height));
+	min-width: var(--slot-width, 1px); /*ensure it is visible and able to make the scrollbox overflow*/
+	align-items: end;
 	align-content: start;
-	transition: padding-bottom var(--tab-animation);
+	transition: padding-bottom var(--tab-resize-animation);
 	/*fx115*/
 	display: flex;
-	flex: 1;
+	flex: 1 0 0;
 }
 
 /*avoid any weird stuff going out of bounds and causing the scrollbox to overflow*/
-${_}:not([scrollsnap])::part(slot),
+${_}:not([scrollsnap])::part(items-wrapper),
 /*when dragging tab outside the boundary, it makes the slot not expand*/
-#tabbrowser-tabs[movingtab] ${_}::part(slot) {
+#tabbrowser-tabs[movingtab] ${_}::part(items-wrapper) {
 	overflow: hidden;
 }
 
-#tabbrowser-tabs[animate-finishing] ${_}::part(slot) {
+#tabbrowser-tabs[animate-finishing] ${_}::part(items-wrapper) {
 	pointer-events: none;
 }
 
-.tab-group-label-container {
-	margin-inline-end: var(--adjacent-newtab-button-adjustment, 0px);
-}
-
-${_=".tabbrowser-tab"} {
+${_=".tabbrowser-tab"}, .tab-group-label-container, .tab-group-overflow-count-container {
 	/*snap to end but not start as the first row may be occupied by the inline placeholder*/
 	scroll-snap-align: end;
-	margin-inline-end: calc(var(--moving-tab-width-adjustment, 0px) + var(--adjacent-newtab-button-adjustment, 0px)) !important;
+	margin-inline-end: var(--adjacent-newtab-button-adjustment, 0px) !important;
+}
+
+.tab-group-overflow-count-container {
+	margin-inline-end: calc(var(--adjacent-newtab-button-adjustment, 0px) + var(--group-line-padding)) !important;
+}
+
+[positionpinnedtabs] ${_}[pinned] {
+	position: absolute !important; /*fx141*/
+	top: 0;
+	z-index: 1;
+}
+
+/*make the animate smoother when opening/closing tab*/
+${_}:not([pinned]) {
+	padding: 0;
+}
+
+${_}:not([pinned])::before, ${_}:not([pinned])::after {
+	content: "";
+	width: var(--tab-overflow-clip-margin);
+	flex-shrink: 0;
+}
+
+${_}[closing] {
+	max-width: .1px !important;
+    min-width: .1px !important;
+	margin-inline-start: -.1px !important;
+}
+
+${_}[closing] .tab-stack {
+	overflow: hidden;
+}
+
+${_}:not([pinned]) .tab-content {
+	padding: 0;
+}
+
+${_}:not([pinned]) .tab-content::before,
+${_}:not([pinned]) .tab-content::after {
+	content: "";
+	width: var(--tab-inline-padding);
+	flex-shrink: 0;
 }
 
 /* for tabs with audio button, fix the size and display the button like pinned tabs */
-#tabbrowser-tabs[orient=horizontal] ${_}[fadein]:is([muted], [soundplaying], [activemedia-blocked]):not([pinned]) {
+#tabbrowser-tabs[orient] ${_}[fadein]:is([muted], [soundplaying], [activemedia-blocked]):not([pinned]) {
 	min-width: var(--calculated-tab-min-width);
-	
+
 	&[mini-audio-button] {
-		--tab-icon-end-margin: 5.5px;
-	
-		.tab-audio-button {
-			display: none !important;
+		&:has(.tab-icon-image:not([src], [crashed], [sharing], [pictureinpicture], [busy])) .tab-icon-overlay {
+			display: none;
+		}
+
+		&:has(.tab-icon-image:is([src], [crashed], [sharing], [pictureinpicture], [busy])) {
+			--tab-icon-end-margin: 5.5px;
+
+			.tab-audio-button {
+				display: none !important;
+			}
 		}
 	}
 }
 
-/*ensure the closing/not-fully-open tabs can have 0 width*/
-${_}:not([pinned], [fadein]) {
-	padding-inline: 0;
+#tabbrowser-tabs:not([movingtab]) ${_} {
+	transition: none;
 }
 
-#tabbrowser-tabs:not([movingtab])
-		${_}${condition=":not([pinned], [tabdrop-samewindow])"} {
-	transition: var(--tab-animation);
-	transition-property: max-width, min-width, padding;
+:is([animate-shifting], [moving]) .tab-group-label {
+	margin-right: calc(var(--width-rounding-diff) * -1);
+
+	&::after {
+		content: "";
+		margin-right: var(--width-rounding-diff);
+	}
 }
 
-#tabbrowser-tabs:not([movingtab])
-		${_}[fadein]${condition} {
-	transition-property: max-width, min-width;
+/*firefox bug, :active doesn't work on dragging*/
+#tabbrowser-tabs[movingtab]:not([moving-tabgroup]) ${_}[fadein][selected]:not([animate-shifting]),
+#tabbrowser-tabs[movingtab] .tab-group-label-container[moving] {
+	transition: none !important;
 }
 
-/*avoid min/max width transition when resizing the dragged tabs*/
-#tabbrowser-tabs[movingtab] ${_}:is([selected], [multiselected]):not([tabdrop-samewindow], [multiselected-move-together]) {
-	transition: translate var(--tab-animation);
+#tabbrowser-tabs:not([movingtab]) tab-group .tabbrowser-tab[fadein] {
+	transition: none;
+}
+
+/*firefox bug, transiton is still set on grouped tabs*/
+@media (prefers-reduced-motion: reduce) {
+	tab-group .tabbrowser-tab {
+		transition: none !important;
+	}
+}
+
+[animate-shifting] .tab-content {
+	overflow: hidden;
+}
+
+[animate-shifting] :is(.tab-stack, .tab-group-line) {
+	will-change: margin-inline-end;
+}
+
+[animate-shifting=start] {
+	--x: 0px;
+	--y: 0px;
+	--w: 0px;
+	z-index: 1;
+	transition: none !important;
+	translate: var(--x) var(--y);
+
+	& .tab-group-line,
+	&:is(.tab-group-label-container, .tab-group-overflow-count-container)::after {
+		translate: calc(var(--x) * -1) calc(var(--y) * -1) -1px;
+		margin-inline-end: var(--w);
+	}
+}
+
+[animate-shifting=start] .tab-stack {
+	margin-inline-end: calc(var(--w) * -1);
+}
+
+.tab-group-label-container[moving],
+#tabbrowser-tabs:not([moving-tabgroup], [moving-pinned-tab]) .tabbrowser-tab:not([pinned]):is([selected], [multiselected]):is(
+	[movingtab] *,
+	[animate-shifting]
+),
+[moving-pinned-tab] .tabbrowser-tab[pinned]:is([selected], [multiselected]) {
+	--translate-x: 0px;
+	--translate-y: 0px;
+	transform: translate(var(--translate-x), calc(var(--translate-y) + var(--scroll-top, 0px)));
+
+	.tab-group-line {
+		transform: translate3d(calc(var(--translate-x) * -1), calc(var(--translate-y) * -1 - var(--scroll-top, 0px)), -1px);
+	}
+}
+
+:is(:not([collapsed]), [toggling]) > .tabbrowser-tab:is(
+	#tabbrowser-tabs[movingtab]:not([moving-tabgroup], [moving-pinned-tab]) :is([selected], [multiselected]),
+	[animate-shifting]
+) {
+	--width-rounding-diff: 0px;
+	overflow: visible;
+
+	.tab-background {
+		transform-style: preserve-3d;
+	}
+
+	#tabbrowser-tabs[orient] & .tab-group-line {
+		/*add 1px more to advoid any gap due to missing the compenstate for rounding offset*/
+		/*generally it should be handled but it is difficult to guarantee*/
+		tab-group:not([fadein]) & {
+			inset-inline-start: calc(-1 * var(--tab-overflow-clip-margin) - 1px);
+		}
+
+		/*preserve-3d seems to make the positioning shifted*/
+		inset-block-end: calc((
+			var(--tab-group-line-toolbar-border-distance) +
+			var(--tab-group-line-thickness)
+		) * -1);
+	}
+}
+
+:is(:not([collapsed]), [toggling]) > .tabbrowser-tab:is(
+	#tabbrowser-tabs[movingtab]:not([moving-tabgroup], [moving-pinned-tab]) :is([selected], [multiselected]),
+	[animate-shifting]
+) .tab-stack > * {
+	margin-right: calc(var(--width-rounding-diff) * -1) !important;
+	transform-style: preserve-3d;
+}
+
+[animate-shifting=run],
+[animate-shifting=run] :is(.tab-stack, .tab-group-line),
+[animate-shifting=run]:is(.tab-group-label-container, .tab-group-overflow-count-container)::after {
+	transition: var(--tab-animation) !important;
+	transition-property: none !important;
+}
+
+[animate-shifting=run] {
+	transition-property: translate !important;
+}
+
+[animate-shifting=run] :is(.tab-stack, .tab-group-line) {
+	transition-property: translate, margin-inline !important;
+}
+
+[animate-shifting=run]:is(.tab-group-label-container, .tab-group-overflow-count-container)::after {
+	transition-property: translate !important;
+}
+
+[animate-finishing] [moving][animate-shifting=run],
+#tabbrowser-tabs:not([movingtab]) :not(tab-group[toggling]) > [animate-shifting=run] {
+	--transition-property: translate, transform;
+	transition-property: var(--transition-property) !important;
+
+	tab-group[fadein] & {
+		--transition-property: translate !important;
+	}
+
+	& .tab-group-line {
+		transition-property: var(--transition-property), margin-inline !important;
+	}
+}
+
+tab-group[toggling] {
+	pointer-events: none;
+
+	.tabbrowser-tab {
+		transition-property: translate !important;
+
+		tab-group[collapsed] & {
+			.tab-stack {
+				overflow: hidden;
+			}
+
+			.tab-group-line {
+				visibility: collapse;
+			}
+		}
+
+		tab-group:not([collapsed]) & {
+			overflow: visible;
+		}
+
+		/*TODO group line expands and shrinks a little when expanding group*/
+	}
+}
+
+/*firefox bug*/
+.tab-group-line {
+	/*last tab in group is not defined properly*/
+	#tabbrowser-tabs[orient] & {
+		${_}:not(:has(~ tab:not([hidden]))) > .tab-stack > .tab-background > & {
+			inset-inline-end: 0;
+			border-start-end-radius: calc(var(--tab-group-line-thickness) / 2);
+			border-end-end-radius: calc(var(--tab-group-line-thickness) / 2);
+		}
+	}
+
+	#tabbrowser-tabs[movingtab] ${_}:is([selected], [multiselected]) > .tab-stack > .tab-background > & {
+		--dragover-tab-group-color: var(--tab-group-color);
+		--dragover-tab-group-color-invert: var(--tab-group-color-invert);
+
+		${_}:has(~ tab:not([hidden])) & {
+			border-radius: 0;
+		}
+
+		${_}:not(:has(~ tab:not([hidden]))) & {
+			border-start-start-radius: 0;
+			border-end-start-radius: 0;
+		}
+	}
 }
 
 /*make moving pinned tabs above the selected normal tabs*/
@@ -689,14 +1042,33 @@ ${_}:not([pinned], [fadein]) {
 	z-index: 3;
 }
 
-#TabsToolbar:not([customizing]) #tabbrowser-tabs:not([overflow], [closing-tab-ignore-newtab-width])[hasadjacentnewtabbutton]
-		${lastTab} {
+${context="#TabsToolbar:not([customizing]) #tabbrowser-tabs:not([overflow], [ignore-newtab-width])[hasadjacentnewtabbutton]"}
+		${lastTab},
+${context} ${lastTab} ~ .tabbrowser-tab[closing] {
 	--adjacent-newtab-button-adjustment: var(--new-tab-button-width);
+
+	/*shift tabs to prevent the animation run at wrong position*/
+	tab-group[collapsed] & {
+		& ~ :nth-child(1 of .tabbrowser-tab:not([hidden])) {
+			margin-inline-start: calc(var(--new-tab-button-width) * -1);
+		}
+
+		& ~ :nth-last-child(1 of .tabbrowser-tab:not([hidden])) {
+			margin-inline-end: var(--new-tab-button-width) !important;
+		}
+	}
+
+	/*TODO emtpy group?*/
+}
+
+${context} ${lastTab} ~ .tabbrowser-tab[closing] {
+	margin-inline-start: calc(var(--new-tab-button-width) * -1 - .1px) !important;
 }
 
 #tabbrowser-tabs[forced-overflow] ${lastTab} {
 	--adjacent-newtab-button-adjustment: var(--forced-overflow-adjustment) !important;
 }
+
 
 /*move the margin-start to the last pinned, so that the first normal tab won't
   have a weird margin on the left when it is wrapped to new row. these importants are necessary here */
@@ -706,42 +1078,67 @@ ${_}:not([pinned], [fadein]) {
 }
 
 #tabbrowser-tabs[haspinnedtabs]:not([positionpinnedtabs]) > #tabbrowser-arrowscrollbox >
-		:nth-last-child(1 of [pinned]:not([hidden])):not(:nth-last-child(1 of ${_}:not([hidden]))) {
+		:nth-last-child(1 of [pinned]:not([hidden])):not(:nth-last-child(1 of :is(${_}:not([hidden], [closing]), tab-group))) {
 	margin-inline-end: var(--gap-after-pinned) !important;
 }
 
-${context="#tabbrowser-tabs[closebuttons=activetab]"}[orient=horizontal] ${_}[closebutton] .tab-close-button:not([selected]),
+/*exclude the pinned tabs since they may have the attribute when newly pinned*/
+${context="#tabbrowser-tabs[closebuttons=activetab]"}[orient] ${_}:not([pinned])[closebutton] .tab-close-button:not([selected]),
 /*fx 115*/
-${context} > #tabbrowser-arrowscrollbox > ${_}[closebutton] > .tab-stack > .tab-content > .tab-close-button:not([selected=true]) {
+${context} > #tabbrowser-arrowscrollbox > ${_}:not([pinned])[closebutton] > .tab-stack > .tab-content > .tab-close-button:not([selected=true]) {
 	display: flex;
 }
 
 /*bug fix for fx*/
-:root[uidensity=touch] #tabbrowser-tabs[orient=horizontal]
+:root[uidensity=touch] #tabbrowser-tabs[orient]
 		${_}:not([pinned], [fadein]) {
 	max-width: .1px;
 	min-width: .1px;
 }
 
-${_="#tabbrowser-arrowscrollbox-periphery"} {
-	transition: margin-inline-end var(--tab-animation);
+#tabbrowser-tabs${condition="[ignore-newtab-width]"}:not([overflow]) #tabbrowser-arrowscrollbox-periphery {
+	margin-inline-end: calc(var(--new-tab-button-width) * -1);
 }
 
-#tabbrowser-tabs:not([overflow])${condition="[closing-tab-ignore-newtab-width]"} ${_} {
-	margin-inline-end: calc(var(--new-tab-button-width) * -1);
+${condition}:not([multirows]) #tabs-newtab-button {
+	visibility: hidden;
 }
 
 #tabbrowser-tabs:not(${condition}) #tabs-newtab-button {
 	margin-inline-start: calc(var(--new-tab-button-width) * -1) !important;
 }
 
-/*make the spacer grow in sync with the closing tab to prevent the spacer from wrapping to new row*/
 .closing-tabs-spacer {
-	transition: width var(--tab-animation) !important;
+	transition: none !important;
 }
 
-.tab-group-label-container {
-	align-self: stretch;
+tab-group {
+	--group-line-padding: 3px;
+}
+
+#tabbrowser-tabs[orient] .tab-group-label-container {
+	height: var(--tab-height);
+	padding-inline: var(--group-line-padding);
+	margin-inline-start: 0;
+
+	tab-group:not([collapsed]) & {
+		&::after {
+			inset-inline-start: var(--group-line-padding);
+			pointer-events: none;
+		}
+
+		tab-group:not(:has(.tabbrowser-tab:not([hidden]))) &::after {
+			inset-inline-end: var(--group-line-padding);
+		}
+	}
+}
+
+.tab-group-label::before {
+	content: "";
+	display: block;
+	position: absolute;
+	inset: 0;
+	-moz-window-dragging: no-drag;
 }
 
 ${prefs.tabsUnderControlButtons ? `
@@ -774,14 +1171,16 @@ ${prefs.tabsUnderControlButtons ? `
 		--control-box-radius-end: 0px;
 		--control-box-clip-scrollbar: ${mica ? "0px" : "var(--control-box-reserved-height)"};
 		--control-box-clip-scrollbar-reserved: var(--scrollbar-clip-reserved);
+		/*3px is calculated from --box-shadow-tab*/
+		--tab-shadow-size: var(--tab-selected-shadow-size, var(--tab-shadow-max-size, 3px));
 		--tabs-placeholder-shadow: var(--tab-selected-shadow,
-				${getComputedStyle(gBrowser.selectedTab.querySelector(".tab-background")).boxShadow});
+				${getComputedStyle($(".tab-background", gBrowser.selectedTab)).boxShadow});
 		--tabs-placeholder-border-color: ${getComputedStyle(tabContainer).getPropertyValue("--tabstrip-inner-border")
 				.match(/(?<=\dpx \w+ ).+|$/)[0] || "color-mix(in srgb, currentColor 25%, transparent)"};
 		--tabs-placeholder-border-width: 1px;
 		--tabs-placeholder-border: var(--tabs-placeholder-border-width) solid var(--tabs-placeholder-border-color);
 		--tabs-placeholder-border-radius: ${prefs.floatingBackdropClip && prefs.tabsUnderControlButtons == 2 ? 0 : "var(--tab-border-radius)"};
-		--tabs-placeholder-backdrop: ${!prefs.floatingBackdropClip && prefs.floatingBackdropBlurriness && prefs.floatingBackdropOpacity < 100 && !mica ?
+		--tabs-placeholder-backdrop: ${!prefs.floatingBackdropClip && prefs.floatingBackdropBlurriness && prefs.floatingBackdropOpacity < 100 && !mica && !prefs.nativeWindowStyle ?
 				`blur(${prefs.floatingBackdropBlurriness}px)` : "none"};
 		--placeholder-background-color: var(${appVersion == 115 ?
 				(win7 && defaultDarkTheme ? "--tab-icon-overlay-fill"
@@ -805,7 +1204,7 @@ ${prefs.tabsUnderControlButtons ? `
 	` : ``}
 
 	${_}[tabs-scrolledtostart] {
-		--post-tabs-clip-reserved: calc(var(--tab-selected-shadow-size, var(--tab-shadow-max-size)) - var(--tab-overflow-clip-margin, 2px));
+		--post-tabs-clip-reserved: calc(var(--tab-shadow-size) - var(--tab-overflow-clip-margin, 2px));
 	}
 
 	${_}:-moz-window-inactive {
@@ -816,7 +1215,7 @@ ${prefs.tabsUnderControlButtons ? `
 				"--toolbox-bgcolor-inactive, var(--toolbox-non-lwt-bgcolor-inactive, var(--lwt-accent-color-inactive, var(--tab-selected-bgcolor, var(--lwt-selected-tab-background-color))))"});
 	}
 
-	${micaEnabled && accentColorInTitlebarMQ.matches && defaultAutoTheme ? `
+	${micaEnabled && accentColorInTitlebarMQ.matches && defaultAutoTheme || prefs.nativeWindowStyle ? `
 		${_} {
 			--placeholder-background-color: ActiveCaption;
 		}
@@ -862,7 +1261,7 @@ ${prefs.tabsUnderControlButtons ? `
 				:not(.toolbar-items),
 		${context}
 				#TabsToolbar-customization-target > :not(#tabbrowser-tabs) {
-			z-index: 2;
+			z-index: calc(2 + var(--tabs-moving-max-z-index, 0));
 		}
 
 		/*raise the tabs to cover the items when dragging*/
@@ -873,7 +1272,7 @@ ${prefs.tabsUnderControlButtons ? `
 		/*raise the items that can be dropped on to cover the tabs when dragging*/
 		${context} ${_=dropOnItems},
 		${dropOnItemsExt} {
-			z-index: 2;
+			z-index: calc(2 + var(--tabs-moving-max-z-index, 0));
 		}
 
 		${context}:not([tabs-scrolledtostart]) :is(${_}, ${dropOnItemsExt}:not(${adjacentNewTab})):is(#tabbrowser-tabs ~ *, #TabsToolbar:not([pinned-tabs-wraps-placeholder]) *)
@@ -936,25 +1335,31 @@ ${prefs.tabsUnderControlButtons ? `
 			margin-inline: calc(var(--pre-tabs-items-width) * -1) calc(var(--post-tabs-items-width) * -1) !important;
 		}
 
-		${context="#TabsToolbar"+showPlaceHolder} ${_}[overflow][hasadjacentnewtabbutton]:not([closing-tab-ignore-newtab-width]) ${lastTab} {
+		${context=`#TabsToolbar ${showPlaceHolder} ${_}[overflow][hasadjacentnewtabbutton]:not([ignore-newtab-width])`}
+				${lastTab},
+		${context} ${lastTab} ~ .tabbrowser-tab[closing] {
 			--adjacent-newtab-button-adjustment: var(--new-tab-button-width);
+		}
+
+		${context} ${lastTab} ~ .tabbrowser-tab[closing] {
+			margin-inline-start: calc(var(--new-tab-button-width) * -1 - .1px) !important;
 		}
 	}
 
 	${win7 || win8 || mica ? (()=>{
 		//there are two buttonbox, get the visible one
-		let box = gNavToolbox.querySelector("toolbar:not([autohide=true]) .titlebar-buttonbox");
+		let box = $("toolbar:not([autohide=true]) .titlebar-buttonbox", gNavToolbox);
 		let width, height;
 		if (mica)
 			box.style.alignSelf = "start";
 		if (box.clientHeightDouble)
-			({heightDouble: height, widthDouble: width} = getRect(box, {box: "margin"}));
+			({height, width} = getRect(box, {box: "margin"}));
 		else {
 			//as long as the title bar is not shown...
 			let s = box.style, ps = box.parentNode.style;
 			s.visibility = ps.visibility = "collapse";
 			s.display = ps.display = "flex";
-			({heightDouble: height, widthDouble: width} = getRect(box, {box: "margin"}));
+			({height, width} = getRect(box, {box: "margin"}));
 			s.display = s.visibility = ps.display = ps.visibility = "";
 		}
 		if (mica) {
@@ -1007,15 +1412,13 @@ ${prefs.tabsUnderControlButtons ? `
 					${x} ${y="var(--tab-height)"},
 					${x=`calc(${END_PC} - var(--scollbar-clip-width, (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved))) * ${DIR})`} ${y}
 				),
-				/*var(--scrollbar-clip,*/
-					${x} ${y=`calc(var(--control-box-reserved-height) - var(--tabs-top-space))`},
-					${x=`calc(${END_PC} - (var(--control-box-margin-end) + var(--control-box-radius-end)) * ${DIR})`} ${y},
-					${x=`calc(${END_PC} - var(--control-box-margin-end) * ${DIR})`} calc(var(--control-box-reserved-height) - var(--tabs-top-space) - var(--control-box-radius-end)),
-					${x} 0,
-					${x=END_PC} 0,
-				/*),*/
+				${x} ${y=`calc(var(--control-box-reserved-height) - var(--tabs-top-space))`},
+				${x=`calc(${END_PC} - (var(--control-box-margin-end) + var(--control-box-radius-end)) * ${DIR})`} ${y},
+				${x=`calc(${END_PC} - var(--control-box-margin-end) * ${DIR})`} calc(var(--control-box-reserved-height) - var(--tabs-top-space) - var(--control-box-radius-end)),
+				${x} 0,
+				${x=END_PC} 0,
 				${x} 100%,
-				var(--new-tab-clip, ${END_PC} 100%),
+				var(--new-tab-clip, ${x} 100%),
 				${START_PC} 100%
 			);
 		}
@@ -1030,19 +1433,7 @@ ${prefs.tabsUnderControlButtons ? `
 			}
 		` : ``}
 
-		/*
-		#TabsToolbar${tbDraggingHidePlaceHolder} ${_} {
-			--top-placeholder-clip:
-					${START_PC} calc(var(--tabs-top-space) * -1),
-					calc(${END_PC} - var(--tabs-scrollbar-width) * ${DIR})  calc(var(--tabs-top-space) * -1);
-		}
-
-		#TabsToolbar${tbDraggingHidePlaceHolder}:not([tabs-scrolledtostart]) ${_} {
-			--scrollbar-clip: ${END_PC} calc(var(--tabs-top-space) * -1);
-		}
-		*/
-
-		${context}:not([tabs-scrolledtoend])/*:not(${tbDraggingHidePlaceHolder})*/ ${_}[overflow][hasadjacentnewtabbutton] {
+		${context}:not([tabs-scrolledtoend]) ${_}[overflow][hasadjacentnewtabbutton] {
 			--new-tab-clip:
 				${x=`calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)) * ${DIR})`} 100%,
 				${x} ${y=`calc(100% - var(--tab-height))`},
@@ -1156,7 +1547,7 @@ ${prefs.tabsUnderControlButtons ? `
 		clip-path: inset(calc(var(--tab-height) + var(--tabs-placeholder-border-width)) 0 0 0);
 	}
 
-	${_="#tabbrowser-arrowscrollbox::part(slot)"}::before,
+	${_="#tabbrowser-arrowscrollbox::part(items-wrapper)"}::before,
 	${_}::after {
 		content: "";
 		pointer-events: none;
@@ -1191,20 +1582,27 @@ ${prefs.tabsUnderControlButtons ? `
 		width: var(--pre-tabs-items-width);
 	}
 
-	${context}[positionpinnedtabs] ${_}::before {
-		width: calc(var(--pre-tabs-items-width) - var(--tab-overflow-pinned-tabs-width) - var(--gap-after-pinned));
-	}
+	${prefs.inlinePinnedTabs ? `
+		${context}[positionpinnedtabs] ${_}::before {
+			height: var(--last-pinned-tab-bottom, var(--tab-height));
+			width: var(--last-pinned-tab-end, 0px);
+		}
+	` : `
+		${context}[positionpinnedtabs] ${_}::before {
+			width: calc(var(--pre-tabs-items-width) - var(--tab-overflow-pinned-tabs-width) - var(--gap-after-pinned));
+		}
+	`}
 
 	${context} ${_}::after {
 		width: calc(var(--post-tabs-items-width) - var(--tabs-scrollbar-width));
 	}
 
 	${_=".tabs-placeholder"} {
-		--clip-shadow: calc(var(--tab-selected-shadow-size, var(--tab-shadow-max-size)) * -1);
+		--clip-shadow: calc(var(--tab-shadow-size) * -1);
 		box-sizing: content-box;
 		height: var(--tab-height);
 		position: absolute;
-		z-index: 1;
+		z-index: calc(1 + var(--tabs-moving-max-z-index, 0));
 		box-shadow: var(--tabs-placeholder-shadow);
 		border: var(--tabs-placeholder-border);
 		backdrop-filter: var(--tabs-placeholder-backdrop);
@@ -1298,6 +1696,10 @@ ${prefs.tabsUnderControlButtons ? `
 		clip-path: inset(var(--clip-shadow) ${RTL_UI ? "var(--clip-shadow)" : 0} var(--clip-shadow) ${RTL_UI ? 0 : "var(--clip-shadow)"});
 	}
 
+	[multirow-pinned-tabs] ${_} {
+		visibility: collapse;
+	}
+
 	#TabsToolbar[tabs-scrolledtostart] :is(${_}, #tabs-placeholder-pre-tabs) {
 		pointer-events: none;
 	}
@@ -1342,7 +1744,7 @@ ${prefs.tabsUnderControlButtons ? `
 		margin-top: calc((var(--tabs-padding-top) + var(--nav-toolbox-padding-top)) * -1);
 	}
 
-	${_}:not([tabs-hide-placeholder], [pinned-tabs-wraps-placeholder]) #tabbrowser-arrowscrollbox[overflowing]::part(slot)::before,
+	${_}:not([tabs-hide-placeholder], [pinned-tabs-wraps-placeholder]) #tabbrowser-arrowscrollbox[overflowing]::part(items-wrapper)::before,
 	${_}[tabs-scrolledtostart] #tabs-placeholder-post-tabs,
 	${_}[tabs-scrolledtoend] #tabs-placeholder-new-tab-button {
 		opacity: 0;
@@ -1355,7 +1757,9 @@ ${prefs.tabsUnderControlButtons ? `
 		visibility: collapse;
 	}
 
-	${_}:hover #tabbrowser-arrowscrollbox:not(:hover) * {
+	${context=`${_}:hover #tabbrowser-arrowscrollbox:not(:hover)`} *,
+	${context} ::before,
+	${context} ::after {
 		-moz-window-dragging: drag !important;
 	}
 
@@ -1364,6 +1768,21 @@ ${prefs.tabsUnderControlButtons ? `
 			visibility: collapse;
 		}
 	}
+
+	${prefs.inlinePinnedTabs ? `
+		#tabs-placeholder-pre-tabs {
+			width: calc(100% - var(--tabs-scrollbar-visual-width));
+			height: var(--last-pinned-tab-bottom) !important;
+			clip-path: polygon(
+				${START_PC} 0,
+				${x=`calc(${END_PC} - (var(--tabs-scrollbar-visual-width) - var(--tabstrip-padding)) * ${DIR})`} 0,
+				${x} ${y="calc(100% - var(--tab-height))"},
+				${x="var(--last-pinned-tab-end)"} ${y},
+				${x} 100%,
+				${START_PC} 100%
+			);
+		}
+	` : ``}
 
 	${maxRows > 1 ? `
 		@media ${multiRows} {
@@ -1466,26 +1885,39 @@ ${win7 || win8 ? `:root,` : ``}
 	background-size: auto var(--multirows-background-size) !important;
 }
 
-${appVersion == 115 ? `
+${appVersion < 121 ? `
 	#TabsToolbar #firefox-view-button[open] > .toolbarbutton-icon:-moz-lwtheme,
 	#tabbrowser-tabs:not([movingtab]) > #tabbrowser-arrowscrollbox > .tabbrowser-tab > .tab-stack > .tab-background:is([selected=true], [multiselected=true]):-moz-lwtheme {
 		background-size: auto 100%, auto 100%, auto var(--multirows-background-size) !important;
 	}
-	.tabbrowser-tab[tab-grouping] .tab-background[multiselected=true]:-moz-lwtheme {
+	.tabbrowser-tab[animate-shifting] .tab-background:-moz-lwtheme {
 		background-image: none !important;
 	}
 ` : ``}
 
-${debug ? `
+${debug && debug < 3 ? `
 	${_="#tabbrowser-tabs"} {
 		background: rgba(0,255,255,.2);
 		box-shadow: 0 -5px rgba(0,255,0,.5);
 	}
+	${_}[ignore-newtab-width] {
+		outline: 5px solid lime;
+	}
 	${_}:hover {
 		clip-path: none !important;
 	}
-	${_=".tabbrowser-tab"}[style*=max-width] {
+	${_=":is(.tabbrowser-tab, .tab-group-label-container, .tab-group-overflow-count-container)"}[style*=min-width] {
+		background: rgba(0,255,0,.2);
+	}
+	${_}[style*=max-width] {
 		background: rgba(255,0,0,.2);
+	}
+	${_}[elementIndex]::before {
+		content: attr(elementIndex);
+		height: 0;
+	}
+	${_}[pinned][elementIndex]::before {
+		position: absolute;
 	}
 	${_}[style*=transform] {
 		background: rgba(255,0,255,.2);
@@ -1493,6 +1925,15 @@ ${debug ? `
 	${_} {
 		box-shadow: 0 0 0 1px inset rgba(128,128,128,.5);
 		position: relative;
+	}
+	${_=`:is(${_}, .tab-group-label)`}[test-drop-before] {
+		background: red !important;
+	}
+	${_}[test-drop-before=true] {
+		background: blue !important;
+	}
+	${_}[test-drop-overlap] {
+		outline: 2px dotted lime !important;
 	}
 	.tab-background {
 		opacity: .7;
@@ -1502,8 +1943,8 @@ ${debug ? `
 		background: rgba(255, 255, 0, .5);
 		height: var(--tab-height);
 	}
-	${_="#tabbrowser-arrowscrollbox"}::part(slot)::before,
-	${_}::part(slot)::after {
+	${_="#tabbrowser-arrowscrollbox"}::part(items-wrapper)::before,
+	${_}::part(items-wrapper)::after {
 		background: rgba(0, 255, 0, .5);
 		align-self: stretch;
 	}
@@ -1526,86 +1967,61 @@ ${debug ? `
 		outline: 3px solid orange;
 	}
 ` : ""}
-${debug == 2 ? `
+${debug > 1 ? `
 	#TabsToolbar {
 		--tabs-item-opacity-transition: 1s ease;
 	}
-	${_="#tabbrowser-tabs"}, #tabbrowser-arrowscrollbox {
-		clip-path: none !important;
-	}
 
-	${_}[closing-tab-ignore-newtab-width] {
-		outline: 5px solid lime;
-	}
-
-	#TabsToolbar[movingtab]::before,
-	#TabsToolbar[movingtab]::after,
-	${_="#tabbrowser-tabs[movingtab]"} #tabbrowser-arrowscrollbox::before,
-	${_} #tabbrowser-arrowscrollbox::after,
-	${_}::before,
-	${_}::after {
-		--line: 1px solid rgba(0, 192, 192, .75);
-		content: "";
-		position: fixed;
-		z-index: 5;
-		pointer-events: none;
-	}
-	${_} #tabbrowser-arrowscrollbox::before,
-	${_}::before {
-		top: min(max(var(--drag-y, 0px), 0px), 100vh);
-		width: 100vw;
-		border-top: var(--line);
-	}
-	${_} #tabbrowser-arrowscrollbox::after,
-	${_}::after {
-		left: min(max(var(--drag-x, 0px), 0px), 100vw);
-		height: 100vh;
-		border-left: var(--line);
-	}
-	${_} #tabbrowser-arrowscrollbox::before {
-		top: var(--drag-tran-y, 0px);
-		--line: 1px solid rgba(192, 0, 192, .75);
-	}
-	${_} #tabbrowser-arrowscrollbox::after {
-		left: var(--drag-tran-x, 0px);
-		--line: 1px solid rgba(192, 0, 192, .75);
-	}
-	${_="#TabsToolbar[movingtab]"}::before,
-	${_}::after {
-		border: var(--line);
-		left: min(max(var(--drag-x, 0px) - var(--drag-width) / 2, 0px), 100vw);
-		top: min(max(var(--drag-y, 0px) - var(--tab-height) / 2, 0px), 100vh);
-		height: var(--tab-height);
-		width: var(--drag-width);
-	}
-	${_}::after {
-		border-color: rgba(192, 0, 192, .75);
-		--drag-width: var(--drag-tran-width);
-	}
-
-	@media (prefers-reduced-motion: no-preference) {
-		#tabbrowser-tabs[movingtab] ${_=".tabbrowser-tab"}[fadein]:not([selected]):not([multiselected]),
-		${_}[tabdrop-samewindow] {
-			transition: transform 1000ms ease;
+	${debug == 2 ? `
+		#tabbrowser-tabs, #tabbrowser-arrowscrollbox {
+			clip-path: none !important;
 		}
-	}
-	${_}::after,
-	${_}::before {
-		--line: 1px solid rgba(128,128,128,.5);
-		content: "";
-		position: absolute;
-		z-index: 1;
-	}
-	${_}::after {
-		top: 0; bottom: 0;
-		left: 50%;
-		border-left: var(--line);
-	}
-	${_}::before {
-		left: 0; right: 0;
-		top: 50%;
-		border-top: var(--line);
-	}
+
+		#TabsToolbar[movingtab]::before,
+		#TabsToolbar[movingtab]::after,
+		${_="#tabbrowser-tabs[movingtab]"} #tabbrowser-arrowscrollbox::before,
+		${_} #tabbrowser-arrowscrollbox::after,
+		${_}::before,
+		${_}::after {
+			--line: 1px solid rgba(0, 192, 192, .75);
+			content: "";
+			position: fixed;
+			z-index: 5;
+			pointer-events: none;
+		}
+		${_} #tabbrowser-arrowscrollbox::before,
+		${_}::before {
+			top: min(max(var(--drag-y, 0px), 0px), 100vh);
+			width: 100vw;
+			border-top: var(--line);
+		}
+		${_} #tabbrowser-arrowscrollbox::after,
+		${_}::after {
+			left: min(max(var(--drag-x, 0px), 0px), 100vw);
+			height: 100vh;
+			border-left: var(--line);
+		}
+		${_} #tabbrowser-arrowscrollbox::before {
+			top: var(--drag-tran-y, 0px);
+			--line: 1px solid rgba(192, 0, 192, .75);
+		}
+		${_} #tabbrowser-arrowscrollbox::after {
+			left: var(--drag-tran-x, 0px);
+			--line: 1px solid rgba(192, 0, 192, .75);
+		}
+		${_="#TabsToolbar[movingtab]"}::before,
+		${_}::after {
+			border: var(--line);
+			left: min(max(var(--drag-x, 0px) - var(--drag-width) / 2, 0px), 100vw);
+			top: min(max(var(--drag-y, 0px) - var(--tab-height) / 2, 0px), 100vh);
+			height: var(--tab-height);
+			width: var(--drag-width);
+		}
+		${_}::after {
+			border-color: rgba(192, 0, 192, .75);
+			--drag-width: var(--drag-tran-width);
+		}
+	` : ``}
 ` : ``}
 `;
 }
@@ -1639,7 +2055,8 @@ ${debug == 2 ? `
 
 /** hack slot **/
 {
-	slot.part.add("slot");
+	slot.part.add("items-wrapper");
+	new ResizeObserver(() => arrowScrollbox._updateScrollButtonsDisabledState()).observe(slot);
 }
 
 /** hack scrollbox **/
@@ -1676,14 +2093,14 @@ ${debug == 2 ? `
 		//wait a while and check if there is no scroll, then remove the attribute
 		let remainder = this.scrollTop % tabHeight;
 		if (remainder) {
-			log("snap", remainder);
+			console.log("snap", remainder);
 			arrowScrollbox.removeAttribute("scrollsnap");
 			clearTimeout(snapTimeout);
 			snapTimeout = setTimeout(() => {
 				arrowScrollbox.setAttribute("scrollsnap", "");
 				snapTimeout = setTimeout(() => {
 					arrowScrollbox.removeAttribute("scrollsnap");
-					arrowScrollbox._isScrolling = false;
+					delete arrowScrollbox._isScrolling;
 				});
 			}, ensureSnapDelay);
 		} else
@@ -1695,10 +2112,8 @@ ${debug == 2 ? `
 	let lockDragScroll;
 	scrollbox.scrollBy = function(arg) {
 		if (typeof arg == "object") {
-			let {stack} = new Error();
-			let dragScroll = stack.match(/on_dragover@chrome:\/\/browser\/content\/tabbrowser[/-]tabs\.js/);
 			//ensure the scrolling performs one by one when dragging tabs
-			if (dragScroll) {
+			if (new Error().stack.match(/^on_dragover@/m)) {
 				if (arrowScrollbox._isScrolling || lockDragScroll)
 					return;
 				if (gReduceMotion)
@@ -1726,21 +2141,21 @@ ${debug == 2 ? `
 	arrowScrollbox.removeAttribute("overflowing");
 
 	//overwrite the action of the original listener
-	scrollbox.addEventListener("overflow", onFlowChange, true);
-	scrollbox.addEventListener("underflow", onFlowChange, true);
+	scrollbox.addEventListener("overflow", onFlowChange);
+	scrollbox.addEventListener("underflow", onFlowChange);
 
 	function onFlowChange(e) {
-		if (e.originalTarget != this)
+		if (e.originalTarget != this || animatingLayout)
 			return;
 
-		time(`scrollbox ${e.type} ${e.detail}`);
+		console.time(`scrollbox ${e.type} ${e.detail}`);
 
 		let overflow = this.scrollTopMax;
-		tabsBar.style[overflow ? "setProperty" : "removeProperty"]("--tabs-scrollbar-width", scrollbarWidth + "px");
+		assign(tabsBar.style, {"--tabs-scrollbar-width": overflow ? scrollbarWidth + "px" : ""});
 
 		//don't consider it can overflow if there is only one tab,
 		//in case the new tab button is wrapped in extreme case and cause overflow
-		overflow &&= gBrowser.visibleTabs.length > 1
+		overflow &&= getNodes().length > 1;
 
 		let toggleAttr = overflow ? "setAttribute" : "removeAttribute";
 		arrowScrollbox[toggleAttr]("overflowing", true, true);
@@ -1749,14 +2164,13 @@ ${debug == 2 ? `
 		tabsBar.toggleAttribute("tabs-overflow", overflow);
 		tabsBar.toggleAttribute("tabs-hide-placeholder", overflow && prefs.tabsUnderControlButtons < 2);
 
-		timeLog(`scrollbox ${e.type} ${e.detail}`, "update status");
-
-		arrowScrollbox._updateScrollButtonsDisabledState();
+		console.timeLog(`scrollbox ${e.type} ${e.detail}`, "update status");
+		console.log({type: e.type, overflow});
 
 		//overflow may fired when moving tab then locking the slot
 		if (overflow) {
 			if (!tabContainer.hasAttribute("movingtab")) {
-				tabContainer._unlockTabSizing(true);
+				tabContainer._unlockTabSizing({instant: true});
 				tabContainer._handleTabSelect(true);
 			}
 		} else
@@ -1768,7 +2182,7 @@ ${debug == 2 ? `
 		tabContainer._updateInlinePlaceHolder();
 		tabContainer._updateCloseButtons();
 
-		timeEnd(`scrollbox ${e.type} ${e.detail}`);
+		console.timeEnd(`scrollbox ${e.type} ${e.detail}`);
 	}
 }
 
@@ -1795,7 +2209,7 @@ ${debug == 2 ? `
 		return dispatchEvent.apply(this, arguments);
 	};
 
-	if (appVersion == 115)
+	if (arrowScrollbox.on_overflow)
 		arrowScrollbox.on_underflow = arrowScrollbox.on_overflow = () => {};
 
 	//Make it think it's vertical and save a lot of modifications.
@@ -1841,7 +2255,7 @@ ${debug == 2 ? `
 		if (e.target != scrollbox) return;
 		on_scroll.apply(this, arguments);
 		let {scrollTop, scrollTopMax, _lastScrollTop} = scrollbox;
-		log(scrollTop, _lastScrollTop);
+		console.log("scrolling", scrollTop, _lastScrollTop);
 		if (tabContainer.matches("[tabmousedown], [dragging]")) {
 			fakeScrollbar.scrollTop = scrollTop;
 			if (tabContainer.hasAttribute("dragging"))
@@ -1857,9 +2271,9 @@ ${debug == 2 ? `
 			//3. underflow after unlocking the slot size
 			//these cases will cause a scroll event with no scrollend afterward
 			//clear the _isScrolling to prevent incorrect determine
-			this._isScrolling = false;
+			delete this._isScrolling;
 
-		if (appVersion != 115)
+		if (appVersion > 130)
 			this._updateScrollButtonsDisabledState();
 
 		scrollbox._lastScrollTop = scrollTop;
@@ -1869,7 +2283,7 @@ ${debug == 2 ? `
 		if (e.target != scrollbox) return;
 		on_scrollend.apply(this, arguments);
 		scrollbox._ensureSnap();
-		log(e.type);
+		console.log(e.type);
 	};
 
 	let minWheelDelta = Infinity;
@@ -1885,7 +2299,7 @@ ${debug == 2 ? `
 		e.stopPropagation();
 		e.preventDefault();
 	};
-	if (appVersion == 115) {
+	if (appVersion < 131) {
 		arrowScrollbox.removeEventListener("wheel", on_wheel);
 		arrowScrollbox.addEventListener("wheel", arrowScrollbox.on_wheel);
 	}
@@ -1925,78 +2339,215 @@ ${debug == 2 ? `
 	};
 }
 
-//the original scrollIntoView always scroll to ensure the tab is on the first visible row,
-//for instance, when scrolling the box and the cursor touch the selected tab, will cause an annoying bouncing,
-//fix it to be ensuring the tab is in view, if it already is, do nothing.
-//use getRect() instead of getBoundingClientRect(), since when dragging tab too fast the box will scroll to half row
-//because _handleTabSelect will try to scroll the translated position into view
-customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavior} = {}) {
-	let rect = getRect(this);
-	let boxRect = getRect(scrollbox);
-	let {scrollbarWidth} = scrollbox;
-	if (!tabsBar.hasAttribute("tabs-hide-placeholder") && tabContainer.overflowing) {
-		let preTabs = getRect(tabContainer._placeholderPreTabs, {box: "content", visible: true});
-		let postTabs = getRect(tabContainer._placeholderPostTabs, {box: "content", visible: true});
-		let newTab = getRect(tabContainer._placeholderNewTabButton, {box: "content", visible: true});
-		if (!(prefs.hideEmptyPlaceholderWhenScrolling && tabsBar.hasAttribute("tabs-is-first-visible"))
-				&& preTabs.widthDouble && pointDelta(rect.top, preTabs.bottom) < 0 && pointDeltaH(rect.start, preTabs.end) < 0)
-			boxRect.top = preTabs.bottom;
-		else if (postTabs.widthDouble && pointDelta(rect.top, postTabs.bottom) < 0 && pointDeltaH(rect.end, postTabs.start) > 0)
-			boxRect.top = postTabs.bottom;
-		else if (newTab.widthDouble && pointDelta(rect.bottom, newTab.top) > 0 && pointDeltaH(rect.end, newTab.start) > 0)
-			boxRect.bottom = newTab.top;
-	}
-	let top = rect.top - boxRect.top;
-	let bottom = rect.bottom - boxRect.bottom;
-	if (top < 0 || bottom > 0) {
-		//prevent scrollsnap from causing bouncing
-		if (behavior != "instant" && !gReduceMotion) {
-			let done;
-			arrowScrollbox._stopScrollSnap = true;
-			scrollbox.addEventListener("scrollend", f, true);
-			setTimeout(() => {
-				if (done) return;
-				cleanUp();
-				console.error("scrollend is not fired");
-			}, 2000);
-			function f(e) {
-				if (e.target != this) return;
-				cleanUp();
+//heck MozTabbrowserTabGroup
+if (gBrowser.tabGroups) {
+	let elementIndexOpd = {
+		set: function(v) {
+			let p = this.parentNode;
+			p.setAttribute("elementIndex", p.elementIndex = v);
+			let {group} = this;
+			group._overflowContainer?.setAttribute?.("elementIndex", v + group.visibleTabs.length + .5);
+		},
+		get: function() { return this.parentNode.elementIndex },
+		configurable: true,
+	};
+	new MutationObserver(list => {
+		for (let ent of list)
+			if (ent.type == "childList")
+				for (let n of ent.addedNodes)
+					if (n.tagName == "tab-group") {
+						n._overflowContainer = $(".tab-group-overflow-count-container", n);
+						let label = n.labelElement;
+						let idx = label.elementIndex;
+						Object.defineProperty(label, "elementIndex", elementIndexOpd);
+						label.elementIndex = idx;
+					}
+	}).observe(arrowScrollbox, {childList: true});
+
+	let groupProto = customElements.get("tab-group").prototype;
+	let {ungroupTabs, remove} = groupProto;
+
+	groupProto.ungroupTabs = function() {
+		animateLayout(() => ungroupTabs.apply(this, arguments),
+				{nodes: getNodes({newTabButton: true}).filter(t => t != this.firstChild)});
+	};
+
+	let labelOpd = Object.getOwnPropertyDescriptor(groupProto, "label");
+	Object.defineProperties(groupProto, {
+		label: {
+			set: function(v) {
+				if (this.isConnected && new Error().stack
+						.includes("#setMlGroupLabel@chrome://browser/content/tabbrowser/tabgroup-menu.js"))
+					animateLayout(() => labelOpd.set.call(this, v));
+				else
+					labelOpd.set.call(this, v);
+			},
+			get: labelOpd.get,
+			configurable: true,
+		},
+		visibleTabs: {
+			get: function() { return this.tabs.filter(t => t.visible) },
+			configurable: true,
+		},
+		nonHiddenTabs: {
+			get: function() { return this.tabs.filter(t => !t.hidden) },
+			configurable: true,
+		},
+	});
+
+	let collapsedOpd = Object.getOwnPropertyDescriptor(groupProto, "collapsed");
+	Object.defineProperty(groupProto, "collapsed", {
+		set: function(v) {
+			if (new Error().stack.match(/^#expandGroupOnDrop@/m))
+				return;
+
+			if (!this.isConnected || !!v == this.collapsed) {
+				collapsedOpd.set.call(this, v);
+				return;
 			}
-			function cleanUp() {
-				done = true;
-				scrollbox.removeEventListener("scrollend", f, true);
-				delete arrowScrollbox._stopScrollSnap;
+
+			let nodes = getNodes({newTabButton: true});
+			let oc = this.hasActiveTab && this._overflowContainer;
+			if (v)
+				tabContainer._lockTabSizing(this.labelElement);
+			else {
+				nodes = nodes.filter(n => n != oc);
+				nodes.push(...this.nonHiddenTabs);
 			}
-		}
-		scrollbox.scrollTo({
-			top: scrollbox.scrollTop + (top < 0 ? top : bottom),
-			behavior,
+
+			this.toggleAnimation = animateLayout(async () => {
+				if (!v)
+					await tabContainer._unlockTabSizing({instant: true});
+				this.setAttribute("toggling", "");
+				collapsedOpd.set.call(this, v);
+				if (v && oc) {
+					tabContainer._keepTabSizeLocked = true;
+					return oc;
+				}
+			}, {
+				nodes: this.firstChild.hasAttribute("moving") ?
+					nodes.filter(n => n != this.firstChild) :
+					nodes,
+			}).then(() => {
+				this.removeAttribute("toggling");
+				delete this.toggleAnimation;
+				if (v && oc)
+					delete tabContainer._keepTabSizeLocked;
+			});
+		},
+		get: collapsedOpd.get,
+		configurable: true,
+	});
+
+	groupProto.remove = function() {
+		animateLayout(() => {
+			remove.call(this);
+			tabContainer._invalidateCachedTabs();
+			tabContainer._updateInlinePlaceHolder();
+		}, {nodes: getNodes({newTabButton: true}).filter(t => t != this.firstChild)});
+	};
+}
+
+//heck MozTabbrowserTab
+{
+	let tabProto = customElements.get("tabbrowser-tab").prototype;
+	if ("elementIndex" in tabProto) {
+		let opd = Object.getOwnPropertyDescriptor(tabProto, "elementIndex");
+		Object.defineProperty(tabProto, "elementIndex", {
+			set: function(v) {
+				opd.set.call(this, v);
+				this.setAttribute("elementIndex", v);
+			},
+			get: opd.get,
+			configurable: true,
+		});
+
+		Object.defineProperty(tabProto, "groupLine", {
+			get: function() {
+				return this._groupLine ??= $(".tab-group-line", this);
+			},
+			configurable: true,
 		});
 	}
-};
+
+	Object.defineProperty(tabProto, "stack", {
+		get: function() {
+			return this._stack ??= $(".tab-stack", this);
+		},
+		configurable: true,
+	});
+
+	//the original scrollIntoView always scroll to ensure the tab is on the first visible row,
+	//for instance, when scrolling the box and the cursor touch the selected tab, will cause an annoying bouncing,
+	//fix it to be ensuring the tab is in view, if it already is, do nothing.
+	//use getRect() instead of getBoundingClientRect(), since when dragging tab too fast the box will scroll to half row
+	//because _handleTabSelect will try to scroll the translated position into view
+	tabProto.scrollIntoView = function({behavior} = {}) {
+		let rect = getRect(this);
+		let boxRect = getRect(scrollbox);
+		let {scrollbarWidth} = scrollbox;
+		if (!tabsBar.hasAttribute("tabs-hide-placeholder") && tabContainer.overflowing) {
+			let preTabs = getRect(tabContainer._placeholderPreTabs, {box: "content", checkVisibility: true});
+			let postTabs = getRect(tabContainer._placeholderPostTabs, {box: "content", checkVisibility: true});
+			let newTab = getRect(tabContainer._placeholderNewTabButton, {box: "content", checkVisibility: true});
+			if (!(prefs.hideEmptyPlaceholderWhenScrolling && tabsBar.hasAttribute("tabs-is-first-visible"))
+					&& preTabs.width && pointDelta(rect.y, preTabs.bottom) < 0 && pointDeltaH(rect.start, preTabs.end) < 0)
+				boxRect.y = preTabs.bottom;
+			else if (postTabs.width && pointDelta(rect.y, postTabs.bottom) < 0 && pointDeltaH(rect.end, postTabs.start) > 0)
+				boxRect.y = postTabs.bottom;
+			else if (newTab.width && pointDelta(rect.bottom, newTab.y) > 0 && pointDeltaH(rect.end, newTab.start) > 0)
+				boxRect.bottom = newTab.y;
+		}
+		let top = rect.y - boxRect.y;
+		let bottom = rect.bottom - boxRect.bottom;
+		if (top < 0 || bottom > 0) {
+			//prevent scrollsnap from causing bouncing
+			if (behavior != "instant" && !gReduceMotion) {
+				let done;
+				arrowScrollbox._stopScrollSnap = true;
+				scrollbox.addEventListener("scrollend", f, true);
+				setTimeout(() => {
+					if (done) return;
+					cleanUp();
+					console.warn("scrollend is not fired");
+				}, 2000);
+				function f(e) {
+					if (e.target != this) return;
+					cleanUp();
+				}
+				function cleanUp() {
+					done = true;
+					scrollbox.removeEventListener("scrollend", f, true);
+					delete arrowScrollbox._stopScrollSnap;
+				}
+			}
+			scrollbox.scrollTo({
+				top: scrollbox.scrollTop + (top < 0 ? top : bottom),
+				behavior,
+			});
+		}
+	};
+}
 
 {
+	if (!tabContainer._getDragTargetTab) {
+		let MozTabbrowserTabs = customElements.get("tabbrowser-tabs");
+		["#getDropIndex", "#triggerDragOverCreateGroup"].forEach(n => exposePrivateMethod(MozTabbrowserTabs, n));
+		tabContainer._getDragTargetTab = tabContainer._getDragTarget;
+		delete tabContainer._getDragTarget;
+		tabContainer._rtlMode = RTL_UI;
+	}
+
 	let {
 		startTabDrag, on_dragover, on_dragend, on_drop, on_dragleave,
 		_animateTabMove, _unlockTabSizing, _updateCloseButtons,
 		_handleTabSelect, uiDensityChanged,
 	} = tabContainer;
-	let FINISH_ANIMATE_TAB_MOVE = appVersion > 137 ? "finishAnimateTabMove" : "_finishAnimateTabMove";
+	let FINISH_ANIMATE_TAB_MOVE = tabContainer.finishAnimateTabMove ? "finishAnimateTabMove" : "_finishAnimateTabMove";
 	let finishAnimateTabMove = tabContainer[FINISH_ANIMATE_TAB_MOVE];
 	let passingByTimeout;
 
-	if (!("_getDragTargetTab" in tabContainer)) {
-		let MozTabbrowserTabs = customElements.get("tabbrowser-tabs");
-		exposePrivateMethod(MozTabbrowserTabs, "#getDropIndex", `
-			const isTab = e => gBrowser.isTab(e);
-			const isTabGroupLabel = e => gBrowser.isTabGroupLabel(e);
-		`);
-		tabContainer._getDragTargetTab = tabContainer._getDragTarget;
-		tabContainer._rtlMode = RTL_UI;
-	}
-
-	if (!("overflowing" in tabContainer)) //fx 115
+	if (!("overflowing" in tabContainer))
 		Object.defineProperty(tabContainer, "overflowing", {
 			get: function() {return this.hasAttribute("overflow")},
 			configurable: true,
@@ -2012,8 +2563,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 						className: "tabs-placeholder",
 					})));
 	//sometimes double clicking on the spaces doesn't perform the window maximizing/restoring, don't know why
-	[...document.querySelectorAll(".titlebar-spacer, .tabs-placeholder")].forEach(ele =>
-			ele.addEventListener("dblclick", ondblclick, true));
+	$$(".titlebar-spacer, .tabs-placeholder").forEach(ele => ele.addEventListener("dblclick", ondblclick, true));
 	function ondblclick(e) {
 		if (e.buttons) return;
 		switch (windowState) {
@@ -2022,126 +2572,233 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		}
 	}
 
+	let {pinnedTabsContainer} = gBrowser;
+	if (pinnedTabsContainer) {
+		{
+			let {contains} = pinnedTabsContainer;
+			assign(pinnedTabsContainer, {
+				appendChild: function(tab) {
+					arrowScrollbox.insertBefore(tab, [...arrowScrollbox.children].find(t => !t.pinned));
+				},
+				insertBefore: function(...args) {
+					arrowScrollbox.insertBefore(...args);
+				},
+				contains: function(node) {
+					return new Error().stack.match(/^on_drop@/m) ?
+						!!node?.closest("#tabbrowser-arrowscrollbox .tabbrowser-tab[pinned]") :
+						contains.apply(this, arguments);
+				},
+			});
+		}
+
+		{
+			let {contains} = arrowScrollbox;
+			assign(arrowScrollbox, {
+				prepend: function(...tabs) {
+					let firstNormal = [...arrowScrollbox.children].find(t => !t.pinned && !tabs.includes(t));
+					tabs.forEach(tab => arrowScrollbox.insertBefore(tab, firstNormal));
+				},
+				contains: function(node) {
+					return new Error().stack.match(/^on_drop@/m) ?
+						!!node?.closest("#tabbrowser-arrowscrollbox .tabbrowser-tab:not([pinned])") :
+						contains.apply(this, arguments);
+				},
+			});
+		}
+	}
+
 	//the original function modifies --tab-overflow-pinned-tabs-width and cause undesired size changing of the slot,
 	//which will cause weird bouncing of the scroll position,
 	//plus the positioning is not the same logic, thus rewrite it and not wrap it.
 	tabContainer._positionPinnedTabs = function(numPinned = gBrowser.pinnedTabCount) {
 		if (this._hasTabTempMaxWidth || !numPinned && !this._lastNumPinned
-				|| appVersion == 115 && new Error().stack.includes("_initializeArrowScrollbox/<@chrome://browser/content/tabbrowser-tabs.js"))
+				|| appVersion < 132 && new Error().stack.match(/^_initializeArrowScrollbox\/<@/m))
 			return;
 
-		time("_positionPinnedTabs - calculation");
+		if (prefs.inlinePinnedTabs) {
+			let pinnedTabs = gBrowser.visibleTabs.slice(0, numPinned);
+			let positioned = false;
 
-		let width, rows, maxRows, columns, spacers, preTabsItemsSize, wrapPlaceholder;
-		let gap = prefs.gapAfterPinned;
+			if (numPinned) {
+				let overflowing = !!scrollbox.scrollTopMax;
+				let maxRows = maxTabRows();
 
-		let layoutData = this._pinnedTabsLayoutCache;
-		let uiDensity = root.getAttribute("uidensity");
-		if (!layoutData || layoutData.uiDensity != uiDensity)
-			layoutData = this._pinnedTabsLayoutCache = {
-				uiDensity,
-				scrollStartOffset: gap,
-			};
-
-		let forcedOverflow = this.hasAttribute("forced-overflow");
-		let isPositioned = this.hasAttribute("positionpinnedtabs") && !forcedOverflow;
-		let {visibleTabs} = gBrowser;
-		let tabs = visibleTabs;
-		//not using arrowScrollbox.overflowing in case it is not updated in time
-		let floatPinnedTabs = numPinned && tabs.length > numPinned && scrollbox.scrollTopMax;
-		let {tabsUnderControlButtons} = prefs;
-		if (this._isCustomizing)
-			tabsUnderControlButtons = 0;
-
-		if (floatPinnedTabs) {
-			width = (layoutData.width ||= getRect(tabs[0]).widthDouble);
-			preTabsItemsSize = getRect(this._placeholderPreTabs, {box: "margin", visible: true}).widthDouble;
-			rows = getRowCount();
-			maxRows = maxTabRows();
-			if (rows > 1) {
-				if (tabsUnderControlButtons == 2) {
-					spacers = Math.ceil(preTabsItemsSize / width);
-					if (spacers && spacers == numPinned - 1)
-						spacers++;
-				} else
-					spacers = 0;
-				columns = Math.ceil(numPinned <= spacers * (rows - 1) ? numPinned / (rows - 1) : (numPinned + spacers) / rows);
-				if (tabsUnderControlButtons == 2)
-					spacers = Math.min(columns, spacers);
-			} else {
-				columns = numPinned;
-				spacers = 0;
-			}
-			let boxWidth = getRect(this, {box: "padding"}).widthDouble;
-			floatPinnedTabs = columns * width + gap + tabMinWidth + this.newTabButton.clientWidth
-					+ getRect(this._placeholderPostTabs, {box: "content", visible: true}).widthDouble + scrollbox.scrollbarWidth
-							<= boxWidth;
-			wrapPlaceholder = floatPinnedTabs && columns * width + gap >= preTabsItemsSize;
-		}
-
-		timeEnd("_positionPinnedTabs - calculation");
-
-		time("_positionPinnedTabs - update");
-
-		if (this._lastNumPinned != numPinned) {
-			this.toggleAttribute("haspinnedtabs", numPinned);
-			this._lastNumPinned = numPinned;
-			this._handleTabSelect(true);
-		}
-
-		if (!isPositioned && floatPinnedTabs)
-			slot.style.minHeight = tabHeight * (maxRows + 1) + "px";
-
-		this.removeAttribute("forced-overflow");
-		this.style.removeProperty("--forced-overflow-adjustment");
-
-		this.toggleAttribute("positionpinnedtabs", floatPinnedTabs);
-		tabsBar.toggleAttribute("positionpinnedtabs", floatPinnedTabs);
-		tabsBar.toggleAttribute("pinned-tabs-wraps-placeholder", !!wrapPlaceholder);
-
-		tabs = tabs.slice(0, numPinned);
-		if (floatPinnedTabs) {
-			this.style.setProperty("--tab-overflow-pinned-tabs-width", columns * width + "px");
-
-			if (!isPositioned) {
-				let lastTab = visibleTabs.at(-1);
-				let lastTabRect = getRect(lastTab);
-				let slotRect = getRect(slot);
-				if (lastTabRect.bottom < slotRect.bottom) {
-					let lastRowTabsCount = visibleTabs.length - visibleTabs.findLastIndex(t => t.screenY != lastTabRect.top) - 1;
-					this.setAttribute("forced-overflow", "");
-					this.style.setProperty("--forced-overflow-adjustment",
-							slotRect.widthDouble - (lastRowTabsCount - 1) * tabMinWidth + "px");
-					log("positionpinnedtabs makes underflow!");
+				if (overflowing && maxRows > 1) {
+					let tabWidth = getRect(pinnedTabs[0]).width;
+					let slotWidth = getRect(slot).width;
+					let {preTabsItemsSize = 0, postTabsItemsSize = 0, tabsStartSeparator = 0} = lastLayoutData || {};
+					let firstRowCount = Math.floor((slotWidth - preTabsItemsSize - postTabsItemsSize - tabsStartSeparator) / tabWidth);
+					let otherRowsCount = Math.floor(slotWidth / tabWidth);
+					if (firstRowCount + otherRowsCount * (maxRows - 1) >= numPinned) {
+						pinnedTabs.slice(0, firstRowCount).forEach((t, i) =>
+								assign(t.style, {
+									marginTop: 0,
+									marginInlineStart: preTabsItemsSize + tabsStartSeparator + i * tabWidth + "px",
+								}));
+						pinnedTabs.slice(firstRowCount).forEach((t, i) => assign(t.style, {
+							marginTop: (0 | i / otherRowsCount + 1) * tabHeight + "px",
+							marginInlineStart: i % otherRowsCount * tabWidth + "px",
+						}));
+						let lastPinnedS = pinnedTabs.at(-1).style;
+						assign(this.style, {
+							"--last-pinned-tab-bottom": parseFloat(lastPinnedS.marginTop) + tabHeight + "px",
+							"--last-pinned-tab-end": parseFloat(lastPinnedS.marginInlineStart) + tabWidth + "px",
+						});
+						this.toggleAttribute("multirow-pinned-tabs", numPinned > firstRowCount);
+						positioned = true;
+					}
 				}
 			}
 
-			slot.style.minHeight = "";
-
-			tabs.forEach((tab, i) => {
-				i += spacers + Math.max(columns - numPinned, 0);
-				assign(tab.style, {
-					marginInlineStart: -((columns - i % columns) * width + gap) + "px",
-					marginTop: Math.floor(i / columns) * tabHeight + "px",
+			if (!positioned) {
+				for (let t of pinnedTabs)
+					assign(t.style, {marginTop: "", marginInlineStart: ""});
+				assign(this.style, {
+					"--last-pinned-tab-bottom": "",
+					"--last-pinned-tab-end": "",
 				});
-				tab._pinnedUnscrollable = true;
-			});
-
-			log(`position pinned tabs`, true, {columns, spacers, numPinned});
-		} else if (isPositioned || forcedOverflow) {
-			log(`position pinned tabs`, false);
-
-			for (let tab of tabs) {
-				assign(tab.style, {marginTop: "", marginInlineStart: ""});
-				tab._pinnedUnscrollable = false;
 			}
-			this.style.removeProperty("--tab-overflow-pinned-tabs-width");
+
+			this.toggleAttribute("positionpinnedtabs", positioned);
+			tabsBar.toggleAttribute("positionpinnedtabs", positioned);
+			// tabsBar.toggleAttribute("pinned-tabs-wraps-placeholder", !!wrapPlaceholder);
+			this.toggleAttribute("haspinnedtabs", numPinned);
+		} else {
+			console.trace();
+
+			console.time("_positionPinnedTabs - calculation");
+
+			let width, rows, maxRows, columns, spacers, preTabsItemsSize, wrapPlaceholder;
+			let gap = prefs.gapAfterPinned;
+
+			let layoutData = this._pinnedTabsLayoutCache;
+			let uiDensity = root.getAttribute("uidensity");
+			if (!layoutData || layoutData.uiDensity != uiDensity)
+				layoutData = this._pinnedTabsLayoutCache = {
+					uiDensity,
+					scrollStartOffset: gap,
+				};
+
+			let forcedOverflow = this.hasAttribute("forced-overflow");
+			let isPositioned = this.hasAttribute("positionpinnedtabs") && !forcedOverflow;
+			let tabs = getNodes();
+			let pinnedTabs = tabs.slice(0, numPinned);
+			let lastTab = tabs.at(-1);
+			// //not using arrowScrollbox.overflowing in case it is not updated in time
+			// let overflowing = !!scrollbox.scrollTopMax;
+			let {overflowing} = this;
+			let floatPinnedTabs = numPinned && tabs.length > numPinned && overflowing;
+			let {tabsUnderControlButtons} = prefs;
+			if (this._isCustomizing)
+				tabsUnderControlButtons = 0;
+
+			if (floatPinnedTabs) {
+				width = (layoutData.width ||= getRect(tabs[0]).width);
+				preTabsItemsSize = getRect(this._placeholderPreTabs, {box: "margin"}).width;
+				rows = getRowCount();
+				maxRows = maxTabRows();
+				if (rows > 1) {
+					if (tabsUnderControlButtons == 2) {
+						spacers = Math.ceil(preTabsItemsSize / width);
+						if (spacers && spacers == numPinned - 1)
+							spacers++;
+					} else
+						spacers = 0;
+					columns = Math.ceil(numPinned <= spacers * (rows - 1) ? numPinned / (rows - 1) : (numPinned + spacers) / rows);
+					if (tabsUnderControlButtons == 2)
+						spacers = Math.min(columns, spacers);
+				} else {
+					columns = numPinned;
+					spacers = 0;
+				}
+				let boxWidth = getRect(this, {box: "padding"}).width;
+				floatPinnedTabs = columns * width + gap + tabMinWidth + this.newTabButton.clientWidth +
+						getRect(this._placeholderPostTabs, {box: "content", checkVisibility: true}).width +
+								scrollbox.scrollbarWidth <= boxWidth;
+				wrapPlaceholder = floatPinnedTabs && columns * width + gap >= preTabsItemsSize;
+			}
+
+			console.timeEnd("_positionPinnedTabs - calculation");
+
+			console.time("_positionPinnedTabs - update");
+
+			if (this._lastNumPinned != numPinned) {
+				this.toggleAttribute("haspinnedtabs", numPinned);
+				this._lastNumPinned = numPinned;
+				this._handleTabSelect(true);
+			}
+
+			if (!isPositioned && floatPinnedTabs)
+				//not sure why the !important is required, it is overrided by some unknown rule
+				assign(slot.style, {minHeight: tabHeight * (maxRows + 1) + "px !important"});
+
+			this.removeAttribute("forced-overflow");
+			this.style.removeProperty("--forced-overflow-adjustment");
+
+			this.toggleAttribute("positionpinnedtabs", floatPinnedTabs);
+			tabsBar.toggleAttribute("positionpinnedtabs", floatPinnedTabs);
+			tabsBar.toggleAttribute("pinned-tabs-wraps-placeholder", !!wrapPlaceholder);
+
+			if (floatPinnedTabs) {
+				this.style.setProperty("--tab-overflow-pinned-tabs-width", columns * width + "px");
+
+				if (!isPositioned) {
+					let lastTabRect = getRect(lastTab);
+					//case 1:
+					//tabContainer clientWidth 909, 2 pinned tabs, no new tab button, tUCB 0
+					//case 2:
+					//outerWidth 1306, 3 buttons pre tabs, 1 button post tabs,
+					//--pre-tabs-items-width: 160px; --post-tabs-items-width: 218px;
+					//2 pinned tabs, total 61 tabs, no new tab button, tUCB 2
+					if (pointDelta(lastTabRect.bottom, getRect(slot).bottom) < 0) {
+						let lastRowSize = 0;
+						for (let i = tabs.length - 1; i > -1; i--) {
+							let r = getRect(tabs[i]);
+							if (pointDelta(lastTabRect.y, r.y))
+								break;
+							lastRowSize += isTab(tabs[i]) ? tabMinWidth : r.width;
+						}
+						this.setAttribute("forced-overflow", "");
+						let adjacentNewTab = this.hasAttribute("hasadjacentnewtabbutton");
+						let adj = Math.max(
+							adjacentNewTab ? newTabButtonWidth : 0,
+							getRect(scrollbox).width - lastRowSize + 1,
+						);
+						assign(this.style, {"--forced-overflow-adjustment": adj + "px"});
+						if (debug)
+							console.warn("positionpinnedtabs makes underflow!", {
+								numPinned, adjacentNewTab, maxRows, lastRowSize,
+								outerWidth, adj, lastLayoutData,
+							});
+					}
+				}
+
+				slot.style.minHeight = "";
+
+				pinnedTabs.forEach((tab, i) => {
+					i += spacers + Math.max(columns - numPinned, 0);
+					assign(tab.style, {
+						marginInlineStart: -((columns - i % columns) * width + gap) + "px",
+						marginTop: Math.floor(i / columns) * tabHeight + "px",
+					});
+					tab._pinnedUnscrollable = true;
+				});
+
+				console.log(`_positionPinnedTabs`, true, {isPositioned, columns, spacers, numPinned, overflowing, overflowAttr: this.hasAttribute("overflow")});
+			} else if (isPositioned || forcedOverflow) {
+				console.log(`_positionPinnedTabs: false, overflowing: ${overflowing}, overflowAttr: ${this.hasAttribute("overflow")}`);
+
+				for (let tab of pinnedTabs) {
+					assign(tab.style, {marginTop: "", marginInlineStart: ""});
+					delete tab._pinnedUnscrollable;
+				}
+				this.style.removeProperty("--tab-overflow-pinned-tabs-width");
+			}
+
+			console.timeEnd("_positionPinnedTabs - update");
 		}
-
-		trace();
-
-		timeEnd("_positionPinnedTabs - update");
 	};
+
 	//remove the margin when unpinned, as the modified _positionPinnedTabs does not handle the normal tabs,
 	//which are handled in the original function.
 	//the rest of clean up is done by gBrowser.unpinTab()
@@ -2163,9 +2820,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				let {screenX, screenY} = e;
 				this._lastMouseDownData = {
 					tab,
-					tabRect: getRect(tab),
-					atTabX: screenX - tab.screenX,
-					atTabY: screenY - tab.screenY,
+					atTabXPercent: (screenX - tab.screenX) / getRect(tab).width,
 					scrollPos: scrollTop,
 					screenX,
 					screenY,
@@ -2177,55 +2832,84 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				fakeScrollbar.scrollTop = scrollTop;
 				//mouseup will not be fired in many cases, but mouseleave always will
 				//TODO: touch event may have similar problem
-				tabContainer.addEventListener("mouseleave", function f(e) {
+				this.addEventListener("mouseleave", function f(e) {
 					if (e.target != this) return;
 					this.removeEventListener("mouseleave", f, true);
-					up.call(tabContainer, e);
+					up.call(this, e);
 				}, true);
 			}
 		}
 
 		function up(e) {
-			if (e.type == "mouseup" && e.button || e.type == "touchend" && e.touches.length)
+			if (e.type == "mouseup" && e.button ||
+					e.type == "touchend" && e.touches.length ||
+					!this._lastMouseDownData)
 				return;
-			if (this._lastMouseDownData) {
-				delete this._lastMouseDownData;
+			delete this._lastMouseDownData;
+			//in a rare case the tabContainer bounces when opening a tab group
+			//however it can only be reproduced in a very specific situation but seems random
+			//wrapping it with rAF seems help but can't verify
+			requestAnimationFrame(() => {
 				this.removeAttribute("tabmousedown");
 				fakeScrollbar.style.removeProperty("--slot-height");
-			}
+			});
 		}
 	}
 
-	tabContainer.startTabDrag = function(e, tab) {
+	//completely overwrite the original startTabDrag()
+	//currently there is no easy way to prevent from executing the #updateTabStylesOnDrag()
+	if (dropToPinSupported) {
+		let str = startTabDrag.toString();
+		[
+			["this.#isContainerVerticalPinnedGrid(tab)", false],
+			["this.#maxTabsPerRow = tabsPerRow;", ""],
+			["this.#setMovingTabMode(true);", `this.setAttribute("movingtab", "");gNavToolbox.setAttribute("movingtab", "");`],
+			["this.#moveTogetherSelectedTabs(tab);", ""],
+			["this.#keepTabSizeLocked = true;", ""],
+			["this.#updateTabStylesOnDrag(tab, event);", ""],
+			[/this.#rtlMode/g, "RTL_UI"],
+		].forEach(([o, n]) => str = str.replace(o, n));
+		str = `startTabDrag = function ` + str;
+		eval(str);
+	}
+
+	tabContainer.startTabDrag = function(e, tab, opt) {
+		let draggingTab = isTab(tab);
 		//don't execute the original #moveTogetherSelectedTabs, which can't be replaced
-		let {pinned} = tab;
-		let useCustomGrouping = tab.multiselected
-				&& !gReduceMotion && (pinned || !(tabGroupsEnabled() && getRowCount(true) == 1));
+		let useCustomGrouping = tab.multiselected && !gReduceMotion;
 		if (useCustomGrouping) {
 			this._groupSelectedTabs(tab);
 			tab.removeAttribute("multiselected");
+		} else if (!draggingTab && !opt?.fromTabList) {
+			//set the attribute early to prevent the selected tab is applied the transform.
+			//in such case, the tab will be affect with the visual extra width in until the attribute perform
+			this.setAttribute("moving-tabgroup", "");
+			tab.parentNode.setAttribute("moving", "");
 		}
 
 		startTabDrag.apply(this, arguments);
 
+		let {pinned, _dragData} = tab;
+
 		//if it is from tab list, there is no mouse down data
 		let data = this._lastMouseDownData;
-		if (data) {
-			let curPos = getRect(tab), prvPos = data.tabRect;
-			if (curPos.left != prvPos.left || prvPos.top != curPos.top)
-				this._resetAnimateTabMove();
-			assign(tab._dragData, data);
-		}
+		if (data)
+			assign(_dragData, data);
+
+		assign(_dragData, {
+			pinned: !!pinned,
+			draggingTab,
+			movingPositionPinned: pinned && this.hasAttribute("positionpinnedtabs"),
+		});
 
 		delete this._lastMouseDownData;
 		fakeScrollbar.style.removeProperty("--slot-height");
 
 		//fix the movingTabs as the original is told that there is no multiselect
 		if (useCustomGrouping) {
-			let data = tab._dragData;
-			data.movingTabs = gBrowser.selectedTabs.filter(t => t.pinned == pinned);
+			_dragData.movingTabs = gBrowser.selectedTabs.filter(t => t.pinned == pinned);
 			if (tab._groupData) {
-				data._groupData = tab._groupData;
+				_dragData._groupData = tab._groupData;
 				delete tab._groupData;
 			}
 			tab.setAttribute("multiselected", true);
@@ -2236,12 +2920,15 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 	//and cause improper transition animation,
 	//rewite the whole _groupSelectedTabs and not execute the original one
 	tabContainer._groupSelectedTabs = function(draggedTab) {
-		time("_groupSelectedTabs");
+		console.time("_groupSelectedTabs");
 
 		let groupData = new Map();
 		let {pinned} = draggedTab;
-		let {selectedTabs, visibleTabs} = gBrowser;
-		let animate = !gReduceMotion && (pinned || !hasTabGoups() || getRowCount(true) == 1);
+		let {selectedTabs} = gBrowser;
+		let visibleTabs = getNodes();
+		let pos = item => isTab(item) ? item["elementIndex" in item ? "elementIndex" : "_tPos"]
+				: item.firstChild.elementIndex;
+		let animate = !gReduceMotion;
 
 		let tranInfos = [];
 
@@ -2254,7 +2941,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		].forEach(([tabs, centerTab]) => {
 			if (!centerTab) return;
 
-			let {_tPos} = centerTab;
+			let _tPos = pos(centerTab);
 			let centerIdx = visibleTabs.indexOf(centerTab);
 			let centerIdxInTabs = tabs.indexOf(centerTab);
 			let basedIdx = centerIdx - centerIdxInTabs;
@@ -2265,12 +2952,12 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 						groupData.set(movingTab, {});
 				} else {
 					groupData.set(movingTab, {});
-					addAnimationData(movingTab, basedIdx + i, basedPos + i, centerIdx, movingTab._tPos < _tPos);
+					addAnimationData(movingTab, basedIdx + i, basedPos + i, centerIdx, pos(movingTab) < _tPos, centerTab);
 				}
 			});
 		});
 
-		function addAnimationData(movingTab, newIndex, newPos, centerIdx, beforeCenter) {
+		function addAnimationData(movingTab, newIndex, newPos, centerIdx, beforeCenter, centerTab) {
 			let oldIndex = visibleTabs.indexOf(movingTab);
 			if (oldIndex == newIndex)
 				return;
@@ -2279,6 +2966,8 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			assign(data, {
 				indexShift: newIndex - oldIndex,
 				newPos,
+				centerTab,
+				beforeCenter,
 			});
 
 			let lowerIndex = Math.min(oldIndex, centerIdx);
@@ -2287,7 +2976,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			for (let i = lowerIndex + 1; i < higherIndex; i++) {
 				let middle = visibleTabs[i];
 
-				if (middle.pinned != movingTab.pinned)
+				if ((middle.pinned || false) != movingTab.pinned)
 					break;
 
 				if (middle.multiselected)
@@ -2303,40 +2992,39 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		if (animate)
 			visibleTabs.forEach((tab, i) => {
-				let shift = groupData.get(tab)?.indexShift;
-				if (!shift) return;
-				let rect = getRect(tab, {visual: true});
-				let targetRect = getRect(visibleTabs[i + shift], {visual: true});
-				tranInfos.push([tab, {
-					x: rect.start - targetRect.start,
-					y: rect.top - targetRect.top,
-				}]);
+				if (groupData.get(tab)?.indexShift)
+					tranInfos.push({t: tab, r: getRect(tab)});
 			});
 
 		let tabIndex = selectedTabs.indexOf(draggedTab);
 
-		// Moving left or top tabs
-		for (let i = tabIndex - 1; i > -1; i--)
+		for (let i = 0; i < tabIndex; i++)
 			moveTab(i);
-
-		// Moving right or bottom tabs
-		for (let i = tabIndex + 1; i < selectedTabs.length; i++)
+		for (let i = selectedTabs.length - 1; i > tabIndex; i--)
 			moveTab(i);
 
 		function moveTab(i) {
 			let t = selectedTabs[i];
-			let tabIndex = groupData.get(t).newPos;
+			let data = groupData.get(t);
+			let tabIndex = data.newPos;
 			if (tabIndex)
-				gBrowser.moveTabTo(t, appVersion > 137 ? {tabIndex} : tabIndex);
+				//use moveTabs here to save the effort of implementing movTab on fx115
+				gBrowser[data.beforeCenter ? "moveTabsBefore" : "moveTabsAfter"]([t], data.centerTab);
 		}
 
 		if (animate)
 			draggedTab._groupData = tranInfos;
 
-		timeEnd("_groupSelectedTabs");
+		console.log(tranInfos);
+
+		console.timeEnd("_groupSelectedTabs");
 	};
 
 	tabContainer.on_dragover = function(e) {
+		//in case the ctrl is released before the animation is done
+		if (this.hasAttribute("animate-finishing"))
+			return;
+
 		if (["", "none"].includes(this.getDropEffectForTabDrag(e))) {
 			on_dragover.apply(this, arguments);
 			return;
@@ -2344,6 +3032,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		let dt = e.dataTransfer;
 		let draggedTab = dt.mozGetDataAt(TAB_DROP_TYPE, 0);
+		let draggingTab = isTab(draggedTab);
 		let sameWindow = draggedTab?.ownerDocument == document;
 		let copy = dt.dropEffect == "copy";
 		let animate = draggedTab && sameWindow && !copy;
@@ -2351,11 +3040,15 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 		tabsBar.toggleAttribute("tabs-dragging-ext", !animate);
 
 		if (!this.hasAttribute("dragging")) {
-			time("on_dragover - setup");
+			console.time("on_dragover - setup");
+			this.removeAttribute("tabmousedown");
 			this.setAttribute("dragging", "");
 			tabsBar.setAttribute("tabs-dragging", "");
-			this.removeAttribute("tabmousedown");
-			lockSlotSize();
+
+			this.lockSlotSize();
+			gBrowser.addEventListener("mousemove", this);
+			addEventListener("mouseout", this);
+
 			arrowScrollbox.lockScroll = true;
 			clearTimeout(passingByTimeout);
 			passingByTimeout = setTimeout(() => {
@@ -2364,8 +3057,8 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 					let panel = document.getElementById("customizationui-widget-panel");
 					if (panel) {
 						let panelRect = getRect(panel), tabsRect = getRect(this);
-						if (!(pointDelta(panelRect.bottom, tabsRect.top) <= 0
-								|| pointDelta(panelRect.top, tabsRect.bottom) >= 0
+						if (!(pointDelta(panelRect.bottom, tabsRect.y) <= 0
+								|| pointDelta(panelRect.y, tabsRect.bottom) >= 0
 								|| pointDeltaH(panelRect.end, tabsRect.start) <= 0
 								|| pointDeltaH(panelRect.start, tabsRect.end) >= 0))
 							panel.hidePopup();
@@ -2375,465 +3068,643 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			fakeScrollbar.scrollTop = scrollbox.scrollTop;
 
 			if (animate) {
-				//set the attribute earlier to prevent the placeholders hide during moving pinned tabs together
-				let movingPositionPinned = draggedTab?.pinned && this.hasAttribute("positionpinnedtabs");
+				//set the attribute early to prevent the placeholders hide during moving pinned tabs together
+				let movingPinned = draggedTab?.pinned;
+				let movingPositionPinned = movingPinned && this.hasAttribute("positionpinnedtabs");
+				this.toggleAttribute("moving-pinned-tab", movingPinned);
 				this.toggleAttribute("moving-positioned-tab", movingPositionPinned);
 				tabsBar.toggleAttribute("moving-positioned-tab", movingPositionPinned);
-
-				if (tabGroupsEnabled() && getRowCount(true) == 1) {
-					//apply the original animation handler
-					this._animateTabMove = _animateTabMove;
-					this[FINISH_ANIMATE_TAB_MOVE] = finishAnimateTabMove;
-				} else if (hasTabGoups() && !draggedTab?.pinned) {
-					//disable _animateTabMove as we don't want to bother with it
-					draggedTab._dragData.fromTabList = true;
-				}
 			}
 
-			timeEnd("on_dragover - setup");
+			console.timeEnd("on_dragover - setup");
 		}
 
 		let ind = this._tabDropIndicator;
 
-		time("original on_dragover");
+		console.time("original on_dragover");
 
-		//when copying tab in the same window,
-		//the original on_dragover hide the indicator (modify DOM), measure arrowScrollbox,
-		//and show the indicator (modify DOM again), cause serious reflow problem and terribly lag.
 		let hidden;
-		let opd = Object.getOwnPropertyDescriptor(ind, "hidden")
-				|| Object.getOwnPropertyDescriptor(ind.__proto__, "hidden");
-		Object.defineProperty(ind, "hidden", {set: v => hidden = v, configurable: true});
+		Object.defineProperties(ind, {
+			//when copying tab in the same window,
+			//the original on_dragover hide the indicator (modify DOM), measure arrowScrollbox,
+			//and show the indicator (modify DOM again), cause serious reflow problem and terribly lag.
+			hidden: {set: v => hidden = v, configurable: true},
+			//ignore the transform setting
+			style: {get: () => ({}), configurable: true},
+		});
 
 		try {
 			on_dragover.apply(this, arguments);
 		} finally {
-			Object.defineProperty(ind, "hidden", opd);
+			delete ind.hidden;
+			delete ind.style;
+		}
+
+		console.timeEnd("original on_dragover");
+
+		let target = this._getDragTargetTab(e);
+		const movingTab = this.hasAttribute("movingtab");
+		const updatePinState = sameWindow && dropToPinSupported && !copy &&
+				draggingTab &&
+				draggedTab.pinned != !!target?.pinned;
+
+		if (updatePinState)
+			hidden = false;
+
+		switch (e.originalTarget) {
+			case arrowScrollbox._scrollButtonUp:
+			case arrowScrollbox._scrollButtonDown:
+				hidden = true;
 		}
 
 		if (hidden != null)
 			ind.hidden = hidden;
 
-		timeEnd("original on_dragover");
-
-		if (hidden) return;
-
-		time("on_dragover - update indicator");
-
-		let pos = this._getDropIndex(e);
-		let {visibleTabs} = gBrowser;
-		let target = this._getDragTargetTab(e);
-		let numPinned = gBrowser.pinnedTabCount;
-		let lastTab = visibleTabs.at(-1);
-		let lastPos = lastTab._tPos;
-		let firstNormalTab = visibleTabs[numPinned];
-		let useEnd;
-
-		if (appVersion > 137 && target && hasTabGoups())
-			for (let t of [...arrowScrollbox.querySelectorAll("tab,tab-group")])
-				if (t == target)
-					break;
-				else if (t.tagName == "tab-group")
-					pos--;
-				else if (!t.isOpen || !t.visible)
-					pos++;
-
-		if (!this.hasAttribute("movingtab")) {
-			if (draggedTab?._dragData.fromTabList && sameWindow && !copy) {
-				if (draggedTab.pinned) {
-					lastTab = visibleTabs[numPinned - 1];
-					lastPos = lastTab._tPos;
-					if (!target?.pinned)
-						pos = numPinned;
-				} else if (!target)
-					pos = lastPos + 1;
-				else if (target.pinned)
-					pos = numPinned;
-			} else if (target?.pinned && (!draggedTab || sameWindow))
-				//dragging external thing or copying tabs
-				pos = numPinned;
-
-			if (pos > lastPos) {
-				if (lastTab.getBoundingClientRect().bottom > scrollbox.getBoundingClientRect().bottom)
-					pos = -1;
-			} else if (pos == numPinned || pos == firstNormalTab._tPos) {
-				target = firstNormalTab;
-				if (firstNormalTab.getBoundingClientRect().top < scrollbox.getBoundingClientRect().top)
-					pos = -1;
-			}
-		}
-
-		if (pos < 0) {
-			ind.hidden = true;
-			timeEnd("on_dragover - update indicator");
+		if (hidden) {
+			if (movingTab)
+				ind.style.transform = "";
 			return;
 		}
 
-		let rect = getRect(arrowScrollbox);
-		let newMarginX, newMarginY;
+		console.time("on_dragover - update indicator");
 
-		let tabRect;
-		//target can be null on fx 138+
+		const numPinned = gBrowser.pinnedTabCount;
+		const nodes = getNodes({onlyFocusable: true});
+		const firstNonPinned = nodes[numPinned];
 
-		if (pos > lastPos) {
-			tabRect = getRect(lastTab);
-			useEnd = true;
-		} else if (target) {
-			let targetRect = getRect(target);
-			let nextTab = visibleTabs.find(t => t._tPos >= pos);
-			tabRect = getRect(nextTab);
-			if (targetRect.top != tabRect.top &&
-					(!target.pinned || nextTab.pinned)) {
-				useEnd = true;
-				tabRect = targetRect;
+		let idx = this._getDropIndex(e);
+		let lastNode = nodes.at(-1);
+		let lastIdx = indexOf(lastNode);
+
+		console.debug("drag ind", idx, target);
+
+		if (movingTab) {
+			if (updatePinState) {
+				if (draggedTab.pinned)
+					target = firstNonPinned;
+				else {
+					target = nodes[numPinned - 1];
+					this._clearDragOverCreateGroupTimer();
+					this._setDragOverGroupColor();
+					delete draggedTab._dragData.shouldCreateGroupOnDrop;
+				}
+				idx = numPinned;
 			}
+		} else {
+			if (isTabGroupLabel(draggedTab)) {
+				if (target?.pinned)
+					idx = numPinned;
+				else {
+					let {group} = target || {};
+					if (idx <= group?.visibleTabs.at(-1)?.elementIndex)
+						idx = (target = group.labelElement).elementIndex;
+				}
+			} else if (draggedTab?._dragData.fromTabList && sameWindow && !copy) {
+				if (draggedTab.pinned) {
+					if (!dropToPinSupported) {
+						lastNode = nodes[lastIdx = numPinned - 1];
+						if (!target?.pinned)
+							idx = numPinned;
+					}
+				} else if (!target)
+					idx = lastIdx + 1;
+				else if (!dropToPinSupported && target.pinned)
+					idx = numPinned;
+			} else if (target?.pinned && (!draggedTab || sameWindow))
+				//dragging external thing or copying tabs
+				idx = numPinned;
+
+			if (idx == numPinned ||
+					/*there may be hidden tabs before non pinned*/
+					idx == firstNonPinned?._tPos)
+				target = firstNonPinned;
 		}
 
-		if (tabRect) {
-			newMarginX = tabRect[useEnd ? "end" : "start"] - rect.start;
-			newMarginY = tabRect.top + tabRect.heightDouble - rect.top - rect.heightDouble;
-			newMarginY += rect.heightDouble / 2 - tabRect.heightDouble / 2;
+		if (idx > lastIdx || !target)
+			target = lastNode;
 
-			ind.style.transform = `translate(calc(${newMarginX}px + 50% * ${DIR}), ${newMarginY}px)`;
+		if (target) {
+			let targetRect = getRect(getTransformNode(target), {translated: false});
+			let boxRect = getRect(arrowScrollbox);
+			let x = targetRect[idx != indexOf(target) ? "end" : "start"] - boxRect.start;
+			let boxHalf = boxRect.height / 2;
+			let y = Math.max(Math.min((targetRect.y + targetRect.height / 2) - (boxRect.y + boxHalf), boxHalf), -boxHalf);
+			let {style} = ind;
+			if (!style.transform) {
+				style.transition = "none";
+				requestAnimationFrame(() => requestAnimationFrame(() => style.transition = ""));
+			}
+			style.transform = `translate(calc(${x}px + 50% * ${DIR}), ${y}px)`;
+		} else
+			ind.hidden = true;
+
+		function indexOf(e) {
+			return e.elementIndex ?? e._tPos;
 		}
 
-		timeEnd("on_dragover - update indicator");
+		console.timeEnd("on_dragover - update indicator");
 	};
 
 	//since the original _animateTabMove will modify the transform property and cause improper transition animation,
 	//rewite the whole _animateTabMove and not execute the original one
 	tabContainer._animateTabMove = function(e) {
-		time("_animateTabMove");
+		const tabGroupsEnabled = gBrowser._tabGroupsEnabled;
+		const dragToGroupTabs = prefs.dragToGroupTabs && tabGroupsEnabled;
+		const draggedTab = e.dataTransfer.mozGetDataAt(TAB_DROP_TYPE, 0);
+		const {_dragData} = draggedTab;
+		const {
+			pinned, recursion, draggingTab, movingTabs, movingPositionPinned,
+			lastScreenX, lastScreenY,
+		} = _dragData;
 
-		let draggedTab = e.dataTransfer.mozGetDataAt(TAB_DROP_TYPE, 0);
-		let {_dragData, pinned} = draggedTab;
-		let {_groupData} = _dragData;
-		let {screenX: eX, screenY: eY} = e;
+		const TIMER = "_animateTabMove" + (recursion ? "_recursion" : "");
+		console.time(TIMER);
 
-		let {movingTabs} = _dragData;
-		let movingPositionPinned = pinned && this.hasAttribute("positionpinnedtabs");
-		let scrollOffset = movingPositionPinned ? 0 : scrollbox.scrollTop;
+		const {screenX: eX, screenY: eY} = e;
 
-		//update the attribute first to ensure a reflow before querying the position of tabs.
-		//don't know why the position is incorrect when moving the first tab in each row together.
-		//setting the attribute first can fix this problem.
-		//setup the attributes at the end can save 10ms+ reflow time though.
+		const scrollOffset = movingPositionPinned ? 0 : scrollbox.scrollTop;
+
 		if (!tabsBar.hasAttribute("movingtab")) {
 			this.setAttribute("movingtab", true);
 			gNavToolbox.setAttribute("movingtab", true);
 			tabsBar.setAttribute("movingtab", "");
-			this.toggleAttribute("movingsingletab", _dragData.movingTabs.length == 1);
-			if (!draggedTab.multiselected)
+			if (!draggingTab) {
+				//the attribute may be removed when finishAnimateTabMove has fired after ctrl was pressed
+				this.setAttribute("moving-tabgroup", "");
+				draggedTab.parentNode.setAttribute("moving", "");
+			}
+			this.toggleAttribute("moving-single-tab", movingTabs.length == 1);
+			if (draggingTab && !draggedTab.multiselected)
 				this.selectedItem = draggedTab;
+			arrowScrollbox.style.setProperty("--scroll-top", scrollOffset + "px");
 		}
 
 		//the animate maybe interrupted and restart, don't initialize again
-		if (!("lastScreenX" in _dragData)) {
-			let {visibleTabs, pinnedTabCount: numPinned} = gBrowser;
-			let boxStart, boxEnd, placeholderWidth = 0;
-			let {top: boxTop, bottom: boxBottom} = getRect(scrollbox);
-			let tabs = visibleTabs.slice(
-				pinned ? 0 : numPinned,
-				pinned ? numPinned : undefined
-			);
-			if (movingPositionPinned) {
-				let rowEnd = tabs[0];
-				for (let i = 1, n = tabs.length; i < n && pointDeltaH(rowEnd.screenX, tabs[i].screenX) < 0; i++)
-					rowEnd = tabs[i];
-				let rowStart = tabs.at(-1);
-				for (let i = tabs.length - 2; i > -1 && pointDeltaH(rowStart.screenX, tabs[i].screenX) > 0; i--)
-					rowStart = tabs[i];
-				boxStart = getRect(rowStart).start;
-				boxEnd = getRect(rowEnd).end;
-			} else {
-				({start: boxStart, end: boxEnd} = getRect(slot));
-				placeholderWidth = parseFloat(getComputedStyle(slot, "::after").width) || 0;
-			}
+		if (lastScreenX == null) {
+			if (draggingTab)
+				InspectorUtils.addPseudoClassLock(draggedTab, ":hover");
 
-			let idxInMoving = movingTabs.indexOf(draggedTab);
-			let firstMoving = movingTabs[0];
-			let lastMoving = movingTabs.at(-1);
-			let movingCount = movingTabs.length;
-			let movingAfterCount = movingCount - 1 - idxInMoving;
-			let tabRects = tabs.map(t => {
-				let r = getRect(t, {visual: true});
-				r.top += scrollOffset;
-				r.bottom += scrollOffset;
-				return [t._tPos, r];
-			});
-			let firstIdx = idxInMoving;
-			let lastIdx = movingAfterCount * -1 - 1;
+			//set boxTop before updating nodes
+			_dragData.boxTop = getRect(scrollbox).y;
+
+			updateNodeRects();
+
+			let {tabs, _groupData} = _dragData;
+
+			let moveOverThreshold = tabGroupsEnabled ?
+					Math.min(1, Math.max(0, Services.prefs.getIntPref("browser.tabs.dragDrop.moveOverThresholdPercent") / 100)) :
+					.5;
+			let groupThreshold = 1 - moveOverThreshold;
+			if (!dragToGroupTabs)
+				moveOverThreshold = .5;
 
 			assign(_dragData, {
-				visibleTabs, numPinned,
-				winSX: root.screenX,
-				winSY: root.screenY,
-				draggedTabIdx: tabs.indexOf(draggedTab),
-				firstMoving, lastMoving,
-				firstMovingIdx: tabs.indexOf(firstMoving),
-				lastMovingIdx: tabs.indexOf(lastMoving),
-				movingBeforeCount: idxInMoving,
-				movingAfterCount,
-				movingCount,
-				first: tabs[firstIdx],
-				last: tabs.at(lastIdx),
-				tabs,
-				tabRects: Object.fromEntries(tabRects),
-				canFitInFirstRow: tabRects[0][1].top == tabRects[firstIdx][1].top,
-				canFitInLastRow: tabRects.at(-1)[1].top == tabRects.at(lastIdx)[1].top,
-				singleRow: getRowCount(true) == 1,
-				boxStart, boxEnd, boxTop, boxBottom,
-				placeholderStart: boxEnd - placeholderWidth * DIR,
-				placeholderBottom: boxTop + (placeholderWidth && tabHeight),
+				numPinned: gBrowser.pinnedTabCount,
+				movingNodes: movingTabs.map(getTransformNode),
+				moveOverThreshold,
+				groupThreshold,
+				draggedNode: getTransformNode(draggedTab),
+				createGroupDelay: dragToGroupTabs &&
+						Services.prefs.getIntPref("browser.tabs.dragDrop.createGroup.delayMS"),
 			});
 
+			if (movingPositionPinned)
+				_dragData.scrollPos = 0;
+
 			if (_groupData) {
-				for (let [t, o] of _groupData) {
-					let s = t.style;
-					s.transition = "none";
-					if (t.multiselected)
-						s.translate = `${o.x}px ${o.y}px`;
-					else {
-						s.transform = `translate(${o.x}px, ${o.y}px)`;
-						t._groupTabsMovingBGTabs = true;
-					}
-				}
-				requestAnimationFrame(() => _groupData.forEach(([t]) => {
-					let s = t.style;
-					s.transition = "";
-					if (t.multiselected)
-						s.translate = "";
-					else {
-						s.transform = "";
-						delete t._groupTabsMovingBGTabs;
-					}
-					_dragData.needUpdate = true;
-				}));
+				let newRects = _groupData.map(({t}) => getRect(t));
+				_groupData.forEach(({t, r}, i) => animateShifting(t, r, newRects[i]));
+				delete _dragData._groupData;
 			}
 
-			timeLog("_animateTabMove", "init");
-			log(_dragData);
+			console.timeLog(TIMER, "init");
+			console.log(_dragData);
 		}
 
-		let {tabs, tabRects} = _dragData;
-
-		if (_dragData.needUpdate)
-			delete _dragData.needUpdate;
-		else if (eX == _dragData.lastScreenX && eY == _dragData.lastScreenY
+		if (!_dragData.needsUpdate && eX == lastScreenX && eY == lastScreenY
 				&& !arrowScrollbox._isScrolling) {
-			timeEnd("_animateTabMove");
+			console.timeEnd(TIMER);
 			return;
 		}
+		delete _dragData.needsUpdate;
+
+		console.debug(`animate tab move, recursion=${recursion}`, eX, eY);
+
+		let {
+			moveForward, oriScreenX, oriScreenY,
+			tabs, tabRects,
+			atTabXPercent,
+			boxTop,
+			moveOverThreshold, groupThreshold, createGroupDelay,
+			movingNodes, draggedNode,
+		} = _dragData;
+
+		let dirX = Math.sign(eX - (lastScreenX ?? oriScreenX));
 
 		assign(_dragData, {lastScreenX: eX, lastScreenY: eY});
 
-		let {
-			visibleTabs, numPinned,
-			winSX, winSY, atTabX, atTabY,
-			boxStart, boxEnd, boxTop, boxBottom,
-			placeholderBottom, placeholderStart,
-			singleRow, firstMoving, lastMoving,
-			movingBeforeCount, movingAfterCount, movingCount,
-			first, last, firstMovingIdx, lastMovingIdx, draggedTabIdx,
-			canFitInLastRow, canFitInFirstRow,
-		} = _dragData;
+		let tranX, tranY, rTranX, rTranY, currentRow;
+		let firstRect, lastRect, draggedRect, firstMovingRect, lastMovingRect;
 
-		placeholderBottom -= scrollOffset;
+		console.timeLog(TIMER, "before shift moving");
+		shiftMovingNodes();
+		console.timeLog(TIMER, "after shift moving");
 
-		//the box may scroll thus didn't cache these things
-		let {start: firstStart, end: firstEnd, top: firstTop, bottom: firstBottom} = rect(first);
-		let {start: lastStart, end: lastEnd, top: lastTop, bottom: lastBottom} = rect(last);
-		let {start: draggedStart, end: draggedEnd, top: draggedTop, bottom: draggedBottom,
-				height: draggedHeight, width: draggedWidth, widthDouble: draggedWidthDouble} = rect(draggedTab);
+		function shiftMovingNodes() {
+			rTranX = tranX = eX - _dragData.oriScreenX;
+			rTranY = tranY = eY - _dragData.oriScreenY;
 
-		let virtualStart = eX - atTabX;
-		let virtualEnd = virtualStart + draggedWidth;
-		let virtualCenterX = (virtualStart + virtualEnd) / 2;
-		let virtualCenterY = eY - atTabY + draggedHeight / 2;
-		if (RTL_UI)
-			[virtualStart, virtualEnd] = [virtualEnd, virtualStart];
+			firstRect = rect(tabs[0]);
+			lastRect = rect(tabs.at(-1));
+			draggedRect = rect(draggedNode);
+			firstMovingRect = rect(movingNodes[0]);
+			lastMovingRect = rect(movingNodes.at(-1));
 
-		let tranShift = 0, tranWidth = 0;
-		let tranX, tranY, tranCenterX, tranCenterY;
-		let target, targetIdx, targetWidth, targetStart, targetTop;
+			let scrollChange = scrollOffset - _dragData.scrollPos;
 
-		{
-			let r;
-			if (pointDelta((r = rect(last)).top, virtualCenterY) <= 0) ;
-			else if (pointDelta(virtualCenterY, (r = rect(first)).bottom) < 0) ;
-			else
-				for (let tab of tabs) {
-					r = rect(tab);
-					if (pointDelta(r.top, virtualCenterY) <= 0 && pointDelta(virtualCenterY, r.bottom) < 0)
-						break;
+			currentRow = Math.min(Math.max(
+					Math.floor((draggedRect.y + draggedRect.height / 2 + tranY + scrollOffset + scrollChange - boxTop) / tabHeight),
+					firstRect.row),
+					lastRect.row);
+
+			let rects = [...tabRects.values()];
+			let firstRectInCurrentRow = rects.find(r => r.row == currentRow);
+			let lastRectInCurrentRow = rects.findLast(r => r.row == currentRow);
+
+			rTranX -= Math.min(pointDeltaH(draggedRect.start + rTranX, firstRectInCurrentRow.start), 0) * DIR;
+			rTranX += Math.min(pointDeltaH(lastRectInCurrentRow.end, draggedRect.end + rTranX), 0) * DIR;
+
+			console.debug("restrict tranX", rTranX - tranX, currentRow, firstRectInCurrentRow, lastRectInCurrentRow, rects);
+
+			if (firstMovingRect.row == firstRect.row) {
+				if (currentRow < draggedRect.row)
+					rTranX -= pointDeltaH(firstMovingRect.start + rTranX, firstRect.start) * DIR;
+				//don't restrict in the cases the node is placed to the end of previous row
+				//instead of the location of dragging over typically when dragging a unnammed tab group to the row start
+				else if (currentRow == draggedRect.row)
+					rTranX -= Math.min(pointDeltaH(firstMovingRect.start + rTranX, firstRect.start), 0) * DIR;
+				rTranY -= Math.min(pointDelta(firstMovingRect.y + rTranY + scrollChange, firstRect.y), 0);
+			} else if (pointDeltaH(firstMovingRect.start + rTranX, firstRect.start, true) < 0)
+				rTranY -= Math.min(pointDelta(firstMovingRect.y + rTranY + scrollChange, firstRect.bottom), 0);
+
+			if (lastMovingRect.row == lastRect.row) {
+				if (currentRow > draggedRect.row)
+					rTranX -= pointDeltaH(lastMovingRect.end + rTranX, lastRect.end) * DIR;
+				else if (currentRow == draggedRect.row)
+					rTranX += Math.min(pointDeltaH(lastRect.end, lastMovingRect.end + rTranX), 0) * DIR;
+				rTranY += Math.min(pointDelta(lastRect.y, lastMovingRect.y + rTranY + scrollChange), 0);
+			} else if (pointDeltaH(lastMovingRect.end + rTranX, lastRect.end, true) > 0)
+				rTranY += Math.min(pointDelta(lastRect.y, lastMovingRect.bottom + rTranY + scrollChange), 0);
+
+			console.debug("restrict tranY", rTranY - tranY, currentRow, draggedRect.row, lastMovingRect.row, lastRect.row);
+
+			let movingUp = rTranY + scrollOffset < _dragData.scrollPos;
+			if (!movingPositionPinned) {
+				let p = _dragData.scrollPos;
+				tranY -= p;
+				rTranY -= p;
+			}
+
+			let maxZIndex = 0;
+			movingNodes.forEach((node, i, a) => {
+				let {row} = _dragData.tabRects.get(node);
+				let zIndex = 2 + (rTranX > 0 != RTL_UI ? a.length - i : i) + (movingUp ? row : lastRect.row - row) * a.length;
+				maxZIndex = Math.max(maxZIndex, zIndex);
+				assign(node.style, {
+					"--translate-x": rTranX ? rTranX + "px" : "",
+					"--translate-y": rTranY ? rTranY + "px" : "",
+					zIndex,
+				});
+			});
+			assign(tabsBar.style, {"--tabs-moving-max-z-index": maxZIndex});
+		}
+
+		const cursorMovingForward = dirX ? dirX == DIR : (moveForward ?? eY >= oriScreenY);
+		const rowChange = currentRow - (_dragData.currentRow ?? rect(draggedNode).row);
+		assign(_dragData, {currentRow});
+
+		switch (Math.sign(rowChange)) {
+			case -1: moveForward = false; break;
+			case 1: moveForward = true; break;
+			default: moveForward = cursorMovingForward;
+		}
+
+		let draggingGroupAtGroup;
+		let leader = movingNodes.at(moveForward ? -1 : 0);
+		let leaderRect = rect(leader);
+
+		leaderRect.start += tranX;
+		leaderRect.y += tranY + scrollOffset;
+
+		let previousNode, previousOverlap;
+		let dropAfterElement, dropBeforeElement;
+		let overlapBefore = false, overlapAfter = false;
+
+		let tabsBeforeMoving = tabs.slice(0, tabs.indexOf(movingNodes[0]));
+		let tabsAfterMoving = tabs.slice(tabs.indexOf(movingNodes.at(-1)) + 1);
+
+		let leaderCenterY = leaderRect.y + leaderRect.height / 2;
+
+		if (firstMovingRect.row == firstRect.row && currentRow < draggedRect.row)
+			dropBeforeElement = tabsBeforeMoving[0];
+		else if (lastMovingRect.row == lastRect.row && currentRow > draggedRect.row)
+			dropAfterElement = tabsAfterMoving.at(-1);
+		else {
+			leaderCenterY = Math.min(Math.max(leaderCenterY, firstRect.y), lastRect.bottom - 1);
+
+			let prv, nxt;
+			let row = tabs.flatMap((t, i) => {
+				if (nxt) return [];
+				let r = rect(t);
+				if (pointDelta(r.y, leaderCenterY) <= 0 && pointDelta(leaderCenterY, r.bottom) < 0) {
+					if (!prv) {
+						let [tabBeforeRow, tab2ndBeforeRow] = movingNodes.includes(tabs[i - 1]) ?
+								[tabsBeforeMoving.at(-1), tabsBeforeMoving.at(-2)] :
+								[tabs[i - 1], tabs[i - 2]];
+						if (!moveForward && leader != draggedNode && i) {
+							let edge = r.start - leaderRect.width * DIR;
+							prv = [
+								{t: tab2ndBeforeRow, r: {start: -Infinity * DIR, end: edge, width: Infinity}},
+								{t: tabBeforeRow, r: {start: edge, end: r.start, width: leaderRect.width}},
+							];
+						} else
+							prv = [{t: tabBeforeRow, r: {start: -Infinity * DIR, end: r.start, width: Infinity}}];
+					} if (i == tabs.length - 1)
+						nxt = [{t: null, r: {start: r.end, end: Infinity * DIR, width: Infinity}}];
+					return movingNodes.includes(t) ? [] : {t, r};
 				}
-			targetWidth = r.width;
-		}
+				if (prv) {
+					let [tabAfterRow, tab2ndAfterRow] = movingNodes.includes(t) ?
+							[tabsAfterMoving[0], tabsAfterMoving[1]] :
+							[t, tabs[i + 1]];
+					let prvR = rect(tabs[i - 1]);
+					if (moveForward && leader != draggedNode) {
+						let edge = prvR.end + leaderRect.width * DIR;
+						nxt = [
+							{t: tabAfterRow, r: {start: prvR.end, end: edge, width: leaderRect.width}},
+							{t: tab2ndAfterRow, r: {start: edge, end: Infinity * DIR, width: Infinity}},
+						];
+					} else
+						nxt = [{t: tabAfterRow, r: {start: prvR.end, end: Infinity * DIR, width: Infinity}}];
+				}
+				return [];
+			});
 
-		tranWidth = pointDelta(targetWidth, draggedWidthDouble);
-		if (tranWidth) {
-			tranShift = (RTL_UI ? draggedWidthDouble - atTabX : atTabX) * (1 - 1 / draggedWidthDouble * targetWidth) * DIR;
-			virtualStart += tranShift;
-			virtualEnd += tranShift + tranWidth * DIR;
-			virtualCenterX = (virtualStart + virtualEnd) / 2;
-		}
+			//out of slot
+			if (!prv) {
+				console.timeEnd(TIMER);
+				return;
+			}
 
-		let noSpaceBtwnFirstLast = pointDeltaH(virtualEnd, virtualStart) > pointDeltaH(lastEnd, firstStart)
-				&& pointDelta(lastTop, firstBottom) < tabHeight;
-		let startBound = pointDelta(virtualCenterY, firstBottom) < 0 || singleRow ?
-				firstStart : (pointDelta(lastBottom, virtualCenterY) <= 0 && !canFitInLastRow ? lastStart : boxStart);
-		let endBound = pointDelta(virtualCenterY, lastTop) >= 0 ?
-				lastEnd : (pointDelta(virtualCenterY, firstTop) < 0 && !canFitInFirstRow ?
-								firstEnd : (pointDelta(virtualCenterY, placeholderBottom) < 0 ? placeholderStart : boxEnd));
-		let topBound = pointDeltaH(boxStart, firstStart) < 0
-						&& (pointDeltaH(virtualStart, firstStart) < 0 || noSpaceBtwnFirstLast)
-						&& pointDelta(virtualCenterY, firstBottom) >= 0 ?
-				firstBottom : (pointDeltaH(virtualEnd, placeholderStart) > 0
-								&& pointDelta(virtualCenterY, placeholderBottom) >= 0
-								&& pointDelta(firstTop, placeholderBottom) < 0 ?
-						placeholderBottom : firstTop);
-		let bottomBound = pointDeltaH(lastEnd, boxEnd) < 0
-						&& (pointDeltaH(lastEnd, virtualEnd) < 0 || noSpaceBtwnFirstLast)
-						&& pointDelta(virtualCenterY, lastTop) < 0
-						&& pointDelta(firstTop, virtualCenterY) <= 0 ?
-				lastTop : lastBottom;
+			console.debug("target row", prv, row, nxt, moveForward);
 
-		if (debug == 2)
-			log({startBound, endBound, topBound, bottomBound});
+			[...prv, ...row, ...nxt][moveForward ? "findLast" : "find"](({t, r}, i, row) => {
+				let passing = calcPassing(r);
+				let rPassing = calcPassing(r, rTranX - tranX);
 
-		let x = eX - _dragData.screenX + tranShift, y = eY - _dragData.screenY;
-		if (!movingPositionPinned)
-			y += scrollOffset - _dragData.scrollPos;
-		tranX = Math[RTL_UI?"max":"min"](Math[RTL_UI?"min":"max"](x, startBound - draggedStart), endBound - draggedEnd - tranWidth * DIR);
-		tranY = Math.min(Math.max(y, topBound - draggedTop), bottomBound - draggedBottom);
+				//forced to use .5 when rowChange since the dragged tab may be moved to a place
+				//that is not passing enough over the threshould
+				let threshold = recursion || rowChange ||
+						prefs.dynamicMoveOverThreshold && (
+							pinned ||
+							!draggingTab ||
+							leader.group == (t?.closest("tab-group") || false) ||
+							t?.matches(`tab-group[collapsed] .tab-group-label-container`) ||
+							moveForward && t?.matches(".tab-group-label-container") && !row[i - 1]?.t?.group
+						) ?
+					.5 : moveOverThreshold;
 
-		tranCenterX = Math.round(draggedStart + tranX + (targetWidth || draggedWidth) / 2 * DIR);
-		tranCenterY = Math.round(draggedTop + tranY + draggedHeight / 2);
+				if (rPassing > threshold) {
+					if (!i && !moveForward) {
+						dropBeforeElement = row[1].t;
+						dropAfterElement = t;
+					} else if (i == row.length - 1 && moveForward) {
+						dropBeforeElement = t;
+						dropAfterElement = row.at(-2).t;
+					} else {
+						let prv = row[i + (moveForward ? 1 : -1)];
+						[dropAfterElement, dropBeforeElement] = moveForward ? [t, prv?.t] : [prv?.t, t];
+					}
 
-		target = tabs.slice().reverse().find(tab => {
-			let r = rect(tab);
-			return pointDeltaH(r.start, tranCenterX) <= 0 && pointDeltaH(tranCenterX, r.end) <= 0
-					&& pointDelta(r.top, tranCenterY) <= 0 && pointDelta(tranCenterY, r.bottom) <= 0;
-		});
+					if (draggingTab && !pinned)
+						if (moveForward)
+							overlapAfter = previousOverlap;
+						else
+							overlapBefore = previousOverlap;
+					return true;
+				}
 
-		if (debug) {
-			tabs.forEach(t => t.style.outline = t.style.boxShadow = "");
-			first.style.boxShadow = last.style.boxShadow = "0 0 0 1px inset red";
-			target && (target.style.outline = "1px solid lime");
-			let insertPoint = tabs.find(t => t._tPos >= draggedTab._dragData.animDropIndex);
-			insertPoint && (insertPoint.style.outline = "1px solid yellow");
-			if (debug == 2) {
-				let {style} = tabsBar;
-				style.setProperty("--drag-x", virtualCenterX - winSX + "px");
-				style.setProperty("--drag-y", virtualCenterY - winSY + "px");
-				style.setProperty("--drag-tran-width", targetWidth + "px");
-				style.setProperty("--drag-tran-x", tranCenterX - winSX + "px");
-				style.setProperty("--drag-tran-y", tranCenterY - winSY + "px");
-				style.setProperty("--drag-width", draggedWidth + "px");
+				previousOverlap = passing > groupThreshold;
+			});
+
+			if (!draggingTab) {
+				let group = dropBeforeElement?.group;
+				if (group) {
+					draggingGroupAtGroup = true;
+					if (cursorMovingForward) {
+						dropAfterElement = group.tabs.findLast(t => t.visible);
+						dropBeforeElement = tabs.slice(tabs.indexOf(dropAfterElement) + 1)
+								.find(t => t != draggedNode);
+					} else {
+						dropBeforeElement = group.firstChild;
+						dropAfterElement = tabs.slice(0, tabs.indexOf(dropBeforeElement))
+								.findLast(t => t != draggedNode);
+					}
+				}
+			}
+
+			function calcPassing(r, shift = 0) {
+				return Math.max(moveForward ?
+					pointDeltaH(leaderRect.end + shift, r.start) :
+					pointDeltaH(r.end, leaderRect.start + shift)
+				, 0) / Math.min(r.width, leaderRect.width);
 			}
 		}
 
-		//todo? the moving tabs won't follow the cursor when the dragged tab center located at a gap if we end here
-		if (!target) {
-			timeEnd("_animateTabMove");
-			return;
+		if (debug) {
+			cleanUpDragDebug();
+			console.log({dropAfterElement, dropBeforeElement, overlapAfter, overlapBefore});
+			dropBeforeElement?.setAttribute("test-drop-before", true);
+			dropAfterElement?.setAttribute("test-drop-before", false);
+			dropBeforeElement?.toggleAttribute("test-drop-overlap", overlapAfter);
+			dropAfterElement?.toggleAttribute("test-drop-overlap", overlapBefore);
 		}
 
-		({width: targetWidth, top: targetTop, start: targetStart} = rect(target));
-		targetIdx = tabs.indexOf(target);
-		tranWidth = pointDelta(targetWidth, draggedWidthDouble);
+		//use drop before in general to prevent unintended grouping, switch to drop after otherwise
+		let dropBefore = !!dropBeforeElement;
+		let dropElement = dropBeforeElement || dropAfterElement;
 
-		let moveBackward = targetIdx < draggedTabIdx;
-		let dropIdx = targetIdx + (moveBackward ? -movingBeforeCount : movingAfterCount + 1);
-		_dragData.animDropIndex = tabs[dropIdx]?._tPos ?? visibleTabs.at(-1)._tPos + 1;
+		if (draggingTab && !pinned) {
+			if (dragToGroupTabs)
+				this._clearDragOverCreateGroupTimer();
 
-		let tranInfos = _dragData.transformInfos = {};
-		tranInfos[draggedTab._tPos] = {
-			width: targetWidth,
-			delta: -tranWidth,
-			x: tranX,
-			y: tranY,
-			finalX: targetStart - draggedStart,
-			finalY: targetTop - draggedTop,
-			floating: !pinned,
-		};
+			if (overlapBefore && isTab(dropAfterElement) && !dropAfterElement.group ||
+					overlapAfter && isTab(dropBeforeElement) && !dropBeforeElement.group) {
+				if (dragToGroupTabs)
+					this._dragOverCreateGroupTimer = setTimeout(
+							() => this._triggerDragOverCreateGroup(_dragData,
+									overlapBefore ? dropAfterElement : dropBeforeElement),
+							createGroupDelay);
+				if (overlapBefore) {
+					dropBefore = false;
+					dropElement = dropAfterElement;
+				}
+			} else {
+				this.removeAttribute("movingtab-createGroup");
+				$("[dragover-createGroup]")?.removeAttribute("dragover-createGroup");
+				delete _dragData.shouldCreateGroupOnDrop;
 
-		for (let tab of movingTabs)
-			if (tab != draggedTab)
-				addTransformInfo({
-					infos: tranInfos,
-					pos: tab._tPos,
-					tabRect: rect(tab),
-					targetRect: rect(tabs[targetIdx + tabs.indexOf(tab) - draggedTabIdx]),
-					offsetX: tranX + draggedStart - targetStart,
-					offsetY: tranY + draggedTop - targetTop,
-					floating: !pinned,
-				});
+				let afterOpenGroup = dropAfterElement?.closest("tab-group:not([collapsed])");
+				if (afterOpenGroup)
+					if (!dropBefore && (overlapAfter || !overlapBefore && !draggedNode.group))
+						dropElement = afterOpenGroup;
+					else if (overlapBefore && afterOpenGroup != dropBeforeElement?.closest("tab-group")
+							|| !overlapAfter && draggedNode.group == afterOpenGroup) {
+						dropElement = dropAfterElement;
+						dropBefore = false;
+					}
+			}
+		}
 
-		let bgTabs = moveBackward ?
-				tabs.slice(dropIdx, firstMovingIdx)
-				: tabs.slice(lastMovingIdx + 1, dropIdx);
+		if (dropElement?.matches(".tab-group-label-container"))
+			dropElement = dropElement[dropBefore || dropElement.parentNode.collapsed ? "parentNode" : "firstChild"];
 
-		for (let tab of bgTabs.filter(t => !t._groupTabsMovingBGTabs))
-			addTransformInfo({
-				infos: tranInfos,
-				pos: tab._tPos,
-				tabRect: rect(tab),
-				targetRect: rect(tabs[tabs.indexOf(tab) + movingCount * (moveBackward ? 1 : -1)]),
-			});
+		console.log({dropBefore, dropElement});
 
-		setTransform(tranInfos, tabs.filter(t => !t._groupTabsMovingBGTabs), scrollOffset);
+		let shouldMove = dropElement && Object.entries({dropBefore, dropElement}).some(([k, v]) => _dragData[k] != v);
+		assign(_dragData, {dropElement, dropBefore, moveForward});
 
-		timeEnd("_animateTabMove");
+		// if (false)
+		//TODO: ignore the cases that won't actually move, especially on the first round
+		if (shouldMove) {
+			console.timeLog(TIMER, "before move");
 
-		function rect(tab) {
-			let r = {...tabRects[tab._tPos]};
-			r.top -= scrollOffset;
-			r.bottom -= scrollOffset;
+			animateLayout(async () => {
+				let oldVisualRects = !recursion &&
+						new Map(movingNodes.map(t => {
+							let r = getVisualRect(t);
+							r.y += scrollOffset;
+							return [t, r];
+						}));
+
+				let {group} = draggedNode;
+
+				gBrowser[dropBefore ? "moveTabsBefore" : "moveTabsAfter"](movingTabs, dropElement);
+				console.timeLog(TIMER, "moved");
+
+				if (rowChange && !_dragData.tabSizeUnlocked) {
+					await this._unlockTabSizing({unlockSlot: false});
+					_dragData.tabSizeUnlocked = true;
+				}
+
+				//the slot may expand due to the rearrangement
+				this.lockSlotSize();
+
+				assign(animatingLayout, {stopUpdatePlacholder: false});
+				this._updateInlinePlaceHolder();
+				updateNodeRects();
+
+				if (group?.tabs.length == 0)
+					group.addEventListener("TabGroupRemoved", e => {
+						if (this.hasAttribute("movingtab"))
+							console.warn("TODO: handle tab group remove");
+					});
+
+				let {tabs: newTabs, tabRects: newTabRects} = _dragData;
+
+				let oldDraggedR = tabRects.get(draggedNode);
+				let newDraggedR = newTabRects.get(draggedNode);
+				let p = _dragData.atTabXPercent;
+				let widthDelta = newDraggedR.width - oldDraggedR.width;
+				let resizeShift = widthDelta * p;
+
+				_dragData.oriScreenX += Math.round(newDraggedR.x - oldDraggedR.x + resizeShift);
+				_dragData.oriScreenY += Math.round(newDraggedR.y - oldDraggedR.y);
+
+				if (recursion)
+					return;
+
+				if (rowChange && !draggingGroupAtGroup && !pinned) {
+					assign(_dragData, {
+						needsUpdate: true,
+						moveForward: !moveForward,
+						recursion: true,
+					});
+
+					this._animateTabMove(e);
+					assign(_dragData, {
+						moveForward,
+						recursion: null,
+					});
+
+					newTabRects = _dragData.tabRects;
+					newDraggedR = newTabRects.get(draggedNode);
+				}
+
+				({tabs, tabRects} = _dragData);
+				shiftMovingNodes();
+
+				if (animatingLayout) {
+					if (RTL_UI)
+						resizeShift = widthDelta * (p - 1);
+					for (let t of movingNodes) {
+						let oldVR = oldVisualRects.get(t);
+						let newR = newTabRects.get(t).clone();
+
+						oldVR.start -= oldDraggedR.start - resizeShift;
+						oldVR.y -= oldDraggedR.y;
+						newR.start -= newDraggedR.start;
+						newR.y -= newDraggedR.y;
+
+						animatingLayout.rects.set(t, oldVR);
+						animatingLayout.newRects.set(t, newR);
+					}
+				}
+			}, {nodes: tabs});
+		}
+
+		console.timeEnd(TIMER);
+
+		function rect(node) {
+			let r = tabRects.get(node).clone();
+			r.y -= scrollOffset;
 			return r;
+		}
+
+		function updateNodeRects() {
+			let tabs = getNodes({pinned});
+			let tabRects = new Map(tabs.map(t => {
+				let r = getRect(t);
+				r.y += scrollOffset;
+				r.row = Math.floor(pointDelta(r.y, _dragData.boxTop, true) / tabHeight);
+				return [t, r];
+			}));
+			for (let tab of movingTabs) {
+				if (!draggingTab)
+					tab = tab.parentNode;
+				assign(tab.style, {
+					"--width-rounding-diff": tabRects.get(tab).widthRoundingDiff + "px",
+				});
+			}
+			assign(_dragData, {tabs, tabRects});
 		}
 	};
 
-	function addTransformInfo({infos, pos, tabRect, targetRect, offsetX = 0, offsetY = 0, floating}) {
-		let {widthDouble: width, top, start} = tabRect;
-		let {width: tWidth, top: tTop, start: tStart} = targetRect;
-		let finalX = tStart - start;
-		let finalY = tTop - top;
-		infos[pos] = {
-			delta: pointDelta(width - tWidth),
-			width: tWidth,
-			x: finalX + offsetX,
-			y: finalY + offsetY,
-			finalX,
-			finalY,
-			floating,
-		};
-	}
-
-	function setTransform(infos, tabs, scrollOffset = 0) {
-		arrowScrollbox.style.setProperty("--scroll-top", scrollOffset + "px");
-		for (let tab of tabs) {
-			let {style} = tab;
-			let o = infos[tab._tPos];
-			style.transform = o ? `translate(${o.x}px, ${o.floating ? `calc(${o.y - scrollOffset}px + var(--scroll-top))` : o.y + "px"})` : "";
-			if (!tab.pinned) {
-				style.minWidth = style.maxWidth = o?.delta ? o.width + "px" : "";
-				style[o?.delta ? "setProperty" : "removeProperty"]("--moving-tab-width-adjustment", o?.delta + "px");
-			}
-		}
-	}
-
-	function cleanUpTransform(tabs = gBrowser.visibleTabs.slice(gBrowser.pinnedTabCount)) {
-		arrowScrollbox.style.removeProperty("--scroll-top");
-		for (let tab of tabs) {
-			let {style} = tab;
-			style.minWidth = style.maxWidth = "";
-			style.removeProperty("--moving-tab-width-adjustment");
-		}
-	}
+	function cleanUpDragDebug() {
+		if (!debug) return;
+		$$("[test-drop-before]").forEach(e => e.removeAttribute("test-drop-before"));
+		$$("[test-drop-overlap]").forEach(e => e.removeAttribute("test-drop-overlap"));
+		getNodes().forEach(t => t.style.outline = t.style.boxShadow = "");
+	};
 
 	tabContainer.on_dragleave = function(e) {
 		on_dragleave.apply(this, arguments);
+
+		if (prefs.dragToGroupTabs && gBrowser._tabGroupsEnabled) {
+			this._clearDragOverCreateGroupTimer();
+			this.removeAttribute("movingtab-createGroup");
+			$("[dragover-createGroup]")?.removeAttribute("dragover-createGroup");
+		}
 
 		let target = event.relatedTarget;
 		while (target && target != this)
@@ -2848,185 +3719,143 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 	};
 
 	tabContainer.on_drop = function(event) {
-		//as the _dragData.translatePos is not set during the modified _animateTabMove,
-		//the finishing is not performed in the original on_dop,
-		//do the modified finishing here
 		let dt = event.dataTransfer;
-		let {dropEffect} = dt;
-		let draggedTab, _dragData, movingTabs, transformInfos;
-		if (dt.mozTypesAt(0)[0] == TAB_DROP_TYPE) {
-			draggedTab = dt.mozGetDataAt(TAB_DROP_TYPE, 0);
-			if (draggedTab) {
-				({_dragData} = draggedTab);
-				({movingTabs, transformInfos} = _dragData);
-			}
-		}
+		let draggedTab = dt.mozGetDataAt(TAB_DROP_TYPE, 0);
+		let {_dragData} = draggedTab || {};
+		if (_dragData && !_dragData.shouldCreateGroupOnDrop)
+			delete _dragData.dropElement;
 
-		let transitions = [];
-		let shouldHandle = dropEffect != "copy" && draggedTab?.container == this && transformInfos;
-		let finishAnimateTabMove = this[FINISH_ANIMATE_TAB_MOVE], {moveTabTo, moveTabsAfter, moveTabsBefore} = gBrowser;
-
-		if (shouldHandle) {
-			time("on_drop");
-			//prevent the original functions being called when the original on_drop performs later
-			this[FINISH_ANIMATE_TAB_MOVE] = gBrowser.moveTabTo = () => {};
-
-			if (moveTabsAfter)
-				gBrowser.moveTabsAfter = gBrowser.moveTabsBefore = () => {};
-
-			let dropIndex;
-			if (_dragData.fromTabList)
-				dropIndex = this._getDropIndex(event);
-			else
-				dropIndex = "animDropIndex" in _dragData && _dragData.animDropIndex;
-			let incrementDropIndex = true;
-			if (dropIndex && dropIndex > movingTabs[0]._tPos) {
-				dropIndex--;
-				incrementDropIndex = false;
-			}
-
-			let animate = !gReduceMotion;
-
-			for (let tab of movingTabs) {
-				let info = transformInfos[tab._tPos];
-				let postTransitionCleanup = () => {
-					tab.removeAttribute("tabdrop-samewindow");
-					if (dropIndex !== false) {
-						moveTabTo.call(gBrowser, tab, appVersion > 137 ? {tabIndex: dropIndex} : dropIndex);
-						if (incrementDropIndex)
-							dropIndex++;
-					}
-					gBrowser.syncThrobberAnimations?.(tab);
-				};
-				//in extremely special cases _animateTabMove() is not executed in time and the tab is dropped
-				//thus there may be no transformInfos and need to check if it is not null
-				if (info && (info.finalX != info.x || info.finalY != info.y) && animate) {
-					tab.setAttribute("tabdrop-samewindow", true);
-					transitions.push(waitForAnimation(tab).then(postTransitionCleanup));
-					tab.style.transform = `translate(${info.finalX}px, ${info.finalY}px)`;
-				} else
-					postTransitionCleanup();
-			}
-			timeEnd("on_drop");
-		}
-
-		try {
-			on_drop.apply(this, arguments);
-		} finally {
-			if (shouldHandle) {
-				if (moveTabsAfter)
-					assign(gBrowser, {moveTabsAfter, moveTabsBefore});
-				this[FINISH_ANIMATE_TAB_MOVE] = finishAnimateTabMove;
-				gBrowser.moveTabTo = moveTabTo;
-			}
-		}
-
-		if (shouldHandle) {
-			//prevent start another dragging before the animate is done
-			this.setAttribute("animate-finishing", "");
-			Promise.all(transitions).then(() => {
-				try {
-					this[FINISH_ANIMATE_TAB_MOVE]();
-				} finally {
-					this.removeAttribute("animate-finishing");
-				}
-			});
-		}
+		on_drop.apply(this, arguments);
 
 		postDraggingCleanup();
 	};
 
 	tabContainer[FINISH_ANIMATE_TAB_MOVE] = function() {
-		let transformedTabs;
-		if (this.hasAttribute("movingtab")) {
-			//if tab is dropped, animate-finishing should be set,
-			//otherwise the dragging is aborted likely,
-			//mark down the transformed tabs and perform a restoring animate
-			if (!this.hasAttribute("animate-finishing") && !gReduceMotion)
-				transformedTabs = gBrowser.visibleTabs.filter(tab => tab.style.transform);
-			this.removeAttribute("moving-positioned-tab");
-			this.removeAttribute("movingsingletab");
-			tabsBar.removeAttribute("movingtab");
-			tabsBar.removeAttribute("moving-positioned-tab");
-			cleanUpTransform();
+		let draggingTab, movingNodes, _dragData, rectsBeforeCreateGroup;
+		//_animateTabMove is not triggered when copying tab at first, i.e. pressing ctrl before dragging tab
+		//thus chack the `movingtab` of tabs bar instead
+		if (tabsBar.hasAttribute("movingtab") && !this.hasAttribute("animate-finishing")) {
+			//mark down the translated tabs and perform a restoring animate
+			if (!(draggingTab = !this.hasAttribute("moving-tabgroup"))) {
+				movingNodes	= [$(".tab-group-label-container[moving]", this)];
+				({_dragData} = movingNodes[0].firstChild);
+			} else {
+				({_dragData} = gBrowser.selectedTab);
+				({movingNodes} = _dragData);
+				if (_dragData.shouldCreateGroupOnDrop && !_dragData.dropElement.group)
+					rectsBeforeCreateGroup = getNodes({newTabButton: true})
+							.map(t => [t, getRect(t, {translated: true})]);
+				else if (movingNodes[0].pinned != _dragData.pinned) {
+					//_positionPinnedTabs() won't be called when moving tabs so call it explicitly
+					this._positionPinnedTabs();
+					this._updateInlinePlaceHolder();
+				}
+			}
+
+			for (let [n, as] of [
+				[this, ["moving-pinned-tab", "moving-positioned-tab", "moving-single-tab", "moving-tabgroup"]],
+				[tabsBar, ["movingtab", "moving-positioned-tab"]],
+			])
+				for (let a of as)
+					n.removeAttribute(a);
 		}
 
 		finishAnimateTabMove.apply(this, arguments);
 
-		if (transformedTabs) {
-			this.setAttribute("animate-finishing", "");
-			this.setAttribute("movingtab", true);
+		if (prefs.dragToGroupTabs && gBrowser._tabGroupsEnabled)
+			this._clearDragOverCreateGroupTimer();
 
-			Promise.all(transformedTabs.map(tab => {
-				if (tab.selected || tab.multiselected) {
-					tab.setAttribute("tabdrop-samewindow", "");
-					if (tab.selected && tab._dragData)
-						//force the _animateTabMove to update when the tab moving is restored
-						tab._dragData.lastScreenX = -1;
+		if (movingNodes?.length) {
+			this.setAttribute("animate-finishing", "");
+			assign(arrowScrollbox.style, {"--scroll-top": ""});
+
+			_dragData.needsUpdate = true;
+
+			(async () => {
+				try {
+					if (rectsBeforeCreateGroup)
+						//wait a little bit to let the group be created first
+						await 0;
+
+					//no group created if the dragging is canceled
+					let {group} = movingNodes[0];
+					if (rectsBeforeCreateGroup && group) {
+						//new group sometimes causes the positioned pinned tabs messing up,
+						//not sure why but update it again can help
+						this._positionPinnedTabs();
+
+						let newRects = rectsBeforeCreateGroup.map(([t]) => getRect(t));
+						let label = group.firstChild;
+						group.setAttribute("fadein", "");
+						movingNodes.forEach(node => {
+							assign(node.style, {
+								"--translate-x": "",
+								"--translate-y": "",
+							});
+						});
+						label.setAttribute("animate-shifting", "start");
+						requestAnimationFrame(() => label.setAttribute("animate-shifting", "run"));
+						await Promise.all(rectsBeforeCreateGroup.map(([t, r], i) => animateShifting(t, r, newRects[i])))
+								.then(() => {
+									group.removeAttribute("fadein");
+									label.removeAttribute("animate-shifting");
+								});
+					} else {
+						this._keepTabSizeLocked = true;
+
+						await Promise.all(movingNodes.map(node => {
+							let s = node.style;
+							if (!["--translate-x", "--translate-y"].some(p => s.getPropertyValue(p)))
+								return;
+							node.setAttribute("animate-shifting", "run");
+							assign(s, {
+								"--translate-x": "",
+								"--translate-y": "",
+							});
+							return waitForAnimation(node, {property: "transform"})
+									.then(() => node.removeAttribute("animate-shifting"));
+						}));
+
+						delete this._keepTabSizeLocked;
+
+						if (!draggingTab) {
+							movingNodes[0].removeAttribute("moving");
+
+							if (_dragData.expandGroupOnDrop) {
+								let group = movingNodes[0].parentNode;
+								if (group.nonHiddenTabs.length) {
+									group.collapsed = false;
+									await group.toggleAnimation;
+								} else
+									await this._unlockTabSizing({unlockSlot: false});
+							}
+						}
+					}
+
+					for (let node of getNodes()) {
+						if (node.selected)
+							InspectorUtils.clearPseudoClassLocks(node, ":hover");
+						assign(node.style, {zIndex: "", "--width-rounding-diff": ""});
+					}
+				} finally {
+					this.removeAttribute("animate-finishing");
+					assign(tabsBar.style, {"--tabs-moving-max-z-index": ""});
 				}
-				return waitForAnimation(tab);
-			})).then(tabs => {
-				for (let t of tabs)
-					t.removeAttribute("tabdrop-samewindow");
-				this.removeAttribute("movingtab");
-				this.removeAttribute("animate-finishing");
-			});
+			})();
 		}
 	};
-
-	let newAnimateFunctions = {_animateTabMove: tabContainer._animateTabMove, [FINISH_ANIMATE_TAB_MOVE]: tabContainer[FINISH_ANIMATE_TAB_MOVE]};
 
 	function postDraggingCleanup() {
 		clearTimeout(passingByTimeout);
 		tabContainer.removeAttribute("tabmousedown");
 		tabContainer.removeAttribute("dragging");
+		tabContainer._tabDropIndicator.style.transform = "";
 		tabsBar.removeAttribute("tabs-dragging");
 		tabsBar.removeAttribute("tabs-dragging-ext");
-		unlockSlotSize(true);
+		tabsBar.removeAttribute("movingtab");
 		arrowScrollbox.lockScroll = false;
 
-		if (tabGroupsEnabled())
-			assign(tabContainer, newAnimateFunctions);
-
-		if (debug)
-			tabContainer.allTabs.forEach(t => t.style.outline = t.style.boxShadow = "");
-	}
-
-	//TODO not work for movingtab
-	tabContainer._resetAnimateTabMove = function() {
-		let data = this._lastMouseDownData || gBrowser.selectedTab._dragData;
-		if (!data)
-			for (let t of gBrowser.visibleTabs)
-				if (data = t._dragData) break;
-		if (!data) return;
-
-		unlockSlotSize(true);
-
-		let {tab, tabRect} = data;
-		let {scrollTop} = scrollbox;
-		let newRect = getRect(tab);
-		let atTabX = (data.oriScreenX - tabRect.left) / tabRect.widthDouble * newRect.widthDouble;
-		assign(data, {
-			scrollPos: scrollTop,
-			screenX: newRect.left + atTabX,
-			screenY: data.oriScreenY - tabRect.top + newRect.top,
-			atTabX,
-		});
-
-		if (debug)
-			log({boxWidth: scrollbox.clientWidth, slotWidth: slot.clientWidth, screenX: tab.screenX, oriX: data.oriScreenX, oriY : data.oriScreenY, oriTabX: data.atTabX, tabRect,
-					newX: newRect.left + atTabX, newY: data.oriScreenY - tabRect.top + newRect.top, atTabX, newRect});
-		log("_resetAnimateTabMove", "lastScreenY" in data);
-
-		if ("lastScreenY" in data) {
-			this[FINISH_ANIMATE_TAB_MOVE]();
-			this.removeAttribute("dragging");
-			delete data.lastScreenX;
-		} else {
-			unlockSlotSize(true);
-			lockSlotSize();
-			fakeScrollbar.scrollTop = scrollTop;
-		}
+		cleanUpDragDebug();
 	}
 
 	//replace the original function with modified one
@@ -3053,13 +3882,13 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				return;
 			}
 			delete this._lastTabToScrollIntoView;
-			if (scrollRect.top <= tabRect.top && tabRect.bottom <= scrollRect.bottom)
+			if (scrollRect.y <= tabRect.y && tabRect.bottom <= scrollRect.bottom)
 				return;
 
 			if (this.arrowScrollbox.smoothScroll) {
 				if (
 					!selectedRect ||
-					Math.max(tabRect.bottom - selectedRect.top, selectedRect.bottom - tabRect.top) <= scrollRect.height
+					Math.max(tabRect.bottom - selectedRect.y, selectedRect.bottom - tabRect.y) <= scrollRect.height
 				) {
 					arrowScrollbox.ensureElementIsVisible(tabToScrollIntoView);
 					return;
@@ -3067,7 +3896,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 				//try to copy normal tab to the pinned tab side will make the new tab be placed at front
 				//the original function always scroll down
-				let edge = tabRect.top > selectedRect.top ? "top" : "bottom";
+				let edge = tabRect.y > selectedRect.y ? "top" : "bottom";
 				arrowScrollbox.scrollByPixels(selectedRect[edge] - scrollRect[edge]);
 			}
 
@@ -3087,35 +3916,45 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 					let {width} = windowUtils.getBoundsWithoutFlushing(tab);
 					let {pinned} = tab;
 					tab.toggleAttribute("closebutton", !pinned && width > _tabClipWidth);
-					if (appVersion > 115) {
+					if (appVersion > 136) {
 						tab.toggleAttribute("mini-audio-button", !pinned && width < 100);
 						tab.overlayIcon.toggleAttribute("pinned", pinned || width < 100);
 					}
 				}
 			}));
-		_updateCloseButtons.apply(tabContainer, arguments);
+		_updateCloseButtons.apply(this, arguments);
 	};
 	tabContainer.addEventListener("TabMove", function({target: tab}) {
 		if (!tab.pinned)
 			this._updateCloseButtons();
-		//TabMove is fired when duplicating tab, lock the tabs in new location
-		if (!tab._fullyOpen)
-			this._lockTabSizing(tab);
+
+		if (gBrowser.pinnedTabsContainer && !this.hasAttribute("movingtab"))
+			this._updateInlinePlaceHolder();
 	}, true);
 
 	let placeholderStyle = document.body.appendChild(document.createElement("style"));
 	let lastLayoutData = null;
 
 	tabContainer._updateInlinePlaceHolder = function(numPinned = gBrowser.pinnedTabCount) {
+		if (animatingLayout?.stopUpdatePlacholder)
+			return;
+
 		if (!tabMinWidth) {
 			this.uiDensityChanged();
 			return;
 		}
-		
-		time("_updateInlinePlaceHolder");
+
+		console.time("_updateInlinePlaceHolder");
+
+		//ensure the elementIndex is set for all tabs
+		let nodes = getNodes();
+		if (!nodes[0]) {
+			console.timeEnd("_updateInlinePlaceHolder");
+			return;
+		}
 
 		tabsBar.toggleAttribute("tabs-is-first-visible",
-				tabContainer.matches(":nth-child(1 of :not([hidden=true], [collapsed=true]))"));
+				this.matches(":nth-child(1 of :not([hidden=true], [collapsed=true]))"));
 
 		//not using this.overflowing in case it is not updated in time
 		let overflowing = !!scrollbox.scrollTopMax;
@@ -3133,34 +3972,37 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				tabsBar.removeAttribute("has-items-post-tabs");
 				lastLayoutData = null;
 			}
-			timeEnd("_updateInlinePlaceHolder");
+			console.timeEnd("_updateInlinePlaceHolder");
 			this._positionPinnedTabs(numPinned);
 			return;
 		}
 
-		let tabsRect = getRect(this, {box: "margin", accurate: true});
-		let winRect = getRect(root, {box: "margin", accurate: true});
-		let preTabsItemsSize = pointDeltaH(tabsRect.start, winRect.start);
-		let postTabsItemsSize = pointDeltaH(winRect.end, tabsRect.end);
+		let winRect = getRect(root, {box: "margin"});
+		let tabsRect = getRect(this, {box: "margin"});
+		let overflowSize = Math.min(tabsRect.width, 0); //adjustment for extreme cases, e.g. too many buttons in tabs bar
+		let preTabsItemsSize = pointDeltaH(tabsRect.start, winRect.start) - overflowSize;
+		let postTabsItemsSize = pointDeltaH(winRect.end, tabsRect.end) + overflowSize;
 		let {scrollbarWidth} = scrollbox;
 
-		tabsBar.style.setProperty("--pre-tabs-items-width", preTabsItemsSize + "px");
-		tabsBar.style.setProperty("--post-tabs-items-width", postTabsItemsSize + "px");
+		assign(tabsBar.style, {
+			"--pre-tabs-items-width": preTabsItemsSize + "px",
+			"--post-tabs-items-width": postTabsItemsSize + "px",
+		});
 		tabsBar.toggleAttribute("has-items-pre-tabs", preTabsItemsSize);
 		//there is an extra padding after tabs for shifting the items to not cover the scrollbar
 		tabsBar.toggleAttribute("has-items-post-tabs", postTabsItemsSize > (onlyUnderflow ? 0 : scrollbarWidth));
 
-		timeLog("_updateInlinePlaceHolder", "update pre/post tabs items width");
+		console.timeLog("_updateInlinePlaceHolder", "update pre/post tabs items width");
 
-		this._positionPinnedTabs(numPinned);
+		if (!this.hasAttribute("movingtab") || this.hasAttribute("moving-positioned-tab"))
+			this._positionPinnedTabs(numPinned);
 
 		let adjacentNewTab = !overflowing && this.hasAttribute("hasadjacentnewtabbutton");
 		let positionPinned = this.hasAttribute("positionpinnedtabs");
-		let firstTabRect = getRect(gBrowser.visibleTabs[positionPinned ? numPinned : 0]);
 		let winWidth = winRect.width;
 		let winMaxWidth = Math.max(screen.width - screen.left + 8, winWidth + tabMinWidth);
 		let winMinWidth = parseInt(getComputedStyle(root).minWidth);
-		let pinnedWidth = numPinned && !positionPinned ? firstTabRect.widthDouble : 0;
+		let pinnedWidth = numPinned && !positionPinned ? getRect(nodes[0]).width : 0;
 		let firstStaticWidth = pinnedWidth || tabMinWidth;
 		let pinnedGap = prefs.gapAfterPinned;
 		let pinnedReservedWidth = positionPinned ?
@@ -3173,25 +4015,18 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 
 		let base = Math.max(preTabsItemsSize + tabsStartSeparator, pinnedReservedWidth) + postTabsItemsSize;
 
-		let layoutData = {
+		console.timeLog("_updateInlinePlaceHolder", "gather all info");
+
+		console.trace();
+
+		lastLayoutData = {
 			preTabsItemsSize, postTabsItemsSize, tabsStartSeparator, base, firstStaticWidth, scrollbarWidth,
 			adjacentNewTab, newTabButtonWidth, pinnedWidth, numPinned, winMinWidth, winMaxWidth, tabMinWidth,
 		};
-		timeLog("_updateInlinePlaceHolder", "gather all info");
-
-		if (lastLayoutData && JSON.stringify(lastLayoutData) == JSON.stringify(layoutData)) {
-			timeEnd("_updateInlinePlaceHolder");
-			return;
-		}
-
-		log("update css", lastLayoutData, layoutData);
-		trace();
-
-		lastLayoutData = layoutData;
 
 		onlyUnderflow = onlyUnderflow ? ":not([overflow])" : "";
 		let css = `
-			@media (max-width: ${base + firstStaticWidth - EPSILON}px) {
+			@media (max-width: ${base + firstStaticWidth + (adjacentNewTab ? newTabButtonWidth : 0) - EPSILON}px) {
 				${prefs.floatingBackdropClip ? `
 					#tabbrowser-tabs${onlyUnderflow} {
 						--top-placeholder-clip:
@@ -3200,7 +4035,7 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 					}
 				` : ``}
 				#TabsToolbar:not([tabs-hide-placeholder]) #tabbrowser-tabs[multirows]${onlyUnderflow}
-						#tabbrowser-arrowscrollbox::part(slot)::before {
+						#tabbrowser-arrowscrollbox::part(items-wrapper)::before {
 					width: calc(100% - var(--tabstrip-size)) !important;
 					margin-inline-end: 0;
 					border-inline-end-width: 0;
@@ -3225,371 +4060,405 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 				#tabs-placeholder-post-tabs {
 					visibility: collapse;
 				}
-				#tabbrowser-tabs[multirows]${onlyUnderflow} #tabbrowser-arrowscrollbox::part(slot)::after {visibility: collapse}
-				#tabbrowser-tabs${onlyUnderflow} #tabbrowser-arrowscrollbox > * {order: 2}
+				#tabbrowser-tabs[multirows]${onlyUnderflow} #tabbrowser-arrowscrollbox::part(items-wrapper)::after
+						{visibility: collapse}
+				#tabbrowser-tabs${onlyUnderflow} #tabbrowser-arrowscrollbox
+						:is(.tabbrowser-tab, .tab-group-label-container, .tab-group-overflow-count-container, #tabbrowser-arrowscrollbox-periphery)
+								{order: 2}
 			}
 		`;
-		if (adjacentNewTab)
-			css += `
-				@media (max-width: ${base + firstStaticWidth + newTabButtonWidth - EPSILON}px) {
-					.tabbrowser-tab:nth-child(1 of :not([hidden])):nth-last-child(1 of .tabbrowser-tab:not([hidden])),
-					.tabbrowser-tab:nth-child(1 of :not([hidden])):nth-last-child(1 of .tabbrowser-tab:not([hidden])) ~ *
-						{order: 2}
-				}
-			`;
-		if (pinnedWidth) {
-			base += pinnedWidth;
 
-			//wrap pinned tabs
-			for (let i = 1; i < numPinned; i++) {
-				let min = base, max = (base += pinnedWidth) - EPSILON;
-				if (max >= winMinWidth)
+		if ("elementIndex" in nodes[0]) {
+			let lastIdx = nodes.at(-1).getAttribute("elementIndex");
+			let prvIdx;
+			for (
+				let i = positionPinned ? numPinned : 0;
+				base <= winMaxWidth && i < nodes.length;
+				i++
+			) {
+				let node = nodes[i];
+				let idx = node.getAttribute("elementIndex");
+				let width = isTab(node) ?
+					(
+						i < numPinned ?
+						pinnedWidth :
+						parseFloat(node.style.maxWidth) || tabMinWidth
+					) :
+					getRect(node).width;
+
+				if (!i)
+					base += width + (numPinned == 1 ? pinnedGap : 0);
+				else {
+					let nodeSelector = ":is(:not([collapsed]) > .tabbrowser-tab:not([closing]), .tab-group-label-container, .tab-group-overflow-count-container)";
 					css += `
-						@media (min-width: ${min}px) and (max-width: ${max}px) {
-							.tabbrowser-tab:nth-child(${i} of :not([hidden])):not(:nth-last-child(1 of .tabbrowser-tab:not([hidden]))) ~ * {order: 2}
+						@media (min-width: ${base}px) and (max-width: ${(base += width) - EPSILON}px) {
+							${i < numPinned ? "" : nodeSelector}[elementIndex="${prvIdx}"] {
+								& ~ *, tab-group:has(&) ~ * {
+									&, tab-group& > * {
+										order: 2;
+									}
+								}
+							}
+						}
+					`;
+
+					if (i == numPinned - 1 && idx != lastIdx)
+						css += `
+							@media (min-width: ${base}px) and (max-width: ${(base += pinnedGap) - EPSILON}px) {
+								.tabbrowser-tab:nth-last-child(1 of [pinned]:not([hidden])) {--gap-after-pinned: 0px}
+								.tabbrowser-tab ~ :not([pinned]) {&, tab-group& > * {order: 2}}
+							}
+						`;
+
+					if (adjacentNewTab && idx == lastIdx)
+						css += `
+							@media (min-width: ${base}px) and (max-width: ${base + newTabButtonWidth - EPSILON}px) {
+								#tabbrowser-tabs:not([ignore-newtab-width]) ${nodeSelector}[elementIndex="${prvIdx}"] {
+									& ~ *, tab-group:has(&) ~ * {
+										&, tab-group& > * {
+											order: 2;
+										}
+									}
+								}
+							}
+						`;
+				}
+
+				prvIdx = idx;
+			}
+			console.log(css);
+		} else {
+			if (adjacentNewTab)
+				css += `
+					@media (max-width: ${base + firstStaticWidth + newTabButtonWidth - EPSILON}px) {
+						.tabbrowser-tab:nth-child(1 of :not([hidden])):nth-last-child(1 of .tabbrowser-tab:not([hidden])),
+						.tabbrowser-tab:nth-child(1 of :not([hidden])):nth-last-child(1 of .tabbrowser-tab:not([hidden])) ~ *
+							{order: 2}
+					}
+				`;
+			if (pinnedWidth) {
+				base += pinnedWidth;
+
+				//wrap pinned tabs
+				for (let i = 1; i < numPinned; i++) {
+					let min = base, max = (base += pinnedWidth) - EPSILON;
+					if (max >= winMinWidth)
+						css += `
+							@media (min-width: ${min}px) and (max-width: ${max}px) {
+								.tabbrowser-tab:nth-child(${i} of :not([hidden])):not(:nth-last-child(1 of .tabbrowser-tab:not([hidden]))) ~ * {order: 2}
+							}
+						`;
+				}
+				//remove the gap after pinned to prevent the last pinned being wrapped, and force all non-pinned to wrap
+				css += `
+					@media (min-width: ${base}px) and (max-width: ${base + pinnedGap - EPSILON}px) {
+						.tabbrowser-tab:nth-last-child(1 of [pinned]:not([hidden])) {--gap-after-pinned: 0px}
+						.tabbrowser-tab[pinned] ~ :not([pinned]) {order: 2}
+					}
+				`;
+				//wrap the last pinned tab adjacent with new tab
+				if (adjacentNewTab)
+					css += `
+						@media (min-width: ${base}px) and (max-width: ${base + newTabButtonWidth - EPSILON}px) {
+							.tabbrowser-tab[pinned]:nth-last-child(2 of .tabbrowser-tab:not([hidden])) ~ * {order: 2}
+						}
+					`;
+				base += pinnedGap;
+			}
+
+			for (let i = 0; base <= winMaxWidth; i++) {
+				if (!i && !numPinned) {
+					base += tabMinWidth;
+					continue;
+				}
+
+				//wrap normal tabs
+				css += `
+					@media (min-width: ${base}px) and (max-width: ${(base += tabMinWidth) - EPSILON}px) {
+						.tabbrowser-tab:nth-child(${numPinned + i} of :not([hidden], [closing])):not(:nth-last-child(1 of .tabbrowser-tab:not([hidden], [closing]))) ~ * {order: 2}
+					}
+				`;
+				//wrap the last normal tab adjacent with new tab
+				if (adjacentNewTab && base <= winMaxWidth)
+					css += `
+						@media (min-width: ${base}px) and (max-width: ${base + newTabButtonWidth - EPSILON}px) {
+							.tabbrowser-tab:nth-child(${numPinned + i} of :not([hidden], [closing])):nth-last-child(2 of .tabbrowser-tab:not([hidden], [closing])) ~ * {order: 2}
 						}
 					`;
 			}
-			//remove the gap after pinned to prevent the last pinned being wrapped, and force all non-pinned to wrap
-			css += `
-				@media (min-width: ${base}px) and (max-width: ${base + pinnedGap - EPSILON}px) {
-					.tabbrowser-tab:nth-last-child(1 of [pinned]:not([hidden])) {--gap-after-pinned: 0px}
-					.tabbrowser-tab[pinned] ~ :not([pinned]) {order: 2}
-				}
-			`;
-			//wrap the last pinned tab adjacent with new tab
-			if (adjacentNewTab)
-				css += `
-					@media (min-width: ${base}px) and (max-width: ${base + newTabButtonWidth - EPSILON}px) {
-						.tabbrowser-tab[pinned]:nth-last-child(2 of .tabbrowser-tab:not([hidden])) ~ * {order: 2}
-					}
-				`;
-			base += pinnedGap;
 		}
 
-		for (let i = 0; base <= winMaxWidth; i++) {
-			if (!i && !numPinned) {
-				base += tabMinWidth;
-				continue;
-			}
+		if (placeholderStyle.innerHTML != css)
+			placeholderStyle.innerHTML = css;
 
-			//wrap normal tabs
-			css += `
-				@media (min-width: ${base}px) and (max-width: ${(base += tabMinWidth) - EPSILON}px) {
-					.tabbrowser-tab:nth-child(${numPinned + i} of :not([hidden])):not(:nth-last-child(1 of .tabbrowser-tab:not([hidden]))) ~ * {order: 2}
-				}
-			`;
-			//wrap the last normal tab adjacent with new tab
-			if (adjacentNewTab && base <= winMaxWidth)
-				css += `
-					@media (min-width: ${base}px) and (max-width: ${base + newTabButtonWidth - EPSILON}px) {
-						.tabbrowser-tab:nth-child(${numPinned + i} of :not([hidden])):nth-last-child(2 of .tabbrowser-tab:not([hidden])) ~ * {order: 2}
-					}
-				`;
-		}
-
-		placeholderStyle.innerHTML = css;
-
-		timeEnd("_updateInlinePlaceHolder");
+		console.timeEnd("_updateInlinePlaceHolder");
 	};
 
-	//pinned tabs can't be hidden thus TabShow and TabHide don't bother
-	["TabClose", "TabOpen", "TabPinned", "TabUnpinned"].forEach(n =>
-			tabContainer.addEventListener(n, function({target}) {
-				if (target.pinned || ["TabPinned", "TabUnpinned"].includes(n))
-					//pinnedTabCount doesn't update yet when TabClose is dispatched
-					this._updateInlinePlaceHolder(gBrowser.pinnedTabCount - (n == "TabClose" ? 1 : 0));
-				this.removeAttribute("forced-overflow");
-				this.style.removeProperty("--forced-overflow-adjustment");
-			}));
+	for (let n of [
+		"TabOpen", "TabClose",
+		"TabHide", "TabShow",
+		"TabGroupCreate",
+		"TabGroupExpand", "TabGroupCollapse", "TabGroupUpdate",
+		"TabPinned", "TabUnpinned",
+	])
+		tabContainer.addEventListener(n, updateElementIndex);
+	function updateElementIndex(e) {
+		if (animatingLayout)
+			return;
+		this._invalidateCachedTabs();
+		this.removeAttribute("forced-overflow");
+		assign(this.style, {"--forced-overflow-adjustment": ""});
 
-	tabContainer.addEventListener("TabGroupCreate", function(e) {
-		if (prefs.tabsUnderControlButtons) {
-			prefs.tabsUnderControlButtons = 0;
-			setStyle();
-		}
+		//2 rAFs are required when adding tab and underflow -> overflow
+		requestAnimationFrame(() => requestAnimationFrame(() =>
+			this._updateInlinePlaceHolder()
+		));
+	}
+
+	tabContainer.addEventListener("TabGroupUpdate", function(e) {
+		this._unlockTabSizing();
 	});
-	tabContainer.addEventListener("TabGroupRemoved", function(e) {
-		if (this.allGroups.length > 1)
-			return;
-		let expand = Services.prefs.getIntPref(prefBranchStr + "tabsUnderControlButtons");
-		if (!expand)
-			return;
-		prefs.tabsUnderControlButtons = expand;
-		tabsBar.toggleAttribute("tabs-hide-placeholder", this.overflowing && expand < 2);
-		setStyle();
-		this._updateInlinePlaceHolder();
-	}, true);
 
 	tabContainer._handleTabSelect = function() {
 		if (!arrowScrollbox._isScrolling && !this.hasAttribute("movingtab") && !this.hasAttribute("dragging"))
 			_handleTabSelect.apply(this, arguments);
 	};
 
-	//need too much thing to hack for the original function, thus rewrite it and not wrap it.
-	//now this function is not only for close tab by mouse, but also add / remove tab by command.
-	//tabWidthClosedByClick is provided only if the function is called by original closed by mouse event
-	//TODO tab-group
-	tabContainer._lockTabSizing = function(actionTab, tabWidthClosedByClick) {
-		//don't handle anything if dragging a tag group
-		if (!actionTab)
-			return;
-		let tabs = gBrowser.visibleTabs.slice(gBrowser.pinnedTabCount);
-		if (!tabs.length || this._isClosingLastTab) return;
-		time("_lockTabSizing");
+	tabContainer._lockTabSizing = function(actionNode) {
+		//stop the original startTabDrag from locking the tabs when dragging a open tab group
+		//currently only startTabDrag call this without parameter
+		if (!actionNode || gBrowser[CLOSING_THE_ONLY_TAB]) return;
 
-		let lastTab = tabs.at(-1);
-		let last2ndTab = tabs.at(-2);
-		let {closing, _tPos, screenY: actionTabTop} = actionTab;
-		timeLog("_lockTabSizing", "reflow");
-		let isEndTab = _tPos > lastTab?._tPos;
-		let is2ndEndTab = !isEndTab && _tPos > last2ndTab?._tPos;
-		let lastRowTop = (isEndTab ? actionTab : lastTab)?.screenY;
-		let isLastRow = actionTabTop == lastRowTop;
-		let nearByTab = closing ?
-				tabs.findLast(t => t._tPos < _tPos)
-				: tabs.find(t => t._tPos > _tPos);
-		let isRowEdge = nearByTab?.screenY != actionTabTop;
-		let adjacentNewTab = this.hasAttribute("hasadjacentnewtabbutton");
-		let {overflowing} = this;
-		let spacer = this._closingTabsSpacer;
+		console.time("_lockTabSizing");
 
-		if (tabWidthClosedByClick)
-			this._lastTabClosedByMouse = true;
+		let nodes = getNodes({
+			pinned: false,
+			//be careful don't touch the ariaFocusableItems since it will update the elementIndex attribute when closing tab
+			//and there will be two nodes with the same number, one is the closing tab and the other is the following node,
+			//placeholder will be freaked out in this case
+			bypassCache: "ariaFocusableItems" in this && new Error().stack.match(/^removeTab@/m),
+		});
+		let lock = false;
 
-		let last2ndRowIs1stRow = true;
-		let lastRowTabsCount = tabs.length - tabs.findLastIndex(t => t.screenY != lastRowTop) - 1;
-		let last2ndRowTabsCount = tabs.length - tabs.findLastIndex(t => t.screenY < lastRowTop - tabHeight && !(last2ndRowIs1stRow = false)) - 1;
-		let tempWidth = Math.round(last2ndRowTabsCount * last2ndTab?.getBoundingClientRect().width) + newTabButtonWidth;
-		let finalWidth = last2ndRowTabsCount * tabMinWidth + newTabButtonWidth;
-		let {width: rowWidth, end: rowEnd, top: slotTop} = getRect(slot);
-		let data = lastLayoutData;
-		if (data)
-			if (closing && last2ndRowIs1stRow || !closing && lastRowTop == slotTop) {
-				rowWidth -= data.base;
-				if (data.numPinned && !this.hasAttribute("positionpinnedtabs"))
-					rowWidth -= data.pinnedWidth * data.numPinned + prefs.gapAfterPinned;
-				rowEnd -= data.postTabsItemsSize * DIR;
+		if (nodes.length) {
+			let collapsingGroup = !isTab(actionNode) && actionNode.group;
+			if (collapsingGroup) {
+				actionNode = actionNode.parentNode;
+				nodes = nodes.filter(n => !collapsingGroup.tabs.includes(n));
 			}
 
-		let willDecreaseRow = finalWidth <= rowWidth;
-		let rowCount = getRowCount(true);
-		let maxRows = maxTabRows();
+			let lastNode = nodes.at(-1);
+			let actionNodeRect = getRect(actionNode);
+			//dont use tab.elementIndex since it will access ariaFocusableItems
+			//getAttribute() is "" on fx 115 so use || instead of ??
+			let closingLastTab = !collapsingGroup &&
+					+(actionNode.getAttribute("elementIndex") || actionNode._tPos) >
+							+(lastNode.getAttribute("elementIndex") || lastNode._tPos);
 
-		//Because not leaving the new tab button alone would make things too complicated,
-		//the following criteria are not well-thought-out, they just make things seem to work.
-		//Need fully review and test.
-		if (isEndTab && (!isRowEdge || last2ndTab?.style.maxWidth && adjacentNewTab && !willDecreaseRow)
-				|| is2ndEndTab && !isLastRow && adjacentNewTab && lastRowTabsCount < 2 && !willDecreaseRow) {
-			//prevent unlocking tabs when lock tabs concurrently
-			if (tabWidthClosedByClick || !this._hasTabTempMaxWidth) {
-				//let the tabs in the last row to expand to fit
-				for (let tab of tabs)
-					assign(tab.style, {maxWidth: "", minWidth: ""});
-
-				if (!adjacentNewTab && isEndTab && isRowEdge && !overflowing) {
-					unlockSlotSize(true);
-					spacer.style.width = 0;
+			if (closingLastTab) {
+				if (pointDelta(getRect(lastNode).y, actionNodeRect.y) < 0) {
+					this._closingTabsSpacer.style.width = 0;
 					this.removeAttribute("using-closing-tabs-spacer");
+					this.removeAttribute("ignore-newtab-width");
+
+					if (this.overflowing) {
+						this.lockSlotSize();
+						lock = true;
+					}
+				} else {
+					let slotRect = getRect(slot);
+					let space = pointDeltaH(slotRect.end, actionNodeRect.end);
+					if (slotRect.y == actionNodeRect.y)
+						space -= lastLayoutData?.postTabsItemsSize ?? 0;
+					if (this.hasAttribute("hasadjacentnewtabbutton"))
+						space -= newTabButtonWidth;
+					this._closingTabsSpacer.style.width = space + "px";
+					this.setAttribute("using-closing-tabs-spacer", true);
+					this.removeAttribute("ignore-newtab-width");
+					lock = true;
 				}
 
-				//in case there is some space after the spacer, such as the last tab is shrunk to math the previous
-				if (tabWidthClosedByClick && isEndTab && adjacentNewTab) {
-					let emptySpace = pointDeltaH(rowEnd, getRect(arrowScrollbox.lastChild).end);
-					//it can be minus due to subpixel problem
-					if (emptySpace > 0) {
-						lockSlotSize();
-						let {style} = spacer;
-						style.setProperty("transition", "none", "important");
-						this._expandSpacerBy(emptySpace);
-						requestAnimationFrame(() => requestAnimationFrame(() => style.transition = ""));
+				for (let node of nodes)
+					node.style.minWidth = node.style.maxWidth = "";
+			} else {
+				let currentRow = new Map();
+				let rowStartIndex, rowStartPos, firstNodeInNextRow;
+				loop: for (let i in nodes) {
+					let node = nodes[i];
+					if (node == actionNode && !collapsingGroup)
+						continue;
+					let r = getRect(node);
+					switch (Math.sign(pointDelta(r.y, actionNodeRect.y))) {
+						case 1:
+							firstNodeInNextRow = node;
+							break loop;
+						case 0:
+							rowStartIndex ??= i;
+							rowStartPos ??= Math[RTL_UI ? "max" : "min"](r.start, actionNodeRect.start);
+							currentRow.set(node, r.width);
 					}
 				}
-			}
-		} else {
-			let lockLastRowWhenOpening, ignoreNewTabWhenCosing, needShrinkLastTab,
-					dontLock, shouldKeepSpacer;
-			if (closing) {
-				if (tabWidthClosedByClick || !(overflowing && willDecreaseRow && rowCount == maxRows + 1))
-					if (lastRowTabsCount < 2 && adjacentNewTab && last2ndTab) {
-						ignoreNewTabWhenCosing = willDecreaseRow && tempWidth >= rowWidth;
-						needShrinkLastTab = ignoreNewTabWhenCosing || tempWidth < rowWidth;
-						dontLock = (isLastRow && isEndTab || !isLastRow && is2ndEndTab) && !willDecreaseRow;
-						shouldKeepSpacer = !lastRowTabsCount && isEndTab && !willDecreaseRow;
-					} else if (overflowing && !this.hasAttribute("using-closing-tabs-spacer")
-							&& this.hasAttribute("closing-tab-ignore-newtab-width"))
-						ignoreNewTabWhenCosing = true;
-			} else {
-				let totalWidth = (lastRowTabsCount + (!isLastRow && isRowEdge ? 1 : 0)) * tabMinWidth;
-				if (adjacentNewTab)
-					totalWidth += newTabButtonWidth;
-				lockLastRowWhenOpening = totalWidth > rowWidth;
-			}
 
-			if (!dontLock) {
-				//lock the current row, and the previous row if closing the first tab of current row
-				let lockTabs = tabs.filter(tab => {
-					let {screenY} = tab;
-					return !tab.closing && tab._fullyOpen
-						&& (screenY == actionTabTop && (!isLastRow || lockLastRowWhenOpening || tabWidthClosedByClick)
-								|| isRowEdge && screenY == actionTabTop + tabHeight * (closing ? -1 : 1)
-										&& !(!closing && screenY == lastRowTop && !lockLastRowWhenOpening));
-				});
-				if (!closing && !lockLastRowWhenOpening)
-					lockTabs = lockTabs.slice(0, -1);
+				let lockLastTab;
+				if (this.hasAttribute("hasadjacentnewtabbutton")) {
+					let slotR = getRect(slot);
+					let rowWidth = pointDeltaH(slotR.end, rowStartPos);
+					if (actionNodeRect.y + scrollbox.scrollTop == slotR.y)
+						rowWidth -= lastLayoutData?.postTabsItemsSize ?? 0;
+					let totalMinWidth = 0, totalVisualWidth = 0, lastNodeWidth;
+					for (let node of nodes.slice(rowStartIndex)) {
+						let {width} = getRect(node);
+						totalMinWidth += isTab(node) ? tabMinWidth : width;
+						totalVisualWidth += width;
+						if (node == lastNode)
+							lastNodeWidth = width;
+					}
 
-				if (lockTabs.length) {
-					let sizes = lockTabs.map(t => t.getBoundingClientRect().width + "px");
-					lockTabs.forEach((tab, i) => {
-						let width = sizes[i];
-						assign(tab.style, {maxWidth: width, minWidth: width, transition: "none"});
-					});
-
-					//the last tab usually has a different width when it is unwrapped from the last row,
-					//resize it to match the others
-					if (needShrinkLastTab) {
-						let last = lockTabs.at(-1);
-						if (last == lastTab || tabs[tabs.indexOf(last) + 1] == lastTab) {
-							let secLast = last == lastTab ? lockTabs.at(-2) : last;
-							if (secLast) {
-								//sometimes the last tab just doesn't want to unwrap to the last second row,
-								//make it a little bit smaller can help
-								let value = `calc(${secLast.style.maxWidth} - ${1/60}px)`;
-								assign(lastTab.style, {maxWidth: value, minWidth: value, transition: "none"});
-							}
-							if (last != lastTab)
-								lockTabs.push(lastTab);
+					let canFitIn = totalMinWidth + newTabButtonWidth <= rowWidth;
+					if (canFitIn && isTab(firstNodeInNextRow) && firstNodeInNextRow == lastNode) {
+						let width = collapsingGroup ?
+								currentRow.entries().find(([n, w]) => isTab(n))?.[1] :
+								actionNodeRect.width;
+						if (width) {
+							//as the width of tab with audio-button is restricted to the same with normal tab,
+							//here is safe to assume the width upcoming last tab in row.
+							currentRow.set(firstNodeInNextRow, width);
+							totalVisualWidth += width - lastNodeWidth;
+							lockLastTab = true;
 						}
 					}
 
-					requestAnimationFrame(() => requestAnimationFrame(() => {
-						for (let tab of lockTabs)
-							tab.style.transition = "";
-
-						this.toggleAttribute("closing-tab-ignore-newtab-width", !!ignoreNewTabWhenCosing);
-					}));
-
-					this._hasTabTempMaxWidth = true;
+					let visibilityCantFitIn = totalVisualWidth + newTabButtonWidth > rowWidth;
+					this.toggleAttribute("ignore-newtab-width", canFitIn && visibilityCantFitIn);
 				}
 
-				//prevent unlocking tabs when lock tabs concurrently
-				if (tabWidthClosedByClick || !this._hasTabTempMaxWidth)
-					for (let tab of tabs.slice(tabs.indexOf(lockTabs.at(-1)) + 1))
-						assign(tab.style, {maxWidth: "", minWidth: ""});
-			}
+				for (let node of (collapsingGroup && !lockLastTab ? nodes.slice(0, nodes.indexOf(actionNode) + 1) : nodes))
+					if (node != actionNode || node == collapsingGroup?.firstChild) {
+						let width = currentRow.get(node);
+						node.style.minWidth = node.style.maxWidth = width ? width + "px" : "";
+					}
 
-			if (tabWidthClosedByClick) {
-				if (this.hasAttribute("closing-tab-ignore-newtab-width"))
-					tabWidthClosedByClick -= newTabButtonWidth;
-				if (isLastRow && !isEndTab)
-					//add 2 rAF to prevent the spacer from growing earlier then the tab shrinking
-					requestAnimationFrame(() => requestAnimationFrame(() => this._expandSpacerBy(tabWidthClosedByClick)));
-				else if (!shouldKeepSpacer) {
-					spacer.style.width = 0;
-					this.removeAttribute("using-closing-tabs-spacer");
-					gBrowser.addEventListener("mousemove", this);
-					addEventListener("mouseout", this);
-				}
+				let movingTab = this.hasAttribute("movingtab");
+				if (collapsingGroup && movingTab || this.overflowing)
+					this.lockSlotSize(movingTab);
 
-				//lock the slot to prevent the spacer cause overflowing of the scrollbox
-				if (overflowing || isLastRow && !ignoreNewTabWhenCosing && !isEndTab)
-					lockSlotSize();
-				else
-					unlockSlotSize(true);
+				this.removeAttribute("using-closing-tabs-spacer");
+				this._closingTabsSpacer.style.width = "";
+				lock = true;
 			}
 		}
 
-		timeEnd("_lockTabSizing");
+		let action = lock ? "add" : "remove";
+		gBrowser[`${action}EventListener`]("mousemove", this);
+		window[`${action}EventListener`]("mouseout", this);
+		this._hasTabTempMaxWidth = lock;
+
+		console.timeEnd("_lockTabSizing");
 	};
 
-	tabContainer._unlockTabSizing = function(instant) {
-		//prevent unlocking tabs when removing tabs concurrently
-		if (gBrowser._removingTabs.size)
+	tabContainer.lockSlotSize = function() {
+		let {style} = arrowScrollbox;
+		let rect = getRect(slot);
+		for (let p of ["width", "height"])
+			style.setProperty(`--slot-${p}`, rect[p] + "px");
+	};
+
+	tabContainer._unlockTabSizing = async function({instant, unlockSlot = true} = {}) {
+		if (new Error().stack.match(/^(#expandGroupOnDrop|on_TabGroupCollapse)@/m) ||
+				this._keepTabSizeLocked)
 			return;
 
-		time("_unlockTabSizing");
-		unlockSlotSize(instant);
-		let animate = !gReduceMotion;
-		let animations = [];
-		if (this._hasTabTempMaxWidth) {
-			for (let tab of this.allTabs.slice(gBrowser.pinnedTabCount)) {
-				if (animate && tab.style.minWidth)
-					animations.push(waitForAnimation(tab, {property: "max-width"}));
-				tab.style.minWidth = "";
+		if (unlockSlot) {
+			console.time("_unlockTabSizing - general");
+
+			//the slot can only shrink in height so only handle underflowing
+			if (!instant && this.overflowing) {
+				scrollbox.style.setProperty("overflow-y", "scroll", "important");
+				this.style.setProperty("--tabs-scrollbar-width", scrollbarWidth + "px");
 			}
+			gBrowser.removeEventListener("mousemove", this);
+			removeEventListener("mouseout", this);
+
+			console.timeEnd("_unlockTabSizing - general");
+
+			await this.unlockSlotSize(instant);
 		}
 
-		if (this.overflowing && this.hasAttribute("using-closing-tabs-spacer"))
-			this.removeAttribute("closing-tab-ignore-newtab-width");
-		else
-			Promise.all(animations).then(() => this.removeAttribute("closing-tab-ignore-newtab-width"));
+		await animateLayout(async () => {
+			if (this._hasTabTempMaxWidth) {
+				for (let node of getNodes({pinned: false}))
+					node.style.maxWidth = node.style.minWidth = "";
+				delete this._hasTabTempMaxWidth;
+				this.removeAttribute("ignore-newtab-width");
+			}
 
-		timeEnd("_unlockTabSizing");
+			this.removeAttribute("using-closing-tabs-spacer");
+			this._closingTabsSpacer.style.width = "";
 
-		_unlockTabSizing.call(this);
+			if (unlockSlot) {
+				scrollbox.style.overflowY = "";
+				this.style.removeProperty("--tabs-scrollbar-width");
+			}
+		}, {animate: !instant});
+	};
+
+	tabContainer.unlockSlotSize = async function(instant) {
+		let oldHeight;
+		if (!instant)
+			oldHeight = slot.clientHeight - scrollbox.scrollTopMax + scrollbox.scrollTop;
+
+		let {overflowing} = this;
+		assign(arrowScrollbox.style, {"--slot-height": "", "--slot-width": ""});
+
+		if (instant) return;
+
+		let delta = oldHeight - slot.clientHeight;
+		if (delta <= 0) return;
+
+		let {smoothScroll} = arrowScrollbox;
+		arrowScrollbox.smoothScroll = false;
+
+		assign(slot.style, {
+			transition: "none !important",
+			paddingBottom: delta + "px",
+		});
+		scrollbox.scrollTop += delta;
+
+		//not sure if this is necessary
+		await promiseDocumentFlushed(() => {});
+		await new Promise(rs => requestAnimationFrame(rs));
+
+		assign(arrowScrollbox, {smoothScroll});
+
+		assign(slot.style, {transition: "", paddingBottom: ""});
+		await waitForAnimation(slot, {property: "padding-bottom"});
 	};
 
 	tabContainer.uiDensityChanged = function() {
 		uiDensityChanged.apply(this, arguments);
 
-		time("uiDensityChanged");
+		console.time("uiDensityChanged");
 
 		let {newTabButton} = this;
 		newTabButton.style.setProperty("display", "flex", "important");
-		newTabButtonWidth = getRect(newTabButton).widthDouble;
+		newTabButtonWidth = getRect(newTabButton).width;
 		newTabButton.style.display = "";
 
 		root.style.setProperty("--tab-height", (tabHeight = getRect(gBrowser.selectedTab).height) + "px");
 		tabsBar.style.setProperty("--new-tab-button-width", newTabButtonWidth + "px");
 
-		let minWidthPref = tabContainer._tabMinWidthPref;
+		let minWidthPref = this._tabMinWidthPref;
 		let extraWidth = root.getAttribute("uidensity") == "touch" ?
-				(appVersion == 115 ? 10 : Math.max(86 - minWidthPref, 0)) :
+				(appVersion > 136 ? 10 : Math.max(86 - minWidthPref, 0)) :
 				0;
-		tabContainer.style.setProperty("--calculated-tab-min-width",
+		this.style.setProperty("--calculated-tab-min-width",
 				(tabMinWidth = minWidthPref + extraWidth) + "px");
 
-		timeEnd("uiDensityChanged");
+		console.timeEnd("uiDensityChanged");
 
 		updateNavToolboxNetHeight();
-		tabContainer._updateInlinePlaceHolder();
+		this._updateInlinePlaceHolder();
 	};
-
-	function lockSlotSize() {
-		let {style} = arrowScrollbox;
-		let rect = getRect(slot);
-		style.setProperty("--slot-width", rect.widthDouble + "px");
-		style.setProperty("--slot-height", rect.heightDouble + "px");
-	}
-
-	function unlockSlotSize(instant) {
-		let oldHeight, scrollBottom;
-		if (!instant) {
-			oldHeight = slot.clientHeight;
-			scrollBottom = scrollbox.scrollTopMax - scrollbox.scrollTop;
-		}
-
-		let {style} = arrowScrollbox;
-		style.removeProperty("--slot-height");
-		style.removeProperty("--slot-width");
-
-		if (!instant) {
-			let delta = oldHeight - slot.clientHeight - scrollBottom;
-			if (delta > 0) {
-				let {smoothScroll} = arrowScrollbox;
-				let {style} = slot;
-				arrowScrollbox.smoothScroll = false;
-
-				style.setProperty("transition", "none", "important");
-				style.paddingBottom = delta + "px";
-				scrollbox.scrollTop += delta;
-				promiseDocumentFlushed(() => {}).then(() => requestAnimationFrame(() => {
-					assign(arrowScrollbox, {smoothScroll});
-					assign(style, {transition: "", paddingBottom: ""});
-				}));
-			}
-		}
-	}
 }
 
 {
@@ -3599,125 +4468,239 @@ customElements.get("tabbrowser-tab").prototype.scrollIntoView = function({behavi
 			configurable: true,
 		});
 
-	let {addTab, removeTab, createTabsForSessionRestore} = gBrowser;
+	let {
+		addTab, removeTab, pinTab, unpinTab, pinMultiSelectedTabs,
+		_updateTabBarForPinnedTabs, createTabsForSessionRestore,
+	} = gBrowser;
 
-	gBrowser.addTab = function(uriString, {skipAnimation, pinned, bulkOrderedOpen} = {}) {
-		let animate = !skipAnimation && !pinned && !gReduceMotion;
-		let {getAttribute, hasAttribute} = tabContainer;
-		if (animate)
-			//add tab animation is skipped when scrollbox is overflowing, deceive that it isn't
-			assign(tabContainer, {
-				getAttribute: function(n) {
-					if (n == "overflow") return "";
-					return getAttribute.call(this, n);
-				},
-				hasAttribute: function(n) {
-					if (n == "overflow") return false;
-					return hasAttribute.call(this, n);
-				},
-			});
-
+	gBrowser.addTab = function(uri, o) {
 		let tab;
 		try {
-			tab = addTab.apply(this, arguments);
-		} finally {
-			if (animate)
-				assign(tabContainer, {getAttribute, hasAttribute});
-		}
-
-		if (animate) {
-			let {visibleTabs} = gBrowser;
-			if (!bulkOrderedOpen) {
-				tabContainer._lockTabSizing(tab);
-				//always unlock in case a TabMove is fired and some another tabs are locked
-				waitForAnimation(tab, {event: "TabAnimationEnd"})
-						.then(() => tabContainer._unlockTabSizing(true));
-			}
+			animateLayout(() => (tab = addTab.call(this, uri, assign(o, {skipAnimation: true}))),
+					{animate: !o?.skipAnimation});
+		} catch(e) {
+			console.error(e);
 		}
 		return tab;
 	};
 
-	gBrowser.removeTab = function(tab) {
-		let toHandle = !tab.pinned && !tab.closing;
+	gBrowser.removeTab = function(tab, o) {
+		let nodes = getNodes();
+		if (nodes.length == 1 && nodes[0] == tab)
+			this[CLOSING_THE_ONLY_TAB] = true;
 
-		if (toHandle) {
-			//ensure the animation is kicked off when concurrently closing tabs,
-			//as the tab may be locked when the previous tab closed
-			assign(tab.style, {minWidth: "", transition: ""});
-			tabContainer._isClosingLastTab = !tab.hidden && this.visibleTabs.length == 1;
-		}
+		if (animatingLayout || !o?.animate || !this.visibleTabs.includes(tab) || gReduceMotion)
+			removeTab.call(this, tab, assign(o, {animate: false}));
+		else
+			animateLayout(() => {
+				let oldOrder = getComputedStyle(tab).order;
+				removeTab.apply(this, arguments);
+				if (!tab.closing || !tab.isConnected) {
+					assign(animatingLayout, {cancel: true});
+					return;
+				}
+				tabContainer.setAttribute("tab-resizing", "");
+				tab.setAttribute("fadein", true);
+				tab.setAttribute("closing", "");
+				assign(animatingLayout, {stopUpdatePlacholder: false});
+				tabContainer._updateInlinePlaceHolder();
+				//the closing tab is stuck at the row end
+				//and need to be translated manually to make it happen at the right place.
+				//currently closing multiple tabs is not handled since the tabs are closed from rear to front
+				//and it's unable to know if the tab will be placed at the previous row end
+				//if all closing tabs become zero width
+				if (animatingLayout) {
+					let r = animatingLayout.rects.get(tab);
+					let newR = getRect(tab);
+					if (pointDelta(r.y, newR.y) || getComputedStyle(tab).order != oldOrder) {
+						tab.style.transform = `translate(${r.start - newR.start}px, ${r.y - newR.y}px)`;
+						newR = r.clone();
+						newR.width = 0;
+					}
+					animatingLayout.newRects.set(tab, newR);
+				}
+			}, {nodes: getNodes({newTabButton: true, includeClosing: true})})
+				.then(() => {
+					if (!tab.closing)
+						return;
+					tabContainer.removeAttribute("tab-resizing");
+					tab.removeAttribute("fadein");
+					tab.dispatchEvent(assign(new Event("transitionend", {bubbles: true}), {propertyName: "max-width"}));
+					console.debug("removed", tab);
+				});
 
-		removeTab.apply(this, arguments);
-
-		delete tabContainer._isClosingLastTab;
-
-		//if there is no animation, the tab is removed directly
-		if (!tab.isConnected) {
-			if (!tabContainer._lastTabClosedByMouse)
-				tabContainer._unlockTabSizing(true);
-		} else if (toHandle && !tabContainer._lastTabClosedByMouse && tab.closing) {
-			tabContainer._lockTabSizing(tab);
-			if (tabContainer._hasTabTempMaxWidth)
-				waitForAnimation(tab, {event: "TabAnimationEnd"})
-						.then(() => tabContainer._unlockTabSizing(true));
-		}
+		delete this[CLOSING_THE_ONLY_TAB];
 	};
 
-	gBrowser.createTabsForSessionRestore = function(restoreTabsLazily,
-		selectTab,
-		tabDataList,
-		tabGroupDataList
-	) {
+	gBrowser.pinTab = function(tab) {
+		if (tab.pinned || tab == FirefoxViewHandler.tab)
+			return pinTab.apply(this, arguments);
+
+		let s = tab.style;
+		animateLayout(() => {
+			pinTab.apply(this, arguments);
+			//pinned tab with a negative margin inline end stack will shrink
+			//thus set a min width to prevent
+			s.minWidth = getRect(tab).width + "px";
+		}).then(() => {
+			//here is executed after pinMultiSelectedTabs.apply() if pinning multi tabs
+			//the min-width is handled there thus dont bother
+			if (!new Error().stack.match(/^pinMultiSelectedTabs@/m))
+				s.minWidth = "";
+		});
+	};
+
+	gBrowser.unpinTab = function(tab) {
+		animateLayout(() => unpinTab.apply(this, arguments), {animate: tab.pinned});
+	};
+
+	gBrowser.pinMultiSelectedTabs = function() {
+		animateLayout(() => pinMultiSelectedTabs.apply(this, arguments))
+				.then(() => this.selectedTabs.forEach(tab => tab.style.minWidth = ""));
+	};
+
+	if (gBrowser.pinnedTabsContainer)
+		gBrowser._updateTabBarForPinnedTabs = function() {
+			_updateTabBarForPinnedTabs.apply(this, arguments);
+			if (!animatingLayout)
+				tabContainer._positionPinnedTabs();
+		};
+
+	if (!gBrowser.moveTabsAfter)
+		assign(gBrowser, {
+			moveTabsAfter: function(tabs, {_tPos}) {
+				this.moveTabsBefore(tabs, {_tPos: _tPos + 1});
+			},
+			moveTabsBefore: function(tabs, {_tPos}) {
+				let forwardCount = 0;
+				for (let i in tabs) {
+					let t = tabs[i];
+					this.moveTabTo(t, t._tPos < _tPos ? _tPos - 1 : _tPos + forwardCount++);
+				}
+			},
+		});
+
+	gBrowser.createTabsForSessionRestore = function() {
+		let r;
 		try {
-			if (tabGroupDataList?.length && prefs.tabsUnderControlButtons) {
-				prefs.tabsUnderControlButtons = 0;
-				setStyle();
+			animatingLayout = {};
+			try {
+				r = createTabsForSessionRestore.apply(this, arguments);
+			} finally {
+				animatingLayout = null;
 			}
+			tabContainer._updateInlinePlaceHolder();
 		} catch(e) {
 			console.error(e);
+		} finally {
+			return r;
 		}
-		return createTabsForSessionRestore.apply(this, arguments);
 	};
 }
+
+for (let [o, fs] of [
+	[gBrowser, [
+		"unpinMultiSelectedTabs",
+		"moveTabsToStart",
+		"moveTabsToEnd",
+		"moveTabBackward",
+		"moveTabForward",
+		"addTabGroup",
+	]],
+	[TabContextMenu, [
+		"ungroupTabs",
+		["duplicateSelectedTabs", 1],
+		"moveTabsToGroup",
+	]],
+	[window.SessionWindowUI || window, [
+		["undoCloseTab", 1],
+	]],
+])
+	for (let f of fs) {
+		let [name, countChange] = [f].flat();
+		let func = o[name];
+		if (func)
+			o[name] = function() {
+				let r, oldNodes;
+				animateLayout(() => {
+					if (countChange)
+						oldNodes = getNodes();
+					r = func.apply(this, arguments);
+					if (oldNodes)
+						return getNodes().filter(n => !oldNodes.includes(n));
+					return r;
+				});
+				return r;
+			};
+		else
+			console.warn(`${name} is not found`);
+	}
 
 new ResizeObserver(onTabsResize).observe(tabContainer);
 
 document.getElementById("toolbar-menubar").addEventListener("toolbarvisibilitychange", updateNavToolboxNetHeight, true);
 
 arrowScrollbox._updateScrollButtonsDisabledState();
-if (appVersion == 115)
+if ("hideAllTabs" in prefs)
 	toggleAllTabsButton();
 
-function waitForAnimation(elt, {event = ["transitionend", "transitioncancel"], property = "transform", duration = 300} = {}) {
-	return new Promise(rs => {
-		event = [event].flat();
-		for (let e of event)
-			elt.addEventListener(e, handler);
+function isTab(e) {
+	return !!(e?.tagName == "tab");
+}
 
-		let timeout = setTimeout(() => {
-			if (elt.isConnected)
-				console.error("transition is not ended");
-			done();
-		}, debug == 2 ? 3000 : duration);
-		function handler(e) {
-			if (e.type.startsWith("transition") && e.propertyName != property || e.originalTarget != elt) return;
-			if (e.type == "transitioncancel")
-				console.warn("transition cancelled");
-			clearTimeout(timeout);
-			done();
-		}
-		function done() {
-			for (let e of event)
-				elt.removeEventListener(e, handler);
-			rs(elt);
-		}
-	});
+function isTabGroupLabel(e) {
+	return !!e?.classList?.contains("tab-group-label");
+}
+
+function getTransformNode(item) {
+	return isTabGroupLabel(item) ? item.parentNode : item;
+}
+
+function getNodes({pinned, newTabButton, bypassCache, includeClosing, onlyFocusable = false} = {}) {
+	let nodes;
+	if (bypassCache || includeClosing) {
+		nodes = $$(":not([collapsed]) > tab:not([hidden]), .tab-group-label-container", arrowScrollbox);
+		if (!includeClosing)
+			nodes = nodes.filter(n => !n.closing);
+	} else {
+		nodes = tabContainer.ariaFocusableItems?.map(t => isTab(t) ? t : t.parentNode);
+		if (!nodes)
+			nodes = gBrowser.visibleTabs.slice();
+	}
+	if (!onlyFocusable && gBrowser.tabGroups?.[0])
+		nodes.some((n, i) => {
+			if (!n.matches(".tab-group-label-container")) return;
+			let group = n.parentNode;
+			if (group.hasActiveTab && group.collapsed) {
+				nodes.splice(i + 2, 0, group._overflowContainer);
+				return true;
+			}
+		});
+
+	if (pinned != null) {
+		let num = gBrowser.pinnedTabCount;
+		nodes = nodes.slice(pinned ? 0 : num, pinned ? num : undefined);
+	}
+	if (newTabButton) {
+		let btn = tabContainer.newTabButton;
+		if (btn.checkVisibility({checkVisibilityCSS: true}))
+			nodes.push(btn);
+	}
+	return nodes;
 }
 
 function onTabsResize() {
-	time("tabContainer ResizeObserver");
+	console.time("tabContainer ResizeObserver");
 
-	log("scrollbox width", root.getAttribute("sizemode"), scrollbox.clientWidthDouble);
+	let newSize = getRect(tabContainer, {box: "margin"});
+	let {_previousSize} = tabContainer;
+	if (_previousSize?.width == newSize.width && _previousSize?.height == newSize.height) {
+		console.timeEnd("tabContainer ResizeObserver");
+		return;
+	}
+	tabContainer._previousSize = newSize;
+
+	console.log("tabContainer resize", root.getAttribute("sizemode"), newSize);
 
 	//the underflow event isn't always fired, here we refer to the ResizeObserver in the constructor of MozArrowScrollbox
 	let {scrollTopMax} = scrollbox;
@@ -3727,18 +4710,10 @@ function onTabsResize() {
 	tabContainer.toggleAttribute("multirows", count > 1);
 	root.style.setProperty("--tab-rows", count);
 
-	timeEnd("tabContainer ResizeObserver");
+	console.timeEnd("tabContainer ResizeObserver");
 
-	if (arrowScrollbox.overflowing != !!scrollTopMax)
-		scrollbox.dispatchEvent(new CustomEvent(scrollTopMax ? "overflow" : "underflow"));
-	else
+	if (arrowScrollbox.overflowing == !!scrollTopMax)
 		tabContainer._updateInlinePlaceHolder();
-
-	//when customizing toolbar, dragging another tab will cause visual problem
-	//check and reset the the animation when exiting the customizing mode
-	//however there is some weird problem on firefox 138+ thus not doing it anymore
-	//TODO stop tab drag when customizing toolbar
-	// tabContainer._resetAnimateTabMove();
 }
 
 function toggleAllTabsButton() {
@@ -3746,7 +4721,7 @@ function toggleAllTabsButton() {
 }
 
 function getRowCount(allRows) {
-	return ~~((allRows ? slot : scrollbox).clientHeight / tabHeight);
+	return ~~(getRect(allRows ? slot : scrollbox, {noFlush: true}).height / tabHeight);
 }
 
 function maxTabRows() {
@@ -3759,7 +4734,7 @@ function getScrollbar(box, orient = "vertical") {
 }
 
 function updateNavToolboxNetHeight() {
-	time("updateNavToolboxNetHeight");
+	console.time("updateNavToolboxNetHeight");
 	let menubar = document.getElementById("toolbar-menubar");
 	let personalbar = document.getElementById("PersonalToolbar");
 	let menubarAutoHide = menubar.hasAttribute("autohide");
@@ -3793,15 +4768,15 @@ function updateNavToolboxNetHeight() {
 			}));
 		});
 	}
-	timeEnd("updateNavToolboxNetHeight");
+	console.timeEnd("updateNavToolboxNetHeight");
 }
 
 function restrictScroll(lines) {
-	let rows = getRowCount();
-	if (getRect(tabContainer._placeholderPostTabs, {visible: true}).width
-			|| getRect(tabContainer._placeholderPreTabs, {visible: true}).width)
+	let rows = getRowCount(), param = {checkVisibility: true, noFlush: true};
+	if (getRect(tabContainer._placeholderPostTabs, param).width
+			|| getRect(tabContainer._placeholderPreTabs, param).width)
 		rows--;
-	if (getRect(tabContainer._placeholderNewTabButton, {visible: true}).width)
+	if (getRect(tabContainer._placeholderNewTabButton, param).width)
 		rows--;
 	return Math.max(Math.min(lines, rows), 1);
 }
@@ -3814,33 +4789,30 @@ function updateThemeStatus() {
 	defaultAutoTheme = ["", "default-theme@mozilla.org"].includes(id);
 }
 
-function tabGroupsEnabled() {
-	return gBrowser._tabGroupsEnabled;
-}
-
-function hasTabGoups() {
-	return !!gBrowser.tabGroups?.[0];
-}
-
-function pointDelta(a, b = 0) {
+function pointDelta(a, b = 0, round) {
+	if (round) {
+		a = Math.round(a);
+		b = Math.round(b);
+	}
 	let delta = a - b;
 	return Math.abs(delta) < .02 ? 0 : delta;
 }
 
-function pointDeltaH(a, b = 0) {
-	return pointDelta(a, b) * DIR;
+function pointDeltaH(a, b = 0, round) {
+	return pointDelta(a, b, round) * DIR;
 }
 
 function setDebug() {
 	debug = prefs.debugMode;
-	if (debug) {
-		trace = () => console.trace();
-		log = (...args) => console.log(...args);
-		time = label => console.time(label);
-		timeLog = (...args) => console.timeLog(...args);
-		timeEnd = label => console.timeEnd(label);
-	} else
-		log = () => {}, trace = log, timeLog = log, timeEnd = log, time = log;
+	if (debug)
+		({console} = window);
+	else {
+		let f = () => {};
+		let {error, warn} = window.console;
+		console = {error, warn};
+		for (let n of ["log", "debug", "trace", "timeLog", "timeEnd", "time"])
+			console[n] = f;
+	}
 }
 
 function exposePrivateMethod(element, method, context) {
@@ -3879,13 +4851,12 @@ function exposePrivateMethod(element, method, context) {
 			try {
 				eval(`${context}; f = function ${newMethod} ${code};`);
 			} catch(e) {
+				let {prefs} = Services;
 				let csp = "security.allow_unsafe_dangerous_privileged_evil_eval";
-				if (appVersion > 138 && !Services.prefs.getBoolPref(csp)) {
-					Services.prefs.unlockPref(csp);
-					Services.prefs.setBoolPref(csp, true);
-					let appStartup = Components.classes["@mozilla.org/toolkit/app-startup;1"]
-							.getService(Components.interfaces.nsIAppStartup);
-					appStartup.quit(appStartup.eAttemptQuit | appStartup.eRestart);
+				if (prefs.getPrefType(csp) == prefs.PREF_BOOL && !prefs.getBoolPref(csp)) {
+					prefs.unlockPref(csp);
+					prefs.setBoolPref(csp, true);
+					restartFirefox();
 				} else
 					throw e;
 			}
@@ -3896,81 +4867,333 @@ function exposePrivateMethod(element, method, context) {
 		}
 }
 
-/*
-return the position based on screenX and screenY
-box: content | padding | border | margin
-visible: check visibility
-accurate: no rounding, translated position
-visual: painting size, translated position
-scroll: scroll size
-* check visibility: display == none: position = NaN, size = 0; visibility == collapse: size = 0, end = start;
-*/
-function getRect(ele, {box = "border", accurate, visual, visible, scroll} = {}) {
-	let {width, height, x, y} = ele.getBoundingClientRect(), {screenX, screenY} = ele;
-	let spaceStart = 0, spaceEnd = 0, spaceTop = 0, spaceBottom = 0, invisible;
-	let cs = (box != "border" || visible) && getComputedStyle(ele);
+function restartFirefox() {
+	let s = Components.classes["@mozilla.org/toolkit/app-startup;1"]
+			.getService(Components.interfaces.nsIAppStartup);
+	s.quit(s.eAttemptQuit | s.eRestart);
+}
 
-	if (scroll) {
+async function animateLayout(action, {nodes, rects, newRects, animate = true} = (animatingLayout || {})) {
+	let recursion = !!animatingLayout;
+	animate &&= !gReduceMotion && !recursion;
+
+	if (animate) {
+		nodes ||= getNodes({newTabButton: true});
+		rects ||= new Map(nodes.map(n => [n, getVisualRect(n)]));
+		newRects ||= new Map();
+		animatingLayout = {nodes, rects, newRects, stopUpdatePlacholder: true};
+	}
+
+	let {overflowing} = tabContainer;
+	let tabs, cancel, stopUpdatePlacholder;
+	try {
+		tabs = action();
+		if (tabs instanceof Promise)
+			tabs = await tabs;
+	} finally {
+		if (animate) {
+			({cancel, stopUpdatePlacholder} = animatingLayout);
+			animatingLayout = null;
+		}
+	}
+
+	if (animate && !cancel) {
+		if (overflowing != !!scrollbox.scrollTopMax)
+			scrollbox.dispatchEvent(new Event(overflowing ? "overflow" : "underflow"));
+		else if (stopUpdatePlacholder)
+			tabContainer._updateInlinePlaceHolder();
+
+		console.log("animate layout");
+		console.trace();
+		return new Promise(rs => requestAnimationFrame(async () => {
+			for (let n of nodes)
+				if (!newRects.has(n))
+					newRects.set(n, getRect(n));
+
+			if (tabs && (tabs = [tabs].flat()).length &&
+					tabs.every(t => t?.matches?.(".tabbrowser-tab, .tab-group-label-container, .tab-group-overflow-count-container"))) {
+				if (tabs[0].closing) {
+					//TODO: handle closing tabs
+				} else {
+					await tabContainer._unlockTabSizing({instant: true, unlockSlot: false});
+
+					nodes = nodes.concat(tabs);
+					for (let t of tabs)
+						if (!newRects.has(t))
+							newRects.set(t, getRect(t));
+
+					let start, y;
+					//TODO: not use getNodes()
+					getNodes().some((n, i, a) => {
+						if (n != tabs[0]) return;
+						if (i) {
+							let prvNode = a[i - 1];
+							//in some odd cases, the previous node does not present in the node list
+							//it happened once when undoing close tab but cannot be reproduced after
+							if (!nodes.includes(prvNode))
+								return true;
+							let prvR = rects.get(prvNode);
+							let r = getRect(n);
+							if (prvR.y == r.y) {
+								start = prvR.end + (prvNode.pinned && !tabs[0].pinned && a[i + 1] ? prefs.gapAfterPinned * DIR : 0);
+								y = r.y;
+							}
+						}
+						return true;
+					});
+					for (let t of tabs) {
+						if (rects.has(t))
+							continue;
+						let r = getRect(t);
+						if (r.y != y)
+							({start, y} = r);
+						else
+							r.start = start;
+						if (isTab(t))
+							r.width = 0;
+						rects.set(t, r)
+					}
+				}
+			}
+			Promise.all(nodes.map(n => animateShifting(n, rects.get(n), newRects.get(n)))).then(rs);
+		}));
+	}
+}
+
+function getVisualRect(n) {
+	let r = getRect(n, {translated: "translate"});
+	if (isTab(n))
+		r.width -= parseFloat(getComputedStyle(n.stack).marginInlineEnd);
+	return r;
+}
+
+const ANIMATE_REQUEST = Symbol("animateRequest");
+async function animateShifting(t, oR, nR) {
+	if (gReduceMotion || !t.isConnected || !oR.visible || !nR.visible)
+		return t;
+
+	let {start: oS, y: oY, width: oW} = oR;
+	let {start: nS, y: nY, width: nW, widthRoundingDiff} = nR;
+
+	let {style} = t;
+	let s = pointDelta(oS, nS), y = pointDelta(oY, nY), w = pointDelta(oW, nW);
+	let {abs} = Math;
+	if (abs(s) < 1 && abs(y) < 1 && (abs(w) < 1 || !isTab(t))) {
+		if (t.hasAttribute("animate-shifting"))
+			assign(style, {"--width-rounding-diff": widthRoundingDiff + "px"});
+		return t;
+	}
+
+	let id = debug && Math.random() * 10000 | 0;
+
+	console.debug(t, id, {oS, oY, oW, nS, nY, nW});
+
+	let to = [nS, nY, nW];
+	if (t[ANIMATE_REQUEST]?.every((v, i) => abs(v - to[i]) < 1)) {
+		await animateDone();
+		console.debug(t, id, "previous animate done");
+		return t;
+	}
+	t[ANIMATE_REQUEST] = to;
+
+	t.setAttribute("animate-shifting", "start");
+	assign(style, {
+		"--x": s + "px",
+		"--y": y + "px",
+		"--w": w + "px",
+		"--width-rounding-diff": widthRoundingDiff + "px",
+	});
+
+	await new Promise(rs => requestAnimationFrame(rs));
+
+	t.setAttribute("animate-shifting", "run");
+	assign(style, {"--x": "", "--y": "", "--w": ""});
+
+	let {eventType} = await animateDone();
+	console.debug(eventType, t, id);
+
+	t.removeAttribute("animate-shifting");
+	if (!style.getPropertyValue("--translate-x"))
+		assign(style, {"--width-rounding-diff": ""});
+
+	delete t[ANIMATE_REQUEST];
+
+	return t;
+
+	function animateDone() {
+		return waitForAnimation(t, abs(s) >= 1 || abs(y) >= 1 ?
+				undefined : {property: ["margin-left", "margin-right"], target: t.stack});
+	}
+}
+
+let LAST_ANIMATION = Symbol("lastAnimation");
+async function waitForAnimation(node, {
+	event = "transitionend",
+	property = "translate",
+	duration = tabDragoverAnimationSpeed + 100,
+	pseudoElement = "",
+	target = node,
+} = {}) {
+	if (gReduceMotion)
+		return {node, eventType: "transitionend"};
+
+	if (!node?.isConnected)
+		return {node, eventType: "disconnect"};
+
+	let promise = node[LAST_ANIMATION] = new Promise(rs => {
+		event = [event].flat();
+		property = [property].flat();
+		for (let e of event)
+			target.addEventListener(e, handler);
+
+		let timeout = setTimeout(() => {
+			if (!node.isConnected) {
+				done("disconnect");
+				return;
+			}
+
+			done("timeout");
+		}, debug > 1 ? debug * 1500 : duration);
+
+		function done(eventType) {
+			clearTimeout(timeout);
+			if (node[LAST_ANIMATION] == promise) {
+				if (eventType == "timeout") {
+					let debugInfo = [];
+					if (debug) {
+						let cs = getComputedStyle(target);
+						debugInfo = [node, property, property.map(p => cs[p]),
+								[cs.transitionProperty, cs.transitionDuration, cs.transitionTimingFunction]];
+					}
+					console.error(`Animation of ${node.tagName} is interrupted`, ...debugInfo);
+				}
+				delete node[LAST_ANIMATION];
+			}
+			for (let e of event)
+				target.removeEventListener(e, handler);
+			Promise.resolve(node[LAST_ANIMATION]).then(() => rs({node, eventType}));
+		};
+
+		function handler(e) {
+			if (e.type.startsWith("transition") && !property.includes(e.propertyName) ||
+					e.originalTarget != target || e.pseudoElement != pseudoElement)
+				return;
+			done(e.type);
+		}
+	});
+	return promise;
+}
+
+/*
+return the position based on screenX and screenY, not compatible with scale and rotate
+
+box: refer to `getBoxQuads`
+translated: return the translated box
+scroll: return the scroll size
+checkVisibility: if visibility is collapse, then size = 0, end = start
+noFlush: using getBoundsWithoutFlushing instead
+*/
+//DIR = RTL_UI ? -1 : 1, root = document.documentElement, EPSILON = .001, START = RTL_UI ? "right" : "left", END = RTL_UI ? "left" : "right";
+function getRect(ele, {box, translated, checkVisibility, scroll, noFlush} = {}) {
+	let cs;
+	if (!ele?.isConnected || ["none", "contents"].includes((cs = getComputedStyle(ele)).display)) {
+		let r = new Rect();
+		if (debug)
+			r.element = ele;
+		return r;
+	}
+	if (box && noFlush)
+		throw new Error("box argument is not supported when using noFlush");
+	let r;
+	if (noFlush)
+		r = windowUtils.getBoundsWithoutFlushing(ele);
+	else if (r = ele.getBoxQuads({box})[0]) {
+		//dont use the DOMQuad.getBounds() since it can't handle negative size
+		let {p1, p3} = r;
+		r = new DOMRect(p1.x, p1.y, p3.x - p1.x, p3.y - p1.y);
+	}
+	if (!r) {
+		console.warn("Can't get bounds of element");
+		console.debug(ele);
+		return new Rect();
+	}
+	let {round} = Math;
+	let {e: t1x, f: t1y} = new DOMMatrixReadOnly(cs.transform);
+	let [t2x, t2y] = [...[...cs.translate.matchAll(/-?\d+(?:\.\d+)?/g)].flat().map(v => +v), 0, 0].slice(0, 2);
+	let tx = t1x + t2x;
+	let ty = t1y + t2y;
+	let {[START]: start, y, width, height} = r;
+	let widthRoundingDiff = round(r.right - tx) - round(r.x - tx) - width;
+	let heightRoundingDiff = round(r.bottom - ty) - round(y - ty) - height;
+
+	let includeTransform, includeTranslate;
+	if (!translated || typeof translated == "boolean")
+		includeTransform = includeTranslate = translated;
+	else if (Array.isArray(translated)) {
+		includeTransform = translated.includes("transform");
+		includeTranslate = translated.includes("translate");
+	} else {
+		includeTransform = translated == "transform";
+		includeTranslate = translated == "translate";
+	}
+	if (!includeTransform) {
+		start -= t1x;
+		y -= t1y;
+	}
+	if (!includeTranslate) {
+		start -= t2x;
+		y -= t2y;
+	}
+
+	if (checkVisibility && cs.visibility == "collapse")
+		width = height = 0;
+	else if (scroll) {
 		width += ele.scrollWidth - ele.clientWidth;
 		height += ele.scrollHeight - ele.clientHeight;
 	}
 
-	if (visible && (cs.display == "none" || cs.visibility == "collapse")) {
-		if (cs.display == "none")
-			x = y = screenX = screenY = NaN;
-		width = height = 0;
-		invisible = true;
-	}
-
-	if (!invisible)
-		switch (box) {
-			case "margin":
-				spaceStart = parseFloat(cs.marginInlineStart);
-				spaceEnd = parseFloat(cs.marginInlineEnd);
-				spaceTop = parseFloat(cs.marginTop);
-				spaceBottom = parseFloat(cs.marginBottom);
-				break;
-			case "content":
-				spaceStart = -parseFloat(cs.paddingInlineStart);
-				spaceEnd = -parseFloat(cs.paddingInlineEnd);
-				spaceTop = -parseFloat(cs.paddingTop);
-				spaceBottom = -parseFloat(cs.paddingBottom);
-			case "padding":
-				spaceStart -= parseFloat(cs.borderInlineStartWidth);
-				spaceEnd -= parseFloat(cs.borderInlineEndWidth);
-				spaceTop -= parseFloat(cs.borderTopWidth);
-				spaceBottom -= parseFloat(cs.borderBottomWidth);
-				break;
-		}
-
-	let {round} = Math;
-	if (accurate || visual) {
-		if (accurate)
-			round = n => n;
-		x += root.screenX;
-		y += root.screenY;
-	} else {
-		x = screenX;
-		y = screenY;
-	}
-
-	let start = round(x + (RTL_UI ? width : 0) - spaceStart * DIR);
-	let end = round(x + (RTL_UI ? 0 : width) + spaceEnd * DIR);
-	let top = round(y - spaceTop);
-	let bottom = round(y + height + spaceBottom);
-	let widthDouble = width + spaceStart + spaceEnd;
-	let heightDouble = height + spaceTop + spaceBottom;
-	return {
-		width: visual ? (end - start) * DIR : round(widthDouble),
-		height: visual ? bottom - top : round(heightDouble),
-		top, end, bottom, start,
-		left: RTL_UI ? end : start,
-		right: RTL_UI ? start : end,
-		widthDouble, heightDouble,
-	};
+	return new Rect(
+		start + root.screenX,
+		y + root.screenY,
+		width, height,
+		widthRoundingDiff, heightRoundingDiff,
+	);
 }
 
-timeEnd("setup");
+function assign(o, p) {
+	if (!o) return {...p};
+	if (o instanceof CSSStyleDeclaration) {
+		for (let [k, v] of Object.entries(p)) {
+			let isVar = k.startsWith("--");
+			if (v != "" && v != null) {
+				let important;
+				v = (v + "").replace(/\s*!\s*important\s*$/i, r => (important = "important") && "");
+				if (isVar)
+					o.setProperty(k, v, important);
+				else if (important) {
+					k = k.replace(/[A-Z]/g, c => c.replace(/[A-Z]/g, c => "-" + c.toLowerCase()));
+					o.setProperty(k, v, important);
+				} else
+					o[k] = v;
+			} else if (isVar)
+				o.removeProperty(k);
+			else
+				o[k] = v;
+		}
+		return o;
+	}
+	return Object.assign(o, p);
+}
+
+function $(s, scope) {
+	return (scope || document).querySelector(s);
+}
+
+function $$(s, scope) {
+	return [...(scope || document).querySelectorAll(s)];
+}
+
+console.timeEnd("setup");
 } //end function setup()
 
 } catch(e) {alert(["MultiTabRows@Merci.chao.uc.js",e,e.stack].join("\n"));console.error(e)}
