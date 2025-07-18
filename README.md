@@ -25,7 +25,7 @@ Make Firefox support multiple rows of tabs.
 - Compatible with themes even if you have massive rows.
 
 ## Compatibility
-- Firefox 115, 140, for Windows 7 to 11.
+- Firefox 115, 140, 141, for Windows 7 to 11.
 - Supports general script loaders, like xiaoxiaoflood's userChromeJS.
 
 ## Cautions
@@ -33,9 +33,6 @@ Make Firefox support multiple rows of tabs.
 - This is an unofficial (and complicated) script maintained solely by me. It may contain unforeseen bugs and does not guarantee compatibility with the latest versions of Firefox. In extreme cases, particularly when using an outdated version of this script with a newly updated Firefox, it could render the browser unusable and potentially result in the permanent loss of your previous browsing session. Please use this script only if you are prepared to handle such situations.
 - This script needs to override some functions of Firefox and requires [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) to be enabled on Firefox 139+ for this purpose, which may weaken the security of your browser in some special cases. The said setting is enabled automatically once you are applying this script, and it requires a manual disabling through `about:config` after disabling or removing the script. Please note that and use this script with understanding.
 - Since this script contains many sensitive layout calculations designed for native Firefox, any tab or tabs toolbar-related legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus)), user scripts or stylesheets may cause weird glitches and bugs. Please check your legacy extensions, scripts and stylesheets (if any) before and after applying this script.
-- Currently, this script is not fully compatible with Firefox's native [tab groups](https://support.mozilla.org/kb/tab-groups) feature when there are multiple rows, e.g.:
-     - Dragging tab to create new group is unsupported;
-     - Drag animation is disabled when there are any tab groups, and some tab animation may be glitchy.
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Installation
@@ -52,8 +49,10 @@ Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox
 | `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
 | `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11, unavailable when Mica is activated and "Accent Color on Title Bars" is inactivated. |
 | `debugMode` | Mode for debugging, not for general use. |
+| `dragToGroupTabs` | Enable tab grouping when dragging tabs over another. Disabling this setting results in behavior that differs from when `browser.tabs.dragDrop.moveOverThresholdPercent` is set to `50` or below: the disabled state allows tabs to be added to or removed from a group without altering their order. Not available on Firefox 115 or `browser.tabs.groups.enabled` is `false`. |
+| `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or either `dragToGroupTabs` or `browser.tabs.groups.enabled` is `false`. |
 | `dynamicThemeImageSize` | When using themes, the size of the background image changes with the current number of rows. |
-| `floatingBackdropBlurriness` | How blurry the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The minimum value is `0`. Not available on Firefox 115. |
+| `floatingBackdropBlurriness` | How blurry the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and both `floatingBackdropClip` & `nativeWindowStyle` are `false`. The minimum value is `0`. Not available on Firefox 115. |
 | `floatingBackdropClip` | Clip the area covered by items on the tabs toolbar when scrolling, available when `tabsUnderControlButtons` is `2`. |
 | `floatingBackdropOpacity` | How opaque the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
 | `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. The minimum value is `0`. |
@@ -62,6 +61,7 @@ Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. The minimum value is `1`. |
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. The minimum value is `1`. |
 | `maxTabRows` | Maximum number of rows to display at once. The minimum value is `1`. |
+| `nativeWindowStyle` | Display the system-native theme style on tabs bar (e.g. effects from DWM tools). Not available on Firefox 115, or using any Firefox theme. |
 | `rowIncreaseEvery` | Each time the window width is increased by this amount, one more row is allowed. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
 | `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
@@ -75,6 +75,15 @@ Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
 
 ## Changelog
+Version 3.0
+- Add full support for tab groups.
+- Introduce animations for various tab-related actions.
+- Add the `dragToGroupTabs` option to enable or disable tab grouping when dragging tabs over another.
+- Add the `dynamicMoveOverThreshold` option to make tab-dragging movement smoother in certain scenarios.
+- Add the `nativeWindowStyle` option to display the system-native theme style on tabs bar (e.g. effects from DWM tools).
+- Update for Firefox 141.
+- Bug fixes and improvements.
+
 Version 2.6
 - Fix layout problem when there are some audio playing/blocked/muted tabs.
 - Fix layout problem when UI density is `Touch`.
@@ -141,11 +150,6 @@ Version 2.0
 
 Version 1.0
 - First release.
-
-## Known Issues
-- Not fully support the native tab group feature.
-- Tabs opening/closing by themselves (e.g. pop-ups) while dragging tabs may cause strange behavior.
-- Not tested on touch devices.
 
 ## Won't Fixed Compatibility Issues
 - Other tab related scripts, stylesheets, and legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus))
