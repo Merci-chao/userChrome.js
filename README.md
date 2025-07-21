@@ -156,7 +156,7 @@ Version 1.0
 - First release.
 
 ## Won't Fixed Compatibility Issues
-- Other tab related scripts, stylesheets, and legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus))
+- Other tab related user scripts, styles, and legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus))
 - Firefox Nightly
 - Firefox 116 to the previous versions of latest released
 - macOS and Linux
