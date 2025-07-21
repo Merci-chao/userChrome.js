@@ -51,7 +51,7 @@ Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox
 | ------------- | ------------- |
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
 | `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
-| `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11, unavailable when Mica is activated and "Accent Color on Title Bars" is inactivated. |
+| `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11, unavailable when Mica is activated and [Accent Color on Title Bars](https://support.microsoft.com/windows/3290d30f-d064-5cfe-6470-2fe9c6533e37) is inactivated. |
 | `debugMode` | ⛔ Mode for debugging, not for general use. |
 | `dragToGroupTabs` | Enable tab grouping when dragging tabs over another. Disabling this setting results in behavior that differs from when `browser.tabs.dragDrop.moveOverThresholdPercent` is set to `50` or below: the disabled state allows tabs to be added to or removed from a group without altering their order. Not available on Firefox 115 or `browser.tabs.groups.enabled` is `false`. |
 | `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or either `dragToGroupTabs` or `browser.tabs.groups.enabled` is `false`. |
