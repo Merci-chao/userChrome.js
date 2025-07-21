@@ -22,7 +22,7 @@ Make Firefox support multiple rows of tabs.
 - **🎞️ Enhanced Tab Animations:** Adds fluid transitions for various tab-related actions.
 - **📐 Optimized Space Usage:** Makes full use of available UI space, including the area beneath window control buttons.
 - **🖱️ Smooth Tab-Dragging Animation:** Supports animated tab dragging even in multi-row mode.
-- **📌 Pinned Tabs Grid Layout:** Pinned tabs are fixed in a compact grid when the tab bar scrolls — ideal for managing large numbers of pinned tabs.
+- **📌 Pinned Tabs Grid Layout:** Pinned tabs are fixed in a compact grid when the Tabs Bar scrolls — ideal for managing large numbers of pinned tabs.
 - **🦊 Native-Like Firefox Integration:** Seamlessly aligns with Firefox’s behavior to support multi-row tabs as if natively built-in.
 - **🎨 Theme Compatibility:** Fully compatible with themes, regardless of how many tab rows are present.
 
@@ -34,7 +34,7 @@ Make Firefox support multiple rows of tabs.
 **⚠️ Please read the following notes carefully before using this script:**
 - This is an unofficial (and complicated) script maintained solely by me. It may contain unforeseen bugs and does not guarantee compatibility with the latest versions of Firefox. In extreme cases, particularly when using an outdated version of this script with a newly updated Firefox, it could render the browser unusable and potentially result in the permanent loss of your previous browsing session. Please use this script only if you are prepared to handle such situations.
 - This script needs to override some functions of Firefox and requires [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) to be enabled on Firefox 139+ for this purpose, which may weaken the security of your browser in some special cases. The said setting is enabled automatically once you are applying this script, and it requires a manual disabling through `about:config` after disabling or removing the script. Please note that and use this script with understanding.
-- Since this script contains many sensitive layout calculations designed for native Firefox, any tab or tabs toolbar-related legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus)), user scripts or styles can cause weird glitches and bugs. Please check your legacy extensions, scripts and styles (if any) before and after applying this script.
+- Since this script contains many sensitive layout calculations designed for native Firefox, any tab or Tabs Bar-related legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus)), user scripts or styles can cause weird glitches and bugs. Please check your legacy extensions, scripts and styles (if any) before and after applying this script.
 - This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Installation
@@ -57,7 +57,7 @@ Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox
 | `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or either `dragToGroupTabs` or `browser.tabs.groups.enabled` is `false`. |
 | `dynamicThemeImageSize` | When using themes, the size of the background image changes with the current number of rows. |
 | `floatingBackdropBlurriness` | How blurry the background of items covering the tabs is when scrolling, available when `tabsUnderControlButtons` is `2` and both `floatingBackdropClip` & `nativeWindowStyle` are `false`. The minimum value is `0`. Not available on Firefox 115. |
-| `floatingBackdropClip` | Clip the area covered by items on the tabs toolbar when scrolling, available when `tabsUnderControlButtons` is `2`. |
+| `floatingBackdropClip` | Clip the area covered by items on the Tabs Bar when scrolling, available when `tabsUnderControlButtons` is `2`. |
 | `floatingBackdropOpacity` | How opaque the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
 | `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. The minimum value is `0`. |
 | `hideAllTabs` | Hide the "List all tabs" button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing "Remove from Toolbar". |
@@ -65,7 +65,7 @@ Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. The minimum value is `1`. |
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. The minimum value is `1`. |
 | `maxTabRows` | Maximum number of rows to display at once. The minimum value is `1`. |
-| `nativeWindowStyle` | Display the system-native theme style on tabs bar (e.g. effects from DWM tools). Not available on Firefox 115, or using any Firefox theme. |
+| `nativeWindowStyle` | Display the system-native theme style on Tabs Bar (e.g. effects from DWM tools). Not available on Firefox 115, or using any Firefox theme. |
 | `rowIncreaseEvery` | Each time the window width is increased by this amount, one more row is allowed. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
 | `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
@@ -84,7 +84,7 @@ Version 3.0
 - Introduce animations for various tab-related actions.
 - Add the `dragToGroupTabs` option to enable or disable tab grouping when dragging tabs over another.
 - Add the `dynamicMoveOverThreshold` option to make tab-dragging movement smoother in certain scenarios.
-- Add the `nativeWindowStyle` option to display the system-native theme style on tabs bar (e.g. effects from DWM tools).
+- Add the `nativeWindowStyle` option to display the system-native theme style on Tabs Bar (e.g. effects from DWM tools).
 - Update for Firefox 141.
 - Bug fixes and improvements.
 
@@ -93,7 +93,7 @@ Version 2.6
 - Fix layout problem when UI density is `Touch`.
 
 Version 2.5.1
-- Fix a bug that can't drop non-tab things onto tabs bar since the previous version.
+- Fix a bug that can't drop non-tab things onto Tabs Bar since the previous version.
 
 Version 2.5
 - Improve the experience of dragging non-adjacent tabs.
