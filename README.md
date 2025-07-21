@@ -49,10 +49,10 @@ Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox
 
 | Name | Description |
 | ------------- | ------------- |
-| `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` to enable or `0` to disable. The value will be updated with the last checking time. **It is strongly recommended to enable it, as outdated scripts will most likely not work on newer versions of Firefox.** |
+| `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
 | `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
 | `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11, unavailable when Mica is activated and "Accent Color on Title Bars" is inactivated. |
-| `debugMode` | Mode for debugging, not for general use. |
+| `debugMode` | ⛔ Mode for debugging, not for general use. |
 | `dragToGroupTabs` | Enable tab grouping when dragging tabs over another. Disabling this setting results in behavior that differs from when `browser.tabs.dragDrop.moveOverThresholdPercent` is set to `50` or below: the disabled state allows tabs to be added to or removed from a group without altering their order. Not available on Firefox 115 or `browser.tabs.groups.enabled` is `false`. |
 | `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or either `dragToGroupTabs` or `browser.tabs.groups.enabled` is `false`. |
 | `dynamicThemeImageSize` | When using themes, the size of the background image changes with the current number of rows. |
@@ -75,7 +75,7 @@ Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox
 | `spaceBeforeTabs` | Empty space on the left side of the window. The minimum value is `0`. |
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. The minimum value is `0`. |
 | `tabsbarItemsAlign` | Alignment of the Tabs Bar, allowed values are: `start` (top), `center` and `end` (bottom). This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with rows scrolling. |
-| `tabsUnderControlButtons` | Show tabs beneath window control buttons when there are multiple rows: `0` (never), `1` (when rows are not scrolling), `2` (always).<br>**🪧 Please note:** This feature is experimental and may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
+| `tabsUnderControlButtons` | Show tabs beneath window control buttons when there are multiple rows: `0` (never), `1` (when rows are not scrolling), `2` (always).<br>**🪧 Note:** This feature is experimental and may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
 
 ## Changelog
