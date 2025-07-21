@@ -18,12 +18,19 @@ Make Firefox support multiple rows of tabs.
 
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/scrolling.png)
 ## Highlights
-- Maximizes space utilization, e.g. fully utilize the space under the window control buttons.
-- Tab-dragging animation is available in multi-row mode.
-- Introduce animations for various tab-related actions.
-- While the tab bar is scrollable, pinned tabs remain pinned and placed in a compact grid layout, allowing you to have numerous pinned tabs.
-- Highly integrated with Firefox's well-designed behavior, allowing Firefox to support multiple rows like native.
-- Compatible with themes even if you have massive rows.
+🗂️ **Tab Groups Support:** Fully supports tab groups and fine-tunes tab operation for a smoother experience.
+
+🎞️ **Enhanced Tab Animations:** Adds fluid transitions for various tab-related actions.
+
+📐 **Optimized Space Usage:** Makes full use of available UI space, including the area beneath window control buttons.
+
+🖱️ **Smooth Tab-Dragging Animation:** Supports animated tab dragging even in multi-row mode.
+
+📌 **Pinned Tabs Grid Layout:** Pinned tabs are fixed in a compact grid when the tab bar scrolls—ideal for managing large numbers of pinned tabs.
+
+🦊 **Native-Like Firefox Integration:** Seamlessly aligns with Firefox’s behavior to support multi-row tabs as if natively built-in.
+
+🎨 **Theme Compatibility:** Fully compatible with themes, regardless of how many tab rows are present.
 
 ## Compatibility
 - Firefox 115, 140, 141, for Windows 7 to 11.
