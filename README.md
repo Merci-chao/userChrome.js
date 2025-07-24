@@ -1,17 +1,6 @@
-You're welcome to post your suggestions and bug reports [here](https://github.com/Merci-chao/userChrome.js/issues/new).
+💡🐞You're welcome to post your suggestions and bug reports [here](https://github.com/Merci-chao/userChrome.js/issues/new).
 
-# IMPORTANT
-
-Since the scripts may not fully work on new versions of Firefox, please check here for newer versions of script if you encounter any issues. You may subscribe to this repository to receive notifications of updates:
-
-1. Sign up GitHub: https://github.com/signup
-2. Click the `Watch` button of this repository and choose `Custom`:
-
-     ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/gitwatch-0.png)
-
-3. Select `Releases` and click `Apply`:
-
-     ![screenshot](https://github.com/Merci-chao/userChrome.js/blob/main/screenshots/gitwatch-2.png)
+---
 
 # [Multi Tab Rows](https://github.com/Merci-chao/userChrome.js/blob/main/MultiTabRows%40Merci.chao.uc.js)
 Make Firefox support multiple rows of tabs.
@@ -32,10 +21,10 @@ Make Firefox support multiple rows of tabs.
 
 ## Cautions
 **⚠️ Please read the following notes carefully before using this script:**
+- ‼️ **Since this script contains many sensitive layout calculations designed for native Firefox, any tab or Tabs Bar-related legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus)), user scripts or styles can cause weird glitches and bugs. Please check your legacy extensions, scripts and styles (if any) before and after applying this script.**
+- This script is developed for Windows and probably does not work on Linux and macOS.
 - This is an unofficial (and complicated) script maintained solely by me. It may contain unforeseen bugs and does not guarantee compatibility with the latest versions of Firefox. In extreme cases, particularly when using an outdated version of this script with a newly updated Firefox, it could render the browser unusable and potentially result in the permanent loss of your previous browsing session. Please use this script only if you are prepared to handle such situations.
 - This script needs to override some functions of Firefox and requires [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) to be enabled on Firefox 139+ for this purpose, which may weaken the security of your browser in some special cases. The said setting is enabled automatically once you are applying this script, and it requires a manual disabling through `about:config` after disabling or removing the script. Please note that and use this script with understanding.
-- Since this script contains many sensitive layout calculations designed for native Firefox, any tab or Tabs Bar-related legacy extensions (e.g. [Tab Mix Plus](https://github.com/onemen/TabMixPlus)), user scripts or styles can cause weird glitches and bugs. Please check your legacy extensions, scripts and styles (if any) before and after applying this script.
-- This script is developed for Windows and probably does not work on Linux and macOS.
 
 ## Installation
 1. Follow the instructions in the [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the Firefox Scripts, including `configuration files` and `utils`:
