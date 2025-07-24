@@ -105,6 +105,10 @@ const root = document.documentElement;
 let console, debug;
 
 const prefBranchStr = "userChromeJS.multiTabRows@Merci.chao.";
+
+if (!Services.prefs.getPrefType(prefBranchStr + "checkUpdate"))
+	Services.prefs.setIntPref(prefBranchStr + "tabsUnderControlButtons", 0);
+
 let prefs;
 {
 	const createDefaultPrefs = () => {
