@@ -27,7 +27,7 @@ Make Firefox support multiple rows of tabs.
 - This script needs to override some functions of Firefox and requires [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) to be enabled on Firefox 139+ for this purpose, which may weaken the security of your browser in some special cases. The said setting is enabled automatically once you are applying this script, and it requires a manual disabling through `about:config` after disabling or removing the script. Please note that and use this script with understanding.
 
 ## Installation
-1. Follow the instructions in the [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the Firefox Scripts, including `configuration files` and `utils`:
+1. If you are not using any scripts, follow the instructions in the [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the Firefox Scripts. You can skip this step if you have already installed some scripts.<br>**🔔 Please make sure that no other Tabs Bar-related scripts and CSS styles are currently active.**<br>
 <br>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
 2. Download the [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it in your `chrome` folder.
 3. Restart Firefox to apply.
@@ -39,7 +39,7 @@ Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox
 
 | Name | Description |
 | ------------- | ------------- |
-| `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
+| `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` to enable or `0` to disable. The value will be updated with the last checking time.<br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
 | `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
 | `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11, unavailable when Mica is activated and [Accent Color on Title Bars](https://support.microsoft.com/windows/3290d30f-d064-5cfe-6470-2fe9c6533e37) is inactivated. |
 | `debugMode` | ⛔ Mode for debugging, not for general use. |
