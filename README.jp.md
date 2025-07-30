@@ -1,4 +1,4 @@
-**🇺🇸 🇬🇧 [English Version](README.md)**
+**🌐 [English Version](README.md)**
 
 ---
 
