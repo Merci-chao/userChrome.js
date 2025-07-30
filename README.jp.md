@@ -14,7 +14,7 @@ Firefox に多段タブ表示をサポートさせるスクリプトです。
 - **🖱️ 滑らかなタブドラッグアニメーション：** 多段モードでもドラッグのアニメーションをサポート。
 - **📌 ピン留めタブのグリッド表示：** タブバーがスクロールされる際、ピン留めされたタブをコンパクトなグリッドに固定。
 - **🦊 Firefox にネイティブ統合：** Firefox の動作とシームレスに連携し、まるで標準機能のように多段タブに対応。
-- **🎨 テーマとの互換性:** 行数に関係なく様々なテーマに完全対応。
+- **🎨 テーマとの互換性:** 段数に関係なく様々なテーマに完全対応。
 
 ## 対応環境
 - Firefox 115、140、141、Windows 7〜11 に対応。
@@ -50,27 +50,27 @@ Firefox に多段タブ表示をサポートさせるスクリプトです。
 | `debugMode` | ⛔ デバッグモード。一般向けではありません。 |
 | `dragToGroupTabs` | タブを他のタブにドラッグした際にグループ化を有効化します。`browser.tabs.dragDrop.moveOverThresholdPercent` が `50` 以下の場合の動作と異なり、この設定を無効にすると順序を変更せずグループに追加／削除できます。Firefox 115 または `browser.tabs.groups.enabled` が `false` の場合は利用不可。 |
 | `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにします。Firefox 115 または `dragToGroupTabs` や `browser.tabs.groups.enabled` が無効な場合は利用不可。 |
-| `dynamicThemeImageSize` | テーマ使用時、背景画像のサイズが現在の行数に応じて変化します。 |
+| `dynamicThemeImageSize` | テーマ使用時、背景画像のサイズが現在の段数に応じて変化します。 |
 | `floatingBackdropBlurriness` | スクロール時にタブを覆う要素の背景ぼかし強度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip`、`nativeWindowStyle` が `false` のときのみ有効。Firefox 115 では利用不可。 |
 | `floatingBackdropClip` | スクロール時にタブバーを覆う要素の領域をクリップします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `floatingBackdropOpacity` | スクロール時にタブを覆う要素の不透明度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
 | `gapAfterPinned` | ピン留めされたタブと通常のタブの間の隙間。最小値は `0`。 |
 | `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示にします。Firefox 115 のみ有効。新しい Firefox バージョンでは、ボタンを右クリックして「ツールバーから削除」で対応可能。 |
 | `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、スクロール時にその空白を非表示にします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
-| `linesToDragScroll` | タブを上端／下端へドラッグしたときのスクロール行数。最小値は `1`。 |
-| `linesToScroll` | マウスホイール操作によるスクロール行数。最小値は `1`。 |
-| `maxTabRows` | 表示可能な最大行数。最小値は `1`。 |
+| `linesToDragScroll` | タブを上端／下端へドラッグしたときのスクロール段数。最小値は `1`。 |
+| `linesToScroll` | マウスホイール操作によるスクロール段数。最小値は `1`。 |
+| `maxTabRows` | 表示可能な最大段数。最小値は `1`。 |
 | `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（DWMツールのエフェクト等）を表示します。Windows 11 の `widget.windows.mica` や、テーマ未使用時は `browser.theme.windows.accent-color-in-tabs.enabled` と類似。Firefox 115 またはテーマ使用時は無効。 |
-| `rowIncreaseEvery` | ウィンドウ幅がこの値だけ増加するたびに、表示可能行数が 1 行増加します。`0` にすると最大行数が常に表示されます。 |
-| `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多行表示が可能になります。 |
+| `rowIncreaseEvery` | ウィンドウ幅がこの値だけ増加するたびに、表示可能段数が 1 段増加します。`0` にすると最大段数が常に表示されます。 |
+| `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になります。 |
 | `scrollbarThumbColor` | スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
 | `scrollbarTrackColor` | スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
 | `spaceAfterTabs` | ウィンドウ制御ボタンの前にある空白スペース。最小値は `0`。 |
 | `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ制御ボタン前の空白スペース。最小値は `0`。 |
 | `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値は `0`。 |
 | `spaceBeforeTabsOnMaximizedWindow` | 最大化時の左端空白スペース。最小値は `0`。 |
-| `tabsbarItemsAlign` | タブバーの整列方法。`start`（上）、`center`、`end`（下）が指定可能。`tabsUnderControlButtons` が `0` または `1` で行スクロール時のみ有効。 |
-| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 実験的機能 🚧**<br>複数行表示時にウィンドウ制御ボタンの下にタブを配置：`0`（非表示）、`1`（スクロールしない場合のみ表示）、`2`（常に表示）。不具合が出る場合は `0` または `1` に設定してください。 |
+| `tabsbarItemsAlign` | タブバーの整列方法。`start`（上）、`center`、`end`（下）が指定可能。`tabsUnderControlButtons` が `0` または `1` で段スクロール時のみ有効。 |
+| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 実験的機能 🚧**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：`0`（非表示）、`1`（スクロールしない場合のみ表示）、`2`（常に表示）。不具合が出る場合は `0` または `1` に設定してください。 |
 | `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用します。 |
 
 ## 変更履歴
