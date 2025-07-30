@@ -39,7 +39,7 @@ Make Firefox support multiple rows of tabs.
 🪧 Note: If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
 
 ## Settings
-Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) and search for the prefix `userChromeJS.multiTabRows@Merci.chao`. Settings shown in gray are disabled due to other configurations.
+Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) and search for the prefix `userChromeJS.multiTabRows@Merci.chao.`. Settings shown in gray are disabled due to other configurations.
 
 If configuring via `user.js` (not recommended), be sure to include the prefix `userChromeJS.multiTabRows@Merci.chao.`.<br>Example: `user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`
 
