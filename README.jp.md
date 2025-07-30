@@ -73,6 +73,44 @@ Firefox に多段タブ表示をサポートさせる。
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 実験的機能 🚧**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：`0`（非表示）、`1`（スクロールしない場合のみ表示）、`2`（常に表示）。不具合が出る場合は `0` または `1` に設定してください。 |
 | `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用します。 |
 
+## 高度な調整
+[`userChrome.css`（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://support.mozilla.org/kb/contributors-guide-firefox-advanced-customization)を使用することで、タブのサイズや間隔を制御するための以下のパラメータを調整できます。下記の値はデフォルト設定です。
+
+🪧 **注意**：`px`（ピクセル）以外の単位や小数点の値は使用しないでください。
+
+```css
+#tabbrowser-tabs {
+    /* タブ同士の間隔 */
+    --tab-overflow-clip-margin: 2px;
+    
+    /* タブの左右の余白 */
+    --tab-inline-padding: 8px;
+    
+    /* タブの高さ：
+       コンパクト-29px、通常-36px、タッチ-41px；
+       24px 未満には設定しないこと。また、ピクセル単位の整数値を使うことで表示の不具合を防ぎます。*/
+    --tab-min-height: 36px;
+    
+    /* タブ間の水平スペース */
+    --tab-block-margin: 4px;
+}
+
+.tab-content[pinned] {
+    /* ピン留めされたタブの左右余白 */
+    padding-inline: 10px !important;
+}
+
+tab-group {
+    /* タブグループ内の左右余白。!important は必要 */
+    --group-line-padding: 3px !important;
+}
+
+.tab-group-label {
+    /* タブグループラベルの最大幅、ピクセル以外でもOK。!important は必要 */
+    max-width: 10em;
+}
+```
+
 ## 変更履歴
 
 **Version 3.0**
