@@ -1,4 +1,4 @@
-💡🐞ご提案やバグ報告は [こちら](https://github.com/Merci-chao/userChrome.js/issues/new) にどうぞ。
+💡🐞ご提案やバグ報告は [こちら](https://github.com/Merci-chao/userChrome.js/issues/new) にどうぞ（日本語歓迎）。
 
 ---
 
