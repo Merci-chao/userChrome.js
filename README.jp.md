@@ -1,4 +1,4 @@
-💡🐞ご提案やバグ報告は [こちら](https://github.com/Merci-chao/userChrome.js/issues/new) にどうぞ（日本語歓迎）。
+💡🐞ご提案やバグ報告は[こちら](https://github.com/Merci-chao/userChrome.js/issues/new)にどうぞ（日本語歓迎）。
 
 ---
 
@@ -38,7 +38,7 @@ Firefox に多段タブ表示をサポートさせる。
 🪧 注意：Firefox 更新後にスクリプトローダーが動作しなくなった場合は、上記ページから最新のスクリプトローダーを再インストールしてください。
 
 ## 設定
-[`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されています。
+[`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao.` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されています。
 
 `user.js` で設定する場合（※非推奨）、接頭辞 `userChromeJS.multiTabRows@Merci.chao.` を含めてください。例：`user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`。
 
