@@ -156,7 +156,7 @@ Firefox に多段タブ表示をサポートさせる。
 - Firefox Nightly
 - Firefox 116～最新版以前のリリース
 - macOS および Linux
-- 縦型タブ（当然）
+- 垂直タブ（当然）
 
 # [History Submenus II](https://github.com/Merci-chao/userChrome.js/blob/main/HistorySubmenus2%40Merci.chao.uc.js)
 履歴メニューに、前日分の履歴を表示するサブメニューを追加。  
