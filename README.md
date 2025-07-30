@@ -70,7 +70,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. The minimum value is `0`. |
 | `spaceBeforeTabs` | Empty space on the left side of the window. The minimum value is `0`. |
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. The minimum value is `0`. |
-| `tabsbarItemsAlign` | Alignment of the Tabs Bar, allowed values are: `start` (top), `center` and `end` (bottom). This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with rows scrolling. |
+| `tabsbarItemsAlign` | Alignment of the items in Tabs Bar, allowed values are: `start` (top), `center` and `end` (bottom). This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with rows scrolling. |
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 EXPERIMENTAL 🚧**<br>Show tabs beneath window control buttons when there are multiple rows: `0` (never), `1` (when rows are not scrolling), `2` (always). This feature may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
 
