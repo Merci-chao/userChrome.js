@@ -3,48 +3,48 @@
 ---
 
 # [Multi Tab Rows](https://github.com/Merci-chao/userChrome.js/blob/main/MultiTabRows%40Merci.chao.uc.js)
-Firefox に複数行のタブ表示をサポートさせるスクリプトです。
+Firefox に多段タブ表示をサポートさせるスクリプトです。
 
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/scrolling.png)
 
-## 主な特徴
-- **🗂️ タブグループ対応:** タブグループを完全にサポートし、滑らかな操作を実現。
-- **🎞️ 強化されたタブアニメーション:** タブに関連する各種動作にスムーズなアニメーションを追加。
-- **📐 スペース活用の最適化:** ウィンドウ制御ボタン下のスペースも含め、UI領域を最大限に活用。（手動で有効化する必要あり）
-- **🖱️ 滑らかなタブドラッグアニメーション:** 複数行モードでもドラッグのアニメーションをサポート。
-- **📌 ピン留めタブのグリッド表示:** タブバーがスクロールされる際、ピン留めされたタブをコンパクトなグリッドに固定。
-- **🦊 Firefox にネイティブ統合:** Firefox の動作とシームレスに連携し、まるで標準機能のように複数行タブに対応。
-- **🎨 テーマとの互換性:** 行数に関係なくすべてのテーマに完全対応。
+## 注目ポイント
+- **🗂️ タブグループ対応：** タブグループを完全にサポートし、滑らかな操作を実現。
+- **🎞️ 強化されたタブアニメーション：** タブに関連する各種動作にスムーズなアニメーションを追加。
+- **📐 スペース活用の最適化：** ウィンドウ制御ボタン下のスペースも含め、UI領域を最大限に活用。（手動で有効化する必要あり）
+- **🖱️ 滑らかなタブドラッグアニメーション：** 多段モードでもドラッグのアニメーションをサポート。
+- **📌 ピン留めタブのグリッド表示：** タブバーがスクロールされる際、ピン留めされたタブをコンパクトなグリッドに固定。
+- **🦊 Firefox にネイティブ統合：** Firefox の動作とシームレスに連携し、まるで標準機能のように多段タブに対応。
+- **🎨 テーマとの互換性:** 行数に関係なく様々なテーマに完全対応。
 
 ## 対応環境
 - Firefox 115、140、141、Windows 7〜11 に対応。
-- xiaoxiaoflood の userChromeJS（firefox-scripts）などの一般的なスクリプトローダーに対応。
+- 一般的なスクリプトローダーに対応。
 
 ## 注意事項
 **⚠️ ご使用の前に、以下の注意点をよくお読みください：**
 - ‼️ **Firefox に最適化されたレイアウト計算を多く含むため、タブやタブバー関連の旧式拡張（例：[Tab Mix Plus](https://github.com/onemen/TabMixPlus)）、スクリプト、CSSスタイルによって不具合が発生する可能性があります。スクリプト適用前後にそれらを確認するか、[`tabsUnderControlButtons`](#tabsUnderControlButtons) を無効にしてください。**
-- 本スクリプトは Windows 用であり、Linux および macOS では動作しない可能性があります。
+- 本スクリプトは Windows 専用です。Linux および macOS では動作しない、あるいは不具合が生じる恐れがあります。
 - 非公式かつ複雑なスクリプトで、個人によって管理されています。予期しないバグを含む可能性があり、最新の Firefox バージョンとの互換性は保証されません。古いスクリプトを新しい Firefox で使用すると、ブラウザが使用不能になる可能性や、閲覧セッションが失われることもあります。リスクを理解した上でご利用ください。
 - Firefox の関数を上書きする必要があるため、Firefox 139 以降では [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) の設定が必要です。この設定はスクリプト適用時に自動で有効化されますが、スクリプト削除時には `about:config` で手動無効化が必要です。
 
 ## インストール方法
-1. スクリプトを使用していない場合は、[Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) に従ってスクリプトローダー（Firefox Scripts）をインストールします。すでに他のスクリプトを使用している場合はこの手順を省略できます。  
+1. ほかのスクリプトを使用していない場合は、[Tab Mix Plus - Docs（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) に従ってスクリプトローダー（Firefox Scripts）をインストールします。すでに他のスクリプトを使用している場合はこの手順を省略できます。  
 **🔔 他のタブバー関連スクリプトや CSS が有効になっていないことを確認してください。**  
-![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
+![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.jp.png)
 
-2. [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) をダウンロードし、`chrome` フォルダーに配置します。
+2. [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし、`chrome` フォルダーに配置します。
 3. Firefox を再起動して反映します。
 
-🪧 注意: Firefox 更新後にスクリプトローダーが動作しなくなった場合は、上記ページから最新のスクリプトローダーを再インストールしてください。
+🪧 注意：Firefox 更新後にスクリプトローダーが動作しなくなった場合は、上記ページから最新のスクリプトローダーを再インストールしてください。
 
 ## 設定
 [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されています。
 
 | Name | 説明 |
 | ------------- | ------------- |
-| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`1` で有効、`0` で無効。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
+| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、他で有効。値は最後に確認した時刻で更新されます。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
-| `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示します。Windows 10 と 11 でのみ有効。Mica が有効、または [タイトルバーのアクセントカラー](https://support.microsoft.com/windows/3290d30f-d064-5cfe-6470-2fe9c6533e37) が無効の場合は利用できません。 |
+| `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示します。Windows 10 と 11 でのみ有効。Mica が有効、そして[タイトルバーのアクセントカラー](https://support.microsoft.com/windows/3290d30f-d064-5cfe-6470-2fe9c6533e37)が無効の場合は利用できません。 |
 | `debugMode` | ⛔ デバッグモード。一般向けではありません。 |
 | `dragToGroupTabs` | タブを他のタブにドラッグした際にグループ化を有効化します。`browser.tabs.dragDrop.moveOverThresholdPercent` が `50` 以下の場合の動作と異なり、この設定を無効にすると順序を変更せずグループに追加／削除できます。Firefox 115 または `browser.tabs.groups.enabled` が `false` の場合は利用不可。 |
 | `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにします。Firefox 115 または `dragToGroupTabs` や `browser.tabs.groups.enabled` が無効な場合は利用不可。 |
@@ -71,7 +71,7 @@ Firefox に複数行のタブ表示をサポートさせるスクリプトです
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 実験的機能 🚧**<br>複数行表示時にウィンドウ制御ボタンの下にタブを配置：`0`（非表示）、`1`（スクロールしない場合のみ表示）、`2`（常に表示）。不具合が出る場合は `0` または `1` に設定してください。 |
 | `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用します。 |
 
-## Changelog
+## 変更履歴
 
 **Version 3.0**
 - タブグループに完全対応。
