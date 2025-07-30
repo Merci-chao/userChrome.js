@@ -81,7 +81,7 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
 
 ``` css
 #tabbrowser-tabs {
-	/* Space between tabs */
+	/* Horizontal space between tabs */
 	--tab-overflow-clip-margin: 2px;
 	
 	/* Horizontal padding of tabs */
@@ -91,7 +91,7 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
 	   Should not small than 24px, and use whole number in pixels to prevent gliches */
 	--tab-min-height: 36px;
 	
-	/* Horizontal space between tabs */
+	/* Vertical space between tabs */
 	--tab-block-margin: 4px;
 }
 
