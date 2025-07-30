@@ -73,7 +73,7 @@ Firefox に多段タブ表示をサポートさせる。
 | `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ制御ボタン前の空白スペース。最小値は `0`。 |
 | `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値は `0`。 |
 | `spaceBeforeTabsOnMaximizedWindow` | 最大化時の左端空白スペース。最小値は `0`。 |
-| `tabsbarItemsAlign` | タブバーの整列方法。`start`（上）、`center`、`end`（下）が指定可能。`tabsUnderControlButtons` が `0` または `1` で段スクロール時のみ有効。 |
+| `tabsbarItemsAlign` | タブバー内の項目の配置。`start`（上）、`center`、`end`（下）が指定可能。`tabsUnderControlButtons` が `0` または `1` で段スクロール時のみ有効。 |
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 実験的機能 🚧**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：`0`（非表示）、`1`（スクロールしない場合のみ表示）、`2`（常に表示）。不具合が出る場合は `0` または `1` に設定してください。 |
 | `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用します。 |
 
