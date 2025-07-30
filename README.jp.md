@@ -53,7 +53,7 @@ Firefox に多段タブ表示をサポートさせる。
 | `dynamicThemeImageSize` | テーマ使用時、背景画像のサイズが現在の段数に応じて変化します。 |
 | `floatingBackdropBlurriness` | スクロール時にタブを覆う要素の背景ぼかし強度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip`、`nativeWindowStyle` が `false` のときのみ有効。Firefox 115 では利用不可。 |
 | `floatingBackdropClip` | スクロール時にタブバーを覆う要素の領域をクリップします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
-| `floatingBackdropOpacity` | スクロール時にタブを覆う要素の不透明度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
+| `floatingBackdropOpacity` | スクロール時にタブを覆う要素の背景の不透明度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
 | `gapAfterPinned` | ピン留めされたタブと通常のタブの間の隙間。最小値は `0`。 |
 | `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示にします。Firefox 115 のみ有効。新しい Firefox バージョンでは、ボタンを右クリックして「ツールバーから削除」で対応可能。 |
 | `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、スクロール時にその空白を非表示にします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
