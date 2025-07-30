@@ -72,6 +72,43 @@ Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 EXPERIMENTAL 🚧**<br>Show tabs beneath window control buttons when there are multiple rows: `0` (never), `1` (when rows are not scrolling), `2` (always). This feature may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
 
+## Advanced Tweaks
+You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide-firefox-advanced-customization) to tweak the following parameters to control tab size and spacing. The values shown below are default settings.
+
+🪧 Note: Avoid using decimal values or units other than pixels (`px`). 
+
+``` css
+#tabbrowser-tabs {
+	/* space between tabs */
+	--tab-overflow-clip-margin: 2px;
+	
+	/* horizontal padding of tabs */
+	--tab-inline-padding: 8px;
+	
+	/* height of tab content: compact - 29px, normal - 36px, touch - 41px;
+	   should not small than 24px, and use whole number in pixels to prevent gliches */
+	--tab-min-height: 36px;
+	
+	/* horizontal space between tabs */
+	--tab-block-margin: 4px;
+}
+
+.tab-content[pinned] {
+	/* horizontal padding of pinned tabs */
+	padding-inline: 10px !important;
+}
+
+tab-group {
+	/* horizontal padding in tab groups */
+	--group-line-padding: 3px !important;
+}
+
+.tab-group-label {
+	/* max width of the labels of tab groups */
+	max-width: 10em;
+}
+```
+
 ## Changelog
 Version 3.0
 - Add full support for tab groups.
