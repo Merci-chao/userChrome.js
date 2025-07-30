@@ -40,7 +40,7 @@ Firefox に多段タブ表示をサポートさせるスクリプトです。
 ## 設定
 [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されています。
 
-`user.js` で設定する場合、接頭辞 `userChromeJS.multiTabRows@Merci.chao.` を含めてください、例：`user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`。
+`user.js` で設定する場合（非推奨）、接頭辞 `userChromeJS.multiTabRows@Merci.chao.` を含めてください、例：`user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`。
 
 | Name | 説明 |
 | ------------- | ------------- |
