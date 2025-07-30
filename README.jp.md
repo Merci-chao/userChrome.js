@@ -42,7 +42,7 @@ Firefox に多段タブ表示をサポートさせる。
 
 `user.js` で設定する場合（非推奨）、接頭辞 `userChromeJS.multiTabRows@Merci.chao.` を含めてください、例：`user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`。
 
-| Name | 説明 |
+| オプション名 | 説明 |
 | ------------- | ------------- |
 | `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、`2` 以上で有効。値は最後に確認した時刻で更新されます。`1` は初回インストールと見なされるため設定しないでください。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
