@@ -79,32 +79,32 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
 
 ``` css
 #tabbrowser-tabs {
-	/* space between tabs */
+	/* Space between tabs */
 	--tab-overflow-clip-margin: 2px;
 	
-	/* horizontal padding of tabs */
+	/* Horizontal padding of tabs */
 	--tab-inline-padding: 8px;
 	
-	/* height of tab content: compact - 29px, normal - 36px, touch - 41px;
-	   should not small than 24px, and use whole number in pixels to prevent gliches */
+	/* Height of tab content: compact - 29px, normal - 36px, touch - 41px.
+	   Should not small than 24px, and use whole number in pixels to prevent gliches */
 	--tab-min-height: 36px;
 	
-	/* horizontal space between tabs */
+	/* Horizontal space between tabs */
 	--tab-block-margin: 4px;
 }
 
 .tab-content[pinned] {
-	/* horizontal padding of pinned tabs */
+	/* Horizontal padding of pinned tabs. !important is necessary */
 	padding-inline: 10px !important;
 }
 
 tab-group {
-	/* horizontal padding in tab groups */
+	/* Horizontal padding in tab groups. !important is necessary */
 	--group-line-padding: 3px !important;
 }
 
 .tab-group-label {
-	/* max width of the labels of tab groups */
+	/* Max width of the labels of tab groups. It's OK to use other units */
 	max-width: 10em;
 }
 ```
