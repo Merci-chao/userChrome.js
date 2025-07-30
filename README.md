@@ -1,3 +1,7 @@
+**🇯🇵 [日本語版紹介](README.jp.md)**
+
+---
+
 💡🐞You're welcome to post your suggestions and bug reports [here](https://github.com/Merci-chao/userChrome.js/issues/new).
 
 ---
@@ -39,7 +43,7 @@ Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox
 
 | Name | Description |
 | ------------- | ------------- |
-| `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` to enable or `0` to disable. The value will be updated with the last checking time.<br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
+| `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `2` or larger to enable or `0` to disable. The value will be updated with the last checking time. Please do not set it to `1` as it will be treated as first installed.<br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
 | `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
 | `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11, unavailable when Mica is activated and [Accent Color on Title Bars](https://support.microsoft.com/windows/3290d30f-d064-5cfe-6470-2fe9c6533e37) is inactivated. |
 | `debugMode` | ⛔ Mode for debugging, not for general use. |
