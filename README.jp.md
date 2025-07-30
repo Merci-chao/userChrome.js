@@ -96,7 +96,7 @@ Firefox に多段タブ表示をサポートさせる。
 }
 
 .tab-content[pinned] {
-    /* ピン留めされたタブの左右余白 */
+    /* ピン留めされたタブの左右余白。!important は必要 */
     padding-inline: 10px !important;
 }
 
@@ -106,7 +106,7 @@ tab-group {
 }
 
 .tab-group-label {
-    /* タブグループラベルの最大幅、ピクセル以外でもOK。!important は必要 */
+    /* タブグループラベルの最大幅、ピクセル以外でもOK */
     max-width: 10em;
 }
 ```
