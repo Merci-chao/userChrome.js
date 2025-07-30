@@ -40,9 +40,11 @@ Firefox に多段タブ表示をサポートさせるスクリプトです。
 ## 設定
 [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されています。
 
+`user.js` で設定する場合、接頭辞 `userChromeJS.multiTabRows@Merci.chao.` を含めてください、例：`user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`。
+
 | Name | 説明 |
 | ------------- | ------------- |
-| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、他で有効。値は最後に確認した時刻で更新されます。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
+| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、`2` 以上で有効。値は最後に確認した時刻で更新されます。`1` は初回インストールと見なされるため設定しないでください。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 | `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示します。Windows 10 と 11 でのみ有効。Mica が有効、そして[タイトルバーのアクセントカラー](https://support.microsoft.com/windows/3290d30f-d064-5cfe-6470-2fe9c6533e37)が無効の場合は利用できません。 |
 | `debugMode` | ⛔ デバッグモード。一般向けではありません。 |
@@ -53,9 +55,9 @@ Firefox に多段タブ表示をサポートさせるスクリプトです。
 | `floatingBackdropClip` | スクロール時にタブバーを覆う要素の領域をクリップします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `floatingBackdropOpacity` | スクロール時にタブを覆う要素の不透明度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
 | `gapAfterPinned` | ピン留めされたタブと通常のタブの間の隙間。最小値は `0`。 |
-| `hideAllTabs` | 「すべてのタブを一覧表示」ボタンを非表示にします。Firefox 115 のみ有効。新しい Firefox バージョンでは、ボタンを右クリックして「ツールバーから削除」で対応可能。 |
-| `hideEmptyPlaceholderWhenScrolling` | 左上に何も表示されていない場合、スクロール時にその空白を非表示にします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
-| `linesToDragScroll` | タブを画面上端／下端へドラッグしたときのスクロール行数。最小値は `1`。 |
+| `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示にします。Firefox 115 のみ有効。新しい Firefox バージョンでは、ボタンを右クリックして「ツールバーから削除」で対応可能。 |
+| `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、スクロール時にその空白を非表示にします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
+| `linesToDragScroll` | タブを上端／下端へドラッグしたときのスクロール行数。最小値は `1`。 |
 | `linesToScroll` | マウスホイール操作によるスクロール行数。最小値は `1`。 |
 | `maxTabRows` | 表示可能な最大行数。最小値は `1`。 |
 | `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（DWMツールのエフェクト等）を表示します。Windows 11 の `widget.windows.mica` や、テーマ未使用時は `browser.theme.windows.accent-color-in-tabs.enabled` と類似。Firefox 115 またはテーマ使用時は無効。 |
