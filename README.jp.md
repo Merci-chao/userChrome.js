@@ -3,7 +3,7 @@
 ---
 
 # [Multi Tab Rows](https://github.com/Merci-chao/userChrome.js/blob/main/MultiTabRows%40Merci.chao.uc.js)
-Firefox に多段タブ表示をサポートさせるスクリプトです。
+Firefox に多段タブ表示をサポートさせる。
 
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/scrolling.png)
 
@@ -159,7 +159,7 @@ Firefox に多段タブ表示をサポートさせるスクリプトです。
 - 縦型タブ（当然）
 
 # [History Submenus II](https://github.com/Merci-chao/userChrome.js/blob/main/HistorySubmenus2%40Merci.chao.uc.js)
-履歴メニューに、前日分の履歴を表示するサブメニューを追加します。  
+履歴メニューに、前日分の履歴を表示するサブメニューを追加。  
 [アドオンページ（ウェブアーカイブ）](https://web.archive.org/web/20181102024750/https://addons.mozilla.org/en-US/firefox/addon/history-submenus-2/)
 
 ![screenshot](https://web.archive.org/web/20181007203210if_/https://addons.cdn.mozilla.net/user-media/previews/full/134/134638.png?modified=1530208752)
@@ -177,7 +177,7 @@ Firefox に多段タブ表示をサポートさせるスクリプトです。
 ---
 
 # [Page Title in URL Bar](https://github.com/Merci-chao/userChrome.js/blob/main/PageTitle%40Merci.chao.uc.js)
-URL バーにページタイトルを表示します。  
+URL バーにページタイトルを表示。  
 [アドオンページ（ウェブアーカイブ）](https://web.archive.org/web/20181101232504/https://addons.mozilla.org/en-US/firefox/addon/page-title/)
 
 ![screenshot](https://web.archive.org/web/20181009205610if_/https://addons.cdn.mozilla.net/user-media/previews/full/165/165890.png?modified=1530208887)
@@ -223,7 +223,7 @@ URL バーにページタイトルを表示します。
 ---
 
 # [Float Toolbars in Full Screen](https://github.com/Merci-chao/userChrome.js/blob/main/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
-フルスクリーン時、ツールバーをページの上にフロートさせ、表示／非表示のたびにページが跳ねるのを防ぎます。  
+フルスクリーン時、ツールバーをページの上にフロートさせ、表示／非表示のたびにページが跳ねるのを防ぐ。  
 [アドオンページ（ウェブアーカイブ）](https://web.archive.org/web/20181017035437/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/)
 
 **注意: このバージョンは macOS および Ubuntu（Linux）では未検証です。動作に不具合があるか、まったく動作しない可能性があります。**
@@ -233,14 +233,14 @@ URL バーにページタイトルを表示します。
 ---
 
 # [undoCloseTab.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/undoCloseTab.uc.js)
-タブバーのコンテキストメニュー上部に「閉じたタブを元に戻す」「最近閉じたタブ」「最近閉じたウィンドウ」「以前のセッションを復元」などの項目を表示します。
+タブバーのコンテキストメニュー上部に「閉じたタブを元に戻す」「最近閉じたタブ」「最近閉じたウィンドウ」「以前のセッションを復元」などの項目を表示。
 
 ---
 
 # [restart-button.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/restart-button.uc.js)
-アプリケーションメニューの「終了」ボタンを中クリックすると Firefox を再起動します。
+アプリケーションメニューの「終了」ボタンを中クリックすると Firefox を再起動。
 
 ---
 
 # [showScrollbarInMenus.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
-長いメニュー（ブックマークメニューなど）にスクロールバーを表示し、上下の矢印による移動を置き換えます。
+長いメニュー（ブックマークメニューなど）にスクロールバーを表示し、上下の矢印による移動を置き換える。
