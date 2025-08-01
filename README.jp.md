@@ -46,7 +46,7 @@ Firefox に多段タブ表示をサポートさせる。
 
 `user.js` で設定する場合（※非推奨）、接頭辞 `userChromeJS.multiTabRows@Merci.chao.` を含めてください。例：`user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`
 
-| 設定項目 | 説明 |
+| 設定項目（※接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、`2` 以上で有効。値は最後に確認した時刻で更新されます。`1` は初回インストールと見なされるため設定しないでください。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
@@ -114,9 +114,9 @@ tab-group {
     max-width: 10em;
 }
 ```
-`about:config` には、タブのレイアウトに関するいくつかの設定項目があります：
+`about:config` には、タブのレイアウトに関するいくつかの Firefox 設定項目があります：
 
-| 設定項目 | 説明 |
+| 設定項目（接頭辞なし） | 説明 |
 | ------------- | ------------- |
 | `browser.tabs.tabClipWidth` | このサイズを超えるタブには閉じるボタンが表示されます。 |
 | `browser.tabs.tabMinWidth` | 通常のタブの最小幅（周囲の余白を含む）を指定します。 |
