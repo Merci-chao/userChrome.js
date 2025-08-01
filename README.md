@@ -118,7 +118,7 @@ There also few settings in `about:config` for the layout of tabs:
 | `browser.tabs.tabClipWidth` | Close button will show on the tabs that are wider than this size. |
 | `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. |
 | `widget.windows.mica` | Apply the native system style on Tabs Bar (Windows 11). |
-| `widget.windows.mica.toplevel-backdrop` | Choose the effect of backdrop (Windows 11).<br>`0` – Auto<br>`1` – Mica<br>`2` – Acrylic<br>`3` – MicaAlt |
+| `widget.windows.mica.toplevel-backdrop` | Choose the effect of backdrop (Windows 11).<br>`0` – Auto<br>`1` – Mica<br>`2` – Acrylic<br>`3` – Mica Alt |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
 
 ## Changelog
