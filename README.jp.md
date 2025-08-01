@@ -116,7 +116,7 @@ tab-group {
 ```
 `about:config` には、タブのレイアウトに関するいくつかの設定項目があります：
 
-| 名前 | 説明 |
+| 設定項目 | 説明 |
 | ------------- | ------------- |
 | `browser.tabs.tabClipWidth` | このサイズを超えるタブには閉じるボタンが表示されます。 |
 | `browser.tabs.tabMinWidth` | 通常のタブの最小幅（周囲の余白を含む）を指定します。 |
@@ -218,7 +218,7 @@ tab-group {
 ## 設定
 設定パネルは存在しません。`about:config` を開いて `extensions.HistorySubmenus2@Merci.chao` で始まる項目を検索してください。設定を変更すると Firefox 再起動後に反映されます。
 
-| Name | 説明 |
+| 設定項目 | 説明 |
 | --- | --- |
 | `submenuCount` | 履歴メニュー内に直接表示される項目数。 |
 | `historyCount` | 履歴サブメニューの数。 |
@@ -235,7 +235,7 @@ URL バーにページタイトルを表示。
 ## 設定
 `about:config` を開き、`extensions.PageTitle@Merci.chao` で始まる設定項目を検索してください。設定を変更した後、Firefox を再起動すると反映されます。
 
-| Name | 説明 |
+| 設定項目 | 説明 |
 | --- | --- |
 | `showDomain` | 鍵アイコンの近くにドメインを表示。 |
 | `showSubTitle` | ページタイトルの後に URL のパス部分を表示。 |
@@ -266,7 +266,7 @@ URL バーにページタイトルを表示。
 ## 設定
 `about:config` を開き、`extensions.SemiFullScreen@Merci.chao` で始まる設定項目を検索してください。設定は新しいウィンドウに適用されます。
 
-| Name | 説明 |
+| 設定項目 | 説明 |
 | --- | --- |
 | `reverse` | `F11` で Semi-Full Screen、`Ctrl + F11` でピクチャインピクチャモードに切り替え。 |
 
