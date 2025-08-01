@@ -121,6 +121,7 @@ tab-group {
 | `browser.tabs.tabClipWidth` | このサイズを超えるタブには閉じるボタンが表示されます。 |
 | `browser.tabs.tabMinWidth` | 通常のタブの最小幅（周囲の余白を含む）を指定します。 |
 | `widget.windows.mica` | タブバーに Windows 11 のネイティブスタイルを適用します。 |
+| `widget.windows.mica.toplevel-backdrop` | 背景効果を選択します（Windows 11）。<br>`0` – 自動<br>`1` – Mica<br>`2` – Acrylic<br>`3` – Mica Alt |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用します。 |
 
 ## 変更履歴
