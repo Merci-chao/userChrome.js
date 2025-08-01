@@ -111,6 +111,15 @@ tab-group {
 }
 ```
 
+There also few settings in `about:config` for the layout of tabs:
+
+| Name | Description |
+| ------------- | ------------- |
+| `browser.tabs.tabClipWidth` | Close button will show on the tabs that are wider than this size. |
+| `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. |
+| `widget.windows.mica` | Apply the native system style on Tabs Bar (Windows 11). |
+| `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
+
 ## Changelog
 Version 3.0
 - Add full support for tab groups.
