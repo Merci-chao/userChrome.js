@@ -114,6 +114,14 @@ tab-group {
     max-width: 10em;
 }
 ```
+`about:config` には、タブのレイアウトに関するいくつかの設定項目があります：
+
+| 名前 | 説明 |
+| ------------- | ------------- |
+| `browser.tabs.tabClipWidth` | このサイズを超えるタブには閉じるボタンが表示されます。 |
+| `browser.tabs.tabMinWidth` | 通常のタブの最小幅（周囲の余白を含む）を指定します。 |
+| `widget.windows.mica` | タブバーに Windows 11 のネイティブスタイルを適用します。 |
+| `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用します。 |
 
 ## 変更履歴
 
