@@ -70,8 +70,8 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. The minimum value is `0`. |
 | `spaceBeforeTabs` | Empty space on the left side of the window. The minimum value is `0`. |
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. The minimum value is `0`. |
-| `tabsbarItemsAlign` | Alignment of the items in Tabs Bar, allowed values are: `start` (top), `center` and `end` (bottom). This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with rows scrolling. |
-| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 EXPERIMENTAL 🚧**<br>Show tabs beneath window control buttons when there are multiple rows: `0` (never), `1` (when rows are not scrolling), `2` (always). This feature may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
+| `tabsbarItemsAlign` | Alignment of the items in Tabs Bar, allowed values are:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with rows scrolling. |
+| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 EXPERIMENTAL 🚧**<br>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when rows are not scrolling</li><li>`2` - always</li></ul>This feature may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
 
 ## Advanced Tweaks
@@ -118,7 +118,7 @@ There also few settings in `about:config` for the layout of tabs:
 | `browser.tabs.tabClipWidth` | Close button will show on the tabs that are wider than this size. |
 | `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. |
 | `widget.windows.mica` | Apply the native system style on Tabs Bar (Windows 11). |
-| `widget.windows.mica.toplevel-backdrop` | Choose the effect of backdrop (Windows 11).<br>`0` – Auto<br>`1` – Mica<br>`2` – Acrylic<br>`3` – Mica Alt |
+| `widget.windows.mica.toplevel-backdrop` | Choose the effect of backdrop (Windows 11).<ul><li>`0` - Auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
 
 ## Changelog
