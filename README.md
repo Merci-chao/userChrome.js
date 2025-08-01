@@ -43,7 +43,7 @@ Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox
 
 If configuring via `user.js` (not recommended), be sure to include the prefix `userChromeJS.multiTabRows@Merci.chao.`.<br>Example: `user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`
 
-| Name | Description |
+| Name (w/ prefix) | Description |
 | ------------- | ------------- |
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `2` or larger to enable or `0` to disable. The value will be updated with the last checking time. Please do not set it to `1` as it will be treated as first installed.<br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
 | `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
@@ -113,7 +113,7 @@ tab-group {
 
 There also few settings in `about:config` for the layout of tabs:
 
-| Name | Description |
+| Name (w/o prefix) | Description |
 | ------------- | ------------- |
 | `browser.tabs.tabClipWidth` | Close button will show on the tabs that are wider than this size. |
 | `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. |
