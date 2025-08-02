@@ -25,8 +25,8 @@ Firefox に多段タブ表示をサポートさせる。
 - 一般的なスクリプトローダーに対応。
 
 ## 注意事項
-**⚠️ ご使用の前に、以下の注意点をよくお読みください：**
-- ‼️ **Firefox に最適化されたレイアウト計算を多く含むため、タブやタブバー関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト、CSSスタイルによって不具合が発生する可能性があります。スクリプト適用前後にそれらを確認するか、[`tabsUnderControlButtons`](#tabsUnderControlButtons) を無効にしてください。**
+**🚨 ※注意：ご使用の前に、以下の注意点をよくお読みください：**
+- ❗ **Firefox に最適化されたレイアウト計算を多く含むため、タブやタブバー関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト、CSSスタイルによって不具合が発生する可能性があります。スクリプト適用前後にそれらを確認するか、[`tabsUnderControlButtons`](#tabsUnderControlButtons) を無効にしてください。**
 - 本スクリプトは Windows 専用です。Ubuntu（Linux）および macOS では動作しない、あるいは不具合が生じる恐れがあります。
 - 非公式かつ複雑なスクリプトで、個人によって管理されています。予期しないバグを含む可能性があり、最新の Firefox バージョンとの互換性は保証されません。古いスクリプトを新しい Firefox に適用すると、最悪の場合正常に動作しなくなったり、セッションが失われるおそれがあります。リスクと対処方法をご理解の上、ご利用ください。
 - Firefox の関数を上書きする必要があるため、Firefox 139 以降では [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) の設定が必要です。この設定はスクリプト適用時に自動で有効化されますが、スクリプト削除時には `about:config` で手動無効化が必要です。
@@ -44,7 +44,9 @@ Firefox に多段タブ表示をサポートさせる。
 ## 設定
 [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao.` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されています。
 
-`user.js` で設定する場合（※非推奨）、接頭辞 `userChromeJS.multiTabRows@Merci.chao.` を含めてください。例：`user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`
+`user.js` で設定する場合（※非推奨）、接頭辞 `userChromeJS.multiTabRows@Merci.chao.` を含めてください。例：`user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`。
+
+**🚨 ※注意：他の設定との依存関係により、これらの設定の多くが反映されない可能性があります。`user.js` を使用するのではなく、`about:config` 経由で直接設定することを強く推奨します。**
 
 | 設定項目（※接頭辞あり） | 説明 |
 | ------------- | ------------- |
