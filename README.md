@@ -24,8 +24,8 @@ Make Firefox support multiple rows of tabs.
 - Supports general script loaders, like xiaoxiaoflood's userChromeJS (firefox-scripts).
 
 ## Cautions
-**⚠️ Please read the following notes carefully before using this script:**
-- ‼️ **Since this script contains many sensitive layout calculations designed for native Firefox, any tab or Tabs Bar-related legacy extensions (e.g. [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)), user scripts or CSS styles can cause weird glitches and bugs. Please check your legacy extensions, scripts and styles (if any) before and after applying this script, or disable the [`tabsUnderControlButtons`](#tabsUnderControlButtons) feature provided by this script.**
+**🚨 Please read the following notes carefully before using this script:**
+- ❗ **Since this script contains many sensitive layout calculations designed for native Firefox, any tab or Tabs Bar-related legacy extensions (e.g. [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)), user scripts or CSS styles can cause weird glitches and bugs. Please check your legacy extensions, scripts and styles (if any) before and after applying this script, or disable the [`tabsUnderControlButtons`](#tabsUnderControlButtons) feature provided by this script.**
 - This script is developed for Windows and probably does not work on Ubuntu (Linux) and macOS.
 - This is an unofficial (and complicated) script maintained solely by me. It may contain unforeseen bugs and does not guarantee compatibility with the latest versions of Firefox. In extreme cases, particularly when using an outdated version of this script with a newly updated Firefox, it could render the browser unusable and potentially result in the permanent loss of your previous browsing session. Please use this script only if you are prepared to handle such situations.
 - This script needs to override some functions of Firefox and requires [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) to be enabled on Firefox 139+ for this purpose, which may weaken the security of your browser in some special cases. The said setting is enabled automatically once you are applying this script, and it requires a manual disabling through `about:config` after disabling or removing the script. Please note that and use this script with understanding.
@@ -39,9 +39,11 @@ Make Firefox support multiple rows of tabs.
 🪧 Note: If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
 
 ## Settings
-Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) and search for the prefix `userChromeJS.multiTabRows@Merci.chao.`. Settings shown in gray are disabled due to other configurations.
+Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) and search for the prefix `userChromeJS.multiTabRows@Merci.chao.`. Settings shown in gray are disabled due to other preferences.
 
-If configuring via `user.js` (not recommended), be sure to include the prefix `userChromeJS.multiTabRows@Merci.chao.`.<br>Example: `user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`
+If configuring via `user.js` (not recommended), be sure to include the prefix `userChromeJS.multiTabRows@Merci.chao.`.<br>Example: `user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`.
+
+🚨 Note: Many of these settings may not take effect due to dependencies with other preferences. It is strongly recommended to configure them via `about:config` rather than using `user.js`.
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
@@ -71,7 +73,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `spaceBeforeTabs` | Empty space on the left side of the window. The minimum value is `0`. |
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. The minimum value is `0`. |
 | `tabsbarItemsAlign` | Alignment of the items in Tabs Bar, allowed values are:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with rows scrolling. |
-| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 EXPERIMENTAL 🚧**<br>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when rows are not scrolling</li><li>`2` - always</li></ul>This feature may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
+| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 EXPERIMENTAL 🚨**<br>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when rows are not scrolling</li><li>`2` - always</li></ul>This feature may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
 
 ## Advanced Tweaks
