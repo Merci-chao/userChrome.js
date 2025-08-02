@@ -21,7 +21,7 @@ Firefox に多段タブ表示をサポートさせる。
 - **🎨 テーマとの互換性：** 段数に関係なく様々なテーマに完全対応。
 
 ## 対応環境
-- Firefox 115、140、141、Windows 7〜11 に対応。
+- Firefox 115、141、142、Windows 7〜11 に対応。
 - 一般的なスクリプトローダーに対応。
 
 ## 注意事項
@@ -49,9 +49,13 @@ Firefox に多段タブ表示をサポートさせる。
 
 | 設定項目（※接頭辞あり） | 説明 |
 | ------------- | ------------- |
+| `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000`）。 |
+| `autoCollapse` | **🧪 実験的機能 🚨**<br>ホバーしていない時にタブを折りたたむ。`tabsUnderControlButtons` は無効化され、固定タブも解除されます。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要あり。 |
+| `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。 |
+| `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。 |
 | `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、`2` 以上で有効。値は最後に確認した時刻で更新されます。`1` は初回インストールと見なされるため設定しないでください。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
-| `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示します。Windows 10 と 11 でのみ有効。Mica が有効、そして[タイトルバーのアクセントカラー](https://support.microsoft.com/windows/3290d30f-d064-5cfe-6470-2fe9c6533e37)が無効の場合は利用できません。 |
+| `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示します。Windows 10 と 11 でのみ対応。 |
 | `debugMode` | ⛔ デバッグモード。一般向けではありません。 |
 | `dragToGroupTabs` | タブを他のタブにドラッグした際にグループ化を有効化します。`browser.tabs.dragDrop.moveOverThresholdPercent` が `50` 以下の場合の動作と異なり、この設定を無効にすると順序を変更せずグループに追加／削除できます。Firefox 115 または `browser.tabs.groups.enabled` が `false` の場合は利用不可。 |
 | `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにします。Firefox 115 または `dragToGroupTabs` や `browser.tabs.groups.enabled` が無効な場合は利用不可。 |
@@ -61,7 +65,9 @@ Firefox に多段タブ表示をサポートさせる。
 | `floatingBackdropOpacity` | スクロール時にタブを覆う要素の背景の不透明度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
 | `gapAfterPinned` | ピン留めされたタブと通常のタブの間の隙間。最小値は `0`。 |
 | `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示にします。Firefox 115 のみ有効。新しい Firefox バージョンでは、ボタンを右クリックして「ツールバーから削除」で対応可能。 |
+| `hideDragPreview` | ドラッグ中のプレビューを非表示。設定値：<ul><li>`0` - 常に表示</li><li>`1` - グループのみ</li><li>`2` - タブのみ</li><li>`3` - 両方</li></ul> |
 | `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、スクロール時にその空白を非表示にします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
+| `hideScrollButtonsWhenDragging` | ドラッグ中にスクロールボタンを非表示。 |
 | `linesToDragScroll` | タブを上端／下端へドラッグしたときのスクロール段数。最小値は `1`。 |
 | `linesToScroll` | マウスホイール操作によるスクロール段数。最小値は `1`。 |
 | `maxTabRows` | 表示可能な最大段数。最小値は `1`。 |
@@ -74,6 +80,8 @@ Firefox に多段タブ表示をサポートさせる。
 | `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ制御ボタン前の空白スペース。最小値は `0`。 |
 | `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値は `0`。 |
 | `spaceBeforeTabsOnMaximizedWindow` | 最大化時の左端空白スペース。最小値は `0`。 |
+| `tabMaxWidth` | タブの最大幅を指定。最小幅は `browser.tabs.tabMinWidth` を設定。 |
+| `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0` - デフォルト</li><li>`1` - ナビゲーションツールバー下</li><li>`2` - ブックマークツールバー下（「新しいタブのみ表示する」の場合 `1` と同じ）</li></ul><br>Firefox 115 では未対応。 |
 | `tabsbarItemsAlign` | タブバー内の項目の配置：<ul><li>`start` – 上</li><li>`center` – 中</li><li>`end` – 下</li></ul>これらが指定可能。`tabsUnderControlButtons` が `0` または `1` で段スクロール時のみ有効。 |
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 実験的機能 🚨**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：<ul><li>`0` – 非表示</li><li>`1` – スクロールしない場合のみ表示</li><li>`2` – 常に表示</li></ul>不具合が出る場合は `0` または `1` に設定してください。 |
 | `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用します。 |
@@ -126,6 +134,19 @@ tab-group {
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用します。 |
 
 ## 変更履歴
+**Version 3.1**
+- 新：`autoCollapse` と関連オプション: ホバーしていないときにタブを1行に折りたたむ。Firefox 115 では `layout.css.has-selector.enabled` を有効にする必要があります。（実験的）
+- 新：`tabsAtBottom`：タブバーを下部に配置（1: ナビゲーションツールバーの下、2: ブックマークツールバーの下）。Firefox 115 では未対応。
+- 新：`hideDragPreview`：タブやグループをドラッグ中にプレビューを非表示。値の例：`0`（常に表示）、`1`（グループのみ）、`2`（タブのみ）、`3`（両方）。
+- 新：`animationDuration`：アニメーションの長さ（ミリ秒、`0`～`1000`）。※長すぎるとパフォーマンスに影響します。
+- 新：`tabMaxWidth`：タブの最大幅を指定。最小幅は `browser.tabs.tabMinWidth` を使ってください。
+- 新：`hideScrollButtonsWhenDragging`：ドラッグ時にスクロールボタンを非表示にする設定。
+- タブグループからタブ全体をドラッグする際、ドロップするまではグループを維持。
+- Firefox 142 に対応。
+- タブを上下端にドラッグしてスクロールする際の不具合を修正。
+- `compactControlButtons` は Windows 11 では常に利用可能。
+- 一部テーマでの表示崩れを修正。
+- その他、軽微なバグ修正。
 
 **Version 3.0**
 - タブグループに完全対応。
