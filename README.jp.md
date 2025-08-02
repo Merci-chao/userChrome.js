@@ -57,10 +57,10 @@ Firefox に多段タブ表示をサポートさせる。
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 | `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示します。Windows 10 と 11 でのみ対応。 |
 | `debugMode` | ⛔ デバッグモード。一般向けではありません。 |
-| `dragToGroupTabs` | タブを他のタブにドラッグした際にグループ化を有効化します。`browser.tabs.dragDrop.moveOverThresholdPercent` が `50` 以下の場合の動作と異なり、この設定を無効にすると順序を変更せずグループに追加／削除できます。Firefox 115 または `browser.tabs.groups.enabled` が `false` の場合は利用不可。 |
-| `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにします。Firefox 115 または `dragToGroupTabs` や `browser.tabs.groups.enabled` が無効な場合は利用不可。 |
+| `dragToGroupTabs` | タブを他のタブにドラッグした際にグループ化を有効化します。`browser.tabs.dragDrop.moveOverThresholdPercent` が `50` 以下の場合の動作と異なり、この設定を無効にすると順序を変更せずグループに追加／削除できます。Firefox 115 または `browser.tabs.groups.enabled` が `false` の場合は未対応。 |
+| `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにします。Firefox 115 または `dragToGroupTabs` や `browser.tabs.groups.enabled` が無効な場合は未対応。 |
 | `dynamicThemeImageSize` | テーマ使用時、背景画像のサイズが現在の段数に応じて変化します。 |
-| `floatingBackdropBlurriness` | スクロール時にタブを覆う要素の背景ぼかし強度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip`、`nativeWindowStyle` が `false` のときのみ有効。Firefox 115 では利用不可。 |
+| `floatingBackdropBlurriness` | スクロール時にタブを覆う要素の背景ぼかし強度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip`、`nativeWindowStyle` が `false` のときのみ有効。Firefox 115 では未対応。 |
 | `floatingBackdropClip` | スクロール時にタブバーを覆う要素の領域をクリップします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `floatingBackdropOpacity` | スクロール時にタブを覆う要素の背景の不透明度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
 | `gapAfterPinned` | ピン留めされたタブと通常のタブの間の隙間。最小値は `0`。 |
@@ -71,7 +71,7 @@ Firefox に多段タブ表示をサポートさせる。
 | `linesToDragScroll` | タブを上端／下端へドラッグしたときのスクロール段数。最小値は `1`。 |
 | `linesToScroll` | マウスホイール操作によるスクロール段数。最小値は `1`。 |
 | `maxTabRows` | 表示可能な最大段数。最小値は `1`。 |
-| `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（DWMツールのエフェクト等）を表示します。Windows 11 の `widget.windows.mica` や、テーマ未使用時は `browser.theme.windows.accent-color-in-tabs.enabled` と類似。Firefox 115 またはテーマ使用時は無効。 |
+| `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（DWMツールのエフェクト等）を表示します。Windows 11 の `widget.windows.mica` や、テーマ未使用時は `browser.theme.windows.accent-color-in-tabs.enabled` と類似。Firefox 115 またはテーマ使用時は未対応。 |
 | `rowIncreaseEvery` | ウィンドウ幅がこの値だけ増加するたびに、表示可能段数が 1 段増加します。`0` にすると最大段数が常に表示されます。 |
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になります。 |
 | `scrollbarThumbColor` | スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
@@ -84,7 +84,7 @@ Firefox に多段タブ表示をサポートさせる。
 | `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0` - デフォルト</li><li>`1` - ナビゲーションツールバー下</li><li>`2` - ブックマークツールバー下（「新しいタブのみ表示する」の場合 `1` と同じ）</li></ul>Firefox 115 では未対応。 |
 | `tabsbarItemsAlign` | タブバー内の項目の配置：<ul><li>`start` – 上</li><li>`center` – 中</li><li>`end` – 下</li></ul>これらが指定可能。`tabsUnderControlButtons` が `0` または `1` で段スクロール時のみ有効。 |
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 実験的機能 🚨**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：<ul><li>`0` – 非表示</li><li>`1` – スクロールしない場合のみ表示</li><li>`2` – 常に表示</li></ul>不具合が出る場合は `0` または `1` に設定してください。 |
-| `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用します。 |
+| `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用。 |
 
 ## 高度な調整
 [`userChrome.css`（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://support.mozilla.org/kb/contributors-guide-firefox-advanced-customization)を使用することで、タブのサイズや間隔を制御するための以下のパラメータを調整できます。下記の値はデフォルト設定です。
@@ -135,12 +135,12 @@ tab-group {
 
 ## 変更履歴
 **Version 3.1**
-- 新：`autoCollapse` と関連オプション: ホバーしていないときにタブを1行に折りたたむ。Firefox 115 では `layout.css.has-selector.enabled` を有効にする必要があります。（実験的）
-- 新：`tabsAtBottom`：タブバーを下部に配置（1: ナビゲーションツールバーの下、2: ブックマークツールバーの下）。Firefox 115 では未対応。
-- 新：`hideDragPreview`：タブやグループをドラッグ中にプレビューを非表示。値の例：`0`（常に表示）、`1`（グループのみ）、`2`（タブのみ）、`3`（両方）。
-- 新：`animationDuration`：アニメーションの長さ（ミリ秒、`0`～`1000`）。※長すぎるとパフォーマンスに影響します。
-- 新：`tabMaxWidth`：タブの最大幅を指定。最小幅は `browser.tabs.tabMinWidth` を使ってください。
-- 新：`hideScrollButtonsWhenDragging`：ドラッグ時にスクロールボタンを非表示にする設定。
+- `autoCollapse` と関連オプション追加: ホバーしていないときにタブを1行に折りたたむ。Firefox 115 では `layout.css.has-selector.enabled` を有効にする必要があります。（実験的）
+- `tabsAtBottom` 追加：タブバーを下部に配置（1: ナビゲーションツールバーの下、2: ブックマークツールバーの下）。Firefox 115 では未対応。
+- `hideDragPreview` 追加：タブやグループをドラッグ中にプレビューを非表示。値の例：`0`（常に表示）、`1`（グループのみ）、`2`（タブのみ）、`3`（両方）。
+- `animationDuration` 追加：アニメーションの長さ（ミリ秒、`0`～`1000`）。※長すぎるとパフォーマンスに影響します。
+- `tabMaxWidth` 追加：タブの最大幅を指定。最小幅は `browser.tabs.tabMinWidth` を使ってください。
+- `hideScrollButtonsWhenDragging` 追加：ドラッグ時にスクロールボタンを非表示にする設定。
 - タブグループからタブ全体をドラッグする際、ドロップするまではグループを維持。
 - Firefox 142 に対応。
 - タブを上下端にドラッグしてスクロールする際の不具合を修正。
