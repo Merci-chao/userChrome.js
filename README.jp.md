@@ -49,7 +49,7 @@ Firefox に多段タブ表示をサポートさせる。
 
 | 設定項目（※接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000`）。 |
+| `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響します）。 |
 | `autoCollapse` | **🧪 実験的機能 🚨**<br>ホバーしていない時にタブを折りたたむ。`tabsUnderControlButtons` は無効化され、固定タブも解除されます。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要あり。 |
 | `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。 |
 | `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。 |
