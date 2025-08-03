@@ -105,12 +105,12 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
 }
 
 .tab-content[pinned] {
-	/* Horizontal padding of pinned tabs. !important is necessary */
+	/* Horizontal padding of pinned tabs */
 	padding-inline: 10px !important;
 }
 
 tab-group {
-	/* Horizontal padding in tab groups. !important is necessary */
+	/* Horizontal padding in tab groups */
 	--group-line-padding: 3px !important;
 }
 
