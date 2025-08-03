@@ -92,29 +92,29 @@ Firefox に多段タブ表示をサポートさせる。
 🪧 **注意**：`px`（ピクセル）以外の単位や小数点の値は使用しないでください。
 
 ```css
-#tabbrowser-tabs {
+:root {
     /* タブ間の水平間隔 */
-    --tab-overflow-clip-margin: 2px;
+    --tab-overflow-clip-margin: 2px !important;
     
     /* タブの左右の余白 */
-    --tab-inline-padding: 8px;
+    --tab-inline-padding: 8px !important;
     
     /* タブのコンテンツの高さ：
      * コンパクト-29px、通常-36px、タッチ-41px；
      * 24px 未満には設定しないこと。また、ピクセル単位の整数値を使うことで表示の不具合を防ぎます。*/
-    --tab-min-height: 36px;
+    --tab-min-height: 36px !important;
     
     /* タブ間の垂直間隔 */
-    --tab-block-margin: 4px;
+    --tab-block-margin: 4px !important;
 }
 
 .tab-content[pinned] {
-    /* ピン留めされたタブの左右余白。!important は必要 */
+    /* ピン留めされたタブの左右余白 */
     padding-inline: 10px !important;
 }
 
 tab-group {
-    /* タブグループ内の左右余白。!important は必要 */
+    /* タブグループ内の左右余白 */
     --group-line-padding: 3px !important;
 }
 
