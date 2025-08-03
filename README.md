@@ -89,19 +89,19 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
 🪧 Note: Avoid using decimal values or units other than pixels (`px`). 
 
 ``` css
-#tabbrowser-tabs {
+:root {
 	/* Horizontal space between tabs */
-	--tab-overflow-clip-margin: 2px;
+	--tab-overflow-clip-margin: 2px !important;
 	
 	/* Horizontal padding of tabs */
-	--tab-inline-padding: 8px;
+	--tab-inline-padding: 8px !important;
 	
 	/* Height of tab content: compact - 29px, normal - 36px, touch - 41px.
 	   Should not small than 24px, and use whole number in pixels to prevent gliches */
-	--tab-min-height: 36px;
+	--tab-min-height: 36px !important;
 	
 	/* Vertical space between tabs */
-	--tab-block-margin: 4px;
+	--tab-block-margin: 4px !important;
 }
 
 .tab-content[pinned] {
