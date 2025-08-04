@@ -100,7 +100,7 @@ Firefox に多段タブ表示をサポートさせる。
   --tab-inline-padding: 8px !important;
 
   /* タブ間の垂直間隔 */
-  --tab-block-margin: 1px !important;
+  --tab-block-margin: 4px !important;
 
   /*
     タブのコンテンツの高さ：コンパクト-29px、通常-36px、タッチ-41px；
