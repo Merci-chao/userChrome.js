@@ -307,5 +307,8 @@ Display the Undo Close Tabs, Recently Closed Tabs, Recently Closed Windows and R
 # [restart-button.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/restart-button.uc.js)
 Restart Firefox by middle-clicking on the Exit button in Application menu.
 
+# [autoTitleBar@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/autoTitleBar%40Merci.chao.uc.js)
+Display the title bar on mouseover at the top edge; hide it when hovering over page content.
+
 # [showScrollbarInMenus.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
 Display scrollbar for long menus (Bookmarks menu, for instance), instead of arrows at the top and bottom.
