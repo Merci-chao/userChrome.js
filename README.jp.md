@@ -110,13 +110,14 @@ Firefox に多段タブ表示をサポートさせる。
 
   /*
     このルールが必要になる条件：(--tab-min-height) + (--tab-block-margin) * 2 < 33px
-    なぜ 33px か？.tab-label-container のデフォルト高さは2.7em、フォントサイズが12pxの場合は最大で約33px
+    なぜ 33px か？.tab-label-container のデフォルト高さは2.7em、フォントサイズが12pxの場合は32.4px
     タブは .tab-label-container より高くする必要があります
+    そうしないと、タブの高さに小数点を含むことで不具合が発生
     例：
-    - --tab-min-height = 29px
+    - --tab-min-height = 25px
     - --tab-block-margin = 1px
-    → 合計：29 + 1×2 = 31px
-    31px < 33px となるため、レイアウト崩れを防ぐためにこのルールが必要です
+    → 合計：25 + 1×2 = 27px
+    27px < 33px となるため、レイアウト崩れを防ぐためにこのルールが必要です
   */
   .tab-label-container {
     height: auto !important;
