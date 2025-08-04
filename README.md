@@ -105,13 +105,13 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
 
 	/*
 	  This rule is necessary when: var(--tab-min-height) + var(--tab-block-margin) * 2 < 33px
-	  Why 33px? 33px is the pixel ceiling of 2.7em when the font-size is 12px
-	  → 2.7em × 12px = 32.4px ≈ 33px
+	  Why 33px? The default height of .tab-label-container is 2.7em, which caps at 33 pixels when the font size is 12px,
+          and the tab should be taller than the .tab-label-container inside.
 	  Example:
 	  - --tab-min-height = 29px
 	  - --tab-block-margin = 1px
 	  → Total: 29 + 1×2 = 31px
-	  Since 31px < 33px, this rule needs to apply to prevent layout issues.
+	  Since 31px < 33px, then this rule needs to apply to prevent layout issues.
 	*/
 	.tab-label-container {
 		height: auto !important;
