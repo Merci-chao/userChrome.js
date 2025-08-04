@@ -106,7 +106,7 @@ Firefox に多段タブ表示をサポートさせる。
     タブのコンテンツの高さ：コンパクト-29px、通常-36px、タッチ-41px；
     24px 未満には設定しないこと。また、ピクセル単位の整数値を使うことで表示の不具合を防ぎます
   */
-  --tab-min-height: 29px !important;
+  --tab-min-height: 36px !important;
 
   /*
     このルールが必要になる条件：(--tab-min-height) + (--tab-block-margin) * 2 < 33px
