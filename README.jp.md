@@ -98,6 +98,28 @@ Firefox に多段タブ表示をサポートさせる。
     
     /* タブの左右の余白 */
     --tab-inline-padding: 8px !important;
+    
+    /* タブ間の垂直間隔 */
+    --tab-block-margin: 1px !important;
+	
+    /* タブのコンテンツの高さ：
+     * コンパクト-29px、通常-36px、タッチ-41px；
+     * 24px 未満には設定しないこと。また、ピクセル単位の整数値を使うことで表示の不具合を防ぎます。*/
+    --tab-min-height: 29px !important;
+
+	/*
+		このルールが必要になる条件：(--tab-min-height) + (--tab-block-margin) * 2 < 33px
+		なぜ 33px か？フォントサイズが12pxの場合、2.7emは最大で約33px
+		→ 2.7em × 12px = 32.4px ≈ 33px
+		例：
+		- --tab-min-height = 29px
+		- --tab-block-margin = 1px
+		→ 合計：29 + 1×2 = 31px
+		31px < 33px となるため、レイアウト崩れを防ぐためにこのルールが必要です。
+	*/
+	.tab-label-container {
+		height: auto !important;
+	}
 }
 
 .tab-content[pinned] {
