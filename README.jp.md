@@ -89,7 +89,7 @@ Firefox に多段タブ表示をサポートさせる。
 ## 高度な調整
 [`userChrome.css`（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://support.mozilla.org/kb/contributors-guide-firefox-advanced-customization)を使用することで、タブのサイズや間隔を制御するための以下のパラメータを調整できます。下記の値はデフォルト設定です。
 
-🪧 **注意**：`px`（ピクセル）以外の単位や小数点の値は使用しないでください。
+🚨 **注意**：`px`（ピクセル）以外の単位や小数点の値は使用しないでください。
 
 ```css
 :root {
@@ -102,10 +102,7 @@ Firefox に多段タブ表示をサポートさせる。
   /* タブ間の垂直間隔 */
   --tab-block-margin: 4px !important;
 
-  /*
-    タブのコンテンツの高さ：コンパクト-29px、通常-36px、タッチ-41px；
-    24px 未満には設定しないこと。また、ピクセル単位の整数値を使うことで表示の不具合を防ぎます
-  */
+  /* タブのコンテンツの高さ：コンパクト-29px、通常-36px、タッチ-41px；24px 未満には設定しないこと */
   --tab-min-height: 36px !important;
 }
 
