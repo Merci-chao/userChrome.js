@@ -242,6 +242,8 @@ Version 1.0
 - macOS and Ubuntu (Linux)
 - Vertical tabs, obviously
 
+---
+
 # [History Submenus II](https://github.com/Merci-chao/userChrome.js/blob/main/HistorySubmenus2%40Merci.chao.uc.js)
 Add sub-menus to History Menu for previous days' history. [Add-on Page (web archive)](https://web.archive.org/web/20181102024750/https://addons.mozilla.org/en-US/firefox/addon/history-submenus-2/)
 
@@ -255,6 +257,8 @@ There is no setting panel and you need to open `about:config` and search for the
 | `submenuCount` | Count of items listing directly in the History menu.|
 | `historyCount` | Count of sub-menus.|
 | `dateFormat` | The format of the name of sub-menus.|
+
+---
 
 # [Page Title in URL Bar](https://github.com/Merci-chao/userChrome.js/blob/main/PageTitle%40Merci.chao.uc.js)
 Show page title in URL Bar. [Add-on Page (web archive)](https://web.archive.org/web/20181101232504/https://addons.mozilla.org/en-US/firefox/addon/page-title/)
@@ -273,6 +277,8 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao`.
 | `hideWww` | Hide the `www` sub-domain. |
 | `highlightIdentityBox` | Add a backgrond for identity box (only when `showDomain` is `true`). |
 | `formattingEnabled` | Highlight the domain (only when `showDomain` is `false`). |
+
+---
 
 # [Semi-Full Screen / Picture-in-Picture Mode](https://github.com/Merci-chao/userChrome.js/blob/main/SemiFullScreen%40Merci.chao.uc.js)
 Full screen with keeping your task bar visible, or hide the toolbars when not maximized (picture-in-picture). [Add-on Page (web archive)](https://web.archive.org/web/20181102230042/https://addons.mozilla.org/en-US/firefox/addon/semi-full-screen/)
@@ -294,6 +300,8 @@ Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.c
 | ------------- | ------------- |
 | `reverse` | Use `F11` for semi-full screen and `Ctrl + F11` for picture-in-picture.|
 
+---
+
 # [Float Toolbars in Full Screen](https://github.com/Merci-chao/userChrome.js/blob/main/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
 Float the toolbars over the page in full screen mode, instead of making the web page jumpy when the toolbars showing / hiding. [Add-on Page (web achive)](https://web.archive.org/web/20181017035437/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/)
 
@@ -301,14 +309,22 @@ Float the toolbars over the page in full screen mode, instead of making the web 
 
 ![screenshot](https://web.archive.org/web/20181012014653if_/https://addons.cdn.mozilla.net/user-media/previews/full/180/180636.png?modified=1530209532)
 
+---
+
 # [undoCloseTab.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/undoCloseTab.uc.js)
 Display the Undo Close Tabs, Recently Closed Tabs, Recently Closed Windows and Restore Previous Session at the top of tabbar context menu.
+
+---
 
 # [restart-button.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/restart-button.uc.js)
 Restart Firefox by middle-clicking on the Exit button in Application menu.
 
+---
+
 # [autoTitleBar@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/autoTitleBar%40Merci.chao.uc.js)
 Display the title bar on mouseover at the top edge; hide it when hovering over page content.
+
+---
 
 # [showScrollbarInMenus.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
 Display scrollbar for long menus (Bookmarks menu, for instance), instead of arrows at the top and bottom.
