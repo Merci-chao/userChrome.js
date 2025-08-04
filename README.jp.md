@@ -328,5 +328,10 @@ URL バーにページタイトルを表示。
 
 ---
 
+# [autoTitleBar@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/autoTitleBar%40Merci.chao.uc.js)
+ウィンドウの上端にカーソルが到達したときにタイトルバーを表示し、ページコンテンツ上にカーソルがある間は非表示にします。
+
+---
+
 # [showScrollbarInMenus.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
 長いメニュー（ブックマークメニューなど）にスクロールバーを表示し、上下の矢印による移動を置き換える。
