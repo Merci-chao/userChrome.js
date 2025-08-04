@@ -90,47 +90,47 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
 
 ``` css
 :root {
-	/* Horizontal space between tabs */
-	--tab-overflow-clip-margin: 2px !important;
-	
-	/* Horizontal padding of tabs */
-	--tab-inline-padding: 8px !important;
+  /* Horizontal space between tabs */
+  --tab-overflow-clip-margin: 2px !important;
 
-	/* Height of tab content: compact - 29px, normal - 36px, touch - 41px.
-	   Should not small than 24px, and use whole number in pixels to prevent gliches */
-	--tab-min-height: 36px !important;
-	
-	/* Vertical space between tabs */
-	--tab-block-margin: 4px !important;
+  /* Horizontal padding of tabs */
+  --tab-inline-padding: 8px !important;
 
-	/*
-	  This rule is necessary when: var(--tab-min-height) + var(--tab-block-margin) * 2 < 33px
-	  Why 33px? The default height of .tab-label-container is 2.7em, which caps at 33 pixels when the font size is 12px,
-          and the tab should be taller than the .tab-label-container inside.
-	  Example:
-	  - --tab-min-height = 29px
-	  - --tab-block-margin = 1px
-	  → Total: 29 + 1×2 = 31px
-	  Since 31px < 33px, then this rule needs to apply to prevent layout issues.
-	*/
-	.tab-label-container {
-		height: auto !important;
-	}
+  /* Height of tab content: compact - 29px, normal - 36px, touch - 41px.
+     Should not small than 24px, and use whole number in pixels to prevent gliches */
+  --tab-min-height: 36px !important;
+	
+  /* Vertical space between tabs */
+  --tab-block-margin: 4px !important;
+}
+
+/*
+  This rule is necessary when: var(--tab-min-height) + var(--tab-block-margin) * 2 < 33px
+  Why 33px? The default height of .tab-label-container is 2.7em, which caps at 33 pixels when the font size is 12px,
+  and the tab should be taller than the .tab-label-container inside.
+  Example:
+  - --tab-min-height = 29px
+  - --tab-block-margin = 1px
+  → Total: 29 + 1×2 = 31px
+  Since 31px < 33px, then this rule needs to apply to prevent layout issues.
+*/
+.tab-label-container {
+  height: auto !important;
 }
 
 .tab-content[pinned] {
-	/* Horizontal padding of pinned tabs */
-	padding-inline: 10px !important;
+  /* Horizontal padding of pinned tabs */
+  padding-inline: 10px !important;
 }
 
 tab-group {
-	/* Horizontal padding in tab groups */
-	--group-line-padding: 3px !important;
+  /* Horizontal padding in tab groups */
+  --group-line-padding: 3px !important;
 }
 
 .tab-group-label {
-	/* Max width of the labels of tab groups. It's OK to use other units */
-	max-width: 10em;
+  /* Max width of the labels of tab groups. It's OK to use other units */
+  max-width: 10em;
 }
 ```
 
