@@ -86,7 +86,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 ## Advanced Tweaks
 You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide-firefox-advanced-customization) to tweak the following parameters to control tab size and spacing. The values shown below are default settings.
 
-🪧 Note: Avoid using decimal values or units other than pixels (`px`). 
+🚨 Note: Avoid using decimal values or units other than pixels (`px`). 
 
 ``` css
 :root {
@@ -96,8 +96,7 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
   /* Horizontal padding of tabs */
   --tab-inline-padding: 8px !important;
 
-  /* Height of tab content: compact - 29px, normal - 36px, touch - 41px.
-     Should not small than 24px, and use whole number in pixels to prevent gliches */
+  /* Height of tab content: compact - 29px, normal - 36px, touch - 41px, should not small than 24px */
   --tab-min-height: 36px !important;
 	
   /* Vertical space between tabs */
