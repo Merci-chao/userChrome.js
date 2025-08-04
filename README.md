@@ -95,6 +95,27 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
 	
 	/* Horizontal padding of tabs */
 	--tab-inline-padding: 8px !important;
+
+	/* Height of tab content: compact - 29px, normal - 36px, touch - 41px.
+	   Should not small than 24px, and use whole number in pixels to prevent gliches */
+	--tab-min-height: 36px !important;
+	
+	/* Vertical space between tabs */
+	--tab-block-margin: 4px !important;
+
+	/*
+	  This rule is necessary when: var(--tab-min-height) + var(--tab-block-margin) * 2 < 33px
+	  Why 33px? 33px is the pixel ceiling of 2.7em when the font-size is 12px
+	  → 2.7em × 12px = 32.4px ≈ 33px
+	  Example:
+	  - --tab-min-height = 29px
+	  - --tab-block-margin = 1px
+	  → Total: 29 + 1×2 = 31px
+	  Since 31px < 33px, this rule needs to apply to prevent layout issues.
+	*/
+	.tab-label-container {
+		height: auto !important;
+	}
 }
 
 .tab-content[pinned] {
