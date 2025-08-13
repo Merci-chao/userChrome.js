@@ -147,14 +147,14 @@ There also few settings in `about:config` for the layout of tabs:
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
 
 ## Changelog
-Version 3.2
+**Version 3.2**
 - Add `justifyCenter`: Justify tabs to the center horizontally: `0` - never, `1` - when there is only one row, `2` - always. Behaviors such as closing tabs and collapsing tab groups may differ slightly when tabs are centered.
 - Add `scrollButtonsSize`: The size (in pixels) of the scroll buttons during dragging. The minimum value is `2`; the maximum is limited to half the tab height.
 - Update for Firefox 143.
 - Fix the problem that cannot drag tabs onto the Bookmarks Toolbar in some cases.
 - Bug fixes.
 
-Version 3.1
+**Version 3.1**
 - Add `autoCollapse` and related settings: tabs will collapse to a single row when the cursor is not hovering. On Firefox 115, `layout.css.has-selector.enabled` is required. (experimental)
 - Add `tabsAtBottom`: position the Tabs Bar beneath `1` - Navigation Toolbar, `2` - Bookmarks Toolbar. Not available on Firefox 115.
 - Add `hideDragPreview`: hide the drag preview during a drag interaction. Valid values are: `0` (never), `1` (tab groups only), `2` (tabs only), `3` (both).
@@ -168,7 +168,7 @@ Version 3.1
 - `compactControlButtons` is always available on Windows 11 now.
 - Minor bug-fixes.
 
-Version 3.0
+**Version 3.0**
 - Add full support for tab groups.
 - Introduce animations for various tab-related actions.
 - Add the `dragToGroupTabs` option to enable or disable tab grouping when dragging tabs over another.
@@ -177,62 +177,62 @@ Version 3.0
 - Update for Firefox 141.
 - Bug fixes and improvements.
 
-Version 2.6
+**Version 2.6**
 - Fix layout problem when there are some audio playing/blocked/muted tabs.
 - Fix layout problem when UI density is `Touch`.
 
-Version 2.5.1
+**Version 2.5.1**
 - Fix a bug that can't drop non-tab things onto Tabs Bar since the previous version.
 
-Version 2.5
+**Version 2.5**
 - Improve the experience of dragging non-adjacent tabs.
 - Add check-update feature. Change `checkUpdateFrequency` to how often (days) you want, disable it by setting `checkUpdate` to `0`.
 
-Version 2.4
+**Version 2.4**
 - Update for Firefox 138.
 - Improvements and bug-fixings for tab dragging animation.
 
-Version 2.3.5.1
+**Version 2.3.5.1**
 - Bug fix: not working on Firefox 115
 
-Version 2.3.5
+**Version 2.3.5**
 - Update for Firefox 137.
 
-Version 2.3.4.2
+**Version 2.3.4.2**
 - Bug fix: tabs cannot be dragged to the first row in a special case.
 
-Version 2.3.3
+**Version 2.3.3**
 - Fix several bugs that occur when the window is too narrow and only one scrolling row is allowed to show.
 
-Version 2.3.2.3
+**Version 2.3.2.3**
 - Update for Firefox 136.
 
-Version 2.3.1
+**Version 2.3.1**
 - Update for the native tab groups feature.
 - Fix a visual glitch when moving the selected pinned tabs together and the tabs are scrolling.
 
-Version 2.2
+**Version 2.2**
 - Update the appearance of the scrollbar on Windows 11.
 - Bug fix: layout may break when the display scaling is not 100%.
 - Bug fix: tabs keep bouncing in some circumstances.
 
-Version 2.1.3.1
+**Version 2.1.3.1**
 - Bug fix: tabs keep bouncing in some spacial cases, typically happens when there are many pinned tabs.
 - `tabsUnderControlButtons` is forced to be `0` now when tab groups is enabled (`browser.tabs.groups.enabled` is `true`).
 
-Version 2.1.2
+**Version 2.1.2**
 - Fix a bug since version 2.1: buttons before tabs cannot be clicked when there is only one row.
 
-Version 2.1.1
+**Version 2.1.1**
 - Fixed a bug where tabs kept bouncing in some cases.
 
-Version 2.1
+**Version 2.1**
 - Improve the behavior when closing tabs.
 
-Version 2.0.1
+**Version 2.0.1**
 - Bug fix: Changing settings or theme when there are multiple windows could cause Firefox to lag or freeze.
 
-Version 2.0
+**Version 2.0**
 - Implement `tabsUnderControlButtons = 2` (default).
 - Add new settings: `floatingBackdropClip`, `floatingBackdropBlurriness`, `floatingBackdropOpacity`, `hideEmptyPlaceholderWhenScrolling`.
 - Change `scrollbarTrackColor` and `scrollbarThumbColor` default value to `auto`.
@@ -241,7 +241,7 @@ Version 2.0
 - Support Firefox 134.
 - Various improvements and bug fixes.
 
-Version 1.0
+**Version 1.0**
 - First release.
 
 ## Won't Fixed Compatibility Issues
