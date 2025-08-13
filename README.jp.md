@@ -68,6 +68,7 @@ Firefox に多段タブ表示をサポートさせる。
 | `hideDragPreview` | ドラッグ中のプレビューを非表示。設定値：<ul><li>`0` - 常に表示</li><li>`1` - グループのみ</li><li>`2` - タブのみ</li><li>`3` - 両方</li></ul> |
 | `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、スクロール時にその空白を非表示にします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `hideScrollButtonsWhenDragging` | ドラッグ中にスクロールボタンを非表示。 |
+| `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0` - 無効</li><li>`1` - 1 段のみの場合</li><li>`2` - 常に有効</li></ul>中央揃え時には、タブの閉じ方やグループの折りたたみ動作が若干異なる場合があります。 |
 | `linesToDragScroll` | タブを上端／下端へドラッグしたときのスクロール段数。最小値は `1`。 |
 | `linesToScroll` | マウスホイール操作によるスクロール段数。最小値は `1`。 |
 | `maxTabRows` | 表示可能な最大段数。最小値は `1`。 |
@@ -76,6 +77,7 @@ Firefox に多段タブ表示をサポートさせる。
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になります。 |
 | `scrollbarThumbColor` | スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
 | `scrollbarTrackColor` | スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
+| `scrollButtonsSize` | ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値は `2`、最大値はタブの高さの半分までに制限されます。 |
 | `spaceAfterTabs` | ウィンドウ制御ボタンの前にある空白スペース。最小値は `0`。 |
 | `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ制御ボタン前の空白スペース。最小値は `0`。 |
 | `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値は `0`。 |
@@ -147,6 +149,13 @@ tab-group {
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用します。 |
 
 ## 変更履歴
+**Version 3.2**
+- `justifyCenter` を追加。タブを中央揃えにする設定：`0` - 無効、`1` - 1 段のみの場合、`2` - 常に有効。タブが中央揃えされている場合、タブの閉じ方やグループの折りたたみ動作が若干異なる場合があります。
+- `scrollButtonsSize` を追加：ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値は `2`、最大値はタブの高さの半分までに制限されます。
+- Firefox 143 に対応。
+- 一部の環境でタブをブックマークツールバーにドラッグできない問題を修正。
+- その他の不具合修正。
+
 **Version 3.1**
 - `autoCollapse` と関連オプション追加: ホバーしていないときにタブを1行に折りたたむ。Firefox 115 では `layout.css.has-selector.enabled` を有効にする必要があります。（実験的）
 - `tabsAtBottom` 追加：タブバーを下部に配置（1: ナビゲーションツールバーの下、2: ブックマークツールバーの下）。Firefox 115 では未対応。
