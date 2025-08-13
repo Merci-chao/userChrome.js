@@ -84,7 +84,7 @@ Firefox に多段タブ表示をサポートさせる。
 | `spaceBeforeTabsOnMaximizedWindow` | 最大化時の左端空白スペース。最小値は `0`。 |
 | `tabMaxWidth` | タブの最大幅を指定。最小幅は `browser.tabs.tabMinWidth` を設定。 |
 | `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0` - デフォルト</li><li>`1` - ナビゲーションツールバー下</li><li>`2` - ブックマークツールバー下（「新しいタブのみ表示する」の場合 `1` と同じ）</li></ul>Firefox 115 では未対応。 |
-| `tabsbarItemsAlign` | タブバー内の項目の配置：<ul><li>`start` – 上</li><li>`center` – 中</li><li>`end` – 下</li></ul>これらが指定可能。`tabsUnderControlButtons` が `0` または `1` で段スクロール時のみ有効。 |
+| `tabsbarItemsAlign` | タブバー内の項目の配置：<ul><li>`start` – 上</li><li>`center` – 中</li><li>`end` – 下</li></ul>`tabsUnderControlButtons` が `0` または `1` で段スクロール時のみ有効。 |
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 実験的機能 🚨**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：<ul><li>`0` – 非表示</li><li>`1` – スクロールしない場合のみ表示</li><li>`2` – 常に表示</li></ul>不具合が出る場合は `0` または `1` に設定してください。 |
 | `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用。 |
 
