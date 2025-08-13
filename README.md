@@ -65,6 +65,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `hideDragPreview` | Hide the drag preview during a drag interaction. Valid values are:<ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when scrolling, available when `tabsUnderControlButtons` is `2`. |
 | `hideScrollButtonsWhenDragging` | Hide the up/down scroll buttons when dragging. |
+| `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always</li></ul>Behaviors such as closing tabs and collapsing tab groups may differ slightly when tabs are centered. |
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. The minimum value is `1`. |
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. The minimum value is `1`. |
 | `maxTabRows` | Maximum number of rows to display at once. The minimum value is `1`. |
@@ -73,6 +74,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
 | `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
 | `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`. |
+| `scrollButtonsSize` | The size (in pixels) of the scroll buttons during dragging. The minimum value is `2`; the maximum is limited to half the tab height. |
 | `spaceAfterTabs` | Empty space before the window control buttons. The minimum value is `0`. |
 | `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. The minimum value is `0`. |
 | `spaceBeforeTabs` | Empty space on the left side of the window. The minimum value is `0`. |
@@ -145,6 +147,13 @@ There also few settings in `about:config` for the layout of tabs:
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
 
 ## Changelog
+Version 3.2
+- Add `justifyCenter`: Justify tabs to the center horizontally: `0` - never, `1` - when there is only one row, `2` - always. Behaviors such as closing tabs and collapsing tab groups may differ slightly when tabs are centered.
+- Add `scrollButtonsSize`: The size (in pixels) of the scroll buttons during dragging. The minimum value is `2`; the maximum is limited to half the tab height.
+- Update for Firefox 143.
+- Fix the problem that cannot drag tabs onto the Bookmarks Toolbar in some cases.
+- Bug fixes.
+
 Version 3.1
 - Add `autoCollapse` and related settings: tabs will collapse to a single row when the cursor is not hovering. On Firefox 115, `layout.css.has-selector.enabled` is required. (experimental)
 - Add `tabsAtBottom`: position the Tabs Bar beneath `1` - Navigation Toolbar, `2` - Bookmarks Toolbar. Not available on Firefox 115.
