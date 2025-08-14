@@ -109,7 +109,8 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
 
 /*
   This rule is necessary when: var(--tab-min-height) + var(--tab-block-margin) * 2 < 33px
-  Why 33px? The default height of .tab-label-container is 2.7em, which is 32.4px when the font size is 12px,
+  Why 33px? The default height of .tab-label-container is 2.7em,
+  which is 32.4px when the font size is 12px,
   and the tab should be taller than the .tab-label-container inside.
   Otherwise the tab height will contain decimal and cause issues.
   Example:
