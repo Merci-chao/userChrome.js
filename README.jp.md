@@ -150,7 +150,7 @@ tab-group {
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用します。 |
 
 ## 変更履歴
-**Version 3.2（2025年8月14日）**
+**Version 3.2（2025-8-14）**
 - Firefox 143 に対応。
 - バグ修正：「グループ作成のドラッグ」がうまく動かないことがある。
 
