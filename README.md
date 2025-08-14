@@ -37,7 +37,7 @@ Make Firefox support multiple rows of tabs.
 3. Restart Firefox to apply.
 
 **🔔 Notes:**
-- Please make sure that no other Tabs Bar-related scripts and CSS styles are currently activated. For safety, you may temporarily move all other `.js` and `.css` files out of the `chrome` folder. Restart Firefox and confirm that the script works as expected. Once verified, you can move the files back into the folder.
+- Please make sure that no other Tabs Bar-related scripts and CSS styles are currently activated. Just in case, temporarily move all other `.js` and `.css` files out of the `chrome` folder. Restart Firefox and confirm that the script works as expected. Once verified, you can move the files back into the folder.
 - If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
 
 ## Settings
