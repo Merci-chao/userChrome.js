@@ -1,3 +1,13 @@
+// ==UserScript==
+// @name           History Submenus II
+// @version        2025-08-14
+// @author         Merci chao
+// @namespace      https://github.com/Merci-chao/userChrome.js#history-submenus-ii
+// @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
+// @updateURL      https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js
+// @downloadURL    https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js
+// ==/UserScript==
+
 if (location == "chrome://browser/content/browser.xhtml") setTimeout(()=>{try{
 
 let {classes: Cc, interfaces: Ci, utils: Cu} = Components;
@@ -7,6 +17,8 @@ let defPrefs = {
 	historyCount: 25,
 	submenuCount: 7,
 	dateFormat: "%a",
+	checkUpdate: 1,
+	checkUpdateFrequency: 1,
 };
 
 let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
@@ -16,6 +28,48 @@ let getPrefs = (branch, data) => Object.fromEntries(Object.entries(data).map(([n
 setDefaultPrefs(Services.prefs.getDefaultBranch(prefBranchStr), defPrefs);
 let prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defPrefs);
 
+
+if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 >= Math.max(prefs.checkUpdateFrequency, 1)) {
+	Services.prefs.setIntPref(prefBranchStr + "checkUpdate", Date.now() / 1000);
+	(async () => {
+		let getVer = code => (code.match(/^\/\/\s*@version\s+(.+)$/mi) || [])[1];
+		let localScript = await (await fetch(new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0])).text();
+		let updateURL = localScript.match(/^\/\/\s*@updateURL\s+(.+)$/mi)[1];
+		let downloadURL = localScript.match(/^\/\/\s*@downloadURL\s+(.+)$/mi)[1];
+		let remoteScript = await (await fetch(updateURL)).text();
+		let local = getVer(localScript);
+		let remote = getVer(remoteScript);
+		if (remote.localeCompare(local, undefined, {numeric: true}) <= 0) return;
+		let p = Services.prompt;
+		let buttons = p.BUTTON_POS_0 * p.BUTTON_TITLE_YES +
+				p.BUTTON_POS_1 * p.BUTTON_TITLE_IS_STRING +
+				p.BUTTON_POS_2 * p.BUTTON_TITLE_NO;
+		let dontAsk = {};
+		let l10n = {
+			en: {
+				title: "Update Notification",
+				message: `History Submenus II version ${remote} is released. Would you want to view it now?`,
+				later: "Remind Tomorrow",
+				never: `Stop checking when selecting "No" (strongly not recommended)`,
+			},
+		};
+		l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
+		switch (p.confirmEx(window, l10n.title, l10n.message,
+				buttons, "", l10n.later, "", l10n.never, dontAsk)) {
+			case 0:
+				openURL(downloadURL);
+				break;
+			case 1:
+				Services.prefs.setIntPref(prefBranchStr + "checkUpdate",
+						Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60);
+				break;
+			case 2:
+				if (dontAsk.value)
+					Services.prefs.setIntPref(prefBranchStr + "checkUpdate", 0);
+				break;
+		}
+	})();
+}
 
 let SUBMENU_ID = "appMenu-HSM2-submenu";
 
@@ -513,7 +567,11 @@ let HistorySubmenus2 = {
 		enable() {
 			let module;
 			try {
-				module = ChromeUtils.importESModule("resource:///modules/CustomizableWidgets.sys.mjs");
+				try {
+					module = ChromeUtils.importESModule("moz-src:///browser/components/customizableui/CustomizableWidgets.sys.mjs");
+				} catch(e) {
+					module = ChromeUtils.importESModule("resource:///modules/CustomizableWidgets.sys.mjs");
+				}
 			} catch(e) {
 				module = Cu.import("resource:///modules/CustomizableWidgets.jsm");
 			}
