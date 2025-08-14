@@ -33,10 +33,12 @@ Make Firefox support multiple rows of tabs.
 ## Installation
 1. If you are not using any scripts, follow the instructions in the [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the script loader (Firefox Scripts). You can skip this step if you have already installed some scripts.<br>
 <br>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
-2. Download the [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it in your `chrome` folder.<br>**🔔 Note:**<br>Please make sure that no other Tabs Bar-related scripts and CSS styles are currently activated. For safety, you may temporarily move all other `.js` and `.css` files out of the `chrome` folder. Restart Firefox and confirm that the script works as expected. Once verified, you can move the files back into the folder.
+2. Download the [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it in your `chrome` folder.
 3. Restart Firefox to apply.
 
-🪧 Note: If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
+**🔔 Notes:**
+- Please make sure that no other Tabs Bar-related scripts and CSS styles are currently activated. For safety, you may temporarily move all other `.js` and `.css` files out of the `chrome` folder. Restart Firefox and confirm that the script works as expected. Once verified, you can move the files back into the folder.
+- If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
 
 ## Settings
 Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) and search for the prefix `userChromeJS.multiTabRows@Merci.chao.`. Settings shown in gray are disabled due to other preferences.
