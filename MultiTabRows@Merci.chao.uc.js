@@ -2849,7 +2849,7 @@ if (groupProto) {
 				let nodes = getNodes({newTabButton: true});
 				let oc = this.isShowingOverflowCount && this.overflowCountLabel.parentNode;
 				if (v) {
-					if (this[CLICKED_BY_MOUSE])
+					if (this[CLICKED_BY_MOUSE] || tabContainer.hasAttribute("movingtab"))
 						tabContainer._lockTabSizing(this.labelElement);
 				} else {
 					nodes = nodes.filter(n => n != oc);
