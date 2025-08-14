@@ -262,13 +262,20 @@ tab-group {
 ![screenshot](https://web.archive.org/web/20181007203207if_/https://addons.cdn.mozilla.net/user-media/previews/full/63/63969.png?modified=1530208752)
 
 ## 設定
-設定パネルは存在しません。`about:config` を開いて `extensions.HistorySubmenus2@Merci.chao` で始まる項目を検索してください。設定を変更すると Firefox 再起動後に反映されます。
+設定パネルは存在しません。`about:config` を開いて `extensions.HistorySubmenus2@Merci.chao.` で始まる項目を検索してください。設定を変更すると Firefox 再起動後に反映されます。
 
 | 設定項目 | 説明 |
 | --- | --- |
+| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新されます。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
+| `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 | `submenuCount` | 履歴メニュー内に直接表示される項目数。 |
 | `historyCount` | 履歴サブメニューの数。 |
 | `dateFormat` | サブメニューの名前に使用する日付のフォーマット。 |
+
+## 変更履歴
+**Version 2025-08-14**
+- Firefox 143 に対応。
+- バージョンチェック機能を追加。
 
 ---
 
@@ -279,7 +286,7 @@ URL バーにページタイトルを表示。
 ![screenshot](https://web.archive.org/web/20181009205610if_/https://addons.cdn.mozilla.net/user-media/previews/full/165/165890.png?modified=1530208887)
 
 ## 設定
-`about:config` を開き、`extensions.PageTitle@Merci.chao` で始まる設定項目を検索してください。設定を変更した後、Firefox を再起動すると反映されます。
+`about:config` を開き、`extensions.PageTitle@Merci.chao.` で始まる設定項目を検索してください。設定を変更した後、Firefox を再起動すると反映されます。
 
 | 設定項目 | 説明 |
 | --- | --- |
@@ -310,7 +317,7 @@ URL バーにページタイトルを表示。
 | `Shift + F11` または `Shift + フルスクリーンボタン` | 通常のフルスクリーンモードに移行。 |
 
 ## 設定
-`about:config` を開き、`extensions.SemiFullScreen@Merci.chao` で始まる設定項目を検索してください。設定は新しいウィンドウに適用されます。
+`about:config` を開き、`extensions.SemiFullScreen@Merci.chao.` で始まる設定項目を検索してください。設定は新しいウィンドウに適用されます。
 
 | 設定項目 | 説明 |
 | --- | --- |
