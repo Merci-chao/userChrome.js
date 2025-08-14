@@ -147,6 +147,10 @@ There also few settings in `about:config` for the layout of tabs:
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
 
 ## Changelog
+**Version 3.2 (2025-08-14)**
+- Update for Firefox 143.
+- Bug fix: "Drag to create group" sometimes doesn't behave smoothly.
+
 **Version 3.2**
 - Add `justifyCenter`: Justify tabs to the center horizontally: `0` - never, `1` - when there is only one row, `2` - always. Behaviors such as closing tabs and collapsing tab groups may differ slightly when tabs are centered.
 - Add `scrollButtonsSize`: The size (in pixels) of the scroll buttons during dragging. The minimum value is `2`; the maximum is limited to half the tab height.
