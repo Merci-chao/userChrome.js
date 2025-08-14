@@ -118,6 +118,7 @@ Firefox に多段タブ表示をサポートさせる。
   - --tab-block-margin = 1px
   → 合計：25 + 1×2 = 27px
   27px < 33px となるため、レイアウト崩れを防ぐためにこのルールが必要です
+  副作用がないようなので、いつでもこのルールを適用できます
 */
 .tab-label-container {
   height: auto !important;
