@@ -4288,7 +4288,7 @@ if (groupProto) {
 	tabContainer.on_dragleave = function(e) {
 		on_dragleave.apply(this, arguments);
 
-		if (prefs.dragToGroupTabs && gBrowser._tabGroupsEnabled) {
+		if (e.target == this && prefs.dragToGroupTabs && gBrowser._tabGroupsEnabled) {
 			this[CLEAR_DRAG_OVER_GROUPING_TIMER]();
 			this.removeAttribute(MOVINGTAB_GROUP);
 			$(`[${DRAGOVER_GROUPTARGET}]`)?.removeAttribute(DRAGOVER_GROUPTARGET);
@@ -5530,10 +5530,10 @@ function maxTabRows() {
 
 function getScrollbar(box, orient = "vertical") {
 	return InspectorUtils.getChildrenForNode(box, true, false)
-			.find(e => e.matches(`
-				scrollbar:not([orient])${orient == "vertical" ? "[vertical]" : ""},
-				scrollbar[orient=${orient}]
-			`));
+			.find(e => e.matches(`scrollbar:is(
+				${orient == "vertical" ? "[vertical]" : ":not([orient])"},
+				[orient=${orient}]
+			)`));
 }
 
 function updateNavToolboxNetHeight() {
