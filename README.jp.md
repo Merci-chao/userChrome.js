@@ -36,7 +36,7 @@ Firefox に多段タブ表示をサポートさせる。
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.jp.png)
 
 2. [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし、`chrome` フォルダーに配置します。<br>
-**🔔 他のタブバー関連スクリプトや CSS が有効になっていないことを確認してください。**  
+**🔔 注意：**<br>他のタブバー関連スクリプトや CSS が有効になっていないことを確認してください。念のため、他の `.js` / `.css` ファイルを一時的に `chrome` フォルダーから移動し、Firefox を再起動してこのスクリプトの動作を確認してください。問題なければ、ファイルを戻します。
 4. Firefox を再起動して反映します。
 
 🪧 注意：Firefox 更新後にスクリプトローダーが動作しなくなった場合は、上記ページから最新のスクリプトローダーを再インストールしてください。
