@@ -5530,7 +5530,10 @@ function maxTabRows() {
 
 function getScrollbar(box, orient = "vertical") {
 	return InspectorUtils.getChildrenForNode(box, true, false)
-			.find(e => e.matches(`scrollbar[orient=${orient}]`));
+			.find(e => e.matches(`
+				scrollbar:not([orient])${orient == "vertical" ? "[vertical]" : ""},
+				scrollbar[orient=${orient}]
+			`));
 }
 
 function updateNavToolboxNetHeight() {
