@@ -35,7 +35,7 @@ Firefox に多段タブ表示をサポートさせる。
 1. ほかのスクリプトを使用していない場合は、[Tab Mix Plus - Docs（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) に従ってスクリプトローダー（Firefox Scripts）をインストールします。すでに他のスクリプトを使用している場合はこの手順を省略できます。  
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.jp.png)
 
-2. [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし、`chrome` フォルダーに配置します。<br>
+2. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし、`chrome` フォルダーに配置します。<br>
 3. Firefox を再起動して反映します。
 
 **🔔 注意：**
