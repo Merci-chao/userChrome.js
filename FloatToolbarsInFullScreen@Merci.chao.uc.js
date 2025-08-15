@@ -10,7 +10,7 @@
 
 try {
 
-let prefBranchStr = "FloatToolbarsInFullScreen@Merci.chao.";
+let prefBranchStr = "extensions.FloatToolbarsInFullScreen@Merci.chao.";
 let defPrefs = {
 	checkUpdate: 1,
 	checkUpdateFrequency: 7,
@@ -262,3 +262,4 @@ function needToClipBackground() {
 }
 
 } catch(e) {alert(["FloatToolbarsInFullScreen@Merci.chao.uc.js",e,e.stack].join("\n"));console.error(e)}
+
