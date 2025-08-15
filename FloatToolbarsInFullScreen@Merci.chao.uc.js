@@ -134,7 +134,16 @@ FloatToolbarsInFullScreen.prototype = {
 		};
 
 		FullScreen.showNavToolbox = trackMouse => {
-			contentDeck.style.marginTop = fullScreen ? `-${gNavToolbox.getBoundingClientRect().height}px` : "";
+			let {height} = gNavToolbox.getBoundingClientRect();
+			Object.assign(contentDeck.style, fullScreen ?
+					{
+						marginTop: `-${height}px`,
+						clipPath: `inset(${height}px 0 0 0)`,
+					} :
+					{
+						marginTop: "",
+						clipPath: "",
+					});
 
 			originalFunctions.showNavToolbox.call(FullScreen, trackMouse);
 
@@ -262,4 +271,3 @@ function needToClipBackground() {
 }
 
 } catch(e) {alert(["FloatToolbarsInFullScreen@Merci.chao.uc.js",e,e.stack].join("\n"));console.error(e)}
-
