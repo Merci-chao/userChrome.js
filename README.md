@@ -150,7 +150,7 @@ There also few settings in `about:config` for the layout of tabs:
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
 
 ## Changelog
-📥 [Download Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
 **Version 3.2.1**
 - Bug fix: Tabs occasionally exhibit strange jittering during animation.
