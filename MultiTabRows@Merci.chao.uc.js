@@ -361,7 +361,7 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		let getVer = code => (code.match(/^\/\/\s*@version\s+(.+)$/mi) || [])[1];
 		let localScript = await (await fetch(new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0])).text();
 		let updateURL = localScript.match(/^\/\/\s*@updateURL\s+(.+)$/mi)[1];
-		let downloadURL = localScript.match(/^\/\/\s*@downloadURL\s+(.+)$/mi)[1];
+		let downloadURL = "https://github.com/Merci-chao/userChrome.js";
 		let remoteScript = await (await fetch(updateURL)).text();
 		let local = getVer(localScript);
 		let remote = getVer(remoteScript);
@@ -377,19 +377,21 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 				message: `Multi Tab Rows version ${remote} is released. Would you want to view it now?`,
 				later: "Remind Tomorrow",
 				never: `Stop checking when selecting "No" (strongly not recommended)`,
+				link: "#changelog",
 			},
 			ja: {
 				title: "アップデート通知",
 				message: `Multi Tab Rows（多段タブ）の新バージョン ${remote} がリリースされました。今すぐ表示しますか？`,
 				later: "明日再通知する",
 				never: "「いいえ」を選択すると、今後のチェックを停止します（※非推奨）",
+				link: "/blob/main/README.jp.md#変更履歴",
 			},
 		};
 		l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
 		switch (p.confirmEx(window, l10n.title, l10n.message,
 				buttons, "", l10n.later, "", l10n.never, dontAsk)) {
 			case 0:
-				openURL(downloadURL);
+				openURL(downloadURL + l10n.link);
 				break;
 			case 1:
 				Services.prefs.setIntPref(prefBranchStr + "checkUpdate",
