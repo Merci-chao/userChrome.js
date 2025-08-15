@@ -1,7 +1,7 @@
 "use strict";
 // ==UserScript==
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
-// @version        3.2
+// @version        3.2.1
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @supportURL     https://github.com/Merci-chao/userChrome.js#changelog
@@ -5937,7 +5937,7 @@ function getRect(ele, {box, translated, checkVisibility, scroll, noFlush} = {}) 
 	}
 	let {round} = Math;
 	let {e: t1x, f: t1y} = new DOMMatrixReadOnly(cs.transform);
-	let [t2x, t2y] = [...[...cs.translate.matchAll(/-?\d+(?:\.\d+)?/g)].flat().map(v => +v), 0, 0].slice(0, 2);
+	let [t2x, t2y] = [...[...cs.translate.matchAll(/-?\d+(?:\.[\de-]+)?/g)].flat().map(v => +v), 0, 0].slice(0, 2);
 	let tx = t1x + t2x;
 	let ty = t1y + t2y;
 	let {[START]: start, y, width, height} = r;
