@@ -18,7 +18,7 @@ let defPrefs = {
 	submenuCount: 7,
 	dateFormat: "%a",
 	checkUpdate: 1,
-	checkUpdateFrequency: 1,
+	checkUpdateFrequency: 7,
 };
 
 let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
@@ -700,3 +700,4 @@ HistorySubmenus2.PanelUI.enable();
 	alert(["HistorySubmenus2@Merci.chao.uc.js",e,e.stack].join("\n"))
 	console.error(e);
 }});
+
