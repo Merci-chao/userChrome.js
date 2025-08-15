@@ -334,6 +334,18 @@ Float the toolbars over the page in full screen mode, instead of making the web 
 
 ![screenshot](https://web.archive.org/web/20181012014653if_/https://addons.cdn.mozilla.net/user-media/previews/full/180/180636.png?modified=1530209532)
 
+## Settings
+Open `about:config` and search for the prefix `FloatToolbarsInFullScreen@Merci.chao.`. Settings will be applied after restarting Firefox. 
+| Name | Description |
+| ------------- | ------------- |
+| `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
+| `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
+
+## Changelog
+**Version 2025-08-15**
+- Now the Tabs Bar will show the native window style in full screen.
+- Add check upate feature.
+
 ---
 
 # [undoCloseTab.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/undoCloseTab.uc.js)
