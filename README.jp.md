@@ -151,6 +151,8 @@ tab-group {
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用します。 |
 
 ## 変更履歴
+📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
 **Version 3.2.1**
 - バグ修正：アニメーション中にタブがたまに不自然に揺れる。
 - バグ修正：「ドラッグでグループ作成」がたまにうまく動かない。
