@@ -323,7 +323,14 @@ Full screen with keeping your task bar visible, or hide the toolbars when not ma
 Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.chao.`. Settings will apply to new windows. 
 | Name | Description |
 | ------------- | ------------- |
+| `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
+| `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
 | `reverse` | Use `F11` for semi-full screen and `Ctrl + F11` for picture-in-picture.|
+
+## Changelog
+**Version 2025-08-15**
+- Fix unintentional space on Tabs Bar.
+- Add check upate feature.
 
 ---
 
