@@ -340,6 +340,19 @@ URL バーにページタイトルを表示。
 
 ![screenshot](https://web.archive.org/web/20181012014653if_/https://addons.cdn.mozilla.net/user-media/previews/full/180/180636.png?modified=1530209532)
 
+## 設定
+`about:config` を開いて `extensions.FloatToolbarsInFullScreen@Merci.chao.` で始まる項目を検索してください。設定を変更すると Firefox 再起動後に反映されます。
+
+| 設定項目 | 説明 |
+| --- | --- |
+| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新されます。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
+| `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
+
+## 変更履歴
+**Version 2025-08-14**
+- Firefox 143 に対応。
+- バージョンチェック機能を追加。
+
 ---
 
 # [undoCloseTab.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/undoCloseTab.uc.js)
