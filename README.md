@@ -153,7 +153,7 @@ There also few settings in `about:config` for the layout of tabs:
 **Version 3.2.1**
 - Bug fix: Tabs occasionally exhibit strange jittering during animation.
 - Bug fix: "Drag to create group" sometimes doesn't behave smoothly.
-- Bug fix: drag an open group doesn't behave smoothly since the previous version.
+- Bug fix: Dragging an open group doesn't behave smoothly since the previous version.
 - Update for Firefox 143.
 
 **Version 3.2**
