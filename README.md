@@ -333,7 +333,7 @@ Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.c
 | `reverse` | Use `F11` for semi-full screen and `Ctrl + F11` for picture-in-picture.|
 
 ## Changelog
-**Version 2025-08-15**
+**Version 2025-08-16**
 - Fix unintentional space on Tabs Bar.
 - Add check upate feature.
 
@@ -354,7 +354,7 @@ Open `about:config` and search for the prefix `FloatToolbarsInFullScreen@Merci.c
 | `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
 
 ## Changelog
-**Version 2025-08-15**
+**Version 2025-08-16**
 - Now the Tabs Bar will show the native window style in full screen.
 - Add check upate feature.
 
