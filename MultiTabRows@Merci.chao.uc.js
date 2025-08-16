@@ -4484,6 +4484,8 @@ if (groupProto) {
 					(draggingTab ? selectedTab : movingNodes[0]).scrollIntoView();
 				} finally {
 					this.removeAttribute("animate-finishing");
+					if (!this.overflowing)
+						this.unlockSlotSize();
 					assign(gNavToolbox.style, {"--tabs-moving-max-z-index": ""});
 				}
 			})();
