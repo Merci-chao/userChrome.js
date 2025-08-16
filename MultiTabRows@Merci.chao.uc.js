@@ -466,15 +466,18 @@ const adjacentNewTab = "#tabbrowser-tabs[hasadjacentnewtabbutton] ~ #new-tab-but
 const dropOnItems = ":is(#home-button, #downloads-button, #bookmarks-menu-button, #personal-bookmarks)";
 const dropOnItemsExt = "#TabsToolbar[tabs-dragging-ext] :is(#new-tab-button, #new-window-button)";
 const menubarAutoHide = appVersion > 142 ? "[autohide]" : "[autohide=true]";
-const shownMenubar = `#toolbar-menubar:is(:not([inactive]), :not(${menubarAutoHide}))`;
+const shownMenubar = `#toolbar-menubar:not(:root[inFullscreen] *):is(:not([inactive]), :not(${menubarAutoHide}))`;
 const tempMenubar = `#toolbar-menubar${menubarAutoHide}:not([inactive])`;
-const hiddenMenubar = `#toolbar-menubar${menubarAutoHide}[inactive]`;
+const hiddenMenubar = `#toolbar-menubar:is(${menubarAutoHide}[inactive], :root[inFullscreen] *)`;
 const topMostTabsBar = prefs.tabsAtBottom ?
-		"#TabsToolbar:not(#TabsToolbar)" :
+		"#TabsToolbar:not([id])" :
 		`:root:is([tabsintitlebar], [customtitlebar]) ${hiddenMenubar} + #TabsToolbar`;
 const nonTopMostTabsBar = prefs.tabsAtBottom ?
 		"#TabsToolbar" :
-		`#TabsToolbar:is(#toolbar-menubar:not(${menubarAutoHide}) + *, :root:not([tabsintitlebar], [customtitlebar]) *)`;
+		`#TabsToolbar:is(
+			:root:not([inFullscreen]) #toolbar-menubar:not(${menubarAutoHide}) + *,
+			:root:not([tabsintitlebar], [customtitlebar]) *
+		)`;
 const hidePlaceHolder = "[customizing], [tabs-hide-placeholder]";
 const showPlaceHolder = `:not(${hidePlaceHolder})`;
 const tbDraggingHidePlaceHolder = ":is([tabs-dragging], [movingtab]):not([moving-positioned-tab])";
@@ -2115,7 +2118,7 @@ ${prefs.tabsUnderControlButtons ? `
 	}
 
 	${prefs.tabsAtBottom && !(prefs.tabsAtBottom == 2 && !autoHideBookmarksBar) ? `
-		#TabsToolbar:has(~ #PersonalToolbar:not([collapsed=true], [collapsed=""])) #tabs-placeholder-new-tab-button {
+		:root:not([inFullscreen]) #TabsToolbar:has(~ #PersonalToolbar:not([collapsed=true], [collapsed=""])) #tabs-placeholder-new-tab-button {
 			--clip-bottom: var(--clip-shadow);
 			border-end-start-radius: var(--tabs-placeholder-border-radius);
 			border-bottom-width: var(--tabs-placeholder-border-width);
