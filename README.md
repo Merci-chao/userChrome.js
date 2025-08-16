@@ -153,6 +153,7 @@ There also few settings in `about:config` for the layout of tabs:
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
 **Version 3.2.1 (2025-08-16)**
+- Fix minor bugs related to full screen.
 - `nativeWindowStyle` will also apply on full screen.
 
 **Version 3.2.1**
