@@ -49,7 +49,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
 | `animationDuration` | Duration of animations in milliseconds (valid range: `0` - `1000`). Note: Lengthy animations could strain system performance. |
-| `autoCollapse` | **🧪 EXPERIMENTAL 🚨**<br>Tabs will collapse to a single row when the cursor is not hovering. Enabling this feature will forcibly disable `tabsUnderControlButtons`, and pinned tabs are no longer fixed in position. On Firefox 115, setting `layout.css.has-selector.enabled` as `true` is required.
+| `autoCollapse` | **🚨 EXPERIMENTAL 🧪**<br>Tabs will collapse to a single row when the cursor is not hovering. Enabling this feature will forcibly disable `tabsUnderControlButtons`, and pinned tabs are no longer fixed in position. On Firefox 115, setting `layout.css.has-selector.enabled` as `true` is required.
 | `autoCollapseDelayCollapsing` | Delay before collapsing the tabs when the cursor moves away (in milliseconds). |
 | `autoCollapseDelayExpanding` | Delay before expanding the tabs when the cursor hovers over them (in milliseconds). |
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `2` or larger to enable or `0` to disable. The value will be updated with the last checking time. Please do not set it to `1` as it will be treated as first installed.<br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
@@ -84,7 +84,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `tabMaxWidth` | Maximum width of tabs, including the white space around. Please use `browser.tabs.tabMinWidth` for the minimum width. |
 | `tabsAtBottom` | Position the Tabs Bar beneath:<ul><li>`0` - Default</li><li>`1` - Navigation Toolbar</li><li>`2` - Bookmarks Toolbar (same effect if "Only Show on New Tab")</li></ul>Not available on Firefox 115. |
 | `tabsbarItemsAlign` | Alignment of the items in Tabs Bar, allowed values are:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with rows scrolling. |
-| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 EXPERIMENTAL 🚨**<br>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when rows are not scrolling</li><li>`2` - always</li></ul>This feature may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
+| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 EXPERIMENTAL 🧪**<br>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when rows are not scrolling</li><li>`2` - always</li></ul>This feature may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
 
 ## Advanced Tweaks
