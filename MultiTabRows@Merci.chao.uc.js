@@ -600,11 +600,11 @@ ${prefs.tabsAtBottom ? `
 }
 
 ${prefs.nativeWindowStyle ? `
-	:root:not([inFullscreen]),
+	:root,
 	${prefs.tabsAtBottom ? `
-		:root:not([inFullscreen]) #navigator-toolbox > toolbar${autoHideBookmarksBar ? ":not(#PersonalToolbar)" : ""},
+		#navigator-toolbox > toolbar${autoHideBookmarksBar ? ":not(#PersonalToolbar)" : ""},
 	` : ``}
-	:root:not([inFullscreen]) #navigator-toolbox {
+	#navigator-toolbox {
 		background-color: transparent !important;
 		border-top-color: transparent !important;
 	}
