@@ -152,6 +152,9 @@ There also few settings in `about:config` for the layout of tabs:
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 3.2.1 (2025-08-16)**
+- `nativeWindowStyle` will also apply on full screen.
+
 **Version 3.2.1**
 - Bug fix: Tabs occasionally exhibit strange jittering during animation.
 - Bug fix: "Drag to create group" sometimes doesn't behave smoothly.
