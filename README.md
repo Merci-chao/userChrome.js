@@ -277,8 +277,8 @@ There is no setting panel and you need to open `about:config` and search for the
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
 | `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
 | `dateFormat` | The format of the name of sub-menus.|
-| `historyCount` | Count of sub-menus.|
-| `submenuCount` | Count of items listing directly in the History menu.|
+| `submenuCount` | Count of sub-menus.|
+| `historyCount` | Count of items listing directly in the History menu.|
 
 ## Changelog
 **Version 2025-08-14**
