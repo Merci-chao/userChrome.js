@@ -152,9 +152,10 @@ There also few settings in `about:config` for the layout of tabs:
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-**Version 3.2.1 (2025-08-16)**
+**Version 3.2.1 (2025-08-17)**
 - Fix minor bugs related to full screen.
 - `nativeWindowStyle` will also apply on full screen.
+- Refine the behavior for locking the size of the Tabs Bar.
 
 **Version 3.2.1**
 - Bug fix: Tabs occasionally exhibit strange jittering during animation.
