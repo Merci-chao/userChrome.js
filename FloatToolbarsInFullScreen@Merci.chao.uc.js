@@ -111,8 +111,8 @@ FloatToolbarsInFullScreen.prototype = {
 				position: relative !important;
 			}
 
-			:root[data-float-in-fullscreen-clip],
-			:root[data-float-in-fullscreen-clip] #navigator-toolbox {
+			:root[data-float-in-fullscreen-hide-bg],
+			:root[data-float-in-fullscreen-hide-bg] #navigator-toolbox {
 				background: none !important;
 			}
 		`;
@@ -128,7 +128,7 @@ FloatToolbarsInFullScreen.prototype = {
 			["mouseenter", "mouseleave"].forEach(e =>
 					gNavToolbox[fullScreen ? "addEventListener" : "removeEventListener"](e, mouseEventHandler, true));
 
-			docElt.toggleAttribute("data-float-in-fullscreen-clip", fullScreen && needToClipBackground());
+			docElt.toggleAttribute("data-float-in-fullscreen-hide-bg", fullScreen && needToHideBackground());
 
 			originalFunctions.toggle.call(FullScreen);
 		};
@@ -260,14 +260,12 @@ FloatToolbarsInFullScreen.SYMBOL = Symbol("FloatToolbarsInFullScreen");
 
 new FloatToolbarsInFullScreen();
 
-function needToClipBackground() {
+function needToHideBackground() {
 	let micaPref = "widget.windows.mica";
-	let theme = Services.prefs.getStringPref("extensions.activeThemeID");
-	return (
-		Services.prefs.getPrefType(micaPref) &&
-		Services.prefs.getBoolPref(micaPref) &&
-		["default-theme@mozilla.org", ""].includes(theme)
-	);
+	return Services.prefs.getPrefType(micaPref) &&
+			Services.prefs.getBoolPref(micaPref) &&
+			!matchMedia("(-moz-windows-accent-color-in-titlebar)").matches &&
+			["default-theme@mozilla.org", ""].includes(Services.prefs.getStringPref("extensions.activeThemeID"));
 }
 
 } catch(e) {alert(["FloatToolbarsInFullScreen@Merci.chao.uc.js",e,e.stack].join("\n"));console.error(e)}
