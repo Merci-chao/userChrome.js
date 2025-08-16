@@ -51,7 +51,7 @@ Firefox に多段タブ表示をサポートさせる。
 | 設定項目（※接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響します）。 |
-| `autoCollapse` | **🧪 実験的機能 🚨**<br>ホバーしていない時にタブを折りたたむ。`tabsUnderControlButtons` は無効化され、固定タブも解除されます。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要あり。 |
+| `autoCollapse` | **🚨 実験的機能 🧪**<br>ホバーしていない時にタブを折りたたむ。`tabsUnderControlButtons` は無効化され、固定タブも解除されます。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要あり。 |
 | `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。 |
 | `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。 |
 | `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、`2` 以上で有効。値は最後に確認した時刻で更新されます。`1` は初回インストールと見なされるため設定しないでください。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
@@ -86,7 +86,7 @@ Firefox に多段タブ表示をサポートさせる。
 | `tabMaxWidth` | タブの最大幅（周囲の余白を含む）を指定。最小幅は `browser.tabs.tabMinWidth` を設定。 |
 | `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0` - デフォルト</li><li>`1` - ナビゲーションツールバー下</li><li>`2` - ブックマークツールバー下（「新しいタブのみ表示する」の場合 `1` と同じ）</li></ul>Firefox 115 では未対応。 |
 | `tabsbarItemsAlign` | タブバー内の項目の配置：<ul><li>`start` – 上</li><li>`center` – 中</li><li>`end` – 下</li></ul>`tabsUnderControlButtons` が `0` または `1` で段スクロール時のみ有効。 |
-| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🧪 実験的機能 🚨**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：<ul><li>`0` – 無効</li><li>`1` – スクロールしない場合のみ</li><li>`2` – 常に有効</li></ul>不具合が出る場合は `0` または `1` に設定してください。 |
+| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 実験的機能 🧪**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：<ul><li>`0` – 無効</li><li>`1` – スクロールしない場合のみ</li><li>`2` – 常に有効</li></ul>不具合が出る場合は `0` または `1` に設定してください。 |
 | `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用。 |
 
 ## 高度な調整
