@@ -154,6 +154,7 @@ tab-group {
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
 **Version 3.2.1 (2025-08-16)**
+- 全画面表示に関連する軽微な不具合を修正。
 - `nativeWindowStyle` は全画面表示でも有効。
 
 **Version 3.2.1**
