@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Float Toolbars in Full Screen
-// @version        2025-08-15
+// @version        2025-08-16
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#float-toolbars-in-full-screen
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
@@ -269,3 +269,4 @@ function needToHideBackground() {
 }
 
 } catch(e) {alert(["FloatToolbarsInFullScreen@Merci.chao.uc.js",e,e.stack].join("\n"));console.error(e)}
+
