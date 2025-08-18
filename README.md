@@ -53,6 +53,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `autoCollapseDelayCollapsing` | Delay before collapsing the tabs when the cursor moves away (in milliseconds). |
 | `autoCollapseDelayExpanding` | Delay before expanding the tabs when the cursor hovers over them (in milliseconds). |
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `2` or larger to enable or `0` to disable. The value will be updated with the last checking time. Please do not set it to `1` as it will be treated as first installed.<br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
+| `checkUpdateAutoApply` | Update the script file automatically when there is a new version.<ul><li>`0` - never</li><li>`1` - ask</li><li>`2` - always</li><li>`3` - always and slient</li></ul> |
 | `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
 | `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11. |
 | `debugMode` | ⛔ Mode for debugging, not for general use. |
@@ -72,6 +73,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. The minimum value is `1`. |
 | `maxTabRows` | Maximum number of rows to display at once. The minimum value is `1`. |
 | `nativeWindowStyle` | Display the system-native theme style on Tabs Bar (e.g. effects from DWM tools). To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. Not available on Firefox 115, or using any Firefox theme. |
+| `pinnedTabsFlexWidth` | **🚨 EXPERIMENTAL 🧪**<br>Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when Tabs Bar is scrollable. |
 | `rowIncreaseEvery` | Each time the window width is increased by this amount, one more row is allowed. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
 | `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
@@ -152,10 +154,14 @@ There also few settings in `about:config` for the layout of tabs:
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-**Version 3.2.1 (2025-08-17)**
+**Version 3.3**
+- Add `pinnedTabsFlexWidth`: Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when Tabs Bar is scrollable (experimental).
+- Add `checkUpdateAutoApply`: Update the script file automatically when there is a new version. `0` - never, `1` - ask, `2` - always, `3` - always and slient.
+- Fix a bug where reopening a closed pinned tab causes tab functions to not work normally on Firefox 142.
 - Fix minor bugs related to full screen.
 - `nativeWindowStyle` will also apply on full screen.
 - Refine the behavior for locking the size of the Tabs Bar.
+- Minor bug fix.
 
 **Version 3.2.1**
 - Bug fix: Tabs occasionally exhibit strange jittering during animation.
