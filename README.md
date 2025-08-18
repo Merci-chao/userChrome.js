@@ -15,7 +15,7 @@ Make Firefox support multiple rows of tabs.
 - **🎞️ Enhanced Tab Animations:** Adds fluid transitions for various tab-related actions.
 - **📐 Optimized Space Usage:** Makes full use of available UI space, including the area beneath window control buttons. (requires manual enabling)
 - **🖱️ Smooth Tab-Dragging Animation:** Supports animated tab dragging even in multi-row mode.
-- **📌 Pinned Tabs Grid Layout:** Pinned tabs are fixed in a compact grid when the Tabs Bar scrolls — ideal for managing large numbers of pinned tabs.
+- **📌 Pinned Tabs Grid Layout:** Pinned tabs are fixed in a compact grid when the Tabs Bar is scrollable — ideal for managing large numbers of pinned tabs.
 - **🦊 Native-Like Firefox Integration:** Seamlessly aligns with Firefox’s behavior to support multi-row tabs as if natively built-in.
 - **🎨 Theme Compatibility:** Fully compatible with themes, regardless of how many tab rows are present.
 
@@ -60,13 +60,13 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `dragToGroupTabs` | Enable tab grouping when dragging tabs over another. Disabling this setting results in behavior that differs from when `browser.tabs.dragDrop.moveOverThresholdPercent` is set to `50` or below: the disabled state allows tabs to be added to or removed from a group without altering their order. Not available on Firefox 115 or `browser.tabs.groups.enabled` is `false`. |
 | `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or either `dragToGroupTabs` or `browser.tabs.groups.enabled` is `false`. |
 | `dynamicThemeImageSize` | When using themes, the size of the background image changes with the current number of rows. |
-| `floatingBackdropBlurriness` | How blurry the background of items covering the tabs is when scrolling, available when `tabsUnderControlButtons` is `2` and both `floatingBackdropClip` & `nativeWindowStyle` are `false`. The minimum value is `0`. Not available on Firefox 115. |
-| `floatingBackdropClip` | Clip the area covered by items on the Tabs Bar when scrolling, available when `tabsUnderControlButtons` is `2`. |
-| `floatingBackdropOpacity` | How opaque the background of items covering the tab is when scrolling, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
+| `floatingBackdropBlurriness` | How blurry the background of items covering the tabs is when Tabs Bar is scrollable, available when `tabsUnderControlButtons` is `2` and both `floatingBackdropClip` & `nativeWindowStyle` are `false`. The minimum value is `0`. Not available on Firefox 115. |
+| `floatingBackdropClip` | Clip the area covered by items on the Tabs Bar when it is scrollable, available when `tabsUnderControlButtons` is `2`. |
+| `floatingBackdropOpacity` | How opaque the background of items covering the tab is when Tabs Bar is scrollable, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
 | `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. The minimum value is `0`. |
 | `hideAllTabs` | Hide the "List all tabs" button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing "Remove from Toolbar". |
 | `hideDragPreview` | Hide the drag preview during a drag interaction. Valid values are:<ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
-| `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when scrolling, available when `tabsUnderControlButtons` is `2`. |
+| `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when Tabs Bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `hideScrollButtonsWhenDragging` | Hide the up/down scroll buttons when dragging. |
 | `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always</li></ul>Behaviors such as closing tabs and collapsing tab groups may differ slightly when tabs are centered. |
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. The minimum value is `1`. |
@@ -85,8 +85,8 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. The minimum value is `0`. |
 | `tabMaxWidth` | Maximum width of tabs, including the white space around. Please use `browser.tabs.tabMinWidth` for the minimum width. |
 | `tabsAtBottom` | Position the Tabs Bar beneath:<ul><li>`0` - Default</li><li>`1` - Navigation Toolbar</li><li>`2` - Bookmarks Toolbar (same effect if "Only Show on New Tab")</li></ul>Not available on Firefox 115. |
-| `tabsbarItemsAlign` | Alignment of the items in Tabs Bar, allowed values are:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with rows scrolling. |
-| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 EXPERIMENTAL 🧪**<br>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when rows are not scrolling</li><li>`2` - always</li></ul>This feature may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
+| `tabsbarItemsAlign` | Alignment of the items in Tabs Bar, allowed values are:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with Tabs Bar is scrollable. |
+| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 EXPERIMENTAL 🧪**<br>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when Tabs Bar is not scrollable</li><li>`2` - always</li></ul>This feature may contain bugs or glitches. If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
 
 ## Advanced Tweaks
@@ -231,7 +231,7 @@ There also few settings in `about:config` for the layout of tabs:
 
 **Version 2.3.1**
 - Update for the native tab groups feature.
-- Fix a visual glitch when moving the selected pinned tabs together and the tabs are scrolling.
+- Fix a visual glitch when moving the selected pinned tabs together and Tabs Bar is scrollable.
 
 **Version 2.2**
 - Update the appearance of the scrollbar on Windows 11.
