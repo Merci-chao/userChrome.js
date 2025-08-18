@@ -1,7 +1,7 @@
 "use strict";
 // ==UserScript==
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
-// @version        3.2.1
+// @version        3.3
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @supportURL     https://github.com/Merci-chao/userChrome.js#changelog
@@ -161,6 +161,8 @@ let prefs;
 			hideScrollButtonsWhenDragging: false,
 			scrollButtonsSize: 10,
 			justifyCenter: 0,
+			checkUpdateAutoApply: 0,
+			pinnedTabsFlexWidth: false,
 		};
 	};
 
@@ -259,6 +261,7 @@ let prefs;
 				break;
 			case "autoCollapse":
 			case "tabsUnderControlButtons":
+			case "pinnedTabsFlexWidth":
 			case "layout.css.has-selector.enabled":
 				setStyle();
 				tabsBar.toggleAttribute("tabs-hide-placeholder",
@@ -299,6 +302,7 @@ let prefs;
 				break;
 			case "checkUpdate":
 			case "checkUpdateFrequency":
+			case "checkUpdateAutoApply":
 			case "autoCollapseCurrentRowStaysTop":
 			case "browser.tabs.groups.enabled":
 			case "browser.tabs.dragDrop.moveOverThresholdPercent":
@@ -327,6 +331,7 @@ let prefs;
 				singleRow || prefs.tabsUnderControlButtons < 2 || mica || prefs.nativeWindowStyle);
 		lock("floatingBackdropOpacity", prefs.floatingBackdropClip || singleRow || prefs.tabsUnderControlButtons < 2);
 		lock("checkUpdateFrequency", !prefs.checkUpdate);
+		lock("checkUpdateAutoApply", !prefs.checkUpdate);
 		lock("nativeWindowStyle", !defaultTheme);
 		lock("dynamicMoveOverThreshold", !nativeDragToGroup || !prefs.dragToGroupTabs);
 		lock("dragToGroupTabs", !nativeDragToGroup);
@@ -358,49 +363,93 @@ setDebug();
 if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 >= Math.max(prefs.checkUpdateFrequency, 1)) {
 	Services.prefs.setIntPref(prefBranchStr + "checkUpdate", Date.now() / 1000);
 	(async () => {
+		let auto = prefs.checkUpdateAutoApply;
 		let getVer = code => (code.match(/^\/\/\s*@version\s+(.+)$/mi) || [])[1];
-		let localScript = await (await fetch(new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0])).text();
+		let localFileURI = new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0];
+		let localFilePath = decodeURI(localFileURI).replace(/\?.+$/, "").substr(8).replaceAll("/", "\\");
+		let localScript = await (await fetch(localFileURI)).text();
 		let updateURL = localScript.match(/^\/\/\s*@updateURL\s+(.+)$/mi)[1];
-		let downloadURL = "https://github.com/Merci-chao/userChrome.js";
+		let homeURL = "https://github.com/Merci-chao/userChrome.js";
 		let remoteScript = await (await fetch(updateURL)).text();
 		let local = getVer(localScript);
 		let remote = getVer(remoteScript);
 		if (remote.localeCompare(local, undefined, {numeric: true}) <= 0) return;
+
 		let p = Services.prompt;
-		let buttons = p.BUTTON_POS_0 * p.BUTTON_TITLE_YES +
-				p.BUTTON_POS_1 * p.BUTTON_TITLE_IS_STRING +
-				p.BUTTON_POS_2 * p.BUTTON_TITLE_NO;
-		let dontAsk = {};
 		let l10n = {
 			en: {
-				title: "Update Notification",
-				message: `Multi Tab Rows version ${remote} is released. Would you want to view it now?`,
+				title: "MultiTabRows@Merci.chao.uc.js",
+				message: `Multi Tab Rows version ${remote} is released. Would you want to ${auto ? "apply" : "view"} it now?`,
 				later: "Remind Tomorrow",
 				never: `Stop checking when selecting "No" (strongly not recommended)`,
 				link: "#changelog",
+				done: `Multi Tab Rows has been updated to version ${remote}. You may restart Firefox to apply.`,
+				error: `Failed to apply the update of Multi Tab Rows version ${remote}. Please ensure the file is not read-only or locked by another program:`,
+				changelog: "Changelog",
 			},
 			ja: {
-				title: "アップデート通知",
-				message: `Multi Tab Rows（多段タブ）の新バージョン ${remote} がリリースされました。今すぐ表示しますか？`,
+				title: "MultiTabRows@Merci.chao.uc.js",
+				message: `Multi Tab Rows（多段タブ）の新バージョン ${remote} がリリースされました。今すぐ${auto ? "更新" : "表示"}しますか？`,
 				later: "明日再通知する",
 				never: "「いいえ」を選択すると、今後のチェックを停止します（※非推奨）",
 				link: "/blob/main/README.jp.md#変更履歴",
+				done: `Multi Tab Rows ${remote} を更新しました。Firefox を再起動すると変更が有効になります。`,
+				error: `Multi Tab Rows バージョン ${remote} の更新処理に失敗しました。ファイルが読み取り専用でないこと、または他のプログラムによってロックされていないことを確認してください：`,
+				changelog: "変更履歴",
 			},
 		};
 		l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
-		switch (p.confirmEx(window, l10n.title, l10n.message,
-				buttons, "", l10n.later, "", l10n.never, dontAsk)) {
-			case 0:
-				openURL(downloadURL + l10n.link);
-				break;
-			case 1:
-				Services.prefs.setIntPref(prefBranchStr + "checkUpdate",
-						Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60);
-				break;
-			case 2:
-				if (dontAsk.value)
-					Services.prefs.setIntPref(prefBranchStr + "checkUpdate", 0);
-				break;
+
+		let buttons = p.BUTTON_POS_0 * p.BUTTON_TITLE_YES +
+				p.BUTTON_POS_1 * p.BUTTON_TITLE_IS_STRING +
+				p.BUTTON_POS_2 * p.BUTTON_TITLE_NO;
+		if (auto) {
+			if (auto > 1)
+				apply();
+			else
+				switch (p.confirmEx(window, l10n.title, l10n.message, buttons, "", l10n.later, "", "", {})) {
+					case 0: apply(); break;
+					case 1: setTomorrow(); break;
+				}
+
+			function apply() {
+				try {
+					let fos = FileUtils.openFileOutputStream(FileUtils.File(localFilePath),
+							FileUtils.MODE_WRONLY | FileUtils.MODE_TRUNCATE);
+					let converter = Cc["@mozilla.org/intl/converter-output-stream;1"]
+							.createInstance(Ci.nsIConverterOutputStream);
+					converter.init(fos, "UTF-8");
+					converter.writeString(remoteScript);
+					converter.close();
+					if (auto < 3 && p.confirmEx(
+						window, l10n.title, l10n.done,
+						p.BUTTON_POS_0 * p.BUTTON_TITLE_OK + p.BUTTON_POS_1 * p.BUTTON_TITLE_IS_STRING,
+						"", l10n.changelog, "", "", {},
+					))
+						showChangeLog();
+				} catch(e) {
+					p.alert(window, l10n.title, [l10n.error, localFilePath, e.message].join("\n\n"));
+				}
+			}
+		} else {
+			let dontAsk = {};
+			switch (p.confirmEx(window, l10n.title, l10n.message,
+					buttons, "", l10n.later, "", l10n.never, dontAsk)) {
+				case 0: showChangeLog(); break;
+				case 1: setTomorrow(); break;
+				case 2:
+					if (dontAsk.value)
+						Services.prefs.setIntPref(prefBranchStr + "checkUpdate", 0);
+					break;
+			}
+		}
+
+		function setTomorrow() {
+			Services.prefs.setIntPref(prefBranchStr + "checkUpdate",
+					Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60);
+		}
+		function showChangeLog() {
+			openURL(homeURL + l10n.link);
 		}
 	})();
 }
@@ -1123,11 +1172,33 @@ ${_=".tabbrowser-tab"}, .tab-group-label-container, .tab-group-overflow-count-co
 	z-index: 1;
 }
 
-${_}:not([pinned])[fadein] {
+${_}${prefs.pinnedTabsFlexWidth ? "" : ":not([pinned])"}[fadein] {
 	max-width: var(--tab-max-width);
 	/*make the animate smoother when opening/closing tab*/
 	padding: 0;
 }
+
+${prefs.pinnedTabsFlexWidth ? `
+	${_}[pinned] {
+		flex: 100 100;
+		min-width: var(--tab-min-width-pref, var(--tab-min-width));
+	}
+
+	/*win over the default rule*/
+	#tabbrowser-tabs[id] ${_}[class][pinned]:hover {
+		--tab-label-mask-size: 1em;
+	}
+
+	[pinned]:is(
+		.tab-throbber,
+		.tab-icon-pending,
+		.tab-icon-image,
+		.tab-sharing-icon-overlay,
+		.tab-icon-overlay
+	) {
+		margin-inline-end: var(--tab-icon-end-margin, 5.5px);
+	}
+` : ``}
 
 /* fx143+ win over the fx default rule*/
 #tabbrowser-tabs[orient] tab-group[movingtabgroup][collapsed][hasactivetab] > ${_}[visuallyselected] {
@@ -1135,7 +1206,8 @@ ${_}:not([pinned])[fadein] {
 	min-width: var(--calculated-tab-min-width) !important;
 }
 
-${_}:not([pinned])::before, ${_}:not([pinned])::after {
+${_}${condition = prefs.pinnedTabsFlexWidth ? "[class][class]" : ":not([pinned])"}::before,
+${_}${condition}::after {
 	content: "";
 	width: var(--tab-overflow-clip-margin);
 	flex-shrink: 0;
@@ -1152,12 +1224,13 @@ ${_}[closing] .tab-stack {
 	overflow: hidden;
 }
 
-${_}:not([pinned]) .tab-content {
+/* [class][class]: win over the default rule */
+${_}${condition} .tab-content {
 	padding: 0;
 }
 
-${_}:not([pinned]) .tab-content::before,
-${_}:not([pinned]) .tab-content::after {
+${_}${condition} .tab-content::before,
+${_}${condition} .tab-content::after {
 	content: "";
 	width: var(--tab-inline-padding);
 	flex-shrink: 0;
@@ -1497,8 +1570,10 @@ ${condition}:not([multirows]) #tabs-newtab-button {
 	visibility: hidden;
 }
 
-#tabbrowser-tabs:not(${condition}) #tabs-newtab-button {
-	margin-inline-start: calc(var(--new-tab-button-width) * -1) !important;
+@media ${prefs.tabsUnderControlButtons == 2 ? multiRows : "screen"} {
+	#tabbrowser-tabs:not(${condition}) #tabs-newtab-button {
+		margin-inline-start: calc(var(--new-tab-button-width) * -1) !important;
+	}
 }
 
 .closing-tabs-spacer {
@@ -3095,11 +3170,11 @@ if (groupProto) {
 		{
 			let {contains} = pinnedTabsContainer;
 			assign(pinnedTabsContainer, {
-				appendChild: function(tab) {
-					arrowScrollbox.insertBefore(tab, [...arrowScrollbox.children].find(t => !t.pinned));
+				appendChild: function(node) {
+					return arrowScrollbox.insertBefore(node, [...arrowScrollbox.children].find(t => !t.pinned));
 				},
-				insertBefore: function(...args) {
-					arrowScrollbox.insertBefore(...args);
+				insertBefore: function(node, child) {
+					return child ? arrowScrollbox.insertBefore(node, child) : this.appendChild(node);
 				},
 				contains: function(node) {
 					return new Error().stack.match(/^on_drop@/m) ?
@@ -3205,7 +3280,8 @@ if (groupProto) {
 			// //not using arrowScrollbox.overflowing in case it is not updated in time
 			// let overflowing = !!scrollbox.scrollTopMax;
 			let {overflowing} = this;
-			let floatPinnedTabs = numPinned && tabs.length > numPinned && overflowing && !prefs.autoCollapse;
+			let floatPinnedTabs = numPinned && tabs.length > numPinned && overflowing &&
+					!prefs.autoCollapse && !prefs.pinnedTabsFlexWidth;
 			let {tabsUnderControlButtons} = prefs;
 			if (this._isCustomizing)
 				tabsUnderControlButtons = 0;
@@ -4654,7 +4730,15 @@ if (groupProto) {
 		let winWidth = winRect.width;
 		let winMaxWidth = Math.max(screen.width - screen.left + 8, winWidth + tabMinWidth);
 		let winMinWidth = parseInt(getComputedStyle(root).minWidth);
-		let pinnedWidth = numPinned && !positionPinned ? getRect(nodes[0]).width : 0;
+		let pinnedWidth = (
+			numPinned && !positionPinned ?
+			(
+				prefs.pinnedTabsFlexWidth ?
+				tabMinWidth :
+				getRect(nodes[0]).width
+			) :
+			0
+		);
 		let firstStaticWidth = pinnedWidth || tabMinWidth;
 		let pinnedGap = prefs.gapAfterPinned;
 		let pinnedReservedWidth = positionPinned ?
@@ -4946,7 +5030,7 @@ if (groupProto) {
 		console.time("_lockTabSizing");
 
 		let nodes = getNodes({
-			pinned: false,
+			pinned: prefs.pinnedTabsFlexWidth && null,
 			//be careful don't touch the ariaFocusableItems since it will update the elementIndex attribute when closing tab
 			//and there will be two nodes with the same number, one is the closing tab and the other is the following node,
 			//placeholder will be freaked out in this case
@@ -5021,12 +5105,23 @@ if (groupProto) {
 					if (actionNodeRect.y + scrollbox.scrollTop == slotR.y)
 						rowWidth -= lastLayoutData?.postTabsItemsSize ?? 0;
 					let totalMinWidth = 0, totalVisualWidth = 0, lastNodeWidth;
+					let hasPinned, hasNonPinned;
 					for (let node of nodes.slice(rowStartIndex)) {
 						let {width} = getRect(node);
-						totalMinWidth += isTab(node) ? tabMinWidth : width;
+						let isATab = isTab(node);
+						totalMinWidth += isATab ? tabMinWidth : width;
 						totalVisualWidth += width;
 						if (node == lastNode)
 							lastNodeWidth = width;
+						if (node.pinned)
+							hasPinned = true;
+						else if (isATab)
+							hasNonPinned = true;
+					}
+					if (hasPinned && hasNonPinned) {
+						let gap = prefs.gapAfterPinned;
+						totalMinWidth += gap;
+						totalVisualWidth += gap;
 					}
 
 					let canFitIn = pointDelta(totalMinWidth + newTabButtonWidth, rowWidth) <= 0;
@@ -5101,7 +5196,7 @@ if (groupProto) {
 
 		await animateLayout(async () => {
 			if (this._hasTabTempMaxWidth) {
-				for (let node of getNodes({pinned: false}))
+				for (let node of getNodes({pinned: prefs.pinnedTabsFlexWidth && null}))
 					node.style.maxWidth = node.style.minWidth = "";
 				delete this._hasTabTempMaxWidth;
 				this.removeAttribute("ignore-newtab-width");
@@ -5277,7 +5372,8 @@ if (groupProto) {
 			pinTab.apply(this, arguments);
 			//pinned tab with a negative margin inline end stack will shrink
 			//thus set a min width to prevent
-			s.minWidth = getRect(tab).width + "px";
+			if (!prefs.pinnedTabsFlexWidth)
+				s.minWidth = getRect(tab).width + "px";
 		}).then(() => {
 			//here is executed after pinMultiSelectedTabs.apply() if pinning multi tabs
 			//the min-width is handled there thus dont bother
