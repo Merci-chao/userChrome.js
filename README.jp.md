@@ -55,6 +55,7 @@ Firefox に多段タブ表示をサポートさせる。
 | `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。 |
 | `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。 |
 | `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、`2` 以上で有効。値は最後に確認した時刻で更新されます。`1` は初回インストールと見なされるため設定しないでください。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
+| `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）。<ul><li>`0` - 無効</li><li>`1` - 確認する</li><li>`2` - 常に更新</li><li>`3` - 常に更新（通知なし）</li></ul> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 | `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示します。Windows 10 と 11 でのみ対応。 |
 | `debugMode` | ⛔ デバッグモード。一般向けではありません。 |
@@ -74,6 +75,7 @@ Firefox に多段タブ表示をサポートさせる。
 | `linesToScroll` | マウスホイール操作によるスクロール段数。最小値は `1`。 |
 | `maxTabRows` | 表示可能な最大段数。最小値は `1`。 |
 | `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（DWMツールのエフェクト等）を表示します。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合があります。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をします。Firefox 115 またはテーマ使用時は未対応。 |
+| `pinnedTabsFlexWidth` | **🚨 実験的機能 🧪**<br>ピン留めしたタブのサイズを通常のタブと同様に扱います。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる。 |
 | `rowIncreaseEvery` | ウィンドウ幅がこの値だけ増加するたびに、表示可能段数が 1 段増加します。`0` にすると最大段数が常に表示されます。 |
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になります。 |
 | `scrollbarThumbColor` | スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
@@ -153,7 +155,11 @@ tab-group {
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-**Version 3.2.1 (2025-08-17)**
+**Version 3.3**
+- `pinnedTabsFlexWidth` を追加：ピン留めしたタブのサイズを通常のタブと同様に扱います。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる（試験的機能）。
+- `checkUpdateAutoApply` を追加：新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）。`0` - 無効、`1` - 確認する、`2` - 常に更新、`3` - 常に更新（通知なし）。
+- バグ修正：Firefox 142 において、閉じたピン留めタブを再度開くとタブ機能が正常に動作しなくなる。
+– 軽微な不具合の修正。
 - 全画面表示に関連する軽微な不具合を修正。
 - `nativeWindowStyle` は全画面表示でも有効。
 - タブバーサイズのロック動作を改善。
