@@ -16,7 +16,7 @@ Firefox に多段タブ表示をサポートさせる。
 - **🎞️ 強化されたタブアニメーション：** タブに関連する各種動作にスムーズなアニメーションを追加。
 - **📐 スペース活用の最適化：** ウィンドウ制御ボタン下のスペースも含め、UI領域を最大限に活用。（手動で有効化する必要あり）
 - **🖱️ 滑らかなタブドラッグアニメーション：** 多段モードでもドラッグのアニメーションをサポート。
-- **📌 ピン留めタブのグリッド表示：** タブバーがスクロールされる際、ピン留めされたタブをコンパクトなグリッドに固定。
+- **📌 ピン留めタブのグリッド表示：** タブバーがスクロール可能際、ピン留めされたタブをコンパクトなグリッドに固定。
 - **🦊 Firefox にネイティブ統合：** Firefox の動作とシームレスに連携し、まるで標準機能のように多段タブに対応。
 - **🎨 テーマとの互換性：** 段数に関係なく様々なテーマに完全対応。
 
@@ -62,13 +62,13 @@ Firefox に多段タブ表示をサポートさせる。
 | `dragToGroupTabs` | タブを他のタブにドラッグした際にグループ化を有効化します。`browser.tabs.dragDrop.moveOverThresholdPercent` が `50` 以下の場合の動作と異なり、この設定を無効にすると順序を変更せずグループに追加／削除できます。Firefox 115 または `browser.tabs.groups.enabled` が `false` の場合は未対応。 |
 | `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにします。Firefox 115 または `dragToGroupTabs` や `browser.tabs.groups.enabled` が無効な場合は未対応。 |
 | `dynamicThemeImageSize` | テーマ使用時、背景画像のサイズが現在の段数に応じて変化します。 |
-| `floatingBackdropBlurriness` | スクロール時にタブを覆う要素の背景ぼかし強度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip`、`nativeWindowStyle` が `false` のときのみ有効。Firefox 115 では未対応。 |
-| `floatingBackdropClip` | スクロール時にタブバーを覆う要素の領域をクリップします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
-| `floatingBackdropOpacity` | スクロール時にタブを覆う要素の背景の不透明度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
+| `floatingBackdropBlurriness` | タブバーがスクロール可能時にタブを覆う要素の背景ぼかし強度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip`、`nativeWindowStyle` が `false` のときのみ有効。Firefox 115 では未対応。 |
+| `floatingBackdropClip` | タブバーがスクロール可能時にタブバーを覆う要素の領域をクリップします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
+| `floatingBackdropOpacity` | タブバーがスクロール可能時にタブを覆う要素の背景の不透明度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
 | `gapAfterPinned` | ピン留めされたタブと通常のタブの間の隙間。最小値は `0`。 |
 | `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示にします。Firefox 115 のみ有効。新しい Firefox バージョンでは、ボタンを右クリックして「ツールバーから削除」で対応可能。 |
 | `hideDragPreview` | ドラッグ中のプレビューを非表示。設定値：<ul><li>`0` - 常に表示</li><li>`1` - グループのみ</li><li>`2` - タブのみ</li><li>`3` - 両方</li></ul> |
-| `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、スクロール時にその空白を非表示にします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
+| `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、タブバーがスクロール可能時にその空白を非表示にします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `hideScrollButtonsWhenDragging` | ドラッグ中にスクロールボタンを非表示。 |
 | `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0` - 無効</li><li>`1` - 1 段のみの場合</li><li>`2` - 常に有効</li></ul>中央揃え時には、タブの閉じ方やグループの折りたたみ動作が若干異なる場合があります。 |
 | `linesToDragScroll` | タブを上端／下端へドラッグしたときのスクロール段数。最小値は `1`。 |
@@ -87,8 +87,8 @@ Firefox に多段タブ表示をサポートさせる。
 | `spaceBeforeTabsOnMaximizedWindow` | 最大化時の左端空白スペース。最小値は `0`。 |
 | `tabMaxWidth` | タブの最大幅（周囲の余白を含む）を指定。最小幅は `browser.tabs.tabMinWidth` を設定。 |
 | `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0` - デフォルト</li><li>`1` - ナビゲーションツールバー下</li><li>`2` - ブックマークツールバー下（「新しいタブのみ表示する」の場合 `1` と同じ）</li></ul>Firefox 115 では未対応。 |
-| `tabsbarItemsAlign` | タブバー内の項目の配置：<ul><li>`start` – 上</li><li>`center` – 中</li><li>`end` – 下</li></ul>`tabsUnderControlButtons` が `0` または `1` で段スクロール時のみ有効。 |
-| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 実験的機能 🧪**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：<ul><li>`0` – 無効</li><li>`1` – スクロールしない場合のみ</li><li>`2` – 常に有効</li></ul>不具合が出る場合は `0` または `1` に設定してください。 |
+| `tabsbarItemsAlign` | タブバー内の項目の配置：<ul><li>`start` – 上</li><li>`center` – 中</li><li>`end` – 下</li></ul>`tabsUnderControlButtons` が `0` または `1` でタブバーがスクロール可能時のみ有効。 |
+| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 実験的機能 🧪**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：<ul><li>`0` – 無効</li><li>`1` – タブバーがスクロール不可能場合のみ</li><li>`2` – 常に有効</li></ul>不具合が出る場合は `0` または `1` に設定してください。 |
 | `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用。 |
 
 ## 高度な調整
