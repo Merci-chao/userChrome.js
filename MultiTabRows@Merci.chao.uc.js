@@ -995,7 +995,7 @@ ${_}::part(scrollbutton-down) {
 	padding: 0 !important;
 	opacity: 0 !important;
 	pointer-events: none;
-	height: max(var(--height), var(--border) * 2);
+	height: max(var(--height), var(--border) * 2 / var(--device-pixel-ratio));
 	border: var(--tabs-placeholder-border) !important;
 	border-radius: calc(var(--tabs-placeholder-border-radius) / 2);
 	backdrop-filter: blur(var(--tabs-placeholder-blurriness));
@@ -2037,12 +2037,12 @@ ${prefs.tabsUnderControlButtons ? `
 	${context="#TabsToolbar:not([pinned-tabs-wraps-placeholder])"} ${_}::before {
 		border-inline-end: var(--tabstrip-border);
 		padding-inline-end: var(--tabstrip-padding);
-		margin-inline-end: calc(var(--tabstrip-padding) + var(--tabstrip-border-width) * ${1 - 1 / devicePixelRatio});
+		margin-inline-end: calc(var(--tabstrip-padding) + var(--tabstrip-border-width) * (1 - 1 / var(--device-pixel-ratio)));
 	}
 
 	${context}[tabs-multirows] ${_}::before {
 		border-bottom: var(--tabstrip-border);
-		margin-bottom: calc(var(--tabstrip-border-width) / -${devicePixelRatio});
+		margin-bottom: calc(var(--tabstrip-border-width) / var(--device-pixel-ratio) * -1);
 		border-end-end-radius: var(--tabs-placeholder-border-radius);
 	}
 
@@ -5519,6 +5519,14 @@ document.getElementById("toolbar-menubar").addEventListener("toolbarvisibilitych
 arrowScrollbox._updateScrollButtonsDisabledState();
 if ("hideAllTabs" in prefs)
 	toggleAllTabsButton();
+
+observeDPRChange(() => root.style.setProperty("--device-pixel-ratio", devicePixelRatio));
+
+function observeDPRChange(callback) {
+	matchMedia(`(resolution: ${devicePixelRatio}dppx)`)
+			.addEventListener("change", e => observeDPRChange(callback), {once: true});
+	callback();
+}
 
 //the original scrollIntoView always scroll to ensure the tab is on the first visible row,
 //for instance, when scrolling the box and the cursor touch the selected tab, will cause an annoying bouncing,
