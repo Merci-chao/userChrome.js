@@ -1241,7 +1241,7 @@ ${prefs.pinnedTabsFlexWidth && appVersion < 139 ? ["ltr", "rtl"].map(dir => `
 `).join("\n") : ``}
 
 /* for tabs with audio button, fix the size and display the button like pinned tabs */
-#tabbrowser-tabs[orient] ${_}[fadein]:is([muted], [soundplaying], [activemedia-blocked]):not([pinned]) {
+#tabbrowser-tabs[orient] ${_}[fadein]:is([muted], [soundplaying], [activemedia-blocked])${prefs.pinnedTabsFlexWidth ? "[fadein]" : ":not([pinned])"} {
 	min-width: var(--calculated-tab-min-width);
 
 	&[mini-audio-button] {
@@ -2408,12 +2408,14 @@ ${debug && debug < 3 ? `
 		background: rgba(255,0,0,.2);
 	}
 	${_}[elementIndex]::before {
-		content: attr(elementIndex);
-		height: 0;
+		content: attr(elementIndex) !important;
+		height: .001px;
 	}
-	${_}[pinned][elementIndex]::before {
-		position: absolute;
-	}
+	${!prefs.pinnedTabsFlexWidth ? `
+		${_}[pinned][elementIndex]::before {
+			position: absolute;
+		}
+	` : ``}
 	${_}[style*=transform] {
 		background: rgba(255,0,255,.2);
 	}
@@ -4650,6 +4652,8 @@ if (groupProto) {
 					let {pinned} = tab;
 					tab.toggleAttribute("closebutton", !pinned && pointDelta(width, _tabClipWidth) > 0);
 					if (appVersion > 136) {
+						if (prefs.pinnedTabsFlexWidth)
+							pinned = false;
 						tab.toggleAttribute("mini-audio-button", !pinned && width < 100);
 						tab.overlayIcon.toggleAttribute("pinned", pinned || width < 100);
 					}
@@ -4821,7 +4825,7 @@ if (groupProto) {
 				let idx = node.getAttribute("elementIndex");
 				let width = isTab(node) ?
 					(
-						i < numPinned ?
+						i < numPinned && !prefs.pinnedTabsFlexWidth ?
 						pinnedWidth :
 						parseFloat(node.style.maxWidth) || tabMinWidth
 					) :
