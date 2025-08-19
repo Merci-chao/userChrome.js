@@ -1918,6 +1918,9 @@ ${prefs.tabsUnderControlButtons ? `
 
 		${context}:not(${tbDraggingHidePlaceHolder})[tabs-scrolledtostart] ${_} {
 			--scollbar-clip-width: var(--tabs-scrollbar-visual-width);
+			--top-placeholder-clip:
+				${START_PC} ${y="calc(var(--tabs-top-space) * -1)"},
+				calc(${END_PC} - var(--scollbar-clip-width, (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved))) * ${DIR}) ${y};
 		}
 
 		${prefs.hideEmptyPlaceholderWhenScrolling ? `
