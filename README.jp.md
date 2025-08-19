@@ -80,7 +80,7 @@ Firefox に多段タブ表示をサポートさせる。
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になります。 |
 | `scrollbarThumbColor` | スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
 | `scrollbarTrackColor` | スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
-| `scrollButtonsSize` | ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値は `2`、最大値はタブの高さの半分までに制限されます。 |
+| `scrollButtonsSize` | ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値は `0` ですが、表示上は少なくとも 2 デバイスピクセルの高さになります。最大値はタブの高さの半分までに制限されます。 |
 | `spaceAfterTabs` | ウィンドウ制御ボタンの前にある空白スペース。最小値は `0`。 |
 | `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ制御ボタン前の空白スペース。最小値は `0`。 |
 | `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値は `0`。 |
