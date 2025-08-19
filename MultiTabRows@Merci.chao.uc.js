@@ -4652,8 +4652,6 @@ if (groupProto) {
 					let {pinned} = tab;
 					tab.toggleAttribute("closebutton", !pinned && pointDelta(width, _tabClipWidth) > 0);
 					if (appVersion > 136) {
-						if (prefs.pinnedTabsFlexWidth)
-							pinned = false;
 						tab.toggleAttribute("mini-audio-button", !pinned && width < 100);
 						tab.overlayIcon.toggleAttribute("pinned", pinned || width < 100);
 					}
