@@ -155,6 +155,10 @@ tab-group {
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 3.3 (2025-08-19)**
+- `pinnedTabsFlexWidth` に関する軽微な表示バグを修正。
+- Firefox 115 における軽微な表示バグを修正。
+
 **Version 3.3**
 - `pinnedTabsFlexWidth` を追加：ピン留めしたタブのサイズを通常のタブと同様に扱います。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる（試験的機能）。
 - `checkUpdateAutoApply` を追加：新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）。`0` - 無効、`1` - 確認する、`2` - 常に更新、`3` - 常に更新（通知なし）。
