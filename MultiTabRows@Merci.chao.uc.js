@@ -1244,7 +1244,7 @@ ${prefs.pinnedTabsFlexWidth && appVersion < 139 ? ["ltr", "rtl"].map(dir => `
 #tabbrowser-tabs[orient] ${_}[fadein]:is([muted], [soundplaying], [activemedia-blocked])${prefs.pinnedTabsFlexWidth ? "[fadein]" : ":not([pinned])"} {
 	min-width: var(--calculated-tab-min-width);
 
-	&[mini-audio-button] {
+	&:is([mini-audio-button]${prefs.pinnedTabsFlexWidth ? ", [pinned]" : ""}) {
 		&:has(.tab-icon-image:not([src], [crashed], [sharing], [pictureinpicture], [busy])) .tab-icon-overlay {
 			display: none;
 		}
