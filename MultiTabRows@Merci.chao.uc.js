@@ -1180,13 +1180,9 @@ ${_}${prefs.pinnedTabsFlexWidth ? "" : ":not([pinned])"}[fadein] {
 
 ${prefs.pinnedTabsFlexWidth ? `
 	${_}[pinned] {
+		--tab-label-mask-size: ${appVersion < 130 ? 2 : 1}em !important;
 		flex: 100 100;
 		min-width: var(--tab-min-width-pref, var(--tab-min-width));
-	}
-
-	/*win over the default rule*/
-	#tabbrowser-tabs[id] ${_}[class][pinned]:hover {
-		--tab-label-mask-size: 1em;
 	}
 
 	[pinned]:is(
@@ -1235,6 +1231,14 @@ ${_}${condition} .tab-content::after {
 	width: var(--tab-inline-padding);
 	flex-shrink: 0;
 }
+
+${prefs.pinnedTabsFlexWidth && appVersion < 139 ? ["ltr", "rtl"].map(dir => `
+	.tab-label-container[textoverflow][labeldirection=${dir}],
+	.tab-label-container[textoverflow]:not([labeldirection]):-moz-locale-dir(${dir}) {
+		direction: ${dir};
+		mask-image: linear-gradient(to ${dir == "ltr" ? "left" : "right"}, transparent, black var(--tab-label-mask-size));
+	}
+`).join("\n") : ``}
 
 /* for tabs with audio button, fix the size and display the button like pinned tabs */
 #tabbrowser-tabs[orient] ${_}[fadein]:is([muted], [soundplaying], [activemedia-blocked]):not([pinned]) {
@@ -1346,7 +1350,8 @@ ${_}${condition} .tab-content::after {
 	[collapsed][hasactivetab] > [selected],
 	[closing]
 ):is(
-	#tabbrowser-tabs[movingtab]:not([moving-tabgroup], [moving-pinned-tab]) :is([selected], [multiselected]),
+	[movingtab]:not([moving-tabgroup], [moving-pinned-tab]) :not([pinned]):is([selected], [multiselected]),
+	[movingtab][moving-pinned-tab] [pinned]:is([selected], [multiselected]),
 	[movingtabgroup] > *,
 	[animate-shifting]
 ) {
@@ -1375,7 +1380,8 @@ ${condition= `.tabbrowser-tab:is(
 	:is(:not([collapsed]), [toggling]) > *,
 	[hasactivetab] > [selected]
 ):is(
-	#tabbrowser-tabs[movingtab]:not([moving-tabgroup], [moving-pinned-tab]) :is([selected], [multiselected]),
+	[movingtab]:not([moving-tabgroup], [moving-pinned-tab]) :not([pinned]):is([selected], [multiselected]),
+	[movingtab][moving-pinned-tab] [pinned]:is([selected], [multiselected]),
 	[movingtabgroup] > *,
 	[animate-shifting]
 )`} .tab-stack > * {
@@ -2375,12 +2381,11 @@ ${!prefs.autoCollapse && prefs.maxTabRows > 1 ? `
 	}
 
 	${appVersion < 121 ? `
-		#TabsToolbar #firefox-view-button[open] > .toolbarbutton-icon:-moz-lwtheme,
-		#tabbrowser-tabs:not([movingtab]) > #tabbrowser-arrowscrollbox > .tabbrowser-tab > .tab-stack > .tab-background:is([selected=true], [multiselected=true]):-moz-lwtheme {
-			background-size: auto 100%, auto 100%, auto var(--multirows-background-size) !important;
-		}
-		.tabbrowser-tab[animate-shifting] .tab-background:-moz-lwtheme {
-			background-image: none !important;
+		:root[lwtheme-image] :is(
+			#firefox-view-button > .toolbarbutton-icon,
+			.tab-background
+		) {
+			--lwt-header-image: none !important;
 		}
 	` : ``}
 ` : ``}
