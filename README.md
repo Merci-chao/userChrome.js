@@ -78,7 +78,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
 | `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
 | `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`. |
-| `scrollButtonsSize` | The size (in pixels) of the scroll buttons during dragging. The minimum value is `2`; the maximum is limited to half the tab height. |
+| `scrollButtonsSize` | The size (in pixels) of the scroll buttons during dragging. The minimum value is `0`, but it will be rendered as at least 2 device pixels in height; the maximum is limited to half the tab height. |
 | `spaceAfterTabs` | Empty space before the window control buttons. The minimum value is `0`. |
 | `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. The minimum value is `0`. |
 | `spaceBeforeTabs` | Empty space on the left side of the window. The minimum value is `0`. |
