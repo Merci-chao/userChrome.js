@@ -154,6 +154,10 @@ There also few settings in `about:config` for the layout of tabs:
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 3.3 (2025-08-19)**
+- Fix minor visual bug for `pinnedTabsFlexWidth`.
+- Fix minor visual bug on Firefox 115.
+
 **Version 3.3**
 - Add `pinnedTabsFlexWidth`: Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when Tabs Bar is scrollable (experimental).
 - Add `checkUpdateAutoApply`: Update the script file automatically when there is a new version. `0` - never, `1` - ask, `2` - always, `3` - always and slient.
