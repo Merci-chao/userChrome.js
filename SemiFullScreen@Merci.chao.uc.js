@@ -1,7 +1,7 @@
 "use strict";
 // ==UserScript==
 // @name          Semi-Full Screen
-// @version        2025-08-16
+// @version        2025-08-20
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#semi-full-screen--picture-in-picture-mode
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
@@ -193,6 +193,10 @@ SemiFullScreen.prototype = {
 
 							.titlebar-button {
 								display: flex;
+							}
+
+							:root[sizemode=normal] #navigator-toolbox[tabs-hidden] #nav-bar .titlebar-spacer {
+								display: flex !important;
 							}
 						`;
 						if (pip && document.getElementById("TabsToolbar").screenY < document.getElementById("nav-bar").screenY)
