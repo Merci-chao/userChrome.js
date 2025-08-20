@@ -346,6 +346,9 @@ Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.c
 | `reverse` | Use `F11` for semi-full screen and `Ctrl + F11` for picture-in-picture.|
 
 ## Changelog
+**Version 2025-08-20**
+- Not hiding the dragging spaces on no-Tabs Bar mode.
+
 **Version 2025-08-16**
 - Fix unintentional space on Tabs Bar.
 - Add check upate feature.
