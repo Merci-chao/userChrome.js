@@ -1,10 +1,10 @@
 let $ = s => document.querySelector(s);
-let p = v => Services.prefs.setIntPref("browser.tabs.inTitlebar", v);
 let t = $("#fullscr-toggler");
 let b = $("#browser");
 let d = document.documentElement;
-let e = (n, e, a, c) => n.addEventListener(e, e => e.target == n && a(e), c);
+let p = v => d.toggleAttribute("customtitlebar", v);
+let e = (n, e, a, c) => n.addEventListener("mouse"+e, e => e.target == n && a(e), c);
 t.style.setProperty("display", "block", "important");
-e(t, "mouseenter", e => p(0));
-e(b, "mouseenter", e => p(1));
-e(d, "mouseleave", e => e.clientY < (outerWidth - d.clientWidth) / 2 + 2 && p(0), 1);
+e(t, "enter", e => p(0));
+e(b, "enter", e => p(1));
+e(d, "leave", e => e.clientY < (outerWidth - d.clientWidth) / 2 + 2 && p(0), 1);
