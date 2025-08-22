@@ -74,7 +74,7 @@ Firefox に多段タブ表示をサポートさせる。
 | `linesToDragScroll` | タブを上端／下端へドラッグしたときのスクロール段数。最小値は `1`。 |
 | `linesToScroll` | マウスホイール操作によるスクロール段数。最小値は `1`。 |
 | `maxTabRows` | 表示可能な最大段数。最小値は `1`。 |
-| `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（DWMツールのエフェクト等）を表示します。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合があります。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をします。Firefox 115 またはテーマ使用時は未対応。 |
+| `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（例えば、[DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果）を表示します。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合があります。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をします。Firefox 115 またはテーマ使用時は未対応。 |
 | `pinnedTabsFlexWidth` | **🚨 実験的機能 🧪**<br>ピン留めしたタブのサイズを通常のタブと同様に扱います。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる。 |
 | `rowIncreaseEvery` | ウィンドウ幅がこの値だけ増加するたびに、表示可能段数が 1 段増加します。`0` にすると最大段数が常に表示されます。 |
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になります。 |
