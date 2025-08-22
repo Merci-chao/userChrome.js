@@ -72,7 +72,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. The minimum value is `1`. |
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. The minimum value is `1`. |
 | `maxTabRows` | Maximum number of rows to display at once. The minimum value is `1`. |
-| `nativeWindowStyle` | Display the system-native theme style on Tabs Bar (e.g. effects from DWM tools). To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. Not available on Firefox 115, or using any Firefox theme. |
+| `nativeWindowStyle` | Display the system-native theme style (e.g. effects from tools like [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass)) on Tabs Bar. To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. Not available on Firefox 115, or using any Firefox theme. |
 | `pinnedTabsFlexWidth` | **🚨 EXPERIMENTAL 🧪**<br>Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when Tabs Bar is scrollable. |
 | `rowIncreaseEvery` | Each time the window width is increased by this amount, one more row is allowed. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
