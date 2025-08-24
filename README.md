@@ -289,7 +289,7 @@ Add sub-menus to History Menu for previous days' history. [Add-on Page (web arch
 ## Settings
 There is no setting panel and you need to open `about:config` and search for the prefix `extensions.HistorySubmenus2@Merci.chao.`.
 
-💡 Settings will be applied after restarting Firefox. 
+🔔 Settings will be applied after restarting Firefox. 
 
 | Name | Description |
 | ------------- | ------------- |
@@ -314,7 +314,7 @@ Show page title in URL Bar. [Add-on Page (web archive)](https://web.archive.org/
 ## Settings
 Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`.
 
-💡 Settings will apply to new windows.
+🔔 Settings will apply to new windows.
 
 | Name | Description |
 | ------------- | ------------- |
@@ -345,7 +345,7 @@ Full screen with keeping your task bar visible, or hide the toolbars when not ma
 ## Settings
 Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.chao.`.
 
-💡 Settings will apply to new windows.
+🔔 Settings will apply to new windows.
 
 | Name | Description |
 | ------------- | ------------- |
@@ -378,7 +378,7 @@ Float the toolbars over the page in full screen mode, instead of making the web 
 ## Settings
 Open `about:config` and search for the prefix `FloatToolbarsInFullScreen@Merci.chao.`.
 
-💡 Settings will apply to new windows.
+🔔 Settings will apply to new windows.
 
 | Name | Description |
 | ------------- | ------------- |
