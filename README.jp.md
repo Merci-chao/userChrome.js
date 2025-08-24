@@ -2,7 +2,7 @@
 
 ---
 
-💡🐞ご提案やバグ報告は[こちら](https://github.com/Merci-chao/userChrome.js/issues/new)にどうぞ（日本語歓迎）。
+💡🐞 ご提案やバグ報告は[こちら](https://github.com/Merci-chao/userChrome.js/issues/new)にどうぞ（日本語歓迎）。
 
 ---
 
@@ -287,7 +287,9 @@ tab-group {
 ![screenshot](https://web.archive.org/web/20181007203207if_/https://addons.cdn.mozilla.net/user-media/previews/full/63/63969.png?modified=1530208752)
 
 ## 設定
-設定パネルは存在しません。`about:config` を開いて `extensions.HistorySubmenus2@Merci.chao.` で始まる項目を検索してください。設定を変更すると Firefox 再起動後に反映されます。
+設定パネルは存在しません。`about:config` を開いて `extensions.HistorySubmenus2@Merci.chao.` で始まる項目を検索してください。
+
+💡 設定を変更すると Firefox 再起動後に反映されます。
 
 | 設定項目 | 説明 |
 | --- | --- |
@@ -311,7 +313,9 @@ URL バーにページタイトルを表示。
 ![screenshot](https://web.archive.org/web/20181009205610if_/https://addons.cdn.mozilla.net/user-media/previews/full/165/165890.png?modified=1530208887)
 
 ## 設定
-`about:config` を開き、`extensions.PageTitle@Merci.chao.` で始まる設定項目を検索してください。設定を変更した後、Firefox を再起動すると反映されます。
+`about:config` を開き、`extensions.PageTitle@Merci.chao.` で始まる設定項目を検索してください。
+
+💡 設定は新しいウィンドウに適用されます。
 
 | 設定項目 | 説明 |
 | --- | --- |
@@ -342,7 +346,9 @@ URL バーにページタイトルを表示。
 | `Shift + F11` または `Shift + フルスクリーンボタン` | 通常のフルスクリーンモードに移行。 |
 
 ## 設定
-`about:config` を開き、`extensions.SemiFullScreen@Merci.chao.` で始まる設定項目を検索してください。設定は新しいウィンドウに適用されます。
+`about:config` を開き、`extensions.SemiFullScreen@Merci.chao.` で始まる設定項目を検索してください。
+
+💡 設定は新しいウィンドウに適用されます。
 
 | 設定項目 | 説明 |
 | --- | --- |
@@ -374,7 +380,9 @@ URL バーにページタイトルを表示。
 ![screenshot](https://web.archive.org/web/20181012014653if_/https://addons.cdn.mozilla.net/user-media/previews/full/180/180636.png?modified=1530209532)
 
 ## 設定
-`about:config` を開いて `extensions.FloatToolbarsInFullScreen@Merci.chao.` で始まる項目を検索してください。設定を変更すると Firefox 再起動後に反映されます。
+`about:config` を開いて `extensions.FloatToolbarsInFullScreen@Merci.chao.` で始まる項目を検索してください。
+
+💡 設定は新しいウィンドウに適用されます。
 
 | 設定項目 | 説明 |
 | --- | --- |
