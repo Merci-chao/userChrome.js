@@ -16,6 +16,7 @@ let prefBranchStr = "extensions.SemiFullScreen@Merci.chao.";
 {
 	let defPrefs = {
 		reverse: false,
+		autoHideToolbarDelay: 1000,
 		checkUpdate: 1,
 		checkUpdateFrequency: 7,
 	};
@@ -286,7 +287,7 @@ SemiFullScreen.prototype = {
 					if (!FullScreen.navToolboxHidden)
 						this.hideToolboxTimeout = window.setTimeout(() => {
 							window.FullScreen.hideNavToolbox();
-						}, 800);
+						}, prefs.autoHideToolbarDelay);
 				}
 				break;
 			}
