@@ -348,8 +348,8 @@ Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.c
 
 ## Changelog
 **Version 2025-08-24**
--- Restore missing window border on Windows 7 and 8.
--- Add `autoHideToolbarDelay`: The delay (in milliseconds) before auto-hiding the toolbar when the mouse has left the window edge and hasn't re-entered.
+- Restore missing window border on Windows 7 and 8.
+- Add `autoHideToolbarDelay`: The delay (in milliseconds) before auto-hiding the toolbar when the mouse has left the window edge and hasn't re-entered.
 
 **Version 2025-08-20**
 - Not hiding the dragging spaces on no-Tabs Bar mode.
