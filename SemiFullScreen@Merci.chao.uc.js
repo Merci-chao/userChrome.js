@@ -1,7 +1,7 @@
 "use strict";
 // ==UserScript==
 // @name          Semi-Full Screen
-// @version        2025-08-20
+// @version        2025-08-24
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#semi-full-screen--picture-in-picture-mode
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
@@ -18,6 +18,7 @@ let prefBranchStr = "extensions.SemiFullScreen@Merci.chao.";
 		reverse: false,
 		checkUpdate: 1,
 		checkUpdateFrequency: 7,
+		autoHideToolbarDelay: 1000,
 	};
 
 	let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
@@ -125,7 +126,6 @@ SemiFullScreen.prototype = {
 						this.styleElt = null;
 						this.previousSizeMode = null;
 						this.clearHideToolboxTimeout();
-						root.removeAttribute("semi-fullscreen-transparent");
 					} else if (val && !this.shift) {
 						let pip = this.ctrl == prefs.reverse;
 						this.on = true;
@@ -135,65 +135,29 @@ SemiFullScreen.prototype = {
 						if (!pip)
 							window.maximize();
 
-						if (/firefox-compact-(light|dark)@mozilla\.org/.test(Services.prefs.getCharPref("extensions.activeThemeID")))
-							root.setAttribute("semi-fullscreen-transparent", true);
-
-						let borderWidth =  pip && navigator.oscpu.startsWith("Windows NT 1") ?
+						let win1x = navigator.oscpu.startsWith("Windows NT 1");
+						let borderWidth =  pip && win1x ?
 								0 : (window.outerWidth - root.clientWidth) / 2;
+						let _;
 						let style = `
-							:root {
-								--semi-fullscreen-border-width: ${borderWidth}px;
-							}
-
-							@media (-moz-platform: windows-win7), (-moz-platform: windows-win8) {
-								:root[semi-fullscreen-transparent][semi-fullscreen-win='7'] #titlebar,
-								:root[sizemode=maximized][semi-fullscreen-win='7'],
-								:root[sizemode=maximized][semi-fullscreen-win='8'] #titlebar {
-									margin-top: calc(0px - var(--semi-fullscreen-border-width)) !important;
+							${!win1x ? `
+								:root {
+									--semi-fullscreen-border-width: ${borderWidth}px;
 								}
 
-								:root:is([sizemode=maximized], [semi-fullscreen-transparent][semi-fullscreen-win='7']) {
+								${_=`:root[tabsintitlebar]:is([sizemode=maximized], :not([lwtheme-image]))`} {
 									margin-top: var(--semi-fullscreen-border-width) !important;
-								}
-
-								:root:is([sizemode=maximized], [semi-fullscreen-transparent][semi-fullscreen-win='7']) #fullscr-toggler {
-									top: var(--semi-fullscreen-border-width) !important;
-								}
-
-								:root:is([sizemode=maximized], [semi-fullscreen-transparent]) {
 									height: calc(100vh - var(--semi-fullscreen-border-width)) !important;
 								}
-							}
 
-							@media not (-moz-platform: windows-win7) {
-								@media not (-moz-platform: windows-win8) {
-									.titlebar-buttonbox {
-										appearance: none !important;
-									}
+								${_} #titlebar {
+									margin-top: calc(var(--semi-fullscreen-border-width) * -1) !important;
 								}
-							}
 
-							@media (-moz-windows-default-theme) {
-								@media (-moz-windows-compositor) {
-									@media (-moz-platform: windows-win8) {
-										.titlebar-buttonbox {
-											width: 0;
-											height: 20px;
-										}
-									}
-
-									@media (-moz-platform: windows-win7) {
-										.titlebar-buttonbox {
-											width: 0;
-											height: 18px;
-										}
-									}
+								${_} #fullscr-toggler {
+									top: var(--semi-fullscreen-border-width) !important;
 								}
-							}
-
-							.titlebar-button {
-								display: flex;
-							}
+							` : ``}
 
 							:root[sizemode=normal] #navigator-toolbox[tabs-hidden] #nav-bar .titlebar-spacer {
 								display: flex !important;
@@ -201,10 +165,7 @@ SemiFullScreen.prototype = {
 						`;
 						if (pip && document.getElementById("TabsToolbar").screenY < document.getElementById("nav-bar").screenY)
 							style += `
-								#fullscr-toggler {
-									display: flex !important;
-								}
-
+								#fullscr-toggler,
 								:root[inFullscreen] #TabsToolbar .titlebar-spacer {
 									display: flex !important;
 								}
@@ -287,7 +248,7 @@ SemiFullScreen.prototype = {
 					if (!FullScreen.navToolboxHidden)
 						this.hideToolboxTimeout = window.setTimeout(() => {
 							window.FullScreen.hideNavToolbox();
-						}, 800);
+						}, prefs.autoHideToolbarDelay);
 				}
 				break;
 			}
