@@ -1,7 +1,7 @@
 "use strict";
 // ==UserScript==
 // @name          Semi-Full Screen
-// @version        2025-08-20
+// @version        2025-08-24
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#semi-full-screen--picture-in-picture-mode
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
@@ -135,7 +135,7 @@ SemiFullScreen.prototype = {
 						if (!pip)
 							window.maximize();
 
-						if (/firefox-compact-(light|dark)@mozilla\.org/.test(Services.prefs.getCharPref("extensions.activeThemeID")))
+						if (/(firefox-compact-(light|dark)|default-theme)@mozilla\.org|^$/.test(Services.prefs.getCharPref("extensions.activeThemeID")))
 							root.setAttribute("semi-fullscreen-transparent", true);
 
 						let borderWidth =  pip && navigator.oscpu.startsWith("Windows NT 1") ?
@@ -146,17 +146,16 @@ SemiFullScreen.prototype = {
 							}
 
 							@media (-moz-platform: windows-win7), (-moz-platform: windows-win8) {
-								:root[semi-fullscreen-transparent][semi-fullscreen-win='7'] #titlebar,
-								:root[sizemode=maximized][semi-fullscreen-win='7'],
-								:root[sizemode=maximized][semi-fullscreen-win='8'] #titlebar {
+								:root[semi-fullscreen-transparent] #titlebar:not([semi-fullscreen-win="8"] #navigator-toolbox:not([style*=margin-top]) *),
+								:root[sizemode=maximized] {
 									margin-top: calc(0px - var(--semi-fullscreen-border-width)) !important;
 								}
 
-								:root:is([sizemode=maximized], [semi-fullscreen-transparent][semi-fullscreen-win='7']) {
+								:root:is([sizemode=maximized], [semi-fullscreen-transparent]) {
 									margin-top: var(--semi-fullscreen-border-width) !important;
 								}
 
-								:root:is([sizemode=maximized], [semi-fullscreen-transparent][semi-fullscreen-win='7']) #fullscr-toggler {
+								:root:is([sizemode=maximized], [semi-fullscreen-transparent]) #fullscr-toggler {
 									top: var(--semi-fullscreen-border-width) !important;
 								}
 
