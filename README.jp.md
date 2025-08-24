@@ -333,7 +333,7 @@ URL バーにページタイトルを表示。
 タスクバーを残したまま全画面表示をしたり、最大化されていない状態でツールバーを非表示にする（ピクチャインピクチャ風）モード。  
 [アドオンページ（ウェブアーカイブ）](https://web.archive.org/web/20181102230042/https://addons.mozilla.org/en-US/firefox/addon/semi-full-screen/)
 
-**注意: この Semi-Full Screen のバージョンは macOS と Ubuntu（Linux）では未検証です。バグがある、または動作しない可能性があります。**
+🚨 **注意：この Semi-Full Screen のバージョンは macOS と Ubuntu（Linux）では未検証です。バグがある、または動作しない可能性があります。**
 
 ![screenshot](https://web.archive.org/web/20181013030904if_/https://addons.cdn.mozilla.net/user-media/previews/full/173/173740.png?modified=1530209326)
 
