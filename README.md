@@ -2,7 +2,7 @@
 
 ---
 
-💡🐞You're welcome to post your suggestions and bug reports [here](https://github.com/Merci-chao/userChrome.js/issues/new).
+💡🐞 You're welcome to post your suggestions and bug reports [here](https://github.com/Merci-chao/userChrome.js/issues/new).
 
 ---
 
@@ -287,7 +287,10 @@ Add sub-menus to History Menu for previous days' history. [Add-on Page (web arch
 ![screenshot](https://web.archive.org/web/20181007203207if_/https://addons.cdn.mozilla.net/user-media/previews/full/63/63969.png?modified=1530208752)
 
 ## Settings
-There is no setting panel and you need to open `about:config` and search for the prefix `extensions.HistorySubmenus2@Merci.chao.`. Settings will be applied after restarting Firefox. 
+There is no setting panel and you need to open `about:config` and search for the prefix `extensions.HistorySubmenus2@Merci.chao.`.
+
+💡 Settings will be applied after restarting Firefox. 
+
 | Name | Description |
 | ------------- | ------------- |
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
@@ -309,7 +312,9 @@ Show page title in URL Bar. [Add-on Page (web archive)](https://web.archive.org/
 ![screenshot](https://web.archive.org/web/20181009205610if_/https://addons.cdn.mozilla.net/user-media/previews/full/165/165890.png?modified=1530208887)
 
 ## Settings
-Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`. Settings will be applied after restarting Firefox. 
+Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`.
+
+💡 Settings will apply to new windows.
 
 | Name | Description |
 | ------------- | ------------- |
@@ -338,7 +343,10 @@ Full screen with keeping your task bar visible, or hide the toolbars when not ma
 | `Shift + F11` or `Shift + Full Screen Button` | Enter normal full screen mode. |
 
 ## Settings
-Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.chao.`. Settings will apply to new windows. 
+Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.chao.`.
+
+💡 Settings will apply to new windows.
+
 | Name | Description |
 | ------------- | ------------- |
 | `autoHideToolbarDelay` | The delay (in milliseconds) before auto-hiding the toolbar when the mouse has left the window edge and hasn't re-entered. |
@@ -368,7 +376,10 @@ Float the toolbars over the page in full screen mode, instead of making the web 
 ![screenshot](https://web.archive.org/web/20181012014653if_/https://addons.cdn.mozilla.net/user-media/previews/full/180/180636.png?modified=1530209532)
 
 ## Settings
-Open `about:config` and search for the prefix `FloatToolbarsInFullScreen@Merci.chao.`. Settings will be applied after restarting Firefox. 
+Open `about:config` and search for the prefix `FloatToolbarsInFullScreen@Merci.chao.`.
+
+💡 Settings will apply to new windows.
+
 | Name | Description |
 | ------------- | ------------- |
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
