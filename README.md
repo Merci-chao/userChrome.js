@@ -204,6 +204,10 @@ There also few settings in `about:config` for the layout of tabs:
 - Update for Firefox 141.
 - Bug fixes and improvements.
 
+<details>
+<summary>Old Versions</summary>
+
+ 
 **Version 2.6**
 - Fix layout problem when there are some audio playing/blocked/muted tabs.
 - Fix layout problem when UI density is `Touch`.
@@ -270,6 +274,7 @@ There also few settings in `about:config` for the layout of tabs:
 
 **Version 1.0**
 - First release.
+</details>
 
 ## Won't Fixed Compatibility Issues
 - Other tab related user scripts, styles, and legacy extensions (e.g. [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs))
