@@ -207,7 +207,7 @@ tab-group {
 
 <details>
 
-<summary>古いバージョン</summary>
+<summary>旧バージョン</summary>
 
 **Version 2.6**
 - 音声再生／ミュートなどが行われているタブがある場合のレイアウトの問題を修正。
