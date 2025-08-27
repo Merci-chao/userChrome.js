@@ -205,6 +205,10 @@ tab-group {
 - Firefox 141 対応。
 - バグ修正と改善。
 
+<details>
+
+<summary>古いバージョン</summary>
+
 **Version 2.6**
 - 音声再生／ミュートなどが行われているタブがある場合のレイアウトの問題を修正。
 - UI 密度が「Touch」の場合のレイアウト問題を修正。
@@ -271,6 +275,8 @@ tab-group {
 
 **Version 1.0**
 - 初期リリース。
+  
+</details>
 
 ## 対応しない互換性問題
 - 他のタブ関連ユーザースクリプト、スタイル、旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）
