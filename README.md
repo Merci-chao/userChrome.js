@@ -36,15 +36,17 @@ Make Firefox support multiple rows of tabs.
 2. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it into the `chrome` folder.
 3. Restart Firefox to apply.
 
-**🔔 Notes:**
-- Please make sure that no other Tabs Bar-related scripts and CSS styles are currently activated. Just in case, temporarily move all other `.js` and `.css` files out of the `chrome` folder. Restart Firefox and confirm that the script works as expected. Once verified, you can move the files back into the folder, and modify the scripts and style rules which cause conflict.
-- If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
+> [!IMPORTANT]
+> - Please make sure that no other Tabs Bar-related scripts and CSS styles are currently activated. Just in case, temporarily move all other `.js` and `.css` files out of the `chrome` folder. Restart Firefox and confirm that the script works as expected. Once verified, you can move the files back into the folder, and modify the scripts and style rules which cause conflict.
+> - If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
 
 ## Settings
 Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) and search for the prefix `userChromeJS.multiTabRows@Merci.chao.`. Settings shown in gray are disabled due to other preferences.
 
-If configuring via `user.js` (not recommended), be sure to include the prefix `userChromeJS.multiTabRows@Merci.chao.`.<br>Example: `user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`.<br>
-**🚨 Note: Many of these settings may not take effect due to dependencies with other preferences. It is strongly recommended to configure them via `about:config` rather than using `user.js`.**
+If configuring via `user.js` (not recommended), be sure to include the prefix `userChromeJS.multiTabRows@Merci.chao.`.<br>Example: `user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`.
+
+> [!NOTE]
+> Many of these settings may not take effect due to dependencies with other preferences. It is strongly recommended to configure them via `about:config` rather than using `user.js`.
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
@@ -92,7 +94,8 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 ## Advanced Tweaks
 You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide-firefox-advanced-customization) to tweak the following parameters to control tab size and spacing. The values shown below are default settings.
 
-🚨 Note: Avoid using decimal values or units other than pixels (`px`). 
+> [!NOTE]
+> Avoid using decimal values or units other than pixels (`px`). 
 
 ``` css
 :root {
@@ -294,7 +297,8 @@ Add sub-menus to History Menu for previous days' history. [Add-on Page (web arch
 ## Settings
 There is no setting panel and you need to open `about:config` and search for the prefix `extensions.HistorySubmenus2@Merci.chao.`.
 
-🔔 Settings will be applied after restarting Firefox. 
+> [!NOTE]
+> Settings will be applied after restarting Firefox. 
 
 | Name | Description |
 | ------------- | ------------- |
@@ -319,7 +323,8 @@ Show page title in URL Bar. [Add-on Page (web archive)](https://web.archive.org/
 ## Settings
 Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`.
 
-🔔 Settings will apply to new windows.
+> [!NOTE]
+> Settings will apply to new windows.
 
 | Name | Description |
 | ------------- | ------------- |
@@ -336,7 +341,8 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`
 # [Semi-Full Screen / Picture-in-Picture Mode](https://github.com/Merci-chao/userChrome.js/blob/main/SemiFullScreen%40Merci.chao.uc.js)
 Full screen with keeping your task bar visible, or hide the toolbars when not maximized (picture-in-picture). [Add-on Page (web archive)](https://web.archive.org/web/20181102230042/https://addons.mozilla.org/en-US/firefox/addon/semi-full-screen/)
 
-🚨 **CAUTION: This version of Semi-Full Screen is not tested on Mac OS and Ubuntu (Linux). It is probably glitchy or simply doesn't work at all.**
+> [!WARNING]
+> This version of Semi-Full Screen is not tested on Mac OS and Ubuntu (Linux). It is probably glitchy or simply doesn't work at all.
 
 ![screenshot](https://web.archive.org/web/20181013030904if_/https://addons.cdn.mozilla.net/user-media/previews/full/173/173740.png?modified=1530209326)
 
@@ -350,7 +356,8 @@ Full screen with keeping your task bar visible, or hide the toolbars when not ma
 ## Settings
 Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.chao.`.
 
-🔔 Settings will apply to new windows.
+> [!NOTE]
+> Settings will apply to new windows.
 
 | Name | Description |
 | ------------- | ------------- |
@@ -383,7 +390,8 @@ Float the toolbars over the page in full screen mode, instead of making the web 
 ## Settings
 Open `about:config` and search for the prefix `FloatToolbarsInFullScreen@Merci.chao.`.
 
-🔔 Settings will apply to new windows.
+> [!NOTE]
+> Settings will apply to new windows.
 
 | Name | Description |
 | ------------- | ------------- |
