@@ -25,7 +25,7 @@ Firefox に多段タブ表示をサポートさせる。
 - 一般的なスクリプトローダーに対応。
 
 ## 注意事項
-**🚨 ※注意：ご使用の前に、以下の注意点をよくお読みください：**
+**🚨 ご使用の前に、以下の注意点をよくお読みください：**
 - ❗ **Firefox に最適化されたレイアウト計算を多く含むため、タブやタブバー関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト、CSSスタイルによって不具合が発生する可能性があります。スクリプト適用前後にそれらを確認するか、[`tabsUnderControlButtons`](#tabsUnderControlButtons) を無効にしてください。**
 - 本スクリプトは Windows 専用です。Ubuntu（Linux）および macOS では動作しない、あるいは不具合が生じる恐れがあります。
 - 非公式かつ複雑なスクリプトで、個人によって管理されています。予期しないバグを含む可能性があり、最新の Firefox バージョンとの互換性は保証されません。古いスクリプトを新しい Firefox に適用すると、最悪の場合正常に動作しなくなったり、セッションが失われるおそれがあります。リスクと対処方法をご理解の上、ご利用ください。
@@ -38,15 +38,16 @@ Firefox に多段タブ表示をサポートさせる。
 2. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし、`chrome` フォルダーに配置します。<br>
 3. Firefox を再起動して反映します。
 
-**🔔 注意：**
+**🚨 注意：**
 - 他のタブバー関連スクリプトや CSS が有効になっていないことを確認してください。念のため、他の `.js` / `.css` ファイルを一時的に `chrome` フォルダーから移動し、Firefox を再起動してこのスクリプトの動作を確認してください。問題なければ、ファイルを戻し、衝突しているスクリプトやスタイルルールがあれば調整してください。
 - Firefox 更新後にスクリプトローダーが動作しなくなった場合は、上記ページから最新のスクリプトローダーを再インストールしてください。
 
 ## 設定
 [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao.` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されています。
 
-`user.js` で設定する場合（※非推奨）、接頭辞 `userChromeJS.multiTabRows@Merci.chao.` を含めてください。例：`user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`。<br>
-**🚨 ※注意：他の設定との依存関係により、これらの設定の多くが反映されない可能性があります。`user.js` を使用するのではなく、`about:config` 経由で直接設定することを強く推奨します。**
+`user.js` で設定する場合（※非推奨）、接頭辞 `userChromeJS.multiTabRows@Merci.chao.` を含めてください。例：`user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`。
+
+**🚨 注意：他の設定との依存関係により、これらの設定の多くが反映されない可能性があります。`user.js` を使用するのではなく、`about:config` 経由で直接設定することを強く推奨します。**
 
 | 設定項目（※接頭辞あり） | 説明 |
 | ------------- | ------------- |
