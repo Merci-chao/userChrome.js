@@ -157,7 +157,8 @@ There also few settings in `about:config` for the layout of tabs:
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-**Version 3.3 (2025-08-19)**
+**Version 3.3 (2025-08-29)**
+- Bug fix: Pressing the Esc key while dragging could cause issue.
 - Fix minor visual bug for `pinnedTabsFlexWidth`.
 - Fix minor visual bug on Firefox 115.
 - Fix the bug related to changes in device pixel ratio.
