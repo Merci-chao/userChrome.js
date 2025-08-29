@@ -156,7 +156,8 @@ tab-group {
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-**Version 3.3 (2025-08-19)**
+**Version 3.3 (2025-08-29)**
+- バグ修正：ドラッグ中に Esc キーを押すと、問題が発生する場合がある。
 - `pinnedTabsFlexWidth` に関する軽微な表示バグを修正。
 - Firefox 115 における軽微な表示バグを修正。
 - デバイスのピクセル比が変化した際に発生するバグを修正。
