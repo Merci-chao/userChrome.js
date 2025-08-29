@@ -4584,7 +4584,7 @@ if (groupProto) {
 		arrowScrollbox.lockScroll = false;
 		for (let [ele, attrs] of [
 			[tabContainer, ["tabmousedown", "dragging"]],
-			[tabsBar, ["tabs-dragging", "tabs-dragging-ext", "movingtab"]],
+			[tabsBar, ["tabs-dragging", "tabs-dragging-ext"]],
 		])
 			for (let a of attrs)
 				ele?.removeAttribute(a);
