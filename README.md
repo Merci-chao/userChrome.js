@@ -407,7 +407,7 @@ Open `about:config` and search for the prefix `FloatToolbarsInFullScreen@Merci.c
 ---
 
 # [undoCloseTab.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/undoCloseTab.uc.js)
-Display the Undo Close Tabs, Recently Closed Tabs, Recently Closed Windows and Restore Previous Session at the Tabs Bar context menu.
+Display the Undo Close Tabs, Recently Closed Tabs, Recently Closed Windows and Restore Previous Session at the Tabs Bar right-click menu.
 
 ---
 
