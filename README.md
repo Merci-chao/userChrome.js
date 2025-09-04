@@ -11,7 +11,7 @@ Make Firefox support multiple rows of tabs.
 
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/scrolling.png)
 ## Highlights
-- **🗂️ Tab Groups Support:** Fully supports mouse operations for tab groups — even with multiple rows — delivering a smoother, more graceful experience.
+- **🗂️ Tab Groups Support:** Fully supports mouse operations for tab groups — even in multi-row mode — delivering a smoother, more graceful experience.
 - **🎞️ Enhanced Tab Animations:** Adds fluid transitions for various tab-related actions.
 - **📐 Optimized Space Usage:** Makes full use of available UI space, including the area beneath window control buttons. (requires manual enabling)
 - **🖱️ Smooth Tab-Dragging Animation:** Supports animated tab dragging even in multi-row mode.
