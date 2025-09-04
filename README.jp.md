@@ -380,7 +380,7 @@ URL バーにページタイトルを表示。
 ---
 
 # [Float Toolbars in Full Screen](https://github.com/Merci-chao/userChrome.js/blob/main/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
-フルスクリーン時、ツールバーをページの上にフロートさせ、表示／非表示のたびにページが跳ねるのを防ぐ。  
+全画面表示モードで、ツールバーをページの上にフロートさせ、表示／非表示のたびにページが跳ねるのを防ぐ。  
 [アドオンページ（ウェブアーカイブ）](https://web.archive.org/web/20181017035437/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/)
 
 **注意: このバージョンは macOS および Ubuntu（Linux）では未検証です。動作に不具合があるか、まったく動作しない可能性があります。**
