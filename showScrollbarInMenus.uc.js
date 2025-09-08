@@ -1,14 +1,10 @@
-if (location == "chrome://browser/content/browser.xhtml") try {(()=>{
 addEventListener("popupshowing", ({target}) => {
-	if (!target.matches("menupopup")) return;
-	let box = target.shadowRoot.querySelector(".menupopup-arrowscrollbox");
-	if (box && !box.dataset["noarrow"]) {
-		box.dataset["noarrow"] = true;
-		box._scrollButtonDown.style.visibility = box._scrollButtonUp.style.visibility = "collapse";
-		let innerbox = box.shadowRoot.querySelector("scrollbox");
-		innerbox.style.setProperty("margin-top", 0, "important");
-		innerbox.style.setProperty("margin-bottom", 0, "important");
-		innerbox.style.setProperty("overflow-y", "auto", "important");
+	if (!target?.matches?.("menupopup")) return;
+	let {scrollBox} = target;
+	if (!scrollBox.dataset["noarrow"]) {
+		scrollBox.dataset["noarrow"] = true;
+		scrollBox._scrollButtonDown.style.visibility = scrollBox._scrollButtonUp.style.visibility = "collapse";
+		for (let [p, v] of [["margin-block", 0], ["padding-block", 0], ["overflow-y", "auto"]])
+			scrollBox.scrollbox.style.setProperty(p, v, "important");
 	}
 }, true);
-})()} catch(e) {alert(e);console.error(e)}
