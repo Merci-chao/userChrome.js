@@ -50,6 +50,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
+| `animateTabMoveMaxCount` | When the number of dragged tabs exceeds this value, drag animations are disabled and a drop indicator is shown instead. The minimum value is `0`. If dragging too many tabs causes lag, consider lowering this value.<br>📝 Note: Some tab grouping operations may be unavailable, and the final drop position is determined by Firefox's native behavior, which may not behave as expected in certain scenarios. |
 | `animationDuration` | Duration of animations in milliseconds (valid range: `0` - `1000`). Note: Lengthy animations could strain system performance. |
 | `autoCollapse` | **🚨 EXPERIMENTAL 🧪**<br>Tabs will collapse to a single row when the cursor is not hovering. Enabling this feature will forcibly disable `tabsUnderControlButtons`, and pinned tabs are no longer fixed in position. On Firefox 115, setting `layout.css.has-selector.enabled` as `true` is required.
 | `autoCollapseDelayCollapsing` | Delay before collapsing the tabs when the cursor moves away (in milliseconds). |
@@ -69,6 +70,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `hideAllTabs` | Hide the "List all tabs" button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing "Remove from Toolbar". |
 | `hideDragPreview` | Hide the drag preview during a drag interaction:<ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when Tabs Bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
+| `hidePinnedDropIndicator` | Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs (Firefox 143 and beyond). |
 | `hideScrollButtonsWhenDragging` | Hide the up/down scroll buttons when dragging. |
 | `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always</li></ul>Behaviors such as closing tabs and collapsing tab groups may differ slightly when tabs are centered. |
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. The minimum value is `1`. |
@@ -86,7 +88,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `spaceBeforeTabs` | Empty space on the left side of the window. The minimum value is `0`. |
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. The minimum value is `0`. |
 | `tabMaxWidth` | Maximum width of tabs, including the white space around. Please use `browser.tabs.tabMinWidth` for the minimum width. |
-| `tabsAtBottom` | Position the Tabs Bar beneath:<ul><li>`0` - Default</li><li>`1` - Navigation Toolbar</li><li>`2` - Bookmarks Toolbar (same effect if "Only Show on New Tab")</li></ul>Not available on Firefox 115. |
+| `tabsAtBottom` | Position the Tabs Bar beneath:<ul><li>`0` - Default</li><li>`1` - Navigation Toolbar</li><li>`2` - Bookmarks Toolbar</li></ul>Not available on Firefox 115. |
 | `tabsbarItemsAlign` | Alignment of the items in Tabs Bar:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with Tabs Bar is scrollable. |
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 EXPERIMENTAL 🧪**<br>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when Tabs Bar is not scrollable</li><li>`2` - always</li></ul>If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
@@ -157,11 +159,20 @@ There also few settings in `about:config` for the layout of tabs:
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-**Version 3.3 (2025-08-29)**
+**Version 3.4**
+- Add `animateTabMoveMaxCount`: When the number of dragged tabs exceeds this value, drag animations are disabled and a drop indicator is shown instead. The minimum value is `0`. If dragging too many tabs causes lag, consider lowering this value. Note: Some tab grouping operations may be unavailable, and the final drop position is determined by Firefox's native behavior, which may not behave as expected in certain scenarios.
+- Add `hidePinnedDropIndicator`: Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs (Firefox 143 and beyond).
+- Streamline and improve the animation logic.
+- The Tabs Bar will appear below the Bookmarks Toolbar when `tabsAtBottom` is set to `2`, even if Bookmarks Toolbar is set as "Only Show on New Tab".
+- Improve `autoCollapse`: the tab strip now remains open while a context menu is displayed.
+- Increase the default values for two delay settings for `autoCollapse`.
+- Bug fix: When tab group spans multiple rows, collapsing or dragging it could be buggy in certain cases.
 - Bug fix: Pressing the Esc key while dragging could cause issue.
-- Fix minor visual bug for `pinnedTabsFlexWidth`.
-- Fix minor visual bug on Firefox 115.
-- Fix the bug related to changes in device pixel ratio.
+- Bug fix: Copying multiple tabs with Ctrl key does not work reliably (Firefox bug #1987160).
+- Bug fix: Tabs may scroll up when closing the last tab with keyboard shortcut.
+- The script will never apply on popup windows.
+- Update for Firefox 143 and 144.
+- Multiple minor bug fixes.
 
 **Version 3.3**
 - Add `pinnedTabsFlexWidth`: Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when Tabs Bar is scrollable (experimental).
