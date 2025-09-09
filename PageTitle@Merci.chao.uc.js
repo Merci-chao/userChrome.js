@@ -1,8 +1,19 @@
-if (location == "chrome://browser/content/browser.xhtml") try {(()=>{
+// ==UserScript==
+// @name           Page Title in URL Bar
+// @description    Show page title in URL Bar.
+// @version        2025-09-09
+// @author         Merci chao
+// @namespace      https://github.com/Merci-chao/userChrome.js#page-title-in-url-bar
+// @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
+// @updateURL      https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js
+// @downloadURL    https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js
+// ==/UserScript==
+
+try {(()=>{
 
 let prefs;
+let prefBranchStr = "extensions.PageTitle@Merci.chao.";
 {
-	let prefBranchStr = "extensions.PageTitle@Merci.chao.";
 	let defPrefs = {
 		hideWww: false,
 		highlightIdentityBox: true,
@@ -11,6 +22,8 @@ let prefs;
 		showUriOnHover: true,
 		decodeHashAndSearch: true,
 		formattingEnabled: true,
+		checkUpdate: 1,
+		checkUpdateFrequency: 1,
 	};
 
 	let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
@@ -22,7 +35,47 @@ let prefs;
 	prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defPrefs);
 }
 
-
+if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 >= Math.max(prefs.checkUpdateFrequency, 1)) {
+	Services.prefs.setIntPref(prefBranchStr + "checkUpdate", Date.now() / 1000);
+	(async () => {
+		let getVer = code => (code.match(/^\/\/\s*@version\s+(.+)$/mi) || [])[1];
+		let localScript = await (await fetch(new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0])).text();
+		let updateURL = localScript.match(/^\/\/\s*@updateURL\s+(.+)$/mi)[1];
+		let downloadURL = localScript.match(/^\/\/\s*@downloadURL\s+(.+)$/mi)[1];
+		let remoteScript = await (await fetch(updateURL)).text();
+		let local = getVer(localScript);
+		let remote = getVer(remoteScript);
+		if (remote.localeCompare(local, undefined, {numeric: true}) <= 0) return;
+		let p = Services.prompt;
+		let buttons = p.BUTTON_POS_0 * p.BUTTON_TITLE_YES +
+				p.BUTTON_POS_1 * p.BUTTON_TITLE_IS_STRING +
+				p.BUTTON_POS_2 * p.BUTTON_TITLE_NO;
+		let dontAsk = {};
+		let l10n = {
+			en: {
+				title: "Update Notification",
+				message: `Page Title in URL Bar version ${remote} is released. Would you want to view it now?`,
+				later: "Remind Tomorrow",
+				never: `Stop checking when selecting "No" (strongly not recommended)`,
+			},
+		};
+		l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
+		switch (p.confirmEx(window, l10n.title, l10n.message,
+				buttons, "", l10n.later, "", l10n.never, dontAsk)) {
+			case 0:
+				openURL(downloadURL);
+				break;
+			case 1:
+				Services.prefs.setIntPref(prefBranchStr + "checkUpdate",
+						Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60);
+				break;
+			case 2:
+				if (dontAsk.value)
+					Services.prefs.setIntPref(prefBranchStr + "checkUpdate", 0);
+				break;
+		}
+	})();
+}
 
 let docEle = document.documentElement;
 let rtl = window.getComputedStyle(docEle).direction == "rtl";
