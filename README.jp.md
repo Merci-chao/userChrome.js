@@ -263,7 +263,7 @@ tab-group {
 
 **Version 2.1.3.1**
 - ピン留めタブが多数あると発生する跳ねる挙動の不具合を修正。
-- `browser.tabs.groups.enabled` が `true` の場合、`tabsUnderControlButtons` が強制的に `0` になります。
+- `browser.tabs.groups.enabled` が `true` の場合、`tabsUnderControlButtons` が強制的に `0` になる。
 
 **Version 2.1.2**
 - バージョン 2.1 以降、「1 行のみ表示」時にタブ前のボタンがクリックできないバグを修正。
@@ -312,7 +312,7 @@ tab-group {
 
 | 設定項目 | 説明 |
 | --- | --- |
-| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新される。<br><b>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b> |
+| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認する。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新される。<br><b>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 | `historyCount` | 履歴メニュー内に直接表示される項目数。 |
 | `submenuCount` | 履歴サブメニューの数。 |
@@ -334,7 +334,7 @@ URL バーにページタイトルを表示。
 ## 設定
 `about:config` を開き、`extensions.PageTitle@Merci.chao.` で始まる設定項目を検索してください。
 
-🔔 設定は新しいウィンドウに適用されます。
+🔔 設定は新しいウィンドウに適用される。
 
 | 設定項目 | 説明 |
 | --- | --- |
@@ -352,7 +352,7 @@ URL バーにページタイトルを表示。
 タスクバーを残したまま全画面表示をしたり、最大化されていない状態でツールバーを非表示にする（ピクチャインピクチャ風）モード。  
 [アドオンページ（ウェブアーカイブ）](https://web.archive.org/web/20181102230042/https://addons.mozilla.org/en-US/firefox/addon/semi-full-screen/)
 
-🚨 **注意：この Semi-Full Screen のバージョンは macOS と Ubuntu（Linux）では未検証です。バグがある、または動作しない可能性があります。**
+🚨 **注意：この Semi-Full Screen のバージョンは macOS と Ubuntu（Linux）では未検証である。バグがあり、または動作しない可能性がある。**
 
 ![screenshot](https://web.archive.org/web/20181013030904if_/https://addons.cdn.mozilla.net/user-media/previews/full/173/173740.png?modified=1530209326)
 
@@ -367,12 +367,12 @@ URL バーにページタイトルを表示。
 ## 設定
 `about:config` を開き、`extensions.SemiFullScreen@Merci.chao.` で始まる設定項目を検索してください。
 
-🔔 設定は新しいウィンドウに適用されます。
+🔔 設定は新しいウィンドウに適用される。
 
 | 設定項目 | 説明 |
 | --- | --- |
 | `autoHideToolbarDelay` | マウスがウィンドウ端から外れ、ウィンドウ内に戻らなかった場合に、ツールバーを自動的に非表示にするまでの遅延時間（ミリ秒）。 |
-| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新されます。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
+| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認する。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新される。<br><b>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 | `reverse` | `F11` で Semi-Full Screen、`Ctrl + F11` でピクチャインピクチャモードに切り替え。 |
 
@@ -394,18 +394,18 @@ URL バーにページタイトルを表示。
 全画面表示モードで、ツールバーをページの上にフロートさせ、表示／非表示のたびにページが跳ねるのを防ぐ。  
 [アドオンページ（ウェブアーカイブ）](https://web.archive.org/web/20181017035437/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/)
 
-**注意: このバージョンは macOS および Ubuntu（Linux）では未検証です。動作に不具合があるか、まったく動作しない可能性があります。**
+**注意: このバージョンは macOS および Ubuntu（Linux）では未検証である。動作に不具合があるか、まったく動作しない可能性があります。**
 
 ![screenshot](https://web.archive.org/web/20181012014653if_/https://addons.cdn.mozilla.net/user-media/previews/full/180/180636.png?modified=1530209532)
 
 ## 設定
 `about:config` を開いて `extensions.FloatToolbarsInFullScreen@Merci.chao.` で始まる項目を検索してください。
 
-🔔 設定は新しいウィンドウに適用されます。
+🔔 設定は新しいウィンドウに適用される。
 
 | 設定項目 | 説明 |
 | --- | --- |
-| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新されます。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
+| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認する。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新される。<br><b>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 
 ## 変更履歴
