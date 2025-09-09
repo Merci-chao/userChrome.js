@@ -4905,7 +4905,11 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 		}
 
 		tabsBar.toggleAttribute("tabs-is-first-visible",
-				this.matches(":nth-child(1 of :not([hidden=true], [collapsed=true]))"));
+				this.matches(`:nth-child(1 of :not(
+					[hidden=true],
+					[collapsed=true],
+					:root[privatebrowsingmode] #firefox-view-button
+				))`));
 
 		//not using this.overflowing in case it is not updated in time
 		let overflowing = !!scrollbox.scrollTopMax;
