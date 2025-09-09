@@ -347,6 +347,12 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`
 | `hideWww` | Hide the `www` sub-domain. |
 | `highlightIdentityBox` | Add a backgrond for identity box (only when `showDomain` is `true`). |
 | `formattingEnabled` | Highlight the domain (only when `showDomain` is `false`). |
+| `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
+| `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
+
+## Changelog
+**Version 2025-09-09**
+- Add check upate feature.
 
 ---
 
