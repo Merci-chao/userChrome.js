@@ -89,7 +89,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. The minimum value is `0`. |
 | `tabMaxWidth` | Maximum width of tabs, including the white space around. Please use `browser.tabs.tabMinWidth` for the minimum width. |
 | `tabsAtBottom` | Position the Tabs Bar beneath:<ul><li>`0` - Default</li><li>`1` - Navigation Toolbar</li><li>`2` - Bookmarks Toolbar</li></ul>Not available on Firefox 115. |
-| `tabsbarItemsAlign` | Alignment of the items in Tabs Bar:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with Tabs Bar is scrollable. |
+| `tabsbarItemsAlign` | Alignment of the items in Tabs Bar when there are multiple rows:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with Tabs Bar is scrollable. |
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 EXPERIMENTAL 🧪**<br>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when Tabs Bar is not scrollable</li><li>`2` - always</li></ul>If any issues occur, set the value to `0` or `1` to disable or partially disable this feature. |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
 
