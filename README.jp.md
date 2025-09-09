@@ -26,64 +26,64 @@ Firefox に多段タブ表示をサポートさせる。
 
 ## 注意事項
 **🚨 ご使用の前に、以下の注意点をよくお読みください：**
-- ❗ **Firefox に最適化されたレイアウト計算を多く含むため、タブやタブバー関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト、CSS スタイルによって不具合が発生する可能性があります。スクリプト適用前後にそれらを確認するか、[`tabsUnderControlButtons`](#tabsUnderControlButtons) を無効にしてください。**
-- 非公式かつ複雑なスクリプトで、個人によって管理されています。このスクリプトには予期しないバグが含まれている可能性があり、Firefox の最新バージョンとの互換性は保証されていません。予期せぬ問題が発生した場合は、Firefox を再起動する必要があるかもしれません。特に、古いバージョンのスクリプトを最新の Firefox で使用した場合、ブラウザが使用不能になり、過去の閲覧セッションが永久に失われる可能性があります。そのような場合には、スクリプトの無効化が必要になることがあります。このスクリプトは、これらのリスクに対応できる準備がある方のみご使用ください。
-- 本スクリプトは Windows 専用です。Ubuntu（Linux）および macOS では動作しない、あるいは不具合が生じる恐れがあります。
-- Firefox の関数を上書きする必要があるため、Firefox 139 以降では [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) の設定が必要です。この設定はスクリプト適用時に自動で有効化されますが、スクリプト削除時には `about:config` で手動無効化が必要です。
+- ❗ **Firefox に最適化されたレイアウト計算を多く含むため、タブやタブバー関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト、CSS スタイルによって不具合が発生する可能性がある。スクリプト適用前後にそれらを確認するか、[`tabsUnderControlButtons`](#tabsUnderControlButtons) を無効にしてください。**
+- 非公式かつ複雑なスクリプトで、個人によって管理されている。このスクリプトには予期しないバグが含まれている可能性があり、Firefox の最新バージョンとの互換性は保証されていない。予期せぬ問題が発生した場合は、Firefox を再起動する必要があるかもしれない。特に、古いバージョンのスクリプトを最新の Firefox で使用した場合、ブラウザが使用不能になり、過去の閲覧セッションが永久に失われる可能性がある。そのような場合には、スクリプトの無効化が必要になることがある。このスクリプトは、これらのリスクに対応できる準備がある方のみご使用ください。
+- 本スクリプトは Windows 専用。Ubuntu（Linux）および macOS では動作しない、あるいは不具合が生じる恐れがある。
+- Firefox の関数を上書きする必要があるため、Firefox 139 以降では [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) の設定が必要。この設定はスクリプト適用時に自動で有効化されるが、スクリプト削除時には `about:config` で手動無効化が必要。
 
 ## インストール方法
-1. ほかのスクリプトを使用していない場合は、📘 [Tab Mix Plus - ドキュメント（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) に従ってスクリプトローダー（Firefox スクリプト）をインストールします。すでに他のスクリプトローダー（例：[alice0775 氏の userChrome.js](https://github.com/alice0775/userChrome.js)）を使用している場合はこの手順を省略できます。  
+1. ほかのスクリプトを使用していない場合は、📘 [Tab Mix Plus - ドキュメント（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) に従ってスクリプトローダー（Firefox スクリプト）をインストールする。すでに他のスクリプトローダー（例：[alice0775 氏の userChrome.js](https://github.com/alice0775/userChrome.js)）を使用している場合はこの手順を省略できる。  
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.jp.png)
 
-2. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし、`chrome` フォルダーに配置します。<br>
-3. Firefox を再起動して反映します。
+2. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし、`chrome` フォルダーに配置する。<br>
+3. Firefox を再起動して反映する。
 
 **🚨 注意：**
 - 他のタブバー関連スクリプトや CSS が有効になっていないことを確認してください。念のため、他の `.js`（`userChrome.js`以外）と `.css` ファイルを一時的に `chrome` フォルダーから移動し、Firefox を再起動してこのスクリプトの動作を確認してください。問題なければ、ファイルを戻し、衝突しているスクリプトやスタイルルールがあれば調整してください。
 - Firefox 更新後にスクリプトローダーが動作しなくなった場合は、上記ページから最新のスクリプトローダーを再インストールしてください。
 
 ## 設定
-[`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao.` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されています。
+[`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao.` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されている。
 
 `user.js` で設定する場合（※非推奨）、接頭辞 `userChromeJS.multiTabRows@Merci.chao.` を含めてください。例：`user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);`。
 
-**🚨 注意：他の設定との依存関係により、これらの設定の多くが反映されない可能性があります。`user.js` を使用するのではなく、`about:config` 経由で直接設定することを強く推奨します。**
+**🚨 注意：他の設定との依存関係により、これらの設定の多くが反映されない可能性がある。`user.js` を使用するのではなく、`about:config` 経由で直接設定することを強く推奨する。**
 
 | 設定項目（※接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `animateTabMoveMaxCount` | ドラッグされたタブの数がこの値を超えると、ドラッグアニメーションは無効化され、代わりにドロップ位置のインジケーターが表示されます。最小値は `0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。<br>📝 備考：タブグループの一部の操作が使用できない場合があり、最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合があります。 |
-| `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響します）。 |
-| `autoCollapse` | **🚨 実験的機能 🧪**<br>ホバーしていない時にタブを折りたたむ。`tabsUnderControlButtons` は無効化され、固定タブも解除されます。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要あり。 |
+| `animateTabMoveMaxCount` | ドラッグされたタブの数がこの値を超えると、ドラッグアニメーションは無効化され、代わりにドロップ位置のインジケーターが表示される。最小値は `0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。<br>📝 備考：タブグループの一部の操作が使用できない場合があり、最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある。 |
+| `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する）。 |
+| `autoCollapse` | **🚨 実験的機能 🧪**<br>ホバーしていない時にタブを折りたたむ。`tabsUnderControlButtons` は無効化され、固定タブも解除される。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要あり。 |
 | `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。 |
 | `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。 |
-| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、`2` 以上で有効。値は最後に確認した時刻で更新されます。`1` は初回インストールと見なされるため設定しないでください。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
+| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認。`0` で無効、`2` 以上で有効。値は最後に確認した時刻で更新される。`1` は初回インストールと見なされるため設定しないでください。<br><b>💡 有効化を強く推奨する。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b> |
 | `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`0` - 無効</li><li>`1` - 確認する</li><li>`2` - 常に更新</li><li>`3` - 常に更新（通知なし）</li></ul> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 | `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示します。Windows 10 と 11 でのみ対応。 |
-| `debugMode` | ⛔ デバッグモード。一般向けではありません。 |
-| `dragToGroupTabs` | タブを他のタブにドラッグした際にグループ化を有効化します。`browser.tabs.dragDrop.moveOverThresholdPercent` が `50` 以下の場合の動作と異なり、この設定を無効にすると順序を変更せずグループに追加／削除できます。Firefox 115 または `browser.tabs.groups.enabled` が `false` の場合は未対応。 |
-| `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにします。Firefox 115 または `dragToGroupTabs` や `browser.tabs.groups.enabled` が無効な場合は未対応。 |
-| `dynamicThemeImageSize` | テーマ使用時、背景画像のサイズが現在の段数に応じて変化します。 |
-| `floatingBackdropBlurriness` | タブバーがスクロール可能時にタブを覆う要素の背景ぼかし強度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip`、`nativeWindowStyle` が `false` のときのみ有効。Firefox 115 では未対応。 |
-| `floatingBackdropClip` | タブバーがスクロール可能時にタブバーを覆う要素の領域をクリップします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
-| `floatingBackdropOpacity` | タブバーがスクロール可能時にタブを覆う要素の背景の不透明度を設定します。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
+| `debugMode` | ⛔ デバッグモード。一般向けではない。 |
+| `dragToGroupTabs` | タブを他のタブにドラッグした際にグループ化を有効化。`browser.tabs.dragDrop.moveOverThresholdPercent` が `50` 以下の場合の動作と異なり、この設定を無効にすると順序を変更せずグループに追加／削除できる。Firefox 115 または `browser.tabs.groups.enabled` が `false` の場合は未対応。 |
+| `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `dragToGroupTabs` や `browser.tabs.groups.enabled` が無効な場合は未対応。 |
+| `dynamicThemeImageSize` | テーマ使用時、背景画像のサイズが現在の段数に応じて変化する。 |
+| `floatingBackdropBlurriness` | タブバーがスクロール可能時にタブを覆う要素の背景ぼかし強度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip`、`nativeWindowStyle` が `false` のときのみ有効。Firefox 115 では未対応。 |
+| `floatingBackdropClip` | タブバーがスクロール可能時にタブバーを覆う要素の領域をクリップする。`tabsUnderControlButtons` が `2` のときのみ有効。 |
+| `floatingBackdropOpacity` | タブバーがスクロール可能時にタブを覆う要素の背景の不透明度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
 | `gapAfterPinned` | ピン留めされたタブと通常のタブの間の隙間。最小値は `0`。 |
-| `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示にします。Firefox 115 のみ有効。新しい Firefox バージョンでは、ボタンを右クリックして「ツールバーから削除」で対応可能。 |
+| `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ有効。新しい Firefox バージョンでは、ボタンを右クリックして「ツールバーから削除」で対応可能。 |
 | `hideDragPreview` | ドラッグ中のプレビューを非表示：<ul><li>`0` - 常に表示</li><li>`1` - グループのみ</li><li>`2` - タブのみ</li><li>`3` - 両方</li></ul> |
-| `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、タブバーがスクロール可能時にその空白を非表示にします。`tabsUnderControlButtons` が `2` のときのみ有効。 |
+| `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、タブバーがスクロール可能時にその空白を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `hidePinnedDropIndicator` | ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示（Firefox 143 以降に対応）。 |
 | `hideScrollButtonsWhenDragging` | ドラッグ中にスクロールボタンを非表示。 |
-| `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0` - 無効</li><li>`1` - 1 段のみの場合</li><li>`2` - 常に有効</li></ul>中央揃え時には、タブの閉じ方やグループの折りたたみ動作が若干異なる場合があります。 |
+| `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0` - 無効</li><li>`1` - 1 段のみの場合</li><li>`2` - 常に有効</li></ul>中央揃え時には、タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある。 |
 | `linesToDragScroll` | タブを上端／下端へドラッグしたときのスクロール段数。最小値は `1`。 |
 | `linesToScroll` | マウスホイール操作によるスクロール段数。最小値は `1`。 |
 | `maxTabRows` | 表示可能な最大段数。最小値は `1`。 |
-| `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（例えば、[DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果）を表示します。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合があります。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をします。Firefox 115 またはテーマ使用時は未対応。 |
-| `pinnedTabsFlexWidth` | **🚨 実験的機能 🧪**<br>ピン留めしたタブのサイズを通常のタブと同様に扱います。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる。 |
-| `rowIncreaseEvery` | ウィンドウ幅がこの値だけ増加するたびに、表示可能段数が 1 段増加します。`0` にすると最大段数が常に表示されます。 |
-| `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になります。 |
+| `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（例えば、[DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果）を表示。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合がある。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をする。Firefox 115 またはテーマ使用時は未対応。 |
+| `pinnedTabsFlexWidth` | **🚨 実験的機能 🧪**<br>ピン留めしたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる。 |
+| `rowIncreaseEvery` | ウィンドウ幅がこの値だけ増加するたびに、表示可能段数が 1 段増加します。`0` にすると最大段数が常に表示される。 |
+| `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になる。 |
 | `scrollbarThumbColor` | スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
 | `scrollbarTrackColor` | スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
-| `scrollButtonsSize` | ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値は `0` ですが、表示上は少なくとも 2 デバイスピクセルの高さになります。最大値はタブの高さの半分までに制限されます。 |
+| `scrollButtonsSize` | ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値は `0` だが、表示上は少なくとも 2 デバイスピクセルの高さになります。最大値はタブの高さの半分までに制限される。 |
 | `spaceAfterTabs` | ウィンドウ制御ボタンの前にある空白スペース。最小値は `0`。 |
 | `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ制御ボタン前の空白スペース。最小値は `0`。 |
 | `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値は `0`。 |
@@ -95,7 +95,7 @@ Firefox に多段タブ表示をサポートさせる。
 | `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用。 |
 
 ## 高度な調整
-[`userChrome.css`（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://support.mozilla.org/kb/contributors-guide-firefox-advanced-customization)を使用することで、タブのサイズや間隔を制御するための以下のパラメータを調整できます。下記の値はデフォルト設定です。
+[`userChrome.css`（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://support.mozilla.org/kb/contributors-guide-firefox-advanced-customization)を使用することで、タブのサイズや間隔を制御するための以下のパラメータを調整できる。下記の値はデフォルト設定。
 
 🚨 **注意**：`px`（ピクセル）以外の単位や小数点の値は使用しないでください。
 
@@ -117,14 +117,14 @@ Firefox に多段タブ表示をサポートさせる。
 /*
   このルールが必要になる条件：(--tab-min-height) + (--tab-block-margin) * 2 < 33px
   なぜ 33px か？.tab-label-container のデフォルト高さは2.7em、フォントサイズが12pxの場合は32.4px
-  タブは .tab-label-container より高くする必要があります
+  タブは .tab-label-container より高くする必要がある
   そうしないと、タブの高さに小数点を含むことで不具合が発生
   例：
   - --tab-min-height = 25px
   - --tab-block-margin = 1px
   → 合計：25 + 1×2 = 27px
-  27px < 33px となるため、レイアウト崩れを防ぐためにこのルールが必要です
-  副作用がないようなので、いつでもこのルールを適用できます
+  27px < 33px となるため、レイアウト崩れを防ぐためにこのルールが必要
+  副作用がないようなので、いつでもこのルールを適用できる
 */
 .tab-label-container {
   height: auto !important;
@@ -145,15 +145,15 @@ tab-group {
   max-width: 10em;
 }
 ```
-`about:config` には、タブのレイアウトに関するいくつかの Firefox 設定項目があります：
+`about:config` には、タブのレイアウトに関するいくつかの Firefox 設定項目がある：
 
 | 設定項目（接頭辞なし） | 説明 |
 | ------------- | ------------- |
-| `browser.tabs.tabClipWidth` | このサイズを超えるタブには閉じるボタンが表示されます。 |
-| `browser.tabs.tabMinWidth` | 通常のタブの最小幅（周囲の余白を含む）を指定します。 |
-| `widget.windows.mica` | タブバーに Windows 11 のネイティブスタイルを適用します。 |
-| `widget.windows.mica.toplevel-backdrop` | 背景効果を選択します（Windows 11）：<ul><li>`0` – 自動</li><li>`1` – Mica</li><li>`2` – Acrylic</li><li>`3` – Mica Alt</li></ul> |
-| `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用します。 |
+| `browser.tabs.tabClipWidth` | このサイズを超えるタブには閉じるボタンが表示される。 |
+| `browser.tabs.tabMinWidth` | 通常のタブの最小幅（周囲の余白を含む）を指定。 |
+| `widget.windows.mica` | タブバーに Windows 11 のネイティブスタイルを適用。 |
+| `widget.windows.mica.toplevel-backdrop` | 背景効果の選択肢（Windows 11）：<ul><li>`0` – 自動</li><li>`1` – Mica</li><li>`2` – Acrylic</li><li>`3` – Mica Alt</li></ul> |
+| `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用。 |
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
@@ -174,7 +174,7 @@ tab-group {
 - 複数の軽微なバグの修正。
 
 **Version 3.3**
-- `pinnedTabsFlexWidth` を追加：ピン留めしたタブのサイズを通常のタブと同様に扱います。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる（試験的機能）。
+- `pinnedTabsFlexWidth` を追加：ピン留めしたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる（試験的機能）。
 - `checkUpdateAutoApply` を追加：新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）。`0` - 無効、`1` - 確認する、`2` - 常に更新、`3` - 常に更新（通知なし）。
 - バグ修正：Firefox 142 において、閉じたピン留めタブを開きなおすとタブ機能が正常に動作しなくなる。
 - 全画面表示に関連する軽微な不具合を修正。
@@ -189,17 +189,17 @@ tab-group {
 - Firefox 143 に対応。
 
 **Version 3.2**
-- `justifyCenter` を追加：タブを中央揃えにする設定。`0` - 無効、`1` - 1 段のみの場合、`2` - 常に有効。タブが中央揃えされている場合、タブの閉じ方やグループの折りたたみ動作が若干異なる場合があります。
-- `scrollButtonsSize` を追加：ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値は `2`、最大値はタブの高さの半分までに制限されます。
+- `justifyCenter` を追加：タブを中央揃えにする設定。`0` - 無効、`1` - 1 段のみの場合、`2` - 常に有効。タブが中央揃えされている場合、タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある。
+- `scrollButtonsSize` を追加：ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値は `2`、最大値はタブの高さの半分までに制限される。
 - Firefox 143 に対応。
 - 一部の環境でタブをブックマークツールバーにドロップできない問題を修正。
 - その他の不具合修正。
 
 **Version 3.1**
-- `autoCollapse` と関連オプションを追加: ホバーしていないときにタブを1行に折りたたむ。Firefox 115 では `layout.css.has-selector.enabled` を有効にする必要があります。（実験的）
+- `autoCollapse` と関連オプションを追加: ホバーしていないときにタブを1行に折りたたむ。Firefox 115 では `layout.css.has-selector.enabled` を有効にする必要がある。（実験的）
 - `tabsAtBottom` を追加：タブバーを下部に配置（1: ナビゲーションツールバーの下、2: ブックマークツールバーの下）。Firefox 115 では未対応。
 - `hideDragPreview` を追加：タブやグループをドラッグ中にプレビューを非表示。値の例：`0`（常に表示）、`1`（グループのみ）、`2`（タブのみ）、`3`（両方）。
-- `animationDuration` を追加：アニメーションの長さ（ミリ秒、`0`～`1000`）。※長すぎるとパフォーマンスに影響します。
+- `animationDuration` を追加：アニメーションの長さ（ミリ秒、`0`～`1000`）。※長すぎるとパフォーマンスに影響する。
 - `tabMaxWidth` を追加：タブの最大幅を指定。最小幅は `browser.tabs.tabMinWidth` を使ってください。
 - `hideScrollButtonsWhenDragging` を追加：ドラッグ時にスクロールボタンを非表示にする設定。
 - タブグループからタブ全体をドラッグする際、ドロップするまではグループを維持。
@@ -308,11 +308,11 @@ tab-group {
 ## 設定
 設定パネルは存在しません。`about:config` を開いて `extensions.HistorySubmenus2@Merci.chao.` で始まる項目を検索してください。
 
-🔔 設定を変更すると Firefox 再起動後に反映されます。
+🔔 設定を変更すると Firefox 再起動後に反映される。
 
 | 設定項目 | 説明 |
 | --- | --- |
-| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新されます。<br><b>💡 有効化を強く推奨します。古いスクリプトは新しい Firefox では正常に動作しない可能性があります。</b> |
+| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認します。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新される。<br><b>💡 有効化を強く推奨する。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 | `historyCount` | 履歴メニュー内に直接表示される項目数。 |
 | `submenuCount` | 履歴サブメニューの数。 |
