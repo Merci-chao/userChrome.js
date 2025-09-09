@@ -23,7 +23,7 @@ let prefBranchStr = "extensions.PageTitle@Merci.chao.";
 		decodeHashAndSearch: true,
 		formattingEnabled: true,
 		checkUpdate: 1,
-		checkUpdateFrequency: 1,
+		checkUpdateFrequency: 7,
 	};
 
 	let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
@@ -512,3 +512,4 @@ setTimeout(() => PageTitle.updateURLBarPageTitleText());
 setInterval(() => pageTitle.style.zIndex ^= 1, 100);
 
 })()} catch(e) {alert(e);console.error(e, e.stack)}
+
