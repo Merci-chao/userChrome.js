@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
-// @version        3.4
+// @version        3.4.1
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @supportURL     https://github.com/Merci-chao/userChrome.js#changelog
@@ -372,7 +372,9 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 	Services.prefs.setIntPref(prefBranchStr + "checkUpdate", Date.now() / 1000);
 	(async () => {
 		let auto = prefs.checkUpdateAutoApply;
-		let getVer = code => (code.match(/^\/\/\s*@version\s+(.+)$/mi) || [])[1];
+		let getVer = code => (code.match(/^\/\/\s*@version\s+(.+)$/mi) || [])[1]
+				?.replace(/((\d+\.\d+\.\d+)\.\d+)/, auto < 3 ? "$2" : "$1")
+				?.replace(/(\.0)+$/, "");
 		let localFileURI = new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0];
 		let localFilePath = decodeURI(localFileURI).replace(/\?.+$/, "").substr(8).replaceAll("/", "\\");
 		let localScript = await (await fetch(localFileURI)).text();
@@ -381,7 +383,7 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		let remoteScript = await (await fetch(updateURL)).text();
 		let local = getVer(localScript);
 		let remote = getVer(remoteScript);
-		if (remote.localeCompare(local, undefined, {numeric: true}) <= 0) return;
+		if (!remote || remote.localeCompare(local, undefined, {numeric: true}) <= 0) return;
 
 		let p = Services.prompt;
 		let l10n = {
@@ -4615,7 +4617,7 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 			assign(gBrowser, {moveTabTo});
 
 		//for drag to pin
-		if (_dragData.stopAnimateTabMove && !_dragData.pinned && _dragData.movingTabs[0].pinned)
+		if (_dragData?.stopAnimateTabMove && !_dragData.pinned && _dragData.movingTabs[0].pinned)
 			rAF(2).then(() => _dragData.movingTabs.forEach(async t => {
 				await waitForAnimate(t);
 				t.style.minWidth = "";
@@ -4904,21 +4906,29 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 			return;
 		}
 
-		tabsBar.toggleAttribute("tabs-is-first-visible",
-				this.matches(`:nth-child(1 of :not(
-					[hidden=true],
-					[collapsed=true],
-					:root[privatebrowsingmode] #firefox-view-button
-				))`));
+		let isFirst = true;
+		for (let prv = this; prv = prv.previousSibling;)
+			if (prv.checkVisibility({
+				checkOpacity: true,
+				checkVisibilityCSS: true,
+				contentVisibilityAuto: true,
+			})) {
+				isFirst = false;
+				break;
+			}
 
 		//not using this.overflowing in case it is not updated in time
 		let overflowing = !!scrollbox.scrollTopMax;
+		let onlyUnderflow = prefs.tabsUnderControlButtons < 2;
 
-		let onlyUnderflow = prefs.tabsUnderControlButtons < 2
-		if (overflowing && onlyUnderflow
-				|| innerWidth < prefs.rowStartIncreaseFrom + prefs.rowIncreaseEvery
-				|| this._isCustomizing
-				|| !prefs.tabsUnderControlButtons) {
+		tabsBar.toggleAttribute("tabs-is-first-visible", isFirst);
+
+		if (
+			overflowing && onlyUnderflow ||
+			innerWidth < prefs.rowStartIncreaseFrom + prefs.rowIncreaseEvery ||
+			this._isCustomizing ||
+			!prefs.tabsUnderControlButtons
+		) {
 			if (lastLayoutData) {
 				placeholderStyle.innerHTML = "";
 				tabsBar.style.removeProperty("--pre-tabs-items-width");
