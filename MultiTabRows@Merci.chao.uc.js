@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
-// @version        3.4.1
+// @version        3.4.1.1
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @supportURL     https://github.com/Merci-chao/userChrome.js#changelog
@@ -3926,7 +3926,10 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 					/*there may be hidden tabs before non pinned*/
 					idx == firstNonPinned?._tPos
 				) &&
-				!(dropToPinSupported && target?.pinned)
+				(
+					!draggingTab ||
+					!(dropToPinSupported && target?.pinned)
+				)
 			)
 				target = firstNonPinned;
 		}
