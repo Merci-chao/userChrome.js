@@ -54,7 +54,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ### 操作
 
-| 項目（※接頭辞あり） | 説明 |
+| 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | `animateTabMoveMaxCount` | ドラッグされたタブの数がこの値を超えると、ドラッグアニメーションは無効化され、代わりにドロップ位置のインジケーターが表示される。最小値は `0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。<br>📝 備考：タブグループの一部の操作が使用できない場合があり、最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある。 |
 | `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する）。 |
@@ -69,7 +69,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ### レイアウト
 
-| 項目（※接頭辞あり） | 説明 |
+| 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | `autoCollapse` | **🚨 実験的機能 🧪**<br>ホバーしていない時にタブを折りたたむ。`tabsUnderControlButtons` は無効化され、固定タブも解除される。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要あり。 |
 | `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。 |
@@ -95,7 +95,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ### 外観
 
-| 項目（※接頭辞あり） | 説明 |
+| 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | `dynamicThemeImageSize` | テーマ使用時、背景画像のサイズが現在の段数に応じて変化する。 |
 | `floatingBackdropBlurriness` | タブバーがスクロール可能時にタブを覆う要素の背景ぼかし強度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip`、`nativeWindowStyle` が `false` のときのみ有効。Firefox 115 では未対応。 |
@@ -107,7 +107,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ### その他
 
-| 項目（※接頭辞あり） | 説明 |
+| 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認。`0` で無効、`2` 以上で有効。値は最後に確認した時刻で更新される。`1` は初回インストールと見なされるため設定しないでください。<br><b>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b> |
 | `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`0` - 無効</li><li>`1` - 確認する</li><li>`2` - 常に更新</li><li>`3` - 常に更新（通知なし）、通知されない軽微な変更や修正の更新も自動的に受け取り</li></ul> |
