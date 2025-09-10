@@ -164,6 +164,15 @@ There also few settings in `about:config` for the layout of tabs:
 - Bug fix: `hideEmptyPlaceholderWhenScrolling` may not work on private windows.
 - With `checkUpdateAutoApply` set to `3`, it will now receive updates for minor changes and fixes that do not trigger notifications.
 
+<details>
+
+<summary>Minor Updates</summary>
+
+
+**Version 3.4.1.1**
+- Bug fix: Drop indicator is positioned incorrectly when dragging non-tab items onto the pinned tabs.
+</details>
+
 **Version 3.4**
 - Add `animateTabMoveMaxCount`: When the number of dragged tabs exceeds this value, drag animations are disabled and a drop indicator is shown instead. The minimum value is `0`. If dragging too many tabs causes lag, consider lowering this value. Note: Some tab grouping operations may be unavailable, and the final drop position is determined by Firefox's native behavior, which may not behave as expected in certain scenarios.
 - Add `hidePinnedDropIndicator`: Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs (Firefox 143 and beyond).
@@ -225,6 +234,7 @@ There also few settings in `about:config` for the layout of tabs:
 - Bug fixes and improvements.
 
 <details>
+
 <summary>Old Versions</summary>
 
  
