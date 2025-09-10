@@ -161,7 +161,7 @@ There also few settings in `about:config` for the layout of tabs:
 
 **Version 3.4.1**
 - Bug fix: Dropping non‑tab items onto Tabs Bar causes issues.
-- Bug fix: `hideEmptyPlaceholderWhenScrolling` may not work on private window.
+- Bug fix: `hideEmptyPlaceholderWhenScrolling` may not work on private windows.
 - With `checkUpdateAutoApply` set to `3`, it will now receive updates for minor changes and fixes that do not trigger notifications.
 
 **Version 3.4**
