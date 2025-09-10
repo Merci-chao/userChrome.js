@@ -56,7 +56,7 @@ If configuring via `user.js` (not recommended), be sure to include the prefix `u
 | `autoCollapseDelayCollapsing` | Delay before collapsing the tabs when the cursor moves away (in milliseconds). |
 | `autoCollapseDelayExpanding` | Delay before expanding the tabs when the cursor hovers over them (in milliseconds). |
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `2` or larger to enable or `0` to disable. The value will be updated with the last checking time. Please do not set it to `1` as it will be treated as first installed.<br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
-| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`0` - never</li><li>`1` - ask</li><li>`2` - always</li><li>`3` - always and sliently, receive updates for minor changes and fixes that do not trigger notifications</li></ul> |
+| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`0` - never</li><li>`1` - ask</li><li>`2` - always</li><li>`3` - always and sliently, also receive updates for minor changes and fixes that do not trigger notifications</li></ul> |
 | `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
 | `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11. |
 | `debugMode` | ⛔ Mode for debugging, not for general use. |
@@ -162,7 +162,7 @@ There also few settings in `about:config` for the layout of tabs:
 **Version 3.4.1**
 - Bug fix: Dropping non‑tab items onto Tabs Bar causes issues.
 - Bug fix: `hideEmptyPlaceholderWhenScrolling` may not work on private windows.
-- With `checkUpdateAutoApply` set to `3`, it will now receive updates for minor changes and fixes that do not trigger notifications.
+- With `checkUpdateAutoApply` set to `3`, it will now also receive updates for minor changes and fixes that do not trigger notifications.
 
 <details>
 
