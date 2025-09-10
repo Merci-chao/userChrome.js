@@ -61,7 +61,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or either `dragToGroupTabs` or `browser.tabs.groups.enabled` is `false`. |
 | `hideDragPreview` | Hide the drag preview during a drag interaction:<ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
 | `hidePinnedDropIndicator` | Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs (Firefox 143 and beyond). |
-| `hideScrollButtonsWhenDragging` | Hide the up/down scroll buttons when dragging. |
+| `hideScrollButtonsWhenDragging` | Visually hide the up/down scroll buttons when dragging. |
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. The minimum value is `1`. |
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. The minimum value is `1`. |
 | `scrollButtonsSize` | The size (in pixels) of the scroll buttons during dragging. The minimum value is `0`, but it will be rendered as at least 2 device pixels in height; the maximum is limited to half the tab height. |
