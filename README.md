@@ -179,13 +179,7 @@ There also few settings in `about:config` for the layout of tabs:
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-**Version 3.4.1**
-- Bug fix: Dropping non‑tab items onto Tabs Bar causes issues.
-- Bug fix: `hideEmptyPlaceholderWhenScrolling` may not work on private windows.
-- With `checkUpdateAutoApply` set to `3`, it will now also receive updates for minor changes and fixes that do not trigger notifications.
-
 <details>
-
 <summary>Minor Updates</summary>
 
 **Version 3.4.1.3**
@@ -194,6 +188,11 @@ There also few settings in `about:config` for the layout of tabs:
 **Version 3.4.1.1**
 - Bug fix: Drop indicator is positioned incorrectly when dragging non-tab items onto the pinned tabs.
 </details>
+
+**Version 3.4.1**
+- Bug fix: Dropping non‑tab items onto Tabs Bar causes issues.
+- Bug fix: `hideEmptyPlaceholderWhenScrolling` may not work on private windows.
+- With `checkUpdateAutoApply` set to `3`, it will now also receive updates for minor changes and fixes that do not trigger notifications.
 
 **Version 3.4**
 - Add `animateTabMoveMaxCount`: When the number of dragged tabs exceeds this value, drag animations are disabled and a drop indicator is shown instead. The minimum value is `0`. If dragging too many tabs causes lag, consider lowering this value. Note: Some tab grouping operations may be unavailable, and the final drop position is determined by Firefox's native behavior, which may not behave as expected in certain scenarios.
@@ -209,6 +208,9 @@ There also few settings in `about:config` for the layout of tabs:
 - The script will never apply on popup windows.
 - Update for Firefox 143 and 144.
 - Multiple minor bug fixes.
+
+<details>
+<summary>Old Versions</summary>
 
 **Version 3.3**
 - Add `pinnedTabsFlexWidth`: Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when Tabs Bar is scrollable (experimental).
@@ -254,11 +256,6 @@ There also few settings in `about:config` for the layout of tabs:
 - Add the `nativeWindowStyle` option to display the system-native theme style on Tabs Bar (e.g. effects from DWM tools).
 - Update for Firefox 141.
 - Bug fixes and improvements.
-
-<details>
-
-<summary>Old Versions</summary>
-
  
 **Version 2.6**
 - Fix layout problem when there are some audio playing/blocked/muted tabs.
