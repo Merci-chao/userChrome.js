@@ -188,7 +188,7 @@ There also few settings in `about:config` for the layout of tabs:
 
 <summary>Minor Updates</summary>
 
-**Version 3.4.1.2**
+**Version 3.4.1.3**
 - Drag-and-drop with a drop indicator now animate.
 
 **Version 3.4.1.1**
