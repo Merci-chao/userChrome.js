@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
-// @version        3.4.1.1
+// @version        3.4.1.2
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @supportURL     https://github.com/Merci-chao/userChrome.js#changelog
@@ -341,8 +341,8 @@ let prefs;
 		lock("checkUpdateFrequency", !prefs.checkUpdate);
 		lock("checkUpdateAutoApply", !prefs.checkUpdate);
 		lock("nativeWindowStyle", !defaultTheme);
-		lock("dynamicMoveOverThreshold", !nativeDragToGroup || !prefs.dragToGroupTabs);
-		lock("dragToGroupTabs", !nativeDragToGroup);
+		lock("dragToGroupTabs", !nativeDragToGroup || !prefs.animateTabMoveMaxCount);
+		lock("dynamicMoveOverThreshold", !nativeDragToGroup || !prefs.dragToGroupTabs || !prefs.animateTabMoveMaxCount);
 
 		for (let p of ["After", "Before"])
 			for (let o of ["", "OnMaximizedWindow"])
@@ -380,7 +380,7 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		let localScript = await (await fetch(localFileURI)).text();
 		let updateURL = localScript.match(/^\/\/\s*@updateURL\s+(.+)$/mi)[1];
 		let homeURL = "https://github.com/Merci-chao/userChrome.js";
-		let remoteScript = await (await fetch(updateURL)).text();
+		let remoteScript = (await (await fetch(updateURL)).text()).trim();
 		let local = getVer(localScript);
 		let remote = getVer(remoteScript);
 		if (!remote || remote.localeCompare(local, undefined, {numeric: true}) <= 0) return;
@@ -4596,37 +4596,61 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 		let draggedTab = dt.mozGetDataAt(TAB_DROP_TYPE, 0);
 		let {_dragData} = draggedTab || {};
 		let moveTabTo;
+		let nodes, rects;
 		if (_dragData) {
 			if (_dragData.shouldDropIntoCollapsedTabGroup)
 				_dragData.dropElement = _dragData.dropElement.labelElement;
 			else if (!_dragData.shouldCreateGroupOnDrop)
 				delete _dragData.dropElement;
 
-			if (
-				_dragData.stopAnimateTabMove &&
-				dt.dropEffect == "move" &&
-				_dragData.movingTabs.includes(
-					(this.ariaFocusableItems ?? gBrowser.visibleTabs)[this._getDropIndex(event)]
-				)
-			) {
-				({moveTabTo} = gBrowser);
-				gBrowser.moveTabTo = () => {};
+			if (_dragData.stopAnimateTabMove) {
+				if (
+					dt.dropEffect == "move" &&
+					_dragData.movingTabs.includes(
+						(this.ariaFocusableItems ?? gBrowser.visibleTabs)[this._getDropIndex(event)]
+					)
+				) {
+					({moveTabTo} = gBrowser);
+					gBrowser.moveTabTo = () => {};
+				} else
+					prepareAnimation();
+			} if (_dragData.fromTabList)
+				prepareAnimation();
+
+			function prepareAnimation() {
+				nodes = getNodes({newTabButton: true});
+				rects = new Map(nodes.map(n => [n, getVisualRect(n)]));
 			}
 		}
 
 		pauseStyleAccess(() => on_drop.apply(this, arguments), draggedTab, "#resetTabsAfterDrop");
 
-		if (moveTabTo)
-			assign(gBrowser, {moveTabTo});
-
-		//for drag to pin
-		if (_dragData?.stopAnimateTabMove && !_dragData.pinned && _dragData.movingTabs[0].pinned)
-			rAF(2).then(() => _dragData.movingTabs.forEach(async t => {
-				await waitForAnimate(t);
-				t.style.minWidth = "";
-			}));
+		if (_dragData?.stopAnimateTabMove) {
+			if (moveTabTo)
+				assign(gBrowser, {moveTabTo});
+			//animate of drag to pin/unpin is handled by the corresponding functions
+			else if (_dragData.pinned != _dragData.movingTabs[0].pinned) {
+				//for drag to pin: the minWidth is removed by finishAnimateTabMove in general
+				//but the function won't be called when no animate move
+				if (!_dragData.pinned)
+					rAF(2).then(() => _dragData.movingTabs.forEach(async t => {
+						await waitForTransition(t.stack, `margin-${END}`);
+						t.style.minWidth = "";
+					}));
+			} else
+				animate();
+		} else if (_dragData?.fromTabList)
+			animate();
 
 		this._postDraggingCleanup();
+
+		function animate() {
+			animateLayout(
+				//adopted tabs
+				() => getNodes({onlyFocusable: true}).filter(n => !nodes.includes(n)),
+				{nodes, rects},
+			);
+		}
 	};
 
 	tabContainer[FINISH_ANIMATE_TAB_MOVE] = function() {
@@ -5003,7 +5027,7 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 		onlyUnderflow = onlyUnderflow ? ":not([overflow])" : "";
 
 		const decimals = -Math.log10(EPSILON);
-		let css = `
+		let css = [`
 			@media (max-width: ${fixed(base + firstStaticWidth + (adjacentNewTab ? newTabButtonWidth : 0) - EPSILON)}px) {
 				${prefs.floatingBackdropClip ? `
 					#tabbrowser-tabs${onlyUnderflow} {
@@ -5044,7 +5068,7 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 						:is(.tabbrowser-tab, .tab-group-label-container, .tab-group-overflow-count-container, #tabbrowser-arrowscrollbox-periphery)
 								{order: 2}
 			}
-		`;
+		`];
 
 		if ("elementIndex" in tabProto) {
 			let lastIdx = nodes.at(-1).getAttribute("elementIndex");
@@ -5077,7 +5101,7 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 					)`;
 					let tabWrapper = `:is(tab-group, tab-split-view-wrapper)`;
 					let nodeTypes = `:is(tab, .tab-group-label-container, .tab-group-overflow-count-container)`;
-					css += `
+					css.push(`
 						@media (min-width: ${fixed(base)}px) and (max-width: ${fixed((base += width) - EPSILON)}px) {
 							#tabbrowser-tabs:not(:not([multirows])[ignore-newtab-width])
 							${i < numPinned ? "" : nodeSelector}[elementIndex="${prvIdx ?? idx - 1}"] {
@@ -5089,18 +5113,18 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 								}
 							}
 						}
-					`;
+					`);
 
 					if (i == numPinned - 1 && idx != lastIdx)
-						css += `
+						css.push(`
 							@media (min-width: ${fixed(base)}px) and (max-width: ${fixed((base += pinnedGap) - EPSILON)}px) {
 								.tabbrowser-tab:nth-last-child(1 of [pinned]:not([hidden])) {--gap-after-pinned: 0px}
 								.tabbrowser-tab ~ :not([pinned]) {&, &${tabWrapper} ${nodeTypes} {order: 2}}
 							}
-						`;
+						`);
 
 					if (adjacentNewTab && idx == lastIdx)
-						css += `
+						css.push(`
 							@media (min-width: ${fixed(base)}px) and (max-width: ${fixed(base + newTabButtonWidth - EPSILON)}px) {
 								#tabbrowser-tabs:not([ignore-newtab-width]) ${nodeSelector}[elementIndex="${prvIdx ?? idx - 1}"] {
 									& ~ :not(tab-group[collapsed] > tab:not([selected])),
@@ -5111,21 +5135,20 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 									}
 								}
 							}
-						`;
+						`);
 				}
 
 				prvIdx = idx;
 			}
-			console?.log(css);
 		} else {
 			if (adjacentNewTab)
-				css += `
+				css.push(`
 					@media (max-width: ${fixed(base + firstStaticWidth + newTabButtonWidth - EPSILON)}px) {
 						.tabbrowser-tab:nth-child(1 of :not([hidden])):nth-last-child(1 of .tabbrowser-tab:not([hidden])),
 						.tabbrowser-tab:nth-child(1 of :not([hidden])):nth-last-child(1 of .tabbrowser-tab:not([hidden])) ~ *
 							{order: 2}
 					}
-				`;
+				`);
 			if (pinnedWidth) {
 				base += pinnedWidth;
 
@@ -5133,27 +5156,27 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 				for (let i = 1; i < numPinned; i++) {
 					let min = base, max = (base += pinnedWidth) - EPSILON;
 					if (pointDelta(max, winMinWidth) >= 0)
-						css += `
+						css.push(`
 							@media (min-width: ${fixed(min)}px) and (max-width: ${fixed(max)}px) {
 								#tabbrowser-tabs:not(:not([multirows])[ignore-newtab-width])
 								.tabbrowser-tab:nth-child(${i} of :not([hidden])):not(:nth-last-child(1 of .tabbrowser-tab:not([hidden]))) ~ * {order: 2}
 							}
-						`;
+						`);
 				}
 				//remove the gap after pinned to prevent the last pinned being wrapped, and force all non-pinned to wrap
-				css += `
+				css.push(`
 					@media (min-width: ${fixed(base)}px) and (max-width: ${fixed(base + pinnedGap - EPSILON)}px) {
 						.tabbrowser-tab:nth-last-child(1 of [pinned]:not([hidden])) {--gap-after-pinned: 0px}
 						.tabbrowser-tab[pinned] ~ :not([pinned]) {order: 2}
 					}
-				`;
+				`);
 				//wrap the last pinned tab adjacent with new tab
 				if (adjacentNewTab)
-					css += `
+					css.push(`
 						@media (min-width: ${fixed(base)}px) and (max-width: ${fixed(base + newTabButtonWidth - EPSILON)}px) {
 							.tabbrowser-tab[pinned]:nth-last-child(2 of .tabbrowser-tab:not([hidden])) ~ * {order: 2}
 						}
-					`;
+					`);
 				base += pinnedGap;
 			}
 
@@ -5164,22 +5187,24 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 				}
 
 				//wrap normal tabs
-				css += `
+				css.push(`
 					@media (min-width: ${fixed(base)}px) and (max-width: ${fixed((base += tabMinWidth) - EPSILON)}px) {
 						#tabbrowser-tabs:not(:not([multirows])[ignore-newtab-width])
 						.tabbrowser-tab:nth-child(${numPinned + i} of :not([hidden], [closing])):not(:nth-last-child(1 of .tabbrowser-tab:not([hidden], [closing]))) ~ * {order: 2}
 					}
-				`;
+				`);
 				//wrap the last normal tab adjacent with new tab
 				if (adjacentNewTab && pointDelta(base, winMaxWidth) <= 0)
-					css += `
+					css.push(`
 						@media (min-width: ${fixed(base)}px) and (max-width: ${fixed(base + newTabButtonWidth - EPSILON)}px) {
 							.tabbrowser-tab:nth-child(${numPinned + i} of :not([hidden], [closing])):nth-last-child(2 of .tabbrowser-tab:not([hidden], [closing])) ~ * {order: 2}
 						}
-					`;
+					`);
 			}
 		}
 
+		css = css.join("");
+		console?.log(css);
 		if (placeholderStyle.innerHTML != css)
 			placeholderStyle.innerHTML = css;
 
@@ -5748,10 +5773,10 @@ for (let [o, fs] of [
 				let r, oldNodes;
 				animateLayout(() => {
 					if (countChange)
-						oldNodes = getNodes();
+						oldNodes = getNodes({onlyFocusable: true});
 					r = func.apply(this, arguments);
 					if (oldNodes)
-						return getNodes().filter(n => !oldNodes.includes(n));
+						return getNodes({onlyFocusable: true}).filter(n => !oldNodes.includes(n));
 					return r;
 				});
 				return r;
