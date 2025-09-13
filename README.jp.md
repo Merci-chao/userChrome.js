@@ -178,11 +178,6 @@ tab-group {
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-**Version 3.4.1**
-- バグ修正：タブバーにタブ以外の項目をドロップすると、不具合が発生。
-- バグ修正：`hideEmptyPlaceholderWhenScrolling` がプライベートウィンドウで正常に動作しない場合がある。
-- `checkUpdateAutoApply` が `3` に設定されている場合、通知が表示されない軽微な変更や修正の更新も受信するようになる。
-
 <details>
 
 <summary>軽微な更新</summary>
@@ -193,6 +188,11 @@ tab-group {
 **Version 3.4.1.1**
 - バグ修正：タブ以外の項目を固定タブ上にドラッグした際、ドロップインジケーターの位置が誤って表示される問題を修正。
 </details>
+
+**Version 3.4.1**
+- バグ修正：タブバーにタブ以外の項目をドロップすると、不具合が発生。
+- バグ修正：`hideEmptyPlaceholderWhenScrolling` がプライベートウィンドウで正常に動作しない場合がある。
+- `checkUpdateAutoApply` が `3` に設定されている場合、通知が表示されない軽微な変更や修正の更新も受信するようになる。
 
 **Version 3.4**
 - `animateTabMoveMaxCount` を追加：ドラッグされたタブの数がこの値を超えると、ドラッグアニメーションは無効化され、代わりにドロップ位置のインジケーターが表示。最小値は `0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。備考：タブグループの一部の操作が使用できない場合があり、最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある。
@@ -208,6 +208,10 @@ tab-group {
 - このスクリプトはポップアップウィンドウには適用されない。
 - Firefox 143 と 144 に対応。
 - 複数の軽微なバグの修正。
+
+<details>
+
+<summary>旧バージョン</summary>
 
 **Version 3.3**
 - `pinnedTabsFlexWidth` を追加：ピン留めしたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる（試験的機能）。
@@ -253,10 +257,6 @@ tab-group {
 - Windows のネイティブテーマスタイルをタブバーに表示する `nativeWindowStyle` を追加。
 - Firefox 141 対応。
 - バグ修正と改善。
-
-<details>
-
-<summary>旧バージョン</summary>
 
 **Version 2.6**
 - 音声再生／ミュートなどが行われているタブがある場合のレイアウトの問題を修正。
