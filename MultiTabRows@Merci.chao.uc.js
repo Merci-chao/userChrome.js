@@ -4634,7 +4634,7 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 				//but the function won't be called when no animate move
 				if (!_dragData.pinned)
 					rAF(2).then(() => _dragData.movingTabs.forEach(async t => {
-						await waitForTransition(t.stack, `margin-${END}`);
+						await waitForAnimate(t);
 						t.style.minWidth = "";
 					}));
 			} else
