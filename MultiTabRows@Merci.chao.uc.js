@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
-// @version        3.4.1.2
+// @version        3.4.1.3
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @supportURL     https://github.com/Merci-chao/userChrome.js#changelog
@@ -4629,12 +4629,12 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 			if (moveTabTo)
 				assign(gBrowser, {moveTabTo});
 			//animate of drag to pin/unpin is handled by the corresponding functions
-			else if (_dragData.pinned != _dragData.movingTabs[0].pinned) {
+			else if (_dragData.pinned != !!_dragData.movingTabs[0].pinned) {
 				//for drag to pin: the minWidth is removed by finishAnimateTabMove in general
 				//but the function won't be called when no animate move
 				if (!_dragData.pinned)
 					rAF(2).then(() => _dragData.movingTabs.forEach(async t => {
-						await waitForAnimate(t);
+						await waitForTransition(t.stack, `margin-${END}`);
 						t.style.minWidth = "";
 					}));
 			} else
