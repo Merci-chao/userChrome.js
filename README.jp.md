@@ -178,8 +178,15 @@ tab-group {
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 3.4.2**
+- バグ修正：`hidePinnedDropIndicator` を有効にするとタブのドラッグ＆ドロップができなくなる。
+- バグ修正：新しく開いたウィンドウでタブが不自然に移動する場合がある。
+- バグ修正：タブの閉じるボタンが正しく表示／非表示されない場合がある。
+- バグ修正：特殊な状況で発生していた `tabsUnderControlButtons` のレイアウト問題。
+- Firefox の旧バージョン（115 を除く）を使用している場合、このスクリプトの更新は通知されなくなる。
+- 不要なロジックを削除。
+ 
 <details>
-
 <summary>軽微な更新</summary>
 
 **Version 3.4.1.3**
