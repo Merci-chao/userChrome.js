@@ -5977,6 +5977,8 @@ function toggleAllTabsButton() {
 }
 
 function getRowCount(allRows) {
+	if (!tabHeight)
+		tabContainer.uiDensityChanged();
 	return Math.max(Math.round(getRect(allRows ? slot : scrollbox, {box: "content"}).height / tabHeight) || 1, 1);
 }
 
