@@ -329,6 +329,7 @@ There also few settings in `about:config` for the layout of tabs:
 - Other tab related user scripts, styles, and legacy extensions (e.g. [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs))
 - Firefox Nightly
 - Firefox 116 to the previous versions of latest released
+- Touch operations
 - macOS and Ubuntu (Linux)
 - Vertical tabs, obviously
 
