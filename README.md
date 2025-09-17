@@ -181,7 +181,7 @@ There also few settings in `about:config` for the layout of tabs:
 
 **Version 3.4.2**
 - Bug fix: Could not drag and drop tabs when enabling `hidePinnedDropIndicator`.
-- Bug fix: Tabs might unexpectedly jump on a newly opened window
+- Bug fix: Tabs might have a weird jump on a newly opened window
 - Bug fix: Tab close buttons did not always display or hide correctly.
 - Bug fix: Layout issues with `tabsUnderControlButtons` in special cases.
 - Updates for this script will no longer be notified when using older versions of Firefox (except 115).
