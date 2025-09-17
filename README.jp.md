@@ -331,6 +331,7 @@ tab-group {
 - 他のタブ関連ユーザースクリプト、スタイル、旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）
 - Firefox Nightly
 - Firefox 116～最新版以前のリリース
+- タッチ操作 
 - macOS および Ubuntu（Linux）
 - 垂直タブ（当然）
 
