@@ -352,7 +352,7 @@ Add sub-menus to History Menu for previous days' history. [Add-on Page (web arch
 There is no setting panel and you need to open `about:config` and search for the prefix `extensions.HistorySubmenus2@Merci.chao.`.
 
 > [!NOTE]
-> Settings will be applied after restarting Firefox. 
+> Settings will apply to new windows.
 
 | Name | Description |
 | ------------- | ------------- |
