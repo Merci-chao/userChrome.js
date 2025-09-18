@@ -351,7 +351,7 @@ tab-group {
 ## 設定
 設定パネルは存在しません。`about:config` を開いて `extensions.HistorySubmenus2@Merci.chao.` で始まる項目を検索してください。
 
-🔔 設定を変更すると Firefox 再起動後に反映される。
+🔔 設定は新しいウィンドウに適用される。
 
 | 設定項目 | 説明 |
 | --- | --- |
