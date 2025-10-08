@@ -119,7 +119,7 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
 > [!NOTE]
 > Avoid using decimal values or units other than pixels (`px`). 
 
-``` css
+```css
 :root {
   /* Horizontal space between tabs */
   --tab-overflow-clip-margin: 2px !important;
@@ -160,7 +160,7 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
   --group-line-padding: 3px !important;
 
   /* Max width of the labels of tab groups. It's OK to use other units */
-  --group-label-max-width 10em !important;
+  --group-label-max-width: 10em !important;
 }
 ```
 
