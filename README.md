@@ -189,7 +189,7 @@ There also few settings in `about:config` for the layout of tabs:
 - Bug fix: issue occured after dragging tabs to copy them to another window.
 - Bug fix: issue occured after dragging a tab group out of the window so fast.
 - Minor bug fixes.
-- Refined code style for improved readability.
+- Refine code style for better readability.
 
 **Version 3.4.2**
 - Bug fix: Could not drag and drop tabs when enabling `hidePinnedDropIndicator`.
