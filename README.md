@@ -100,7 +100,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `floatingBackdropBlurriness` | How blurry the background of items covering the tabs is when Tabs Bar is scrollable, available when `tabsUnderControlButtons` is `2` and both `floatingBackdropClip` & `nativeWindowStyle` are `false`. The minimum value is `0`. Not available on Firefox 115. |
 | `floatingBackdropClip` | Clip the area covered by items on the Tabs Bar when it is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `floatingBackdropOpacity` | How opaque the background of items covering the tab is when Tabs Bar is scrollable, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
-| `nativeWindowStyle` | Display the system-native theme style (e.g. effects from tools like [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass)) on Tabs Bar. To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. Not available on Firefox 115, or using any Firefox theme. |
+| `nativeWindowStyle` | Display the system-native theme style (e.g. effects from tools like [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass)) on Tabs Bar. To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. Not available on Firefox 115, or using any Firefox theme with background image. |
 | `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
 | `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`. |
 
@@ -155,14 +155,12 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
   padding-inline: 10px !important;
 }
 
-tab-group {
+#tabbrowser-tabs {
   /* Horizontal padding in tab groups */
   --group-line-padding: 3px !important;
-}
 
-.tab-group-label {
   /* Max width of the labels of tab groups. It's OK to use other units */
-  max-width: 10em;
+  --group-label-max-width 10em !important;
 }
 ```
 
@@ -178,6 +176,20 @@ There also few settings in `about:config` for the layout of tabs:
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 3.5**
+- Update for Firefox 145.
+- Add animation when tabs are moved to another window.
+- Themes without background images can now use `nativeWindowStyle`.
+- Adjust CSS variables: add `--group-label-max-width` and `--group-line-padding` on `#tabbrowser-tabs` to control the size of group label (See: [Advanced Tweaks](#advanced-tweaks)).
+- Always close the menu when dragging an item from it onto the tab strip, if the menu overlaps the tab strip.
+- Bug fix: background image issues when using `tabsAtBottom`.
+- Bug fix: certain settings were unexpectedly disabled under specific conditions.
+- Bug fix: issue occured after dragging tabs to pin or unpin them.
+- Bug fix: issue occured after dragging tabs to copy them to another window.
+- Bug fix: issue occured after dragging a tab group out of the window so fast.
+- Minor bug fixes.
+- Refined code style for improved readability.
 
 **Version 3.4.2**
 - Bug fix: Could not drag and drop tabs when enabling `hidePinnedDropIndicator`.
