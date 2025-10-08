@@ -160,7 +160,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
   --group-line-padding: 3px !important;
 
   /* タブグループ名の最大幅、ピクセル以外でもOK */
-  --group-label-max-width 10em !important;
+  --group-label-max-width: 10em !important;
 }
 ```
 `about:config` には、タブのレイアウトに関するいくつかの Firefox 設定項目がある：
