@@ -180,7 +180,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Firefox 145 に対応。
 - タブを別のウィンドウに移動する際にアニメーションを追加。
 - 背景画像なしのテーマで `nativeWindowStyle` が使えるようになる。
-- CSS 変数を調整：グループラベルのサイズを制御するために、`#tabbrowser-tabs` に `--group-label-max-width` と `--group-line-padding` を追加（参照：[高度な調整](#advanced-tweaks)）。
+- CSS 変数を調整：グループラベルのサイズを制御するために、`#tabbrowser-tabs` に `--group-label-max-width` と `--group-line-padding` を追加（参照：[高度な調整](#高度な調整)）。
 - メニューがタブと重なっている場合、そこから項目をドラッグすると常にメニューを閉じるようにする。
 - バグ修正：`tabsAtBottom` 使用時の背景画像の不具合。
 - バグ修正：一部設定が予期せず無効になった。
