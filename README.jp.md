@@ -101,7 +101,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `floatingBackdropBlurriness` | タブバーがスクロール可能時にタブを覆う要素の背景ぼかし強度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip`、`nativeWindowStyle` が `false` のときのみ有効。Firefox 115 では未対応。 |
 | `floatingBackdropClip` | タブバーがスクロール可能時にタブバーを覆う要素の領域をクリップする。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `floatingBackdropOpacity` | タブバーがスクロール可能時にタブを覆う要素の背景の不透明度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
-| `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（例えば、[DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果）を表示。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合がある。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をする。Firefox 115 またはテーマ使用時は未対応。 |
+| `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（例えば、[DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果）を表示。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合がある。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をする。Firefox 115 または背景画像付きテーマでは非対応。 |
 | `scrollbarThumbColor` | スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
 | `scrollbarTrackColor` | スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
 
@@ -155,14 +155,12 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
   padding-inline: 10px !important;
 }
 
-tab-group {
+#tabbrowser-tabs {
   /* タブグループ内の左右余白 */
   --group-line-padding: 3px !important;
-}
 
-.tab-group-label {
   /* タブグループ名の最大幅、ピクセル以外でもOK */
-  max-width: 10em;
+  --group-label-max-width 10em !important;
 }
 ```
 `about:config` には、タブのレイアウトに関するいくつかの Firefox 設定項目がある：
@@ -177,6 +175,20 @@ tab-group {
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 3.5**
+- Firefox 145 に対応。
+- タブを別のウィンドウに移動する際にアニメーションを追加。
+- 背景画像なしのテーマで `nativeWindowStyle` が使えるようになる。
+- CSS 変数を調整：グループラベルのサイズを制御するために、`#tabbrowser-tabs` に `--group-label-max-width` と `--group-line-padding` を追加（参照：[高度な調整](#advanced-tweaks)）。
+- メニューがタブと重なっている場合、そこから項目をドラッグすると常にメニューを閉じるようにする。
+- バグ修正：`tabsAtBottom` 使用時の背景画像の不具合。
+- バグ修正：一部設定が予期せず無効になった。
+- バグ修正：タブをドラッグしてピン留め・外す後に不具合が発生。
+- バグ修正：タブをドラッグして別のウィンドウにコピーした後に不具合が発生。
+- バグ修正：タブグループをウィンドウ外に素早くドラッグした後に不具合が発生。
+- 軽微なバグの修正。
+- 可読性向上のためコードスタイルを改善。
 
 **Version 3.4.2**
 - バグ修正：`hidePinnedDropIndicator` を有効にするとタブのドラッグ＆ドロップができなくなった。
