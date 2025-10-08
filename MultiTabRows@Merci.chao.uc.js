@@ -170,8 +170,8 @@ let debug = false;
 
 const prefBranchStr = "userChromeJS.multiTabRows@Merci.chao.";
 
-if (!Services.prefs.getPrefType(prefBranchStr + "checkUpdate"))
-	Services.prefs.setIntPref(prefBranchStr + "tabsUnderControlButtons", 0);
+// if (!Services.prefs.getPrefType(prefBranchStr + "checkUpdate"))
+// 	Services.prefs.setIntPref(prefBranchStr + "tabsUnderControlButtons", 0);
 
 /** @type {Object} */
 let prefs;
