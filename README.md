@@ -196,6 +196,9 @@ There also few settings in `about:config` for the layout of tabs:
 - Minor bug fixes.
 - Refine code style for better readability.
 
+<details>
+<summary>Old Versions</summary>
+
 **Version 3.4.2**
 - Bug fix: Could not drag and drop tabs when enabling `hidePinnedDropIndicator`.
 - Bug fix: Tabs might have a weird jump on a newly opened window
@@ -232,9 +235,6 @@ There also few settings in `about:config` for the layout of tabs:
 - The script will never apply on popup windows.
 - Update for Firefox 143 and 144.
 - Multiple minor bug fixes.
-
-<details>
-<summary>Old Versions</summary>
 
 **Version 3.3**
 - Add `pinnedTabsFlexWidth`: Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when Tabs Bar is scrollable (experimental).
