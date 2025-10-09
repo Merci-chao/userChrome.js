@@ -57,6 +57,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ------------- | ------------- |
 | `animateTabMoveMaxCount` | When the number of dragged tabs exceeds this value, drag animations are disabled and a drop indicator is shown instead. The minimum value is `0`. If dragging too many tabs causes lag, consider lowering this value.<br>📝 Note: Some tab grouping operations may be unavailable, and the final drop position is determined by Firefox's native behavior, which may not behave as expected in certain scenarios (Firefox bug [#1985434](https://bugzilla.mozilla.org/show_bug.cgi?id=1985434), [#1988159](https://bugzilla.mozilla.org/show_bug.cgi?id=1988159), [#1988162](https://bugzilla.mozilla.org/show_bug.cgi?id=1988162), [#1988194](https://bugzilla.mozilla.org/show_bug.cgi?id=1988194)). |
 | `animationDuration` | Duration of animations in milliseconds (valid range: `0` - `1000`). Note: Lengthy animations could strain system performance. |
+| `disableDragToPinOrUnpin` | Disable tab pinning/unpinning via drag-and-drop between normal and pinned tabs (not available on Firefox 115). This setting will be removed if an official option is introduced. |
 | `dragToGroupTabs` | Enable tab grouping when dragging tabs over another. Disabling this setting results in behavior that differs from when `browser.tabs.dragDrop.moveOverThresholdPercent` is set to `50` or below: the disabled state allows tabs to be added to or removed from a group without altering their order. Not available on Firefox 115 or `browser.tabs.groups.enabled` is `false`. |
 | `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or either `dragToGroupTabs` or `browser.tabs.groups.enabled` is `false`. |
 | `hideDragPreview` | Hide the drag preview during a drag interaction:<ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
@@ -177,6 +178,10 @@ There also few settings in `about:config` for the layout of tabs:
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 3.5.1**
+- Add `disableDragToPinOrUnpin`: Disable tab pinning/unpinning via drag-and-drop between normal and pinned tabs (not available on Firefox 115). This setting will be removed if an official option is introduced.
+- Prevent window dragging during tab drop animation.
+
 **Version 3.5**
 - Update for Firefox 145.
 - Add animation when tabs are moved to another window.
@@ -215,7 +220,7 @@ There also few settings in `about:config` for the layout of tabs:
 
 **Version 3.4**
 - Add `animateTabMoveMaxCount`: When the number of dragged tabs exceeds this value, drag animations are disabled and a drop indicator is shown instead. The minimum value is `0`. If dragging too many tabs causes lag, consider lowering this value. Note: Some tab grouping operations may be unavailable, and the final drop position is determined by Firefox's native behavior, which may not behave as expected in certain scenarios.
-- Add `hidePinnedDropIndicator`: Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs (Firefox 143 and beyond).
+- Add `hidePinnedDropIndicator`: Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs (not available on Firefox 115).
 - Streamline and improve the animation logic.
 - The Tabs Bar will appear below the Bookmarks Toolbar when `tabsAtBottom` is set to `2`, even if Bookmarks Toolbar is set as "Only Show on New Tab".
 - Improve `autoCollapse`: the tab strip now remains open while a context menu is displayed.
