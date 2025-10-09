@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        3.5.1
+// @version        3.5.2
 // @compatible     firefox 115, 143-145
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelog      https://github.com/Merci-chao/userChrome.js#changelog
@@ -4323,9 +4323,20 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 
 				console?.debug("target row", {rPassing, passing, t, r, leaderRect, threshold});
 
-				//if the dragged node is restricted in another row -- usually happens when dragging group,
-				//use the virtal position instead to prevent using an unintended position for determination
-				if ((currentRow == draggedRect.row ? rPassing : passing) > threshold) {
+				if (
+					(
+						(
+							//if the dragged node is restricted in another row -- usually happens when dragging group,
+							currentRow == draggedRect.row ||
+							//if the dragged node is pressed against the edge of tab strip
+							rTranX != tranX
+						) ?
+						//use the virtal position instead to prevent using an unintended position for determination
+						rPassing :
+						passing
+					) >
+					threshold
+				) {
 					if (!i && !moveForward) {
 						dropBeforeElement = row[1].t;
 						dropAfterElement = t;
