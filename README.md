@@ -178,6 +178,9 @@ There also few settings in `about:config` for the layout of tabs:
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 3.5.2**
+- Bug fix: dragged tabs might not be moved to the intended position if it is pressed against to the edge.
+
 **Version 3.5.1**
 - Add `disableDragToPinOrUnpin`: Disable tab pinning/unpinning via drag-and-drop in the same window (not available on Firefox 115). This setting will be removed if an official one is introduced.
 - Prevent window dragging during tab drop animation.
