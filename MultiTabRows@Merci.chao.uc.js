@@ -4520,7 +4520,7 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 
 				_dragData.groupOfLastAction = groupOfDraggedNode;
 
-				if (rowChange && !draggingGroupAtGroup && !pinned) {
+				if (rowChange && !draggingGroupAtGroup) {
 					assign(_dragData, {
 						needsUpdate: true,
 						moveForward: !moveForward,
