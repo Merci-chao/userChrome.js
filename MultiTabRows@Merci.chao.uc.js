@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        3.5
+// @version        3.5.1
 // @compatible     firefox 115, 143-145
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelog      https://github.com/Merci-chao/userChrome.js#changelog
@@ -164,6 +164,10 @@ let micaEnabled = false,
 
 const root = document.documentElement;
 
+const dragToPinSupported =
+	window.TabDragAndDrop ||
+	tabContainer.constructor.toString().includes("#updateTabStylesOnDrag");
+
 /** @type {(Console|null)} */
 let console;
 let debug = false;
@@ -221,6 +225,7 @@ let prefs;
 		pinnedTabsFlexWidth: false,
 		animateTabMoveMaxCount: 30,
 		hidePinnedDropIndicator: $("#pinned-drop-indicator") ? false : null,
+		disableDragToPinOrUnpin: dragToPinSupported ? false : null,
 	});
 
 	const setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
@@ -307,6 +312,7 @@ let prefs;
 			["spaceAfterTabs", "spaceAfterTabsOnMaximizedWindow", "spaceBeforeTabs", "spaceBeforeTabsOnMaximizedWindow"],
 			prefs.tabsAtBottom,
 		);
+		lock("hidePinnedDropIndicator", prefs.disableDragToPinOrUnpin, true);
 
 		prefs.animationDuration = Math.min(Math.max(prefs.animationDuration, 0), prefs.debugMode ? Infinity : 1000);
 		if (gNavToolbox.hasAttribute("tabs-hidden"))
@@ -566,10 +572,6 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 
 console?.time("setup");
 
-const dropToPinSupported =
-	window.TabDragAndDrop ||
-	tabContainer.constructor.toString().includes("#updateTabStylesOnDrag");
-
 const [
 	DRAGOVER_GROUPTARGET,          MOVINGTAB_GROUP,             CLEAR_DRAG_OVER_GROUPING_TIMER,
 	TRIGGER_DRAG_OVER_GROUPING,    DRAG_OVER_GROUPING_TIMER,
@@ -657,8 +659,10 @@ const preTabsButtons = `:is(
 	:root:not([privatebrowsingmode], [firefoxviewhidden]) :is(toolbarbutton, toolbarpaletteitem),
 	:root[privatebrowsingmode]:not([firefoxviewhidden]) :is(toolbarbutton:not(#firefox-view-button), toolbarpaletteitem:not(#wrapper-firefox-view-button))
 )`;
-//https://drafts.csswg.org/css-values-4/#snap-a-length-as-a-border-width
-const snapAsBorderWidth = size => CSS.supports("flex", "round(1)") ?
+
+const borderSnapping = size =>
+	CSS.supports("flex", "round(1)") ?
+	//https://drafts.csswg.org/css-values-4/#snap-a-length-as-a-border-width
 	`calc(
 		max( /*at least 1 device px, or 0 if size <= 0*/
 			round( /*round down to integer*/
@@ -673,8 +677,13 @@ const snapAsBorderWidth = size => CSS.supports("flex", "round(1)") ?
 		) /
 		var(--device-pixel-ratio) /*covert back to css px*/
 	)` :
-	//fallback to the approximation
+	//fallback to approximation
 	`calc(${size} / var(--device-pixel-ratio))`;
+
+const outlineOffsetSnapping = size =>
+	[1, 2].includes(getPref("layout.css.outline-offset.snapping", "Int")) ?
+	size :
+	borderSnapping(size);
 
 mainStyle.innerHTML = `
 :root {
@@ -703,14 +712,17 @@ ${_="#TabsToolbar"} {
 	--tabs-scrollbar-visual-width: 0px;
 	--tabs-item-opacity-transition: ${
 		getComputedStyle($("[part=overflow-end-indicator]", arrowScrollbox.shadowRoot))
-			.transition.match(/\d.+|$/)[0] || ".15s"
+			.transition.match(/\d.+|$/)[0] ||
+		".15s"
 	};
 	--tabs-placeholder-border-color: ${
 		getComputedStyle(tabContainer).getPropertyValue("--tabstrip-inner-border")
-			.match(/(?<=\dpx \w+ ).+|$/)[0] || "color-mix(in srgb, currentColor 25%, transparent)"
+			.match(/(?<=\dpx \w+ ).+|$/)[0] ||
+		"color-mix(in srgb, currentColor 25%, transparent)"
 	};
 	--tabs-placeholder-shadow: var(--tab-selected-shadow, ${
-		gBrowser.selectedTab && getComputedStyle($(".tab-background", gBrowser.selectedTab)).boxShadow || "none"
+		gBrowser.selectedTab && getComputedStyle($(".tab-background", gBrowser.selectedTab)).boxShadow ||
+		"none"
 	});
 	--tabs-placeholder-border-width: 1px;
 	--tabs-placeholder-border: var(--tabs-placeholder-border-width) solid var(--tabs-placeholder-border-color);
@@ -1315,7 +1327,11 @@ ${_}:not([scrollsnap])::part(items-wrapper),
 	overflow: hidden;
 }
 
-#tabbrowser-tabs[movingtab-finishing] ${_} {
+${condition="#tabbrowser-tabs[movingtab-finishing]"} {
+	-moz-window-dragging: no-drag;
+}
+
+${condition} ${_} {
 	pointer-events: none;
 }
 
@@ -1703,7 +1719,7 @@ tab-group .tab-group-line {
 #tabbrowser-tabs[${MOVINGTAB_GROUP}] [pinned] .tab-background[multiselected] {
 	outline: var(--tab-outline);
 	outline-color: var(--focus-outline-color);
-	outline-offset: calc(${snapAsBorderWidth("var(--outline-width)")} * -1);
+	outline-offset: calc(${outlineOffsetSnapping("var(--outline-width)")} * -1);
 }
 
 /*make moving pinned tabs above the selected normal tabs*/
@@ -1795,7 +1811,7 @@ ${_}:not([pinned]):not([closebutton]) .tab-close-button:not([selected]) {
 /*bug #1985190*/
 #tabbrowser-tabs .tab-background[class][class] {
 	--outline-width: calc(var(--tab-outline-offset, -1px) * -1);
-	outline-offset: calc(${snapAsBorderWidth("var(--outline-width)")} * -1);
+	outline-offset: calc(${outlineOffsetSnapping("var(--outline-width)")} * -1);
 }
 
 .tab-background[multiselected][selected],
@@ -1864,7 +1880,7 @@ ${condition}:not([multirows]) #tabs-newtab-button {
 	padding: 0;
 	margin: var(--tab-block-margin) var(--tab-overflow-clip-margin);
 	border-radius: var(--border-radius-small);
-	outline-offset: calc(${snapAsBorderWidth("1px")} * -1);
+	outline-offset: calc(${outlineOffsetSnapping("1px")} * -1);
 	background: var(--tab-hover-background-color);
 	backdrop-filter: blur(var(--tabs-placeholder-blurriness));
 	opacity: 0;
@@ -1948,7 +1964,7 @@ ${condition}:not([multirows]) #tabs-newtab-button {
 
 	/*bug #1985190*/
 	tab-group[collapsed] > .tab-group-label-container & {
-		outline-offset: calc(${snapAsBorderWidth("1px")} * -1);
+		outline-offset: calc(${outlineOffsetSnapping("1px")} * -1);
 	}
 }
 
@@ -2329,13 +2345,13 @@ ${prefs.tabsUnderControlButtons ? `
 		border-inline-end: var(--tabstrip-border);
 		padding-inline-end: var(--tabstrip-padding);
 		margin-inline-end: calc(
-			var(--tabstrip-padding) + var(--tabstrip-border-width) - ${snapAsBorderWidth("var(--tabstrip-border-width)")}
+			var(--tabstrip-padding) + var(--tabstrip-border-width) - ${borderSnapping("var(--tabstrip-border-width)")}
 		);
 	}
 
 	${context}[tabs-multirows] ${_}::before {
 		border-bottom: var(--tabstrip-border);
-		margin-bottom: calc(${snapAsBorderWidth("var(--tabstrip-border-width)")} * -1);
+		margin-bottom: calc(${borderSnapping("var(--tabstrip-border-width)")} * -1);
 		border-end-end-radius: var(--tabs-placeholder-border-radius);
 	}
 
@@ -3797,8 +3813,9 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 
 		let target = this._getDragTargetTab(e);
 		const movingTab = tabContainer.hasAttribute("movingtab");
-		const updatePinState = sameWindow && dropToPinSupported && !copy &&
-			draggingTab && target && draggedTab.pinned != target.pinned;
+		const updatePinState = sameWindow && dragToPinSupported && !copy &&
+			draggingTab && target && !prefs.disableDragToPinOrUnpin &&
+			draggedTab.pinned != target.pinned;
 
 		if (updatePinState)
 			hidden = false;
@@ -3870,7 +3887,7 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 			else if (draggedTab?._dragData.fromTabList && sameWindow && !copy) {
 				//dragging a pinned tab
 				if (draggedTab.pinned) {
-					if (!dropToPinSupported || !target) {
+					if (!dragToPinSupported || !target) {
 						//limit the drop range
 						lastNode = nodes[lastIdx = numPinned - 1];
 						if (!target?.pinned)
@@ -3881,7 +3898,7 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 				else if (!target)
 					idx = lastIdx + 1;
 				//dragging a normal tab to pinned area but can't pin
-				else if (!dropToPinSupported && target.pinned)
+				else if (!dragToPinSupported && target.pinned)
 					idx = numPinned;
 			}
 			//dragging external thing or copying tabs to pinned area
@@ -3896,7 +3913,7 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 			)
 				if (
 					!draggedTab ||
-					!(dropToPinSupported && target?.pinned) && sameWindow ||
+					!(dragToPinSupported && target?.pinned) && sameWindow ||
 					copy ||
 					draggedTab && !sameWindow && !draggedTab.pinned
 				)
@@ -4847,7 +4864,7 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 	 * @param {string} caller
 	 */
 	function pauseStyleAccess(callback, element, caller) {
-		if (window.TabDragAndDrop || !dropToPinSupported) {
+		if (window.TabDragAndDrop || !dragToPinSupported) {
 			callback();
 			return;
 		}
@@ -4921,7 +4938,11 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 				},
 				contains: function(node) {
 					return isCalledBy("on_drop") ?
-						!!node?.closest("#tabbrowser-arrowscrollbox .tabbrowser-tab[pinned]") :
+						(
+							prefs.disableDragToPinOrUnpin ?
+							false :
+							!!node?.closest("#tabbrowser-arrowscrollbox .tabbrowser-tab[pinned]")
+						) :
 						contains.apply(this, arguments);
 				},
 			});
@@ -4936,7 +4957,11 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 				},
 				contains: function(node) {
 					return isCalledBy("on_drop", "scrollIntoView") ?
-						!!node?.closest("#tabbrowser-arrowscrollbox :is(tab-group, .tabbrowser-tab:not([pinned]))") :
+						(
+							prefs.disableDragToPinOrUnpin ?
+							false :
+							!!node?.closest("#tabbrowser-arrowscrollbox :is(tab-group, .tabbrowser-tab:not([pinned]))")
+						) :
 						contains.apply(this, arguments);
 				},
 			});
