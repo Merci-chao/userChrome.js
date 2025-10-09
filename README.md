@@ -16,7 +16,6 @@ Make Firefox support multiple rows of tabs.
 - **📐 Optimized Space Usage:** Makes full use of available UI space, including the area beneath window control buttons.
 - **🖱️ Smooth Tab-Dragging Animation:** Supports animated tab dragging even in multi-row mode.
 - **📌 Pinned Tabs Grid Layout:** Pinned tabs are fixed in a compact grid when Tabs Bar is scrollable — ideal for managing large numbers of pinned tabs.
-- **🦊 Native-Like Firefox Integration:** Seamlessly aligns with Firefox’s behavior to support multi-row tabs as if natively built-in.
 - **🛠️ Customizable Preferences:** Offers a rich set of options and features to tailor the experience precisely to your liking.
 - **🔄 Auto-Update Checker:** Automatically checks for updates to ensure you're always equipped with the latest enhancements and improvements.
 
