@@ -178,7 +178,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
 **Version 3.5.1**
-- `disableDragToPinOrUnpin` を追加：通常のタブとピン留めされたタブ間でのドラッグ＆ドロップによるピン留め・外すの動作を無効化（Firefox 115 では未対応）。公式設定が追加された場合、このオプションは削除される。
+- `disableDragToPinOrUnpin` を追加：通常のタブとピン留めされたタブ間でのドラッグ＆ドロップによるピン留め・外すの動作を無効化（Firefox 115 では未対応）。公式設定が追加された場合、この設定は削除される。
 - タブのドロップアニメーション中にウィンドウがドラッグされるのを防止。
 
 **Version 3.5**
