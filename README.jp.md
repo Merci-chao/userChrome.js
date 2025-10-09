@@ -26,7 +26,7 @@ Firefox に多段タブ表示をサポートさせる。
 
 ## 注意事項
 **🚨 ご使用の前に、以下の注意点をよくお読みください：**
-- ❗ **Firefox に最適化されたレイアウト計算を多く含むため、タブやタブバー関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト（`userChrome.js`）、CSS スタイル（`userChrome.css`）によって不具合が発生する可能性がある。スクリプト適用前後にそれらを確認するか、[`tabsUnderControlButtons`](#tabsUnderControlButtons) を無効にしてください。**
+- ❗ **Firefox に最適化されたレイアウト計算を多く含むため、タブやタブバー関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト（`userChrome.js`）、CSS スタイル（`userChrome.css`）によって不具合が発生する可能性がある。スクリプト適用前後にそれらを確認してください。**
 - 非公式かつ複雑なスクリプトで、個人によって管理されている。このスクリプトには予期しないバグが含まれている可能性があり、Firefox の最新バージョンとの互換性は保証されていない。予期せぬ問題が発生した場合は、Firefox を再起動する必要があるかもしれない。特に、古いバージョンのスクリプトを最新の Firefox で使用した場合、ブラウザが使用不能になり、過去の閲覧セッションが永久に失われる可能性がある。そのような場合には、スクリプトの無効化が必要になることがある。このスクリプトは、これらのリスクに対応できる準備がある方のみご使用ください。
 - 本スクリプトは Windows 専用。Ubuntu（Linux）および macOS では動作しない、あるいは不具合が生じる恐れがある。
 - Firefox の関数を上書きする必要があるため、Firefox 139 以降では [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) の設定が必要。この設定はスクリプト適用時に自動で有効化されるが、スクリプト削除時には `about:config` で手動無効化が必要。
