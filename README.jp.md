@@ -195,6 +195,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 軽微なバグの修正。
 - 可読性向上のためコードスタイルを改善。
 
+<details>
+<summary>旧バージョン</summary>
+  
 **Version 3.4.2**
 - バグ修正：`hidePinnedDropIndicator` を有効にするとタブのドラッグ＆ドロップができなくなった。
 - バグ修正：新しく開いたウィンドウでタブが不自然に移動する場合があった。
@@ -231,10 +234,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - このスクリプトはポップアップウィンドウには適用されない。
 - Firefox 143 と 144 に対応。
 - 複数の軽微なバグの修正。
-
-<details>
-
-<summary>旧バージョン</summary>
 
 **Version 3.3**
 - `pinnedTabsFlexWidth` を追加：ピン留めしたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる（試験的機能）。
