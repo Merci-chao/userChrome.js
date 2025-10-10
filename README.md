@@ -20,7 +20,7 @@ Make Firefox support multiple rows of tabs.
 - **🔄 Auto-Update Checker:** Automatically checks for updates to ensure you're always equipped with the latest enhancements and improvements.
 
 ## Compatibility
-- Firefox 115, 143 to 145 (excluding 128), for Windows 7 to 11.
+- Firefox 115, 143 to 145 (excluding ESR versions), for Windows 7 to 11.
 - Supports general script loaders, like xiaoxiaoflood's userChromeJS (Firefox Scripts).
 
 ## Cautions
