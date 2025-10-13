@@ -39,7 +39,7 @@ Make Firefox support multiple rows of tabs.
   </tr>
   <tr>
 	  <td>🔄&nbsp;Auto-Update&nbsp;Checking</td>
-	  <td>Ensures you're always equipped with the newest enhancements and fully compatible with the latest Firefox version.</td>
+	  <td>Ensures you're always equipped with the newest enhancements and compatibility.</td>
   </tr>
 </table>
 
