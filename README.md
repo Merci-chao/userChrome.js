@@ -17,7 +17,7 @@ Make Firefox support multiple rows of tabs.
 - **🖱️ Smooth Dragging Experience:** Supports animated tab dragging even in multi-row mode.
 - **📌 Pinned Tabs Grid Layout:** Pinned tabs are fixed in a compact grid when Tabs Bar is scrollable — ideal for managing large numbers of pinned tabs.
 - **🛠️ Customizable Preferences:** Offers a rich set of options and features to tailor the experience precisely to your liking.
-- **🔄 Auto-Update Checker:** Automatically checks for updates to ensure you're always equipped with the latest enhancements and improvements.
+- **🔄 Auto-Update Checking:** Ensures you're always equipped with the newest enhancements and fully compatible with the latest Firefox version.
 
 ## Compatibility
 - Firefox 115, 143 to 145 (excluding ESR versions), for Windows 7 to 11.
