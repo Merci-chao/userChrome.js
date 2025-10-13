@@ -113,8 +113,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `spaceBeforeTabsOnMaximizedWindow` | 最大化時の左端空白スペース。最小値は `0`。 |
 | `tabMaxWidth` | タブの最大幅（周囲の余白を含む）を指定。最小幅は `browser.tabs.tabMinWidth` で設定。 |
 | `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0` - デフォルト</li><li>`1` - ナビゲーションツールバー下</li><li>`2` - ブックマークツールバー下</li></ul>Firefox 115 では未対応。 |
-| `tabsbarItemsAlign` | 多段モードでタブバー内の項目の配置：<ul><li>`start` – 上</li><li>`center` – 中</li><li>`end` – 下</li></ul>`tabsUnderControlButtons` が `0` または `1` でタブバーがスクロール可能時のみ有効。 |
-| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 実験的機能 🧪**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：<ul><li>`0` – 無効</li><li>`1` – タブバーがスクロール不可能場合のみ（旧式オプション、非推奨）</li><li>`2` – 常に有効</li></ul>不具合が出る場合は `0` に設定してください。 |
+| `tabsbarItemsAlign` | 多段モードでタブバー内の項目の配置：<ul><li>`start` - 上</li><li>`center` - 中</li><li>`end` - 下</li></ul>`tabsUnderControlButtons` が `0` または `1` でタブバーがスクロール可能時のみ有効。 |
+| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 実験的機能 🧪**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：<ul><li>`0` - 無効</li><li>`1` - タブバーがスクロール不可能場合のみ（旧式オプション、非推奨）</li><li>`2` - 常に有効</li></ul>不具合が出る場合は `0` に設定してください。 |
 | `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用。 |
 
 ### 外観
@@ -194,7 +194,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `browser.tabs.tabClipWidth` | このサイズを超えるタブには閉じるボタンが表示される。 |
 | `browser.tabs.tabMinWidth` | 通常のタブの最小幅（周囲の余白を含む）を指定。 |
 | `widget.windows.mica` | タブバーに Windows 11 のネイティブスタイルを適用。 |
-| `widget.windows.mica.toplevel-backdrop` | 背景効果の選択肢（Windows 11）：<ul><li>`0` – 自動</li><li>`1` – Mica</li><li>`2` – Acrylic</li><li>`3` – Mica Alt</li></ul> |
+| `widget.windows.mica.toplevel-backdrop` | 背景効果の選択肢（Windows 11）：<ul><li>`0` - 自動</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用。 |
 
 ## 変更履歴
