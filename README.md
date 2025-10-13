@@ -55,7 +55,7 @@ Make Firefox support multiple rows of tabs.
 - This script needs to override some functions of Firefox and requires [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) to be enabled on Firefox 139+ for this purpose. The said setting is enabled automatically once you are applying this script, and it requires a manual disabling through `about:config` after disabling or removing the script. Please note that and use this script with understanding.
 
 ## Installation
-1. Follow the instructions in the 📘 [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the script loader (Firefox Scripts) if you are not using any scripts. You can skip this step if you have already installed some scripts.<br>
+1. Follow the instructions in the 📘 [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the script loader (Firefox Scripts) if you are not using any scripts. This step can be skipped if some scripts are already in use.<br>
 <br>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
 2. Make sure that no other tab-related scripts and CSS styles are currently activated. Just in case, temporarily move all other `.js` and `.css` files out of the `chrome` folder.
 3. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it into the `chrome` folder.
