@@ -11,13 +11,37 @@ Make Firefox support multiple rows of tabs.
 
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/scrolling.png)
 ## Highlights
-- **🗂️ Tab Groups Support:** Fully supports mouse operations for tab groups, delivering a smoother and more graceful experience.
-- **🎞️ Enhanced Tab Animations:** Adds fluid transitions for various tab-related actions.
-- **📐 Optimized Space Usage:** Makes full use of available UI space, including the area beneath window control buttons.
-- **🖱️ Smooth Dragging Experience:** Supports animated tab dragging even in multi-row mode.
-- **📌 Pinned Tabs Grid Layout:** Pinned tabs remain neatly compact when the Tabs bar is scrollable, minimizing space usage.
-- **🛠️ Customizable Preferences:** Offers a rich set of options and features to tailor the experience precisely to your liking.
-- **🔄 Auto-Update Checking:** Ensures you're always equipped with the newest enhancements and fully compatible with the latest Firefox version.
+
+<table>
+  <tr>
+	  <td>🗂️&nbsp;Tab&nbsp;Groups&nbsp;Support</td>
+	  <td>Fully supports mouse operations for tab groups, delivering a smoother and more graceful experience.</td>
+  </tr>
+  <tr>
+	  <td>🎞️&nbsp;Enhanced&nbsp;Animations</td>
+	  <td>Adds fluid transitions for various tab-related actions.</td>
+  </tr>
+  <tr>
+	  <td>📐&nbsp;Optimized&nbsp;Space&nbsp;Usage</td>
+	  <td>Makes full use of available UI space, including the area beneath window control buttons.</td>
+  </tr>
+  <tr>
+	  <td>🖱️&nbsp;Smooth&nbsp;Dragging</td>
+	  <td>Supports animated tab dragging even in multi-row mode.</td>
+  </tr>
+  <tr>
+	  <td>📌&nbsp;Pinned&nbsp;Tabs&nbsp;Grid&nbsp;Layout</td>
+	  <td>Pinned tabs remain neatly compact when the Tabs bar is scrollable, minimizing space usage.</td>
+  </tr>
+  <tr>
+	  <td>🛠️&nbsp;Customizable&nbsp;Preferences</td>
+	  <td>Offers a rich set of options and features to tailor the experience precisely to your liking.</td>
+  </tr>
+  <tr>
+	  <td>🔄&nbsp;Auto-Update&nbsp;Checking</td>
+	  <td>Ensures you're always equipped with the newest enhancements and fully compatible with the latest Firefox version.</td>
+  </tr>
+</table>
 
 ## Compatibility
 - Firefox 115, 143 to 145 (excluding ESR versions), for Windows 7 to 11.
