@@ -49,7 +49,7 @@ Firefox に多段タブ表示をサポートさせる。
 
 ## 注意事項
 **🚨 ご使用の前に、以下の注意点をよくお読みください：**
-- ❗ **Firefox に最適化されたレイアウト計算を多く含むため、タブやタブバー関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト（`userChrome.js`）、CSS スタイル（`userChrome.css`）によって不具合が発生する可能性がある。スクリプト適用前後にそれらを確認してください。**
+- ❗ Firefox に最適化されたレイアウト計算を多く含むため、タブ関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト（`userChrome.js`）、CSS スタイル（`userChrome.css`）によって不具合が発生する可能性がある。**以下のインストール手順をよく読んで、慎重に進めてください。**
 - 非公式かつ複雑なスクリプトで、個人によって管理されている。このスクリプトには予期しないバグが含まれている可能性があり、最新バージョンの Firefox との互換性が保証されているわけではない。予期せぬ問題が発生した場合は、Firefox を再起動する必要があるかもしれない。特に、古いバージョンのスクリプトを最新の Firefox で使用した場合、ブラウザが使用不能になり、過去の閲覧セッションが永久に失われる可能性がある。そのような場合には、スクリプトの無効化が必要になることがある。このスクリプトは、これらのリスクに対応できる準備がある方のみご使用ください。
 - 本スクリプトは Windows 専用。Ubuntu（Linux）および macOS では動作しない、あるいは不具合が生じる恐れがある。
 - Firefox の関数を上書きする必要があるため、Firefox 139 以降では [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) の設定が必要。この設定はスクリプト適用時に自動で有効化されるが、スクリプト削除時には `about:config` で手動無効化が必要。
@@ -57,13 +57,12 @@ Firefox に多段タブ表示をサポートさせる。
 ## インストール方法
 1. ほかのスクリプトを使用していない場合は、📘 [Tab Mix Plus - ドキュメント（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) に従ってスクリプトローダー（Firefox スクリプト）をインストールする。すでに他のスクリプトローダー（例：[alice0775 氏の userChrome.js](https://github.com/alice0775/userChrome.js)）を使用している場合はこの手順を省略できる。  
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.jp.png)
+2. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `.js`（`userChrome.js`以外）と `.css` ファイルを一時的に `chrome` から移動する。
+3. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし、`chrome` に配置する。<br>
+4. Firefox を再起動して反映する。
+5. 手順 2 で一部のファイルを `chrome` の外に移動した場合は、このスクリプトが正常に動作することを確認できたら、ファイルを `chrome` に戻す。もし競合が発生した場合は、スクリプトやスタイルルールを調整してください。お困りの際は、[こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
 
-2. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし、`chrome` フォルダーに配置する。<br>
-3. Firefox を再起動して反映する。
-
-**🚨 注意：**
-- 他のタブバー関連スクリプトや CSS が有効になっていないことを確認してください。念のため、他の `.js`（`userChrome.js`以外）と `.css` ファイルを一時的に `chrome` フォルダーから移動し、Firefox を再起動してこのスクリプトの動作を確認してください。問題なければ、ファイルを戻し、衝突しているスクリプトやスタイルルールがあれば調整してください。
-- Firefox 更新後にスクリプトローダーが動作しなくなった場合は、上記ページから最新のスクリプトローダーを再インストールしてください。
+**🚨 注意：** Firefox 更新後にスクリプトローダーが動作しなくなった場合は、上記ページから最新のスクリプトローダーを再インストールしてください。
 
 ## 設定
 [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao.` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されている。
