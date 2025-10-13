@@ -49,7 +49,7 @@ Make Firefox support multiple rows of tabs.
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
-- ❗ **Since this script contains many sensitive layout calculations designed for native Firefox, any tab or Tabs Bar-related legacy extensions (e.g. [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)), user scripts (`userChrome.js`) or CSS styles (`userChrome.css`) can cause weird glitches and bugs. Please check your legacy extensions, scripts and styles (if any) before and after applying this script.**
+- ❗ **Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)), user scripts (`userChrome.js`) or CSS styles (`userChrome.css`) can cause weird glitches and bugs. Please follow the steps in the Installation below carefully.**
 - This is an unofficial (and complicated) script maintained solely by me. This script may contain unforeseen bugs and is not guaranteed to keep compatible with the latest versions of Firefox. If an unexpected issue occurs, restarting Firefox may be necessary. In extreme cases — especially when using an outdated version of the script with a newly updated Firefox — the browser may become unusable, potentially resulting in the permanent loss of your previous browsing session. You may need to disable the script in such situations. Please use this script only if you are capable of and prepared to handle these risks.
 - This script is developed for Windows and probably does not work on Ubuntu (Linux) and macOS.
 - This script needs to override some functions of Firefox and requires [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) to be enabled on Firefox 139+ for this purpose. The said setting is enabled automatically once you are applying this script, and it requires a manual disabling through `about:config` after disabling or removing the script. Please note that and use this script with understanding.
@@ -57,12 +57,13 @@ Make Firefox support multiple rows of tabs.
 ## Installation
 1. Follow the instructions in the 📘 [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the script loader (Firefox Scripts) if you are not using any scripts. You can skip this step if you have already installed some scripts.<br>
 <br>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
-2. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it into the `chrome` folder.
-3. Restart Firefox to apply.
+2. Make sure that no other tab-related scripts and CSS styles are currently activated. Just in case, temporarily move all other `.js` and `.css` files out of the `chrome` folder.
+3. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it into the `chrome` folder.
+4. Restart Firefox to apply.
+5. If you moved some files out of `chrome` in step 2, ensure this script works as expected. Once confirmed, you can move the files back into the folder. Modify the scripts and style rules if any conflicts arise.
 
 > [!IMPORTANT]
-> - Please make sure that no other Tabs Bar-related scripts and CSS styles are currently activated. Just in case, temporarily move all other `.js` and `.css` files out of the `chrome` folder. Restart Firefox and confirm that the script works as expected. Once verified, you can move the files back into the folder, and modify the scripts and style rules which cause conflict.
-> - If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
+> If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
 
 ## Settings
 Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) and search for the prefix `userChromeJS.multiTabRows@Merci.chao.`. Settings shown in gray are disabled due to other preferences.
