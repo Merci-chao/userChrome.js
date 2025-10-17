@@ -55,12 +55,12 @@ Firefox に多段タブ表示をサポートさせる。
 - Firefox の関数を上書きする必要があるため、Firefox 139 以降では [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) の設定が必要。この設定はスクリプト適用時に自動で有効化されるが、スクリプト削除時には `about:config` で手動無効化が必要。
 
 ## インストール手順
-1. ほかのスクリプトを使用していない場合は、📘 [Tab Mix Plus - ドキュメント（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) に従ってスクリプトローダー（Firefox スクリプト）をインストールする。すでに他のスクリプトローダー（例：[alice0775 氏の userChrome.js](https://github.com/alice0775/userChrome.js)）を使用している場合はこの手順を省略する。  
+1. ほかのスクリプトを使用していない場合は、📘[Tab Mix Plus - ドキュメント（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) に従ってスクリプトローダー（Firefox スクリプト）をインストールする。すでに他のスクリプトローダー（例：[alice0775 氏の userChrome.js](https://github.com/alice0775/userChrome.js)）を使用している場合はこの手順を省略する。  
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.jp.png)
 2. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `.js`（`userChrome.js`以外、もしあれば）と `.css` ファイルを一時的に `chrome` から移動する。**※スタイルとの競合によって発生する不具合が多数報告されている。**
-3. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし、`chrome` に配置する。<br>
+3. 📥[スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし、`chrome` に配置する。<br>
 4. Firefox を再起動して反映する。
-5. 手順 2 で一部のファイルを `chrome` の外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、スクリプトやスタイルルールを調整してください。お困りの際は、[こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
+5. 手順 2 で一部のファイルを `chrome` の外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、スクリプトやスタイルルールを調整してください。お困りの際は、🛟[こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
 
 **🚨 注意：** Firefox 更新後にスクリプトローダーが動作しなくなった場合は、上記ページから最新のスクリプトローダーを再インストールしてください。
 
