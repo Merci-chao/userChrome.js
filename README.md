@@ -207,7 +207,7 @@ There also few settings in `about:config` for the layout of tabs:
 **Version 3.6**
 - Add `pinnedTabsFlexWidthIndicator`: display an icon on pinned tabs when `pinnedTabsFlexWidth` is enabled.
 - Change the "Stop checking" option in the update notification to "Update script file directly".
-- Refine the behavior of dragging tabs to group with others or detach from a group when the dragged tabs are at the edge of the row.
+- Refine the behavior of dragging a tab and pressing it to the edge of a row, to group with others on another row, or detach from a group.
 - Refine the behavior of dragging tabs into or out of groups when `dragToGroupTabs` is `false`.
 - Refine animations when pinned tabs are present and the Tabs Bar is scrollable.
 - Refine animations for dragging tabs while pressing them against the edge of row.
