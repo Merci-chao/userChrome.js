@@ -44,7 +44,7 @@ Make Firefox support multiple rows of tabs.
 </table>
 
 ## Compatibility
-- Firefox 115, 143 to 145 (excluding ESR versions), for Windows 7 to 11.
+- Firefox 115, 144 to 145 (excluding ESR versions), for Windows 7 to 11.
 - Supports general script loaders, like xiaoxiaoflood's userChromeJS (Firefox Scripts).
 
 ## Cautions
