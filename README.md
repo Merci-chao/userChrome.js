@@ -452,11 +452,11 @@ Full screen with keeping your task bar visible, or hide the toolbars when not ma
 ![screenshot](https://web.archive.org/web/20181013030904if_/https://addons.cdn.mozilla.net/user-media/previews/full/173/173740.png?modified=1530209326)
 
 ## Hotkeys
-| Hotkey (`⤢`: Full Screen Button) | Function |
+| Hotkey<br>(`⤢` - Full Screen Button) | Function |
 | ------------- | ------------- |
 | `F11` or `⤢` | Hide the toolbars and enter picture-in-picture mode. |
-| `Ctrl` + `F11` or `Ctrl` + `⤢` | Mazimize the window and enter semi-full screen mode, taskbar and sidebar (if any) will keep visible. |
-| `Shift` + `F11` or `Shift` + `⤢` | Enter normal full screen mode. |
+| `Ctrl`+`F11` or `Ctrl`+`⤢` | Mazimize the window and enter semi-full screen mode, taskbar and sidebar (if any) will keep visible. |
+| `Shift`+`F11` or `Shift`+`⤢` | Enter normal full screen mode. |
 
 ## Settings
 Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.chao.`.
