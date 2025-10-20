@@ -106,6 +106,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always</li></ul>Behaviors such as closing tabs and collapsing tab groups may differ slightly when tabs are centered. |
 | `maxTabRows` | Maximum number of rows to display at once. The minimum value is `1`. |
 | `pinnedTabsFlexWidth` | **🚨 EXPERIMENTAL 🧪**<br>Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when Tabs Bar is scrollable. |
+| `pinnedTabsFlexWidthIndicator` | Display an icon on pinned tabs. |
 | `rowIncreaseEvery` | Each time the window width is increased by this amount, one more row is allowed. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
 | `spaceAfterTabs` | Empty space before the window control buttons. The minimum value is `0`. |
@@ -203,6 +204,21 @@ There also few settings in `about:config` for the layout of tabs:
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 3.6**
+- Add `pinnedTabsFlexWidthIndicator`: display an icon on pinned tabs when `pinnedTabsFlexWidth` is enabled.
+- Change the "Stop checking" option in the update notification to "Update script file directly".
+- Refine the behavior of dragging tabs to group with others or detach from a group when the dragged tabs are at the edge of the row.
+- Refine the behavior of dragging tabs into or out of groups when `dragToGroupTabs` is `false`.
+- Refine animations when pinned tabs are present and the Tabs Bar is scrollable.
+- Refine animations for dragging tabs while pressing them against the edge of row.
+- Pause the dragging animation when attempting to pin or unpin tabs.
+- Workaround for Firefox bug [#1994643](https://bugzilla.mozilla.org/show_bug.cgi?id=1994643), which is amplified by this script.
+- Bug fix: issues when enabling `pinnedTabsFlexWidth` and the pinned tab has no page icon.
+- Fix minor visual bugs.
+
+<details>
+<summary>Old Versions</summary>
+
 **Version 3.5.2**
 - Bug fix: dragged tabs might not be moved to the intended position if it is pressed against to the edge.
 
@@ -223,9 +239,6 @@ There also few settings in `about:config` for the layout of tabs:
 - Bug fix: issue occured after dragging a tab group out of the window so fast.
 - Minor bug fixes.
 - Refine code style for better readability.
-
-<details>
-<summary>Old Versions</summary>
 
 **Version 3.4.2**
 - Bug fix: Could not drag and drop tabs when enabling `hidePinnedDropIndicator`.
