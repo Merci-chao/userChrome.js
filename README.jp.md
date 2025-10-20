@@ -103,7 +103,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、タブバーがスクロール可能時にその空白を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0` - 無効</li><li>`1` - 1 段のみの場合</li><li>`2` - 常に有効</li></ul>中央揃え時には、タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある。 |
 | `maxTabRows` | 表示可能な最大段数。最小値は `1`。 |
-| `pinnedTabsFlexWidth` | **🚨 実験的機能 🧪**<br>ピン留めしたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる。 |
+| `pinnedTabsFlexWidth` | **🚨 実験的機能 🧪**<br>ピン留めされたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる。 |
+| `pinnedTabsFlexWidthIndicator` | ピン留めされたタブにアイコンを表示。 |
 | `rowIncreaseEvery` | ウィンドウ幅がこの値だけ増加するたびに、表示可能段数が 1 段増加。`0` にすると最大段数が常に表示される。 |
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になる。 |
 | `spaceAfterTabs` | ウィンドウ制御ボタンの前にある空白スペース。最小値は `0`。 |
@@ -199,6 +200,21 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 3.6**
+- `pinnedTabsFlexWidthIndicator` を追加：`pinnedTabsFlexWidth` が有効な場合、ピン留めされたタブにアイコンを表示。
+- 更新通知の「チェックを停止」オプションを「スクリプトファイルを直接更新」に変更。
+- 段の端にあるタブを他の項目とグループ化またはグループから分離する際のドラッグ挙動を調整。
+- `dragToGroupTabs` が `false` の場合、タブをグループに追加・除外する際のドラッグ挙動を調整。
+- ピン留めされたタブが存在し、タブバーがスクロール可能な場合のアニメーションを調整。
+- タブを段の端に押し付けながらドラッグする際のアニメーションを調整。
+- タブをピン留め・外しようとする際に、ドラッグアニメーションを一時停止。
+- このスクリプトによって影響が増幅される Firefox のバグ [#1994643](https://bugzilla.mozilla.org/show_bug.cgi?id=1994643) に対する回避策を適用。
+- バグ修正：`pinnedTabsFlexWidth` を有効にした際、ピン留めされたタブにページアイコンがない場合の不具合。
+- 軽微な表示上の不具合を修正。
+
+<details>
+<summary>旧バージョン</summary>
+
 **Version 3.5.2**
 - バグ修正：タブをドラッグした際、端に押し付けられると意図した位置に移動しない場合があった。
 
@@ -219,9 +235,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - バグ修正：タブグループをウィンドウ外に素早くドラッグした後に不具合が発生。
 - 軽微なバグの修正。
 - 可読性向上のためコードスタイルを改善。
-
-<details>
-<summary>旧バージョン</summary>
   
 **Version 3.4.2**
 - バグ修正：`hidePinnedDropIndicator` を有効にするとタブのドラッグ＆ドロップができなくなった。
@@ -261,7 +274,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 複数の軽微なバグの修正。
 
 **Version 3.3**
-- `pinnedTabsFlexWidth` を追加：ピン留めしたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる（試験的機能）。
+- `pinnedTabsFlexWidth` を追加：ピン留めされたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる（試験的機能）。
 - `checkUpdateAutoApply` を追加：新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）。`0` - 無効、`1` - 確認する、`2` - 常に更新、`3` - 常に更新（通知なし）。
 - バグ修正：Firefox 142 において、閉じたピン留めタブを開きなおすとタブ機能が正常に動作しなくなった。
 - 全画面表示に関連する軽微な不具合を修正。
