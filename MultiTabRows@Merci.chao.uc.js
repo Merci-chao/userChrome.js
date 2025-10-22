@@ -3,8 +3,8 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        3.6
-// @compatible     firefox 115, 144-145
+// @version        3.6.0.1
+// @compatible     firefox 115, 144-146
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelog      https://github.com/Merci-chao/userChrome.js#changelog
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
@@ -28,13 +28,14 @@ if (gBrowser?._initialized) {
 	tc._updateInlinePlaceHolder();
 } else
 	addEventListener("DOMContentLoaded", () => {
-		try { setup() } catch(e) { alert(["MultiTabRows@Merci.chao.uc.js",e,e.stack].join("\n"));console.error(e) }
+		try { setup() }
+		catch(e) { alert(["MultiTabRows@Merci.chao.uc.js",e,e.stack].join("\n"));console.error(e) }
 	}, {once: true});
 
 function setup() {
-const [START,   END,     LEFT,   RIGHT,   START_PC, END_PC, DIR] = RTL_UI
-   ? ["right", "left",  "end",  "start", "100%",   "0%",    -1]
-   : ["left",  "right", "start", "end",   "0%",    "100%",  1];
+const [START,   END,     LEFT,    RIGHT,   START_PC, END_PC, DIR] = RTL_UI
+   ? ["right", "left",  "end",   "start", "100%",   "0%",    -1]
+   : ["left",  "right", "start", "end",   "0%",     "100%",  1];
 //it should be .0001 but it seems enough currently
 const EPSILON = .001;
 
@@ -2976,31 +2977,20 @@ rAF(2).then(() => root.removeAttribute("multitabrows-applying-style"));
 	//the scrollbar is regenerated in some situations, ensure it is well set
 	let scrollbar;
 	scrollbox.addEventListener("mouseenter", function(e) {
-		if (e.target != this) return;
-		if (!scrollbar?.isConnected)
-			// eslint-disable-next-line no-cond-assign
-			if (scrollbar = getScrollbar(this)) {
-				scrollbar.style.MozWindowDragging = "no-drag";
-				scrollbar.addEventListener("click", this._ensureSnap, true);
-				scrollbar.addEventListener("mouseover", () => {
-					scrollbar.style.MozWindowDragging = "no-drag";
-					tabsBar.setAttribute("tabs-scrollbar-hovered", "");
-				}, true);
-				scrollbar.addEventListener("mouseout", () => {
-					scrollbar.style.MozWindowDragging = "";
-					tabsBar.removeAttribute("tabs-scrollbar-hovered");
-				}, true);
-			} else
-				return;
-		//prevent the scrollbar fade in/out when clicking on tabs on windows 11
-		scrollbar.style.opacity = 1;
-	}, true);
-	scrollbox.addEventListener("mouseleave", function(e) {
-		if (e.target != this) return;
-		if (!scrollbar?.isConnected)
-			scrollbar = getScrollbar(this);
-		if (scrollbar)
-			scrollbar.style.opacity = "";
+		if (
+			e.target != this ||
+			scrollbar?.isConnected ||
+			!(scrollbar = getScrollbar(this))
+		)
+			return;
+
+		scrollbar.addEventListener("click", () => this._ensureSnap(), true);
+		for (let eType of ["mouseover", "mouseout"])
+			scrollbar.addEventListener(eType, () => {
+				let out = eType == "mouseout";
+				scrollbar.style.MozWindowDragging = out ? "" : "no-drag";
+				tabsBar.toggleAttribute("tabs-scrollbar-hovered", !out);
+			}, true);
 	}, true);
 
 	let ensureSnapDelay = getPref("general.smoothScroll.mouseWheel.durationMaxMS", "Int");
@@ -5003,6 +4993,7 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 								draggedGroup.collapsed = false;
 								await draggedGroup.togglingAnimation;
 								delete tabContainer._keepTabSizeLocked;
+								movingNodes[0].scrollIntoView();
 							});
 						} else
 							delete tabContainer._keepTabSizeLocked;
@@ -5039,10 +5030,11 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 					InspectorUtils.clearPseudoClassLocks(node, ":hover");
 					assign(node.style, style);
 				}
-				if (!tabContainer.overflowing)
+				if (!tabContainer.overflowing && !tabContainer._keepTabSizeLocked)
 					tabContainer.unlockSlotSize();
 				assign(gNavToolbox.style, {"--tabs-moving-max-z-index": ""});
-				(movingTabGroup ? movingNodes[0] : selectedTab)?.scrollIntoView();
+				if (!_dragData.expandGroupOnDrop)
+					(movingTabGroup ? movingNodes[0] : selectedTab)?.scrollIntoView();
 			}
 
 		function refreshGroups() {
@@ -6228,9 +6220,9 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 				for (let node of getNodes({pinned: prefs.pinnedTabsFlexWidth && null}))
 					node.style.maxWidth = node.style.minWidth = "";
 				delete this._hasTabTempMaxWidth;
-				this.removeAttribute("ignore-newtab-width");
 			}
 
+			this.removeAttribute("ignore-newtab-width");
 			this.removeAttribute("using-closing-tabs-spacer");
 			this._closingTabsSpacer.style.width = "";
 
@@ -6633,7 +6625,7 @@ let tabsResizeObserver = new ResizeObserver(() => {
 
 	console?.timeEnd("tabContainer ResizeObserver");
 
-	tabContainer._updateInlinePlaceHolder();
+	tabContainer._unlockTabSizing({instant: true});
 });
 
 for (let box of [tabContainer, slot])
