@@ -203,6 +203,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>軽微な更新</summary>
 
+**Version 3.6.0.2**
+- 前回のマイナーアップデートで行ったスクロールバー関連のコード変更を一部元に戻す。
+
 **Version 3.6.0.1**
 - バグ修正： タブを閉じた直後にウィンドウサイズを変更すると、一時的に空の行が表示されることがあった。
 
