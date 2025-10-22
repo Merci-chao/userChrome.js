@@ -44,7 +44,7 @@ Firefox に多段タブ表示をサポートさせる。
 </table>
 
 ## 対応環境
-- Firefox 115、144〜145（ESR バージョンを除く）、Windows 7〜11 に対応。
+- Firefox 115、144〜146（ESR バージョンを除く）、Windows 7〜11 に対応。
 - 一般的なスクリプトローダーに対応。
 
 ## 注意事項
@@ -199,6 +199,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+<details>
+<summary>軽微な更新</summary>
+
+**Version 3.6.0.1**
+- バグ修正： タブを閉じた直後にウィンドウサイズを変更すると、一時的に空の行が表示されることがあった。
+
+</details>
 
 **Version 3.6**
 - `pinnedTabsFlexWidthIndicator` を追加：`pinnedTabsFlexWidth` が有効な場合、ピン留めされたタブにアイコンを表示。
