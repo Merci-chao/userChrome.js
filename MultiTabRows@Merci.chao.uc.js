@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        3.6.0.1
+// @version        3.6.0.2
 // @compatible     firefox 115, 144-146
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelog      https://github.com/Merci-chao/userChrome.js#changelog
@@ -2977,20 +2977,29 @@ rAF(2).then(() => root.removeAttribute("multitabrows-applying-style"));
 	//the scrollbar is regenerated in some situations, ensure it is well set
 	let scrollbar;
 	scrollbox.addEventListener("mouseenter", function(e) {
-		if (
-			e.target != this ||
-			scrollbar?.isConnected ||
-			!(scrollbar = getScrollbar(this))
-		)
+		if (e.target != this) return;
+		if (!scrollbar?.isConnected)
+			// eslint-disable-next-line no-cond-assign
+			if (scrollbar = getScrollbar(this)) {
+				scrollbar.addEventListener("click", () => this._ensureSnap(), true);
+				for (let eType of ["mouseover", "mouseout"])
+					scrollbar.addEventListener(eType, () => {
+						let out = eType == "mouseout";
+						scrollbar.style.MozWindowDragging = out ? "" : "no-drag";
+						tabsBar.toggleAttribute("tabs-scrollbar-hovered", !out);
+					}, true);
+			} else
+				return;
+
+		//prevent the scrollbar fade in/out when clicking on tabs on windows 11
+		scrollbar.style.opacity = 1;
+	}, true);
+
+	scrollbox.addEventListener("mouseleave", function(e) {
+		if (e.target != this || !scrollbar?.isConnected)
 			return;
 
-		scrollbar.addEventListener("click", () => this._ensureSnap(), true);
-		for (let eType of ["mouseover", "mouseout"])
-			scrollbar.addEventListener(eType, () => {
-				let out = eType == "mouseout";
-				scrollbar.style.MozWindowDragging = out ? "" : "no-drag";
-				tabsBar.toggleAttribute("tabs-scrollbar-hovered", !out);
-			}, true);
+		scrollbar.style.opacity = "";
 	}, true);
 
 	let ensureSnapDelay = getPref("general.smoothScroll.mouseWheel.durationMaxMS", "Int");
