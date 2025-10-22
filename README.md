@@ -44,7 +44,7 @@ Make Firefox support multiple rows of tabs.
 </table>
 
 ## Compatibility
-- Firefox 115, 144 to 145 (excluding ESR versions), for Windows 7 to 11.
+- Firefox 115, 144 to 146 (excluding ESR versions), for Windows 7 to 11.
 - Supports general script loaders, like xiaoxiaoflood's userChromeJS (Firefox Scripts).
 
 ## Cautions
@@ -203,6 +203,14 @@ There also few settings in `about:config` for the layout of tabs:
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+<details>
+<summary>Minor Updates</summary>
+
+**Version 3.6.0.1**
+- Bug fix: resize the window immediately after closing a tab might result in an empty row temporarily.
+
+</details>
 
 **Version 3.6**
 - Add `pinnedTabsFlexWidthIndicator`: display an icon on pinned tabs when `pinnedTabsFlexWidth` is enabled.
