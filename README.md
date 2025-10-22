@@ -207,6 +207,9 @@ There also few settings in `about:config` for the layout of tabs:
 <details>
 <summary>Minor Updates</summary>
 
+**Version 3.6.0.2**
+- Reverse some code change for the scrollbar in the previous minor update.
+
 **Version 3.6.0.1**
 - Bug fix: resize the window immediately after closing a tab might result in an empty row temporarily.
 
