@@ -149,6 +149,7 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
 ```css
 :root {
   /* Horizontal space between tabs */
+  /* Default value on Firefox 146 and beyond is 4px */
   --tab-overflow-clip-margin: 2px !important;
 
   /* Horizontal padding of tabs */
