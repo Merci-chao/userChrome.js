@@ -81,12 +81,12 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `animateTabMoveMaxCount` | ドラッグされたタブの数がこの値を超えると、ドラッグアニメーションは無効化され、代わりにドロップ位置のインジケーターが表示される。最小値は `0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。<br>📝 備考：タブグループの一部の操作が使用できない場合がある。最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある（Firefox バグ：[#1985434](https://bugzilla.mozilla.org/show_bug.cgi?id=1985434)、[#1988159](https://bugzilla.mozilla.org/show_bug.cgi?id=1988159)、[#1988162](https://bugzilla.mozilla.org/show_bug.cgi?id=1988162)、[#1988194](https://bugzilla.mozilla.org/show_bug.cgi?id=1988194)）。 |
 | `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する）。 |
 | `disableDragToPinOrUnpin` | 同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を無効化。Firefox 115 では未対応。 |
-| `dragToGroupTabs` | タブを他のタブにドラッグした際にグループ化を有効化。`browser.tabs.dragDrop.moveOverThresholdPercent` が `50` 以下の場合の動作と異なり、この設定を無効にすると順序を変更せずグループに追加／削除できる。Firefox 115 または `browser.tabs.groups.enabled` が `false` の場合は未対応。 |
+| `dragToGroupTabs` | タブを他のタブにドラッグした際にグループ化を有効化。`browser.tabs.dragDrop.moveOverThresholdPercent` が `50` 以下の場合の動作と異なり、この設定を無効にすると順序を変更せずグループに追加・除外できる。Firefox 115 または `browser.tabs.groups.enabled` が `false` の場合は未対応。 |
 | `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `dragToGroupTabs` や `browser.tabs.groups.enabled` が無効な場合は未対応。 |
 | `hideDragPreview` | ドラッグ中のプレビューを非表示：<ul><li>`0` - 常に表示</li><li>`1` - グループのみ</li><li>`2` - タブのみ</li><li>`3` - 両方</li></ul> |
 | `hidePinnedDropIndicator` | ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 では未対応。 |
 | `hideScrollButtonsWhenDragging` | ドラッグ中にスクロールボタンを視覚的に非表示。 |
-| `linesToDragScroll` | タブを上端／下端へドラッグしたときのスクロール段数。最小値は `1`。 |
+| `linesToDragScroll` | タブを上端・下端へドラッグしたときのスクロール段数。最小値は `1`。 |
 | `linesToScroll` | マウスホイール操作によるスクロール段数。最小値は `1`。 |
 | `scrollButtonsSize` | ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値は `0` だが、表示上は少なくとも 2 デバイスピクセルの高さになる。最大値はタブの高さの半分までに制限される。 |
 
@@ -250,7 +250,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 **Version 3.4.2**
 - バグ修正：`hidePinnedDropIndicator` を有効にするとタブのドラッグ＆ドロップができなくなった。
 - バグ修正：新しく開いたウィンドウでタブが不自然に移動する場合があった。
-- バグ修正：タブの閉じるボタンが正しく表示／非表示されない場合があった。
+- バグ修正：タブの閉じるボタンが正しく表示・非表示されない場合があった。
 - バグ修正：特殊な状況で発生していた `tabsUnderControlButtons` のレイアウト問題。
 - Firefox の旧バージョン（115 を除く）を使用している場合、このスクリプトの更新は通知されなくなる。
  
@@ -330,7 +330,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - バグ修正と改善。
 
 **Version 2.6**
-- 音声再生／ミュートなどが行われているタブがある場合のレイアウトの問題を修正。
+- 音声再生・ミュートなどが行われているタブがある場合のレイアウトの問題を修正。
 - UI 密度が「Touch」の場合のレイアウト問題を修正。
 
 **Version 2.5.1**
@@ -505,7 +505,7 @@ URL バーにページタイトルを表示。
 ---
 
 # [Float Toolbars in Full Screen](https://github.com/Merci-chao/userChrome.js/blob/main/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
-全画面表示モードで、ツールバーをページの上にフロートさせ、表示／非表示のたびにページが跳ねるのを防ぐ。  
+全画面表示モードで、ツールバーをページの上にフロートさせ、表示・非表示のたびにページが跳ねるのを防ぐ。  
 [アドオンページ（ウェブアーカイブ）](https://web.archive.org/web/20181017035437/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/)
 
 **注意: このバージョンは macOS および Ubuntu（Linux）では未検証である。動作に不具合があるか、まったく動作しない可能性があります。**
