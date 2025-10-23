@@ -200,6 +200,15 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 3.6.1**
+- `autoCollapse` の更新：
+	- タブバーは現在のウィンドウに対してのみ展開されるようになる。
+	- URL バーにフォーカスがある場合、タブバーが展開されないようにする。
+	- クリックまたは `Esc` キーを押すことで、まれにタブバーが折りたたまれない場合でも折りたたむようになる。
+	- バグ修正：一段しかない状態でドラッグすると発生する問題。
+	- バグ修正：タブバー展開時にグループ線の一部が消える問題。
+- Firefox の軽微な表示バグ [#1995909](https://bugzilla.mozilla.org/show_bug.cgi?id=1995909) を修正。
+
 <details>
 <summary>軽微な更新</summary>
 
