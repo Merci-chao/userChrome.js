@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        3.6.0.2
+// @version        3.6.1
 // @compatible     firefox 115, 144-146
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelog      https://github.com/Merci-chao/userChrome.js#changelog
@@ -13,7 +13,7 @@
 
 /* global
    gBrowser, RTL_UI, Services, Cc, Ci, promiseDocumentFlushed,
-   gNavToolbox, gReduceMotion, FullScreen, TAB_DROP_TYPE, InspectorUtils, windowUtils,
+   gURLBar, gNavToolbox, gReduceMotion, FullScreen, TAB_DROP_TYPE, InspectorUtils, windowUtils,
 */
 if (!document.documentElement.matches("[chromehidden~=location][chromehidden~=toolbar]"))
 try {
@@ -149,7 +149,11 @@ const appVersion = parseInt(Services.appinfo.version);
 }
 
 const CLOSING_THE_ONLY_TAB = Symbol("closingTheOnlyTab");
-const TEMP_SHOW_CONDITIONS = ":hover, [dragging], [temp-open][has-popup-open]";
+const TEMP_SHOW_CONDITIONS = `:is(
+	:hover:not(:-moz-window-inactive),
+	[temp-open][has-popup-open],
+	[dragging]
+):not([urlbar-view-open] *)`;
 
 const win7 = matchMedia("(-moz-platform: windows-win7)").matches;
 const win8 = matchMedia("(-moz-platform: windows-win8)").matches;
@@ -946,6 +950,12 @@ ${_="#tabbrowser-tabs"} {
 	padding-inline-start: var(--tabstrip-padding) !important;
 }
 
+/*override the default rule for consistent handling*/
+${_}[orient][movingtab] {
+	padding-bottom: var(--extra-drag-space);
+	margin-bottom: calc(var(--extra-drag-space) * -1);
+}
+
 ${preTabsButtons} ~ ${_} {
 	--tabstrip-padding: 2px;
 }
@@ -975,6 +985,7 @@ ${prefs.autoCollapse ? `
 	}
 
 	${_} {
+		--extra-drag-space: 0px;
 		/*ensure the transitionstart/end will be fired*/
 		--transition-delay-after: ${Math.max(prefs.autoCollapseDelayCollapsing, 1)}ms;
 		--transition-delay-before: ${Math.max(prefs.autoCollapseDelayExpanding, 1)}ms;
@@ -993,7 +1004,6 @@ ${prefs.autoCollapse ? `
 	${context} ${_}:is(${TEMP_SHOW_CONDITIONS}) {
 		margin-bottom: calc((var(--tab-scroll-rows) - 1) * var(--tab-height) * -1);
 		height: calc(var(--tab-scroll-rows) * var(--tab-height));
-		padding-bottom: 0;
 		outline: 1px solid var(--arrowpanel-border-color) !important;
 		border-color: transparent;
 		background-color: var(--toolbar-field-focus-background-color);
@@ -1362,10 +1372,12 @@ ${_=".tabbrowser-tab"}, .tab-group-label-container, .tab-group-overflow-count-co
 	}
 }
 
-.tab-group-label-container::after,
-.tab-group-overflow-count-container::after {
-	z-index: -1;
-}
+${!prefs.autoCollapse ? `
+	.tab-group-label-container::after,
+	.tab-group-overflow-count-container::after {
+		z-index: -1;
+	}
+` : ``}
 
 #tabbrowser-tabs[movingtab] > #tabbrowser-arrowscrollbox > ${_}:is([selected], [multiselected]) {
 	/*override the rule that prevents the drop indicator display next to the dragged tab when pressing ctrl (fx115)*/
@@ -2019,9 +2031,16 @@ ${condition}:not([multirows]) #tabs-newtab-button {
 		}
 	}
 
-	/*bug #1985190*/
-	tab-group[collapsed] > .tab-group-label-container & {
-		outline-offset: calc(${outlineOffsetSnapping("1px")} * -1);
+	.tab-group-label-container & {
+		/*bug #1985190*/
+		tab-group[collapsed] & {
+			outline-offset: calc(${outlineOffsetSnapping("1px")} * -1);
+		}
+
+		/*bug #1995909*/
+		#tabbrowser-tabs[tablist-has-focus] &.tablist-keyboard-focus {
+			outline-offset: calc(${outlineOffsetSnapping("var(--focus-outline-offset)")} * -1);
+		}
 	}
 }
 
@@ -6300,8 +6319,22 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 
 //auto collapse
 {
+	let shownPopups = new Set();
+
 	for (let e of ["transitionstart", "transitionend"])
 		tabContainer.addEventListener(e, onTransition);
+
+	{
+		let ctrl = gURLBar.controller;
+		let listener = {
+			[ctrl.NOTIFICATIONS.VIEW_OPEN]: () => gNavToolbox.setAttribute("urlbar-view-open", ""),
+			[ctrl.NOTIFICATIONS.VIEW_CLOSE]: () => gNavToolbox.removeAttribute("urlbar-view-open"),
+		};
+		if (ctrl.addListener)
+			ctrl.addListener(listener);
+		else
+			ctrl._listeners.add(listener);
+	}
 
 	/**
 	 * @param {Event} e
@@ -6314,8 +6347,6 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 		this.removeEventListener("scrollend", onScrollend);
 	}
 
-	let shownPopups = new Set();
-
 	/**
 	 * @param {Event} e
 	 * @this {ChromeWindow}
@@ -6325,6 +6356,20 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 			shownPopups[e.type =="popupshown" ? "add" : "delete"](e.target);
 			tabContainer.toggleAttribute("has-popup-open", shownPopups.size);
 		}
+	}
+
+	/**
+	 * @param {Event} e
+	 * @this {ChromeWindow}
+	 */
+	function clearGhostPopup(e) {
+		if (e.type == "keydown" && e.key != "Escape")
+			return;
+		for (let p of shownPopups)
+			if (p.state != "open")
+				shownPopups.delete(p);
+		if (!shownPopups.size)
+			tabContainer.removeAttribute("has-popup-open");
 	}
 
 	/**
@@ -6346,8 +6391,12 @@ let tabProto = customElements.get("tabbrowser-tab").prototype;
 				this.toggleAttribute("has-temp-scrollbar", showing && getRowCount(true) <= maxTabRows());
 				this.toggleAttribute("temp-open", showing);
 
+				let toggleListener = showing ? addEventListener : removeEventListener;
 				for (let n of ["popupshown", "popuphidden"])
-					(showing ? addEventListener : removeEventListener)(n, setPopupOpen, true);
+					toggleListener(n, setPopupOpen, true);
+
+				toggleListener("mousedown", clearGhostPopup, true);
+				toggleListener("keydown", clearGhostPopup, true);
 
 				if (prefs.autoCollapseCurrentRowStaysTop) {
 					if (start) {
