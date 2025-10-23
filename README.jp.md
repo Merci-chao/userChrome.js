@@ -146,6 +146,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ```css
 :root {
   /* タブ間の水平間隔 */
+  /* Firefox 146 以降には 4px になる */
   --tab-overflow-clip-margin: 2px !important;
 
   /* タブの左右の余白 */
