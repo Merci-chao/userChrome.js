@@ -204,6 +204,15 @@ There also few settings in `about:config` for the layout of tabs:
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 3.6.1**
+- Update for `autoCollapse`:
+	- Tabs Bar will now only expand for the current window.
+	- Prevent Tabs Bar expand when URL bar is focused.
+	- Clicking or pressing `Esc` will now help to collapse the Tabs Bar if it is not doing so in some rare cases.
+	- Bug fix: issuse when dragging tab when there is only one row.
+	- Bug fix: part of group line disappears when Tabs Bar is expanding.
+- Fix a minor Firefox visual bug [#1995909](https://bugzilla.mozilla.org/show_bug.cgi?id=1995909).
+
 <details>
 <summary>Minor Updates</summary>
 
