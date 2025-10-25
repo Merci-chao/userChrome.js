@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        3.6.1
+// @version        3.6.1.1
 // @compatible     firefox 115, 144-146
 // @namespace      https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelog      https://github.com/Merci-chao/userChrome.js#changelog
@@ -6652,11 +6652,13 @@ for (let [o, fs] of [
 			console?.warn(`${name} is not found`);
 	}
 
+let lastSlotWidth;
 let tabsResizeObserver = new ResizeObserver(() => {
 	console?.time("tabContainer ResizeObserver");
 
 	let multiRowsPreviously = tabContainer.hasAttribute("multirows");
 	let count = getRowCount(), scrollCount = Math.min(getRowCount(true), maxTabRows());
+	let slotWidth = getRect(slot).width;
 	tabsBar.toggleAttribute("tabs-multirows", count > 1);
 	tabContainer.toggleAttribute("multirows", count > 1);
 	tabContainer._scrollRows = scrollCount;
@@ -6683,7 +6685,9 @@ let tabsResizeObserver = new ResizeObserver(() => {
 
 	console?.timeEnd("tabContainer ResizeObserver");
 
-	tabContainer._unlockTabSizing({instant: true});
+	if (slotWidth != lastSlotWidth)
+		tabContainer._unlockTabSizing({instant: true});
+	lastSlotWidth = slotWidth;
 });
 
 for (let box of [tabContainer, slot])
