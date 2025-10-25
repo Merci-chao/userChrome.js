@@ -209,7 +209,7 @@ There also few settings in `about:config` for the layout of tabs:
 <summary>Minor Updates</summary>
 
 **Version 3.6.1.1**
-- Bug fix: Follow-up fix for version 3.6.0.1 that caused tab sizes to unlock unexpectedly when rows were reduced.
+- Bug fix: tab sizes were unlocked unexpectedly when rows were reduced, since version 3.6.0.1.
 
 </details>
 
