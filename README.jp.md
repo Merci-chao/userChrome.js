@@ -201,6 +201,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+<details>
+<summary>軽微な更新</summary>
+
+**Version 3.6.1.1**
+- バグ修正：バージョン 3.6.0.1 以降で発生した、行数を減らした際にタブサイズが予期せず解除された問題。
+
+</details>
+
 **Version 3.6.1**
 - `autoCollapse` の更新：
 	- タブバーは現在のウィンドウに対してのみ展開されるようになる。
