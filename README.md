@@ -205,6 +205,14 @@ There also few settings in `about:config` for the layout of tabs:
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+<details>
+<summary>Minor Updates</summary>
+
+**Version 3.6.1.1**
+- Bug fix: Follow-up fix for version 3.6.0.1 that caused tab sizes to unlock unexpectedly when rows were reduced.
+
+</details>
+
 **Version 3.6.1**
 - Update for `autoCollapse`:
 	- Tabs Bar will now only expand for the current window.
