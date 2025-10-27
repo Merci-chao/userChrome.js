@@ -205,7 +205,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <summary>軽微な更新</summary>
 
 **Version 3.6.1.1**
-- バグ修正：バージョン 3.6.0.1 以降で発生した、行数を減らした際にタブサイズが予期せず解除された問題。
+- バグ修正：バージョン 3.6.0.1 以降で発生した、段数を減らした際にタブサイズが予期せず解除された問題。
 
 </details>
 
