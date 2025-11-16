@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Page Title in URL Bar
 // @description    Show page title in URL Bar.
-// @version        2025-11-16
+// @version        2025-11-16-01
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#page-title-in-url-bar
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
@@ -399,25 +399,26 @@ let PageTitle = window.PageTitle = {
 function setupTabContainer() {
 	PageTitle.tabsMutationObserver.observe(gBrowser.tabContainer, {attributes: true, subtree: true});
 	gBrowser.tabContainer.addEventListener("TabSelect", PageTitle.onTabSelect, true);
+
+	if (!gURLBar.__proto__.__PageTitleInit) {
+		let originalSetURI = gURLBar.__proto__.setURI;
+		gURLBar.__proto__.setURI = function() {
+			let r = originalSetURI.apply(this, arguments);
+			try {
+				this.window.PageTitle?.updateURLBarPageTitleText();
+			} catch (e) {
+				console.error(e);
+			}
+			return r;
+		};
+		gURLBar.__proto__.__PageTitleInit = true;
+	}
 }
 if (gBrowser?._initialized)
 	setupTabContainer();
 else
 	addEventListener("DOMContentLoaded", setupTabContainer, {once: true});
 
-if (!gURLBar.__proto__.__PageTitleInit) {
-	let originalSetURI = gURLBar.__proto__.setURI;
-	gURLBar.__proto__.setURI = function() {
-		let r = originalSetURI.apply(this, arguments);
-		try {
-			this.window.PageTitle?.updateURLBarPageTitleText();
-		} catch (e) {
-			console.error(e);
-		}
-		return r;
-	};
-	gURLBar.__proto__.__PageTitleInit = true;
-}
 if (!AboutReaderParent.__PageTitleInit) {
 	let originalFunc = AboutReaderParent.toggleReaderMode;
 	AboutReaderParent.toggleReaderMode = function(event) {
