@@ -1,13 +1,17 @@
 // ==UserScript==
 // @name           Page Title in URL Bar
 // @description    Show page title in URL Bar.
-// @version        2025-09-09
+// @version        2025-11-16
 // @author         Merci chao
 // @namespace      https://github.com/Merci-chao/userChrome.js#page-title-in-url-bar
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
 // @updateURL      https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js
 // @downloadURL    https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js
 // ==/UserScript==
+
+/* global
+   gBrowser, Services, Cc, Ci, openURL, gURLBar, AboutReaderParent,
+*/
 
 try {(()=>{
 
@@ -27,10 +31,11 @@ let prefBranchStr = "extensions.PageTitle@Merci.chao.";
 	};
 
 	let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
-			value != null && branch[`set${{string:"String",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name, value));
+		value != null && branch[`set${{string: "String", number: "Int", boolean: "Bool"}[typeof value]}Pref`](name, value)
+	);
 	let getPrefs = (branch, data) => Object.fromEntries(Object.entries(data)
-			.filter(([name, value]) => value != null)
-			.map(([name, value]) => [name, branch[`get${{string:"String",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name)]));
+		.filter(([, value]) => value != null)
+		.map(([name, value]) => [name, branch[`get${{string:"String",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name)]));
 	setDefaultPrefs(Services.prefs.getDefaultBranch(prefBranchStr), defPrefs);
 	prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defPrefs);
 }
@@ -47,9 +52,10 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		let remote = getVer(remoteScript);
 		if (remote.localeCompare(local, undefined, {numeric: true}) <= 0) return;
 		let p = Services.prompt;
-		let buttons = p.BUTTON_POS_0 * p.BUTTON_TITLE_YES +
-				p.BUTTON_POS_1 * p.BUTTON_TITLE_IS_STRING +
-				p.BUTTON_POS_2 * p.BUTTON_TITLE_NO;
+		let buttons =
+			p.BUTTON_POS_0 * p.BUTTON_TITLE_YES +
+			p.BUTTON_POS_1 * p.BUTTON_TITLE_IS_STRING +
+			p.BUTTON_POS_2 * p.BUTTON_TITLE_NO;
 		let dontAsk = {};
 		let l10n = {
 			en: {
@@ -60,14 +66,20 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 			},
 		};
 		l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
-		switch (p.confirmEx(window, l10n.title, l10n.message,
-				buttons, "", l10n.later, "", l10n.never, dontAsk)) {
+		switch (
+			p.confirmEx(
+				window, l10n.title, l10n.message,
+				buttons, "", l10n.later, "", l10n.never, dontAsk,
+			)
+		) {
 			case 0:
 				openURL(downloadURL);
 				break;
 			case 1:
-				Services.prefs.setIntPref(prefBranchStr + "checkUpdate",
-						Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60);
+				Services.prefs.setIntPref(
+					prefBranchStr + "checkUpdate",
+					Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60,
+				);
 				break;
 			case 2:
 				if (dontAsk.value)
@@ -80,10 +92,9 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 let docEle = document.documentElement;
 let rtl = window.getComputedStyle(docEle).direction == "rtl";
 let create = (tagName, parent, props = {}, insertPoint = null) =>
-		Object.assign(parent.insertBefore(document.createXULElement(tagName), insertPoint), props);
+	Object.assign(parent.insertBefore(document.createXULElement(tagName), insertPoint), props);
 let createHTML = (tagName, parent, props = {}, insertPoint = null) =>
-		Object.assign(parent.insertBefore(document.createElement(tagName), insertPoint), props);
-let $$ = s => Array.from(document.querySelectorAll(s));
+	Object.assign(parent.insertBefore(document.createElement(tagName), insertPoint), props);
 let $ = s => document.querySelector(s);
 let formatRange = (selection, textNode, start, end) => {
 	let range = document.createRange();
@@ -94,7 +105,6 @@ let formatRange = (selection, textNode, start, end) => {
 
 let urlbar = $("#urlbar");
 let urlbarInput = $("#urlbar-input");
-let identityBox = $("#identity-box");
 let container = $(".urlbar-input-box");
 let insertPoint = urlbarInput.nextSibling;
 
@@ -169,7 +179,7 @@ let PageTitle = window.PageTitle = {
 
 		//clear the value of our stuffs
 		[pageTitle, pageURL, subDomainLabel, domainLabel, portLabel]
-				.forEach(elt => elt.value = "");
+			.forEach(elt => elt.value = "");
 
 		//get the page title and url
 		let title = browser.contentTitle;
@@ -198,12 +208,14 @@ let PageTitle = window.PageTitle = {
 			//some about: pages does not show url in url bar but just waits for inputing url
 			//so we keep the url bar in input mode
 			} else {
-				if (/^about:((blank|home|newtab|privatebrowsing|sessionrestore|welcome(back)?)|(blocked|certerror|neterror)(\?.*)?)$/i
-						.test(documentURL)) {
+				if (
+					/^about:((blank|home|newtab|privatebrowsing|sessionrestore|welcome(back)?)|(blocked|certerror|neterror)(\?.*)?)$/i
+						.test(documentURL)
+				) {
 					title = null;
 				//here is the right time for us to do something
 				} else {
-					let protocol = url.match(/^[a-z\d.+\-]+:(?=[^\d])?/);
+					let protocol = url.match(/^[a-z\d.+-]+:(?=[^\d])?/);
 
 					if (protocol)
 						if (!["http:", "https:", "ftp:"].includes(protocol[0])) {
@@ -212,7 +224,7 @@ let PageTitle = window.PageTitle = {
 							 */
 							domainLabel.value = protocol[0].replace(/:$/, "");
 							if (protocol != "view-source:")
-								subURL = prefs.showDomain ? url.replace(new RegExp("^" + protocol[0] + "\/*"), "") : url;
+								subURL = prefs.showDomain ? url.replace(new RegExp("^" + protocol[0] + "/*"), "") : url;
 							else
 								url = subURL;
 						} else {
@@ -222,8 +234,8 @@ let PageTitle = window.PageTitle = {
 							let urlObj = IIOService.newURI(url, null, null).QueryInterface(Ci.nsIURL);
 
 							let prePath = urlObj.prePath;
-							let matchedURL = prePath.match(/^((?:[a-z]+:\/\/)?(?:[^\/]+@)?)(.+?)(?::\d+)?(?:\/|$)/);
-							let [, preDomain, domain] = matchedURL;
+							let matchedURL = prePath.match(/^((?:[a-z]+:\/\/)?(?:[^/]+@)?)(.+?)(?::\d+)?(?:\/|$)/);
+							let [, , domain] = matchedURL;
 							let path = urlObj.path || url.substr(urlObj.prePath.length);
 
 							baseDomain = domain;
@@ -238,6 +250,7 @@ let PageTitle = window.PageTitle = {
 										// getBaseDomainFromHost converts its resultant to ACE.
 										baseDomain = IDNService.convertACEtoUTF8(baseDomain);
 									}
+								// eslint-disable-next-line no-unused-vars, no-empty
 								} catch (e) {}
 
 							if (baseDomain != domain)
@@ -267,6 +280,7 @@ let PageTitle = window.PageTitle = {
 
 					try {
 						subURL = decodeURI(subURL);
+					// eslint-disable-next-line no-unused-vars
 					} catch (e) {
 						let charset = browser.characterSet;
 						/*
@@ -278,6 +292,7 @@ let PageTitle = window.PageTitle = {
 								// in case the URI is not ASCII.
 								const txtToSubURIService = Cc["@mozilla.org/intl/texttosuburi;1"].getService(Ci.nsITextToSubURI);
 								subURL = txtToSubURIService.unEscapeNonAsciiURI(charset, subURL);
+							// eslint-disable-next-line no-unused-vars, no-empty
 							} catch (e) {}
 
 					}
@@ -285,14 +300,17 @@ let PageTitle = window.PageTitle = {
 					if (prefs.decodeHashAndSearch)
 						try {
 							subURL = subURL
-									.replace(/\?[^#]+/, matched => decodeURIComponent(matched.replace(/\+/g, " ")))
-									.replace(/#.+/, matched => decodeURIComponent(matched.replace(/\.(?=[0-9a-f]{2})/ig, "%")));
+								.replace(/\?[^#]+/, matched => decodeURIComponent(matched.replace(/\+/g, " ")))
+								.replace(/#.+/, matched => decodeURIComponent(matched.replace(/\.(?=[0-9a-f]{2})/ig, "%")));
+						// eslint-disable-next-line no-unused-vars, no-empty
 						} catch (e) {}
 
 					let finalURL = subURL || title;
-					let finalTitle = subURL && prefs.showSubTitle ?
-							rtl ? subURL + subTitleSeperator + title : title + subTitleSeperator + subURL
-							: title;
+					let finalTitle = subURL && prefs.showSubTitle
+						? rtl
+							? subURL + subTitleSeperator + title
+							: title + subTitleSeperator + subURL
+						: title;
 
 					pageTitle.value = finalTitle;
 					pageURL.value = finalURL;
@@ -300,7 +318,8 @@ let PageTitle = window.PageTitle = {
 						let decodedUrl = url;
 						try {
 							decodedUrl = decodeURI(url);
-						} catch(e) {}
+						// eslint-disable-next-line no-unused-vars, no-empty
+						} catch (e) {}
 						tooltip.label = Array.from(new Set([title, decodedUrl])).filter(v => v).join("\n");
 					}
 
@@ -310,19 +329,28 @@ let PageTitle = window.PageTitle = {
 
 					if (prefs.showSubTitle && subURL)
 						if (!prefs.showDomain && prefs.formattingEnabled) {
-							let baseDomainIdx = rtl ?
-									subDomain.length
-									: title.length + subTitleSeperator.length + subDomain.length;
-							formatRange(titleSelection, titleTextNode,
-									rtl ? 0 : title.length,
-									baseDomainIdx);
-							formatRange(titleSelection, titleTextNode,
-									rtl ? baseDomainIdx + baseDomain.length : baseDomainIdx + baseDomain.length,
-									rtl ? finalTitle.length - title.length : finalTitle.length);
+							let baseDomainIdx = rtl
+								? subDomain.length
+								: title.length + subTitleSeperator.length + subDomain.length;
+							formatRange(
+								titleSelection,
+								titleTextNode,
+								rtl ? 0 : title.length,
+								baseDomainIdx,
+							);
+							formatRange(
+								titleSelection,
+								titleTextNode,
+								rtl ? baseDomainIdx + baseDomain.length : baseDomainIdx + baseDomain.length,
+								rtl ? finalTitle.length - title.length : finalTitle.length,
+							);
 						} else
-							formatRange(titleSelection, titleTextNode,
-									rtl ? 0 : title.length,
-									rtl ? finalTitle.length - title.length : finalTitle.length);
+							formatRange(
+								titleSelection,
+								titleTextNode,
+								rtl ? 0 : title.length,
+								rtl ? finalTitle.length - title.length : finalTitle.length,
+							);
 
 					let urlController = pageURL.editor.selectionController;
 					let urlTextNode = pageURL.editor.rootElement.firstChild;
@@ -349,7 +377,7 @@ let PageTitle = window.PageTitle = {
 		urlbar.toggleAttribute("nopagetitle", !title);
 	},
 
-	onTabSelect: e => {
+	onTabSelect: () => {
 		PageTitle.updateURLBarPageTitleText();
 	},
 
@@ -377,9 +405,9 @@ if (gBrowser?._initialized)
 else
 	addEventListener("DOMContentLoaded", setupTabContainer, {once: true});
 
-if (!UrlbarInput.prototype.__PageTitleInit) {
-	let originalSetURI = UrlbarInput.prototype.setURI;
-	UrlbarInput.prototype.setURI = function() {
+if (!gURLBar.__proto__.__PageTitleInit) {
+	let originalSetURI = gURLBar.__proto__.setURI;
+	gURLBar.__proto__.setURI = function() {
 		let r = originalSetURI.apply(this, arguments);
 		try {
 			this.window.PageTitle?.updateURLBarPageTitleText();
@@ -388,7 +416,7 @@ if (!UrlbarInput.prototype.__PageTitleInit) {
 		}
 		return r;
 	};
-	UrlbarInput.prototype.__PageTitleInit = true;
+	gURLBar.__proto__.__PageTitleInit = true;
 }
 if (!AboutReaderParent.__PageTitleInit) {
 	let originalFunc = AboutReaderParent.toggleReaderMode;
@@ -464,7 +492,8 @@ style.innerHTML = `
 	cursor: default;
 }
 #urlbar:is([nopagetitle], [focused], [pageproxystate=invalid])
-		:is(#urlbar-pagetitle, #urlbar-pageurl) {
+	:is(#urlbar-pagetitle, #urlbar-pageurl)
+{
 	visibility: hidden;
 }
 #urlbar-pageurl {
@@ -481,25 +510,40 @@ style.innerHTML = `
 	opacity: 0 !important;
 }
 
-:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle], [pageproxystate=invalid])) #identity-icon-box {
+:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
+	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
+		#identity-icon-box
+{
 	background-color: var(--urlbar-box-bgcolor);
 }
-:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain] #urlbar[focused]:not(:is([nopagetitle], [pageproxystate=invalid])) #identity-icon-box {
+:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
+	#urlbar[focused]:not(:is([nopagetitle], [pageproxystate=invalid]))
+		#identity-icon-box
+{
 	background-color: var(--urlbar-box-focus-bgcolor);
 }
-:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle], [pageproxystate=invalid])) #identity-icon-box:hover:not([open]) {
+:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
+	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
+		#identity-icon-box:hover:not([open])
+{
 	background-color: var(--urlbar-box-hover-bgcolor);
 	color: var(--urlbar-box-hover-text-color);
 }
-:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle], [pageproxystate=invalid])) #identity-icon-box:is(:hover:active, [open]) {
+:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
+	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
+		#identity-icon-box:is(:hover:active, [open])
+{
 	background-color: var(--urlbar-box-active-bgcolor);
 	color: var(--urlbar-box-hover-text-color);
 }
 
 /* margin inline end of identity-box */
-:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain] #urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
+:root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
+	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
 		#identity-box[pageproxystate=valid]:not(.notSecureText):not(.chromeUI):not(.extensionPage)
-		#identity-permission-box:not([open=true]):not([hasPermissions]):not([hasSharingIcon]) ~ #notification-popup-box[hidden] {
+			#identity-permission-box:not([open=true]):not([hasPermissions]):not([hasSharingIcon]) ~
+				#notification-popup-box[hidden]
+{
 	visibility: visible;
 	margin-inline-end: 4px;
 }
@@ -512,4 +556,3 @@ setTimeout(() => PageTitle.updateURLBarPageTitleText());
 setInterval(() => pageTitle.style.zIndex ^= 1, 100);
 
 })()} catch(e) {alert(e);console.error(e, e.stack)}
-
