@@ -45,7 +45,10 @@ Make Firefox support multiple rows of tabs.
 
 ## Compatibility
 - Firefox 115, 144 to 146 (excluding ESR versions), for Windows 7 to 11.
-- Supports general script loaders, like xiaoxiaoflood's userChromeJS (Firefox Scripts).
+- Supports general userChrome.js script loaders, for example:
+	- [fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig) by MrOtherGuy
+	- [firefox-scripts](https://github.com/xiaoxiaoflood/firefox-scripts) by xiaoxiaoflood
+ 	- [userChrome.js](https://github.com/alice0775/userChrome.js) by alice0775
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
@@ -55,7 +58,7 @@ Make Firefox support multiple rows of tabs.
 - This script needs to override some functions of Firefox and requires [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) to be enabled on Firefox 139+ for this purpose. The said setting is enabled automatically once you are applying this script, and it requires a manual disabling through `about:config` after disabling or removing the script. Please note that and use this script with understanding.
 
 ## Installation
-1. Follow the instructions in the 📘[Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the script loader (Firefox Scripts) if you are not using any scripts. Skip this step if some scripts are already in use.
+1. If you are not using any scripts, follow the instructions in the 📘[Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the script loader (Firefox Scripts). Skip this step if some scripts are already in use.
 <br>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
 2. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `.js` (excluding `userChrome.js`, if any) and `.css` files out of `chrome`. **There are many reports of issues caused by conflicts with customized styles.**
 3. Download the 📥[script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it into `chrome`.
