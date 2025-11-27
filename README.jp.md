@@ -58,7 +58,7 @@ Firefox に多段タブ表示をサポートさせる。
 - Firefox の関数を上書きする必要があるため、Firefox 139 以降では [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) の設定が必要。この設定はスクリプト適用時に自動で有効化されるが、スクリプト削除時には `about:config` で手動無効化が必要。
 
 ## インストール手順
-1. スクリプトローダーをインストールする。すでにスクリプトを使っているなら、このステップはスキップしていい。使えるスクリプトローダーはいくつかある：
+1. スクリプトローダーをインストールする。すでにスクリプトを使用している場合、このステップは省略可能。使えるスクリプトローダーはいくつかある：
 	- [`firefox-scripts`](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)（作者：[xiaoxiaoflood](https://github.com/xiaoxiaoflood)、メンテ：[onemen](https://github.com/onemen)）
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)（作者：[MrOtherGuy](https://github.com/MrOtherGuy)）
 	- [`userChrome.js`](https://github.com/alice0775/userChrome.js)（作者：[alice0775](https://github.com/alice0775)）
