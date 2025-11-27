@@ -45,10 +45,10 @@ Make Firefox support multiple rows of tabs.
 
 ## Compatibility
 - Firefox 115, 144 to 146 (excluding ESR versions), for Windows 7 to 11.
-- Supports general userChrome.js script loaders, for example:
-	- [firefox-scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) by xiaoxiaoflood, maintained by onemen
-	- [fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig) by MrOtherGuy
- 	- [userChrome.js](https://github.com/alice0775/userChrome.js) by alice0775
+- Supports general userChrome.js script loaders, such as:
+	- [firefox-scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) by *[xiaoxiaoflood](https://github.com/xiaoxiaoflood)*, maintained by *[onemen](https://github.com/onemen)*
+	- [fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig) by *[MrOtherGuy](https://github.com/MrOtherGuy)*
+ 	- [userChrome.js](https://github.com/alice0775/userChrome.js) by *[alice0775](https://github.com/alice0775)*
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
