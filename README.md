@@ -52,7 +52,8 @@ Make Firefox support multiple rows of tabs.
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
-- Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)), user scripts (`userChrome.js`) or CSS styles (`userChrome.css`) can cause weird glitches and bugs. ⚠️**Please follow the installation steps below carefully.**
+- Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)), user scripts (`userChrome.js`) or CSS styles (`userChrome.css`) can cause weird glitches and bugs.
+  <br>⚠️ Please follow the installation steps below carefully.
 - This is an unofficial (and complicated) script maintained solely by me. This script may contain unforeseen bugs and is not guaranteed to keep compatible with the latest versions of Firefox. If an unexpected issue occurs, restarting Firefox may be necessary. In extreme cases — especially when using an outdated version of the script with a newly updated Firefox — the browser may become unusable, potentially resulting in the permanent loss of your previous browsing session. You may need to disable the script in such situations. Please use this script only if you are capable of and prepared to handle these risks.
 - This script is developed for Windows and probably does not work on Ubuntu (Linux) and macOS.
 - This script needs to override some functions of Firefox and requires [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) to be enabled on Firefox 139+ for this purpose. The said setting is enabled automatically once you are applying this script, and it requires a manual disabling through `about:config` after disabling or removing the script. Please note that and use this script with understanding.
@@ -64,10 +65,12 @@ Make Firefox support multiple rows of tabs.
  	- [`userChrome.js`](https://github.com/alice0775/userChrome.js) by *[alice0775](https://github.com/alice0775)*
   <br><br>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘[Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the `firefox-scripts`: 
   <br>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
-2. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `.js` (excluding `userChrome.js`, if any) and `.css` files out of `chrome`.<br>🚨 There are many reports of issues caused by conflicts with customized styles.<br>📝 The file placement location may vary depending on the loader you use.
-3. Download the 📥[script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it into `chrome`.
-4. Restart Firefox to apply.
-5. If you moved some files out of `chrome` in step 2, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and style rules accordingly. If you need help, please provide the information 🛟[here](https://github.com/Merci-chao/userChrome.js/issues/new).
+  <br>📝 The file placement location may vary depending on the loader. The following example assumes the use of `firefox-scripts`.
+2. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `.js` (excluding `userChrome.js`, if any) and `.css` files out of `chrome`.
+   <br>⚠️ There are many reports of issues caused by conflicts with customized styles.
+4. Download the 📥[script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it into `chrome`.
+5. Restart Firefox to apply.
+6. If you moved some files out of `chrome` in step 2, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and style rules accordingly. If you need help, please provide the information 🛟[here](https://github.com/Merci-chao/userChrome.js/issues/new).
 
 > [!IMPORTANT]
 > If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
