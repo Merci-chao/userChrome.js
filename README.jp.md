@@ -45,7 +45,10 @@ Firefox に多段タブ表示をサポートさせる。
 
 ## 対応環境
 - Firefox 115、144〜146（ESR バージョンを除く）、Windows 7〜11 に対応。
-- 一般的なスクリプトローダーに対応。
+- 一般的なスクリプトローダーに対応。例：
+	- [`firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
+	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
+ 	- [`userChrome.js`](https://github.com/alice0775/userChrome.js)
 
 ## 注意事項
 **🚨 ご使用の前に、以下の注意点をよくお読みください：**
@@ -55,9 +58,15 @@ Firefox に多段タブ表示をサポートさせる。
 - Firefox の関数を上書きする必要があるため、Firefox 139 以降では [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) の設定が必要。この設定はスクリプト適用時に自動で有効化されるが、スクリプト削除時には `about:config` で手動無効化が必要。
 
 ## インストール手順
-1. ほかのスクリプトを使用していない場合は、📘[Tab Mix Plus - ドキュメント（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) に従ってスクリプトローダー（Firefox スクリプト）をインストールする。すでに他のスクリプトローダー（例：[alice0775 氏の userChrome.js](https://github.com/alice0775/userChrome.js)）を使用している場合はこの手順を省略する。  
+1. スクリプトローダーをインストールする。すでにいくつかのスクリプトを使っているなら、このステップはスキップしていい。使えるスクリプトローダーはいくつかある：
+	- [`firefox-scripts`](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)（作者：[xiaoxiaoflood](https://github.com/xiaoxiaoflood)、メンテ：[onemen](https://github.com/onemen)）
+	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)（作者：[MrOtherGuy](https://github.com/MrOtherGuy)）
+	- [`userChrome.js`](https://github.com/alice0775/userChrome.js)（作者：[alice0775](https://github.com/alice0775)）
+<br><br>どれを使ってもこのスクリプトを適用する上で大きな違いはないから、好きなものを選べばいい。特にこだわりがなければ、📘[Tab Mix Plus - ドキュメント（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) の手順に従って `firefox-scripts` を入れるのがおすすめ：  
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.jp.png)
-2. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `.js`（`userChrome.js`以外、もしあれば）と `.css` ファイルを一時的に `chrome` から移動する。**※スタイルとの競合によって発生する不具合が多数報告されている。**
+2. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `.js`（`userChrome.js`以外、もしあれば）と `.css` ファイルを一時的に `chrome` から移動する。
+   <br>※スタイルとの競合によって発生する不具合が多数報告されている。
+   <br>※ファイルの配置場所は使用するローダーによって異なる場合がある。
 3. 📥[スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし、`chrome` に配置する。<br>
 4. Firefox を再起動して反映する。
 5. 手順 2 で一部のファイルを `chrome` の外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、スクリプトやスタイルルールを調整してください。お困りの際は、🛟[こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
