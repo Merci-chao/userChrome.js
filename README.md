@@ -212,7 +212,7 @@ There also few settings in `about:config` for the layout and operations of tabs:
 | `widget.windows.mica` | Apply the native system style on Tabs Bar (Windows 11). |
 | `widget.windows.mica.toplevel-backdrop` | Choose the effect of backdrop (Windows 11).<ul><li>`0` - Auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
-| `browser.tabs.dragDrop.multiselectStacking` | Enable tab stacking when dragging tabs. On Firefox 145 and below (including 115), create a new preference named `browser.tabs.dragDrop.multiselectStacking` and set it to `true` to enable. |
+| `browser.tabs.dragDrop.multiselectStacking` | Enable tab stacking when dragging tabs. On Firefox 145 and below (including 115), create a new preference with this name and set it to `true` to enable. |
 | `browser.tabs.splitView.enabled` | Enable the tab split  view feature, available on Firefox 146 and above. |
 
 ## Changelog
