@@ -515,6 +515,9 @@ URL バーにページタイトルを表示。
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 
 ## 変更履歴
+**Version 2025-11-28**
+- Firefox 147 に対応。
+- 
 **Version 2025-11-16**
 - Firefox 147 に対応。
 
