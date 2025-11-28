@@ -14,8 +14,8 @@ Make Firefox support multiple rows of tabs.
 
 <table>
   <tr>
-	  <td>🗂️&nbsp;Tab&nbsp;Groups&nbsp;Support</td>
-	  <td>Fully supports mouse operations for tab groups, delivering a smoother and more graceful experience.</td>
+	  <td>✨&nbsp;Newest&nbsp;Features&nbsp;Support</td>
+	  <td>Fully supports mouse operations for the newest tab features, including Tab Group, Tab Split View, and Tab Stacking, delivering a smoother and more graceful experience.</td>
   </tr>
   <tr>
 	  <td>🎞️&nbsp;Enhanced&nbsp;Animations</td>
@@ -93,7 +93,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `animateTabMoveMaxCount` | When the number of dragged tabs exceeds this value, drag animations are disabled and a drop indicator is shown instead. The minimum value is `0`. If dragging too many tabs causes lag, consider lowering this value.<br>📝 Note: Some tab grouping operations may be unavailable, and the final drop position is determined by Firefox's native behavior, which may not behave as expected in certain scenarios (Firefox bug [#1985434](https://bugzilla.mozilla.org/show_bug.cgi?id=1985434), [#1988159](https://bugzilla.mozilla.org/show_bug.cgi?id=1988159), [#1988162](https://bugzilla.mozilla.org/show_bug.cgi?id=1988162), [#1988194](https://bugzilla.mozilla.org/show_bug.cgi?id=1988194)). |
 | `animationDuration` | Duration of animations in milliseconds (valid range: `0` - `1000`). Note: Lengthy animations could strain system performance. |
 | `disableDragToPinOrUnpin` | Disable tab pinning/unpinning via drag-and-drop in the same window. |
-| `dragStackPreceding` | Stack the preceding selected tabs of the dragged one (see [`browser.tabs.dragDrop.multiselectStacking`](#advanced-tweaks)). When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue. |
+| `dragStackPreceding` | Stack the preceding selected tabs of the dragged one (see [`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking)). When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue. |
 | `dragToGroupTabs` | Enable tab grouping when dragging tabs over another. Disabling this setting results in behavior that differs from when `browser.tabs.dragDrop.moveOverThresholdPercent` is set to `50` or below: the disabled state allows tabs to be added to or removed from a group without altering their order. Not available on Firefox 115 or `browser.tabs.groups.enabled` is `false`. |
 | `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or either `dragToGroupTabs` or `browser.tabs.groups.enabled` is `false`. |
 | `hideDragPreview` | Hide the drag preview during a drag interaction:<ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
@@ -212,7 +212,7 @@ There also few settings in `about:config` for the layout and operations of tabs:
 | `widget.windows.mica` | Apply the native system style on Tabs Bar (Windows 11). |
 | `widget.windows.mica.toplevel-backdrop` | Choose the effect of backdrop (Windows 11).<ul><li>`0` - Auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
-| `browser.tabs.dragDrop.multiselectStacking` | Enable tab stacking when dragging tabs. On Firefox 145 and below (including 115), create a new preference with this name and set it to `true` to enable. |
+| <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | Enable tab stacking when dragging tabs. On Firefox 145 and below (including 115), create a new preference with this name and set it to `true` to enable. |
 | `browser.tabs.splitView.enabled` | Enable the tab split  view feature, available on Firefox 146 and above. |
 
 ## Changelog
