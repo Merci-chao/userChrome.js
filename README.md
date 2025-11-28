@@ -522,6 +522,9 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`
 | `checkUpdateFrequency` | How often to check for new versions (days). The minimum value is `1`. |
 
 ## Changelog
+**Version 2025-11-28**
+- Update for Firefox 147.
+
 **Version 2025-11-16**
 - Update for Firefox 147.
 
