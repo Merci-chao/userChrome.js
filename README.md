@@ -92,7 +92,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ------------- | ------------- |
 | `animateTabMoveMaxCount` | When the number of dragged tabs exceeds this value, drag animations are disabled and a drop indicator is shown instead. The minimum value is `0`. If dragging too many tabs causes lag, consider lowering this value.<br>📝 Note: Some tab grouping operations may be unavailable, and the final drop position is determined by Firefox's native behavior, which may not behave as expected in certain scenarios (Firefox bug [#1985434](https://bugzilla.mozilla.org/show_bug.cgi?id=1985434), [#1988159](https://bugzilla.mozilla.org/show_bug.cgi?id=1988159), [#1988162](https://bugzilla.mozilla.org/show_bug.cgi?id=1988162), [#1988194](https://bugzilla.mozilla.org/show_bug.cgi?id=1988194)). |
 | `animationDuration` | Duration of animations in milliseconds (valid range: `0` - `1000`). Note: Lengthy animations could strain system performance. |
-| `disableDragToPinOrUnpin` | Disable tab pinning/unpinning via drag-and-drop in the same window. Not available on Firefox 115. |
+| `disableDragToPinOrUnpin` | Disable tab pinning/unpinning via drag-and-drop in the same window. |
+| `dragStackPreceding` | Stack the preceding selected tabs of the dragged one (see [`browser.tabs.dragDrop.multiselectStacking`](#advanced-tweaks)). When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue. |
 | `dragToGroupTabs` | Enable tab grouping when dragging tabs over another. Disabling this setting results in behavior that differs from when `browser.tabs.dragDrop.moveOverThresholdPercent` is set to `50` or below: the disabled state allows tabs to be added to or removed from a group without altering their order. Not available on Firefox 115 or `browser.tabs.groups.enabled` is `false`. |
 | `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or either `dragToGroupTabs` or `browser.tabs.groups.enabled` is `false`. |
 | `hideDragPreview` | Hide the drag preview during a drag interaction:<ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
@@ -117,6 +118,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `maxTabRows` | Maximum number of rows to display at once. The minimum value is `1`. |
 | `pinnedTabsFlexWidth` | **🚨 EXPERIMENTAL 🧪**<br>Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when Tabs Bar is scrollable. |
 | `pinnedTabsFlexWidthIndicator` | Display an icon on pinned tabs when `pinnedTabsFlexWidth` is enabled. |
+| `privateBrowsingIconOnNavBar` | Move the private window icon to Navigation Bar. Not available on Firefox 115. This setting is forcibly activated when `tabsAtBottom` is enabled. |
 | `rowIncreaseEvery` | Each time the window width is increased by this amount, one more row is allowed. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
 | `spaceAfterTabs` | Empty space before the window control buttons. The minimum value is `0`. |
@@ -201,7 +203,7 @@ You can use [`userChrome.css`](https://support.mozilla.org/kb/contributors-guide
 }
 ```
 
-There also few settings in `about:config` for the layout of tabs:
+There also few settings in `about:config` for the layout and operations of tabs:
 
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
@@ -210,9 +212,40 @@ There also few settings in `about:config` for the layout of tabs:
 | `widget.windows.mica` | Apply the native system style on Tabs Bar (Windows 11). |
 | `widget.windows.mica.toplevel-backdrop` | Choose the effect of backdrop (Windows 11).<ul><li>`0` - Auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
+| `browser.tabs.dragDrop.multiselectStacking` | Enable tab stacking when dragging tabs. On Firefox 145 and below (including 115), create a new preference named `browser.tabs.dragDrop.multiselectStacking` and set it to `true` to enable. |
+| `browser.tabs.splitView.enabled` | Enable the tab split  view feature, available on Firefox 146 and above. |
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.0**
+- New
+	- Support the tab split view feature introduced in Firefox 146, which can be enabled by setting `browser.tabs.splitView.enabled` to `ture`.
+	- Support for tab stacking when dragging multiple tabs. On Firefox 146, it can be enabled by setting `browser.tabs.dragDrop.multiselectStacking` to `true`. For Firefox 145 and below (including 115), a new boolean preference with that name needs to be created manually.
+	- Add `dragStackPreceding`: stack the preceding selected tabs of the dragged one. When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue.
+	- Support drag to pin/unpin on Firefox 115. Set `disableDragToPinOrUnpin` to `false` to enable.
+	- Add `privateBrowsingIconOnNavBar`: move the private window icon to Navigation Bar. Not available on Firefox 115. This setting is forcibly activated when `tabsAtBottom` is enabled.
+- Changes
+	- In keeping with the original design of Firefox, `spaceAfterTabs`, `spaceAfterTabsOnMaximizedWindow`, `spaceBeforeTabs` and `spaceBeforeTabsOnMaximizedWindow` now affect the spacing at the edges of the Navigation Bar when `tabsAtBottom` is enabled.
+	- In keeping with the original design of Firefox, `gapAfterPinned` now defaults to `0` on Firefox 143 and above.
+	- Fix the size of New Tab button to prevent layout gliches.
+- Improvement
+	- Refine the behavior of tab size locking when closing tabs or collapsing tab groups.
+	- Refine the dragging behavior to avoid the difficulty of moving items to the row edge in certain scenarios.
+	- Update for Firefox 147.
+	- Hide the group hover preview panel when scrolling.
+	- Support `toolkit.tabbox.switchByScrolling`.
+- Fixes
+	- The group hover preview panel might incorrectly display when collapsing the group.
+	- Scrolling was not smooth when expanding a group and the Tabs Bar started to scroll.
+	- The animation of drag-and-drop with drop indicator was missing from version 3.5.
+	- Tabs Bar could not be scrolled after using the horizontal wheel.
+	- Audio button did not have a consistent appearance on pinned tabs when `pinnedTabsFlexWidth` was enabled.
+	- Incorrect minimum tab width and layout glitches when setting UI density to Touch.
+	- Various minor bugs and issues.
+
+<details>
+<summary>Old Versions</summary>
 
 <details>
 <summary>Minor Updates</summary>
@@ -253,9 +286,6 @@ There also few settings in `about:config` for the layout of tabs:
 - Workaround for Firefox bug [#1994643](https://bugzilla.mozilla.org/show_bug.cgi?id=1994643), which is amplified by this script.
 - Bug fix: issues when enabling `pinnedTabsFlexWidth` and the pinned tab has no page icon.
 - Fix minor visual bugs.
-
-<details>
-<summary>Old Versions</summary>
 
 **Version 3.5.2**
 - Bug fix: dragged tabs might not be moved to the intended position if it is pressed against to the edge.
