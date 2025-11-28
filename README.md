@@ -15,7 +15,7 @@ Make Firefox support multiple rows of tabs.
 <table>
   <tr>
 	  <td>✨&nbsp;Newest&nbsp;Features&nbsp;Support</td>
-	  <td>Fully supports mouse operations for the newest tab features, including Tab Group, Tab Split View, and Tab Stacking, delivering a smoother and more graceful experience.</td>
+	  <td>Fully supports mouse operations for the newest tab features, including Tab Group, Tab Split View and Tab Stacking, delivering a smoother and more graceful experience.</td>
   </tr>
   <tr>
 	  <td>🎞️&nbsp;Enhanced&nbsp;Animations</td>
