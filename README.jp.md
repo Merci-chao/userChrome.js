@@ -44,7 +44,7 @@ Firefox に多段タブ表示をサポートさせる。
 </table>
 
 ## 対応環境
-- Firefox 115、144〜146（ESR バージョンを除く）、Windows 7〜11 に対応。
+- Firefox 115、145〜147（ESR バージョンを除く）、Windows 7〜11 に対応。
 - 一般的なスクリプトローダーに対応。例：
 	- [`firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
@@ -89,7 +89,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ------------- | ------------- |
 | `animateTabMoveMaxCount` | ドラッグされたタブの数がこの値を超えると、ドラッグアニメーションは無効化され、代わりにドロップ位置のインジケーターが表示される。最小値は `0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。<br>📝 備考：タブグループの一部の操作が使用できない場合がある。最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある（Firefox バグ：[#1985434](https://bugzilla.mozilla.org/show_bug.cgi?id=1985434)、[#1988159](https://bugzilla.mozilla.org/show_bug.cgi?id=1988159)、[#1988162](https://bugzilla.mozilla.org/show_bug.cgi?id=1988162)、[#1988194](https://bugzilla.mozilla.org/show_bug.cgi?id=1988194)）。 |
 | `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する）。 |
-| `disableDragToPinOrUnpin` | 同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を無効化。Firefox 115 では未対応。 |
+| `disableDragToPinOrUnpin` | 同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を無効化。 |
+| `dragStackPreceding` | ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#advanced-tweaks) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。 |
 | `dragToGroupTabs` | タブを他のタブにドラッグした際にグループ化を有効化。`browser.tabs.dragDrop.moveOverThresholdPercent` が `50` 以下の場合の動作と異なり、この設定を無効にすると順序を変更せずグループに追加・除外できる。Firefox 115 または `browser.tabs.groups.enabled` が `false` の場合は未対応。 |
 | `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `dragToGroupTabs` や `browser.tabs.groups.enabled` が無効な場合は未対応。 |
 | `hideDragPreview` | ドラッグ中のプレビューを非表示：<ul><li>`0` - 常に表示</li><li>`1` - グループのみ</li><li>`2` - タブのみ</li><li>`3` - 両方</li></ul> |
@@ -114,6 +115,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `maxTabRows` | 表示可能な最大段数。最小値は `1`。 |
 | `pinnedTabsFlexWidth` | **🚨 実験的機能 🧪**<br>ピン留めされたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる。 |
 | `pinnedTabsFlexWidthIndicator` | `pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブにアイコンを表示。 |
+| `privateBrowsingIconOnNavBar` | プライベートウィンドウアイコンをナビゲーションバーに移動。Firefox 115 では未対応。`tabsAtBottom` が有効な場合、この設定は強制的に有効化される。 |
 | `rowIncreaseEvery` | ウィンドウ幅がこの値だけ増加するたびに、表示可能段数が 1 段増加。`0` にすると最大段数が常に表示される。 |
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になる。 |
 | `spaceAfterTabs` | ウィンドウ制御ボタンの前にある空白スペース。最小値は `0`。 |
@@ -196,7 +198,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
   --group-label-max-width: 10em !important;
 }
 ```
-`about:config` には、タブのレイアウトに関するいくつかの Firefox 設定項目がある：
+`about:config` には、タブのレイアウトと操作に関するいくつかの Firefox 設定項目がある：
 
 | 設定項目（接頭辞なし） | 説明 |
 | ------------- | ------------- |
@@ -205,10 +207,41 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `widget.windows.mica` | タブバーに Windows 11 のネイティブスタイルを適用。 |
 | `widget.windows.mica.toplevel-backdrop` | 背景効果の選択肢（Windows 11）：<ul><li>`0` - 自動</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用。 |
+| `browser.tabs.dragDrop.multiselectStacking` | タブのドラッグ時にスタッキング（積み重ね）を有効化。Firefox 145 以下（115 も含む）では、この名前で新しい真偽設定を作成し、`true` に設定することで有効化可能。 |
+| `browser.tabs.splitView.enabled` | Firefox 146 以降で導入されたタブの分割表示機能を有効化。 |
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.0**
+- 追加
+	- Firefox 146 で導入されたタブの分割表示機能に対応。`browser.tabs.splitView.enabled` を `true` に設定することで有効化可能。
+	- 複数のタブをドラッグする際のスタッキング（積み重ね）に対応。Firefox 146 では、`browser.tabs.dragDrop.multiselectStacking` を `true` に設定することで有効化可能。Firefox 145 以下（115 も含む）では、その名で新規真偽値設定の作成が必要ある。
+	- `dragStackPreceding` を追加：ドラッグしたタブの前の選択したタブをスタックする。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。
+	- Firefox 115 でピン留め・外すのドラッグ操作をサポート。`disableDragToPinOrUnpin` を `false` に設定すると有効化。
+	- `privateBrowsingIconOnNavBar` を追加：プライベートウィンドウアイコンをナビゲーションバーに移動。Firefox 115 では未対応。`tabsAtBottom` が有効な場合、この設定は強制的に有効化される。
+- 変更
+	- Firefox の元のデザインに従い、`tabsAtBottom` が有効な場合、`spaceAfterTabs`、`spaceAfterTabsOnMaximizedWindow`、`spaceBeforeTabs`、および `spaceBeforeTabsOnMaximizedWindow` がナビゲーションバーの端のスペースに影響するようになる。
+	- Firefox の元のデザインに従い、Firefox 143 以降では、`gapAfterPinned` のデフォルト値が `0` になる。
+- 改善
+	- タブを閉じる際やタブグループを折りたたむ際のタブサイズ固定の挙動を改善。
+	- 特定のシナリオにおいて、アイテムを段端へドラッグする際の困難を回避するために、ドラッグ動作を改善。
+	- レイアウトの不具合を防ぐために、「新しいタブ」ボタンのサイズを固定。
+	- Firefox 147 に対応。
+	- スクロール中はグループのホバープレビューパネル（hover preview panel）を非表示。
+	- `toolkit.tabbox.switchByScrolling` に対応。
+- 修正
+	- グループを折りたたむ際に、ホバープレビューパネルが誤って表示される場合があった。
+	- グループを展開してタブバーがスクロールし始めると、スクロールが滑らかじゃなかった。
+	- バージョン 3.5 から、ドロップインジケーター付きのドラッグ＆ドロップのアニメーションが欠落。
+	- 水平スクロールホイールを使用した後、タブバーがスクロールできなくなった。
+	- `pinnedTabsFlexWidth` が有効な場合、オーディオボタンはピン留めされたタブで一貫した外観を持っていなかった。
+	- UI 密度をタッチに設定した際の最小タブ幅の不正とレイアウトの不具合。
+	- いろんな軽微なバグや不具合。
+
+<details>
+<summary>旧バージョン</summary>
+	
 <details>
 <summary>軽微な更新</summary>
 
@@ -248,9 +281,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - このスクリプトによって影響が増幅される Firefox のバグ [#1994643](https://bugzilla.mozilla.org/show_bug.cgi?id=1994643) に対する回避策を適用。
 - バグ修正：`pinnedTabsFlexWidth` を有効にした際、ピン留めされたタブにページアイコンがない場合の不具合。
 - 軽微な表示上の不具合を修正。
-
-<details>
-<summary>旧バージョン</summary>
 
 **Version 3.5.2**
 - バグ修正：タブをドラッグした際、端に押し付けられると意図した位置に移動しない場合があった。
