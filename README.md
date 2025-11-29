@@ -11,7 +11,7 @@ Make Firefox support multiple rows of tabs.
 
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/scrolling.png)
 
-🎥[Preview Video](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview4.0.mp4)
+🎥 [Preview Video](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview4.0.mp4)
 
 ## Highlights
 
