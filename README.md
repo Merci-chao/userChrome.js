@@ -71,9 +71,9 @@ Make Firefox support multiple rows of tabs.
   <br>📝 The file placement location may slightly vary depending on the loader. The following steps assume the use of `firefox-scripts`.
 2. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `.js` (excluding `userChrome.js`, if any) and `.css` files out of `chrome`.
    <br>⚠️ There are many reports of issues caused by conflicts with customized styles.
-4. Download the 📥[script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it into `chrome`.
+4. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it into `chrome`.
 5. Restart Firefox to apply.
-6. If you moved some files out of `chrome` in step 2, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and style rules accordingly. If you need help, please provide the information 🛟[here](https://github.com/Merci-chao/userChrome.js/issues/new).
+6. If you moved some files out of `chrome` in step 2, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and style rules accordingly. If you need help, please provide the information 🛟 [here](https://github.com/Merci-chao/userChrome.js/issues/new).
 
 > [!IMPORTANT]
 > If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
