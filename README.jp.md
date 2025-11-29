@@ -13,6 +13,8 @@ Firefox に多段タブ表示をサポートさせる。
 
 🎥 [プレビュー動画](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview4.0.mp4)
 
+🎥 [プレビュー動画（超コンパクト＆タブバーを下）](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview4.0tabsAtBottom.mp4)
+
 ## 注目ポイント
 <table>
   <tr>
