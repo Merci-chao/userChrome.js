@@ -17,31 +17,31 @@ Make Firefox support multiple rows of tabs.
 
 <table>
   <tr>
-	  <td>✨&nbsp;Newest&nbsp;Features&nbsp;Support</td>
+	  <td width="230">✨ Newest Features Support</td>
 	  <td>Fully supports the newest tab features, including Tab Group, Tab Split View and Tab Stacking, delivering a smoother and more graceful operation experience.</td>
   </tr>
   <tr>
-	  <td>🎞️&nbsp;Enhanced&nbsp;Animations</td>
+	  <td>🎞️ Enhanced Animations</td>
 	  <td>Adds fluid transitions for various tab-related actions.</td>
   </tr>
   <tr>
-	  <td>📐&nbsp;Optimized&nbsp;Space&nbsp;Usage</td>
+	  <td>📐 Optimized Space Usage</td>
 	  <td>Makes full use of available UI space, including the area beneath window control buttons.</td>
   </tr>
   <tr>
-	  <td>🖱️&nbsp;Smooth&nbsp;Dragging</td>
+	  <td>🖱️ Smooth Dragging</td>
 	  <td>Supports animated tab dragging even in multi-row mode.</td>
   </tr>
   <tr>
-	  <td>📌&nbsp;Pinned&nbsp;Tabs&nbsp;Grid&nbsp;Layout</td>
+	  <td>📌 Pinned Tabs Grid Layout</td>
 	  <td>Pinned tabs remain neatly compact when the Tabs bar is scrollable, minimizing space usage.</td>
   </tr>
   <tr>
-	  <td>🛠️&nbsp;Customizable&nbsp;Preferences</td>
+	  <td>🛠️ Customizable Preferences</td>
 	  <td>Offers a rich set of options and features to tailor the experience precisely to your liking.</td>
   </tr>
   <tr>
-	  <td>🔄&nbsp;Auto-Update&nbsp;Checking</td>
+	  <td>🔄 Auto-Update Checking</td>
 	  <td>Ensures you're always equipped with the newest enhancements and compatibility.</td>
   </tr>
 </table>
