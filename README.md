@@ -66,7 +66,7 @@ Make Firefox support multiple rows of tabs.
 	- [`firefox-scripts`](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) by *[xiaoxiaoflood](https://github.com/xiaoxiaoflood)*, maintained by *[onemen](https://github.com/onemen)*
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig) by *[MrOtherGuy](https://github.com/MrOtherGuy)*
  	- [`userChrome.js`](https://github.com/alice0775/userChrome.js) by *[alice0775](https://github.com/alice0775)*
-  <br><br>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘[Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the `firefox-scripts`: 
+  <br><br>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘 [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the `firefox-scripts`: 
   <br>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
   <br>📝 The file placement location may slightly vary depending on the loader. The following steps assume the use of `firefox-scripts`.
 2. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `.js` (excluding `userChrome.js`, if any) and `.css` files out of `chrome`.
