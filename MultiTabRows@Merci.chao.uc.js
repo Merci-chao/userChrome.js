@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.0
+// @version        4.0.0.1
 // @compatible     firefox 115, 145-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -154,19 +154,37 @@ const appVersion = parseInt(Services.appinfo.version);
 
 {
 	let {prefs} = Services;
-	let pref = "sidebar.verticalTabs";
+	let vTab = "sidebar.verticalTabs";
+	let csp = "security.allow_unsafe_dangerous_privileged_evil_eval";
 	try {
-		if (prefs.getBoolPref(pref)) {
-			prefs.setBoolPref(pref, false);
+		let needRestart;
+
+		if (getPref(vTab, "Bool")) {
+			prefs.setBoolPref(vTab, false);
+			needRestart = true;
+		}
+
+		if (getPref(csp, "Bool")) {
+			prefs.unlockPref(csp);
+			prefs.setBoolPref(csp, true);
+			needRestart = true;
+		}
+
+		if (needRestart) {
 			restartFirefox();
 			return;
 		}
-		prefs.lockPref(pref);
+
+		try {
+			prefs.lockPref(vTab);
+		// eslint-disable-next-line no-unused-vars
+		} catch (e) { /* empty */ }
 
 		$$("#toolbar-context-toggle-vertical-tabs, #context_toggleVerticalTabs, #sidebar-context-menu-enable-vertical-tabs")
 			.forEach(e => e.disabled = true);
-	// eslint-disable-next-line no-unused-vars
-	} catch(e) { /* empty */ }
+	} catch (e) {
+		alert(["MultiTabRows@Merci.chao.uc.js",e,e.stack].join("\n"));
+	}
 }
 
 const CLOSING_THE_ONLY_TAB = Symbol("closingTheOnlyTab");
@@ -974,7 +992,7 @@ ${_="#tabbrowser-tabs"} {
 	--group-label-max-width: ${TAB_GROUP_SUPPORT ? "10em" : "0px"};
 	--tab-animation: ${prefs.animationDuration}ms ${debug > 1 ? "ease" : "var(--animation-easing-function)"};
 	--calculated-tab-min-width: 0px;
-	--tab-split-view-min-width: calc(var(--calculated-tab-min-width) * 2 + var(--tab-overflow-clip-margin) * 2 + 1px);
+	--tab-split-view-min-width: calc(var(--calculated-tab-min-width) * 2 + var(--tab-overflow-clip-margin) + 1px);
 	--tab-max-width: max(${prefs.tabMaxWidth}px, var(--calculated-tab-min-width));
 	--max-item-width: max(
 		${SPLIT_VIEW_SUPPORT
@@ -1982,6 +2000,10 @@ ${prefs.pinnedTabsFlexWidthIndicator ? `
 		scroll-snap-align: none;
 		align-items: center;
 
+		&:nth-last-child(2 of :not([closing]))::after {
+			width: calc(var(--tab-overflow-clip-margin) / 2);
+		}
+
 		&:nth-child(2 of :not([closing])) {
 			margin-inline-start: 1px !important;
 			box-shadow:
@@ -1993,6 +2015,17 @@ ${prefs.pinnedTabsFlexWidthIndicator ? `
 
 			tab-group[collapsed] :not([hasactivetab]) > & {
 				box-shadow: none;
+			}
+
+			&::before {
+				width: calc(var(--tab-overflow-clip-margin) / 2);
+			}
+		}
+
+		&[closing] {
+			&:first-child::after,
+			&:last-child::before {
+				width: 0;
 			}
 		}
 
@@ -8170,18 +8203,7 @@ function exposePrivateMethod(element, method, context = "") {
 	if (code)
 		try {
 			let f;
-			try {
-				eval(`${context}; f = function ${newMethod} ${code};`);
-			} catch(e) {
-				let {prefs} = Services;
-				let csp = "security.allow_unsafe_dangerous_privileged_evil_eval";
-				if (prefs.getPrefType(csp) == prefs.PREF_BOOL && !prefs.getBoolPref(csp)) {
-					prefs.unlockPref(csp);
-					prefs.setBoolPref(csp, true);
-					restartFirefox();
-				} else
-					throw e;
-			}
+			eval(`${context}; f = function ${newMethod} ${code};`);
 			element.prototype[newMethod] = f;
 			relatedMehtods.forEach(m => exposePrivateMethod(element, m, context));
 		} catch(e) {
