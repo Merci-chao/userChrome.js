@@ -164,7 +164,7 @@ const appVersion = parseInt(Services.appinfo.version);
 			needRestart = true;
 		}
 
-		if (getPref(csp, "Bool")) {
+		if (getPref(csp, "Bool") == false) {
 			prefs.unlockPref(csp);
 			prefs.setBoolPref(csp, true);
 			needRestart = true;
