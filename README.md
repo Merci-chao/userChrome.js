@@ -220,6 +220,10 @@ There also few settings in `about:config` for the layout and operations of tabs:
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+**Version 4.0.1**
+- Fixes
+	- Script was failed when newly installed.
+ 	- Could not move tabs between windows since v4.0.
 
 **Version 4.0**
 - New
