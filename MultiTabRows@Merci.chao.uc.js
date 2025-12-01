@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.0.0.1
+// @version        4.0.1
 // @compatible     firefox 115, 145-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -6016,6 +6016,8 @@ let GET_DRAG_TARGET;
 		if (this.switchByScrolling)
 			e.preventDefault();
 	});
+
+	assign(tabContainer, {animateLayout});
 
 	//clear the cache in case the script is loaded with delay
 	tabContainer._pinnedTabsLayoutCache = null;
