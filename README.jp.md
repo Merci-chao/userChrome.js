@@ -217,6 +217,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.0.1**
+- 修正
+	- 新規インストール時にスクリプトが失敗。
+	- v4.0 以降、ウィンドウ間でタブを移動できなくなった。
+
 **Version 4.0**
 - 追加
 	- Firefox 146 で導入されたタブの分割表示機能に対応。`browser.tabs.splitView.enabled` を `true` に設定することで有効化可能。
