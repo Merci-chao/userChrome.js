@@ -217,6 +217,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.0.2**
+- 修正
+	- v4.0 以降、オーディオボタン付きのタブがあるときにレイアウトの問題が発生する場合があった。
+
 **Version 4.0.1**
 - 修正
 	- 新規インストール時にスクリプトが失敗。
