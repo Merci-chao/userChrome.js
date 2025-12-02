@@ -223,7 +223,7 @@ There also few settings in `about:config` for the layout and operations of tabs:
 
 **Version 4.0.2**
 - Fix
-	- Layout problem that could occur when there were tabs with audio buttons.
+	- Layout problem that could occur when there were tabs with audio buttons since v4.0.
 
 **Version 4.0.1**
 - Fixes
@@ -250,7 +250,7 @@ There also few settings in `about:config` for the layout and operations of tabs:
 - Fixes
 	- The group hover preview panel might incorrectly display when collapsing the group.
 	- Scrolling was not smooth when expanding a group and the Tabs Bar started to scroll.
-	- The animation of drag-and-drop with drop indicator was missing from version 3.5.
+	- The animation of drag-and-drop with drop indicator was missing from v3.5.
 	- Tabs Bar could not be scrolled after using the horizontal wheel.
 	- Audio button did not have a consistent appearance on pinned tabs when `pinnedTabsFlexWidth` was enabled.
 	- Incorrect minimum tab width and layout glitches when setting UI density to Touch.
