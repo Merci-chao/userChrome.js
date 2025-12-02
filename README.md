@@ -223,7 +223,7 @@ There also few settings in `about:config` for the layout and operations of tabs:
 
 **Version 4.0.2**
 - Fix
-	- Layout problem when there was tab with audio button.
+	- Layout problem that could occur when there were tabs with audio buttons.
 
 **Version 4.0.1**
 - Fixes
