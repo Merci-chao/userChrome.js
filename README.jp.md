@@ -468,7 +468,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 </details>
 
 ## 対応しない互換性問題
-- 他のタブ関連ユーザースクリプト、スタイル、旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）
+- 他のタブ関連スクリプト、スタイル、旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）
 - Firefox Nightly
 - Firefox 116～最新版以前のリリース
 - タッチ操作 
