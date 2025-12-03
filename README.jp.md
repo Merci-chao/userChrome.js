@@ -11,9 +11,9 @@ Firefox に多段タブ表示をサポートさせる。
 
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/scrolling.png)
 
-🎥 [プレビュー動画](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview4.0.mp4)
+📽️ [プレビュー動画](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview4.0.mp4)
 
-🎥 [プレビュー動画（超コンパクト＆タブバーを下）](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview4.0tabsAtBottom-v2.mp4)
+📽️ [プレビュー動画（超コンパクト＆タブバーを下）](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview4.0tabsAtBottom-v2.mp4)
 
 ## 注目ポイント
 <table>
