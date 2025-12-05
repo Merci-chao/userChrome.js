@@ -109,8 +109,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | `autoCollapse` | **🚨 実験的機能 🧪**<br>ホバーしていない時は、一段に折りたたむ。`tabsUnderControlButtons` は無効化され、タブバーがスクロール可能な場合でも、ピン留めされたタブの位置が固定されなくなる。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要あり。 |
-| `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。 |
-| `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。 |
+| `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。最小値は `0`。 |
+| `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。最小値は `0`。 |
 | `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示。Windows 10 と 11 でのみ対応。 |
 | `gapAfterPinned` | ピン留めされたタブと通常のタブの間の隙間。最小値は `0`。 |
 | `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。 |
@@ -207,7 +207,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | 設定項目（接頭辞なし） | 説明 |
 | ------------- | ------------- |
 | `browser.tabs.tabClipWidth` | このサイズを超えるタブには閉じるボタンが表示される。 |
-| `browser.tabs.tabMinWidth` | 通常のタブの最小幅（周囲の余白を含む）を指定。 |
+| `browser.tabs.tabMinWidth` | 通常のタブの最小幅（周囲の余白を含む）を指定。最小値は `50`。 |
 | `widget.windows.mica` | タブバーに Windows 11 のネイティブスタイルを適用。 |
 | `widget.windows.mica.toplevel-backdrop` | 背景効果の選択肢（Windows 11）：<ul><li>`0` - 自動</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用。 |
