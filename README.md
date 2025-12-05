@@ -224,6 +224,9 @@ There also few settings in `about:config` for the layout and operations of tabs:
 <details>
 <summary>Minor Updates</summary>
 
+**Version 4.0.2.3**
+- Update the dependencies of settings in `about:config`.
+
 **Version 4.0.2.2**
 - Refine some minor animation related to tab group.
 
