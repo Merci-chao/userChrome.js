@@ -220,8 +220,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>軽微な更新</summary>
 
-Update the dependencies of settings in about:config.
-
 **Version 4.0.2.3**
 - `about:config` 内の設定の依存関係を更新。
 
