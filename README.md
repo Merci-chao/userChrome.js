@@ -69,7 +69,7 @@ Make Firefox support multiple rows of tabs.
   <br><br>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘 [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the `firefox-scripts`: 
   <br>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
   <br>📝 The file placement location may slightly vary depending on the loader. The following steps assume the use of `firefox-scripts`.
-2. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `.js` (excluding `userChrome.js`, if any) and `.css` files out of `chrome`.
+2. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `.js` and `.css` files (excluding the items in `utils` folder, and `userChrome.js`, if any) out of `chrome`.
    <br>⚠️ There are many reports of issues caused by conflicts with customized styles.
 4. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it into `chrome`.
 5. Restart Firefox to apply.
@@ -211,7 +211,7 @@ There also few settings in `about:config` for the layout and operations of tabs:
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
 | `browser.tabs.tabClipWidth` | Close button will show on the tabs that are wider than this size. |
-| `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. |
+| `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. The minimum value is `50`. |
 | `widget.windows.mica` | Apply the native system style on Tabs Bar (Windows 11). |
 | `widget.windows.mica.toplevel-backdrop` | Choose the effect of backdrop (Windows 11).<ul><li>`0` - Auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
