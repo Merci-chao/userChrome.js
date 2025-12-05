@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.0.2.2
+// @version        4.0.2.3
 // @compatible     firefox 115, 145-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -315,6 +315,7 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 	setDefaultPrefs(Services.prefs.getDefaultBranch(prefBranchStr), defaultPrefs);
 	prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defaultPrefs);
 
+	let maxMove = prefs.animateTabMoveMaxCount;
 	let moveOverThreshold = getPref("browser.tabs.dragDrop.moveOverThresholdPercent", "Int", 0);
 	let singleRow = prefs.maxTabRows < 2;
 	let nativeDragToGroup = moveOverThreshold > 50 && getPref("browser.tabs.groups.enabled", "Bool", false);
@@ -339,7 +340,6 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 	lock("tabsUnderControlButtons", singleRow || prefs.autoCollapse, 0);
 	lock("floatingBackdropClip", singleRow || prefs.tabsUnderControlButtons < 2);
 	lock("floatingBackdropOpacity", singleRow || prefs.tabsUnderControlButtons < 2 || prefs.floatingBackdropClip, 75);
-	lock("hideEmptyPlaceholderWhenScrolling", singleRow || prefs.tabsUnderControlButtons < 2 || prefs.tabsAtBottom);
 	lock("tabsbarItemsAlign", singleRow || prefs.tabsUnderControlButtons >= 2 || prefs.autoCollapse);
 	lock(
 		"floatingBackdropBlurriness",
@@ -349,22 +349,29 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 		),
 	);
 	lock(["checkUpdateFrequency", "checkUpdateAutoApply"], !prefs.checkUpdate);
-	lock("dragToGroupTabs", !nativeDragToGroup || !prefs.animateTabMoveMaxCount);
+	lock("dragToGroupTabs", !nativeDragToGroup || !maxMove, false);
 	lock(
 		"dynamicMoveOverThreshold",
-		(
-			!nativeDragToGroup || !prefs.dragToGroupTabs || !prefs.animateTabMoveMaxCount ||
-			moveOverThreshold <= 50
-		),
+		!prefs.dragToGroupTabs || moveOverThreshold <= 50,
 		false,
 	);
+	lock("hideDragPreview", !maxMove);
 	lock("privateBrowsingIconOnNavBar", prefs.tabsAtBottom);
-	lock("hidePinnedDropIndicator", prefs.disableDragToPinOrUnpin, true);
+	lock("hidePinnedDropIndicator", prefs.disableDragToPinOrUnpin || !maxMove, true);
 	lock("pinnedTabsFlexWidthIndicator", !prefs.pinnedTabsFlexWidth);
-	lock("dragStackPreceding", !getPref("browser.tabs.dragDrop.multiselectStacking", "Bool"));
+	lock("dragStackPreceding", !getPref("browser.tabs.dragDrop.multiselectStacking", "Bool") || maxMove < 2);
 	lock(
 		["spaceAfterTabs", "spaceAfterTabsOnMaximizedWindow", "spaceBeforeTabs", "spaceBeforeTabsOnMaximizedWindow"],
 		!getPref("browser.tabs.inTitlebar", "Int") || $(`#toolbar-menubar:not(${MENUBAR_AUTOHIDE})`),
+		0,
+	);
+	lock(
+		"hideEmptyPlaceholderWhenScrolling",
+		(
+			prefs.tabsUnderControlButtons < 2 ||
+			prefs.tabsAtBottom ||
+			!prefs.spaceBeforeTabs && !prefs.spaceBeforeTabsOnMaximizedWindow
+		),
 	);
 
 	prefs.animationDuration = Math.min(Math.max(prefs.animationDuration, 0), prefs.debugMode ? Infinity : 1000);
