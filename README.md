@@ -21,16 +21,16 @@ Make Firefox support multiple rows of tabs.
 	  <td>Fully supports the newest tab features, including Tab Group, Tab Split View and Tab Stacking, delivering a smoother and more graceful operation experience.</td>
   </tr>
   <tr>
-	  <td>🎞️ Enhanced Animations</td>
-	  <td>Adds fluid transitions for various tab-related actions.</td>
+	  <td>🖱️ Smooth Dragging</td>
+	  <td>Supports animated tab dragging even in multi-row mode.</td>
   </tr>
   <tr>
 	  <td>📐 Optimized Space Usage</td>
 	  <td>Makes full use of available UI space, including the area beneath window control buttons.</td>
   </tr>
   <tr>
-	  <td>🖱️ Smooth Dragging</td>
-	  <td>Supports animated tab dragging even in multi-row mode.</td>
+	  <td>🎞️ Enhanced Animations</td>
+	  <td>Adds fluid transitions for various tab-related actions.</td>
   </tr>
   <tr>
 	  <td>📌 Pinned Tabs Grid Layout</td>
