@@ -224,6 +224,9 @@ There also few settings in `about:config` for the layout and operations of tabs:
 <details>
 <summary>Minor Updates</summary>
 
+**Version 4.0.2.2**
+- Refine some minor animation related to tab group.
+
 **Version 4.0.2.1**
 - Follow up with the Firefox bug [#1997096](https://bugzilla.mozilla.org/show_bug.cgi?id=1997096).
 
