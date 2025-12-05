@@ -221,6 +221,14 @@ There also few settings in `about:config` for the layout and operations of tabs:
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+<details>
+<summary>Minor Updates</summary>
+
+**Version 4.0.2.1**
+- Follow up with the Firefox bug [#1997096](https://bugzilla.mozilla.org/show_bug.cgi?id=1997096).
+
+</details>
+
 **Version 4.0.2**
 - Fix
 	- Layout problem that could occur when there were tabs with audio buttons since v4.0.
