@@ -127,7 +127,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値は `0`。 |
 | `spaceBeforeTabsOnMaximizedWindow` | 最大化時の左端空白スペース。最小値は `0`。 |
 | `tabMaxWidth` | タブの最大幅（周囲の余白を含む）。最小幅には `browser.tabs.tabMinWidth` を使用し、実際の最大幅は必ずこの値より小さくなることはない。 |
-| `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0` - メニューバー</li><li>`1` - ナビゲーションツールバー下</li><li>`2` - ブックマークツールバー下</li></ul>Firefox 115 では未対応。 |
+| `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0` - メニューバー下</li><li>`1` - ナビゲーションツールバー下</li><li>`2` - ブックマークツールバー下</li></ul>Firefox 115 では未対応。 |
 | `tabsbarItemsAlign` | 多段モードでタブバー内の項目の配置：<ul><li>`start` - 上</li><li>`center` - 中</li><li>`end` - 下</li></ul>`tabsUnderControlButtons` が `0` または `1` でタブバーがスクロール可能時のみ有効。 |
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 実験的機能 🧪**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：<ul><li>`0` - 無効</li><li>`1` - タブバーがスクロール不可能場合のみ（旧式オプション、非推奨）</li><li>`2` - 常に有効</li></ul>不具合が出る場合は `0` に設定してください。 |
 | `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用。 |
