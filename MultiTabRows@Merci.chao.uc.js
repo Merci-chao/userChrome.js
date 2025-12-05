@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.0.2.1
+// @version        4.0.2.2
 // @compatible     firefox 115, 145-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -3996,12 +3996,16 @@ if (groupProto) {
 				run();
 			else
 				animateLayout(() => {
+					let showingOC = this.isShowingOverflowCount;
 					if (tabs[0]?.ownerGlobal != window) {
 						let oldTabs = this.tabLikes;
 						tabs[0].container.animateLayout(run);
 						return this.tabLikes.filter(t => !oldTabs.includes(t));
 					} else
 						run();
+					this.refreshState();
+					if (!showingOC && this.isShowingOverflowCount)
+						return this.overflowContainer;
 				});
 		},
 
@@ -5802,7 +5806,14 @@ let GET_DRAG_TARGET;
 							style(n, noTransform);
 							n.tabs?.forEach(t => gBrowser.removeFromMultiSelectedTabs(t));
 						}
-						await animateLayout(emptyFunc, {
+						await animateLayout(() => {
+							let {group} = movingNodes[0];
+							if (
+								_dragData.shouldDropIntoCollapsedTabGroup &&
+								group.isShowingOverflowCount
+							)
+								return group.overflowContainer;
+						}, {
 							nodes: [...rectsBeforeDrop.keys()],
 							rects: rectsBeforeDrop,
 						});
@@ -7988,6 +7999,7 @@ function getNodes({pinned, newTabButton, bypassCache, includeClosing, onlyFocusa
 					tab:not([hidden]),
 					tab-split-view-wrapper
 				),
+			${includeClosing ? `tab-group[collapsed] > tab[closing],` : ""}
 			.tab-group-label-container,
 			[collapsed][hasactivetab]:not([stacked]) >
 				:is(
