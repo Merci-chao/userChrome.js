@@ -220,6 +220,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>軽微な更新</summary>
 
+**Version 4.0.2.2**
+- タブグループに関連する軽微なアニメーションを修正。
+
 **Version 4.0.2.1**
 - Firefox のバグ [#1997096](https://bugzilla.mozilla.org/show_bug.cgi?id=1997096) をフォローアップ。
 
