@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.0.2
+// @version        4.0.2.1
 // @compatible     firefox 115, 145-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -3831,10 +3831,16 @@ if (groupProto) {
 	const CLICKED_BY_MOUSE = Symbol("clickedByMouse");
 	const elementIndexOpd = {
 		set: function(v) {
+			v = +v;
 			let {group} = this;
 			let container = group.labelContainerElement;
 			container.setAttribute("elementIndex", container.elementIndex = v);
-			group.overflowContainer?.setAttribute("elementIndex", v + group.visibleTabs.length + .5);
+			group.overflowContainer?.setAttribute(
+				"elementIndex",
+				v + group[
+					"dragAndDropElements" in tabContainer ? "visibleTabLikes" : "visibleTabs"
+				].length + .5,
+			);
 		},
 		get: function() { return this.group.labelContainerElement.elementIndex },
 	};
@@ -7445,7 +7451,14 @@ let GET_DRAG_TARGET;
 		let tab;
 		try {
 			animateLayout(
-				() => tab = addTab.call(this, uri, assign(o, {skipAnimation: true})),
+				() => {
+					let oldNodes = getNodes({onlyFocusable: true});
+					tab = addTab.call(this, uri, assign(o, {skipAnimation: true}));
+					//because of the fix of bug #1997096, multiple nodes may become visible after creating a tab
+					return tab?.group?.collapsed == false
+						? getNodes({onlyFocusable: true}).filter(n => !oldNodes.includes(n))
+						: tab;
+				},
 				{animate: !o?.skipAnimation},
 			);
 		} catch(e) {
