@@ -182,7 +182,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <summary>軽微な更新</summary>
 
 **Version 4.1.0.3**
-- スクリプトローダーによって security.allow_unsafe_dangerous_privileged_evil_eval がロックされ、Firefox が無限に再起動するケースを処理。
+- スクリプトローダーによって `security.allow_unsafe_dangerous_privileged_evil_eval` がロックされ、Firefox が無限に再起動するケースを処理。
 
 **Version 4.1.0.2**
 - `tabVerticalMargin` の値に合わせてグループラインのサイズを調整し、見栄えを改善。
