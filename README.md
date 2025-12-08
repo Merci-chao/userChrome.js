@@ -185,6 +185,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Minor Updates</summary>
 
+**Version 4.1.0.3**
+- Handle the case where `security.allow_unsafe_dangerous_privileged_evil_eval` is locked by the script loader and causes Firefox to restart endlessly.
+
 **Version 4.1.0.2**
 - Tune the sizing of group lines to achieve a better look with different values of `tabVerticalMargin`.
 </details>
