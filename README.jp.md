@@ -104,7 +104,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `linesToScroll` | マウスホイール操作によるスクロール段数。最小値は `1`。 |
 | `scrollButtonsSize` | ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値は `0` だが、表示上は少なくとも 2 デバイスピクセルの高さになる。最大値はタブの高さの半分までに制限される。 |
 
-### レイアウト
+### タブバーレイアウト
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
@@ -112,13 +112,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。最小値は `0`。 |
 | `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。最小値は `0`。 |
 | `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示。Windows 10 と 11 でのみ対応。 |
-| `gapAfterPinned` | ピン留めされたタブと通常のタブの間の隙間。最小値は `0`。 |
 | `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。 |
 | `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、タブバーがスクロール可能時にその空白を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0` - 無効</li><li>`1` - 1 段のみの場合</li><li>`2` - 常に有効</li></ul>中央揃え時には、タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある。 |
 | `maxTabRows` | 表示可能な最大段数。最小値は `1`。 |
-| `pinnedTabsFlexWidth` | **🚨 実験的機能 🧪**<br>ピン留めされたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる。 |
-| `pinnedTabsFlexWidthIndicator` | `pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブにアイコンを表示。 |
 | `privateBrowsingIconOnNavBar` | プライベートウィンドウアイコンをナビゲーションバーに移動。Firefox 115 では未対応。`tabsAtBottom` が有効な場合、この設定は強制的に有効化される。 |
 | `rowIncreaseEvery` | ウィンドウ幅がこの値だけ増加するたびに、表示可能段数が 1 段増加。`0` にすると最大段数が常に表示される。 |
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になる。 |
@@ -126,11 +123,25 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ制御ボタン前の空白スペース。最小値は `0`。 |
 | `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値は `0`。 |
 | `spaceBeforeTabsOnMaximizedWindow` | 最大化時の左端空白スペース。最小値は `0`。 |
-| `tabMaxWidth` | タブの最大幅（周囲の余白を含む）。最小幅には `browser.tabs.tabMinWidth` を使用し、実際の最大幅は必ずこの値より小さくなることはない。 |
 | `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0` - メニューバー下</li><li>`1` - ナビゲーションツールバー下</li><li>`2` - ブックマークツールバー下</li></ul>Firefox 115 では未対応。 |
 | `tabsbarItemsAlign` | 多段モードでタブバー内の項目（主にボタン）の配置：<ul><li>`start` - 上</li><li>`center` - 中</li><li>`end` - 下</li></ul>`tabsUnderControlButtons` が `0` または `1` でタブバーがスクロール可能時のみ有効。 |
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 実験的機能 🧪**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：<ul><li>`0` - 無効</li><li>`1` - タブバーがスクロール不可能場合のみ（旧式オプション、非推奨）</li><li>`2` - 常に有効</li></ul>不具合が出る場合は `0` に設定してください。 |
 | `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用。 |
+
+### タブサイズ
+
+⚠️ 注意：デフォルト値より狭く設定するのは推奨されない。Firefox はコンパクト用に設計されていないため、予期しない不具合が起こる可能性がある。これらの設定は `userChrome.css` のルールで上書きされ、効果がなくなる場合がある。
+
+| 項目（接頭辞あり） | 説明 |
+| ------------- | ------------- |
+| `gapAfterPinned` | ピン留めされたタブと通常のタブの間の隙間。最小値は `0`。 |
+| `pinnedTabsFlexWidth` | **🚨 実験的機能 🧪**<br>ピン留めされたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる。 |
+| `pinnedTabsFlexWidthIndicator` | `pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブにアイコンを表示。 |
+| `tabContentHeight` | タブコンテンツの高さ。最小値: `16`。 |
+| `tabHorizontalMargin` | タブの周囲の水平スペース。最小値: `0`。 |
+| `tabHorizontalPadding` | タブの水平パディング。最小値: `0`。 |
+| `tabMaxWidth` | タブの最大幅（周囲の余白を含む）。最小幅には `browser.tabs.tabMinWidth` を使用し、実際の最大幅は必ずこの値より小さくなることはない。 |
+| `tabVerticalMargin` | タブの周囲の垂直スペース。最小値: `0`。 |
 
 ### 外観
 
@@ -154,54 +165,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `debugMode` | ⛔ デバッグモード。一般向けではない。 |
 
 ## 高度な調整
-[`userChrome.css`（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://support.mozilla.org/kb/contributors-guide-firefox-advanced-customization)を使用することで、タブのサイズや間隔を制御するための以下のパラメータを調整できる。下記の値はデフォルト設定。
-
-🚨 **注意**：`px`（ピクセル）以外の単位や小数点の値は使用しないでください。
-
-```css
-:root {
-  /* タブ間の水平間隔 */
-  --tab-overflow-clip-margin: 2px !important;
-
-  /* タブの左右の余白 */
-  --tab-inline-padding: 8px !important;
-
-  /* タブ間の垂直間隔 */
-  --tab-block-margin: 4px !important;
-
-  /* タブのコンテンツの高さ：コンパクト-29px、通常-36px、タッチ-41px；24px 未満には設定しないこと */
-  --tab-min-height: 36px !important;
-}
-
-/*
-  このルールが必要になる条件：(--tab-min-height) + (--tab-block-margin) * 2 < 33px
-  なぜ 33px か？.tab-label-container のデフォルト高さは2.7em、フォントサイズが12pxの場合は32.4px
-  タブは .tab-label-container より高くする必要がある
-  そうしないと、タブの高さに小数点を含むことで不具合が発生
-  例：
-  - --tab-min-height = 25px
-  - --tab-block-margin = 1px
-  → 合計：25 + 1×2 = 27px
-  27px < 33px となるため、レイアウト崩れを防ぐためにこのルールが必要
-  副作用がないようなので、いつでもこのルールを適用できる
-*/
-.tab-label-container {
-  height: auto !important;
-}
-
-.tab-content[pinned] {
-  /* ピン留めされたタブの左右余白 */
-  padding-inline: 10px !important;
-}
-
-#tabbrowser-tabs {
-  /* タブグループ内の左右余白 */
-  --group-line-padding: 3px !important;
-
-  /* タブグループ名の最大幅、ピクセル以外でもOK */
-  --group-label-max-width: 10em !important;
-}
-```
 `about:config` には、タブのレイアウトと操作に関するいくつかの Firefox 設定項目がある：
 
 | 設定項目（接頭辞なし） | 説明 |
@@ -216,6 +179,15 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.1**
+- 新規
+	- タブの高さと間隔を制御するために `tabContentHeight`、`tabVerticalMargin`、`tabHorizontalPadding`、`tabHorizontalMargin` を追加。デフォルト値より狭く設定するのは推奨されない。Firefox はコンパクト用に設計されていないため、予期しない不具合が起こる可能性がある。これらの設定は `userChrome.css` のルールで上書きされ、効果がなくなる場合がある。
+- 改善
+	- タブバーが過度にコンパクトな時のレイアウトを調整。
+	- アップデート通知 UI を調整。
+- 修正
+	- `tabsAtBottom` を有効にした時に通知バーの位置が誤っていた。
 
 <details>
 <summary>軽微な更新</summary>
@@ -241,7 +213,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- v4.0 以降、ウィンドウ間でタブを移動できなくなった。
 
 **Version 4.0**
-- 追加
+- 新規
 	- Firefox 146 で導入されたタブの分割表示機能に対応。`browser.tabs.splitView.enabled` を `true` に設定することで有効化可能。
 	- 複数のタブをドラッグする際のスタッキング（積み重ね）に対応。Firefox 146 では、`browser.tabs.dragDrop.multiselectStacking` を `true` に設定することで有効化可能。Firefox 145 以下（115 も含む）では、その名で新規真偽値設定の作成が必要ある。
 	- `dragStackPreceding` を追加：ドラッグしたタブの前の選択したタブをスタックする。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。
