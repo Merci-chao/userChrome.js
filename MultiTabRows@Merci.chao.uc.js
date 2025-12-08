@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.1.0.3
+// @version        4.1.0.4
 // @compatibility  Firefox 115, 145-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -23,14 +23,15 @@ const SCRIPT_FILE_NAME = "MultiTabRows@Merci.chao.uc.js";
 if (document.documentElement.matches("[windowtype='navigator:browser']:not([chromehidden~=toolbar])"))
 try {
 if (gBrowser?._initialized) {
-	setup();
-	let tc = gBrowser.tabContainer;
-	if (gBrowser.pinnedTabsContainer)
-		tc.arrowScrollbox.prepend(...tc.visibleTabs.slice(0, gBrowser.pinnedTabCount));
-	tc.uiDensityChanged();
-	tc._handleTabSelect(true);
-	tc._invalidateCachedTabs();
-	tc._updateInlinePlaceHolder();
+	if (setup()) {
+		let tc = gBrowser.tabContainer;
+		if (gBrowser.pinnedTabsContainer)
+			tc.arrowScrollbox.prepend(...tc.visibleTabs.slice(0, gBrowser.pinnedTabCount));
+		tc.uiDensityChanged();
+		tc._handleTabSelect(true);
+		tc._invalidateCachedTabs();
+		tc._updateInlinePlaceHolder();
+	}
 } else
 	addEventListener("DOMContentLoaded", () => {
 		try { setup() }
@@ -154,7 +155,6 @@ const {tabContainer} = gBrowser, {arrowScrollbox} = tabContainer, {scrollbox} = 
 const slot = $("slot", scrollbox);
 
 const emptyFunc = () => {};
-
 const appVersion = parseInt(Services.appinfo.version);
 
 {
@@ -170,8 +170,22 @@ const appVersion = parseInt(Services.appinfo.version);
 		}
 
 		if (prefs.getPrefType(csp)) {
-			prefs.unlockPref(csp);
-			if (!prefs.getBoolPref(csp)) {
+			if (!prefs.getBoolPref(csp))
+				prefs.unlockPref(csp);
+			if (prefs.getBoolPref(csp)) {
+				try {
+					eval("");
+				// eslint-disable-next-line no-unused-vars
+				} catch (e) {
+					let l10n = {
+						en: `${SCRIPT_FILE_NAME}\n\nThe preference "${csp}" is locked to "false" by the script loader. Please modify or remove the corresponding restriction, or use another script loader.`,
+						ja: `${SCRIPT_FILE_NAME}\n\n設定 "${csp}" はスクリプトローダーによって "false" ロックされています。該当する制限を修正または削除するか、別のスクリプトローダーを使用してください。`,
+					};
+					l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
+					alert(l10n);
+					return;
+				}
+			} else {
 				prefs.setBoolPref(csp, true);
 				needRestart = true;
 			}
@@ -8939,6 +8953,7 @@ function $$(selector, scope = document) {
 }
 
 console?.timeEnd("setup");
+return true;
 } //end function setup()
 
 } catch(e) {alert([SCRIPT_FILE_NAME,e,e.stack].join("\n"));console.error(e)}
