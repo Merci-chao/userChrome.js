@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.1.0.2
+// @version        4.1.0.3
 // @compatibility  Firefox 115, 145-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -169,10 +169,12 @@ const appVersion = parseInt(Services.appinfo.version);
 			needRestart = true;
 		}
 
-		if (getPref(csp, "Bool") == false) {
+		if (prefs.getPrefType(csp)) {
 			prefs.unlockPref(csp);
-			prefs.setBoolPref(csp, true);
-			needRestart = true;
+			if (!prefs.getBoolPref(csp)) {
+				prefs.setBoolPref(csp, true);
+				needRestart = true;
+			}
 		}
 
 		if (needRestart) {
