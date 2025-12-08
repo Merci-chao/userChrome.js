@@ -164,18 +164,16 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値：`1`。 |
 | `debugMode` | ⛔ デバッグモード。一般向けではない。 |
 
-## 高度な調整
-`about:config` には、タブのレイアウトと操作に関するいくつかの Firefox 設定項目がある：
-
-| 設定項目（接頭辞なし） | 説明 |
+### Firefox の組み込み設定
+| 項目（接頭辞なし） | 説明 |
 | ------------- | ------------- |
-| `browser.tabs.tabClipWidth` | このサイズを超えるタブには閉じるボタンが表示される。 |
-| `browser.tabs.tabMinWidth` | 通常のタブの最小幅（周囲の余白を含む）を指定。最小値：`50`。 |
-| `widget.windows.mica` | タブバーに Windows 11 のネイティブスタイルを適用。 |
-| `widget.windows.mica.toplevel-backdrop` | 背景効果の選択肢（Windows 11）：<ul><li>`0` - 自動</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
-| `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用。 |
 | <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | タブのドラッグ時にスタッキング（積み重ね）を有効化。Firefox 145 以下（115 も含む）では、この名前で新しい真偽設定を作成し、`true` に設定することで有効化可能。 |
 | `browser.tabs.splitView.enabled` | Firefox 146 以降で導入されたタブの分割表示機能を有効化。 |
+| `browser.tabs.tabClipWidth` | このサイズを超えるタブには閉じるボタンが表示される。 |
+| `browser.tabs.tabMinWidth` | 通常タブの最小幅（周囲の余白を含む）を指定。最小値：`50`。 |
+| `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用。 |
+| `widget.windows.mica` | タブバーに Windows 11 のネイティブスタイルを適用。 |
+| `widget.windows.mica.toplevel-backdrop` | 背景効果の選択肢（Windows 11）：<ul><li>`0` - 自動</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
@@ -292,7 +290,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Firefox 145 に対応。
 - タブを別のウィンドウに移動する際にアニメーションを追加。
 - 背景画像なしのテーマで `nativeWindowStyle` が使えるようになる。
-- CSS 変数を調整：グループラベルのサイズを制御するために、`#tabbrowser-tabs` に `--group-label-max-width` と `--group-line-padding` を追加（参照：[高度な調整](#高度な調整)）。
+- CSS 変数を調整：グループラベルのサイズを制御するために、`#tabbrowser-tabs` に `--group-label-max-width` と `--group-line-padding` を追加。
 - メニューがタブと重なっている場合、そこから項目をドラッグすると常にメニューを閉じるようにする。
 - バグ修正：`tabsAtBottom` 使用時の背景画像の不具合。
 - バグ修正：一部設定が予期せず無効になった。
