@@ -91,7 +91,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `animateTabMoveMaxCount` | ドラッグされたタブの数がこの値を超えると、ドラッグアニメーションは無効化され、代わりにドロップ位置のインジケーターが表示される。最小値は `0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。<br>📝 備考：タブグループの一部の操作が使用できない場合がある。最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある（Firefox バグ：[#1985434](https://bugzilla.mozilla.org/show_bug.cgi?id=1985434)、[#1988159](https://bugzilla.mozilla.org/show_bug.cgi?id=1988159)、[#1988162](https://bugzilla.mozilla.org/show_bug.cgi?id=1988162)、[#1988194](https://bugzilla.mozilla.org/show_bug.cgi?id=1988194)）。 |
+| `animateTabMoveMaxCount` | ドラッグされたタブの数がこの値を超えると、ドラッグアニメーションは無効化され、代わりにドロップ位置のインジケーターが表示される。最小値：`0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。<br>📝 備考：タブグループの一部の操作が使用できない場合がある。最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある（Firefox バグ：[#1985434](https://bugzilla.mozilla.org/show_bug.cgi?id=1985434)、[#1988159](https://bugzilla.mozilla.org/show_bug.cgi?id=1988159)、[#1988162](https://bugzilla.mozilla.org/show_bug.cgi?id=1988162)、[#1988194](https://bugzilla.mozilla.org/show_bug.cgi?id=1988194)）。 |
 | `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する）。 |
 | `disableDragToPinOrUnpin` | 同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を無効化。 |
 | `dragStackPreceding` | ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。 |
@@ -100,29 +100,29 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `hideDragPreview` | ドラッグ中にカーソルの傍に表示されるドラッグプレビューを非表示：<ul><li>`0` - 常に表示</li><li>`1` - グループのみ</li><li>`2` - タブのみ</li><li>`3` - 両方</li></ul> |
 | `hidePinnedDropIndicator` | ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 では未対応。 |
 | `hideScrollButtonsWhenDragging` | ドラッグ中にスクロールボタンを視覚的に非表示。 |
-| `linesToDragScroll` | タブを上端・下端へドラッグしたときのスクロール段数。最小値は `1`。 |
-| `linesToScroll` | マウスホイール操作によるスクロール段数。最小値は `1`。 |
-| `scrollButtonsSize` | ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値は `0` だが、表示上は少なくとも 2 デバイスピクセルの高さになる。最大値はタブの高さの半分までに制限される。 |
+| `linesToDragScroll` | タブを上端・下端へドラッグしたときのスクロール段数。最小値：`1`。 |
+| `linesToScroll` | マウスホイール操作によるスクロール段数。最小値：`1`。 |
+| `scrollButtonsSize` | ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値：`0` だが、表示上は少なくとも 2 デバイスピクセルの高さになる。最大値はタブの高さの半分までに制限される。 |
 
 ### タブバーレイアウト
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | `autoCollapse` | **🚨 実験的機能 🧪**<br>ホバーしていない時は、一段に折りたたむ。`tabsUnderControlButtons` は無効化され、タブバーがスクロール可能な場合でも、ピン留めされたタブの位置が固定されなくなる。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要あり。 |
-| `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。最小値は `0`。 |
-| `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。最小値は `0`。 |
+| `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。最小値：`0`。 |
+| `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。最小値：`0`。 |
 | `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示。Windows 10 と 11 でのみ対応。 |
 | `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。 |
 | `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、タブバーがスクロール可能時にその空白を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0` - 無効</li><li>`1` - 1 段のみの場合</li><li>`2` - 常に有効</li></ul>中央揃え時には、タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある。 |
-| `maxTabRows` | 表示可能な最大段数。最小値は `1`。 |
+| `maxTabRows` | 表示可能な最大段数。最小値：`1`。 |
 | `privateBrowsingIconOnNavBar` | プライベートウィンドウアイコンをナビゲーションバーに移動。Firefox 115 では未対応。`tabsAtBottom` が有効な場合、この設定は強制的に有効化される。 |
 | `rowIncreaseEvery` | ウィンドウ幅がこの値だけ増加するたびに、表示可能段数が 1 段増加。`0` にすると最大段数が常に表示される。 |
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になる。 |
-| `spaceAfterTabs` | ウィンドウ制御ボタンの前にある空白スペース。最小値は `0`。 |
-| `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ制御ボタン前の空白スペース。最小値は `0`。 |
-| `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値は `0`。 |
-| `spaceBeforeTabsOnMaximizedWindow` | 最大化時の左端空白スペース。最小値は `0`。 |
+| `spaceAfterTabs` | ウィンドウ制御ボタンの前にある空白スペース。最小値：`0`。 |
+| `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ制御ボタン前の空白スペース。最小値：`0`。 |
+| `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値：`0`。 |
+| `spaceBeforeTabsOnMaximizedWindow` | 最大化時の左端空白スペース。最小値：`0`。 |
 | `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0` - メニューバー下</li><li>`1` - ナビゲーションツールバー下</li><li>`2` - ブックマークツールバー下</li></ul>Firefox 115 では未対応。 |
 | `tabsbarItemsAlign` | 多段モードでタブバー内の項目（主にボタン）の配置：<ul><li>`start` - 上</li><li>`center` - 中</li><li>`end` - 下</li></ul>`tabsUnderControlButtons` が `0` または `1` でタブバーがスクロール可能時のみ有効。 |
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 実験的機能 🧪**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：<ul><li>`0` - 無効</li><li>`1` - タブバーがスクロール不可能場合のみ（旧式オプション、非推奨）</li><li>`2` - 常に有効</li></ul>不具合が出る場合は `0` に設定してください。 |
@@ -134,14 +134,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `gapAfterPinned` | ピン留めされたタブと通常のタブの間の隙間。最小値は `0`。 |
+| `gapAfterPinned` | ピン留めされたタブと通常のタブの間の隙間。最小値：`0`。 |
 | `pinnedTabsFlexWidth` | **🚨 実験的機能 🧪**<br>ピン留めされたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる。 |
 | `pinnedTabsFlexWidthIndicator` | `pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブにアイコンを表示。 |
-| `tabContentHeight` | タブコンテンツの高さ。最小値: `16`。 |
-| `tabHorizontalMargin` | タブの周囲の水平スペース。最小値: `0`。 |
-| `tabHorizontalPadding` | タブの水平パディング。最小値: `0`。 |
+| `tabContentHeight` | タブコンテンツの高さ。最小値：`16`。 |
+| `tabHorizontalMargin` | タブの周囲の水平スペース。最小値：`0`。 |
+| `tabHorizontalPadding` | タブの水平パディング。最小値：`0`。 |
 | `tabMaxWidth` | タブの最大幅（周囲の余白を含む）。最小幅には `browser.tabs.tabMinWidth` を使用し、実際の最大幅は必ずこの値より小さくなることはない。 |
-| `tabVerticalMargin` | タブの周囲の垂直スペース。最小値: `0`。 |
+| `tabVerticalMargin` | タブの周囲の垂直スペース。最小値：`0`。 |
 
 ### 外観
 
@@ -161,7 +161,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ------------- | ------------- |
 | `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認。`0` で無効、`1` 以上で有効。値は最後に確認した時刻（例：`1759911972`）で更新される。<br><b>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b><br>📝 備考：Firefox の旧バージョン（115 を除く）を使用している場合、このスクリプトの更新は通知されない。 |
 | `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`0` - 無効</li><li>`1` - 確認する</li><li>`2` - 常に更新</li><li>`3` - 常に更新（通知なし）、通知されない軽微な変更や修正の更新も自動的に受け取り</li></ul> |
-| `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
+| `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値：`1`。 |
 | `debugMode` | ⛔ デバッグモード。一般向けではない。 |
 
 ## 高度な調整
@@ -170,7 +170,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | 設定項目（接頭辞なし） | 説明 |
 | ------------- | ------------- |
 | `browser.tabs.tabClipWidth` | このサイズを超えるタブには閉じるボタンが表示される。 |
-| `browser.tabs.tabMinWidth` | 通常のタブの最小幅（周囲の余白を含む）を指定。最小値は `50`。 |
+| `browser.tabs.tabMinWidth` | 通常のタブの最小幅（周囲の余白を含む）を指定。最小値：`50`。 |
 | `widget.windows.mica` | タブバーに Windows 11 のネイティブスタイルを適用。 |
 | `widget.windows.mica.toplevel-backdrop` | 背景効果の選択肢（Windows 11）：<ul><li>`0` - 自動</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用。 |
@@ -325,7 +325,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - `checkUpdateAutoApply` が `3` に設定されている場合、通知が表示されない軽微な変更や修正の更新も受信するようになる。
 
 **Version 3.4**
-- `animateTabMoveMaxCount` を追加：ドラッグされたタブの数がこの値を超えると、ドラッグアニメーションは無効化され、代わりにドロップ位置のインジケーターが表示。最小値は `0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。備考：タブグループの一部の操作が使用できない場合があり、最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある。
+- `animateTabMoveMaxCount` を追加：ドラッグされたタブの数がこの値を超えると、ドラッグアニメーションは無効化され、代わりにドロップ位置のインジケーターが表示。最小値：`0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。備考：タブグループの一部の操作が使用できない場合があり、最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある。
 - `hidePinnedDropIndicator` を追加：ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換できる際に表示されるインジケーターを非表示（Firefox 143 以降に対応）。
 - アニメーションの処理を見直して、動作を改善。
 - `tabsAtBottom` を `2` にすると、ブックマークツールバーを「新しいタブのみ表示する」に設定していても、タブバーはブックマークツールバーの下に表示。
