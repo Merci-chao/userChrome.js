@@ -167,18 +167,17 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
 | `debugMode` | ⛔ Mode for debugging, not for general use. |
 
-## Advanced Tweaks
-There also few settings in `about:config` for the layout and operations of tabs:
+### Firefox Built-in Settings
 
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
-| `browser.tabs.tabClipWidth` | Close button will show on the tabs that are wider than this size. |
-| `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. Minimum: `50`. |
-| `widget.windows.mica` | Apply the native system style on Tabs Bar (Windows 11). |
-| `widget.windows.mica.toplevel-backdrop` | Choose the effect of backdrop (Windows 11).<ul><li>`0` - Auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
-| `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
 | <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | Enable tab stacking when dragging tabs. On Firefox 145 and below (including 115), create a new preference with this name and set it to `true` to enable. |
 | `browser.tabs.splitView.enabled` | Enable the tab split  view feature, available on Firefox 146 and above. |
+| `browser.tabs.tabClipWidth` | Close button will show on the tabs that are wider than this size. |
+| `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. Minimum: `50`. |
+| `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
+| `widget.windows.mica` | Apply the native system style on Tabs Bar (Windows 11). |
+| `widget.windows.mica.toplevel-backdrop` | Choose the effect of backdrop (Windows 11).<ul><li>`0` - Auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
@@ -295,7 +294,7 @@ There also few settings in `about:config` for the layout and operations of tabs:
 - Update for Firefox 145.
 - Add animation when tabs are moved to another window.
 - Themes without background images can now use `nativeWindowStyle`.
-- Adjust CSS variables: add `--group-label-max-width` and `--group-line-padding` on `#tabbrowser-tabs` to control the size of group label (See: [Advanced Tweaks](#advanced-tweaks)).
+- Adjust CSS variables: add `--group-label-max-width` and `--group-line-padding` on `#tabbrowser-tabs` to control the size of group label.
 - Always close the menu when dragging an item from it onto the tab strip, if the menu overlaps the tab strip.
 - Bug fix: background image issues when using `tabsAtBottom`.
 - Bug fix: certain settings were unexpectedly disabled under specific conditions.
