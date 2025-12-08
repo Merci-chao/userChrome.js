@@ -3,8 +3,8 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.0.2.3
-// @compatible     firefox 115, 145-147
+// @version        4.1
+// @compatibility  Firefox 115, 145-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
@@ -14,7 +14,12 @@
 /* global
    gBrowser, RTL_UI, Services, Cc, Ci, promiseDocumentFlushed,
    gURLBar, gNavToolbox, gReduceMotion, FullScreen, TAB_DROP_TYPE, InspectorUtils, windowUtils,
+   gNotificationBox,
 */
+
+const SCRIPT_NAME = "Multi Tab Rows";
+const SCRIPT_FILE_NAME = "MultiTabRows@Merci.chao.uc.js";
+
 if (document.documentElement.matches("[windowtype='navigator:browser']:not([chromehidden~=toolbar])"))
 try {
 if (gBrowser?._initialized) {
@@ -29,7 +34,7 @@ if (gBrowser?._initialized) {
 } else
 	addEventListener("DOMContentLoaded", () => {
 		try { setup() }
-		catch(e) { alert(["MultiTabRows@Merci.chao.uc.js",e,e.stack].join("\n"));console.error(e) }
+		catch(e) { alert([SCRIPT_FILE_NAME,e,e.stack].join("\n"));console.error(e) }
 	}, {once: true});
 
 function setup() {
@@ -183,7 +188,7 @@ const appVersion = parseInt(Services.appinfo.version);
 		$$("#toolbar-context-toggle-vertical-tabs, #context_toggleVerticalTabs, #sidebar-context-menu-enable-vertical-tabs")
 			.forEach(e => e.disabled = true);
 	} catch (e) {
-		alert(["MultiTabRows@Merci.chao.uc.js",e,e.stack].join("\n"));
+		alert([SCRIPT_FILE_NAME,e,e.stack].join("\n"));
 	}
 }
 
@@ -213,6 +218,25 @@ const FX_USING_PRIVATE_SET_STYLE = tabContainer.constructor.toString()
 const NATIVE_DRAG_TO_PIN = !!(window.TabDragAndDrop || FX_USING_PRIVATE_SET_STYLE);
 const TAB_GROUP_SUPPORT = "tabGroups" in gBrowser;
 const SPLIT_VIEW_SUPPORT = "addTabSplitView" in gBrowser;
+const TAB_CONTENT_HEIGHT = [36, 29, 41];
+const [
+	VIEW_MIN_WIDTH,
+	TAB_BLOCK_MARGIN,
+	TAB_INLINE_PADDING,
+	TAB_INLINE_MARGIN,
+	ANIMATE_DURATION,
+] = (() => {
+	let cs = getComputedStyle(root);
+	return [
+		["min-width"],
+		["--tab-block-margin"],
+		["--tab-inline-padding", 8],
+		["--tab-overflow-clip-margin", 2],
+	].map(([p, d]) => parseFloat(cs.getPropertyValue(p)) || d)
+		.concat(
+			+cs.getPropertyValue("--tab-dragover-transition").match(/\d+|$/)[0] || 200
+		);
+})();
 
 /** @type {(Console|null)} */
 let console;
@@ -227,7 +251,7 @@ const prefBranchStr = "userChromeJS.multiTabRows@Merci.chao.";
 let prefs;
 const createDefaultPrefs = () => ({
 	maxTabRows: 4,
-	rowStartIncreaseFrom: parseInt(getComputedStyle(root).minWidth),
+	rowStartIncreaseFrom: VIEW_MIN_WIDTH,
 	rowIncreaseEvery: 200,
 	spaceAfterTabs: 40,
 	spaceAfterTabsOnMaximizedWindow: 40,
@@ -254,7 +278,7 @@ const createDefaultPrefs = () => ({
 	dragToGroupTabs: TAB_GROUP_SUPPORT ? true : null,
 	dynamicMoveOverThreshold: TAB_GROUP_SUPPORT ? true : null,
 	nativeWindowStyle: appVersion > 130 ? false : null,
-	animationDuration: +getStyle(root, "--tab-dragover-transition", true).match(/\d+|$/)[0] || 200,
+	animationDuration: ANIMATE_DURATION,
 	autoCollapse: false,
 	autoCollapseDelayExpanding: 100,
 	autoCollapseDelayCollapsing: 400,
@@ -273,6 +297,12 @@ const createDefaultPrefs = () => ({
 	disableDragToPinOrUnpin: appVersion < 142,
 	dragStackPreceding: true,
 	privateBrowsingIconOnNavBar: $("#private-browsing-indicator-with-label") ? null : false,
+	tabContentHeight:
+		TAB_CONTENT_HEIGHT[getPref("browser.uidensity", "Int")] ||
+		TAB_CONTENT_HEIGHT[0],
+	tabVerticalMargin: TAB_BLOCK_MARGIN,
+	tabHorizontalPadding: TAB_INLINE_PADDING,
+	tabHorizontalMargin: TAB_INLINE_MARGIN,
 });
 
 const setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
@@ -295,6 +325,7 @@ let observedBrowserPrefs = [
 	"browser.tabs.inTitlebar",
 	"browser.tabs.tabMinWidth",
 	"browser.toolbars.bookmarks.visibility",
+	"browser.uidensity",
 	"extensions.activeThemeID",
 	"layout.css.has-selector.enabled",
 	"toolkit.tabbox.switchByScrolling",
@@ -402,6 +433,8 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 async function onPrefChange(pref, type, name) {
 	if (window.MultiTabRows_updatingPref) return;
 
+	name = name.replace(prefBranchStr, "");
+
 	console?.log(name);
 
 	switch (name) {
@@ -426,16 +459,16 @@ async function onPrefChange(pref, type, name) {
 
 	let defaultPrefs = createDefaultPrefs();
 
-	for (let [name, value] of Object.entries(defaultPrefs))
-		if (value != null)
-			Services.prefs.unlockPref(prefBranchStr + name);
+	for (let [n, v] of Object.entries(defaultPrefs))
+		if (v != null)
+			Services.prefs.unlockPref(prefBranchStr + n);
 
 	loadPrefs(defaultPrefs);
 
 	for (let win of browsers)
 		delete win.MultiTabRows_updatingPref;
 
-	switch(name.replace(prefBranchStr, "")) {
+	switch (name) {
 		case "browser.toolbars.bookmarks.visibility":
 			updateNavToolboxNetHeight();
 			setStyle();
@@ -474,6 +507,10 @@ async function onPrefChange(pref, type, name) {
 			setStyle();
 			tabContainer._updateInlinePlaceHolder();
 			break;
+		case "tabHorizontalMargin":
+		case "tabHorizontalPadding":
+			delete tabContainer._pinnedTabsLayoutCache;
+		// eslint-disable-next-line no-fallthrough
 		case "tabMaxWidth":
 		case "browser.tabs.tabMinWidth":
 			setTimeout(() => {
@@ -493,6 +530,12 @@ async function onPrefChange(pref, type, name) {
 		case "justifyCenter":
 			setStyle();
 			tabContainer._positionPinnedTabs();
+			break;
+		case "tabVerticalMargin":
+			setStyle();
+		// eslint-disable-next-line no-fallthrough
+		case "tabContentHeight":
+			tabContainer.uiDensityChanged();
 			break;
 		case "checkUpdate":
 		case "checkUpdateFrequency":
@@ -535,82 +578,103 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		let remoteScript = (await (await fetch(updateURL)).text()).trim();
 		let local = getVer(localScript);
 		let remote = getVer(remoteScript);
-		let compatible = remoteScript?.match(/^\/\/\s*@compatible\s+firefox\s*(.+?)\s*$/mi)?.[1]
+		let compatibility = remoteScript?.match(/^\/\/\s*@compatibility\s+firefox\s*(.+?)\s*$/mi)?.[1]
 			?.split(/\s*,\s*/).map(v => v.split(/\s*-\s*/));
 		if (
 			!remote ||
 			remote.localeCompare(local, undefined, {numeric: true}) <= 0 ||
 			(
-				appVersion < compatible?.at(-1).at(-1) &&
-				!compatible.some(([min, max]) => max ? min <= appVersion && appVersion <= max : appVersion == min)
+				appVersion < compatibility?.at(-1).at(-1) &&
+				!compatibility.some(([min, max]) => max ? min <= appVersion && appVersion <= max : appVersion == min)
 			)
 		)
 			return;
 
-		let p = Services.prompt;
 		let l10n = {
 			en: {
-				title: "MultiTabRows@Merci.chao.uc.js",
-				message: `Multi Tab Rows version ${remote} is released. Would you want to ${auto ? "apply" : "view"} it now?`,
-				later: "Remind Tomorrow",
-				apply: `Update the script file directly`,
-				link: "#changelog",
-				done: `Multi Tab Rows has been updated to version ${remote}. You may restart Firefox to apply.`,
-				error: `Failed to apply the update of Multi Tab Rows version ${remote}. Please ensure the file is not read-only or locked by another program:`,
+				message: `${SCRIPT_NAME} (${SCRIPT_FILE_NAME}) version ${remote} is released.`,
+				update: "Update Now",
+				updateKey: "N",
+				download: "Update Manually",
+				downloadKey: "M",
 				changelog: "Changelog",
+				changelogKey: "C",
+				later: "Remind Tomorrow",
+				laterKey: "R",
+				restart: "Restart Now",
+				restartKey: "R",
+				link: "#changelog",
+				done: `${SCRIPT_NAME} has been updated to version ${remote}. You may restart Firefox to apply.`,
+				error: `Failed to apply the update of ${SCRIPT_NAME} version ${remote}. Please ensure the file is not read-only or locked by another program:`,
 			},
 			ja: {
-				title: "MultiTabRows@Merci.chao.uc.js",
-				message: `Multi Tab Rows（多段タブ）の新バージョン ${remote} がリリースされました。今すぐ${auto ? "更新" : "表示"}しますか？`,
-				later: "明日再通知する",
-				apply: "スクリプトファイルを直接更新",
-				link: "/blob/main/README.jp.md#変更履歴",
-				done: `Multi Tab Rows ${remote} を更新しました。Firefox を再起動すると変更が有効になります。`,
-				error: `Multi Tab Rows バージョン ${remote} の更新処理に失敗しました。ファイルが読み取り専用でないこと、または他のプログラムによってロックされていないことを確認してください：`,
+				message: `${SCRIPT_NAME}（${SCRIPT_FILE_NAME}）の新バージョン ${remote} がリリースされました。`,
+				update: "今すぐ更新",
+				updateKey: "N",
+				download: "手動で更新",
+				downloadKey: "M",
 				changelog: "変更履歴",
+				changelogKey: "C",
+				later: "明日再通知する",
+				laterKey: "R",
+				restart: "今すぐ再起動",
+				restartKey: "R",
+				link: "/blob/main/README.jp.md#変更履歴",
+				done: `${SCRIPT_NAME} ${remote} を更新しました。Firefox を再起動すると変更が有効になります。`,
+				error: `${SCRIPT_NAME} バージョン ${remote} の更新処理に失敗しました。ファイルが読み取り専用でないこと、または他のプログラムによってロックされていないことを確認してください：`,
 			},
 		};
 		l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
 
-		let buttons =
-			p.BUTTON_POS_0 * p.BUTTON_TITLE_YES
-			+ p.BUTTON_POS_1 * p.BUTTON_TITLE_IS_STRING
-			+ p.BUTTON_POS_2 * p.BUTTON_TITLE_NO;
-		if (auto) {
-			if (auto > 1)
-				install();
-			else
-				switch (p.confirmEx(window, l10n.title, l10n.message, buttons, "", l10n.later, "", "", {})) {
-					case 0: install(); break;
-					case 1: setTomorrow(); break;
-				}
-		} else {
-			let apply = {};
-			switch (p.confirmEx(
-				window, l10n.title, l10n.message, buttons,
-				"", l10n.later, "",
-				l10n.apply, apply,
-			)) {
-				case 0:
-					if (apply.value)
-						install();
-					else
-						showChangeLog();
-					break;
-				case 1: setTomorrow(); break;
-			}
-		}
-
-		function setTomorrow() {
-			Services.prefs.setIntPref(
-				prefBranchStr + "checkUpdate",
-				Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60,
+		if (auto > 1)
+			install();
+		else
+			showNotification(
+				l10n.message,
+				[
+					{
+						label: l10n.update,
+						accessKey: l10n.updateKey,
+						callback: install,
+						primary: true,
+					},
+					{
+						label: l10n.download,
+						accessKey: l10n.downloadKey,
+						callback: showChangelog,
+					},
+					{
+						label: l10n.later,
+						accessKey: l10n.laterKey,
+						callback: () => Services.prefs.setIntPref(
+							prefBranchStr + "checkUpdate",
+							Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60,
+						),
+					},
+				],
+				"chrome://browser/skin/update-badge.svg",
 			);
-		}
 
-		function showChangeLog() {
-			/*global openURL*/
-			openURL(homeURL + l10n.link);
+		async function showNotification(label, buttons, icon) {
+			let box = await gNotificationBox.appendNotification(
+				"multitabrows",
+				{
+					label,
+					priority: gNotificationBox.PRIORITY_INFO_HIGH,
+				},
+				buttons,
+				true,
+			);
+			if (icon) {
+				let node = $(".icon", box.shadowRoot);
+				let color = "var(--panel-banner-item-update-supported-bgcolor)";
+				node.src = icon;
+				style(node, {
+					fill: color,
+					color,
+					"--message-bar-icon-url": `url(${icon})`,
+				});
+			}
 		}
 
 		function install() {
@@ -625,18 +689,32 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 				converter.init(fos, "UTF-8");
 				converter.writeString(remoteScript);
 				converter.close();
-				if (auto < 3 && p.confirmEx(
-					window, l10n.title, l10n.done,
-					(
-						p.BUTTON_POS_0 * p.BUTTON_TITLE_OK
-						+ p.BUTTON_POS_1 * p.BUTTON_TITLE_IS_STRING
-					),
-					"", l10n.changelog, "", "", {},
-				))
-					showChangeLog();
+				if (auto < 3)
+					//Delay a bit to make the installation feel like it's actually running
+					setTimeout(() => showNotification(
+						l10n.done,
+						[
+							{
+								label: l10n.changelog,
+								accessKey: l10n.changelogKey,
+								callback: showChangelog,
+							},
+							{
+								label: l10n.restart,
+								accessKey: l10n.restartKey,
+								callback: restartFirefox,
+							},
+						],
+					), 500);
 			} catch(e) {
-				p.alert(window, l10n.title, [l10n.error, localFilePath, e.message].join("\n\n"));
+				Services.prompt.alert(window, l10n.title, [l10n.error, localFilePath, e.message].join("\n\n"));
+				return true;
 			}
+		}
+
+		function showChangelog() {
+			/*global openURL*/
+			openURL(homeURL + l10n.link);
 		}
 	})();
 }
@@ -749,6 +827,13 @@ const outlineOffsetSnapping = size =>
 mainStyle.innerHTML = `
 :root {
 	--max-tab-rows: 1;
+	--tab-block-margin: ${Math.min(Math.max(prefs.tabVerticalMargin, 0), TAB_BLOCK_MARGIN * 3)}px;
+	--tab-inline-padding: ${Math.min(Math.max(prefs.tabHorizontalPadding, 0), TAB_INLINE_PADDING * 3)}px;
+	--tab-pinned-inline-padding: 2px;
+	--tab-overflow-clip-margin: ${Math.min(Math.max(prefs.tabHorizontalMargin, 0), TAB_INLINE_MARGIN * 3)}px;
+	--tab-group-label-height: min(max(1.5em, var(--tab-min-height) - 14px), var(--tab-min-height));
+	--tab-group-line-toolbar-border-distance: min(1px, var(--tab-block-margin));
+	--tab-group-line-thickness: clamp(1px, var(--tab-block-margin), 2px);
 }
 
 ${[...Array(maxRows).keys()].slice(1).map(i => `
@@ -756,6 +841,17 @@ ${[...Array(maxRows).keys()].slice(1).map(i => `
 		:root { --max-tab-rows: ${i + 1}; }
 	}
 `).join("\n")}
+
+${!win7 && !win8 ? `
+	/*make the title bar able to be narrower on 115*/
+	:root[tabsintitlebar][sizemode] #titlebar {
+		appearance: none;
+	}
+
+	#TabsToolbar > .titlebar-buttonbox-container {
+		margin-bottom: 0;
+	}
+` : ``}
 
 #navigator-toolbox {
 	--tabs-moving-max-z-index: 0;
@@ -887,6 +983,10 @@ ${prefs.tabsAtBottom ? `
 	:root[${CUSTOM_TITLEBAR}] #toolbar-menubar${MENUBAR_AUTOHIDE} ~ #nav-bar .titlebar-spacer[class] {
 		display: flex;
 	}
+
+	#notifications-toolbar {
+		order: 2;
+	}
 ` : ``}
 
 ${prefs.tabsAtBottom || prefs.privateBrowsingIconOnNavBar ? `
@@ -1012,10 +1112,6 @@ ${_="#tabbrowser-tabs"} {
 	--tabstrip-border-color: transparent;
 	--tabstrip-border: var(--tabstrip-border-width) solid var(--tabstrip-border-color);
 	--tabstrip-separator-size: calc(var(--tabstrip-padding) * 2 + var(--tabstrip-border-width));
-	${appVersion < 132 ? `
-		--tab-overflow-clip-margin: 2px;
-		--tab-inline-padding: 8px;
-	` : ``}
 	--tab-overflow-pinned-tabs-width: 0px;
 	--extra-drag-space: 15px; /*hardcoded in tabs.css*/
 	position: relative;
@@ -1528,6 +1624,10 @@ ${_} [size-locked=accurate] {
 			pointer-events: none;
 		}
 
+		tab-group[collapsed] & .tab-group-label-hover-highlight {
+			padding-block: min(4px, (var(--tab-min-height) - var(--tab-group-label-height)) / 2);
+		}
+
 		.tab-group-label {
 			max-width: var(--group-label-max-width);
 			align-content: center;
@@ -1653,6 +1753,7 @@ ${_} [size-locked=accurate] {
 			height: inherit;
 			padding-inline-end: calc(var(--space-small) + var(--group-line-padding));
 			align-content: center;
+			padding-block: 0;
 		}
 
 		&:is([animate-shifting], [movetarget]) {
@@ -1867,6 +1968,37 @@ ${prefs.pinnedTabsFlexWidthIndicator ? `
 	}
 ` : ``}
 
+#tabbrowser-tabs:not([secondarytext-unsupported]) .tab-label-container {
+	height: min(2.7em, var(--tab-min-height));
+}
+
+:root[id] .tab-content[pinned] {
+	padding-inline: calc(var(--tab-inline-padding) + var(--tab-pinned-inline-padding));
+}
+
+.tab-label {
+	line-height: min(1em * var(--tab-label-line-height, 1.7), var(--tab-min-height));
+}
+
+.tab-close-button {
+	padding-block: 0;
+	object-fit: contain;
+	height: min(24px, var(--tab-min-height));
+}
+
+.tab-icon-overlay:not([crashed])[pinned] {
+	--size: max(min(var(--tab-min-height) - 6px, 16px), 12px);
+	top: min(max(-7px, (16px - var(--tab-min-height)) / 2 + 2px), 0px);
+	height: var(--size);
+	width: var(--size);
+}
+
+.tab-audio-button::part(button) {
+	--size: min(24px, var(--tab-min-height));
+	--button-size-icon-small: var(--size);
+	--button-min-height-small: var(--size);
+}
+
 #tabbrowser-tabs[id][id][id][id] tab-split-view-wrapper {
 	--w: 0px;
 	--width-rounding-diff: 0px;
@@ -1875,6 +2007,7 @@ ${prefs.pinnedTabsFlexWidthIndicator ? `
 	--splitview-outline-width: 1px;
 	--splitview-background-color: transparent;
 	--splitview-separator-color: var(--toolbarbutton-icon-fill);
+	--splitview-tab-min-height: calc(var(--tab-min-height) - var(--tab-overflow-clip-margin) * 2);
 	display: flex;
 	align-items: center;
 	position: relative;
@@ -2001,7 +2134,7 @@ ${prefs.pinnedTabsFlexWidthIndicator ? `
 	}
 
 	tab[class][class][class][class] {
-		--tab-overflow-clip-margin: 2px;
+		--tab-overflow-clip-margin: inherit;
 		border: 0;
 		padding: 0;
 		min-width: 0;
@@ -2038,8 +2171,7 @@ ${prefs.pinnedTabsFlexWidthIndicator ? `
 		}
 
 		.tab-background {
-			--tab-min-height: inherit;
-			min-height: calc(var(--tab-min-height) - var(--tab-overflow-clip-margin) * 2);
+			--tab-min-height: var(--splitview-tab-min-height);
 			margin-block: calc(var(--tab-block-margin) + var(--tab-overflow-clip-margin));
 			margin-inline: 0;
 
@@ -2058,24 +2190,11 @@ ${prefs.pinnedTabsFlexWidthIndicator ? `
 		}
 
 		.tab-content {
+			--tab-min-height: var(--splitview-tab-min-height);
 			padding: 0;
 
 			&::before, &::after {
 				width: round(var(--space-medium), 1px);
-			}
-
-			.tab-label-container {
-				height: auto;
-			}
-
-			.tab-icon-overlay {
-				top: -6px;
-
-				:root[uidensity=compact] & {
-					width: 14px;
-					height: 14px;
-					top: -3px;
-				}
 			}
 		}
 	}
@@ -2106,10 +2225,6 @@ ${prefs.pinnedTabsFlexWidth && appVersion < 139 ? ["ltr", "rtl"].map(dir => `
 			.tab-audio-button {
 				display: none !important;
 			}
-		}
-
-		:root[uidensity=compact] & .tab-icon-overlay {
-			top: -5px;
 		}
 	}
 }
@@ -2430,11 +2545,11 @@ ${!prefs.autoCollapse ? `
 	top: 0;
 	inset-inline-start: calc(var(--pre-tabs-items-width) + var(--tabstrip-separator-size));
 	z-index: calc(var(--tabs-moving-max-z-index) + 1);
-	width: ${__="var(--tab-min-height)"};
-	height: ${__};
+	width: calc(16px + (var(--tab-inline-padding) + var(--tab-pinned-inline-padding)) * 2);
+	height: var(--tab-min-height);
 	padding: 0;
 	margin: var(--tab-block-margin) var(--tab-overflow-clip-margin);
-	border-radius: var(--border-radius-small);
+	border-radius: var(--tab-border-radius);
 	outline-offset: calc(${outlineOffsetSnapping("1px")} * -1);
 	background: var(--tab-hover-background-color);
 	backdrop-filter: blur(var(--tabs-placeholder-blurriness));
@@ -7300,14 +7415,25 @@ let GET_DRAG_TARGET;
 
 		console?.time("uiDensityChanged");
 
+		const HEIGHT_PREF = prefBranchStr + "tabContentHeight";
+		style(root, {
+			"--tab-height": "",
+			"--tab-min-height": Services.prefs.prefHasUserValue(HEIGHT_PREF)
+				? Math.min(Math.max(getPref(HEIGHT_PREF, "Int"), 16), TAB_CONTENT_HEIGHT[0] * 3) + "px"
+				: "",
+		});
+		style(root, {
+			"--tab-height": (tabHeight = +getRect(gBrowser.selectedNode).height.toFixed(4)) + "px",
+		});
+
 		let {newTabButton} = this;
 		style(newTabButton, {"display": "flex !important"});
 		newTabButtonWidth = getRect(newTabButton).width;
 		newTabButton.style.display = "";
 
-		style(root, {"--tab-height": ""});
-		style(root, {"--tab-height": (tabHeight = +getRect(gBrowser.selectedNode).height.toFixed(4)) + "px"});
-		style(tabsBar, {"--new-tab-button-width": newTabButtonWidth + "px"});
+		style(tabsBar, {
+			"--new-tab-button-width": newTabButtonWidth + "px",
+		});
 
 		let minWidthPref = this._tabMinWidthPref;
 		let extraWidth = appVersion > 146
@@ -8242,7 +8368,7 @@ function exposePrivateMethod(element, method, context = "") {
 			element.prototype[newMethod] = f;
 			relatedMehtods.forEach(m => exposePrivateMethod(element, m, context));
 		} catch(e) {
-			alert(["MultiTabRows@Merci.chao.uc.js",e,e.stack,method].join("\n"));
+			alert([SCRIPT_FILE_NAME,e,e.stack,method].join("\n"));
 		}
 }
 
@@ -8813,4 +8939,4 @@ function $$(selector, scope = document) {
 console?.timeEnd("setup");
 } //end function setup()
 
-} catch(e) {alert(["MultiTabRows@Merci.chao.uc.js",e,e.stack].join("\n"));console.error(e)}
+} catch(e) {alert([SCRIPT_FILE_NAME,e,e.stack].join("\n"));console.error(e)}
