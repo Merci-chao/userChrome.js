@@ -137,11 +137,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `gapAfterPinned` | ピン留めされたタブと通常のタブの間の隙間。最小値：`0`。 |
 | `pinnedTabsFlexWidth` | **🚨 実験的機能 🧪**<br>ピン留めされたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる。 |
 | `pinnedTabsFlexWidthIndicator` | `pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブにアイコンを表示。 |
-| `tabContentHeight` | タブコンテンツの高さ。最小値：`16`。 |
-| `tabHorizontalMargin` | タブの周囲の水平スペース。最小値：`0`。 |
-| `tabHorizontalPadding` | タブの水平パディング。最小値：`0`。 |
+| `tabContentHeight` | タブ内容部分の高さ。最小値：`16`。 |
+| `tabHorizontalMargin` | タブ周囲の水平余白。最小値：`0`。 |
+| `tabHorizontalPadding` | タブ内側の水平余白。最小値：`0`。 |
 | `tabMaxWidth` | タブの最大幅（周囲の余白を含む）。最小幅には `browser.tabs.tabMinWidth` を使用し、実際の最大幅は必ずこの値より小さくなることはない。 |
-| `tabVerticalMargin` | タブの周囲の垂直スペース。最小値：`0`。 |
+| `tabVerticalMargin` | タブ周囲の垂直余白。最小値：`0`。 |
 
 ### 外観
 
