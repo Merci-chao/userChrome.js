@@ -185,7 +185,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Minor Updates</summary>
 
-**Version 4.1.0.1**
+**Version 4.1.0.2**
 - Tune the sizing of group lines to achieve a better look with different values of `tabVerticalMargin`.
 </details>
 
