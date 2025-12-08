@@ -51,7 +51,7 @@ Make Firefox support multiple rows of tabs.
 - Supports general userChrome.js script loaders, such as:
 	- [`firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
- 	- ~~[`userChrome.js`](https://github.com/alice0775/userChrome.js)~~ *(old versions only)*
+ 	- [`userChrome.js`](https://github.com/alice0775/userChrome.js)
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
@@ -65,7 +65,7 @@ Make Firefox support multiple rows of tabs.
 1. Install the script loader. Skip this step if you already have some scripts in use. There are several script loaders available:
 	- [`firefox-scripts`](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) by *[xiaoxiaoflood](https://github.com/xiaoxiaoflood)*, maintained by *[onemen](https://github.com/onemen)*
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig) by *[MrOtherGuy](https://github.com/MrOtherGuy)*
- 	- ~~[`userChrome.js`](https://github.com/alice0775/userChrome.js) by *[alice0775](https://github.com/alice0775)*~~ *(The newest version locks `security.allow_unsafe_dangerous_privileged_evil_eval` and causes scripts that rely on it to fail.)*
+ 	- [`userChrome.js`](https://github.com/alice0775/userChrome.js) by *[alice0775](https://github.com/alice0775)* *(It is necessary to set the locked value of `security.allow_unsafe_dangerous_privileged_evil_eval` to `true` in `config.js`, if the restriction exists)*
   <br><br>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘 [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the `firefox-scripts`: 
   <br>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
   <br>📝 The file placement location may slightly vary depending on the loader. The following steps assume the use of `firefox-scripts`.
@@ -185,8 +185,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Minor Updates</summary>
 
-**Version 4.1.0.3**
-- Handle the case where `security.allow_unsafe_dangerous_privileged_evil_eval` is locked by the script loader and causes Firefox to restart endlessly.
+**Version 4.1.0.4**
+- Handle the case where `security.allow_unsafe_dangerous_privileged_evil_eval` is locked by the script loader.
 
 **Version 4.1.0.2**
 - Tune the sizing of group lines to achieve a better look with different values of `tabVerticalMargin`.
