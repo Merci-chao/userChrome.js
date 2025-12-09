@@ -6,7 +6,7 @@
 
 ---
 
-# [Multi Tab Rows（多段タブ）](https://github.com/Merci-chao/userChrome.js/blob/main/MultiTabRows%40Merci.chao.uc.js)
+# [Multi Tab Rows（多段タブ）](https://github.com/Merci-chao/userChrome.js/blob/main/MultiTabRows@Merci.chao.uc.js)
 Firefox に多段タブ表示をサポートさせる。
 
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/scrolling.png)
@@ -470,7 +470,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - macOS および Ubuntu（Linux）
 - 垂直タブ（当然）
 
-# [History Submenus II](https://github.com/Merci-chao/userChrome.js/blob/main/HistorySubmenus2%40Merci.chao.uc.js)
+# [History Submenus II](https://github.com/Merci-chao/userChrome.js/blob/main/HistorySubmenus2@Merci.chao.uc.js)
 履歴メニューに、前日分の履歴を表示するサブメニューを追加。  
 [アドオンページ（ウェブアーカイブ）](https://web.archive.org/web/20181102024750/https://addons.mozilla.org/en-US/firefox/addon/history-submenus-2/)
 
@@ -491,7 +491,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `dateFormat` | サブメニューの名前に使用する日付のフォーマット。 |
 
 ## 変更履歴
-📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2%40Merci.chao.uc.js)
+📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
 
 **Version 2025-08-14**
 - Firefox 143 に対応。
@@ -499,7 +499,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ---
 
-# [Page Title in URL Bar](https://github.com/Merci-chao/userChrome.js/blob/main/PageTitle%40Merci.chao.uc.js)
+# [Page Title in URL Bar](https://github.com/Merci-chao/userChrome.js/blob/main/PageTitle@Merci.chao.uc.js)
 URL バーにページタイトルを表示。  
 [アドオンページ（ウェブアーカイブ）](https://web.archive.org/web/20181101232504/https://addons.mozilla.org/en-US/firefox/addon/page-title/)
 
@@ -523,7 +523,7 @@ URL バーにページタイトルを表示。
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 
 ## 変更履歴
-📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle%40Merci.chao.uc.js)
+📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
 
 **Version 2025-11-28**
 - Firefox 147 に対応。
@@ -536,7 +536,7 @@ URL バーにページタイトルを表示。
 
 ---
 
-# [Semi-Full Screen / Picture-in-Picture Mode](https://github.com/Merci-chao/userChrome.js/blob/main/SemiFullScreen%40Merci.chao.uc.js)
+# [Semi-Full Screen / Picture-in-Picture Mode](https://github.com/Merci-chao/userChrome.js/blob/main/SemiFullScreen@Merci.chao.uc.js)
 タスクバーを残したまま全画面表示をしたり、最大化されていない状態でツールバーを非表示にする（ピクチャインピクチャ風）モード。  
 [アドオンページ（ウェブアーカイブ）](https://web.archive.org/web/20181102230042/https://addons.mozilla.org/en-US/firefox/addon/semi-full-screen/)
 
@@ -565,7 +565,7 @@ URL バーにページタイトルを表示。
 | `reverse` | `F11` で Semi-Full Screen、`Ctrl + F11` でピクチャインピクチャモードに切り替え。 |
 
 ## 変更履歴
-📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen%40Merci.chao.uc.js)
+📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
 
 **Version 2025-08-24**
 - Windows 7/8 で欠けていたウィンドウ枠を復元。
@@ -580,7 +580,7 @@ URL バーにページタイトルを表示。
 
 ---
 
-# [Float Toolbars in Full Screen](https://github.com/Merci-chao/userChrome.js/blob/main/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
+# [Float Toolbars in Full Screen](https://github.com/Merci-chao/userChrome.js/blob/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
 全画面表示モードで、ツールバーをページの上にフロートさせ、表示・非表示のたびにページが跳ねるのを防ぐ。  
 [アドオンページ（ウェブアーカイブ）](https://web.archive.org/web/20181017035437/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/)
 
@@ -599,7 +599,7 @@ URL バーにページタイトルを表示。
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 
 ## 変更履歴
-📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
+📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
 
 **Version 2025-08-16**
 - タブバーが全画面表示時にネイティブのウィンドウスタイルで表示。
