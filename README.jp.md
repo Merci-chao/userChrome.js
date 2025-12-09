@@ -181,10 +181,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>軽微な更新</summary>
 
-**Version 4.1.0.5**
-- Windows 7 と 8 で狭いタブバーを許可。
-
-**Version 4.1.0.4**
+**Version 4.1.0.6**
 - スクリプトローダーによって `security.allow_unsafe_dangerous_privileged_evil_eval` がロックされたケースを処理。
 
 **Version 4.1.0.2**
