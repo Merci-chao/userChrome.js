@@ -181,6 +181,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>軽微な更新</summary>
 
+**Version 4.1.0.7**
+- v4.1 以降、他のスクリプトと競合する可能性のある問題を修正。
+
 **Version 4.1.0.6**
 - スクリプトローダーによって `security.allow_unsafe_dangerous_privileged_evil_eval` がロックされたケースを処理。
 
