@@ -185,6 +185,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Minor Updates</summary>
 
+**Version 4.1.0.7**
+- Fix an issue that may conflict with other scripts since v4.1.
+
 **Version 4.1.0.6**
 - Handle the case where `security.allow_unsafe_dangerous_privileged_evil_eval` is locked by the script loader.
 
