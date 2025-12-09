@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.1.0.4
+// @version        4.1.0.5
 // @compatibility  Firefox 115, 145-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -858,7 +858,7 @@ ${[...Array(maxRows).keys()].slice(1).map(i => `
 	}
 `).join("\n")}
 
-${!win7 && !win8 ? `
+${!win7 && !win8 || appVersion == 115 && matchMedia("(-moz-windows-compositor)").matches ? `
 	/*make the title bar able to be narrower on 115*/
 	:root[tabsintitlebar][sizemode] #titlebar {
 		appearance: none;
