@@ -1,3 +1,4 @@
+{
 let $ = s => document.querySelector(s);
 let t = $("#fullscr-toggler");
 let b = $("#browser");
@@ -9,3 +10,4 @@ e(t, "enter", e => p(0));
 e(b, "enter", e => p(1));
 e(d, "leave", e => e.clientY < (outerWidth - d.clientWidth) / 2 + 2 && p(0), 1);
 p(1);
+}
