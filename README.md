@@ -6,7 +6,7 @@
 
 ---
 
-# [Multi Tab Rows](https://github.com/Merci-chao/userChrome.js/blob/main/MultiTabRows%40Merci.chao.uc.js)
+# [Multi Tab Rows](https://github.com/Merci-chao/userChrome.js/blob/main/MultiTabRows@Merci.chao.uc.js)
 Make Firefox support multiple rows of tabs.
 
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/scrolling.png)
@@ -474,7 +474,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ---
 
-# [History Submenus II](https://github.com/Merci-chao/userChrome.js/blob/main/HistorySubmenus2%40Merci.chao.uc.js)
+# [History Submenus II](https://github.com/Merci-chao/userChrome.js/blob/main/HistorySubmenus2@Merci.chao.uc.js)
 Add sub-menus to History Menu for previous days' history. [Add-on Page (web archive)](https://web.archive.org/web/20181102024750/https://addons.mozilla.org/en-US/firefox/addon/history-submenus-2/)
 
 ![screenshot](https://web.archive.org/web/20181007203210if_/https://addons.cdn.mozilla.net/user-media/previews/full/134/134638.png?modified=1530208752) 
@@ -495,13 +495,15 @@ There is no setting panel and you need to open `about:config` and search for the
 | `historyCount` | Count of items listing directly in the History menu.|
 
 ## Changelog
+📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
+
 **Version 2025-08-14**
 - Update for Firefox 143.
 - Add check upate feature.
 
 ---
 
-# [Page Title in URL Bar](https://github.com/Merci-chao/userChrome.js/blob/main/PageTitle%40Merci.chao.uc.js)
+# [Page Title in URL Bar](https://github.com/Merci-chao/userChrome.js/blob/main/PageTitle@Merci.chao.uc.js)
 Show page title in URL Bar. [Add-on Page (web archive)](https://web.archive.org/web/20181101232504/https://addons.mozilla.org/en-US/firefox/addon/page-title/)
 
 ![screenshot](https://web.archive.org/web/20181009205610if_/https://addons.cdn.mozilla.net/user-media/previews/full/165/165890.png?modified=1530208887)
@@ -525,6 +527,8 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`
 | `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
 
 ## Changelog
+📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
+
 **Version 2025-11-28**
 - Update for Firefox 147.
 
@@ -536,7 +540,7 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`
 
 ---
 
-# [Semi-Full Screen / Picture-in-Picture Mode](https://github.com/Merci-chao/userChrome.js/blob/main/SemiFullScreen%40Merci.chao.uc.js)
+# [Semi-Full Screen / Picture-in-Picture Mode](https://github.com/Merci-chao/userChrome.js/blob/main/SemiFullScreen@Merci.chao.uc.js)
 Full screen with keeping your task bar visible, or hide the toolbars when not maximized (picture-in-picture). [Add-on Page (web archive)](https://web.archive.org/web/20181102230042/https://addons.mozilla.org/en-US/firefox/addon/semi-full-screen/)
 
 > [!WARNING]
@@ -565,6 +569,8 @@ Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.c
 | `reverse` | Use `F11` for semi-full screen and `Ctrl + F11` for picture-in-picture.|
 
 ## Changelog
+📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
+
 **Version 2025-08-24**
 - Restore missing window border on Windows 7 and 8.
 - Add `autoHideToolbarDelay`: The delay (in milliseconds) before auto-hiding the toolbar when the mouse has left the window edge and hasn't re-entered.
@@ -578,7 +584,7 @@ Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.c
 
 ---
 
-# [Float Toolbars in Full Screen](https://github.com/Merci-chao/userChrome.js/blob/main/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
+# [Float Toolbars in Full Screen](https://github.com/Merci-chao/userChrome.js/blob/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
 Float the toolbars over the page in full screen mode, instead of making the web page jumpy when the toolbars showing / hiding. [Add-on Page (web achive)](https://web.archive.org/web/20181017035437/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/)
 
 **CAUTION: This version of Float Toolbars in Full Screen is not tested on Mac OS and Ubuntu (Linux). It is probably glitchy or simply doesn't work at all.**
@@ -597,6 +603,8 @@ Open `about:config` and search for the prefix `FloatToolbarsInFullScreen@Merci.c
 | `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
 
 ## Changelog
+📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
+
 **Version 2025-08-16**
 - Now the Tabs Bar will show the native window style in full screen.
 - Add check upate feature.
