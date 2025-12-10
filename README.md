@@ -182,6 +182,12 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.1.1**
+- Improvement
+	- Update for Firefox 148.
+- Fix
+	- Pinned tabs have incorrect padding when enabling `pinnedTabsFlexWidth`.
+
 <details>
 <summary>Minor Updates</summary>
 
