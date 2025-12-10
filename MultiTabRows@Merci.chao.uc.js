@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.1.0.7
+// @version        4.1.1
 // @compatibility  Firefox 115, 145-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -1928,7 +1928,7 @@ ${prefs.pinnedTabsFlexWidth ? `
 	{
 		margin-inline-end: var(--tab-icon-end-margin, 5.5px);
 
-		tab:is(${showAudioButton}):not([mini-audio-button]) & {
+		tab:is(${showAudioButton}):not([mini-button]) & {
 			margin-inline-end: 2px;
 		}
 	}
@@ -1989,9 +1989,11 @@ ${prefs.pinnedTabsFlexWidthIndicator ? `
 	height: min(2.7em, var(--tab-min-height));
 }
 
-:root[id] .tab-content[pinned] {
-	padding-inline: calc(var(--tab-inline-padding) + var(--tab-pinned-inline-padding));
-}
+${!prefs.pinnedTabsFlexWidth ? `
+	:root[id] .tab-content[pinned] {
+		padding-inline: calc(var(--tab-inline-padding) + var(--tab-pinned-inline-padding));
+	}
+` : ``}
 
 .tab-label {
 	line-height: min(1em * var(--tab-label-line-height, 1.7), var(--tab-min-height));
@@ -2227,24 +2229,41 @@ ${prefs.pinnedTabsFlexWidth && appVersion < 139 ? ["ltr", "rtl"].map(dir => `
 
 /* for tabs with audio button, fix the size and display the button like pinned tabs */
 #tabbrowser-tabs[orient] ${_}[fadein]:is(
-	${showAudioButton}
-)${prefs.pinnedTabsFlexWidth ? "[fadein]" : ":not([pinned])"} {
-	&:is([mini-audio-button]) {
-		&:not(${__ = "[image], [crashed], [sharing], [pictureinpicture], [busy]"})
-			.tab-icon-overlay
-		{
+	${showAudioButton}, [tab-note]
+)[mini-button]${prefs.pinnedTabsFlexWidth ? "[fadein]" : ":not([pinned])"} {
+	&:not(${__ = "[image], [crashed], [sharing], [pictureinpicture], [busy]"}) {
+		.tab-icon-overlay,
+		.tab-note-icon-overlay,
+		&:is(${showAudioButton}) .tab-note-icon {
 			display: none;
 		}
+	}
 
-		&:is(${__}) {
-			--tab-icon-end-margin: 5.5px;
+	&:is(${__}) {
+		--tab-icon-end-margin: 5.5px;
 
-			.tab-audio-button {
-				display: none !important;
-			}
+		.tab-audio-button,
+		.tab-note-icon {
+			display: none !important;
+		}
+
+		&[tab-note]:not(${showAudioButton}) .tab-note-icon-overlay {
+			display: revert;
 		}
 	}
 }
+
+${prefs.pinnedTabsFlexWidth ? `
+	${_}[pinned][tab-note] {
+		&:is(:not(${__}), :not([mini-button])) .tab-note-icon {
+			display: revert;
+		}
+
+		&:not([mini-button]) .tab-note-icon-overlay {
+			display: none;
+		}
+	}
+` : ``}
 
 ${_},
 tab-split-view-wrapper,
@@ -3952,11 +3971,37 @@ if (splitViewProto) {
 	}, false);
 	/******/
 
-	let {reverseTabs} = splitViewProto;
+	let {
+		reverseTabs, replaceTab,
+	} = splitViewProto;
 
 	assign(splitViewProto, {
 		reverseTabs: function() {
 			animateLayout(() => reverseTabs.call(this), {nodes: this.tabs});
+		},
+
+		replaceTab: function(oldTab) {
+			animateLayout(() => {
+				replaceTab.apply(this, arguments);
+				tabContainer._updateInlinePlaceHolder();
+				if (animatingLayout) {
+					let {rects} = animatingLayout;
+					let svR = rects.get(this);
+					if (svR) {
+						let newSvR = getRect(this);
+						for (let t of this.tabs) {
+							let r = rects.get(t);
+							if (r) {
+								r.start -= svR.start - newSvR.start;
+								r.y -= svR.y - newSvR.y;
+							}
+						}
+					}
+				}
+			}, {
+				shouldUpdatePlacholder: false,
+				includeNodes: this.tabs.find(t => t != oldTab),
+			});
 		},
 
 		scrollIntoView,
@@ -4016,12 +4061,6 @@ if (groupProto) {
 					return;
 				}
 
-				let nodes = getNodes({newTabButton: true, includeClosing: true});
-				if (!v) {
-					nodes = nodes.filter(n => n != this.overflowContainer);
-					nodes.push(...this.nonHiddenTabLikes.filter(t => !t.visible));
-				}
-
 				this.togglingAnimation = animateLayout(async () => {
 					if (!v)
 						this.stacked = false;
@@ -4039,12 +4078,10 @@ if (groupProto) {
 					else if (!willStack && this.isShowingOverflowCount)
 						return this.overflowContainer;
 				}, {
-					nodes: dragging
-						? nodes.filter(n =>
-							n != this.labelContainerElement
-							// !this.contains(n)
-						)
-						: nodes,
+					excludeNodes:
+						dragging && this.labelContainerElement ||
+						!v && this.overflowContainer,
+					includeNodes: !v && this.nonHiddenTabLikes.filter(t => !t.visible),
 				}).then(() => {
 					delete this.togglingAnimation;
 					this.removeAttribute("toggling");
@@ -4155,7 +4192,7 @@ if (groupProto) {
 				remove.call(this);
 				tabContainer._invalidateCachedTabs();
 			}, {
-				nodes: getNodes({newTabButton: true, includeClosing: true}).filter(t => t != this.labelContainerElement),
+				excludeNodes: this.labelContainerElement,
 			}).then(() => delete this.removingAnimation);
 		},
 
@@ -5986,16 +6023,15 @@ let GET_DRAG_TARGET;
 							if (_dragData.expandGroupOnDrop) {
 								draggedGroup.collapsed = false;
 								await draggedGroup.togglingAnimation;
-							} else if (draggedGroup.stacked) {
-								let nodes = getNodes({newTabButton: true});
-								nodes.push(gBrowser.selectedNode);
+							} else if (draggedGroup.stacked)
 								await animateLayout(() => {
 									draggedGroup.stacked = false;
 									tabContainer._unlockTabSizing({instant: true, unlockSlot: false});
 									if (draggedGroup.isShowingOverflowCount)
 										return draggedGroup.overflowContainer;
-								}, {nodes});
-							}
+								}, {
+									includeNodes: gBrowser.selectedNode,
+								});
 
 							movingNodes[0].scrollIntoView();
 						}
@@ -6540,6 +6576,8 @@ let GET_DRAG_TARGET;
 			rAF(2).then(() => {
 				console?.time("_updateCloseButtons");
 				let {_tabClipWidth} = this;
+				let {_tabNotesEnabled} = gBrowser;
+				let minWidth = _tabNotesEnabled ? 124 : 100;
 				for (let t of gBrowser.visibleTabs) {
 					let {splitview} = t;
 					let {width} = windowUtils.getBoundsWithoutFlushing(splitview ?? t);
@@ -6549,9 +6587,9 @@ let GET_DRAG_TARGET;
 					t.toggleAttribute("closebutton", !pinned && pointDelta(width, _tabClipWidth) > 0);
 					if (appVersion > 136) {
 						pinned &&= !prefs.pinnedTabsFlexWidth;
-						t.toggleAttribute("mini-audio-button", !pinned && width < 100);
+						t.toggleAttribute("mini-button", !pinned && width < minWidth);
 						t.audioButton.toggleAttribute("pinned", pinned);
-						t.overlayIcon.toggleAttribute("pinned", pinned || width < 100);
+						t.overlayIcon.toggleAttribute("pinned", pinned || width < minWidth);
 					}
 				}
 				_closeButtonsUpdatePending = false;
@@ -7008,11 +7046,8 @@ let GET_DRAG_TARGET;
 					}, {
 						//bypassing the cache since the elementIndex is dirty at this moment
 						//and needs to keep dirty, otherwise the inline placeholder will be wrong positioned
-						nodes: [...new Set([
-							...getNodes({newTabButton: true, bypassCache: true, includeClosing: true}),
-							asNode(target),
-							asNode(previousTab),
-						])],
+						bypassCache: true,
+						includeNodes: [asNode(target), asNode(previousTab)],
 					});
 
 				/**
@@ -7636,10 +7671,7 @@ let GET_DRAG_TARGET;
 		if (animatingLayout || !o?.animate || !this.visibleTabs.includes(tab) || gReduceMotion)
 			removeTab.call(this, tab, assign(o, {animate: false}));
 		else {
-			let nodes = getNodes({newTabButton: true, includeClosing: true});
 			let {splitview} = tab;
-			if (splitview)
-				nodes.push(...splitview.tabs);
 			animateLayout(() => {
 				let oldOrder = getComputedStyle(tab)?.order;
 				removeTab.apply(this, arguments);
@@ -7685,7 +7717,7 @@ let GET_DRAG_TARGET;
 					animatingLayout.newRects.set(tab, newR);
 				}
 			}, {
-				nodes,
+				includeNodes: splitview?.tabs,
 				shouldUpdatePlacholder: false,
 			}).then(() => {
 				if (!tab.closing)
@@ -7800,8 +7832,8 @@ let GET_DRAG_TARGET;
 					run();
 					tabContainer._unlockTabSizing({instant: true, unlockSlot: false});
 				}, {
-					nodes: getNodes({newTabButton: true, includeClosing: true})
-						.flatMap(n => n == splitview ? splitview.tabs : n),
+					includeNodes: splitview.tabs,
+					excludeNodes: splitview,
 				});
 			else
 				run();
@@ -8398,9 +8430,12 @@ function restartFirefox() {
  * @param {{(): void|Promise<Element>|Array<Promise<Element>>}} action
  * @param {Object} [param1]
  * @param {Element[]} [param1.nodes]
+ * @param {(Element|Element[])} [param1.includeNodes]
+ * @param {(Element|Element[])} [param1.excludeNodes]
  * @param {Map<Element, Rect>} [param1.rects]
  * @param {Map<Element, Rect>} [param1.newRects]
  * @param {boolean} [param1.includeClosing]
+ * @param {boolean} [param1.bypassCache]
  * @param {(boolean|"transorm"|"translate"|Array<"transorm"|"translate">)} [param1.translated]
  * @param {boolean} [param1.animate]
  * @param {boolean} [param1.shouldUpdatePlacholder]
@@ -8408,8 +8443,14 @@ function restartFirefox() {
 async function animateLayout(
 	action,
 	{
-		nodes, rects, newRects,
-		translated, includeClosing = true,
+		nodes,
+		includeNodes,
+		excludeNodes,
+		rects,
+		newRects,
+		translated,
+		includeClosing = true,
+		bypassCache,
 		animate = true,
 		shouldUpdatePlacholder = true,
 	} = (animatingLayout || {}),
@@ -8423,9 +8464,20 @@ async function animateLayout(
 		({scrollTop} = scrollbox);
 		tabsRect = getRect(tabContainer);
 		slotRect = getRect(slot, {box: "content"});
-		nodes ||= getNodes({newTabButton: true, includeClosing});
+		nodes ||= getNodes({newTabButton: true, includeClosing, bypassCache});
 		rects ||= new Map();
 		newRects ||= new Map();
+		if (excludeNodes)
+			nodes = nodes.filter(
+				Array.isArray(excludeNodes)
+					? n => !excludeNodes.includes(n)
+					: n => n != excludeNodes
+			);
+		if (includeNodes)
+			nodes = [...new Set([
+				...nodes,
+				...[includeNodes].flat(),
+			])];
 
 		for (let n of nodes)
 			if (!rects.has(n))
