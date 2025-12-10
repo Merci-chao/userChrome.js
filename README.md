@@ -186,7 +186,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Improvement
 	- Update support for Firefox 148.
 - Fix
-	- Padding issue for pinned tabs when enabling `pinnedTabsFlexWidth`.
+	- Padding issue for pinned tabs when enabling `pinnedTabsFlexWidth` since v4.1.
 
 <details>
 <summary>Minor Updates</summary>
