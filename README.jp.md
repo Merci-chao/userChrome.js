@@ -178,6 +178,12 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.1.1**
+- 改善
+	- Firefox 148 への対応を更新。
+- 修正
+	- `pinnedTabsFlexWidth` を有効化した際のピン留めタブの余白の不具合を修正。
+
 <details>
 <summary>軽微な更新</summary>
 
