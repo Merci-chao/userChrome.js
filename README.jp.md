@@ -182,7 +182,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 改善
 	- Firefox 148 への対応を更新。
 - 修正
-	- v4.1 以降 `pinnedTabsFlexWidth` を有効化した際のピン留めタブの余白の不具合を修正。
+	- v4.1 以降、`pinnedTabsFlexWidth` を有効化した際のピン留めタブの余白の不具合を修正。
 
 <details>
 <summary>軽微な更新</summary>
