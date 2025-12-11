@@ -182,6 +182,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.1.2**
+- Fix
+	- `tabMaxWidth` did not work on Firefox 146+.
+
 **Version 4.1.1**
 - Improvement
 	- Update support for Firefox 148.
