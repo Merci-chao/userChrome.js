@@ -178,6 +178,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+<details>
+<summary>軽微な更新</summary>
+
+**Version 4.1.2.1**
+- タブ分割表示でタブを閉じる際、`tabMaxWidth` がある一定値より小さい場合に発生する表示上の不具合を修正。
+- Firefox 147 以降におけるタブノートアイコンのサポートを更新。
+</details>
+
 **Version 4.1.2**
 - 修正
 	- `tabMaxWidth` が Firefox 146 以降で動作しない問題。
