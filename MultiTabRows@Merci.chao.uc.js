@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.1.2
+// @version        4.1.2.1
 // @compatibility  Firefox 115, 145-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -851,6 +851,7 @@ mainStyle.innerHTML = `
 	--tab-group-label-height: min(max(1.5em, var(--tab-min-height) - 14px), var(--tab-min-height));
 	--tab-group-line-thickness: clamp(1px, var(--tab-block-margin) - 1px, 2px);
 	--tab-group-line-toolbar-border-distance: clamp(0px, var(--tab-block-margin) - var(--tab-group-line-thickness) - 1px, 1px);
+	--tab-icon-end-margin: 6px;
 }
 
 ${[...Array(maxRows).keys()].slice(1).map(i => `
@@ -1116,8 +1117,9 @@ ${_="#tabbrowser-tabs"}[orient] {
 	--group-label-max-width: ${TAB_GROUP_SUPPORT ? "10em" : "0px"};
 	--tab-animation: ${prefs.animationDuration}ms ${debug > 1 ? "ease" : "var(--animation-easing-function)"};
 	--calculated-tab-min-width: 0px;
-	--tab-split-view-min-width: calc(var(--calculated-tab-min-width) * 2 + var(--tab-overflow-clip-margin) + 1px);
 	--tab-max-width: max(${prefs.tabMaxWidth}px, var(--calculated-tab-min-width));
+	--tab-split-view-min-width: calc(var(--calculated-tab-min-width) * 2 + var(--tab-overflow-clip-margin) + 1px);
+	--tab-split-view-max-width: max(var(--tab-split-view-min-width), var(--tab-max-width));
 	--max-item-width: max(
 		${SPLIT_VIEW_SUPPORT
 			? `var(--tab-split-view-min-width),`
@@ -1926,7 +1928,7 @@ ${prefs.pinnedTabsFlexWidth ? `
 			.tab-icon-overlay
 		)
 	{
-		margin-inline-end: var(--tab-icon-end-margin, 5.5px);
+		margin-inline-end: var(--tab-icon-end-margin);
 
 		tab:is(${showAudioButton}):not([mini-button]) & {
 			margin-inline-end: 2px;
@@ -2005,11 +2007,38 @@ ${!prefs.pinnedTabsFlexWidth ? `
 	height: min(24px, var(--tab-min-height));
 }
 
-.tab-icon-overlay:not([crashed])[pinned] {
-	--size: max(min(var(--tab-min-height) - 6px, 16px), 12px);
-	top: min(max(-7px, (16px - var(--tab-min-height)) / 2 + 2px), 0px);
+.tab-icon-overlay,
+.tab-note-icon-overlay {
+	--tab-icon-size: 16px;
+	--tab-outline-max-width: 2px;
+	--size: clamp(
+		12px,
+		round(
+			down,
+			var(--tab-min-height) / 2 - var(--tab-outline-max-width),
+			1px
+		),
+		var(--tab-icon-size)
+	);
+	--shift: clamp(
+		var(--tab-icon-size) / -2,
+		(var(--tab-icon-size) - var(--tab-min-height)) / 2 + var(--tab-outline-max-width),
+		0px
+	);
+	top: round(down, var(--shift), 1px);
+	inset-inline-end: calc(var(--tab-icon-size) / -2);
 	height: var(--size);
 	width: var(--size);
+}
+
+.tab-icon-overlay {
+	z-index: 2;
+}
+
+.tab-note-icon-overlay {
+	top: auto;
+	bottom: round(up, var(--shift), 1px);
+	align-self: end;
 }
 
 .tab-audio-button::part(button) {
@@ -2031,6 +2060,7 @@ ${!prefs.pinnedTabsFlexWidth ? `
 	align-items: center;
 	position: relative;
 	min-width: var(--tab-split-view-min-width);
+	max-width: var(--tab-split-view-max-width);
 	outline: 0;
 	border-radius: 0;
 	border: 0;
@@ -2157,6 +2187,7 @@ ${!prefs.pinnedTabsFlexWidth ? `
 		border: 0;
 		padding: 0;
 		min-width: 0;
+		max-width: var(--tab-split-view-max-width);
 		scroll-snap-align: none;
 		align-items: center;
 
@@ -2233,33 +2264,45 @@ ${prefs.pinnedTabsFlexWidth && appVersion < 139 ? ["ltr", "rtl"].map(dir => `
 )[mini-button]${prefs.pinnedTabsFlexWidth ? "[fadein]" : ":not([pinned])"} {
 	&:not(${__ = "[image], [crashed], [sharing], [pictureinpicture], [busy]"}) {
 		.tab-icon-overlay,
-		.tab-note-icon-overlay,
+		&[tab-note] .tab-audio-button,
 		&:is(${showAudioButton}) .tab-note-icon {
 			display: none;
+		}
+
+		&[tab-note]:is(${showAudioButton}) {
+			--tab-icon-end-margin: inherit;
+
+			.tab-icon-image,
+			.tab-icon-overlay {
+				display: revert;
+			}
 		}
 	}
 
 	&:is(${__}) {
-		--tab-icon-end-margin: 5.5px;
+		--tab-icon-end-margin: inherit;
 
 		.tab-audio-button,
 		.tab-note-icon {
 			display: none !important;
 		}
-
-		&[tab-note]:not(${showAudioButton}) .tab-note-icon-overlay {
-			display: revert;
-		}
 	}
 }
 
+${_}[fadein][tab-note]:is(
+	${!prefs.pinnedTabsFlexWidth ? "[pinned]," : ""}
+	[mini-button]
+):is(${__}, ${showAudioButton}) .tab-note-icon-overlay {
+	display: revert;
+}
+
 ${prefs.pinnedTabsFlexWidth ? `
-	${_}[pinned][tab-note] {
-		&:is(:not(${__}), :not([mini-button])) .tab-note-icon {
+	${_}[pinned][tab-note]:is(:not(${__}), :not([mini-button])) {
+		.tab-note-icon {
 			display: revert;
 		}
 
-		&:not([mini-button]) .tab-note-icon-overlay {
+		.tab-note-icon-overlay {
 			display: none;
 		}
 	}
