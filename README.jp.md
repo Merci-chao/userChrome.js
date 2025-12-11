@@ -19,7 +19,7 @@ Firefox に多段タブ表示をサポートさせる。
 <table>
   <tr>
     <td>✨&nbsp;新‍機‍能‍サ‍ポ‍ー‍ト</td>
-    <td>最新のタブ機能を完全にサポートし、タブグループ、タブ分割表示、タブスタッキングを含め、よりスムーズな操作体験を提供。</td>
+    <td>最新のタブ機能を完全にサポートし、タブグループ、タブ分割ビュー、タブスタッキングを含め、よりスムーズな操作体験を提供。</td>
   </tr>
   <tr>
     <td>🖱️&nbsp;滑‍ら‍か‍な‍ド‍ラ‍ッ‍グ‍体‍験</td>
@@ -168,7 +168,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | 項目（接頭辞なし） | 説明 |
 | ------------- | ------------- |
 | <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | タブのドラッグ時にスタッキング（積み重ね）を有効化。Firefox 145 以下（115 も含む）では、この名前で新しい真偽設定を作成し、`true` に設定することで有効化可能。 |
-| `browser.tabs.splitView.enabled` | Firefox 146 以降で導入されたタブの分割表示機能を有効化。 |
+| `browser.tabs.splitView.enabled` | Firefox 146 以降で導入されたタブの分割ビュー機能を有効化。 |
 | `browser.tabs.tabClipWidth` | このサイズを超えるタブには閉じるボタンが表示される。 |
 | `browser.tabs.tabMinWidth` | 通常タブの最小幅（周囲の余白を含む）を指定。最小値：`50`。 |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用。 |
@@ -182,7 +182,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <summary>軽微な更新</summary>
 
 **Version 4.1.2.1**
-- タブ分割表示でタブを閉じる際、`tabMaxWidth` がある一定値より小さい場合に発生する表示上の不具合を修正。
+- タブ分割ビューでタブを閉じる際、`tabMaxWidth` がある一定値より小さい場合に発生する表示上の不具合を修正。
 - Firefox 147 以降におけるタブノートアイコンのサポートを更新。
 </details>
 
@@ -244,7 +244,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 **Version 4.0**
 - 新規
-	- Firefox 146 で導入されたタブの分割表示機能に対応。`browser.tabs.splitView.enabled` を `true` に設定することで有効化可能。
+	- Firefox 146 で導入されたタブの分割ビュー機能に対応。`browser.tabs.splitView.enabled` を `true` に設定することで有効化可能。
 	- 複数のタブをドラッグする際のスタッキング（積み重ね）に対応。Firefox 146 では、`browser.tabs.dragDrop.multiselectStacking` を `true` に設定することで有効化可能。Firefox 145 以下（115 も含む）では、その名で新規真偽値設定の作成が必要ある。
 	- `dragStackPreceding` を追加：ドラッグしたタブの前の選択したタブをスタックする。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。
 	- Firefox 115 でピン留め・外すのドラッグ操作をサポート。`disableDragToPinOrUnpin` を `false` に設定すると有効化。
