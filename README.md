@@ -182,6 +182,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+<details>
+<summary>Minor Updates</summary>
+
+**Version 4.1.2.1**
+- Fix a visual bug that occurs when a tab in a tab split view is closing and the `tabMaxWidth` is smaller than a certain amount.
+- Update the support for the tab note icon in Firefox 147+.
+</details>
+
 **Version 4.1.2**
 - Fix
 	- `tabMaxWidth` did not work on Firefox 146+.
