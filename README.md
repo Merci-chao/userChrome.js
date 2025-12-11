@@ -18,7 +18,7 @@ Make Firefox support multiple rows of tabs.
 <table>
   <tr>
 	  <td width="240">✨ Newest Features Support</td>
-	  <td>Fully supports the newest tab features, including Tab Group, Tab Split View and Tab Stacking, delivering a smoother and more graceful operation experience.</td>
+	  <td>Fully supports the newest tab features, including Tab Group, Split View and Tab Stacking, delivering a smoother and more graceful operation experience.</td>
   </tr>
   <tr>
 	  <td>🖱️ Smooth Dragging</td>
@@ -172,7 +172,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
 | <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | Enable tab stacking when dragging tabs. On Firefox 145 and below (including 115), create a new preference with this name and set it to `true` to enable. |
-| `browser.tabs.splitView.enabled` | Enable the tab split  view feature, available on Firefox 146 and above. |
+| `browser.tabs.splitView.enabled` | Enable the split view feature, available on Firefox 146 and above. |
 | `browser.tabs.tabClipWidth` | Close button will show on the tabs that are wider than this size. |
 | `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. Minimum: `50`. |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
@@ -186,7 +186,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <summary>Minor Updates</summary>
 
 **Version 4.1.2.1**
-- Fix a visual bug that occurs when a tab in a tab split view is closing and the `tabMaxWidth` is smaller than a certain amount.
+- Fix a visual bug that occurs when a tab in a split view is closing and the `tabMaxWidth` is smaller than a certain amount.
 - Update the support for the tab note icon in Firefox 147+.
 </details>
 
@@ -247,7 +247,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 **Version 4.0**
 - New
-	- Support the tab split view feature introduced in Firefox 146, which can be enabled by setting `browser.tabs.splitView.enabled` to `ture`.
+	- Support the split view feature introduced in Firefox 146, which can be enabled by setting `browser.tabs.splitView.enabled` to `ture`.
 	- Support for tab stacking when dragging multiple tabs. On Firefox 146, it can be enabled by setting `browser.tabs.dragDrop.multiselectStacking` to `true`. For Firefox 145 and below (including 115), a new boolean preference with that name needs to be created manually.
 	- Add `dragStackPreceding`: stack the preceding selected tabs of the dragged one. When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue.
 	- Support drag to pin/unpin on Firefox 115. Set `disableDragToPinOrUnpin` to `false` to enable.
