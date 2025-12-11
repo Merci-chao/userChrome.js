@@ -178,6 +178,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.1.2**
+- 修正
+	- `tabMaxWidth` が Firefox 146 以降で動作しない問題。
+
 **Version 4.1.1**
 - 改善
 	- Firefox 148 への対応を更新。
