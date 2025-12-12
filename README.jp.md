@@ -509,10 +509,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | 設定項目 | 説明 |
 | --- | --- |
 | `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認する。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新される。<br><b>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b> |
+| `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`1` - 無効</li><li>`2` - 有効</li><li>`3` - 有効（通知なし）</li></ul> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
+| `dateFormat` | サブメニューの名前に使用する日付のフォーマット。 |
 | `historyCount` | 履歴メニュー内に直接表示される項目数。 |
 | `submenuCount` | 履歴サブメニューの数。 |
-| `dateFormat` | サブメニューの名前に使用する日付のフォーマット。 |
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
@@ -536,16 +537,16 @@ URL バーにページタイトルを表示。
 
 | 設定項目 | 説明 |
 | --- | --- |
-| `showDomain` | 鍵アイコンの近くにドメインを表示。 |
-| `showSubTitle` | ページタイトルの後に URL のパス部分を表示。 |
-| `showUriOnHover` | マウスホバー時に一時的に URL を表示。 |
-| `decodeHashAndSearch` | ハッシュやクエリ部分をデコード表示。例: `/index.html#hello%20world` → `/index.html#hello world` |
-| `hideWww` | `www` サブドメインを非表示。 |
-| `highlightIdentityBox` | ドメイン表示部分（Identity Box）に背景色を追加（`showDomain` が `true` の場合のみ有効）。 |
-| `formattingEnabled` | ドメインをハイライト表示（`showDomain` が `false` の場合のみ有効）。 |
 | `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認する。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新される。<br><b>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b> |
 | `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`1` - 無効</li><li>`2` - 有効</li><li>`3` - 有効（通知なし）</li></ul> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
+| `decodeHashAndSearch` | ハッシュやクエリ部分をデコード表示。例: `/index.html#hello%20world` → `/index.html#hello world` |
+| `formattingEnabled` | ドメインをハイライト表示（`showDomain` が `false` の場合のみ有効）。 |
+| `hideWww` | `www` サブドメインを非表示。 |
+| `highlightIdentityBox` | ドメイン表示部分（Identity Box）に背景色を追加（`showDomain` が `true` の場合のみ有効）。 |
+| `showDomain` | 鍵アイコンの近くにドメインを表示。 |
+| `showSubTitle` | ページタイトルの後に URL のパス部分を表示。 |
+| `showUriOnHover` | マウスホバー時に一時的に URL を表示。 |
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
@@ -591,6 +592,7 @@ URL バーにページタイトルを表示。
 | --- | --- |
 | `autoHideToolbarDelay` | マウスがウィンドウ端から外れ、ウィンドウ内に戻らなかった場合に、ツールバーを自動的に非表示にするまでの遅延時間（ミリ秒）。 |
 | `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認する。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新される。<br><b>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b> |
+| `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`1` - 無効</li><li>`2` - 有効</li><li>`3` - 有効（通知なし）</li></ul> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 | `reverse` | `F11` で Semi-Full Screen、`Ctrl + F11` でピクチャインピクチャモードに切り替え。 |
 
@@ -626,6 +628,7 @@ URL バーにページタイトルを表示。
 | 設定項目 | 説明 |
 | --- | --- |
 | `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認する。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新される。<br><b>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b> |
+| `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`1` - 無効</li><li>`2` - 有効</li><li>`3` - 有効（通知なし）</li></ul> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 
 ## 変更履歴
