@@ -10,6 +10,9 @@
 // @updateURL      https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js
 // ==/UserScript==
 
+/* global
+   Services, gNotificationBox, Cc, Ci, FullScreen
+*/
 try {(() => {
 const SCRIPT_NAME = "Semi-Full Screen";
 const SCRIPT_FILE_NAME = "SemiFullScreen@Merci.chao.uc.js";
@@ -21,13 +24,14 @@ let prefBranchStr = "extensions.SemiFullScreen@Merci.chao.";
 		reverse: false,
 		checkUpdate: 1,
 		checkUpdateFrequency: 7,
+		checkUpdateAutoApply: 1,
 		autoHideToolbarDelay: 1000,
 	};
 
 	let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
 			value != null && branch[`set${{string:"String",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name, value));
 	let getPrefs = (branch, data) => Object.fromEntries(Object.entries(data)
-			.filter(([name, value]) => value != null)
+			.filter(([, value]) => value != null)
 			.map(([name, value]) => [name, branch[`get${{string:"String",number:"Int",boolean:"Bool"}[typeof value]}Pref`](name)]));
 	setDefaultPrefs(Services.prefs.getDefaultBranch(prefBranchStr), defPrefs);
 	prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defPrefs);
@@ -37,6 +41,7 @@ let prefBranchStr = "extensions.SemiFullScreen@Merci.chao.";
 if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 >= Math.max(prefs.checkUpdateFrequency, 1)) {
 	Services.prefs.setIntPref(prefBranchStr + "checkUpdate", Date.now() / 1000);
 	(async () => {
+		let auto = prefs.checkUpdateAutoApply;
 		let getVer = code => code?.match(/^\/\/\s*@version\s+(.+?)\s*$/mi)?.[1];
 		let localFileURI = new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0];
 		let localFilePath = decodeURI(localFileURI.replace(/^file:\/\/\/|\?.*$/g, "")).replaceAll("/", "\\");
@@ -84,31 +89,34 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		};
 		l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
 
-		showNotification(
-			l10n.message,
-			[
-				{
-					label: l10n.update,
-					accessKey: l10n.updateKey,
-					callback: install,
-					primary: true,
-				},
-				{
-					label: l10n.download,
-					accessKey: l10n.downloadKey,
-					callback: showChangelog,
-				},
-				{
-					label: l10n.later,
-					accessKey: l10n.laterKey,
-					callback: () => Services.prefs.setIntPref(
-						prefBranchStr + "checkUpdate",
-						Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60,
-					),
-				},
-			],
-			"chrome://browser/skin/update-badge.svg",
-		);
+		if (auto > 1)
+			install();
+		else
+			showNotification(
+				l10n.message,
+				[
+					{
+						label: l10n.update,
+						accessKey: l10n.updateKey,
+						callback: install,
+						primary: true,
+					},
+					{
+						label: l10n.download,
+						accessKey: l10n.downloadKey,
+						callback: showChangelog,
+					},
+					{
+						label: l10n.later,
+						accessKey: l10n.laterKey,
+						callback: () => Services.prefs.setIntPref(
+							prefBranchStr + "checkUpdate",
+							Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60,
+						),
+					},
+				],
+				"chrome://browser/skin/update-badge.svg",
+			);
 
 		async function showNotification(label, buttons, icon) {
 			let box = await gNotificationBox.appendNotification(
@@ -145,17 +153,18 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 				converter.writeString(remoteScript);
 				converter.close();
 
-				//Delay a bit to make the installation feel like it's actually running
-				setTimeout(() => showNotification(
-					l10n.done,
-					[
-						{
-							label: l10n.changelog,
-							accessKey: l10n.changelogKey,
-							callback: showChangelog,
-						},
-					],
-				), 500);
+				if (auto < 3)
+					//Delay a bit to make the installation feel like it's actually running
+					setTimeout(() => showNotification(
+						l10n.done,
+						[
+							{
+								label: l10n.changelog,
+								accessKey: l10n.changelogKey,
+								callback: showChangelog,
+							},
+						],
+					), 500);
 			} catch(e) {
 				Services.prompt.alert(window, l10n.title, [l10n.error, localFilePath, e.message].join("\n\n"));
 				return true;
@@ -209,7 +218,7 @@ SemiFullScreen.prototype = {
 			get: () => this.on || this.originalFullScreen.get.call(this.window),
 
 			set: val => {
-				let {window} = this, {FullScreen, document} = window,
+				let {window} = this, {document} = window,
 						root = document.documentElement;
 				let handled = true;
 
