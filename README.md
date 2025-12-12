@@ -185,6 +185,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Minor Updates</summary>
 
+**Version 4.1.2.2**
+- Fix the visual issue of audio button on Firefox 115 since the last version.
+
 **Version 4.1.2.1**
 - Fix a visual bug that occurs when a tab in a split view is closing and the `tabMaxWidth` is smaller than a certain amount.
 - Update the support for the tab note icon in Firefox 147+.
