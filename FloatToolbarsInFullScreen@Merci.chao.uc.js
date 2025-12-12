@@ -9,6 +9,9 @@
 // @updateURL      https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js
 // ==/UserScript==
 
+/* global
+   Services, Cc, Ci, gNotificationBox, FullScreen, fullScreen, gNavToolbox
+*/
 try {
 const SCRIPT_NAME = "Float Toolbars in Full Screen";
 const SCRIPT_FILE_NAME = "FloatToolbarsInFullScreen@Merci.chao.uc.js";
@@ -17,6 +20,7 @@ let prefBranchStr = "extensions.FloatToolbarsInFullScreen@Merci.chao.";
 let defPrefs = {
 	checkUpdate: 1,
 	checkUpdateFrequency: 7,
+	checkUpdateAutoApply: 1,
 };
 
 let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
@@ -29,6 +33,7 @@ let prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defPrefs);
 if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 >= Math.max(prefs.checkUpdateFrequency, 1)) {
 	Services.prefs.setIntPref(prefBranchStr + "checkUpdate", Date.now() / 1000);
 	(async () => {
+		let auto = prefs.checkUpdateAutoApply;
 		let getVer = code => code?.match(/^\/\/\s*@version\s+(.+?)\s*$/mi)?.[1];
 		let localFileURI = new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0];
 		let localFilePath = decodeURI(localFileURI.replace(/^file:\/\/\/|\?.*$/g, "")).replaceAll("/", "\\");
@@ -76,31 +81,34 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		};
 		l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
 
-		showNotification(
-			l10n.message,
-			[
-				{
-					label: l10n.update,
-					accessKey: l10n.updateKey,
-					callback: install,
-					primary: true,
-				},
-				{
-					label: l10n.download,
-					accessKey: l10n.downloadKey,
-					callback: showChangelog,
-				},
-				{
-					label: l10n.later,
-					accessKey: l10n.laterKey,
-					callback: () => Services.prefs.setIntPref(
-						prefBranchStr + "checkUpdate",
-						Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60,
-					),
-				},
-			],
-			"chrome://browser/skin/update-badge.svg",
-		);
+		if (auto > 1)
+			install();
+		else
+			showNotification(
+				l10n.message,
+				[
+					{
+						label: l10n.update,
+						accessKey: l10n.updateKey,
+						callback: install,
+						primary: true,
+					},
+					{
+						label: l10n.download,
+						accessKey: l10n.downloadKey,
+						callback: showChangelog,
+					},
+					{
+						label: l10n.later,
+						accessKey: l10n.laterKey,
+						callback: () => Services.prefs.setIntPref(
+							prefBranchStr + "checkUpdate",
+							Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60,
+						),
+					},
+				],
+				"chrome://browser/skin/update-badge.svg",
+			);
 
 		async function showNotification(label, buttons, icon) {
 			let box = await gNotificationBox.appendNotification(
@@ -137,17 +145,18 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 				converter.writeString(remoteScript);
 				converter.close();
 
-				//Delay a bit to make the installation feel like it's actually running
-				setTimeout(() => showNotification(
-					l10n.done,
-					[
-						{
-							label: l10n.changelog,
-							accessKey: l10n.changelogKey,
-							callback: showChangelog,
-						},
-					],
-				), 500);
+				if (auto < 3)
+					//Delay a bit to make the installation feel like it's actually running
+					setTimeout(() => showNotification(
+						l10n.done,
+						[
+							{
+								label: l10n.changelog,
+								accessKey: l10n.changelogKey,
+								callback: showChangelog,
+							},
+						],
+					), 500);
 			} catch(e) {
 				Services.prompt.alert(window, l10n.title, [l10n.error, localFilePath, e.message].join("\n\n"));
 				return true;
@@ -155,6 +164,7 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		}
 
 		function showChangelog() {
+			/* global openURL */
 			openURL(homeURL + l10n.link);
 		}
 	})();
@@ -177,6 +187,7 @@ FloatToolbarsInFullScreen.prototype = {
 		let contentDeck = document.getElementById("browser");
 
 		if (fullScreen)
+			// eslint-disable-next-line no-global-assign
 			fullScreen = false;
 
 		window[FloatToolbarsInFullScreen.SYMBOL] = this;
