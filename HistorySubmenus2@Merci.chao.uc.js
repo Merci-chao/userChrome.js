@@ -9,6 +9,9 @@
 // @updateURL      https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js
 // ==/UserScript==
 
+/* global
+   Services, openURL, gNotificationBox, Components, ChromeUtils
+*/
 setTimeout(() => {
 const SCRIPT_NAME = "History Submenus II";
 const SCRIPT_FILE_NAME = "HistorySubmenus2@Merci.chao.uc.js";
@@ -24,6 +27,7 @@ let defPrefs = {
 	dateFormat: "%a",
 	checkUpdate: 1,
 	checkUpdateFrequency: 7,
+	checkUpdateAutoApply: 1,
 };
 
 let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
@@ -36,6 +40,7 @@ let prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defPrefs);
 if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 >= Math.max(prefs.checkUpdateFrequency, 1)) {
 	Services.prefs.setIntPref(prefBranchStr + "checkUpdate", Date.now() / 1000);
 	(async () => {
+		let auto = prefs.checkUpdateAutoApply;
 		let getVer = code => code?.match(/^\/\/\s*@version\s+(.+?)\s*$/mi)?.[1];
 		let localFileURI = new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0];
 		let localFilePath = decodeURI(localFileURI.replace(/^file:\/\/\/|\?.*$/g, "")).replaceAll("/", "\\");
@@ -83,31 +88,34 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		};
 		l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
 
-		showNotification(
-			l10n.message,
-			[
-				{
-					label: l10n.update,
-					accessKey: l10n.updateKey,
-					callback: install,
-					primary: true,
-				},
-				{
-					label: l10n.download,
-					accessKey: l10n.downloadKey,
-					callback: showChangelog,
-				},
-				{
-					label: l10n.later,
-					accessKey: l10n.laterKey,
-					callback: () => Services.prefs.setIntPref(
-						prefBranchStr + "checkUpdate",
-						Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60,
-					),
-				},
-			],
-			"chrome://browser/skin/update-badge.svg",
-		);
+		if (auto > 1)
+			install();
+		else
+			showNotification(
+				l10n.message,
+				[
+					{
+						label: l10n.update,
+						accessKey: l10n.updateKey,
+						callback: install,
+						primary: true,
+					},
+					{
+						label: l10n.download,
+						accessKey: l10n.downloadKey,
+						callback: showChangelog,
+					},
+					{
+						label: l10n.later,
+						accessKey: l10n.laterKey,
+						callback: () => Services.prefs.setIntPref(
+							prefBranchStr + "checkUpdate",
+							Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60,
+						),
+					},
+				],
+				"chrome://browser/skin/update-badge.svg",
+			);
 
 		async function showNotification(label, buttons, icon) {
 			let box = await gNotificationBox.appendNotification(
@@ -144,17 +152,18 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 				converter.writeString(remoteScript);
 				converter.close();
 
-				//Delay a bit to make the installation feel like it's actually running
-				setTimeout(() => showNotification(
-					l10n.done,
-					[
-						{
-							label: l10n.changelog,
-							accessKey: l10n.changelogKey,
-							callback: showChangelog,
-						},
-					],
-				), 500);
+				if (auto < 3)
+					//Delay a bit to make the installation feel like it's actually running
+					setTimeout(() => showNotification(
+						l10n.done,
+						[
+							{
+								label: l10n.changelog,
+								accessKey: l10n.changelogKey,
+								callback: showChangelog,
+							},
+						],
+					), 500);
 			} catch(e) {
 				Services.prompt.alert(window, l10n.title, [l10n.error, localFilePath, e.message].join("\n\n"));
 				return true;
@@ -162,7 +171,6 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		}
 
 		function showChangelog() {
-			/*global openURL*/
 			openURL(homeURL + l10n.link);
 		}
 	})();
@@ -196,7 +204,7 @@ let HistorySubmenus2 = {
 	},
 
 	formatDate(day, string) {
-		let {placesBundle, dateFormatBundle, locale, formatToken: f} = this;
+		let {placesBundle, locale, formatToken: f} = this;
 		let DTF = Intl.DateTimeFormat;
 
 		let year = day.getFullYear();
@@ -263,8 +271,7 @@ let HistorySubmenus2 = {
 		/*with (window)*/ {
 			let {
 				BookmarksEventHandler, HistorySubmenus2,
-				PlacesUtils, document, setInterval,
-				clearInterval,
+				PlacesUtils, document,
 			} = window;
 			let HistoryMenu = window.Function("return HistoryMenu")();
 			let PlacesMenu = window.Function("return PlacesMenu")();
@@ -305,7 +312,7 @@ let HistorySubmenus2 = {
 			/*
 			 * wrap the fillInBHTooltip to fill the browse time of history item
 			 */
-			BookmarksEventHandler.fillInBHTooltip = function BEH_fillInBHTooltip(tooltip, aEvent) {
+			BookmarksEventHandler.fillInBHTooltip = function BEH_fillInBHTooltip(tooltip) {
 				let tooltipTime = tooltip.querySelector("#bhtTimeText");
 
 				if (tooltipTime) {
@@ -417,7 +424,6 @@ let HistorySubmenus2 = {
 						submenu.hidden = true;
 						submenu.removeAttribute("label");
 					} else {
-						hasSubShow = true;
 						submenu.hidden = false;
 						submenu.setAttribute("label", HistorySubmenus2.formatDate(new Date(timeOfSub), prefs.dateFormat));
 
@@ -439,6 +445,7 @@ let HistorySubmenus2 = {
 				 */
 				if (!popup.hasAttribute("historypopup")) {
 					popup.setAttribute("historypopup", true);
+					// eslint-disable-next-line no-self-assign
 					this.place = this.place;
 				}
 
@@ -537,7 +544,7 @@ let HistorySubmenus2 = {
 				popup.insertBefore(fragment, popup._endSubMarker);
 			};
 
-			HMProto._cleanSubMenus = function HM_cleanSubMenus(popup) {
+			HMProto._cleanSubMenus = function HM_cleanSubMenus() {
 				if (this._subMenus)
 					for (let menu of this._subMenus) {
 						if (menu._placesView)
@@ -666,9 +673,11 @@ let HistorySubmenus2 = {
 			try {
 				try {
 					module = ChromeUtils.importESModule("moz-src:///browser/components/customizableui/CustomizableWidgets.sys.mjs");
+				// eslint-disable-next-line no-unused-vars
 				} catch(e) {
 					module = ChromeUtils.importESModule("resource:///modules/CustomizableWidgets.sys.mjs");
 				}
+			// eslint-disable-next-line no-unused-vars
 			} catch(e) {
 				module = Cu.import("resource:///modules/CustomizableWidgets.jsm");
 			}
@@ -741,10 +750,10 @@ let HistorySubmenus2 = {
 						appHM.setAttribute("historypopup", true);
 						let frag = document.createDocumentFragment();
 						frag.appendChild(document.createXULElement("toolbarseparator")).className = "HSM2-endSubMarker";
-						let subMenus = HistorySubmenus2.PanelUI._subMenus = new Array(prefs.submenuCount).fill().map((v, i) => {
+						HistorySubmenus2.PanelUI._subMenus = new Array(prefs.submenuCount).fill().map(() => {
 							let btn = frag.appendChild(document.createXULElement("toolbarbutton"));
 							btn.setAttribute("closemenu", "none");
-							btn.addEventListener("command", function(e) {
+							btn.addEventListener("command", function() {
 								this.ownerGlobal.PanelUI.showSubView(SUBMENU_ID, this);
 							}, true);
 							btn.className = "HSM2-submenu subviewbutton subviewbutton-iconic subviewbutton-nav";
