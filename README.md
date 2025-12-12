@@ -548,10 +548,16 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`
 | `highlightIdentityBox` | Add a backgrond for identity box (only when `showDomain` is `true`). |
 | `formattingEnabled` | Highlight the domain (only when `showDomain` is `false`). |
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
+| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and sliently</li></ul> |
 | `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
+
+**Version 2025-12-12**
+- Support Trust Panel feature.
+- Update the update-checking feature.
+- Add `checkUpdateAutoApply`: update the script file automatically when there is a new version, `1` - never, `2` - always, `3` - always and sliently.
 
 **Version 2025-11-28**
 - Update for Firefox 147.
