@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Page Title in URL Bar
 // @description    Show page title in URL Bar.
-// @version        2025-11-28
+// @version        2025-12-12
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#page-title-in-url-bar
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-2
@@ -10,7 +10,7 @@
 // ==/UserScript==
 
 /* global
-   gBrowser, Services, Cc, Ci, openURL, gURLBar, AboutReaderParent,
+   gBrowser, Services, Cc, Ci, openURL, gURLBar, AboutReaderParent, gNotificationBox
 */
 
 try {(()=>{
@@ -30,6 +30,7 @@ let prefBranchStr = "extensions.PageTitle@Merci.chao.";
 		formattingEnabled: true,
 		checkUpdate: 1,
 		checkUpdateFrequency: 7,
+		checkUpdateAutoApply: 1,
 	};
 
 	let setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
@@ -45,6 +46,7 @@ let prefBranchStr = "extensions.PageTitle@Merci.chao.";
 if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 >= Math.max(prefs.checkUpdateFrequency, 1)) {
 	Services.prefs.setIntPref(prefBranchStr + "checkUpdate", Date.now() / 1000);
 	(async () => {
+		let auto = prefs.checkUpdateAutoApply;
 		let getVer = code => code?.match(/^\/\/\s*@version\s+(.+?)\s*$/mi)?.[1];
 		let localFileURI = new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0];
 		let localFilePath = decodeURI(localFileURI.replace(/^file:\/\/\/|\?.*$/g, "")).replaceAll("/", "\\");
@@ -92,31 +94,34 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		};
 		l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
 
-		showNotification(
-			l10n.message,
-			[
-				{
-					label: l10n.update,
-					accessKey: l10n.updateKey,
-					callback: install,
-					primary: true,
-				},
-				{
-					label: l10n.download,
-					accessKey: l10n.downloadKey,
-					callback: showChangelog,
-				},
-				{
-					label: l10n.later,
-					accessKey: l10n.laterKey,
-					callback: () => Services.prefs.setIntPref(
-						prefBranchStr + "checkUpdate",
-						Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60,
-					),
-				},
-			],
-			"chrome://browser/skin/update-badge.svg",
-		);
+		if (auto > 1)
+			install();
+		else
+			showNotification(
+				l10n.message,
+				[
+					{
+						label: l10n.update,
+						accessKey: l10n.updateKey,
+						callback: install,
+						primary: true,
+					},
+					{
+						label: l10n.download,
+						accessKey: l10n.downloadKey,
+						callback: showChangelog,
+					},
+					{
+						label: l10n.later,
+						accessKey: l10n.laterKey,
+						callback: () => Services.prefs.setIntPref(
+							prefBranchStr + "checkUpdate",
+							Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60,
+						),
+					},
+				],
+				"chrome://browser/skin/update-badge.svg",
+			);
 
 		async function showNotification(label, buttons, icon) {
 			let box = await gNotificationBox.appendNotification(
@@ -153,17 +158,18 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 				converter.writeString(remoteScript);
 				converter.close();
 
-				//Delay a bit to make the installation feel like it's actually running
-				setTimeout(() => showNotification(
-					l10n.done,
-					[
-						{
-							label: l10n.changelog,
-							accessKey: l10n.changelogKey,
-							callback: showChangelog,
-						},
-					],
-				), 500);
+				if (auto < 3)
+					//Delay a bit to make the installation feel like it's actually running
+					setTimeout(() => showNotification(
+						l10n.done,
+						[
+							{
+								label: l10n.changelog,
+								accessKey: l10n.changelogKey,
+								callback: showChangelog,
+							},
+						],
+					), 500);
 			} catch(e) {
 				Services.prompt.alert(window, l10n.title, [l10n.error, localFilePath, e.message].join("\n\n"));
 				return true;
@@ -171,7 +177,6 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		}
 
 		function showChangelog() {
-			/*global openURL*/
 			openURL(homeURL + l10n.link);
 		}
 	})();
@@ -183,7 +188,7 @@ let create = (tagName, parent, props = {}, insertPoint = null) =>
 	Object.assign(parent.insertBefore(document.createXULElement(tagName), insertPoint), props);
 let createHTML = (tagName, parent, props = {}, insertPoint = null) =>
 	Object.assign(parent.insertBefore(document.createElement(tagName), insertPoint), props);
-let $ = s => document.querySelector(s);
+let $ = (selector, scope = document) => scope.querySelector(selector);
 let formatRange = (selection, textNode, start, end) => {
 	let range = document.createRange();
 	range.setStart(textNode, start);
@@ -258,6 +263,26 @@ let portLabel = create("label", hostportBox, {
 	flex: 1,
 	crop: "end",
 });
+
+let trustIconContainer = $("#trust-icon-container");
+if (trustIconContainer) {
+	trustIconContainer.appendChild($("#identity-icon-hostport-box").cloneNode(true));
+	/* global XULTextElement */
+	let labelPD = Object.getOwnPropertyDescriptor(XULTextElement.prototype, "value");
+	let newLabelPD = {
+		get: function() {
+			return labelPD.get.call(this);
+		},
+		set: function(v) {
+			labelPD.set.call(this, v);
+			(this._avatar ??= $("#" + this.id, trustIconContainer)).value = v;
+		},
+		configurable: true,
+	};
+	for (let n of [subDomainLabel, domainLabel, portLabel])
+		Object.defineProperty(n, "value", newLabelPD);
+}
+
 
 let IIOService = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
 /* add the event listeners for updating title text */
@@ -520,8 +545,14 @@ let style = document.body.appendChild(document.createElement("style"));
 style.innerHTML = `
 #identity-box {
 	margin-inline-end: var(--urlbar-searchmodeswitcher-margin-inline-end, var(--identity-box-margin-inline));
+
+	@media -moz-pref("browser.urlbar.trustPanel.featureGate") {
+		.urlbar-input-container[pageproxystate=valid] > #trust-icon-container:not(.chickletShown) ~ & {
+			margin-inline-end: 0;
+		}
+	}
 }
-#identity-box, #identity-icon-box {
+#identity-box, #identity-icon-box, #trust-icon-container {
 	max-width: none !important;
 }
 #identity-icon-hostport-box {
@@ -604,26 +635,26 @@ style.innerHTML = `
 
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
-		#identity-icon-box
+		:is(#identity-icon-box, #trust-icon-container)
 {
 	background-color: var(--urlbar-box-bgcolor);
 }
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar[focused]:not(:is([nopagetitle], [pageproxystate=invalid]))
-		#identity-icon-box
+		:is(#identity-icon-box, #trust-icon-container)
 {
 	background-color: var(--urlbar-box-focus-bgcolor);
 }
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
-		#identity-icon-box:hover:not([open])
+		:is(#identity-icon-box, #trust-icon-container):hover:not([open])
 {
 	background-color: var(--urlbar-box-hover-bgcolor);
 	color: var(--urlbar-box-hover-text-color);
 }
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
-		#identity-icon-box:is(:hover:active, [open])
+		:is(#identity-icon-box, #trust-icon-container):is(:hover:active, [open])
 {
 	background-color: var(--urlbar-box-active-bgcolor);
 	color: var(--urlbar-box-hover-text-color);
