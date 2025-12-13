@@ -186,9 +186,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <summary>Minor Updates</summary>
 
 **Version 4.1.2.4**
-- Fixes
-	- Layout issue that occurred when moving pinned tabs to another window while the Tabs Bar is scrollable.
-	- Visual issue when closing pinned tabs.
+- Fix the layout issue that occurred when moving pinned tabs to another window while the Tabs Bar is scrollable.
+- Fix the visual issue when closing pinned tabs.
 
 **Version 4.1.2.3**
 - Hide secondary tab label when `tabContentHeight` is bellow `30` (compact mode).
