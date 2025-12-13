@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.1.2.3
+// @version        4.1.2.4
 // @compatibility  Firefox 115, 146-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -1944,7 +1944,7 @@ ${_}${condition}::after {
 	flex-shrink: 0;
 }
 
-${_}[closing],
+${_}[closing]${!prefs.pinnedTabsFlexWidth ? ":not([pinned])" : ""},
 #tabbrowser-tabs[orient] tab-group[collapsed] > ${_}[closing] {
 	max-width: .1px !important;
 	min-width: .1px !important;
@@ -6659,7 +6659,7 @@ let GET_DRAG_TARGET;
 	let placeholderStyle = document.body.appendChild(document.createElement("style"));
 	let lastLayoutData = null;
 
-	tabContainer._updateInlinePlaceHolder = function(numPinned = gBrowser.pinnedTabCount) {
+	tabContainer._updateInlinePlaceHolder = function() {
 		if (animatingLayout?.shouldUpdatePlacholder)
 			return;
 
@@ -6689,6 +6689,7 @@ let GET_DRAG_TARGET;
 				break;
 			}
 
+		let numPinned = gBrowser.pinnedTabCount;
 		let lastNode = nodes.filter(n => !n.stacking).at(-1);
 
 		//not using this.overflowing in case it is not updated in time
@@ -7663,13 +7664,18 @@ let GET_DRAG_TARGET;
 		selectedNodes: function() {
 			return [...new Set(this.selectedTabs.map(asNode))];
 		},
-	});
-
-	define(gBrowser, {
+		//fix the original one that counts the pinned tabs that moving to new window
 		pinnedTabCount: function() {
-			return this._numPinnedTabs;
+			let i = 0;
+			for (let t of this.visibleTabs) {
+				if (!t.pinned)
+					return i;
+				if (!t.hasAttribute("closing"))
+					i++;
+			}
+			return i;
 		},
-	}, false);
+	});
 
 	let {
 		addTab, removeTab, pinTab, unpinTab, pinMultiSelectedTabs,
@@ -7721,8 +7727,12 @@ let GET_DRAG_TARGET;
 			animateLayout(() => {
 				let oldOrder = getComputedStyle(tab)?.order;
 				removeTab.apply(this, arguments);
+
 				if (!tab.closing || !tab.isConnected) {
-					assign(animatingLayout, {cancel: true});
+					if (tab.pinned)
+						tabContainer._updateInlinePlaceHolder();
+					else
+						assign(animatingLayout, {cancel: true});
 					return;
 				}
 				tabContainer._setLockedSize(tab);
