@@ -3,8 +3,8 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.1.2.2
-// @compatibility  Firefox 115, 145-147
+// @version        4.1.2.3
+// @compatibility  Firefox 115, 146-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
@@ -306,7 +306,7 @@ const createDefaultPrefs = () => ({
 	hideScrollButtonsWhenDragging: false,
 	scrollButtonsSize: 10,
 	justifyCenter: 0,
-	checkUpdateAutoApply: 0,
+	checkUpdateAutoApply: 1,
 	pinnedTabsFlexWidth: false,
 	pinnedTabsFlexWidthIndicator: false,
 	animateTabMoveMaxCount: 30,
@@ -528,6 +528,8 @@ async function onPrefChange(pref, type, name) {
 		case "tabHorizontalPadding":
 			delete tabContainer._pinnedTabsLayoutCache;
 		// eslint-disable-next-line no-fallthrough
+		case "tabContentHeight":
+		case "tabVerticalMargin":
 		case "tabMaxWidth":
 		case "browser.tabs.tabMinWidth":
 			setTimeout(() => {
@@ -547,12 +549,6 @@ async function onPrefChange(pref, type, name) {
 		case "justifyCenter":
 			setStyle();
 			tabContainer._positionPinnedTabs();
-			break;
-		case "tabVerticalMargin":
-			setStyle();
-		// eslint-disable-next-line no-fallthrough
-		case "tabContentHeight":
-			tabContainer.uiDensityChanged();
 			break;
 		case "checkUpdate":
 		case "checkUpdateFrequency":
@@ -844,6 +840,7 @@ const outlineOffsetSnapping = size =>
 mainStyle.innerHTML = `
 :root {
 	--max-tab-rows: 1;
+	--tab-icon-size: 16px;
 	--tab-block-margin: ${Math.min(Math.max(prefs.tabVerticalMargin, 0), TAB_BLOCK_MARGIN * 3)}px;
 	--tab-inline-padding: ${Math.min(Math.max(prefs.tabHorizontalPadding, 0), TAB_INLINE_PADDING * 3)}px;
 	--tab-pinned-inline-padding: 2px;
@@ -939,7 +936,7 @@ ${_="#TabsToolbar"} {
 
 	/*ensure the newtab button has a consistent size*/
 	--newtab-button-outer-padding: 2px;
-	--newtab-button-inner-padding: calc((var(--tab-min-height) - 16px) / 2);
+	--newtab-button-inner-padding: calc((var(--tab-min-height) - var(--tab-icon-size)) / 2);
 }
 
 ${prefs.tabsAtBottom ? `
@@ -2001,6 +1998,12 @@ ${!prefs.pinnedTabsFlexWidth ? `
 	line-height: min(1em * var(--tab-label-line-height, 1.7), var(--tab-min-height));
 }
 
+${prefs.tabContentHeight <= TAB_CONTENT_HEIGHT[1] ? `
+	.tab-secondary-label {
+		display: none;
+	}
+` : ``}
+
 .tab-close-button {
 	padding-block: 0;
 	object-fit: contain;
@@ -2011,7 +2014,6 @@ ${appVersion > 136
 	? `.tab-icon-overlay,`
 	: ``}
 .tab-note-icon-overlay {
-	--tab-icon-size: 16px;
 	--tab-outline-max-width: 2px;
 	--size: clamp(
 		12px,
@@ -2057,7 +2059,7 @@ ${appVersion > 136
 	--splitview-outline-width: 1px;
 	--splitview-background-color: transparent;
 	--splitview-separator-color: var(--toolbarbutton-icon-fill);
-	--splitview-tab-min-height: calc(var(--tab-min-height) - var(--tab-overflow-clip-margin) * 2);
+	--splitview-tab-min-height: max(calc(var(--tab-min-height) - var(--tab-overflow-clip-margin) * 2), var(--tab-icon-size));
 	display: flex;
 	align-items: center;
 	position: relative;
@@ -2224,7 +2226,6 @@ ${appVersion > 136
 
 		.tab-background {
 			--tab-min-height: var(--splitview-tab-min-height);
-			margin-block: calc(var(--tab-block-margin) + var(--tab-overflow-clip-margin));
 			margin-inline: 0;
 
 			tab[multiselected] & {
@@ -2626,7 +2627,7 @@ ${!prefs.autoCollapse ? `
 	top: 0;
 	inset-inline-start: calc(var(--pre-tabs-items-width) + var(--tabstrip-separator-size));
 	z-index: calc(var(--tabs-moving-max-z-index) + 1);
-	width: calc(16px + (var(--tab-inline-padding) + var(--tab-pinned-inline-padding)) * 2);
+	width: calc(var(--tab-icon-size) + (var(--tab-inline-padding) + var(--tab-pinned-inline-padding)) * 2);
 	height: var(--tab-min-height);
 	padding: 0;
 	margin: var(--tab-block-margin) var(--tab-overflow-clip-margin);
