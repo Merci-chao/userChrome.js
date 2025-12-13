@@ -163,7 +163,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable, or `0` to disable. The value will be updated with the last checking time (e.g. `1759911972`).<br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b><br>📝 Note: Updates for this script will not be notified when using older versions of Firefox (except 115). |
-| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`0`, `1` - never</li><li>`2` - always</li><li>`3` - always and sliently, also receive updates for minor changes and fixes that do not trigger notifications</li></ul> |
+| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and sliently, also receive updates for minor changes and fixes that do not trigger notifications</li></ul> |
 | `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
 | `debugMode` | ⛔ Mode for debugging, not for general use. |
 
@@ -184,6 +184,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 <details>
 <summary>Minor Updates</summary>
+
+**Version 4.1.2.3**
+- Hide secondary tab label when `tabContentHeight` is bellow `30` (compact mode).
+- Adjust the tab height in split view when it is too compact.
+- The default value of `checkUpdateAutoApply` has been changed to `1`, which has the same effect as `0`.
 
 **Version 4.1.2.2**
 - Fix the visual issue of audio button on Firefox 115 since the last version.
