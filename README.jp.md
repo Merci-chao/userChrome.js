@@ -181,6 +181,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>軽微な更新</summary>
 
+**Version 4.1.2.4**
+- スクロール可能なタブバーでピン留めされたタブを別ウィンドウに移動した際に発生するレイアウトの問題を修正。
+- ピン留めされたタブを閉じる際に発生する表示上の問題を修正。
+
 **Version 4.1.2.3**
 - `tabContentHeight` が `30` 未満の場合（コンパクトモード）にタブのセカンダリラベルを非表示（外国語版のみ）。
 - 分割ビューでタブの高さがコンパクトすぎる場合に調整。
@@ -202,7 +206,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 改善
 	- Firefox 148 への対応を更新。
 - 修正
-	- v4.1 以降、`pinnedTabsFlexWidth` を有効化した際のピン留めタブの余白の不具合を修正。
+	- v4.1 以降、`pinnedTabsFlexWidth` を有効化した際のピン留めされたタブの余白の不具合を修正。
 
 <details>
 <summary>軽微な更新</summary>
@@ -380,7 +384,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 **Version 3.3**
 - `pinnedTabsFlexWidth` を追加：ピン留めされたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる（試験的機能）。
 - `checkUpdateAutoApply` を追加：新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）。`0` - 無効、`1` - 確認する、`2` - 常に更新、`3` - 常に更新（通知なし）。
-- バグ修正：Firefox 142 において、閉じたピン留めタブを開きなおすとタブ機能が正常に動作しなくなった。
+- バグ修正：Firefox 142 において、閉じたピン留めされたタブを開きなおすとタブ機能が正常に動作しなくなった。
 - 全画面表示に関連する軽微な不具合を修正。
 - `nativeWindowStyle` は全画面表示でも有効。
 - タブバーサイズのロック動作を改善。
@@ -462,7 +466,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 特定条件でタブが跳ねるように動くバグを修正。
 
 **Version 2.1.3.1**
-- ピン留めタブが多数あると発生する跳ねる挙動の不具合を修正。
+- ピン留めされたタブが多数あると発生する跳ねる挙動の不具合を修正。
 - `browser.tabs.groups.enabled` が `true` の場合、`tabsUnderControlButtons` が強制的に `0` になる。
 
 **Version 2.1.2**
