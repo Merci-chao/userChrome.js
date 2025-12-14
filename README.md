@@ -185,6 +185,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Minor Updates</summary>
 
+**Version 4.1.2.5**
+- Adjust the margin of the mini-audio button so that it does not cover the tab label.
+
 **Version 4.1.2.4**
 - Fix the layout issue that occurred when moving pinned tabs to another window while the Tabs Bar is scrollable.
 - Fix the visual issue when closing pinned tabs.
