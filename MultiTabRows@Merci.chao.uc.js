@@ -2265,7 +2265,7 @@ ${prefs.pinnedTabsFlexWidth && appVersion < 139 ? ["ltr", "rtl"].map(dir => `
 #tabbrowser-tabs[orient] ${_}[fadein]:is(
 	${showAudioButton}, [tab-note]
 )[mini-button]${prefs.pinnedTabsFlexWidth ? "[fadein]" : ":not([pinned])"} {
-	&:not(${__ = "[image], [crashed], [sharing], [pictureinpicture], [busy]"}) {
+	&:not(${__ = "[image], [crashed], [sharing], [pictureinpicture], [busy], [pendingicon]"}) {
 		.tab-icon-overlay,
 		&[tab-note] .tab-audio-button,
 		&:is(${showAudioButton}) .tab-note-icon {
