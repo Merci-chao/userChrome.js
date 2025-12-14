@@ -181,6 +181,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>軽微な更新</summary>
 
+**Version 4.1.2.5**
+- ミニオーディオボタンの余白を調整し、タブラベルとの重なりを防止。
+
 **Version 4.1.2.4**
 - スクロール可能なタブバーでピン留めされたタブを別ウィンドウに移動した際に発生するレイアウトの問題を修正。
 - ピン留めされたタブを閉じる際に発生する表示上の問題を修正。
