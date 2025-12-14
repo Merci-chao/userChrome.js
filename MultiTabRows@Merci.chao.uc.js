@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.1.2.4
+// @version        4.1.2.5
 // @compatibility  Firefox 115, 146-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -2273,7 +2273,7 @@ ${prefs.pinnedTabsFlexWidth && appVersion < 139 ? ["ltr", "rtl"].map(dir => `
 		}
 
 		&[tab-note]:is(${showAudioButton}) {
-			--tab-icon-end-margin: inherit;
+			--tab-icon-end-margin: calc(var(--tab-icon-size) / 2);
 
 			.tab-icon-image,
 			.tab-icon-overlay {
@@ -2283,7 +2283,7 @@ ${prefs.pinnedTabsFlexWidth && appVersion < 139 ? ["ltr", "rtl"].map(dir => `
 	}
 
 	&:is(${__}) {
-		--tab-icon-end-margin: inherit;
+		--tab-icon-end-margin: calc(var(--tab-icon-size) / 2);
 
 		.tab-audio-button,
 		.tab-note-icon {
@@ -7729,10 +7729,7 @@ let GET_DRAG_TARGET;
 				removeTab.apply(this, arguments);
 
 				if (!tab.closing || !tab.isConnected) {
-					if (tab.pinned)
-						tabContainer._updateInlinePlaceHolder();
-					else
-						assign(animatingLayout, {cancel: true});
+					tabContainer._updateInlinePlaceHolder();
 					return;
 				}
 				tabContainer._setLockedSize(tab);
