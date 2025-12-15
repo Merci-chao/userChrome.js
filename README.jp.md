@@ -178,15 +178,15 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-<details>
-<summary>軽微な更新</summary>
-
 **Version 4.1.3**
 - 修正
 	- 特定のケースで、ピン留めされたタブがありタブバーがスクロール可能になると、Firefox がフリーズする可能性があった。
 	- Firefox 115 において、ピン留めされたタブで `tabHorizontalMargin` が機能しなかった。
 	- 特定のケースで、`tabContentHeight` を変更するとレイアウトの問題が発生。
 	- 特定のケースで、`about:config` で `tabVerticalMargin` が欠落する可能性があった。
+
+<details>
+<summary>軽微な更新</summary>
 
 **Version 4.1.2.5**
 - ミニオーディオボタンの余白を調整し、タブラベルとの重なりを防止。
