@@ -182,6 +182,13 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.1.3**
+- Fixes
+	- Firefox could freeze in certain cases when pinned tabs were present and the Tabs Bar became scrollable.
+	- `tabHorizontalMargin` did not apply correctly to pinned tabs in Firefox 115.
+	- Layout issue occurred in specific cases when modifying `tabContentHeight`.
+	- `tabVerticalMargin` might be missing in certain cases.
+
 <details>
 <summary>Minor Updates</summary>
 
