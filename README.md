@@ -187,7 +187,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Firefox could freeze in certain cases when pinned tabs were present and the Tabs Bar became scrollable.
 	- `tabHorizontalMargin` did not apply correctly to pinned tabs in Firefox 115.
 	- Layout issue occurred in specific cases when modifying `tabContentHeight`.
-	- `tabVerticalMargin` might be missing in certain cases.
+	- `tabVerticalMargin` might be missing in `about:config` in certain cases.
 
 <details>
 <summary>Minor Updates</summary>
