@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.1.2.5
+// @version        4.1.3
 // @compatibility  Firefox 115, 146-147
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -246,10 +246,10 @@ const [
 	let cs = getComputedStyle(root);
 	return [
 		["min-width"],
-		["--tab-block-margin"],
+		["--tab-block-margin", 4],
 		["--tab-inline-padding", 8],
 		["--tab-overflow-clip-margin", 2],
-	].map(([p, d]) => parseFloat(cs.getPropertyValue(p)) || d)
+	].map(([p, d]) => parseFloat(cs.getPropertyValue(p) || d))
 		.concat(
 			+cs.getPropertyValue("--tab-dragover-transition").match(/\d+|$/)[0] || 200
 		);
@@ -536,6 +536,7 @@ async function onPrefChange(pref, type, name) {
 				setStyle();
 				tabContainer.uiDensityChanged();
 				tabContainer._updateCloseButtons();
+				scrollbox._ensureSnap();
 			}, 100);
 			break;
 		case "compactControlButtons":
@@ -845,6 +846,7 @@ mainStyle.innerHTML = `
 	--tab-inline-padding: ${Math.min(Math.max(prefs.tabHorizontalPadding, 0), TAB_INLINE_PADDING * 3)}px;
 	--tab-pinned-inline-padding: 2px;
 	--tab-overflow-clip-margin: ${Math.min(Math.max(prefs.tabHorizontalMargin, 0), TAB_INLINE_MARGIN * 3)}px;
+	--tabstrip-min-height: calc(var(--tab-min-height) + 2 * var(--tab-block-margin));
 	--tab-group-label-height: min(max(1.5em, var(--tab-min-height) - 14px), var(--tab-min-height));
 	--tab-group-line-thickness: clamp(1px, var(--tab-block-margin) - 1px, 2px);
 	--tab-group-line-toolbar-border-distance: clamp(0px, var(--tab-block-margin) - var(--tab-group-line-thickness) - 1px, 1px);
@@ -1084,8 +1086,8 @@ ${prefs.compactControlButtons || win7 || win8 ? `
 
 #TabsToolbar > :not(${_=".toolbar-items, .toolbarbutton-1"}) {
 	align-self: stretch;
-	height: calc(var(--tab-height) + var(--tabs-top-space));
-	max-height: calc(var(--tab-height) + var(--tabs-top-space));
+	height: calc(var(--tabstrip-min-height) + var(--tabs-top-space));
+	max-height: calc(var(--tabstrip-min-height) + var(--tabs-top-space));
 }
 
 #TabsToolbar > :is(${_}) {
@@ -1094,12 +1096,12 @@ ${prefs.compactControlButtons || win7 || win8 ? `
 
 #TabsToolbar > .titlebar-buttonbox-container,
 #TabsToolbar .toolbarbutton-1 {
-	height: calc(var(--tab-height) - var(--tabs-navbar-shadow-size, 0px)); /*fx 115*/
+	height: calc(var(--tabstrip-min-height) - var(--tabs-navbar-shadow-size, 0px)); /*fx 115*/
 }
 
 #TabsToolbar #TabsToolbar-customization-target > :not(#tabbrowser-tabs, .toolbarbutton-1) {
-	height: var(--tab-height);
-	max-height: var(--tab-height);
+	height: var(--tabstrip-min-height);
+	max-height: var(--tabstrip-min-height);
 }
 
 ${adjacentNewTab} {
@@ -1155,7 +1157,7 @@ ${prefs.autoCollapse ? `
 	}
 
 	${context=`:root:not([style*="--tab-scroll-rows: 1;"])`} ${_}:not(${TEMP_SHOW_CONDITIONS}) {
-		height: var(--tab-height);
+		height: var(--tabstrip-min-height);
 	}
 
 	${context} ${_} :is(tab, tab-split-view-wrapper, tab-group > *) {
@@ -1163,7 +1165,7 @@ ${prefs.autoCollapse ? `
 	}
 
 	${context} #TabsToolbar {
-		max-height: calc(var(--tab-height) + var(--tabs-padding-top) + var(--tabs-margin-top));
+		max-height: calc(var(--tabstrip-min-height) + var(--tabs-padding-top) + var(--tabs-margin-top));
 		align-items: start;
 	}
 
@@ -1177,7 +1179,7 @@ ${prefs.autoCollapse ? `
 		--transition-delay-after: ${Math.max(prefs.autoCollapseDelayCollapsing, 1)}ms;
 		--transition-delay-before: ${Math.max(prefs.autoCollapseDelayExpanding, 1)}ms;
 		will-change: margin-bottom, height;
-		height: var(--tab-height);
+		height: var(--tabstrip-min-height);
 		outline: 1px solid transparent !important;
 	}
 
@@ -1189,8 +1191,8 @@ ${prefs.autoCollapse ? `
 	}
 
 	${context} ${_}${TEMP_SHOW_CONDITIONS} {
-		margin-bottom: calc((var(--tab-scroll-rows) - 1) * var(--tab-height) * -1);
-		height: calc(var(--tab-scroll-rows) * var(--tab-height));
+		margin-bottom: calc((var(--tab-scroll-rows) - 1) * var(--tabstrip-min-height) * -1);
+		height: calc(var(--tab-scroll-rows) * var(--tabstrip-min-height));
 		outline: 1px solid var(--arrowpanel-border-color) !important;
 		border-color: transparent;
 		background-color: var(--toolbar-field-focus-background-color);
@@ -1383,7 +1385,7 @@ ${prefs.tabsUnderControlButtons < 2 || !getPref("widget.windows.overlay-scrollba
 ${_}::part(scrollbutton-up),
 ${_}::part(scrollbutton-down) {
 	--border: 1px;
-	--height: min(${prefs.scrollButtonsSize}px, var(--tab-height) / 2);
+	--height: min(${prefs.scrollButtonsSize}px, var(--tabstrip-min-height) / 2);
 	position: absolute;
 	inset-inline: 0;
 	z-index: calc(var(--tabs-moving-max-z-index) + 1);
@@ -1433,7 +1435,7 @@ ${_}::part(scrollbutton-down)::before {
 @media ${singleRow} {
 	${_}::part(scrollbutton-up),
 	${_}::part(scrollbutton-down) {
-		--height: min(${prefs.scrollButtonsSize}px * 4 / 5, var(--tab-height) / 3);
+		--height: min(${prefs.scrollButtonsSize}px * 4 / 5, var(--tabstrip-min-height) / 3);
 	}
 }
 
@@ -1470,7 +1472,7 @@ ${context}
 ${_}::part(scrollbox) {
 	align-items: start;
 	overflow: hidden auto;
-	max-height: calc(var(--tab-height) * var(--max-tab-rows));
+	max-height: calc(var(--tabstrip-min-height) * var(--max-tab-rows));
 	scroll-snap-type: both mandatory;
 	${prefs.thinScrollbar
 		? `scrollbar-width: thin;`
@@ -1494,7 +1496,7 @@ ${!prefs.inlinePinnedTabs ? `
 }
 
 ${_}::part(fake-scrollbar) {
-	height: calc(var(--tab-height) * var(--tab-rows));
+	height: calc(var(--tabstrip-min-height) * var(--tab-rows));
 	width: calc(var(--tabs-scrollbar-width) + 1px);
 	margin-inline-start: -1px;
 }
@@ -1508,7 +1510,7 @@ ${_}::part(fake-scrollbar)::before {
 ${_}::part(items-wrapper) {
 	box-sizing: border-box;
 	flex-wrap: wrap;
-	min-height: var(--slot-height, var(--tab-height));
+	min-height: var(--slot-height, var(--tabstrip-min-height));
 	min-width: var(--slot-width, 1px); /*ensure it is visible and able to make the scrollbox overflow*/
 	align-items: end;
 	align-content: start;
@@ -1821,7 +1823,7 @@ tab-split-view-wrapper {
 	/*snap to end but not start as the first row may be occupied by the inline placeholder*/
 	scroll-snap-align: end;
 	margin: 0 !important;
-	height: var(--tab-height, auto);
+	height: var(--tabstrip-min-height);
 	-moz-window-dragging: no-drag;
 
 	/*override the position:absolute of the fx rule*/
@@ -1841,6 +1843,12 @@ tab-split-view-wrapper {
 	inset-inline-start: 0;
 	z-index: 1;
 }
+
+${appVersion < 132 ? `
+	${_} {
+		padding: 0 var(--tab-overflow-clip-margin);
+	}
+` : ``}
 
 /* [class][class]: win over the default rule */
 ${_}${condition = prefs.pinnedTabsFlexWidth ? "[class][class]" : ":not([pinned])"} {
@@ -2004,6 +2012,7 @@ ${prefs.tabContentHeight <= TAB_CONTENT_HEIGHT[1] ? `
 	}
 ` : ``}
 
+.tab-note-icon,
 .tab-close-button {
 	padding-block: 0;
 	object-fit: contain;
@@ -2039,6 +2048,7 @@ ${appVersion > 136
 	z-index: 2;
 }
 
+/*bug #2005910*/
 .tab-note-icon-overlay {
 	top: auto;
 	bottom: round(up, var(--shift), 1px);
@@ -2080,7 +2090,7 @@ ${appVersion > 136
 		border-radius: var(--tab-border-radius);
 
 		width: calc(100% - var(--tab-overflow-clip-margin) * 2 + var(--animate-width));
-		height: calc(100% - var(--tab-block-margin) * 2);
+		height: var(--tab-min-height);
 		/*store the additional margin-inline-end size for calculating the current --w value*/
 		min-height: calc(
 			var(--tab-overflow-clip-margin)
@@ -2123,7 +2133,7 @@ ${appVersion > 136
 		--splitview-outline-color: var(--tab-outline-color);
 
 		tab-group[collapsed] & {
-			max-height: var(--tab-height) !important;
+			max-height: var(--tabstrip-min-height) !important;
 
 			&[animate-shifting] {
 				overflow: visible;
@@ -2292,6 +2302,7 @@ ${prefs.pinnedTabsFlexWidth && appVersion < 139 ? ["ltr", "rtl"].map(dir => `
 	}
 }
 
+/*bug #2005910*/
 ${_}[fadein][tab-note]:is(
 	${!prefs.pinnedTabsFlexWidth ? "[pinned]," : ""}
 	[mini-button]
@@ -2506,7 +2517,10 @@ ${!prefs.autoCollapse ? `
 	}
 ` : ``}
 
-#tabbrowser-tabs[forced-overflow] ${lastNode} {
+/* raise the priority high enough */
+#navigator-toolbox #TabsToolbar #tabbrowser-tabs[forced-overflow] #tabbrowser-arrowscrollbox
+	${lastNode}
+{
 	margin-inline-end: var(--forced-overflow-adjustment) !important;
 }
 
@@ -2646,9 +2660,9 @@ ${!prefs.autoCollapse ? `
 
 	[tabs-multirows]:not([has-items-pre-tabs]) &,
 	[multirows] > &:not([forFirstRow]) {
-		top: calc(var(--tab-height) * var(--preserved-row, 0));
+		top: calc(var(--tabstrip-min-height) * var(--preserved-row, 0));
 		inset-inline-start: 0;
-		height: calc(var(--tab-min-height) + var(--tab-height) * (var(--tab-rows) - 1 - var(--preserved-row, 0)));
+		height: calc(var(--tab-min-height) + var(--tabstrip-min-height) * (var(--tab-rows) - 1 - var(--preserved-row, 0)));
 
 		[has-items-pre-tabs][tabs-scrolledtostart] & {
 			--preserved-row: 1;
@@ -2903,14 +2917,14 @@ ${prefs.tabsUnderControlButtons ? `
 		${prefs.floatingBackdropClip && prefs.tabsUnderControlButtons >= 2 ? `
 			${context="#TabsToolbar"+showPlaceHolder}:not(${tbDraggingHidePlaceHolder}) ${_="#tabbrowser-tabs"} {
 				clip-path: polygon(
-					${START_PC} ${y="var(--tab-height)"},
+					${START_PC} ${y="var(--tabstrip-min-height)"},
 					var(--top-placeholder-clip,
 						var(--pre-tabs-clip,
 							${x=`calc(${START_PC} + (var(--pre-tabs-items-width) + var(--tabstrip-padding)) * ${DIR})`} ${y},
 							${x} ${y="calc(var(--tabs-top-space) * -1)"}
 						),
 						${x=`calc(${END_PC} - (var(--post-tabs-items-width) - var(--post-tabs-clip-reserved)) * ${DIR})`} ${y},
-						${x} ${y="var(--tab-height)"},
+						${x} ${y="var(--tabstrip-min-height)"},
 						${x=`calc(${END_PC} - var(--scollbar-clip-width, (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved))) * ${DIR})`} ${y}
 					),
 					${x} ${y=`calc(var(--control-box-reserved-height) - var(--tabs-top-space))`},
@@ -2940,7 +2954,7 @@ ${prefs.tabsUnderControlButtons ? `
 			${context}:not([tabs-scrolledtoend]) ${_}[overflow][hasadjacentnewtabbutton] {
 				--new-tab-clip:
 					${x=`calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)) * ${DIR})`} 100%,
-					${x} ${y=`calc(100% - var(--tab-height))`},
+					${x} ${y=`calc(100% - var(--tabstrip-min-height))`},
 					${x=`calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--new-tab-button-width)) * ${DIR})`} ${y},
 					${x} 100%;
 			}
@@ -3025,7 +3039,7 @@ ${prefs.tabsUnderControlButtons ? `
 	)
 		#tabbrowser-arrowscrollbox[scrolledtostart]::part(overflow-start-indicator)
 	{
-		clip-path: inset(calc(var(--tab-height) + var(--tabs-placeholder-border-width)) 0 0 0);
+		clip-path: inset(calc(var(--tabstrip-min-height) + var(--tabs-placeholder-border-width)) 0 0 0);
 	}
 
 	${_="#tabbrowser-arrowscrollbox::part(items-wrapper)"}::before,
@@ -3039,7 +3053,7 @@ ${prefs.tabsUnderControlButtons ? `
 	  such as when closing the only tab in the second row, tabs in the first row are locking size
 	  and the placeholder is wrapped to the second row alone.*/
 	${_}::before {
-		height: var(--tab-height);
+		height: var(--tabstrip-min-height);
 	}
 
 	${context=`#TabsToolbar:is(${hidePlaceHolder})`} ${_}::before,
@@ -3067,7 +3081,7 @@ ${prefs.tabsUnderControlButtons ? `
 
 	${prefs.inlinePinnedTabs ? `
 		${context}[positionpinnedtabs] ${_}::before {
-			height: var(--last-pinned-tab-bottom, var(--tab-height));
+			height: var(--last-pinned-tab-bottom, var(--tabstrip-min-height));
 			width: var(--last-pinned-tab-end, 0px);
 		}
 	` : `
@@ -3083,7 +3097,7 @@ ${prefs.tabsUnderControlButtons ? `
 	${_=".tabs-placeholder"} {
 		--clip-shadow: calc(var(--tab-shadow-size) * -1);
 		box-sizing: content-box;
-		height: var(--tab-height);
+		height: var(--tabstrip-min-height);
 		position: absolute;
 		z-index: calc(var(--tabs-moving-max-z-index) + 1);
 		box-shadow: var(--tabs-placeholder-shadow);
@@ -3245,7 +3259,7 @@ ${prefs.tabsUnderControlButtons ? `
 				border-end-start-radius: ${__};
 				border-bottom-width: var(--tabs-placeholder-border-width);
 				border-bottom-color: var(--tabs-placeholder-border-color);
-				height: calc(var(--tab-height) - var(--tabs-placeholder-border-width));
+				height: calc(var(--tabstrip-min-height) - var(--tabs-placeholder-border-width));
 			}
 		` : ``}
 	` : ``}
@@ -3260,7 +3274,7 @@ ${prefs.tabsUnderControlButtons ? `
 			${_}:not(${staticPreTabsPlaceHolder}) #tabs-placeholder-pre-tabs,
 			#tabs-placeholder-post-tabs
 		) {
-			height: calc(var(--tab-height) + var(--tabs-padding-top) + var(--nav-toolbox-padding-top));
+			height: calc(var(--tabstrip-min-height) + var(--tabs-padding-top) + var(--nav-toolbox-padding-top));
 			margin-top: calc((var(--tabs-padding-top) + var(--nav-toolbox-padding-top)) * -1);
 		}
 	` : ``}
@@ -3270,7 +3284,7 @@ ${prefs.tabsUnderControlButtons ? `
 		#tabs-placeholder-post-tabs
 	) {
 		height: calc(
-			var(--tab-height)
+			var(--tabstrip-min-height)
 			+ var(--tabs-padding-top)
 			+ var(--nav-toolbox-padding-top)
 			- ${prefs.floatingBackdropClip ? "0px" : "var(--tabs-placeholder-border-width)"} * 2
@@ -3310,7 +3324,7 @@ ${prefs.tabsUnderControlButtons ? `
 			clip-path: polygon(
 				${START_PC} 0,
 				${x=`calc(${END_PC} - (var(--tabs-scrollbar-visual-width) - var(--tabstrip-padding)) * ${DIR})`} 0,
-				${x} ${y="calc(100% - var(--tab-height))"},
+				${x} ${y="calc(100% - var(--tabstrip-min-height))"},
 				${x="var(--last-pinned-tab-end)"} ${y},
 				${x} 100%,
 				${START_PC} 100%
@@ -3419,7 +3433,7 @@ ${prefs.tabsUnderControlButtons ? `
 ${!prefs.autoCollapse && prefs.maxTabRows > 1 ? `
 	:root {
 		--multirows-background-size: max(
-			var(--nav-toolbox-net-height) + var(--tab-height) * ${prefs.dynamicThemeImageSize ? "var(--tab-rows)" : maxRows},
+			var(--nav-toolbox-net-height) + var(--tabstrip-min-height) * ${prefs.dynamicThemeImageSize ? "var(--tab-rows)" : maxRows},
 			var(--lwt-background-image-natural-height, 0px)
 		);
 	}
@@ -3497,7 +3511,7 @@ ${debug && debug < 3 ? `
 	.closing-tabs-spacer {
 		outline: 5px solid orangered;
 		background: rgba(255, 255, 0, .5);
-		height: var(--tab-height);
+		height: var(--tabstrip-min-height);
 	}
 	${_="#tabbrowser-arrowscrollbox"}::part(items-wrapper)::before,
 	${_}::part(items-wrapper)::after {
@@ -3571,8 +3585,8 @@ ${debug > 1 ? `
 		${_}::after {
 			border: var(--line);
 			left: min(max(var(--drag-x, 0px) - var(--drag-width) / 2, 0px), 100vw);
-			top: min(max(var(--drag-y, 0px) - var(--tab-height) / 2, 0px), 100vh);
-			height: var(--tab-height);
+			top: min(max(var(--drag-y, 0px) - var(--tabstrip-min-height) / 2, 0px), 100vh);
+			height: var(--tabstrip-min-height);
 			width: var(--drag-width);
 		}
 		${_}::after {
@@ -6782,8 +6796,8 @@ let GET_DRAG_TARGET;
 				${prefs.floatingBackdropClip ? `
 					#tabbrowser-tabs${onlyUnderflow} {
 						--top-placeholder-clip:
-							${START_PC} var(--tab-height),
-							calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)) * ${DIR}) var(--tab-height);
+							${START_PC} var(--tabstrip-min-height),
+							calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)) * ${DIR}) var(--tabstrip-min-height);
 					}
 				` : ``}
 				#TabsToolbar:not([tabs-hide-placeholder]) #tabbrowser-tabs[multirows]${onlyUnderflow}
@@ -7516,20 +7530,18 @@ let GET_DRAG_TARGET;
 
 		const HEIGHT_PREF = prefBranchStr + "tabContentHeight";
 		style(root, {
-			"--tab-height": "",
 			"--tab-min-height": Services.prefs.prefHasUserValue(HEIGHT_PREF)
 				? Math.min(Math.max(getPref(HEIGHT_PREF, "Int"), 16), TAB_CONTENT_HEIGHT[0] * 3) + "px"
 				: "",
 		});
-		style(root, {
-			"--tab-height": (tabHeight = +getRect(gBrowser.selectedNode).height.toFixed(4)) + "px",
-		});
 
 		let {newTabButton} = this;
 		style(newTabButton, {"display": "flex !important"});
-		newTabButtonWidth = getRect(newTabButton).width;
-		newTabButton.style.display = "";
 
+		newTabButtonWidth = getRect(newTabButton).width;
+		tabHeight = +getRect(gBrowser.selectedNode).height.toFixed(4);
+
+		newTabButton.style.display = "";
 		style(tabsBar, {
 			"--new-tab-button-width": newTabButtonWidth + "px",
 		});
@@ -8554,7 +8566,7 @@ async function animateLayout(
 	}
 
 	if (overflowing != !!scrollbox.scrollTopMax)
-		scrollbox.dispatchEvent(new Event(overflowing ? "overflow" : "underflow"));
+		scrollbox.dispatchEvent(new Event(overflowing ? "underflow" : "overflow"));
 	else {
 		if (shouldUpdatePlacholder)
 			tabContainer._updateInlinePlaceHolder();
