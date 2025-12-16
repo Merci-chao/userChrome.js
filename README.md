@@ -569,13 +569,14 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`
 | `highlightIdentityBox` | Add a backgrond for identity box (only when `showDomain` is `true`). |
 | `showDomain` | Display the domain nearby the lock icon. |
 | `showSubTitle` | Display the url path after the page title. |
+| `showUnicodeDomain` | Display the unicode characters in domain. |
 | `showUriOnHover` | Display the url temporarily when mouse hovering. |
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
 
 **Version 2025-12-16**
-- Add `showUnicodeDomain`: display the unicode characters in domain name. 
+- Add `showUnicodeDomain`: display the unicode characters in domain. 
 
 **Version 2025-12-12**
 - Support Trust Panel feature.
