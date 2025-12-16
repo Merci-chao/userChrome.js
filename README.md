@@ -568,7 +568,7 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`
 | `hideWww` | Hide the `www` sub-domain. |
 | `highlightIdentityBox` | Add a backgrond for identity box (only when `showDomain` is `true`). |
 | `showDomain` | Display the domain nearby the lock icon. |
-| `showSubTitle` | Display the url path after the page title. |
+| `showSubTitle` | Display the URL path after the page title. |
 | `showUnicodeDomain` | Display the unicode characters in domain. |
 | `showUriOnHover` | Display the url temporarily when mouse hovering. |
 
