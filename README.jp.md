@@ -565,10 +565,14 @@ URL バーにページタイトルを表示。
 | `highlightIdentityBox` | ドメイン表示部分（Identity Box）に背景色を追加（`showDomain` が `true` の場合のみ有効）。 |
 | `showDomain` | 鍵アイコンの近くにドメインを表示。 |
 | `showSubTitle` | ページタイトルの後に URL のパス部分を表示。 |
+| `showUnicodeDomain` | ドメインのユニコード文字を表示。 |
 | `showUriOnHover` | マウスホバー時に一時的に URL を表示。 |
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
+
+**Version 2025-12-16**
+- `showUnicodeDomain` を追加：ドメインのユニコード文字を表示。
 
 **Version 2025-12-12**
 - Trust Panel 機能をサポート。
