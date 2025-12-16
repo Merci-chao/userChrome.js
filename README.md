@@ -574,6 +574,9 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
 
+**Version 2025-12-16**
+- Add `showUnicodeDomain`: display the unicode characters in domain name. 
+
 **Version 2025-12-12**
 - Support Trust Panel feature.
 - Update the update-checking feature.
