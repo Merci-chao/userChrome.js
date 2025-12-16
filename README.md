@@ -570,7 +570,7 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`
 | `showDomain` | Display the domain nearby the lock icon. |
 | `showSubTitle` | Display the URL path after the page title. |
 | `showUnicodeDomain` | Display the unicode characters in domain. |
-| `showUriOnHover` | Display the url temporarily when mouse hovering. |
+| `showUriOnHover` | Display the URL temporarily when mouse hovering. |
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
