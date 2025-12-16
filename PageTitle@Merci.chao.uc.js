@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Page Title in URL Bar
 // @description    Show page title in URL Bar.
-// @version        2025-12-12
+// @version        2025-12-16
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#page-title-in-url-bar
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-2
@@ -28,6 +28,7 @@ let prefBranchStr = "extensions.PageTitle@Merci.chao.";
 		showUriOnHover: true,
 		decodeHashAndSearch: true,
 		formattingEnabled: true,
+		showUnicodeDomain: !Services.prefs.getBoolPref("network.IDN_show_punycode"),
 		checkUpdate: 1,
 		checkUpdateFrequency: 7,
 		checkUpdateAutoApply: 1,
@@ -357,9 +358,10 @@ let PageTitle = window.PageTitle = {
 							if (domain[0] != "[")
 								try {
 									const IDNService = Cc["@mozilla.org/network/idn-service;1"].getService(Ci.nsIIDNService);
-									domain = IDNService.convertACEtoUTF8(domain);
+									if (prefs.showUnicodeDomain)
+										domain = IDNService.convertACEtoUTF8(domain);
 									baseDomain = Services.eTLD.getBaseDomainFromHost(domain);
-									if (!domain.endsWith(baseDomain)) {
+									if (prefs.showUnicodeDomain && !domain.endsWith(baseDomain)) {
 										// getBaseDomainFromHost converts its resultant to ACE.
 										baseDomain = IDNService.convertACEtoUTF8(baseDomain);
 									}
