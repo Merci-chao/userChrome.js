@@ -65,7 +65,7 @@ Make Firefox support multiple rows of tabs.
 1. Install the script loader. Skip this step if you already have some scripts in use. There are several script loaders available:
 	- [`firefox-scripts`](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) by *[xiaoxiaoflood](https://github.com/xiaoxiaoflood)*, maintained by *[onemen](https://github.com/onemen)*
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig) by *[MrOtherGuy](https://github.com/MrOtherGuy)*
- 	- [`userChrome.js`](https://github.com/alice0775/userChrome.js) by *[alice0775](https://github.com/alice0775)* *(It is necessary to set the locked value of `security.allow_unsafe_dangerous_privileged_evil_eval` to `true` in `config.js`, if the restriction exists)*
+ 	- [`userChrome.js`](https://github.com/alice0775/userChrome.js) by *[alice0775](https://github.com/alice0775)*
   <br><br>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘 [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the `firefox-scripts`: 
   <br>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
   <br>📝 The file placement location may slightly vary depending on the loader. The following steps assume the use of `firefox-scripts`.
