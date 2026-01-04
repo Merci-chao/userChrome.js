@@ -688,6 +688,13 @@ URL バーにページタイトルを表示。
 
 ---
 
+# [lockBookmarksDefaultLocation.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/lockBookmarksDefaultLocation.uc.js)
+新しく追加したブックマークの場所を設定して固定し、Firefoxに変えられないようにする。
+
+今の場所は `about:config` の `browser.bookmarks.defaultLocation` に保存されていて、これはフォルダのIDを表す。スクリプトファイルの `id` の値は、希望する場所のIDに対応している。
+
+---
+
 # [restart-button.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/restart-button.uc.js)
 アプリケーションメニューの「終了」ボタンを中クリックすると Firefox を再起動。
 
