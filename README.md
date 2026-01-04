@@ -47,7 +47,7 @@ Make Firefox support multiple rows of tabs.
 </table>
 
 ## Compatibility
-- Firefox 115, 145 to 147 (excluding ESR versions), for Windows 7 to 11.
+- Firefox 115, 146 to 148 (excluding ESR versions), for Windows 7 to 11.
 - Supports general userChrome.js script loaders, such as:
 	- [`firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
@@ -104,6 +104,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `hideScrollButtonsWhenDragging` | Visually hide the up/down scroll buttons when dragging. |
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. Minimum: `1`. |
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. Minimum: `1`. |
+| `previewPanelNoteEditable` | Allows the tab preview panel to be hovered, and the note inside to be editable (Firefox 148+). |
+| `previewPanelShifted` | Shifts the preview panel when there are multiple rows, reducing the effect of the panel blocking items in the rows underneath. Affects tabs only when `previewPanelNoteEditable` is `true`.<ul><li>`0` - never</li><li>`1` - for groups</li><li>`2` - for tabs</li><li>`3` - for both</li></ul> |
 | `scrollButtonsSize` | The size (in pixels) of the scroll buttons during dragging. Minimum: `0`, but it will be rendered as at least 2 device pixels in height; the maximum is limited to half the tab height. |
 
 ### Tabs Bar Layout
@@ -181,6 +183,24 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.2**
+- New
+	- Add `previewPanelShifted`: Shifts the preview panel when there are multiple rows, reducing the effect of the panel blocking items in the rows underneath. Affects tabs only when `previewPanelNoteEditable` is `true`.
+		- `0` - never
+		- `1` - for groups
+		- `2` - for tabs
+		- `3` - for both
+	- Add `previewPanelNoteEditable` (for Firefox 148+): Allows the tab preview panel to be hovered, and the note inside to be editable.
+- Fixes
+	- Continuously and rapidly closing tabs could result in the window being maximized/restored.
+	- Issue that occurred when dragging the audio button of a non-selected tab.
+	- Tab size locking issue when closing the last tab in certain cases.
+	- Adjust the appearance of split view to match the original design.
+	- Incorrect tab moved when dragging a non-selected tab from the tab list and drop it onto the tab strip.
+	- Issue that occurred when pressing Ctrl to start dragging a split view.
+	- Layout issue of tab group labels on older versions of Firefox.
+	- Minor layout and visual issues.
 
 **Version 4.1.3**
 - Fixes
