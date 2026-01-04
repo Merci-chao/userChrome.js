@@ -692,6 +692,13 @@ Display the Undo Close Tabs, Recently Closed Tabs, Recently Closed Windows and R
 
 ---
 
+# [lockBookmarksDefaultLocation.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/lockBookmarksDefaultLocation.uc.js)
+Set and lock the location of newly added bookmarks, preventing it from being changed by Firefox. 
+
+The current location is stored in the preference `browser.bookmarks.defaultLocation` in `about:config`,  which represents the ID of the folder. The value of `id` in the script file corresponds to the ID of the preferred location.
+
+---
+
 # [restart-button.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/restart-button.uc.js)
 Restart Firefox by middle-clicking on the Exit button in Application menu.
 
