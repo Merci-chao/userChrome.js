@@ -48,7 +48,7 @@ Firefox に多段タブ表示をサポートさせる。
 </table>
 
 ## 対応環境
-- Firefox 115、145〜147（ESR バージョンを除く）、Windows 7〜11 に対応。
+- Firefox 115、146〜148（ESR バージョンを除く）、Windows 7〜11 に対応。
 - 一般的なスクリプトローダーに対応。例：
 	- [`firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
@@ -102,6 +102,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `hideScrollButtonsWhenDragging` | ドラッグ中にスクロールボタンを視覚的に非表示。 |
 | `linesToDragScroll` | タブを上端・下端へドラッグしたときのスクロール段数。最小値：`1`。 |
 | `linesToScroll` | マウスホイール操作によるスクロール段数。最小値：`1`。 |
+| `previewPanelNoteEditable` | タブプレビューパネルにカーソルを合わせると、内部のノートを編集可能（Firefox 148 以降）。 |
+| `previewPanelShifted` | 多段がある場合にプレビューパネルをシフトし、下の段の項目がパネルに隠される影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。<ul><li>`0` - 無効</li><li>`1` - グループ用</li><li>`2` - タブ用</li><li>`3` - 両方用</li></ul> |
 | `scrollButtonsSize` | ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値：`0` だが、表示上は少なくとも 2 デバイスピクセルの高さになる。最大値はタブの高さの半分までに制限される。 |
 
 ### タブバーレイアウト
@@ -177,6 +179,24 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.2**
+- 新規
+	- `previewPanelShifted` を追加：多段がある場合にプレビューパネルをシフトし、下の段の項目がパネルに隠される影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。
+		- `0` - 無効
+		- `1` - グループ用
+		- `2` - タブ用
+		- `3` - 両方用
+	- `previewPanelNoteEditable` を追加（Firefox 148 以降）：タブプレビューパネルにカーソルを合わせると、内部のノートを編集可能。
+- 修正
+	- タブを連続かつ高速で閉じるとウィンドウが最大化・復元されていた問題。
+	- 非選択タブのオーディオボタンをドラッグすると発生していた不具合。
+	- 特定のケースで最後のタブを閉じた際のタブサイズ固定の問題。
+	- 分割ビューの外観を元のデザインに合わせて調整。
+	- タブ一覧から未選択のタブをドラッグしてタブバーにドロップした際、誤ったタブが移動。
+	- Ctrl キーを押して分割ビューのドラッグを開始した際に発生していた問題。
+	- 旧バージョンの Firefox におけるタブグループラベルのレイアウト問題。
+	- レイアウトとアニメーションの軽微な不具合。
 
 **Version 4.1.3**
 - 修正
