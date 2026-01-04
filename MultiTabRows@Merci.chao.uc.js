@@ -6454,6 +6454,7 @@ let GET_DRAG_TARGET;
 	tabContainer._positionPinnedTabs = function(numPinned = gBrowser.pinnedTabCount) {
 		if (
 			this._hasTabTempMaxWidth || !numPinned && !this._lastNumPinned ||
+			!tabHeight ||
 			//it seems this checking is no necessary anymore but there's no harm to keep it
 			appVersion < 132 && isCalledBy("_initializeArrowScrollbox/<")
 		)
