@@ -89,7 +89,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 > [!NOTE]
 > Many of these settings may not take effect due to dependencies with other preferences. It is strongly recommended to configure them via `about:config` rather than using `user.js`.
 
-### Operations
+### Interactions
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
