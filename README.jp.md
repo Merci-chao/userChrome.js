@@ -691,7 +691,7 @@ URL バーにページタイトルを表示。
 # [lockBookmarksDefaultLocation.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/lockBookmarksDefaultLocation.uc.js)
 新しく追加したブックマークの場所を設定して固定し、Firefox に変えられないようにする。
 
-今の場所は `about:config` の `browser.bookmarks.defaultLocation` に保存されていて、これはフォルダのIDを表す。スクリプトファイルの `id` の値は、希望する場所の ID に対応している。
+今の場所は `about:config` の `browser.bookmarks.defaultLocation` に保存されていて、これはフォルダの ID を表す。スクリプトファイルの `id` の値は、希望する場所の ID に対応している。
 
 ---
 
