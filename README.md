@@ -693,9 +693,9 @@ Display the Undo Close Tabs, Recently Closed Tabs, Recently Closed Windows and R
 ---
 
 # [lockBookmarksDefaultLocation.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/lockBookmarksDefaultLocation.uc.js)
-Set and lock the location of newly added bookmarks, preventing it from being changed by Firefox. 
+Lock the location of newly added bookmarks, preventing it from being changed by Firefox. 
 
-The current location is stored in the preference `browser.bookmarks.defaultLocation` in `about:config`,  which represents the ID of the folder. The value of `id` in the script file corresponds to the ID of the preferred location.
+Before applying this script, click the Star button in the URL bar to create a new bookmark, and set the folder as the default location.
 
 ---
 
