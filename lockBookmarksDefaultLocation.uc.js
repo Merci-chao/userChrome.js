@@ -1,9 +1,6 @@
 {
-    let id = "unfiled_____";
-    let name = "browser.bookmarks.defaultLocation";
-    let {prefs} = Services;
-    prefs.addObserver(name, function() {
-        if (prefs.getStringPref(name) != id)
-            prefs.setStringPref(name, id);
-    });
+	let func = StarUI._storeRecentlyUsedFolder;
+	StarUI._storeRecentlyUsedFolder = function(selectedFolderGuid, didChangeFolder, ...args) {
+		return func.call(this, selectedFolderGuid, false, ...args);
+	};
 }
