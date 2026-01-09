@@ -46,7 +46,7 @@ Make Firefox support multiple rows of tabs.
   </tr>
   <tr>
 	  <td>♾️ Always Ongoing</td>
-	  <td>Never leaving before you do. This is not a promise, but a devotion.</td>
+	  <td>Never leaving before you do. This is not a promise, but a passion.</td>
   </tr>
 </table>
 
