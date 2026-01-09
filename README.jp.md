@@ -56,7 +56,7 @@ Firefox に多段タブ表示をサポートさせる。
 
 ## 注意事項
 **🚨 ご使用の前に、以下の注意点をよくお読みください：**
-- Firefox に最適化されたレイアウト計算を多く含むため、タブ関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト（`userChrome.js`）、CSS スタイル（`userChrome.css`）との競合によって、不具合が発生する可能性がある。<br>⚠️ 以下のインストール手順をよく読んで、慎重に進めてください。
+- Firefox に最適化されたレイアウト計算を多く含むため、タブ関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト（`*.uc.js`）、CSS スタイル（`userChrome.css`）との競合によって、不具合が発生する可能性がある。<br>⚠️ 以下のインストール手順をよく読んで、慎重に進めてください。
 - 非公式かつ複雑なスクリプトで、個人によってメンテされている。このスクリプトには予期しないバグが含まれている可能性があり、最新バージョンの Firefox との互換性が保証されているわけではない。予期せぬ問題が発生した場合は、Firefox を再起動する必要があるかもしれない。特に、旧バージョンのスクリプトを最新の Firefox で使用した場合、ブラウザが使用不能になり、以前のセッションが永久に失われる可能性もある。そのような場合には、スクリプトの無効化が必要になることがある。このスクリプトは、これらのリスクに対応できる準備がある方のみご使用ください。
 - 本スクリプトは Windows 専用。Ubuntu（Linux）および macOS では動作しない、あるいは不具合が生じる恐れがある。
 - Firefox の関数を上書きする必要があるため、Firefox 139 以降では [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) の設定が必要。この設定はスクリプト適用時に自動で有効化されるが、スクリプト削除時には `about:config` で手動無効化が必要。
@@ -69,7 +69,7 @@ Firefox に多段タブ表示をサポートさせる。
 <br><br>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に指定がなければ、📘[Tab Mix Plus - ドキュメント（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) の手順に従って `firefox-scripts` をインストールする例がある：  
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.jp.png)
 <br>📝 ファイルの配置場所は使用するローダーによって多少異なる場合がある。以下は `firefox-scripts` を使用する場合の例。
-2. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `.js` と `.css` ファイル（`util` フォルダー中の項目と `userChrome.js` 以外、もしあれば）を一時的に `chrome` から移動する。
+2. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` から移動する。
    <br>⚠️ スタイルとの競合によって発生する不具合が多数報告されている。
 3. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし、`chrome` に配置する。<br>
 4. Firefox を再起動して適用する。
