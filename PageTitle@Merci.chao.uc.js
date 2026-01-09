@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Page Title in URL Bar
 // @description    Show page title in URL Bar.
-// @version        2025-12-16
+// @version        2026-01-09
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#page-title-in-url-bar
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-2
@@ -168,6 +168,7 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 								label: l10n.changelog,
 								accessKey: l10n.changelogKey,
 								callback: showChangelog,
+								primary: true,
 							},
 						],
 					), 500);
@@ -544,13 +545,22 @@ if (!AboutReaderParent.__PageTitleInit) {
 }
 
 let style = document.body.appendChild(document.createElement("style"));
-style.innerHTML = `
+style.innerHTML = /*css*/`
+#trust-icon-container {
+	white-space: nowrap;
+}
 #identity-box {
 	margin-inline-end: var(--urlbar-searchmodeswitcher-margin-inline-end, var(--identity-box-margin-inline));
 
 	@media -moz-pref("browser.urlbar.trustPanel.featureGate") {
 		.urlbar-input-container[pageproxystate=valid] > #trust-icon-container:not(.chickletShown) ~ & {
-			margin-inline-end: 0;
+			&:not(.extensionPage) {
+				margin-inline-end: 0;
+			}
+
+			&.extensionPage #identity-icon-hostport-box {
+				display: none;
+			}
 		}
 	}
 }
