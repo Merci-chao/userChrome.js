@@ -595,6 +595,9 @@ URL バーにページタイトルを表示。
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
 
+**Version 2026-01-09**
+- Trust Panel によって軽微なレイアウトの問題を修正。
+
 **Version 2025-12-16**
 - `showUnicodeDomain` を追加：ドメインのユニコード文字を表示。
 
