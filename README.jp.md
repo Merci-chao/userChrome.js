@@ -237,7 +237,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `tabMaxWidth` が Firefox 146 以降で動作しない問題。
 
 **Version 4.1.1**
-- 改善
+- 改良
 	- Firefox 148 への対応を更新。
 - 修正
 	- v4.1 以降、`pinnedTabsFlexWidth` を有効化した際のピン留めされたタブの余白の不具合を修正。
@@ -252,14 +252,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - スクリプトローダーによって `security.allow_unsafe_dangerous_privileged_evil_eval` がロックされたケースを処理。
 
 **Version 4.1.0.2**
-- `tabVerticalMargin` の値に合わせてグループラインのサイズを調整し、見栄えを改善。
+- `tabVerticalMargin` の値に合わせてグループラインのサイズを調整し、見栄えを改良。
 
 </details>
 
 **Version 4.1**
 - 新規
 	- タブの高さと間隔を制御するために `tabContentHeight`、`tabVerticalMargin`、`tabHorizontalPadding`、`tabHorizontalMargin` を追加。デフォルト値より狭く設定するのは推奨されない。Firefox はコンパクト用に設計されていないため、予期しない不具合が起こる可能性がある。これらの設定は `userChrome.css` のルールで上書きされ、効果がなくなる場合がある。
-- 改善
+- 改良
 	- タブバーが過度にコンパクトな時のレイアウトを調整。
 	- アップデート通知 UI を調整。
 - 修正
@@ -298,9 +298,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 変更
 	- Firefox の元のデザインに従い、`tabsAtBottom` が有効な場合、`spaceAfterTabs`、`spaceAfterTabsOnMaximizedWindow`、`spaceBeforeTabs`、および `spaceBeforeTabsOnMaximizedWindow` がナビゲーションバーの端のスペースに影響するようになる。
 	- Firefox の元のデザインに従い、Firefox 143 以降では、`gapAfterPinned` のデフォルト値が `0` になる。
-- 改善
-	- タブを閉じる際やタブグループを折りたたむ際のタブサイズ固定の挙動を改善。
-	- 特定のシナリオにおいて、アイテムを段端へドラッグする際の困難を回避するために、ドラッグ動作を改善。
+- 改良
+	- タブを閉じる際やタブグループを折りたたむ際のタブサイズ固定の挙動を改良。
+	- 特定のシナリオにおいて、アイテムを段端へドラッグする際の困難を回避するために、ドラッグ動作を改良。
 	- レイアウトの不具合を防ぐために、「新しいタブ」ボタンのサイズを固定。
 	- Firefox 147 に対応。
 	- スクロール中はグループのホバープレビューパネル（hover preview panel）を非表示。
@@ -348,10 +348,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 **Version 3.6**
 - `pinnedTabsFlexWidthIndicator` を追加：`pinnedTabsFlexWidth` が有効な場合、ピン留めされたタブにアイコンを表示。
 - 更新通知の「チェックを停止」オプションを「スクリプトファイルを直接更新」に変更。
-- タブをドラッグして段の端に押し付けることで、別の行の項目とグループ化したり、既存のグループから除外したりする操作の挙動を改善。
-- `dragToGroupTabs` が `false` の場合、タブをグループに追加・除外する際のドラッグ挙動を改善。
-- ピン留めされたタブが存在し、タブバーがスクロール可能な場合のアニメーションを改善。
-- タブを段の端に押し付けながらドラッグする際のアニメーションを改善。
+- タブをドラッグして段の端に押し付けることで、別の行の項目とグループ化したり、既存のグループから除外したりする操作の挙動を改良。
+- `dragToGroupTabs` が `false` の場合、タブをグループに追加・除外する際のドラッグ挙動を改良。
+- ピン留めされたタブが存在し、タブバーがスクロール可能な場合のアニメーションを改良。
+- タブを段の端に押し付けながらドラッグする際のアニメーションを改良。
 - タブをピン留め・外しようとする際に、ドラッグアニメーションを一時停止。
 - このスクリプトによって影響が増幅される Firefox のバグ [#1994643](https://bugzilla.mozilla.org/show_bug.cgi?id=1994643) に対する回避策を適用。
 - バグ修正：`pinnedTabsFlexWidth` を有効にした際、ピン留めされたタブにページアイコンがない場合の不具合。
@@ -376,7 +376,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - バグ修正：タブをドラッグして別のウィンドウにコピーした後に不具合が発生。
 - バグ修正：タブグループをウィンドウ外に素早くドラッグした後に不具合が発生。
 - 軽微なバグの修正。
-- 可読性向上のためコードスタイルを改善。
+- 可読性向上のためコードスタイルを改良。
   
 **Version 3.4.2**
 - バグ修正：`hidePinnedDropIndicator` を有効にするとタブのドラッグ＆ドロップができなくなった。
@@ -403,9 +403,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 **Version 3.4**
 - `animateTabMoveMaxCount` を追加：ドラッグされたタブの数がこの値を超えると、ドラッグアニメーションは無効化され、代わりにドロップ位置のインジケーターが表示。最小値：`0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。備考：タブグループの一部の操作が使用できない場合があり、最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある。
 - `hidePinnedDropIndicator` を追加：ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換できる際に表示されるインジケーターを非表示（Firefox 143 以降に対応）。
-- アニメーションの処理を見直して、動作を改善。
+- アニメーションの処理を見直して、動作を改良。
 - `tabsAtBottom` を `2` にすると、ブックマークツールバーを「新しいタブのみ表示する」に設定していても、タブバーはブックマークツールバーの下に表示。
-- `autoCollapse` の改善：右クリックメニューが表示されている間、タブバーは展開されたままになる。
+- `autoCollapse` の改良：右クリックメニューが表示されている間、タブバーは展開されたままになる。
 - `autoCollapse` における 2 つの遅延パラメータのデフォルト値を引き上げた。
 - バグ修正：タブグループが複数行にまたがる場合、一部の状況下でグループの折りたたみやドラッグ操作がスムーズに動作しないことがあった。
 - バグ修正：ドラッグ中に Esc キーを押すと、問題が発生する場合があった。
@@ -421,7 +421,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - バグ修正：Firefox 142 において、閉じたピン留めされたタブを開きなおすとタブ機能が正常に動作しなくなった。
 - 全画面表示に関連する軽微な不具合を修正。
 - `nativeWindowStyle` は全画面表示でも有効。
-- タブバーサイズのロック動作を改善。
+- タブバーサイズのロック動作を改良。
 - 軽微な不具合の修正。
 
 **Version 3.2.1**
@@ -458,7 +458,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - ピン留めやグループ化されたタブのドラッグを滑らかにする `dynamicMoveOverThreshold` を追加。
 - Windows のネイティブテーマスタイルをタブバーに表示する `nativeWindowStyle` を追加。
 - Firefox 141 対応。
-- バグ修正と改善。
+- バグ修正と改良。
 
 **Version 2.6**
 - 音声再生・ミュートなどが行われているタブがある場合のレイアウトの問題を修正。
@@ -468,12 +468,12 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 前バージョン以降、タブ以外の要素をタブバーにドロップできないバグを修正。
 
 **Version 2.5**
-- 非連続のタブをドラッグする際の体験を改善。
+- 非連続のタブをドラッグする際の体験を改良。
 - バージョンチェック機能を追加。`checkUpdateFrequency` に日数を設定、`checkUpdate` を `0` にすれば無効化可能。
 
 **Version 2.4**
 - Firefox 138 対応。
-- タブドラッグアニメーションの改善とバグ修正。
+- タブドラッグアニメーションの改良とバグ修正。
 
 **Version 2.3.5.1**
 - Firefox 115 でスクリプトが機能しない不具合を修正。
@@ -510,7 +510,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 特定条件でタブが跳ねるバグを修正。
 
 **Version 2.1**
-- タブを閉じる際の挙動を改善。
+- タブを閉じる際の挙動を改良。
 
 **Version 2.0.1**
 - 設定変更やテーマ変更を複数ウィンドウで行った際に Firefox がフリーズまたはラグが発生する問題を修正。
@@ -519,10 +519,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - `tabsUnderControlButtons = 2`（デフォルト）を実装。
 - 新設定追加：`floatingBackdropClip`, `floatingBackdropBlurriness`, `floatingBackdropOpacity`, `hideEmptyPlaceholderWhenScrolling`
 - `scrollbarTrackColor`, `scrollbarThumbColor` のデフォルト値を `auto` に変更。
-- 設定が即時適用されるように改善。
+- 設定が即時適用されるように改良。
 - タブのスクロール体験を向上。
 - Firefox 134 対応。
-- 多数の改善およびバグ修正。
+- 多数の改良およびバグ修正。
 
 **Version 1.0**
 - 初期リリース。
