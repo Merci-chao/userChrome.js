@@ -124,7 +124,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when Tabs Bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always</li></ul>Behaviors such as closing tabs and collapsing tab groups may differ slightly when tabs are centered. |
 | `maxTabRows` | Maximum number of rows to display at once. Minimum: `1`. |
-| `privateBrowsingIconOnNavBar` | Move the private window icon to Navigation Bar. Not available on Firefox 115. This setting is forcibly activated when `tabsAtBottom` is enabled. |
+| `privateBrowsingIconOnNavBar` | Move the private window icon to Navigation Bar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled. |
 | `rowIncreaseEvery` | Each time the window width is increased by this amount, one more row is allowed. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
 | `spaceAfterTabs` | Empty space before the window control buttons. Minimum: `0`. |
@@ -297,7 +297,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Support for tab stacking when dragging multiple tabs. On Firefox 146, it can be enabled by setting `browser.tabs.dragDrop.multiselectStacking` to `true`. For Firefox 145 and below (including 115), a new boolean preference with that name needs to be created manually.
 	- Add `dragStackPreceding`: stack the preceding selected tabs of the dragged one. When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue.
 	- Support drag to pin/unpin on Firefox 115. Set `disableDragToPinOrUnpin` to `false` to enable.
-	- Add `privateBrowsingIconOnNavBar`: move the private window icon to Navigation Bar. Not available on Firefox 115. This setting is forcibly activated when `tabsAtBottom` is enabled.
+	- Add `privateBrowsingIconOnNavBar`: move the private window icon to Navigation Bar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled.
 - Changes
 	- In keeping with the original design of Firefox, `spaceAfterTabs`, `spaceAfterTabsOnMaximizedWindow`, `spaceBeforeTabs` and `spaceBeforeTabsOnMaximizedWindow` now affect the spacing at the edges of the Navigation Bar when `tabsAtBottom` is enabled.
 	- In keeping with the original design of Firefox, `gapAfterPinned` now defaults to `0` on Firefox 143 and above.
