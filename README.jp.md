@@ -116,7 +116,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `autoCollapse` | **🚨 実験的機能 🧪**<br>ホバーしていない時は、一段に折りたたむ。`tabsUnderControlButtons` は無効化され、タブバーがスクロール可能な場合でも、ピン留めされたタブの位置が固定されなくなる。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要あり。 |
+| `autoCollapse`<span title="実験的機能">🧪</span> | ホバーしていない時は、一段に折りたたむ。`tabsUnderControlButtons` は無効化され、タブバーがスクロール可能な場合でも、ピン留めされたタブの位置が固定されなくなる。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要あり。 |
 | `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。最小値：`0`。 |
 | `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。最小値：`0`。 |
 | `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示。Windows 10 と 11 でのみ対応。 |
@@ -133,7 +133,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `spaceBeforeTabsOnMaximizedWindow` | 最大化時の左端空白スペース。最小値：`0`。 |
 | `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0`－メニューバー下</li><li>`1`－ナビゲーションツールバー下</li><li>`2`－ブックマークツールバー下</li></ul>Firefox 115 では非対応。 |
 | `tabsbarItemsAlign` | 多段モードでタブバー内の項目（主にボタン）の配置：<ul><li>`start`－上</li><li>`center`－中</li><li>`end`－下</li></ul>`tabsUnderControlButtons` が `0` または `1` でタブバーがスクロール可能時のみ有効。 |
-| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 実験的機能 🧪**<br>多段表示時にウィンドウ制御ボタンの下にタブを配置：<ul><li>`0`－無効</li><li>`1`－タブバーがスクロール不可能場合のみ（旧式オプション、非推奨）</li><li>`2`－常に有効</li></ul>不具合が出る場合は `0` に設定してください。 |
+| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>多段表示時にウィンドウ制御ボタンの下にタブを配置：<ul><li>`0`－無効</li><li>`1`－タブバーがスクロール不可能場合のみ（旧式オプション、非推奨）</li><li>`2`－常に有効</li></ul>不具合が出る場合は `0` に設定してください。 |
 | `thinScrollbar` | 上下ボタンなしの細いスクロールバーを使用。 |
 
 ### タブサイズ
@@ -143,7 +143,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | `gapAfterPinned` | ピン留めされたタブと通常タブの間の隙間。最小値：`0`。 |
-| `pinnedTabsFlexWidth` | **🚨 実験的機能 🧪**<br>ピン留めされたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる。 |
+| `pinnedTabsFlexWidth`<span title="実験的機能">🧪</span> | ピン留めされたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる。 |
 | `pinnedTabsFlexWidthIndicator` | `pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブにアイコンを表示。 |
 | `tabContentHeight` | タブ内容部分の高さ。最小値：`16`。 |
 | `tabHorizontalMargin` | タブ周囲の水平余白。最小値：`0`。 |
