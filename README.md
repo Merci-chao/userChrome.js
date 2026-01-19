@@ -118,7 +118,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| `autoCollapse` | **🚨 EXPERIMENTAL 🧪**<br>Tabs will collapse to a single row when the cursor is not hovering. Enabling this feature will forcibly disable `tabsUnderControlButtons`, and pinned tabs are no longer fixed in position when Tabs Bar is scrollable. On Firefox 115, setting `layout.css.has-selector.enabled` as `true` is required.
+| `autoCollapse`<span title="Experimental">🧪</span> | Tabs will collapse to a single row when the cursor is not hovering. Enabling this feature will forcibly disable `tabsUnderControlButtons`, and pinned tabs are no longer fixed in position when Tabs Bar is scrollable. On Firefox 115, setting `layout.css.has-selector.enabled` as `true` is required.
 | `autoCollapseDelayCollapsing` | Delay before collapsing the tabs when the cursor moves away (in milliseconds). Minimum: `0`. |
 | `autoCollapseDelayExpanding` | Delay before expanding the tabs when the cursor hovers over them (in milliseconds). Minimum: `0`. |
 | `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11. |
@@ -135,7 +135,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. Minimum: `0`. |
 | `tabsAtBottom` | Position the Tabs Bar beneath:<ul><li>`0` - Menu Bar</li><li>`1` - Navigation Toolbar</li><li>`2` - Bookmarks Toolbar</li></ul>Not available on Firefox 115. |
 | `tabsbarItemsAlign` | Alignment of the items (mainly buttons) in Tabs Bar when there are multiple rows:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with Tabs Bar is scrollable. |
-| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>**🚨 EXPERIMENTAL 🧪**<br>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when Tabs Bar is not scrollable (legacy option, not recommended)</li><li>`2` - always</li></ul>If any issues occur, set the value to `0` to disable this feature. |
+| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when Tabs Bar is not scrollable (legacy option, not recommended)</li><li>`2` - always</li></ul>If any issues occur, set the value to `0` to disable this feature. |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons. |
 
 ### Tab Sizing
@@ -146,7 +146,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
 | `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. Minimum: `0`. |
-| `pinnedTabsFlexWidth` | **🚨 EXPERIMENTAL 🧪**<br>Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when Tabs Bar is scrollable. |
+| `pinnedTabsFlexWidth`<span title="Experimental">🧪</span> | Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when Tabs Bar is scrollable. |
 | `pinnedTabsFlexWidthIndicator` | Display an icon on pinned tabs when `pinnedTabsFlexWidth` is enabled. |
 | `tabContentHeight` | Height of tab content. Minimum: `16`. |
 | `tabHorizontalMargin` | Horizontal space around tab. Minimum: `0`. |
