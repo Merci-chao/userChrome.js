@@ -52,14 +52,15 @@ Make Firefox support multiple rows of tabs.
 
 ## Compatibility
 - Firefox 115, 146 to 148 (excluding ESR versions), for Windows 7 to 11.
-- Supports general userChrome.js script loaders, such as:
+- Supports general `userChrome.js` script loaders, such as:
 	- [`firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
  	- [`userChrome.js`](https://github.com/alice0775/userChrome.js)
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
-- Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)), user scripts (`*.uc.js`) or CSS styles (`userChrome.css`) can cause weird glitches and bugs.
+- This script functions more like a comprehensive tab extension than a basic multi‑row modification. It consolidates thousands of lines of logic and styling into a single file, while remaining as manageable as a standard `userChrome.js` script. It is a hard‑core implementation, built with perfection and performance in mind, where complexity and line count are not a concern — just as [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs) could never be realized with only a few hundred lines of code. That said, if your preference is for something simple, fully transparent, and easily controlled — providing a stronger sense of safety — this may not be the option best suited to you.
+- Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. Tab Mix Plus), user scripts (`*.uc.js`) or CSS styles (`userChrome.css`) can cause weird glitches and bugs.
   <br>⚠️ Please follow the installation steps below carefully.
 - This is an unofficial (and complicated) script maintained solely by me. This script may contain unforeseen bugs and is not guaranteed to keep compatible with the latest versions of Firefox. If an unexpected issue occurs, restarting Firefox may be necessary. In extreme cases — especially when using an outdated version of the script with a newly updated Firefox — the browser may become unusable, potentially resulting in the permanent loss of your previous browsing session. You may need to disable the script in such situations. Please use this script only if you are capable of and prepared to handle these risks.
 - This script is developed for Windows and probably does not work on Ubuntu (Linux) and macOS.
