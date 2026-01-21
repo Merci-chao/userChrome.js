@@ -118,7 +118,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `linesToDragScroll` | タブを上端・下端へドラッグしたときのスクロール段数。最小値：`1`。 |
 | `linesToScroll` | マウスホイール操作によるスクロール段数。最小値：`1`。 |
 | `previewPanelNoteEditable` | タブプレビューパネルにカーソルを合わせると、内部のノートを編集可能（Firefox 148 以降）。 |
-| `previewPanelShifted` | 多段がある場合にプレビューパネルをシフトし、下の段の項目がパネルに隠される影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。<ul><li>`0`－無効</li><li>`1`－グループ用</li><li>`2`－タブ用</li><li>`3`－両方用</li></ul> |
+| `previewPanelShifted` | 多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 では非対応。<ul><li>`0`－無効</li><li>`1`－グループ用</li><li>`2`－タブ用</li><li>`3`－両方用</li></ul> |
 | `scrollButtonsSize` | ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値：`0` だが、表示上は少なくとも 2 デバイスピクセルの高さになる。最大値はタブの高さの半分までに制限される。 |
 
 ### タブバーレイアウト
@@ -197,7 +197,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 **Version 4.2**
 - 新規
-	- `previewPanelShifted` を追加：多段がある場合にプレビューパネルをシフトし、下の段の項目がパネルに隠される影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。
+	- `previewPanelShifted` を追加：多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 では非対応。
 		- `0`－無効
 		- `1`－グループ用
 		- `2`－タブ用
