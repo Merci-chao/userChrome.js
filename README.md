@@ -280,6 +280,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Notification Bar was placed incorrectly when  was enabled.
 
 <details>
+<summary>Old Versions</summary>
+
+<details>
 <summary>Minor Updates</summary>
 
 **Version 4.0.2.3**
@@ -327,9 +330,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Audio button did not have a consistent appearance on pinned tabs when `pinnedTabsFlexWidth` was enabled.
 	- Incorrect minimum tab width and layout glitches when setting UI density to Touch.
 	- Various minor bugs and issues.
-
-<details>
-<summary>Old Versions</summary>
 
 <details>
 <summary>Minor Updates</summary>
