@@ -277,6 +277,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `tabsAtBottom` を有効にした時に通知バーの位置が誤っていた。
 
 <details>
+<summary>旧バージョン</summary>
+
+<details>
 <summary>軽微な更新</summary>
 
 **Version 4.0.2.3**
@@ -325,9 +328,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- UI 密度をタッチに設定した際の最小タブ幅の不正とレイアウトの不具合。
 	- いろんな軽微なバグや不具合。
 
-<details>
-<summary>旧バージョン</summary>
-	
 <details>
 <summary>軽微な更新</summary>
 
