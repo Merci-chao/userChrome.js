@@ -25,7 +25,7 @@ Make Firefox support multiple rows of tabs.
 	  <td>Exclusively supports animated tab dragging in multi-row mode.</td>
   </tr>
   <tr>
-	  <td>✨ Smooth Interactions</td>
+	  <td>✨ Polished Interactions</td>
 	  <td>Provides a seamless and refined user experience for tab operations.</td>
   </tr>
   <tr>
