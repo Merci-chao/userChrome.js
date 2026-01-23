@@ -26,7 +26,7 @@ Make Firefox support multiple rows of tabs.
   </tr>
   <tr>
 	  <td>✨ Polished Interactions</td>
-	  <td>Provides a seamless and refined user experience for tab operations.</td>
+	  <td>Provides a smooth and refined user experience for tab operations.</td>
   </tr>
   <tr>
 	  <td>📐 Optimized Space Usage</td>
