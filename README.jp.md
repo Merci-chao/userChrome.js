@@ -126,7 +126,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `autoCollapse`<span title="実験的機能">🧪</span> | ホバーしていない時は、一段に折りたたむ。有効化すると、`tabsUnderControlButtons` と `positionPinnedTabs` は強制的に無効化される。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要あり。 |
+| `autoCollapse`<span title="実験的機能">🧪</span> | ホバーしていない時は、一段に折りたたむ。有効化すると、`tabsUnderControlButtons` と `positionPinnedTabs` は強制的に無効化される。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要がある。 |
 | `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。最小値：`0`。 |
 | `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。最小値：`0`。 |
 | `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示。Windows 10 と 11 でのみ対応。 |
