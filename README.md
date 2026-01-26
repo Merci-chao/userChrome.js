@@ -136,7 +136,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when Tabs Bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
 | `maxTabRows` | Maximum number of rows to display at once. Minimum: `1`. |
-| `newTabButtonAfterLastTab` | Place the New Tab button after the last tab; otherwise, it follows the position specified in toolbar customization.<br>📝 Note: The New Tab button stays after the last tab only when it is placed directly after the tabs. |
+| `newTabButtonAfterLastTab` | Place the New Tab button after the last tab. When disabled, the button follows the position specified in toolbar customization.<br>📝 Note: The New Tab button stays after the last tab only when it is placed directly after the tabs. |
 | `positionPinnedTabs` | Position pinned tabs as a fixed grid before normal tabs when the Tabs Bar is scrollable. |
 | `privateBrowsingIconOnNavBar` | Move the private window icon to Navigation Bar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled. |
 | `rowIncreaseEvery` | Each time the window width is increased by this amount, one more row is allowed. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
@@ -207,7 +207,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - New
 	- Add `lastRowTabsFlexible`: Tabs in the last row have flexible width when multiple rows are present. Forcibly activated when `justifyCenter` is `2`.
 	- Add `positionPinnedTabs`: Position pinned tabs as a fixed grid before normal tabs when the Tabs Bar is scrollable.
-	- Add `newTabButtonAfterLastTab`: Place the New Tab button after the last tab; otherwise, it follows the position specified in toolbar customization. Note: The New Tab button stays after the last tab only when it is placed directly after the tabs.
+	- Add `newTabButtonAfterLastTab`: Place the New Tab button after the last tab. When disabled, the button follows the position specified in toolbar customization. Note: The New Tab button stays after the last tab only when it is placed directly after the tabs.
 	- Add `previewPanelShiftedAlways`: Shift the preview panel even when there is only one row.
 - Improvements
 	- Support locking tab size when closing tabs or collapsing a group when `justifyCenter` is `1`.
