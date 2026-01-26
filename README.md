@@ -159,7 +159,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ------------- | ------------- |
 | `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. Minimum: `0`. |
 | `lastRowTabsFlexibe` | Tabs in the last row have flexible width when multiple rows are present. Forcibly activated when `justifyCenter` is `2`. |
-| `pinnedTabsFlexWidth`<span title="Experimental">🧪</span> | Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when Tabs Bar is scrollable. |
+| `pinnedTabsFlexWidth`<span title="Experimental">🧪</span> | Make pinned tab sizing behave like normal tabs. Enabling this feature will forcibly disable `positionPinnedTabs`. |
 | `pinnedTabsFlexWidthIndicator` | Display an icon on pinned tabs when `pinnedTabsFlexWidth` is enabled. |
 | `tabContentHeight` | Height of tab content. Minimum: `16`. |
 | `tabHorizontalMargin` | Horizontal space around tab. Minimum: `0`. |
