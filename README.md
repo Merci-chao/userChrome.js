@@ -51,7 +51,7 @@ Make Firefox support multiple rows of tabs.
 </table>
 
 ## Compatibility
-- Firefox 115, 146 to 148 (excluding ESR versions), for Windows 7 to 11.
+- Firefox 115, 147 to 149 (excluding ESR versions), for Windows 7 to 11.
 - Supports general `userChrome.js` script loaders, such as:
 	- [`firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
@@ -121,6 +121,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. Minimum: `1`. |
 | `previewPanelNoteEditable` | Allows the tab preview panel to be hovered, and the note inside to be editable (Firefox 148+). |
 | `previewPanelShifted` | Shift the preview panel when there are multiple rows, reducing the effect of the panel blocking items in the rows underneath. Affects tabs only when `previewPanelNoteEditable` is `true`. Not available on Firefox 115.<ul><li>`0` - never</li><li>`1` - for groups</li><li>`2` - for tabs</li><li>`3` - for both</li></ul> |
+| `previewPanelShiftedAlways` | Shift the preview panel even when there is only one row. |
 | `scrollButtonsSize` | The size (in pixels) of the scroll buttons during dragging. Minimum: `0`, but it will be rendered as at least 2 device pixels in height; the maximum is limited to half the tab height. |
 
 ### Tabs Bar Layout
@@ -133,8 +134,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11. |
 | `hideAllTabs` | Hide the "List all tabs" button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing "Remove from Toolbar". |
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when Tabs Bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
-| `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always</li></ul>Behaviors such as closing tabs and collapsing tab groups may differ slightly when tabs are centered. |
+| `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
 | `maxTabRows` | Maximum number of rows to display at once. Minimum: `1`. |
+| `newTabButtonAfterLastTab` | Place the New Tab button after the last tab; otherwise, it follows the position specified in toolbar customization.<br>📝 Note: The New Tab button stays after the last tab only when it is placed directly after the tabs. |
+| `positionPinnedTabs` | Position pinned tabs as a fixed grid before normal tabs when the Tabs Bar is scrollable. |
 | `privateBrowsingIconOnNavBar` | Move the private window icon to Navigation Bar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled. |
 | `rowIncreaseEvery` | Each time the window width is increased by this amount, one more row is allowed. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
@@ -155,6 +158,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
 | `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. Minimum: `0`. |
+| `lastRowTabsFlexibe` | Tabs in the last row have flexible width when multiple rows are present. Forcibly activated when `justifyCenter` is `2`. |
 | `pinnedTabsFlexWidth`<span title="Experimental">🧪</span> | Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when Tabs Bar is scrollable. |
 | `pinnedTabsFlexWidthIndicator` | Display an icon on pinned tabs when `pinnedTabsFlexWidth` is enabled. |
 | `tabContentHeight` | Height of tab content. Minimum: `16`. |
@@ -199,6 +203,25 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.3**
+- New
+	- Add `lastRowTabsFlexible`: Tabs in the last row have flexible width when multiple rows are present. Forcibly activated when `justifyCenter` is `2`.
+	- Add `positionPinnedTabs`: Position pinned tabs as a fixed grid before normal tabs when the Tabs Bar is scrollable.
+	- Add `newTabButtonAfterLastTab`: Place the New Tab button after the last tab; otherwise, it follows the position specified in toolbar customization. Note: The New Tab button stays after the last tab only when it is placed directly after the tabs.
+	- Add `previewPanelShiftedAlways`: Shift the preview panel even when there is only one row.
+- Improvements
+	- Support locking tab size when closing tabs or collapsing a group when `justifyCenter` is `1`.
+	- Refine animations for tab group.
+	- Fine-tuning of some minor operational details.
+	- Update for Firefox 149.
+	- Update features related to tab notes.
+- Fixes
+	- Temporary layout issues occurring when:
+		- Dragging a group that was not fully collapsed out of the window;
+		- Closing the first tab in a row or the last tab;
+		- Grouping tabs by dragging.
+	- Minor issues in special-case dragging and animation.
+
 **Version 4.2**
 - New
 	- Add `previewPanelShifted`: Shifts the preview panel when there are multiple rows, reducing the effect of the panel blocking items in the rows underneath. Affects tabs only when `previewPanelNoteEditable` is `true`. Not available on Firefox 115.
@@ -216,6 +239,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Issue that occurred when pressing Ctrl to start dragging a split view.
 	- Layout issue of tab group labels on older versions of Firefox.
 	- Minor layout and visual issues.
+
+<details>
+<summary>Old Versions</summary>
 
 **Version 4.1.3**
 - Fixes
@@ -278,9 +304,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Refine update notification UI.
 - Fix
 	- Notification Bar was placed incorrectly when  was enabled.
-
-<details>
-<summary>Old Versions</summary>
 
 <details>
 <summary>Minor Updates</summary>
