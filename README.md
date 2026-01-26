@@ -128,7 +128,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| `autoCollapse`<span title="Experimental">🧪</span> | Tabs will collapse to a single row when the cursor is not hovering. Enabling this feature will forcibly disable `tabsUnderControlButtons`, and pinned tabs are no longer fixed in position when Tabs Bar is scrollable. On Firefox 115, setting `layout.css.has-selector.enabled` as `true` is required.
+| `autoCollapse`<span title="Experimental">🧪</span> | Tabs will collapse to a single row when the cursor is not hovering. Enabling this feature will forcibly disable `tabsUnderControlButtons` and `positionPinnedTabs`. On Firefox 115, setting `layout.css.has-selector.enabled` as `true` is required.
 | `autoCollapseDelayCollapsing` | Delay before collapsing the tabs when the cursor moves away (in milliseconds). Minimum: `0`. |
 | `autoCollapseDelayExpanding` | Delay before expanding the tabs when the cursor hovers over them (in milliseconds). Minimum: `0`. |
 | `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11. |
