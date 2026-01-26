@@ -206,7 +206,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `newTabButtonAfterLastTab` を追加：「新しいタブ」ボタンを最後のタブの後に配置。それ以外はツールバーのカスタマイズで指定された位置に従う。備考：タブの直後に置かれた場合のみ最後のタブの後に固定される。
 	- `previewPanelShiftedAlways` を追加：一段しかない場合でもプレビューパネルをシフト。
 - 改良
-	- `justifyCenter` が `1` の時、タブを閉じたりグループを折りたたむ際にタブサイズを固定できるようにする。
+	- `justifyCenter` が `1` の時、タブを閉じたりグループを折りたたむ際にタブサイズを固定できるようになる。
 	- タブグループのアニメーションを改善。
 	- 細かな操作上の詳細を微調整。
 	- Firefox 149 に対応。
