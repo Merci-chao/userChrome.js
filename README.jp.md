@@ -52,7 +52,7 @@ Firefox に多段タブ表示をサポートさせる。
 </table>
 
 ## 対応環境
-- Firefox 115、146〜148（ESR バージョンを除く）、Windows 7〜11 に対応。
+- Firefox 115、147〜149（ESR バージョンを除く）、Windows 7〜11 に対応。
 - 一般的なスクリプトローダーに対応。例：
 	- [`firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
@@ -119,6 +119,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `linesToScroll` | マウスホイール操作によるスクロール段数。最小値：`1`。 |
 | `previewPanelNoteEditable` | タブプレビューパネルにカーソルを合わせると、内部のノートを編集可能（Firefox 148 以降）。 |
 | `previewPanelShifted` | 多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 では非対応。<ul><li>`0`－無効</li><li>`1`－グループ用</li><li>`2`－タブ用</li><li>`3`－両方用</li></ul> |
+| `previewPanelShiftedAlways` | 一段しかない場合でもプレビューパネルをシフト。 |
 | `scrollButtonsSize` | ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値：`0` だが、表示上は少なくとも 2 デバイスピクセルの高さになる。最大値はタブの高さの半分までに制限される。 |
 
 ### タブバーレイアウト
@@ -131,8 +132,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示。Windows 10 と 11 でのみ対応。 |
 | `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。 |
 | `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、タブバーがスクロール可能時にその空白を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。 |
-| `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0`－無効</li><li>`1`－1 段のみの場合</li><li>`2`－常に有効</li></ul>中央揃え時には、タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある。 |
+| `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0`－無効</li><li>`1`－一段のみの場合</li><li>`2`－常に有効（タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある）</li></ul> |
 | `maxTabRows` | 表示可能な最大段数。最小値：`1`。 |
+| `newTabButtonAfterLastTab` | 「新しいタブ」ボタンを最後のタブの後に配置。それ以外はツールバーのカスタマイズで指定された位置に従う。<br>📝 備考：タブの直後に置かれた場合のみ最後のタブの後に固定される。 |
+| `positionPinnedTabs` | タブバーがスクロール可能な時、ピン留めされたタブを通常タブの前にグリッドとして配置。 |
 | `privateBrowsingIconOnNavBar` | プライベートウィンドウアイコンをナビゲーションバーに移動。Firefox 115 では非対応。`tabsAtBottom` が有効な場合は強制的に有効化される。 |
 | `rowIncreaseEvery` | ウィンドウ幅がこの値だけ増加するたびに、表示可能段数が 1 段増加。`0` にすると最大段数が常に表示される。 |
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になる。 |
@@ -152,6 +155,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | `gapAfterPinned` | ピン留めされたタブと通常タブの間の隙間。最小値：`0`。 |
+| `lastRowTabsFlexibe` | 多段がある場合、最後の段のタブ幅を伸縮自在にする。`justifyCenter` が `2` の場合は強制的に有効化される。 |
 | `pinnedTabsFlexWidth`<span title="実験的機能">🧪</span> | ピン留めされたタブのサイズを通常のタブと同様に扱う。なお、タブバーがスクロール可能な場合でも位置が固定されなくなる。 |
 | `pinnedTabsFlexWidthIndicator` | `pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブにアイコンを表示。 |
 | `tabContentHeight` | タブ内容部分の高さ。最小値：`16`。 |
@@ -195,6 +199,25 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.3**
+- 新規
+	- `lastRowTabsFlexible` を追加：多段がある場合、最後の段のタブ幅を伸縮自在にする。`justifyCenter` が `2` の場合は強制的に有効化される。
+	- `positionPinnedTabs` を追加：タブバーがスクロール可能な時、ピン留めされたタブを通常タブの前にグリッドとして配置。
+	- `newTabButtonAfterLastTab` を追加：「新しいタブ」ボタンを最後のタブの後に配置。それ以外はツールバーのカスタマイズで指定された位置に従う。備考：タブの直後に置かれた場合のみ最後のタブの後に固定される。
+	- `previewPanelShiftedAlways` を追加：一段しかない場合でもプレビューパネルをシフト。
+- 改良
+	- `justifyCenter` が `1` の時、タブを閉じたりグループを折りたたむ際にタブサイズを固定できるようにする。
+	- タブグループのアニメーションを改善。
+	- 細かな操作上の詳細を微調整。
+	- Firefox 149 に対応。
+	- タブノート関連の更新。
+- 修正
+	- 一時的なレイアウト問題：
+		- 完全に折りたたまれていないグループをウィンドウ外へドラッグした時；
+		- 段の最初または最後のタブを閉じた時；
+		- タブをドラッグしてグループ化した時。
+	- 特殊ケースのドラッグやアニメーションにおける軽微な問題。
+
 **Version 4.2**
 - 新規
 	- `previewPanelShifted` を追加：多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 では非対応。
@@ -212,6 +235,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Ctrl キーを押して分割ビューのドラッグを開始した際に発生していた問題。
 	- 旧バージョンの Firefox におけるタブグループラベルのレイアウト問題。
 	- レイアウトとアニメーションの軽微な不具合。
+
+<details>
+<summary>旧バージョン</summary>
 
 **Version 4.1.3**
 - 修正
@@ -275,9 +301,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- アップデート通知 UI を調整。
 - 修正
 	- `tabsAtBottom` を有効にした時に通知バーの位置が誤っていた。
-
-<details>
-<summary>旧バージョン</summary>
 
 <details>
 <summary>軽微な更新</summary>
