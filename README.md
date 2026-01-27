@@ -68,7 +68,7 @@ Make Firefox support multiple rows of tabs.
 
 - This script needs to override the tab functions of Firefox and requires [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) to be enabled on Firefox 139+ for this purpose. The said setting is enabled automatically once you are applying this script, and it requires a manual disabling through `about:config` after disabling or removing the script. Please note that and use this script with understanding.
 
-- This script is more like a meticulous tab extension than a simple multi-row tweak. It consolidates thousands of lines of logic and styling into a single file, yet remains as manageable as a typical script. It is a hardcore implementation built with perfection and performance in mind. The number of lines is never a concern during development — just as Tab Mix Plus could never be achieved with only a few hundred lines of half‑baked code. However, if you prefer something with coding that is simple and fully understandable — providing a stronger sense of safety — this may not be your favorite choice.
+- This script is more like a meticulous tab extension than a simple multi-row tweak. It consolidates thousands of lines of logic and styling into a single file, yet remains as manageable as a typical script. It is a hardcore implementation built with perfection and performance in mind. The number of lines is never a concern during development — just as Tab Mix Plus could never be achieved with only a few hundred lines of code. However, if you prefer something with coding that is simple and fully understandable — providing a stronger sense of safety — this may not be your favorite choice.
 
 - Always use scripts and files from sources you trust.
 
