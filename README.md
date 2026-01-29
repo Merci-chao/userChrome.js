@@ -339,7 +339,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- In keeping with the original design of Firefox, `spaceAfterTabs`, `spaceAfterTabsOnMaximizedWindow`, `spaceBeforeTabs` and `spaceBeforeTabsOnMaximizedWindow` now affect the spacing at the edges of the Navigation Bar when `tabsAtBottom` is enabled.
 	- In keeping with the original design of Firefox, `gapAfterPinned` now defaults to `0` on Firefox 143 and above.
 	- Fix the size of New Tab button to prevent layout gliches.
-- Improvement
+- Improvements
 	- Refine the behavior of tab size locking when closing tabs or collapsing tab groups.
 	- Refine the dragging behavior to avoid the difficulty of moving items to the row edge in certain scenarios.
 	- Update for Firefox 147.
