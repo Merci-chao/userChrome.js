@@ -137,7 +137,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `newTabButtonAfterLastTab` | Place the New Tab button after the last tab. When disabled, the button follows the position specified in toolbar customization.<br>📝 Note: The New Tab button stays after the last tab only when it is placed directly after the tabs. |
 | `positionPinnedTabs` | Position pinned tabs as a fixed grid before normal tabs when the Tabs Bar is scrollable. |
 | `privateBrowsingIconOnNavBar` | Move the private window icon to Navigation Bar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled. |
-| `rowIncreaseEvery` | Each time the window width is increased by this amount, one more row is allowed. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
+| `rowIncreaseEvery` | Each time the window width increases by this amount, one more row is displayed. A narrower window will therefore show fewer rows at once. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
 | `spaceAfterTabs` | Empty space before the window control buttons. Minimum: `0`. |
 | `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. Minimum: `0`. |
