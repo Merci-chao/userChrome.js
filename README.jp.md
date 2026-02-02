@@ -133,7 +133,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `newTabButtonAfterLastTab` | 「新しいタブ」ボタンを最後のタブの後に配置。無効化されている場合、ツールバーのカスタマイズで指定された位置に従う。<br>📝 備考：タブの直後に置かれた場合のみ最後のタブの後に固定される。 |
 | `positionPinnedTabs` | タブバーがスクロール可能な時、ピン留めされたタブを通常タブの前にグリッドとして配置。 |
 | `privateBrowsingIconOnNavBar` | プライベートウィンドウアイコンをナビゲーションバーに移動。Firefox 115 では非対応。`tabsAtBottom` が有効な場合は強制的に有効化される。 |
-| `rowIncreaseEvery` | ウィンドウ幅がこの値だけ増加するたびに、表示可能段数が 1 段増加。`0` にすると最大段数が常に表示される。 |
+| `rowIncreaseEvery` | ウィンドウの幅がこの幅広がるたびに、表示される段が一段追加される。幅が狭いウィンドウでは、同時に表示できる行数が少なくなる。`0` にすると最大段数が常に表示される。 |
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になる。 |
 | `spaceAfterTabs` | ウィンドウ制御ボタンの前にある空白スペース。最小値：`0`。 |
 | `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ制御ボタン前の空白スペース。最小値：`0`。 |
