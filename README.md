@@ -201,6 +201,17 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+** Version 4.3.1 **
+- Improvements
+	- Display a pin/unpin icon next to the drop indicator to identify dragging to pin/unpin.
+	- Update for Firefox 149.
+- Fixes
+	- Firefox might freeze after drag-and-drop in special case of having many pinned tabs and the window was narrow.
+	- Could not rearrange pinned tabs in some cases when tabs bar was scrollable.
+	- Some layout update was performed unnecessarily.
+	- Minor visual issues when dragging tabs in special cases.
+	- Minor appearance issues in special cases.
+
 **Version 4.3**
 - New
 	- Add `lastRowTabsFlexible`: Tabs in the last row have flexible width when multiple rows are present. Forcibly activated when `justifyCenter` is `2`.
