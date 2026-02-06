@@ -209,7 +209,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Firefox might freeze after drag-and-drop in special case of having many pinned tabs and the window was narrow.
 	- Could not rearrange pinned tabs in some cases when tabs bar was scrollable.
 	- Some layout update was performed unnecessarily.
-	- Minor visual issues when dragging tabs in special cases.
+	- Minor visual issues when drag-and-drop in special cases.
 	- Minor appearance issues in special cases.
 
 **Version 4.3**
