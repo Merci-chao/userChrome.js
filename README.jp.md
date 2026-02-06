@@ -195,6 +195,17 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+** Version 4.3.1 **
+- 改良
+	- ドロップインジケーターの横にピン留め・外すアイコンを表示し、ドラッグ操作でピン留め・外すを識別できるようになる。
+	- Firefox 149 に対応。
+- 修正
+	- ピン留めされたタブが多数ありウィンドウが狭い場合、Firefox はタブをドラッグ＆ドロップした後にフリーズする可能性があった。
+	- タブバーがスクロール可能な場合、一部の状況でピン留めされたタブを並べ替えることができなかった。
+	- 不要なレイアウト更新が行われた問題。
+	- 特殊な場合にタブをドラッグした際の軽微な表示上の問題。
+	- 特別な場合における外観上の軽微な問題。
+
 **Version 4.3**
 - 新規
 	- `lastRowTabsFlexible` を追加：多段がある場合、最後の段のタブ幅を伸縮自在にする。`justifyCenter` が `2` の場合は強制的に有効化される。
