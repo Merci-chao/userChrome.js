@@ -195,7 +195,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-** Version 4.3.1 **
+**Version 4.3.1**
 - 改良
 	- ドロップインジケーターの横にピン留め・外すアイコンを表示し、ドラッグ操作でピン留め・外すを識別できるようになる。
 	- Firefox 149 に対応。
