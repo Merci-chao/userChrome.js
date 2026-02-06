@@ -201,7 +201,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-** Version 4.3.1 **
+**Version 4.3.1**
 - Improvements
 	- Display a pin/unpin icon next to the drop indicator to identify dragging to pin/unpin.
 	- Update for Firefox 149.
