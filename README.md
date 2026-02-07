@@ -20,7 +20,7 @@ Make Firefox support multiple rows of tabs.
   </tr>
   <tr>
 	  <td>🖱️ Drag & Drop in Motion</td>
-	  <td>Exclusively supports animated tab dragging in multi-row mode.</td>
+	  <td>Exclusively supports the morden drag & drop in multi-row mode.</td>
   </tr>
   <tr>
 	  <td>✨ Polished Interactions</td>
