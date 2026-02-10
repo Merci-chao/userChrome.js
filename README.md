@@ -170,7 +170,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
 | `dynamicThemeImageSize` | When using themes, the size of the background image changes with the current number of rows. |
-| `floatingBackdropBlurriness` | How blurry the background of items covering the tabs is when Tabs Bar is scrollable, available when `tabsUnderControlButtons` is `2` and both `floatingBackdropClip` & `nativeWindowStyle` are `false`. Minimum: `0`. Not available on Firefox 115. |
+| `floatingBackdropBlurriness` | How blurry the background of items covering the tabs is when Tabs Bar is scrollable, available when `tabsUnderControlButtons` is `2`. Minimum: `0`. Not available on Firefox 115 and in some cases where the blur effect cannot be applied. |
 | `floatingBackdropClip` | Clip the area covered by items on the Tabs Bar when it is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `floatingBackdropOpacity` | How opaque the background of items covering the tab is when Tabs Bar is scrollable, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
 | `nativeWindowStyle` | Display the system-native theme style (e.g. transparency effects of Windows 11 and effects from tools like [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass)) on Tabs Bar. To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. Not available on Firefox 115, or using any Firefox theme with background image. |
