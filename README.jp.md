@@ -102,7 +102,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `animateTabMoveMaxCount` | ドラッグされたタブの数がこの値を超えると、ラッグ＆ドロップのアニメーションは無効化され、代わりにドロップ位置のインジケーターを表示する。最小値：`0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。<br>📝 備考：タブグループの一部の操作が使用できない場合がある。最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある（例：Firefox バグ [#1985434](https://bugzilla.mozilla.org/show_bug.cgi?id=1985434)、[#1988159](https://bugzilla.mozilla.org/show_bug.cgi?id=1988159)、[#1988162](https://bugzilla.mozilla.org/show_bug.cgi?id=1988162)、[#1988194](https://bugzilla.mozilla.org/show_bug.cgi?id=1988194)）。 |
+| `animateTabMoveMaxCount`<span title="欠陥的な機能">🐞</span> | ドラッグされたタブの数がこの値を超えると、ラッグ＆ドロップのアニメーションは無効化され、代わりにドロップ位置のインジケーターを表示する。最小値：`0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。<br>📝 備考：タブグループの一部の操作が使用できない場合がある。最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある（例：Firefox バグ [#1985434](https://bugzilla.mozilla.org/show_bug.cgi?id=1985434)、[#1988159](https://bugzilla.mozilla.org/show_bug.cgi?id=1988159)、[#1988162](https://bugzilla.mozilla.org/show_bug.cgi?id=1988162)、[#1988194](https://bugzilla.mozilla.org/show_bug.cgi?id=1988194)）。 |
 | `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する）。 |
 | `disableDragToPinOrUnpin` | 同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を無効化。例：タブをピン留めされたタブにドロップすると、ピン留めされるかどうか。 |
 | `dragStackPreceding` | ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。 |
@@ -122,7 +122,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `autoCollapse`<span title="実験的機能">🧪</span> | ホバーしていない時は、一段に折りたたむ。有効化すると、`tabsUnderControlButtons` と `positionPinnedTabs` は強制的に無効化される。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要がある。 |
+| `autoCollapse`<span title="実験的な機能">🧪</span> | ホバーしていない時は、一段に折りたたむ。有効化すると、`tabsUnderControlButtons` と `positionPinnedTabs` は強制的に無効化される。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要がある。 |
 | `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。最小値：`0`。 |
 | `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。最小値：`0`。 |
 | `compactControlButtons` | ウィンドウ制御ボタンをコンパクトに表示。Windows 10 と 11 でのみ対応。 |
@@ -152,7 +152,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ------------- | ------------- |
 | `gapAfterPinned` | ピン留めされたタブと通常タブの間の隙間。最小値：`0`。 |
 | `lastRowTabsFlexibe` | 多段がある場合、最後の段のタブ幅を伸縮自在にする。`justifyCenter` が `2` の場合は強制的に有効化される。 |
-| `pinnedTabsFlexWidth`<span title="実験的機能">🧪</span> | ピン留めされたタブのサイズを通常のタブと同様に扱う。有効化すると、`positionPinnedTabs` は強制的に無効化される。 |
+| `pinnedTabsFlexWidth`<span title="実験的な機能">🧪</span> | ピン留めされたタブのサイズを通常のタブと同様に扱う。有効化すると、`positionPinnedTabs` は強制的に無効化される。 |
 | `pinnedTabsFlexWidthIndicator` | `pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブにアイコンを表示。 |
 | `tabContentHeight` | タブ内容部分の高さ。最小値：`16`。 |
 | `tabHorizontalMargin` | タブ周囲の水平余白。最小値：`0`。 |
@@ -179,7 +179,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認。`0` で無効、`1` 以上で有効。値は最後に確認した時刻（例：`1759911972`）で更新される。<br><b>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b><br>📝 備考：Firefox の旧バージョン（115 を除く）を使用している場合、このスクリプトの更新は通知されない。 |
 | `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`1`－無効</li><li>`2`－有効</li><li>`3`－有効（通知なし）、通知されない軽微な変更や修正の更新も自動的に受け取り</li></ul> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値：`1`。 |
-| `debugMode`⛔ | デバッグモード。一般向けではない。 |
+| `debugMode`<span title="使用禁止">⛔</span> | デバッグモード。一般向けではない。 |
 
 ### Firefox の組み込み設定
 | 項目（接頭辞なし） | 説明 |
