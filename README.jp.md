@@ -103,6 +103,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | `animateTabMoveMaxCount`<span title="欠陥的な機能">🐞</span> | ドラッグされたタブの数がこの値を超えると、ラッグ＆ドロップのアニメーションは無効化され、代わりにドロップ位置のインジケーターを表示する。最小値：`0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。<br>📝 備考：タブグループの一部の操作が使用できない場合がある。最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある（例：Firefox バグ [#1985434](https://bugzilla.mozilla.org/show_bug.cgi?id=1985434)、[#1988159](https://bugzilla.mozilla.org/show_bug.cgi?id=1988159)、[#1988162](https://bugzilla.mozilla.org/show_bug.cgi?id=1988162)、[#1988194](https://bugzilla.mozilla.org/show_bug.cgi?id=1988194)）。 |
+| `animateTabMoveShiftKeyToPause`<span title="欠陥的な機能">🐞</span> | `Shift` キーを押している際、ドラッグ＆ドロップのアニメーションを一時停止し、代わりにドロップインジケーターを表示する。 |
 | `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する）。 |
 | `disableDragToPinOrUnpin` | 同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を無効化。例：タブをピン留めされたタブにドロップすると、ピン留めされるかどうか。 |
 | `dragStackPreceding` | ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。 |
@@ -135,6 +136,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `privateBrowsingIconOnNavBar` | プライベートウィンドウアイコンをナビゲーションバーに移動。Firefox 115 では非対応。`tabsAtBottom` が有効な場合は強制的に有効化される。 |
 | `rowIncreaseEvery` | ウィンドウの幅がこの幅広がるたびに、表示される段が一段追加される。幅が狭いウィンドウでは、同時に表示できる行数が少なくなる。`0` にすると最大段数が常に表示される。 |
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になる。 |
+| `smartWindowButtonOnNavBar` | Firefox Smart Window 切り替えボタンをナビゲーションバーに移動。`tabsAtBottom` が有効な場合は強制的に有効化される。Firefox 148 以下では非対応。 |
 | `spaceAfterTabs` | ウィンドウ制御ボタンの前にある空白スペース。最小値：`0`。 |
 | `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ制御ボタン前の空白スペース。最小値：`0`。 |
 | `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値：`0`。 |
@@ -171,6 +173,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（例えば、Windows 11 の透明効果や [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果）を表示。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合がある。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をする。Firefox 115 または背景画像付きテーマでは非対応。 |
 | `scrollbarThumbColor` | スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
 | `scrollbarTrackColor` | スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
+| `showScrollSahdow` | タブバーがスクロール可能な場合、上下の端にシャドウを表示。 |
 
 ### その他
 
@@ -194,6 +197,22 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.4**
+- 追加
+	- `showScrollSahdow` を追加：タブバーがスクロール可能な場合、上下の端にシャドウを表示し、Firefox のインターフェースデザインに合わせる。
+	- `animateTabMoveShiftKeyToPause` を追加：`Shift` キーを押している際、ドラッグ＆ドロップのアニメーションを一時停止し、代わりにドロップインジケーターを表示する。備考：Firefox のバグにより、特定のシナリオではドロップ位置が期待通りに動作しない可能性がある。
+	- `smartWindowButtonOnNavBar` を追加（Firefox 149 以降）：Firefox Smart Window 切り替えボタンをナビゲーションバーに移動。`tabsAtBottom` が有効な場合は強制的に有効化される。
+- 改良
+	- スクロールやドラッグをより容易にするため、タブバー上方にドラッグスペースを追加（タブバーが最上部でない場合のみ）。
+	- 互換性の更新：
+		- Firefox Smart Window 機能；
+		- Firefox 149。
+	- `tabsAtBottom` が有効な場合：
+		- タブバー下の追加ドラッグスペースが確保されている；
+		- DLP ボタンをナビゲーションバーへ移動。
+- 修正
+	- 特定の状況ごとに発生する複数のドラッグ＆ドロップの問題。
 
 **Version 4.3.1**
 - 改良
