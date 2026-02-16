@@ -11,6 +11,8 @@ Make Firefox support multiple rows of tabs.
 
 ![screenshot](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview.png)
 
+![screenshot](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/tabsAtBottom-en.png)
+
 ## Highlights
 
 <table>
