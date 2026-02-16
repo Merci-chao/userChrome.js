@@ -250,6 +250,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 		- Grouping tabs by dragging.
 	- Minor issues in special-case dragging and animation.
 
+<details>
+<summary>Old Versions</summary>
+
 **Version 4.2**
 - New
 	- Add `previewPanelShifted`: Shifts the preview panel when there are multiple rows, reducing the effect of the panel blocking items in the rows underneath. Affects tabs only when `previewPanelNoteEditable` is `true`. Not available on Firefox 115.
@@ -267,9 +270,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Issue that occurred when pressing Ctrl to start dragging a split view.
 	- Layout issue of tab group labels on older versions of Firefox.
 	- Minor layout and visual issues.
-
-<details>
-<summary>Old Versions</summary>
 
 **Version 4.1.3**
 - Fixes
