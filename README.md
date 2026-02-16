@@ -107,6 +107,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
 | `animateTabMoveMaxCount`<span title="Defective">🐞</span> | When the number of dragged tabs exceeds this value, disable the drag & drop animation, and show the drop indicator instead. Minimum: `0`. If dragging too many tabs causes lag, consider lowering this value.<br>📝 Note: Some tab grouping operations may be unavailable, and the final drop position is determined by Firefox's native behavior, which may not behave as expected in certain scenarios (e.g. Firefox bug [#1985434](https://bugzilla.mozilla.org/show_bug.cgi?id=1985434), [#1988159](https://bugzilla.mozilla.org/show_bug.cgi?id=1988159), [#1988162](https://bugzilla.mozilla.org/show_bug.cgi?id=1988162), [#1988194](https://bugzilla.mozilla.org/show_bug.cgi?id=1988194)). |
+| `animateTabMoveShiftKeyToPause`<span title="Defective">🐞</span> | When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. |
 | `animationDuration` | Duration of animations in milliseconds (valid range: `0` - `1000`). Note: Lengthy animations could strain system performance. |
 | `disableDragToPinOrUnpin` | Disable tab pinning/unpinning via drag & drop in the same window, e.g. whether dropping tabs onto the pinned tabs will pin them. |
 | `dragStackPreceding` | Stack the preceding selected tabs of the dragged one (see [`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking)). When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue. |
@@ -139,6 +140,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `privateBrowsingIconOnNavBar` | Move the private window icon to Navigation Bar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled. |
 | `rowIncreaseEvery` | Each time the window width increases by this amount, one more row is displayed. A narrower window will therefore show fewer rows at once. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
+| `smartWindowButtonOnNavBar` | Move the Firefox Smart Window switching button to Navigation Bar. Forcibly activated when `tabsAtBottom` is enabled. Not available on Firefox 148 and below. |
 | `spaceAfterTabs` | Empty space before the window control buttons. Minimum: `0`. |
 | `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. Minimum: `0`. |
 | `spaceBeforeTabs` | Empty space on the left side of the window. Minimum: `0`. |
@@ -176,6 +178,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `nativeWindowStyle` | Display the system-native theme style (e.g. transparency effects of Windows 11 and effects from tools like [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass)) on Tabs Bar. To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. Not available on Firefox 115, or using any Firefox theme with background image. |
 | `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
 | `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`. |
+| `showScrollSahdow` | Show shadow on the top and bottom edges when the Tabs Bar is scrollable. |
 
 ### Miscellaneous
 
@@ -200,6 +203,22 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.4**
+- New
+	- Add `showScrollSahdow`: Show shadow on the top and bottom edges when the Tabs Bar is scrollable, to align with the interface design of Firefox.
+	- Add `animateTabMoveShiftKeyToPause`: When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. Note: Drop position may not behave as expected in certain scenarios due to Firefox bugs.
+	- Add `smartWindowButtonOnNavBar` (Firefox 149+): Move the Firefox Smart Window switching button to Navigation Bar. Forcibly activated when `tabsAtBottom` is enabled.
+- Improvements
+	- Add extra dragging space above the Tabs Bar for easier scrolling and dragging (only when the Tabs Bar is not the topmost).
+	- Update compatibility with:
+		- Firefox Smart Window feature;
+		- Firefox 149.
+	- When `tabsAtBottom` is enabled:
+		- The extra dragging space below the Tabs Bar is ensured;
+		- Move the DLP button to Navigation Bar.
+- Fix
+	- Drag & drop problems in special cases.
 
 **Version 4.3.1**
 - Improvements
