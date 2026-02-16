@@ -244,6 +244,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 		- タブをドラッグしてグループ化した時。
 	- 特殊ケースのドラッグやアニメーションにおける軽微な問題。
 
+<details>
+<summary>旧バージョン</summary>
+
 **Version 4.2**
 - 新規
 	- `previewPanelShifted` を追加：多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 では非対応。
@@ -261,9 +264,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Ctrl キーを押して分割ビューのドラッグを開始した際に発生していた問題。
 	- 旧バージョンの Firefox におけるタブグループラベルのレイアウト問題。
 	- レイアウトとアニメーションの軽微な不具合。
-
-<details>
-<summary>旧バージョン</summary>
 
 **Version 4.1.3**
 - 修正
