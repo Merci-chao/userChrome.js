@@ -9,6 +9,8 @@
 # [Multi Tab Rows（多段タブ）](https://github.com/Merci-chao/userChrome.js/blob/main/MultiTabRows@Merci.chao.uc.js)
 Firefox に多段タブ表示をサポートさせる。
 
+![screenshot](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/tabsAtBottom-jp.png)
+
 ![screenshot](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview.png)
 
 ## 注目ポイント
