@@ -7,7 +7,7 @@
   max-width: 780px;
 }
 
-#main_content img {
+#main_content img:not([width]) {
   border-radius: .5em;
   box-shadow: .1em .1em .5em rgba(0, 0, 0, .15);
 }
