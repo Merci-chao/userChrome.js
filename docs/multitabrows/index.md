@@ -2,7 +2,7 @@
 
 ![screenshot](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview.png)
 
-**Multi Tab Rows** (`MultiTabRows@Merci.chao.uc.js`) is a powerful and comprehensive solution for **multi-row tabs in Firefox**, designed as a [`userChrome.js`](https://www.userchrome.org/what-is-userchrome-js.html) script. Inspired by the classic [`MultiRowTabLiteforFx.uc.js` (modified by Izheil)](https://github.com/Izheil/Quantum-Nox-Firefox-Customizations/tree/master/Multirow%20and%20other%20functions/), this project brings modern refinements, optimized usability, and long-term support.
+**Multi Tab Rows** (`MultiTabRows@Merci.chao.uc.js`) is a comprehensive solution for **multi-row tabs in Firefox**, built as a [`userChrome.js`](https://www.userchrome.org/what-is-userchrome-js.html) script. Inspired by the classic [`MultiRowTabLiteforFx.uc.js` (modified by Izheil)](https://github.com/Izheil/Quantum-Nox-Firefox-Customizations/tree/master/Multirow%20and%20other%20functions/) and the versatile [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs), it brings modern refinements, optimized usability, and long-term support — aiming to deliver the best multi-row tabs experience.
 
 ---
 
@@ -20,7 +20,7 @@ Multi Tab Rows makes the most of every pixel in your browser, extending even int
 If you prefer a more classic look, you can also place the Tabs Bar beneath the Navigation Bar for a traditional style.
 
 ### 🖱️ Drag & Drop in Motion
-Tab management feels effortless with its exclusive drag & drop support. No distracting indicators—just smooth and intuitive movement, even in multi-row mode.
+Tab management feels effortless with its exclusive drag & drop support. No distracting indicators — just smooth and intuitive movement, even in multi-row mode.
 
 ### 🚀 Newest Features Support
 Whether you’re using Tab Groups or exploring with Split View, Multi Tab Rows is fully compatible with Firefox’s latest features. Dragging to group tabs or split views works seamlessly.
@@ -34,9 +34,9 @@ Pinned tabs are compact and neatly arranged in a grid, making them easy to acces
 If you prefer them to behave like normal tabs and scroll away to save space, this feature can be disabled.
 
 ### 🛠️ Customizable Preferences
-Multi Tab Rows offers a rich set of options, letting you fine-tune everything from tab sizing to layout and interactions. 
+While the default setup is already well‑optimized and ready to use, Multi Tab Rows also provides a wide range of options, allowing you to fine‑tune everything from tab sizing to layout and interactions. 
 
-The default setup is already well‑optimized, but you can explore the full list of settings to further tailor and personalize your experience.
+You can explore the full list of settings to further customize and personalize your browsing experience.
 
 ### ♾️ Always Ongoing
 Multi Tab Rows is developed with steady passion and long-term dedication. Backed by years of experience in Firefox extension development, it continues to evolve with care and expertise.
@@ -54,7 +54,7 @@ Since 2007, I’ve created several Firefox extensions, including:
 
 My first extension, **Personal Menu**, once reached over **165,000 users** at its peak and was actively maintained for 10 years. Two of my other projects were fortunately featured by AMO (addons.mozilla.org). Although these extensions could not survive the Quantum era (Firefox 57+), Some of their functionality continues to live on through `userChrome.js`. You can visit [my repository](https://github.com/Merci-chao/userChrome.js) to explore them.
 
-Now, my focus is on **Multi Tab Rows**, the project I’ve poured hundreds—if not thousands—of hours into. It will continue evolving as long as Firefox allows.
+Now, my focus is on **Multi Tab Rows**, the project I’ve poured hundreds — if not thousands — of hours into. It will continue evolving as long as Firefox allows.
 
 ---
 
