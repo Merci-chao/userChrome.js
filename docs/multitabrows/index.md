@@ -23,16 +23,20 @@ If you prefer a more classic look, you can also place the Tabs Bar beneath the N
 Tab management feels effortless with its exclusive drag & drop support. No distracting indicators—just smooth and intuitive movement, even in multi-row mode.
 
 ### 🚀 Newest Features Support
-Whether you’re using Tab Groups or exploring Split View, Multi Tab Rows is fully compatible with Firefox’s latest features. Dragging to group tabs or split views works seamlessly.
+Whether you’re using Tab Groups or exploring with Split View, Multi Tab Rows is fully compatible with Firefox’s latest features. Dragging to group tabs or split views works seamlessly.
 
 ### ✨ Polished Interactions
-This script refines Firefox’s native tab behavior, fixing glitches and filling in gaps to deliver a smoother, more complete experience. Every interaction feels natural, as if it were built directly into Firefox itself.
+Multi Tab Rows refines Firefox’s native tab behavior, fixing glitches and filling in gaps to deliver a smoother, more complete experience. Every interaction feels natural, as if it were built directly into Firefox itself.
 
 ### 📌 Pinned Tabs Grid Layout
-Pinned tabs stay compact and neatly arranged, even when the tab bar becomes scrollable. This smart grid layout saves space without sacrificing clarity. And if you prefer simplicity, you can disable it.
+Pinned tabs are compact and neatly arranged in a grid, making them easy to access even when the tab bar becomes scrollable. 
+
+If you prefer them to behave like normal tabs and scroll away to save space, this feature can be disabled.
 
 ### 🛠️ Customizable Preferences
-Multi Tab Rows offers a rich set of options, letting you fine-tune everything from tab sizing to layout and interactions. The default setup is already optimized, but you can explore the full list to personalize your experience.
+Multi Tab Rows offers a rich set of options, letting you fine-tune everything from tab sizing to layout and interactions. 
+
+The default setup is already well‑optimized, but you can explore the full list of settings to further tailor and personalize your experience.
 
 ### ♾️ Always Ongoing
 Multi Tab Rows is developed with steady passion and long-term dedication. Backed by years of experience in Firefox extension development, it continues to evolve with care and expertise.
