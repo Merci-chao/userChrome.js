@@ -1,0 +1,9 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+#main_content img {
+  border-radius: .5em;
+  box-shadow: .1em .1em .5em rgba(0, 0, 0, .15);
+}
