@@ -22,7 +22,7 @@ If you prefer a more classic look, you can also place the Tabs Bar beneath the N
 ### 🖱️ Drag & Drop in Motion
 Tab management feels effortless with its exclusive drag & drop support. No distracting indicators — just smooth and intuitive movement, even in multi-row mode.
 
-### 🚀 Newest Features Support
+### 🆕 Newest Features Support
 Whether you’re using Tab Groups or exploring with Split View, Multi Tab Rows is fully compatible with Firefox’s latest features. Dragging to group tabs or split views works seamlessly.
 
 ### ✨ Polished Interactions
@@ -58,8 +58,8 @@ Now, my focus is on **Multi Tab Rows**, the project I’ve poured hundreds — i
 
 ---
 
-## 📥 Get It Now!
-Follow the installation notes [here](https://github.com/Merci-chao/userChrome.js#cautions) to download and set up.
+## 🚀 Get It Now!
+Follow the installation notes 📥 [here](https://github.com/Merci-chao/userChrome.js#cautions) to download and set up.
 Enjoy a **modern, polished, and customizable multi-row tab experience** in Firefox today.
 
 ---
