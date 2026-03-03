@@ -11,3 +11,7 @@
   border-radius: .5em;
   box-shadow: .1em .1em .5em rgba(0, 0, 0, .15);
 }
+
+#main_content img[width] {
+  box-shadow: none;
+}
