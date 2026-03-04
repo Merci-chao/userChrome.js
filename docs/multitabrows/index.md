@@ -32,13 +32,13 @@ Tab management feels effortless with its exclusive drag & drop support. No distr
 
 ### 🆕 Newest Features Support
 
-Whether you’re using Tab Groups or working with Split View, Multi Tab Rows is fully compatible with Firefox’s latest features. Dragging tabs or split views to group them together works just as it used to be.
+Whether you’re using **tab group** or working with **split views**, Multi Tab Rows is fully compatible with Firefox’s latest features. Dragging tabs or split views to group them together works just as it used to be.
 
 ![Drag & drop to create tab group](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/grouping.en.png)
 
 ### ✨ Polished Interactions
 
-Multi Tab Rows refines Firefox’s native tab behavior, fixing glitches and filling in gaps to deliver a smoother, more complete experience. Every interaction feels natural, as if it were built directly into Firefox itself.
+Multi Tab Rows refines Firefox’s native tab behavior, fixing glitches and filling in gaps to deliver a smoother, more complete experience. Every interaction feels natural, as if it were natively built into Firefox.
 
 ![Polished interactions compare to native Firefox](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/polishedInteractions.en.png)
 
