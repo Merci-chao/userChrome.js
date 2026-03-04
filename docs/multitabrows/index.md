@@ -7,7 +7,7 @@
 ---
 
 ## 🧩 Compatibility
-- Works with **Firefox 115 and the newest version**
+- Works with **Firefox 115 and the latest released version**
 - Supports **Windows 7 through Windows 11**
 
 ---
