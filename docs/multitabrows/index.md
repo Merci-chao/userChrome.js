@@ -81,7 +81,7 @@ Since 2007, I’ve created several Firefox extensions, including:
 - [Pick & Save Images](https://web.archive.org/web/20161220000058/https://addons.mozilla.org/en-US/firefox/addon/picknsave/)
 - [History Submenus II](https://web.archive.org/web/20170424025533/https://addons.mozilla.org/en-US/firefox/addon/history-submenus-2/)
 
-My first extension, **Personal Menu**, once reached over **165,000 users** at its peak and was actively maintained for 10 years. Two of my other projects were fortunately featured by AMO (addons.mozilla.org). Although these extensions could not survive the Quantum era (Firefox 57+), Some of their functionality continues to live on through `userChrome.js`. You can visit [my repository](https://github.com/Merci-chao/userChrome.js) to explore them.
+My first extension, **Personal Menu**, once reached over **165,000 users** at its peak and was actively maintained for 10 years, and other two of my projects were fortunately [featured by AMO](https://web.archive.org/web/20170901023746/https://addons.mozilla.org/en-uS/firefox/user/mercichao/) (addons.mozilla.org). Although these extensions could not survive the Quantum era (Firefox 57+), Some of their functionality continues to live on through `userChrome.js`. You can visit [my repository](https://github.com/Merci-chao/userChrome.js) to explore them.
 
 Now, my focus is on **Multi Tab Rows**, the project I’ve poured hundreds — if not thousands — of hours into. It will continue evolving as long as Firefox allows.
 
