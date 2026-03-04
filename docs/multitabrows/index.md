@@ -62,7 +62,7 @@ You can explore the full list of settings to further customize and personalize y
 
 ### 🔄 Auto Update Checking 	
 
-Multi Tab Rows ensures you’re always equipped with the latest enhancements and compatibility. There’s no need to worry about suddenly breaking or the frustration of hunting for updates — one click keeps everything working smoothly. For those who prefer more control, updates can also be applied manually or even disabled.
+Multi Tab Rows ensures you’re always equipped with the latest enhancements and compatibility. There’s no need to worry about sudden breakages or the frustration of hunting for updates after getting a new version of Firefox — one click keeps everything working smoothly. For those who prefer more control, updates can also be applied manually or even disabled.
 
 ![Update notification](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/update.en.png)
 
