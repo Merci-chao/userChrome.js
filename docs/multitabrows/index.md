@@ -15,46 +15,59 @@
 ## 🌟 Highlights
 
 ### 📐 Optimized Space Usage
+
 Multi Tab Rows makes the most of every pixel in your browser, extending even into the area beneath the window control buttons.
 
-![Tabs beneath control buttons](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/spaceUsage.en.png)
+![Tabs extend beneath control buttons](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/spaceUsage.en.png)
 
 If you prefer a more classic look, you can also place the Tabs Bar beneath the Navigation Bar for a traditional style.
 
 ![Tabs at bottom](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/tabsAtBottom.en.png)
 
 ### 🖱️ Drag & Drop in Motion
+
 Tab management feels effortless with its exclusive drag & drop support. No distracting indicators — just smooth and intuitive movement, even in multi-row mode.
 
-![Tabs at bottom](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/dragging.en.png)
+![Real drag & drop](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/dragging.en.png)
 
 ### 🆕 Newest Features Support
+
 Whether you’re using Tab Groups or working with Split View, Multi Tab Rows is fully compatible with Firefox’s latest features. Dragging tabs or split views to group them together works just as it used to be.
 
-![Tabs at bottom](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/grouping.en.png)
+![Drag & drop to create tab group](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/grouping.en.png)
 
 ### ✨ Polished Interactions
+
 Multi Tab Rows refines Firefox’s native tab behavior, fixing glitches and filling in gaps to deliver a smoother, more complete experience. Every interaction feels natural, as if it were built directly into Firefox itself.
 
-![Tabs at bottom](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/polishedInteractions.en.png)
+![Polished interactions compare to native Firefox](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/polishedInteractions.en.png)
 
 ### 📌 Pinned Tabs Grid Layout
+
 Pinned tabs are compact and neatly arranged in a grid, making them easy to access even when the tab bar becomes scrollable.
 
-![Tabs at bottom](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/pinnedGrid.en.png)
+![Pinned tabs grid](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/pinnedGrid.en.png)
 
 If you prefer them to behave like normal tabs and scroll away to save space, this feature can be disabled.
 
-![Tabs at bottom](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/pinnedStatic.en.png)
+![Pinned tabs follow scrolling](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/pinnedStatic.en.png)
 
 ### 🛠️ Customizable Preferences
+
 While the default setup is already well‑optimized and ready to use, Multi Tab Rows also provides a wide range of options, allowing you to fine‑tune everything from tab sizing to layout and interactions.
 
-![Tabs at bottom](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/customizing.en.png)
+![Various customizing](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/customizing.en.png)
 
 You can explore the full list of settings to further customize and personalize your browsing experience.
 
+### 🔄 Auto Update Checking 	
+
+Multi Tab Rows ensures you’re always equipped with the latest enhancements and compatibility. There’s no need to worry about something suddenly breaking or the frustration of hunting for updates — one click keeps everything working smoothly. For those who prefer more control, updates can also be applied manually or even disabled.
+
+![Update notification](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/update.en.png)
+
 ### ♾️ Always Ongoing
+
 Multi Tab Rows is developed with steady passion and long-term dedication. Backed by years of experience in Firefox extension development, it continues to evolve with care and expertise.
 
 ---
