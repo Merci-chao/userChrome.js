@@ -2,7 +2,7 @@
 
 ![screenshot](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview.png)
 
-**Multi Tab Rows** (`MultiTabRows@Merci.chao.uc.js`) is a comprehensive solution for **multi-row tabs in Firefox**, built as a [`userChrome.js`](https://www.userchrome.org/what-is-userchrome-js.html) script. Inspired by the classic [`MultiRowTabLiteforFx.uc.js` (modified by Izheil)](https://github.com/Izheil/Quantum-Nox-Firefox-Customizations/tree/master/Multirow%20and%20other%20functions/) and the versatile [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs), it brings modern refinements, optimized usability, and long-term support — aiming to deliver the best multi-row tabs experience.
+**Multi Tab Rows** (`MultiTabRows@Merci.chao.uc.js`) is a comprehensive solution for **multi-row tabs in Firefox**, built as a [`userChrome.js`](https://www.userchrome.org/what-is-userchrome-js.html) script. Inspired by the classic [MultiRowTabLiteforFx.uc.js (modified by Izheil)](https://github.com/Izheil/Quantum-Nox-Firefox-Customizations/tree/master/Multirow%20and%20other%20functions/) and the versatile [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs), it brings modern refinements and optimized usability — aiming to deliver the best multi-row tabs experience.
 
 ---
 
