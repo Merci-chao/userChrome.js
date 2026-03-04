@@ -17,24 +17,40 @@
 ### 📐 Optimized Space Usage
 Multi Tab Rows makes the most of every pixel in your browser, extending even into the area beneath the window control buttons.
 
+![Tabs beneath control buttons](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/spaceUsage.en.png)
+
 If you prefer a more classic look, you can also place the Tabs Bar beneath the Navigation Bar for a traditional style.
+
+![Tabs at bottom](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/tabsAtBottom.en.png)
 
 ### 🖱️ Drag & Drop in Motion
 Tab management feels effortless with its exclusive drag & drop support. No distracting indicators — just smooth and intuitive movement, even in multi-row mode.
 
+![Tabs at bottom](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/dragging.en.png)
+
 ### 🆕 Newest Features Support
-Whether you’re using Tab Groups or exploring with Split View, Multi Tab Rows is fully compatible with Firefox’s latest features. Dragging to group tabs or split views works seamlessly.
+Whether you’re using Tab Groups or working with Split View, Multi Tab Rows is fully compatible with Firefox’s latest features. Dragging tabs or split views to group them together works just as it used to be.
+
+![Tabs at bottom](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/grouping.en.png)
 
 ### ✨ Polished Interactions
 Multi Tab Rows refines Firefox’s native tab behavior, fixing glitches and filling in gaps to deliver a smoother, more complete experience. Every interaction feels natural, as if it were built directly into Firefox itself.
 
+![Tabs at bottom](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/polishedInteractions.en.png)
+
 ### 📌 Pinned Tabs Grid Layout
-Pinned tabs are compact and neatly arranged in a grid, making them easy to access even when the tab bar becomes scrollable. 
+Pinned tabs are compact and neatly arranged in a grid, making them easy to access even when the tab bar becomes scrollable.
+
+![Tabs at bottom](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/pinnedGrid.en.png)
 
 If you prefer them to behave like normal tabs and scroll away to save space, this feature can be disabled.
 
+![Tabs at bottom](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/pinnedStatic.en.png)
+
 ### 🛠️ Customizable Preferences
-While the default setup is already well‑optimized and ready to use, Multi Tab Rows also provides a wide range of options, allowing you to fine‑tune everything from tab sizing to layout and interactions. 
+While the default setup is already well‑optimized and ready to use, Multi Tab Rows also provides a wide range of options, allowing you to fine‑tune everything from tab sizing to layout and interactions.
+
+![Tabs at bottom](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/customizing.en.png)
 
 You can explore the full list of settings to further customize and personalize your browsing experience.
 
