@@ -88,9 +88,11 @@ Now, my focus is on **Multi Tab Rows**, the project I’ve poured hundreds — i
 ---
 
 ## 🚀 Get It Now!
-Follow the installation notes 📥 [here](https://github.com/Merci-chao/userChrome.js#cautions) to download and set up. Enjoy a **modern, polished, and customizable multi-row tab experience** in Firefox today.
+Follow the 📥 [installation notes](https://github.com/Merci-chao/userChrome.js#cautions) to download and set up.
 
 (The cautions and installation instructions might feel a bit long and detailed, but that’s just to make sure everything’s clear and safe. Sorry about that. 🙈)
+
+Enjoy a **modern, polished, and customizable multi-row tab experience** in Firefox today.
 
 ---
 
