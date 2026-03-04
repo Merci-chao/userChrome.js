@@ -15,3 +15,8 @@
 #main_content img[width] {
   box-shadow: none;
 }
+
+[id$='-keywords'], [id$='-keywords'] + ul {
+  visibility: collapse;
+  height: 0;
+}
