@@ -16,9 +16,3 @@
 #main_content img[width] {
   box-shadow: none;
 }
-
-[id$='-キーワード'], [id$='-キーワード'] + ul,
-[id$='-keywords'], [id$='-keywords'] + ul {
-  --visibility: collapse;
-  --height: 0;
-}
