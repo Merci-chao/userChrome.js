@@ -49,7 +49,7 @@ Firefox に多段タブ表示をサポートさせる。
   </tr>
 </table>
 
-## 対応環境
+## 互換性
 - Firefox 115、147〜149（ESR バージョンを除く）、Windows 7〜11 に対応。
 - 一般的なスクリプトローダーに対応。例：
 	- [`firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
