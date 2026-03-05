@@ -1,5 +1,5 @@
 title: userChrome.js
-description: Firefox userChrome.js scripts: Multi Tab Rows, History Submenus II, Page Title in URL Bar, and more...
+description: Firefox userChrome.js scripts.
 theme: jekyll-theme-cayman
 remote_theme: pages-themes/slate@v0.2.0
 plugins:
