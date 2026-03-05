@@ -19,6 +19,6 @@
 
 [id$='-キーワード'], [id$='-キーワード'] + ul,
 [id$='-keywords'], [id$='-keywords'] + ul {
-  visibility: collapse;
-  height: 0;
+  --visibility: collapse;
+  --height: 0;
 }
