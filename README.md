@@ -13,42 +13,9 @@ Make Firefox support multiple rows of tabs.
 
 ![screenshot](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/tabsAtBottom-en.png)
 
-## Highlights
+## Introduction
 
-<table>
-  <tr>
-	  <td width="240">🚀 Newest Features Support</td>
-	  <td>Fully supports the newest tab features, including Tab Group and Split View.</td>
-  </tr>
-  <tr>
-	  <td>🖱️ Drag & Drop in Motion</td>
-	  <td>Exclusively supports the intuitive drag & drop, free from the drop indicator, even in multi-row mode.</td>
-  </tr>
-  <tr>
-	  <td>✨ Polished Interactions</td>
-	  <td>Provides a smooth and refined user experience for tab operations.</td>
-  </tr>
-  <tr>
-	  <td>📐 Optimized Space Usage</td>
-	  <td>Makes full use of available UI space, including the area beneath window control buttons.</td>
-  </tr>
-  <tr>
-	  <td>📌 Pinned Tabs Grid Layout</td>
-	  <td>Pinned tabs remain neatly compact when the Tabs bar is scrollable, minimizing space usage.</td>
-  </tr>
-  <tr>
-	  <td>🛠️ Customizable Preferences</td>
-	  <td>Offers a rich set of options and features to tailor the experience precisely to your liking.</td>
-  </tr>
-  <tr>
-	  <td>🔄 Automatic Update Checking</td>
-	  <td>Ensures you're always equipped with the newest enhancements and compatibility.</td>
-  </tr>
-  <tr>
-	  <td>♾️ Always Ongoing</td>
-	  <td>Never leaving before you do. This is not a promise, but a passion.</td>
-  </tr>
-</table>
+Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights of this script, with screenshots and detailed descriptions.
 
 ## Compatibility
 - Firefox 115, 147 to 149 (excluding ESR versions), for Windows 7 to 11.
