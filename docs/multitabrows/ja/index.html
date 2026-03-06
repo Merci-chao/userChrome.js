@@ -120,6 +120,26 @@
       #main_content img[width] {
         box-shadow: none;
       }
+
+      @media (prefers-color-scheme: dark) {
+        h1, h2, h3, h4, h5, h6, a, code, #main_content_wrap {
+          color: rgb(224, 221, 215);
+        }
+
+        a {
+          color: rgb(83, 174, 243);
+        }
+
+        code {
+          background-color: rgb(24, 26, 27);
+          box-shadow: 0 0 10px rgba(255,255,255,.15);
+        }
+
+        #main_content_wrap {
+          background: rgb(31, 34, 35);
+          border-color: rgb(134, 125, 110);
+        }
+      }
     </style>
 
     <div id="main_content_wrap" class="outer">
@@ -227,9 +247,10 @@
 
         <p><img src="https://avatars.githubusercontent.com/u/18614572" alt="Merci chao" width="200" /></p>
 
-        <p>2007 年から、私は<a href="https://web.archive.org/web/20170901023746/https://addons.mozilla.org/en-Us/firefox/user/mercichao/" target="_blank">数々の Firefox 拡張機能</a>を開発してきました：</p>
+        <p>2007 年から、私は<a href="https://web.archive.org/web/20170901023746/https://addons.mozilla.org/en-US/firefox/user/mercichao/" target="_blank">数々の Firefox 拡張機能</a>を開発してきました：</p>
         <ul>
-          <li><a href="https://web.archive.org/web/20150726222027/https://addons.mozilla.org/en-Us/firefox/addon/personal-menu/" target="_blank">Personal Menu</a></li>
+          <li><a href="https://web.archive.org/web/20150726222027/https://addons.mozilla.org/en-US/firefox/addon/personal-menu/" target="_blank">Personal Menu</a></li>
+          <li><a href="https://web.archive.org/web/20120118015243/https://addons.mozilla.org/en-US/firefox/addon/movable-firefox-button/" target="_blank">Movable Firefox Button</a></li>
           <li><a href="https://web.archive.org/web/20161220000058/https://addons.mozilla.org/en-US/firefox/addon/picknsave/" target="_blank">Pick &amp; Save Images</a></li>
           <li><a href="https://web.archive.org/web/20170424025533/https://addons.mozilla.org/en-US/firefox/addon/history-submenus-2/" target="_blank">History Submenus II</a></li>
           <li><a href="https://web.archive.org/web/20181018231146/https://addons.mozilla.org/en-US/firefox/addon/page-title/" target="_blank">Page Title in URL Bar</a></li>
@@ -238,14 +259,16 @@
           <li><a href="https://web.archive.org/web/20181009050037/https://addons.mozilla.org/en-US/firefox/addon/mid-click-restart/" target="_blank">Mid-Click Restart</a></li>
         </ul>
 
-        <p>最初の拡張機能 <strong>Personal Menu</strong> は、ピーク時に <strong>16 万人以上</strong>のユーザーに利用され、<strong>9 年間</strong>にわたりメンテナンスを続けてきました。そのほか 2 つの拡張機能も AMO（addons.mozilla.org）でおすすめ拡張機能として取り上げられました。これらはいずれも UI 調整を目的としたツールで、唯一 <strong>Pick & Save Images</strong> だけは画像取得に特化し、Firefox の UI に自然に溶け込む多機能なボタンを備えていました。残念ながらこれらの拡張機能は Quantum（Firefox 57+）以降では存続できませんでしたが、一部の機能は <code class="language-plaintext highlighter-rouge">userChrome.js</code> を通じて今も生き続けています。興味のある方はぜひ<a href="https://github.com/Merci-chao/userChrome.js/blob/main/README.jp.md" target="_blank">私の GitHub</a> をご覧ください。
+        <p>最初の <strong>Personal Menu</strong> は、Firefox のカスタマイズを愛するユーザー向けのニッチな拡張機能でしたが、ピーク時に <strong>16 万人以上</strong>のユーザーに利用されました。その実績は、履歴書に誇らしく記すことができ、卒業後の最初の仕事を得るきっかけにもなりました。Personal Menu は <strong>9 年間</strong>にわたりメンテナンスを続け、さらに他の 2 つの拡張機能も AMO（addons.mozilla.org）でおすすめとして紹介されました。これらはいずれも UI 調整を目的としたツールで、唯一 <strong>Pick & Save Images</strong> だけは画像取得に特化し、Firefox の UI に自然に溶け込む多機能なボタンを備えていました。</p>
+
+        <p>残念ながらこれらの拡張機能は Quantum（Firefox 57）以降では存続できませんでしたが、一部の機能は <code class="language-plaintext highlighter-rouge">userChrome.js</code> を通じて今も生き続けています。興味のある方はぜひ<a href="https://github.com/Merci-chao/userChrome.js/blob/main/README.jp.md" target="_blank">私の GitHub</a> をご覧ください。
 
         <p>そして現在は、数千時間を費やして取り組んできたプロジェクト <strong>Multi Tab Rows</strong> に注力して、できる限り続けていきます。</p>
 
         <hr />
 
         <h2 id="download-and-installation"><span aria-hidden>📥</span> ダウンロードとインストール</h2>
-        <p>📓 <a href="https://github.com/Merci-chao/userChrome.js/blob/main/README.jp.md#注意事項">注意事項とインストール手順</a>に沿って導入してください。Firefox で、洗練された多段タブをすぐに楽しめます。</p>
+        <p>📓 <a href="https://github.com/Merci-chao/userChrome.js/blob/main/README.jp.md#注意事項">注意事項とインストール手順</a>に沿って導入してください。Firefox で、<strong>一番の多段タブ</strong>をすぐに楽しめます。</p>
 
         <p>注意事項やインストール手順はちょっと長くて真面目に見えるんですが、安心して使えるように分かりやすくまとめただけなんです。気軽に読んでみてくださいね！🙈</p>
 
@@ -254,8 +277,9 @@
         <h2 id="keywords"><span aria-hidden>🔎</span> キーワード</h2>
         <ul>
           <li>Multi Tab Rows</li>
-          <li>Firefox 多段タブ</li>
-          <li>タブのカスタマイズ</li>
+          <li>Firefox</li>
+          <li>多段タブ</li>
+          <li>カスタマイズ</li>
           <li>タブのドラッグ＆ドロップ</li>
           <li>タブ管理</li>
           <li>userChrome.js スクリプト</li>
