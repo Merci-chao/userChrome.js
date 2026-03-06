@@ -9,45 +9,12 @@
 # [Multi Tab Rows（多段タブ）](https://github.com/Merci-chao/userChrome.js/blob/main/MultiTabRows@Merci.chao.uc.js)
 Firefox に多段タブ表示をサポートさせる。
 
-![screenshot](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/tabsAtBottom-jp.png)
+![screenshot](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/tabsAtBottom.ja.png)
 
 ![screenshot](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview-jp.png)
 
-## 注目ポイント
-<table>
-  <tr>
-    <td>🚀&nbsp;最新機能サポート</td>
-    <td>タブグループ、分割ビューなど、最新のタブ機能を完全にサポート。</td>
-  </tr>
-  <tr>
-    <td>🖱️&nbsp;多段ドラッグ＆ドロップ</td>
-    <td>多段でも、インジケーターに頼らず、本格的なドラッグ＆ドロップを唯一サポート。</td>
-  </tr>
-  <tr>
-    <td>✨&nbsp;洗練された操作感</td>
-    <td>タブ操作において、スムーズで精巧な体験を提供。</td>
-  </tr>
-  <tr>
-    <td>📐&nbsp;スペース活用の最適化</td>
-    <td>ウィンドウ操作ボタン下のスペースも含め、UI 領域を最大限に活用。</td>
-  </tr>
-  <tr>
-    <td>📌&nbsp;ピン留めタブのグリッド表示</td>
-    <td>タブバーがスクロール可能際、ピン留めされたタブをコンパクトなグリッドに固定。</td>
-  </tr>
-  <tr>
-    <td>🛠️&nbsp;お好きなように調整</td>
-    <td>豊富なオプションと機能を提供し、お好みに合わせて体験を細かく調整できる。</td>
-  </tr>
-  <tr>
-    <td>🔄&nbsp;自動アップデートチェック</td>
-    <td>常に最新の機能強化と互換性を備え。</td>
-  </tr>
-  <tr>
-    <td>♾️&nbsp;継続的なメンテナンス</td>
-    <td>約束ではなく、熱意です。</td>
-  </tr>
-</table>
+## 紹介
+このスクリプトの注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja/)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
 - Firefox 115、147〜149（ESR バージョンを除く）、Windows 7〜11 に対応。
