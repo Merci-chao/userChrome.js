@@ -14,7 +14,7 @@ Firefox に多段タブ表示をサポートさせる。
 ![screenshot](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview-jp.png)
 
 ## 紹介
-このスクリプトの注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja/)にまとめていますので、ぜひご覧ください。
+注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja/)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
 - Firefox 115、147〜149（ESR バージョンを除く）、Windows 7〜11 に対応。
