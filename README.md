@@ -15,7 +15,7 @@ Make Firefox support multiple rows of tabs.
 
 ## Introduction
 
-Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights of this script, with screenshots and detailed descriptions.
+Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights with screenshots and detailed descriptions.
 
 ## Compatibility
 - Firefox 115, 147 to 149 (excluding ESR versions), for Windows 7 to 11.
