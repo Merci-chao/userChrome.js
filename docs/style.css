@@ -1,3 +1,7 @@
+#project_title span {
+  cursor: pointer;
+}
+
 .inner {
   max-width: min(1280px, 100%);
 }
