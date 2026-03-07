@@ -93,7 +93,7 @@
 
   code {
     background-color: rgb(24, 26, 27);
-    box-shadow: 0 0 10px rgba(255,255,255,.15);
+    box-shadow: 0 0 10px rgba(255,255,255,.05);
   }
 
   #main_content_wrap {
