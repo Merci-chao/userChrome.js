@@ -4,6 +4,7 @@
   font-size: 1.2em;
   border-radius: 0 0 .5em .5em;
   white-space: nowrap;
+  background-position-x: calc(100% - 10px);
 }
 
 #forkme_banner a {
