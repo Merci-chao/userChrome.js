@@ -17,15 +17,18 @@ Firefox に多段タブ表示をサポートさせる。
 注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja/)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
-- Firefox 115、147〜149（ESR バージョンを除く）、Windows 7〜11 に対応。
-- 一般的なスクリプトローダーに対応。例：
+- Firefox 115、147〜149（ESR バージョンを除く）
+
+- Windows 7〜11 と Ubuntu
+
+- 一般的なスクリプトローダーに対応、例：
 	- [`firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
  	- [`userChrome.js`](https://github.com/alice0775/userChrome.js)
 
 ## 注意事項
 **🚨 ご使用の前に、以下の注意点をよくお読みください：**
-- 本スクリプトは Windows 専用。Ubuntu（Linux）および macOS では動作しない、あるいは不具合が生じる恐れがある。
+- このスクリプトは Windows 向けに作られ、Ubuntu（Linux）で簡単なテストをしている。macOS では試していないので、動かないか不具合が出る可能性がある。
 
 - Firefox に最適化されたレイアウト計算を多く含むため、タブ関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト（`*.uc.js`）、CSS スタイル（`userChrome.css`）との競合によって、不具合が発生する可能性がある。<br>⚠️ 以下のインストール手順をよく読んで、慎重に進めてください。
 
@@ -563,7 +566,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Firefox Nightly
 - Firefox 116～最新版以前のリリース
 - タッチ操作 
-- macOS および Ubuntu（Linux）
+- macOS 対応
 - 垂直タブ（当然）
 
 # [History Submenus II](https://github.com/Merci-chao/userChrome.js/blob/main/HistorySubmenus2@Merci.chao.uc.js)
