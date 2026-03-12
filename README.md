@@ -18,7 +18,10 @@ Make Firefox support multiple rows of tabs.
 Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights with screenshots and detailed descriptions.
 
 ## Compatibility
-- Firefox 115, 147 to 149 (excluding ESR versions), for Windows 7 to 11.
+- Firefox 115, 147 to 149 (excluding ESR versions)
+
+- Windows 7 to 11, Ubuntu
+
 - Supports general `userChrome.js` script loaders, such as:
 	- [`firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
@@ -26,7 +29,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
-- This script is developed for Windows and probably does not work on Ubuntu (Linux) and macOS.
+- This script is developed for Windows and has been lightly tested on Ubuntu (Linux). It has not been tested on macOS and probably does not work there.
 
 - Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)), user scripts (`*.uc.js`) or CSS styles (`userChrome.css`) can cause weird glitches and bugs.
   <br>⚠️ Please follow the installation steps below carefully.
@@ -567,7 +570,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Firefox Nightly
 - Firefox 116 to the previous versions of latest released
 - Touch operations
-- macOS and Ubuntu (Linux)
+- macOS support
 - Vertical tabs, obviously
 
 ---
