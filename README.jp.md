@@ -566,7 +566,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Firefox Nightly
 - Firefox 116～最新版以前のリリース
 - タッチ操作 
-- macOS 対応
+- macOS
 - 垂直タブ（当然）
 
 # [History Submenus II](https://github.com/Merci-chao/userChrome.js/blob/main/HistorySubmenus2@Merci.chao.uc.js)
