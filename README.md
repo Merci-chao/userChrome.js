@@ -570,7 +570,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Firefox Nightly
 - Firefox 116 to the previous versions of latest released
 - Touch operations
-- macOS support
+- macOS
 - Vertical tabs, obviously
 
 ---
