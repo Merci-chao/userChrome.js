@@ -41,6 +41,10 @@
   margin: 0;
 }
 
+a code {
+  color: inherit;
+}
+
 @media (min-width: 768px) {
   #floating-index {
     position: sticky;
