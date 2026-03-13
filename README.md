@@ -167,7 +167,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ------------- | ------------- |
 | <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | Enable tab stacking when dragging tabs. On Firefox 115-145 and 149+, create a new boolean preference with this name to toggle. |
 | `browser.tabs.splitView.enabled` | Enable the split view feature, available on Firefox 146 and above. |
-| `browser.tabs.tabClipWidth` | Close button will show on the tabs that are wider than this size. Takes effect in new windows after changing. When the value is:<ul><li>Equal to or larger than `tabMaxWidth` - never show close buttons on non-selected tabs;</li><li>Smaller than `browser.tabs.tabMinWidth` - always show close buttons on non-selected tabs.</li></ul> |
+| `browser.tabs.tabClipWidth` | Close buttons will show on the tabs that are wider than this size. Takes effect in new windows after changing. When the value is:<ul><li>Equal to or larger than `tabMaxWidth` - never show close buttons on non-selected tabs;</li><li>Smaller than `browser.tabs.tabMinWidth` - always show close buttons on non-selected tabs.</li></ul> |
 | `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. Minimum: `50`. |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on Tabs Bar (Windows 10). |
 | `widget.windows.mica` | Apply the native system style on Tabs Bar (Windows 11). |
