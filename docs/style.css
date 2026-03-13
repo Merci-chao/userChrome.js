@@ -41,10 +41,6 @@
   margin: 0;
 }
 
-a code {
-  color: inherit;
-}
-
 @media (min-width: 768px) {
   #floating-index {
     position: sticky;
@@ -139,4 +135,8 @@ a code {
     background: rgb(31, 34, 35);
     border-color: rgb(134, 125, 110);
   }
+}
+
+a code {
+  color: inherit;
 }
