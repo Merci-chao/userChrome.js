@@ -166,7 +166,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
 | `browser.tabs.dragDrop.createGroup.delayMS` | Time to wait (in milliseconds) before starting to group tabs during dragging. Not available in Firefox 115. |
-| `browser.tabs.dragDrop.moveOverThresholdPercent` | Percentage of overlap required when moving tabs during dragging. `100 - n` defines the grouping threshold. For example, if the value is `80`, then overlapping 20%+ will group tabs, while overlapping 80%+ will move them over. Minimum: `0`, maximum: `100`. |
+| `browser.tabs.dragDrop.moveOverThresholdPercent` | Percentage of overlap required when moving tabs during dragging. `100 - n` defines the grouping threshold. For example, if the value is `80`, then overlapping 20%+ will group tabs, while overlapping 80%+ will move them over. Minimum: `0`, Maximum: `100`. The value is locked at `50` in the following cases: <ul><li>When using Firefox 115;</li><li>When dragging to group tabs is disabled;</li><li>in certain scenarios when `dynamicMoveOverThreshold` is enabled.</li></ul> |
 | <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | Enable tab stacking when dragging tabs. On Firefox 115-145 and 149+, create a new boolean preference with this name to toggle. |
 | `browser.tabs.dragDrop.pinInteractionCue.delayMS` | Time to wait (in milliseconds) before showing the <a href="#hidePinnedDropIndicator">pinned drop indicator</a>. Not available in Firefox 115. |
 | `browser.tabs.splitView.enabled` | Enable the split view feature, available on Firefox 146 and above. |
