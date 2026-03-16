@@ -86,7 +86,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `dragToGroupTabs` | Enable tab grouping when dragging tabs over another. Disabling this setting results in behavior that differs from when `browser.tabs.dragDrop.moveOverThresholdPercent` is set to `50` or below: the disabled state allows tabs to be added to or removed from a group without altering their order. Not available on Firefox 115. |
 | `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or `dragToGroupTabs` is `false`. |
 | `hideDragPreview` | Hide the drag preview that appears next to the cursor during dragging:<ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
-| `hidePinnedDropIndicator` | Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs. Not available on Firefox 115. |
+| <span id="hidePinnedDropIndicator"`hidePinnedDropIndicator`</span> | Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs. Not available on Firefox 115. |
 | `hideScrollButtonsWhenDragging` | Visually hide the up/down scroll buttons when dragging. |
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. Minimum: `1`. |
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. Minimum: `1`. |
@@ -165,7 +165,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
+| `browser.tabs.dragDrop.createGroup.delayMS` | Time to wait (in milliseconds) before starting to group tabs during dragging. Not available in Firefox 115. |
+| `browser.tabs.dragDrop.moveOverThresholdPercent` | Percentage of overlap required when moving tabs during dragging. `100 - n` defines the grouping threshold. For example, if the value is `80`, then overlapping 20%+ will group tabs, while overlapping 80%+ will move them over. Minimum: `0`, maximum: `100`. |
 | <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | Enable tab stacking when dragging tabs. On Firefox 115-145 and 149+, create a new boolean preference with this name to toggle. |
+| `browser.tabs.dragDrop.pinInteractionCue.delayMS` | Time to wait (in milliseconds) before showing the <a href="#hidePinnedDropIndicator">pinned drop indicator</a>. Not available in Firefox 115. |
 | `browser.tabs.splitView.enabled` | Enable the split view feature, available on Firefox 146 and above. |
 | `browser.tabs.tabClipWidth` | Close buttons will show on the tabs that are wider than this size. Takes effect in new windows after changing. When the value is:<ul><li>Equal to or larger than `tabMaxWidth` - never show close buttons on non-selected tabs;</li><li>Smaller than `browser.tabs.tabMinWidth` - always show close buttons on non-selected tabs.</li></ul> |
 | `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. Minimum: `50`. |
