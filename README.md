@@ -195,7 +195,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Didn't scroll to the seleced tab when resizing window.
 	- Minor bugs in the auto-collapse feature.
 	- Minor issue that occurred when scrolling during dragging.
-	- `showScrollSahdow` did not work on Firefox 115.
+	- `showScrollShadow` did not work on Firefox 115.
 	- Minor visual bugs in special cases.
 
 **Version 4.4**
