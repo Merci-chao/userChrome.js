@@ -189,7 +189,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- ウィンドウをリサイズした際、選択したタブへスクロールされなかった。
 	- `autoCollapse` 機能の軽微なバグ。
 	- ドラッグ中にスクロールすると発生する軽微な問題。
-	- `showScrollSahdow` は Firefox 115 で動作しなかった。
+	- `showScrollShadow` は Firefox 115 で動作しなかった。
 	- 特殊なケースで発生する軽微な表示不具合。
 
 **Version 4.4**
