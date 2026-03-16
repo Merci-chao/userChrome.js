@@ -84,7 +84,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ~~`disableDragToPinOrUnpin`~~<span title="Removed">🗑</span> | Use the built-in preference [`browser.tabs.dragDrop.dragToPin.enabled`](#dragToPinEnabled) instead. |
 | `dragStackPreceding` | Stack the preceding selected tabs of the dragged one (see [`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking)). When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue. |
 | ~~`dragToGroupTabs`~~<span title="Removed">🗑</span> | Use the built-in preference [`browser.tabs.dragDrop.createGroup.enabled`](#dragToGroupTabs) instead. |
-| `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or `dragToGroupTabs` is `false`. |
+| `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or `browser.tabs.dragDrop.createGroup.enabled` is `false`. |
 | `hideDragPreview` | Hide the drag preview that appears next to the cursor during dragging:<ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
 | <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs. Not available on Firefox 115. |
 | `hideScrollButtonsWhenDragging` | Visually hide the up/down scroll buttons when dragging. |
