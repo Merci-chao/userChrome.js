@@ -18,7 +18,7 @@ Make Firefox support multiple rows of tabs.
 Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights with screenshots and detailed descriptions.
 
 ## Compatibility
-- Firefox 115, 147 to 149 (excluding ESR versions)
+- Firefox 115, 148 to 150 (excluding ESR versions)
 
 - Windows 7 to 11, Ubuntu
 
@@ -81,9 +81,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `animateTabMoveMaxCount`<span title="Defective">🐞</span> | When the number of dragged tabs exceeds this value, disable the drag & drop animation, and show the drop indicator instead. Minimum: `0`. If dragging too many tabs causes lag, consider lowering this value.<br>📝 Note: Some tab grouping operations may be unavailable, and the final drop position is determined by Firefox's native behavior, which may not behave as expected in certain scenarios (e.g. Firefox bug [#1985434](https://bugzilla.mozilla.org/show_bug.cgi?id=1985434), [#1988159](https://bugzilla.mozilla.org/show_bug.cgi?id=1988159), [#1988162](https://bugzilla.mozilla.org/show_bug.cgi?id=1988162), [#1988194](https://bugzilla.mozilla.org/show_bug.cgi?id=1988194)). |
 | `animateTabMoveShiftKeyToPause`<span title="Defective">🐞</span> | When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. |
 | `animationDuration` | Duration of animations in milliseconds (valid range: `0` - `1000`). Note: Lengthy animations could strain system performance. |
-| `disableDragToPinOrUnpin` | Disable tab pinning/unpinning via drag & drop in the same window, e.g. whether dropping tabs onto the pinned tabs will pin them. |
+| ~~`disableDragToPinOrUnpin`~~<span title="Removed">🗑</span> | Use the built-in preference [`browser.tabs.dragDrop.dragToPin.enabled`](#dragToPinEnabled) instead. |
 | `dragStackPreceding` | Stack the preceding selected tabs of the dragged one (see [`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking)). When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue. |
-| `dragToGroupTabs` | Enable tab grouping when dragging tabs over another. Disabling this setting results in behavior that differs from when `browser.tabs.dragDrop.moveOverThresholdPercent` is set to `50` or below: the disabled state allows tabs to be added to or removed from a group without altering their order. Not available on Firefox 115. |
+| ~~`dragToGroupTabs`~~<span title="Removed">🗑</span> | Use the built-in preference [`browser.tabs.dragDrop.createGroup.enabled`](#dragToGroupTabs) instead. |
 | `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or `dragToGroupTabs` is `false`. |
 | `hideDragPreview` | Hide the drag preview that appears next to the cursor during dragging:<ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
 | <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs. Not available on Firefox 115. |
@@ -150,7 +150,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `nativeWindowStyle` | Display the system-native theme style (e.g. transparency effects of Windows 11 and effects from tools like [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass)) on Tabs Bar. To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. Not available on Firefox 115, or using any Firefox theme with background image. |
 | `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
 | `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`. |
-| `showScrollSahdow` | Show shadow on the top and bottom edges when the Tabs Bar is scrollable. |
+| `showScrollShadow` | Show shadow on the top and bottom edges when the Tabs Bar is scrollable. |
 
 ### Miscellaneous
 
@@ -166,6 +166,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
 | `browser.tabs.dragDrop.createGroup.delayMS` | Time to wait (in milliseconds) before starting to group tabs during dragging. Not available in Firefox 115. |
+| <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | Drag tabs together to create tab groups. Not available on Firefox 115. On Firefox 149 and below, Create a new boolean preference with this name to toggle. |
+| <span id="dragToPinEnabled">`browser.tabs.dragDrop.dragToPin.enabled`</span> | Enable tab pinning/unpinning via drag & drop in the same window, e.g. whether dropping tabs onto the pinned tabs will pin them. Create a new boolean preference with this name to toggle. |
 | `browser.tabs.dragDrop.moveOverThresholdPercent` | Percentage of overlap required when dragging to move. `100 - n` defines the grouping threshold. For example, if the value is `80`, then overlapping 20%+ will group tabs, while overlapping 80%+ will move them over. Minimum: `0`, Maximum: `100`. The value is locked at `50` in the following cases: <ul><li>when using Firefox 115</li><li>when dragging to group tabs is disabled</li><li>in certain scenarios when `dynamicMoveOverThreshold` is enabled</li></ul> |
 | <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | Enable tab stacking when dragging tabs. On Firefox 115-145 and 149+, create a new boolean preference with this name to toggle. |
 | `browser.tabs.dragDrop.pinInteractionCue.delayMS` | Time to wait (in milliseconds) before showing the <a href="#hidePinnedDropIndicator">pinned drop indicator</a>. Not available in Firefox 115. |
@@ -178,6 +180,23 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.5**
+- Changes
+	- Remove `disableDragToPinOrUnpin` and use the built-in preference `browser.tabs.dragDrop.dragToPin.enabled` as a replacement.
+	- Remove `dragToGroupTabs` and use the built-in preference `browser.tabs.dragDrop.createGroup.enabled` as a replacement.
+- Improvements
+	- Improve performance while dragging.
+	- Update for Firefox 149 and 150.
+	- Minor adjustments to drag & drop behavior of tab groups.
+	- Adjust the width of scroll buttons and shadow.
+- Fixes
+	- Dragging to move multiple tabs together might result in incorrect order.
+	- Didn't scroll to the seleced tab when resizing window.
+	- Minor bugs in the auto-collapse feature.
+	- Minor issue that occurred when scrolling during dragging.
+	- `showScrollSahdow` did not work on Firefox 115.
+	- Minor visual bugs in special cases.
 
 **Version 4.4**
 - New
