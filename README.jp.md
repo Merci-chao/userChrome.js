@@ -80,7 +80,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ~~`disableDragToPinOrUnpin`~~<span title="削除された">🗑</span> | 組み込み設定 [`browser.tabs.dragDrop.dragToPin.enabled`](#dragToPinEnabled) を使用してください。 |
 | `dragStackPreceding` | ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。 |
 | ~~`dragToGroupTabs`~~<span title="削除された">🗑</span> | 組み込み設定 [`browser.tabs.dragDrop.createGroup.enabled`](#dragToGroupTabs) を使用してください。 |
-| `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `dragToGroupTabs` が無効な場合は非対応。 |
+| `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `browser.tabs.dragDrop.createGroup.enabled` が無効な場合は非対応。 |
 | `hideDragPreview` | ドラッグ中にカーソルの傍に表示されるドラッグプレビューを非表示：<ul><li>`0`－常に表示</li><li>`1`－グループのみ</li><li>`2`－タブのみ</li><li>`3`－両方</li></ul> |
 | <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 では非対応。 |
 | `hideScrollButtonsWhenDragging` | ドラッグ中にスクロールボタンを視覚的に非表示。 |
