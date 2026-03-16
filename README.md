@@ -200,7 +200,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 **Version 4.4**
 - New
-	- Add `showScrollSahdow`: Show shadow on the top and bottom edges when the Tabs Bar is scrollable, to align with the interface design of Firefox.
+	- Add `showScrollShadow`: Show shadow on the top and bottom edges when the Tabs Bar is scrollable, to align with the interface design of Firefox.
 	- Add `animateTabMoveShiftKeyToPause`: When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. Note: Drop position may not behave as expected in certain scenarios due to Firefox bugs.
 	- Add `smartWindowButtonOnNavBar` (Firefox 149+): Move the Firefox Smart Window switching button to Navigation Bar. Forcibly activated when `tabsAtBottom` is enabled.
 - Improvements
