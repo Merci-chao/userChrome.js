@@ -175,6 +175,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+<details>
+<summary>軽微な更新</summary>
+	
+**Version 4.5.0.1**
+- 特殊なケースでの軽微なレイアウト問題を修正。
+
+</details>
+
 **Version 4.5**
 - 変更
 	- `disableDragToPinOrUnpin` を削除し、代わりに組み込みの設定 `browser.tabs.dragDrop.dragToPin.enabled` を使用。
