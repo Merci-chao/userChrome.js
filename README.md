@@ -222,6 +222,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Fix
 	- Drag & drop problems in special cases.
 
+<details>
+<summary>Old Versions</summary>
+
 **Version 4.3.1**
 - Improvements
 	- Display a pin/unpin icon next to the drop indicator to identify dragging to pin/unpin.
@@ -251,9 +254,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 		- Closing the first tab in a row or the last tab;
 		- Grouping tabs by dragging.
 	- Minor issues in special-case dragging and animation.
-
-<details>
-<summary>Old Versions</summary>
 
 **Version 4.2**
 - New
