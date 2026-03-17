@@ -216,6 +216,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 修正
 	- 特定の状況ごとに発生する複数のドラッグ＆ドロップの問題。
 
+<details>
+<summary>旧バージョン</summary>
+
 **Version 4.3.1**
 - 改良
 	- ドロップインジケーターの横にピン留め・外すアイコンを表示し、ドラッグ操作でピン留め・外すを識別できるようになる。
@@ -245,9 +248,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 		- 段の最初または最後のタブを閉じた時；
 		- タブをドラッグしてグループ化した時。
 	- 特殊ケースのドラッグやアニメーションにおける軽微な問題。
-
-<details>
-<summary>旧バージョン</summary>
 
 **Version 4.2**
 - 新規
