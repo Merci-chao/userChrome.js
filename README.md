@@ -181,6 +181,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+<details>
+<summary>Minor Update</summary>
+
+**Version 4.5.0.1**
+- Fix minor layout issue in special case.
+
+</details>
+
 **Version 4.5**
 - Changes
 	- Remove `disableDragToPinOrUnpin` and use the built-in preference `browser.tabs.dragDrop.dragToPin.enabled` as a replacement.
@@ -273,7 +281,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `tabVerticalMargin` might be missing in `about:config` in certain cases.
 
 <details>
-<summary>Minor Updates</summary>
+<summary>s</summary>
 
 **Version 4.1.2.5**
 - Adjusted margin of mini-audio button to prevent overlap with tab label.
@@ -306,7 +314,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Padding issue for pinned tabs when enabling `pinnedTabsFlexWidth` since v4.1.
 
 <details>
-<summary>Minor Updates</summary>
+<summary>s</summary>
 
 **Version 4.1.0.7**
 - Fix an issue that may conflict with other scripts since v4.1.
@@ -328,7 +336,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Notification Bar was placed incorrectly when  was enabled.
 
 <details>
-<summary>Minor Updates</summary>
+<summary>s</summary>
 
 **Version 4.0.2.3**
 - Update the dependencies of settings in `about:config`.
@@ -377,7 +385,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Various minor bugs and issues.
 
 <details>
-<summary>Minor Updates</summary>
+<summary>Minor Update</summary>
 
 **Version 3.6.1.1**
 - Bug fix: tab sizes were unlocked unexpectedly when rows were reduced, since version 3.6.0.1.
