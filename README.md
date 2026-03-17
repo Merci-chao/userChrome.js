@@ -281,7 +281,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `tabVerticalMargin` might be missing in `about:config` in certain cases.
 
 <details>
-<summary>s</summary>
+<summary>Minor Updates</summary>
 
 **Version 4.1.2.5**
 - Adjusted margin of mini-audio button to prevent overlap with tab label.
@@ -314,7 +314,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Padding issue for pinned tabs when enabling `pinnedTabsFlexWidth` since v4.1.
 
 <details>
-<summary>s</summary>
+<summary>Minor Updates</summary>
 
 **Version 4.1.0.7**
 - Fix an issue that may conflict with other scripts since v4.1.
@@ -336,7 +336,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Notification Bar was placed incorrectly when  was enabled.
 
 <details>
-<summary>s</summary>
+<summary>Minor Updates</summary>
 
 **Version 4.0.2.3**
 - Update the dependencies of settings in `about:config`.
