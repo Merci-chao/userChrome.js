@@ -1,203 +1,198 @@
 <!DOCTYPE html>
 <html lang="ja">
+	<head>
+		<meta charset='utf-8'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" media="screen" href="https://merci-chao.github.io/userChrome.js/assets/css/style.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="https://merci-chao.github.io/userChrome.js/style.css">
+		<link rel="icon" type="image/svg+xml" href="https://merci-chao.github.io/userChrome.js/favicon.svg">
 
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" media="screen" href="https://merci-chao.github.io/userChrome.js/assets/css/style.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="https://merci-chao.github.io/userChrome.js/style.css">
-    <link rel="icon" type="image/svg+xml" href="https://merci-chao.github.io/userChrome.js/favicon.svg">
+		<!-- Begin Jekyll SEO tag v2.8.0 -->
+		<title>Multi Tab Rows | Firefox 148、149 で一番の多段タブ</title>
+		<meta name="generator" content="Jekyll v3.10.0" />
+		<meta property="og:title" content="Multi Tab Rows" />
+		<meta property="og:locale" content="ja" />
+		<meta name="description" content="Firefox で一番の多段タブ。スペースを有効活用し、ドラッグ＆ドロップも直感的。操作は洗練され、ピン留めタブはグリッドで整理。さらに自動更新チェックで常に快適。" />
+		<meta name="keywords" content="Firefox, 多段タブ, タブのカスタマイズ, Multi Tab Rows,ドラッグ＆ドロップ, タブ管理, userChrome.js, スクリプト">
+		<meta property="og:description" content="Firefox で一番の多段タブ。スペースを有効活用し、ドラッグ＆ドロップも直感的。操作は洗練され、ピン留めタブはグリッドで整理。さらに自自動更新チェックで常に快適。" />
+		<link rel="canonical" href="https://merci-chao.github.io/userChrome.js/multitabrows/ja" />
+		<link rel="alternate" hreflang="en" href="https://merci-chao.github.io/userChrome.js/multitabrows/en" />
+		<meta property="og:url" content="https://merci-chao.github.io/userChrome.js/multitabrows/ja" />
+		<meta property="og:site_name" content="Multi Tab Rows" />
+		<meta property="og:type" content="website" />
+		<meta name="twitter:card" content="summary" />
+		<meta property="twitter:title" content="Multi Tab Rows" />
+		<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","description":"Firefox で一番の多段タブ。スペースを有効活用し、ドラッグ＆ドロップも直感的。操作は洗練され、ピン留めタブはグリッドで整理。さらに自動更新チェックで常に快適。","headline":"Multi Tab Rows","url":"https://merci-chao.github.io/userChrome.js/multitabrows/ja"}</script>
+		<!-- End Jekyll SEO tag -->
+		<!-- end custom head snippets -->
+	</head>
 
-    <!-- Begin Jekyll SEO tag v2.8.0 -->
-    <title>Multi Tab Rows | Firefox 148、149 で一番の多段タブ</title>
-    <meta name="generator" content="Jekyll v3.10.0" />
-    <meta property="og:title" content="Multi Tab Rows" />
-    <meta property="og:locale" content="ja" />
-    <meta name="description" content="Firefox で一番の多段タブ。スペースを有効活用し、ドラッグ＆ドロップも直感的。操作は洗練され、ピン留めタブはグリッドで整理。さらに自動更新チェックで常に快適。" />
-    <meta name="keywords" content="Firefox, 多段タブ, タブのカスタマイズ, Multi Tab Rows,ドラッグ＆ドロップ, タブ管理, userChrome.js, スクリプト">
-    <meta property="og:description" content="Firefox で一番の多段タブ。スペースを有効活用し、ドラッグ＆ドロップも直感的。操作は洗練され、ピン留めタブはグリッドで整理。さらに自自動更新チェックで常に快適。" />
-    <link rel="canonical" href="https://merci-chao.github.io/userChrome.js/multitabrows/ja" />
-    <link rel="alternate" hreflang="en" href="https://merci-chao.github.io/userChrome.js/multitabrows/en" />
-    <meta property="og:url" content="https://merci-chao.github.io/userChrome.js/multitabrows/ja" />
-    <meta property="og:site_name" content="Multi Tab Rows" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary" />
-    <meta property="twitter:title" content="Multi Tab Rows" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","description":"Firefox で一番の多段タブ。スペースを有効活用し、ドラッグ＆ドロップも直感的。操作は洗練され、ピン留めタブはグリッドで整理。さらに自動更新チェックで常に快適。","headline":"Multi Tab Rows","url":"https://merci-chao.github.io/userChrome.js/multitabrows/ja"}</script>
-    <!-- End Jekyll SEO tag -->
-    <!-- end custom head snippets -->
-  </head>
+	<body>
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-M9K5F9W88Y"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-M9K5F9W88Y');
+		</script>
 
-  <body>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M9K5F9W88Y"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+		<!-- HEADER -->
+		<div id="header_wrap" class="outer">
+			<header class="inner">
+				<div id="forkme_banner">
+					<span id="other_language"><span aria-hidden>🌐</span> <a href="https://merci-chao.github.io/userChrome.js/multitabrows/en/">English</a></span>
+					<a href="https://github.com/Merci-chao/userChrome.js/blob/main/README.jp.md" target="_blank">GitHub で見る</a>
+				</div>
+				<h1 id="project_title"><span onclick='history.pushState({}, "", ".");document.documentElement.scrollTop=0;'>Multi Tab Rows</span></h1>
+				<p id="project_tagline">Firefox 148、149 で一番の多段タブ。</p>
+			</header>
+		</div>
 
-      gtag('config', 'G-M9K5F9W88Y');
-    </script>
+		<!-- MAIN CONTENT -->
+		<div id="main_content_wrap" class="outer">
+			<nav id="floating-index" class="floating-index">
+				<h2><span aria-hidden>🗂️</span> 目次</h2>
+				<ul>
+					<li><span aria-hidden>📖</span> <a href="#overview">概要</a></li>
+					<li><span aria-hidden>🧩</span> <a href="#compatibility">互換性</a></li>
+					<li>
+						<span aria-hidden>🌟</span> <a href="#highlights">注目ポイント</a>
+						<ul>
+							<li><span aria-hidden>📐</span> <a href="#optimized-space-usage">スペース活用の最適化</a></li>
+							<li><span aria-hidden>🖱️</span> <a href="#drag-and-drop-in-motion">ドラッグ＆ドロップ操作</a></li>
+							<li><span aria-hidden>🚀</span> <a href="#newest-features-support">最新機能のサポート</a></li>
+							<li><span aria-hidden>✨</span> <a href="#polished-interactions">洗練された操作感</a></li>
+							<li><span aria-hidden>📌</span> <a href="#pinned-tabs-grid-layout">ピン留めタブのグリッド表示</a></li>
+							<li><span aria-hidden>🛠️</span> <a href="#customizable-preferences">お好きなように調整</a></li>
+							<li><span aria-hidden>🔄</span> <a href="#auto-update-checking">自動更新チェック</a></li>
+							<li><span aria-hidden>🛡️</span> <a href="#reliable-support">安心のサポート</a></li>
+						</ul>
+					</li>
+					<li><span aria-hidden>👤</span> <a href="#about-the-developer">開発者について</a></li>
+					<li><span aria-hidden>📥</span> <a href="#download-and-installation">ダウンロードとインストール</a></li>
+				</ul>
+			</nav>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <div id="forkme_banner">
-			<span id="other_language"><span aria-hidden>🌐</span> <a href="https://merci-chao.github.io/userChrome.js/multitabrows/en/">English</a></span>
-			<a href="https://github.com/Merci-chao/userChrome.js/blob/main/README.jp.md" target="_blank">GitHub で見る</a>
-		  </div>
-          <h1 id="project_title"><span onclick='history.pushState({}, "", ".");document.documentElement.scrollTop=0;'>Multi Tab Rows</span></h1>
-          <p id="project_tagline">Firefox 148、149 で一番の多段タブ。</p>
-        </header>
-    </div>
+			<hr>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
+			<section id="main_content" class="inner">
+				<h2 id="overview"><span aria-hidden>📖</span> 概要</h2>
 
-      <nav id="floating-index" class="floating-index">
-        <h2><span aria-hidden>🗂️</span> 目次</h2>
-        <ul>
-          <li><span aria-hidden>📖</span> <a href="#overview">概要</a></li>
-          <li><span aria-hidden>🧩</span> <a href="#compatibility">互換性</a></li>
-          <li><span aria-hidden>🌟</span> <a href="#highlights">注目ポイント</a>
-            <ul>
-              <li><span aria-hidden>📐</span> <a href="#optimized-space-usage">スペース活用の最適化</a></li>
-              <li><span aria-hidden>🖱️</span> <a href="#drag-and-drop-in-motion">ドラッグ＆ドロップ操作</a></li>
-              <li><span aria-hidden>🚀</span> <a href="#newest-features-support">最新機能のサポート</a></li>
-              <li><span aria-hidden>✨</span> <a href="#polished-interactions">洗練された操作感</a></li>
-              <li><span aria-hidden>📌</span> <a href="#pinned-tabs-grid-layout">ピン留めタブのグリッド表示</a></li>
-              <li><span aria-hidden>🛠️</span> <a href="#customizable-preferences">お好きなように調整</a></li>
-              <li><span aria-hidden>🔄</span> <a href="#auto-update-checking">自動更新チェック</a></li>
-              <li><span aria-hidden>🛡️</span> <a href="#reliable-support">安心のサポート</a></li>
-            </ul>
-          </li>
-          <li><span aria-hidden>👤</span> <a href="#about-the-developer">開発者について</a></li>
-          <li><span aria-hidden>📥</span> <a href="#download-and-installation">ダウンロードとインストール</a></li>
-        </ul>
-      </nav>
+				<p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview-jp.png" alt="Preview of Multi Tab Rows in Firefox" /></p>
 
-      <hr>
+				<p><strong>Multi Tab Rows</strong>（<code class="language-plaintext highlighter-rouge">MultiTabRows@Merci.chao.uc.js</code>）は、<strong>Firefox</strong> における<strong>多段タブ</strong>の徹底的かつ完全な実装です。<code class="language-plaintext highlighter-rouge">userChrome.js</code> スクリプトとして開発され、クラシックな <code>MultiRowTabLiteforFx.uc.js</code>（<a href="https://github.com/Izheil/Quantum-Nox-Firefox-Customizations/tree/master/Multirow%20and%20other%20functions/" target="_blank">Izheil 版</a>と<a href="https://u6.getuploader.com/script/download/2238" target="_blank">日本版</a>）や多機能な <a href="https://onemen.github.io/tabmixplus-docs" target="_blank">Tab Mix Plus</a> に着想を得て、洗練された操作性と快適さを備え、究極の多段タブを差し上げます。</p>
 
-      <section id="main_content" class="inner">
-        <h2 id="overview"><span aria-hidden>📖</span> 概要</h2>
+				<hr />
 
-        <p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview-jp.png" alt="Preview of Multi Tab Rows in Firefox" /></p>
+				<h2 id="compatibility"><span aria-hidden>🧩</span> 互換性</h2>
+				<ul>
+					<li><strong>Firefox 115</strong> および<strong>最新リリース版</strong>をサポート</li>
+					<li><strong>Windows 7～11</strong> および <strong>Ubuntu</strong> をサポート</li>
+				</ul>
 
-        <p><strong>Multi Tab Rows</strong>（<code class="language-plaintext highlighter-rouge">MultiTabRows@Merci.chao.uc.js</code>）は、<strong>Firefox</strong> における<strong>多段タブ</strong>の徹底的かつ完全な実装です。<code class="language-plaintext highlighter-rouge">userChrome.js</code> スクリプトとして開発され、クラシックな <code>MultiRowTabLiteforFx.uc.js</code>（<a href="https://github.com/Izheil/Quantum-Nox-Firefox-Customizations/tree/master/Multirow%20and%20other%20functions/" target="_blank">Izheil 版</a>と<a href="https://u6.getuploader.com/script/download/2238" target="_blank">日本版</a>）や多機能な <a href="https://onemen.github.io/tabmixplus-docs" target="_blank">Tab Mix Plus</a> に着想を得て、洗練された操作性と快適さを備え、究極の多段タブを差し上げます。</p>
+				<hr />
 
-        <hr />
+				<h2 id="highlights"><span aria-hidden>🌟</span> 注目ポイント</h2>
 
-        <h2 id="compatibility"><span aria-hidden>🧩</span> 互換性</h2>
-        <ul>
-          <li><strong>Firefox 115</strong> および<strong>最新リリース版</strong>をサポート</li>
-          <li><strong>Windows 7～11</strong> および <strong>Ubuntu</strong> をサポート</li>
-        </ul>
+				<h3 id="optimized-space-usage"><span aria-hidden>📐</span> スペース活用の最適化</h3>
 
-        <hr />
+				<p>Multi Tab Rows はスペースを余すことなく活用し、ウィンドウ操作ボタン下の領域まで広げます。</p>
 
-        <h2 id="highlights"><span aria-hidden>🌟</span> 注目ポイント</h2>
+				<p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/spaceUsage.ja.png" alt="ウィンドウ操作ボタン下の領域まで広げる" /></p>
 
-        <h3 id="optimized-space-usage"><span aria-hidden>📐</span> スペース活用の最適化</h3>
+				<p>クラシックな見た目を好む方には、タブバーをナビゲーションバーの下に配置することも可能です。</p>
 
-        <p>Multi Tab Rows はスペースを余すことなく活用し、ウィンドウ操作ボタン下の領域まで広げます。</p>
+				<p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/tabsAtBottom.ja.png" alt="タブバーを下に配置" /></p>
 
-        <p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/spaceUsage.ja.png" alt="ウィンドウ操作ボタン下の領域まで広げる" /></p>
+				<h3 id="drag-and-drop-in-motion"><span aria-hidden>🖱️</span> ドラッグ＆ドロップ操作</h3>
 
-        <p>クラシックな見た目を好む方には、タブバーをナビゲーションバーの下に配置することも可能です。</p>
+				<p>独自のドラッグ＆ドロップ機能で、タブ管理は直感的かつスムーズ。インジケーター不要で、多段モードでも自然に動作します。</p>
 
-        <p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/tabsAtBottom.ja.png" alt="タブバーを下に配置" /></p>
+				<p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/dragging.ja.png" alt="本格的なドラッグ＆ドロップ" /></p>
 
-        <h3 id="drag-and-drop-in-motion"><span aria-hidden>🖱️</span> ドラッグ＆ドロップ操作</h3>
+				<h3 id="newest-features-support"><span aria-hidden>🚀</span> 最新機能のサポート</h3>
 
-        <p>独自のドラッグ＆ドロップ機能で、タブ管理は直感的かつスムーズ。インジケーター不要で、多段モードでも自然に動作します。</p>
+				<p>タブグループや分割ビューを利用していても、Multi Tab Rows は Firefox の最新機能に完全対応。タブや分割ビューをドラッグしてグループ化する操作も、従来通り直感的で自然に動作します。もしグループ化があまり好みでない場合は、設定リストにある「タブを他のタブにドロップした際にグループ化」機能は、オフにすることもできます。</p>
 
-        <p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/dragging.ja.png" alt="本格的なドラッグ＆ドロップ" /></p>
+				<p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/grouping.ja.png" alt="ドラッグ＆ドロップでグループ化" /></p>
 
-        <h3 id="newest-features-support"><span aria-hidden>🚀</span> 最新機能のサポート</h3>
+				<h3 id="polished-interactions"><span aria-hidden>✨</span> 洗練された操作感</h3>
 
-        <p>タブグループや分割ビューを利用していても、Multi Tab Rows は Firefox の最新機能に完全対応。タブや分割ビューをドラッグしてグループ化する操作も、従来通り直感的で自然に動作します。もしグループ化があまり好みでない場合は、設定リストにある「タブを他のタブにドロップした際にグループ化」機能は、オフにすることもできます。</p>
+				<p>Firefox 本来のタブ挙動を洗練し、さまざまな細やかな不具合を解消して不足を補うことで、よりスムーズで完成度の高い体験を実現します。すべての操作は、まるで Firefox に標準搭載されているかのように自然です。</p>
 
-        <p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/grouping.ja.png" alt="ドラッグ＆ドロップでグループ化" /></p>
+				<p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/interactionsComparing.ja.png" alt="ネイティブの Firefox と比較した洗練された操作性" /></p>
 
-        <h3 id="polished-interactions"><span aria-hidden>✨</span> 洗練された操作感</h3>
+				<h3 id="pinned-tabs-grid-layout"><span aria-hidden>📌</span> ピン留めタブのグリッド表示</h3>
 
-        <p>Firefox 本来のタブ挙動を洗練し、さまざまな細やかな不具合を解消して不足を補うことで、よりスムーズで完成度の高い体験を実現します。すべての操作は、まるで Firefox に標準搭載されているかのように自然です。</p>
+				<p>ピン留めされたタブはコンパクトに整理され、グリッド状に並ぶため、タブバーがスクロール可能になってもすぐにアクセスできます。</p>
 
-        <p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/interactionsComparing.ja.png" alt="ネイティブの Firefox と比較した洗練された操作性" /></p>
+				<p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/pinnedGrid.ja.png" alt="ピン留めタブのグリッド表示" /></p>
 
-        <h3 id="pinned-tabs-grid-layout"><span aria-hidden>📌</span> ピン留めタブのグリッド表示</h3>
+				<p>通常のタブのようにスクロールで流れる挙動を好む方は、この機能をオフにしてスペースを節約することも可能です。</p>
 
-        <p>ピン留めされたタブはコンパクトに整理され、グリッド状に並ぶため、タブバーがスクロール可能になってもすぐにアクセスできます。</p>
+				<p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/pinnedStatic.ja.png" alt="ピン留めタブがスクロールに追従" /></p>
 
-        <p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/pinnedGrid.ja.png" alt="ピン留めタブのグリッド表示" /></p>
+				<h3 id="customizable-preferences"><span aria-hidden>🛠️</span> お好きなように調整</h3>
 
-        <p>通常のタブのようにスクロールで流れる挙動を好む方は、この機能をオフにしてスペースを節約することも可能です。</p>
+				<p>デフォルト設定はすでに最適化されていて、すぐに使えます。さらに Multi Tab Rows は、タブサイズからレイアウト、操作まで幅広い設定を備え、好みに合わせて自由に調整できます。</p>
 
-        <p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/pinnedStatic.ja.png" alt="ピン留めタブがスクロールに追従" /></p>
+				<p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/customizing.ja.png" alt="豊富なカスタマイズ" /></p>
 
-        <h3 id="customizable-preferences"><span aria-hidden>🛠️</span> お好きなように調整</h3>
+				<h3 id="auto-update-checking"><span aria-hidden>🔄</span> 自動更新チェック</h3>
 
-        <p>デフォルト設定はすでに最適化されていて、すぐに使えます。さらに Multi Tab Rows は、タブサイズからレイアウト、操作まで幅広い設定を備え、好みに合わせて自由に調整できます。</p>
+				<p>新しい Firefox に切り替えても、スクリプトが突然壊れる心配や更新を探し回る煩わしさはありません。Multi Tab Rows は自動更新確認機能を備えており、ワンクリックで最新の改善や互換性をすぐにゲットできます。より細かくコントロールしたい方には、手動更新や無効化も選べます。</p>
 
-        <p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/customizing.ja.png" alt="豊富なカスタマイズ" /></p>
+				<p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/update.ja.png" alt="更新通知" /></p>
 
-        <h3 id="auto-update-checking"><span aria-hidden>🔄</span> 自動更新チェック</h3>
+				<h3 id="reliable-support"><span aria-hidden>🛡️</span> 安心のサポート</h3>
 
-        <p>新しい Firefox に切り替えても、スクリプトが突然壊れる心配や更新を探し回る煩わしさはありません。Multi Tab Rows は自動更新確認機能を備えており、ワンクリックで最新の改善や互換性をすぐにゲットできます。より細かくコントロールしたい方には、手動更新や無効化も選べます。</p>
+				<p>Multi Tab Rows は熱意と長期的な目標を持った取り組みから生まれました。長年の拡張機能開発で培った経験を背景に、これからも安心のサポートを続けてまいります。</p>
 
-        <p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/update.ja.png" alt="更新通知" /></p>
+				<hr />
 
-        <h3 id="reliable-support"><span aria-hidden>🛡️</span> 安心のサポート</h3>
+				<h2 id="about-the-developer"><span aria-hidden>👤</span> 開発者について</h2>
 
-        <p>Multi Tab Rows は熱意と長期的な目標を持った取り組みから生まれました。長年の拡張機能開発で培った経験を背景に、これからも安心のサポートを続けてまいります。</p>
+				<p><img src="https://avatars.githubusercontent.com/u/18614572" alt="Merci chao" width="200" /></p>
 
-        <hr />
+				<p>2006 年から、私は<a href="https://web.archive.org/web/20170901023746/https://addons.mozilla.org/en-US/firefox/user/mercichao/" target="_blank">数々の Firefox 拡張機能</a>を開発してきました：</p>
+				<ul>
+					<li><a href="https://web.archive.org/web/20150726222027/https://addons.mozilla.org/en-US/firefox/addon/personal-menu/" target="_blank">Personal Menu</a></li>
+					<li><a href="https://web.archive.org/web/20120118015243/https://addons.mozilla.org/en-US/firefox/addon/movable-firefox-button/" target="_blank">Movable Firefox Button</a></li>
+					<li><a href="https://web.archive.org/web/20161220000058/https://addons.mozilla.org/en-US/firefox/addon/picknsave/" target="_blank">Pick &amp; Save Images</a></li>
+					<li><a href="https://web.archive.org/web/20170424025533/https://addons.mozilla.org/en-US/firefox/addon/history-submenus-2/" target="_blank">History Submenus II</a></li>
+					<li><a href="https://web.archive.org/web/20181018231146/https://addons.mozilla.org/en-US/firefox/addon/page-title/" target="_blank">Page Title in URL Bar</a></li>
+					<li><a href="https://web.archive.org/web/20181013030902/https://addons.mozilla.org/en-US/firefox/addon/semi-full-screen/" target="_blank">Semi-Full Screen</a></li>
+					<li><a href="https://web.archive.org/web/20181102003217/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/" target="_blank">Float Toolbars in Full Screen</a></li>
+					<li><a href="https://web.archive.org/web/20181009050037/https://addons.mozilla.org/en-US/firefox/addon/mid-click-restart/" target="_blank">Mid-Click Restart</a></li>
+				</ul>
 
-        <h2 id="about-the-developer"><span aria-hidden>👤</span> 開発者について</h2>
+				<p>最初の <strong>Personal Menu</strong> は、Firefox のカスタマイズを愛するユーザー向けのニッチな拡張機能でしたが、ピーク時には <strong>165,000 人以上</strong> のユーザーに利用され、世界中のボランティアによって 25 の言語に翻訳されました。ツールバーにボタンを備え、そのメニューを自由にカスタマイズできるようにし、よく使う項目を配置して従来のメニューバーを完全に隠すことができました。この拡張機能は Firefox 1.5 で登場しました⸺Firefox 29 のハンバーガーメニュー（☰）や Firefox 4 のオレンジ色の Firefox ボタンよりずっと前です！（ちなみに、その頃 IE7 はまだベータ版で、Chrome が出てくるのはさらに 2 年後でした。）</p>
 
-        <p><img src="https://avatars.githubusercontent.com/u/18614572" alt="Merci chao" width="200" /></p>
+				<p>Personal Menu は <strong>9 年間</strong>にわたりメンテナンスを続け、さらに他の 2 つの拡張機能も AMO（addons.mozilla.org）でおすすめとして紹介されました。</p>
 
-        <p>2006 年から、私は<a href="https://web.archive.org/web/20170901023746/https://addons.mozilla.org/en-US/firefox/user/mercichao/" target="_blank">数々の Firefox 拡張機能</a>を開発してきました：</p>
-        <ul>
-          <li><a href="https://web.archive.org/web/20150726222027/https://addons.mozilla.org/en-US/firefox/addon/personal-menu/" target="_blank">Personal Menu</a></li>
-          <li><a href="https://web.archive.org/web/20120118015243/https://addons.mozilla.org/en-US/firefox/addon/movable-firefox-button/" target="_blank">Movable Firefox Button</a></li>
-          <li><a href="https://web.archive.org/web/20161220000058/https://addons.mozilla.org/en-US/firefox/addon/picknsave/" target="_blank">Pick &amp; Save Images</a></li>
-          <li><a href="https://web.archive.org/web/20170424025533/https://addons.mozilla.org/en-US/firefox/addon/history-submenus-2/" target="_blank">History Submenus II</a></li>
-          <li><a href="https://web.archive.org/web/20181018231146/https://addons.mozilla.org/en-US/firefox/addon/page-title/" target="_blank">Page Title in URL Bar</a></li>
-          <li><a href="https://web.archive.org/web/20181013030902/https://addons.mozilla.org/en-US/firefox/addon/semi-full-screen/" target="_blank">Semi-Full Screen</a></li>
-          <li><a href="https://web.archive.org/web/20181102003217/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/" target="_blank">Float Toolbars in Full Screen</a></li>
-          <li><a href="https://web.archive.org/web/20181009050037/https://addons.mozilla.org/en-US/firefox/addon/mid-click-restart/" target="_blank">Mid-Click Restart</a></li>
-        </ul>
+				<p>これらはすべて UI 調整用のツールでしたが、<strong>Pick & Save Images</strong> だけは違いました。ほかの拡張機能とは異なり、画像の取得に特化し、Firefox Sync に対応したプロファイルベースの設定を提供し、初心者向けにもプロ向けにも対応したフィルタリング機能を備えていました。さらに、Firefox の UI に自然に溶け込む、洗練されて多用途に使えるボタンも備えていたのです。</p>
 
-        <p>最初の <strong>Personal Menu</strong> は、Firefox のカスタマイズを愛するユーザー向けのニッチな拡張機能でしたが、ピーク時に <strong>16 万人以上</strong>のユーザーに利用されていました。ツールバーにボタンを備え、そのメニューを自由にカスタマイズできるようにし、よく使う項目を配置して従来のメニューバーを完全に隠すことができました。この拡張機能は Firefox 1.5 で登場しました⸺Firefox 29 のハンバーガーメニュー（☰）や Firefox 4 のオレンジ色の Firefox ボタンよりずっと前です！（ちなみに、その頃 IE7 はまだベータ版で、Chrome が出てくるのはさらに 2 年後でした。）</p>
-		
-		<p>Personal Menu は <strong>9 年間</strong>にわたりメンテナンスを続け、さらに他の 2 つの拡張機能も AMO（addons.mozilla.org）でおすすめとして紹介されました。</p>
-		
-		<p>これらはすべて UI 調整用のツールでしたが、<strong>Pick & Save Images</strong> だけは違いました。ほかの拡張機能とは異なり、画像の取得に特化し、Firefox Sync に対応したプロファイルベースの設定を提供し、初心者向けにもプロ向けにも対応したフィルタリング機能を備えていました。さらに、Firefox の UI に自然に溶け込む、洗練されて多用途に使えるボタンも備えていたのです。</p>
+				<p>残念ながら、これらの拡張機能は Quantum 時代（Firefox 57 以降）を越えて存続できませんでした。WebExtensions ではブラウザーの UI 改修が認められていないためです。それでも、小さな UI 調整用の拡張機能のいくつかは、<code class="language-plaintext highlighter-rouge">userChrome.js</code> を通じて今も生き続けています。興味のある方はぜひ<a href="https://github.com/Merci-chao/userChrome.js/blob/main/README.jp.md" target="_blank">私の GitHub</a> をご覧ください。
 
-        <p>残念ながら、これらの拡張機能は Quantum 時代（Firefox 57 以降）を越えて存続できませんでした。WebExtensions ではブラウザーの UI 改修が認められていないためです。それでも、小さな UI 調整用の拡張機能のいくつかは、<code class="language-plaintext highlighter-rouge">userChrome.js</code> を通じて今も生き続けています。興味のある方はぜひ<a href="https://github.com/Merci-chao/userChrome.js/blob/main/README.jp.md" target="_blank">私の GitHub</a> をご覧ください。
+				<p>そして現在は、数千時間を費やして取り組んできたプロジェクト <strong>Multi Tab Rows</strong> に注力して、できる限り続けていきます。</p>
 
-        <p>そして現在は、数千時間を費やして取り組んできたプロジェクト <strong>Multi Tab Rows</strong> に注力して、できる限り続けていきます。</p>
+				<hr />
 
-        <hr />
+				<h2 id="download-and-installation"><span aria-hidden>📥</span> ダウンロードとインストール</h2>
+				<p><span aria-hidden>📓</span> <a href="https://github.com/Merci-chao/userChrome.js/blob/main/README.jp.md#注意事項">注意事項とインストール手順</a>に沿って導入してください。Firefox で、<strong>一番の多段タブ</strong>をすぐに楽しめます。</p>
 
-        <h2 id="download-and-installation"><span aria-hidden>📥</span> ダウンロードとインストール</h2>
-        <p><span aria-hidden>📓</span> <a href="https://github.com/Merci-chao/userChrome.js/blob/main/README.jp.md#注意事項">注意事項とインストール手順</a>に沿って導入してください。Firefox で、<strong>一番の多段タブ</strong>をすぐに楽しめます。</p>
+				<p>注意事項やインストール手順はちょっと長くて真面目に見えるんですが、すべてを明確にして安全に進められるようにするためなんです。気軽に読んでみてくださいね！<span aria-hidden>🙈</span></p>
+			</section>
+		</div>
 
-        <p>注意事項やインストール手順はちょっと長くて真面目に見えるんですが、すべてを明確にして安全に進められるようにするためなんです。気軽に読んでみてくださいね！<span aria-hidden>🙈</span></p>
-		  
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-
-        <p class="copyright"><strong>Multi Tab Rows</strong> — <a href="https://github.com/Merci-chao" target="_blank">Merci chao</a> によりメンテナンス</p>
-
-        <p><a href="https://pages.github.com" target="_blank">GitHub Pages</a> にて公開</p>
-      </footer>
-    </div>
-  </body>
+		<!-- FOOTER	-->
+		<div id="footer_wrap" class="outer">
+			<footer class="inner">
+				<p class="copyright"><strong>Multi Tab Rows</strong> — <a href="https://github.com/Merci-chao" target="_blank">Merci chao</a> によりメンテナンス</p>
+				<p><a href="https://pages.github.com" target="_blank">GitHub Pages</a> にて公開</p>
+			</footer>
+		</div>
+	</body>
 </html>
