@@ -45,7 +45,7 @@ Firefox に多段タブ表示をサポートさせる。
 	- [`firefox-scripts`](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)（作者：[xiaoxiaoflood](https://github.com/xiaoxiaoflood)、メンテ：[onemen](https://github.com/onemen)）
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)（作者：[MrOtherGuy](https://github.com/MrOtherGuy)）
 	- [`userChrome.js`](https://github.com/alice0775/userChrome.js)（作者：[alice0775](https://github.com/alice0775)）
-<br><br>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に指定がなければ、📘[Tab Mix Plus - ドキュメント（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) の手順に従って `firefox-scripts` をインストールする例がある：  
+<br><br>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に指定がなければ、📘[Tab Mix Plus - ドキュメント（Google 翻訳）](http://translate.google.com/translate?tl=ja&u=https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) の手順に従って `firefox-scripts` をインストールする例がある。⛔ 競合が発生するので必ず Tab Mix Plus をインストールしないでください。  
 ![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.jp.png)
 <br>📝 ファイルの配置場所は使用するローダーによって多少異なる場合がある。以下は `firefox-scripts` を使用する場合の例。
 
