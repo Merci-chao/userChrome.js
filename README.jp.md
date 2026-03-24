@@ -175,6 +175,16 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.5.1**
+- 改善
+	- タブバー内のボタンとタブの角の丸みは、タブの内容部分の高さと水平余白が一定の水準まで減ると減り始める。
+	- Firefox 150 への更新。
+	- 分割ビューの区切り線を微調整。
+- 修正
+	- タブノート機能を無効にした際、タブプレビューパネルが誤ってシフトされた。
+	- タブをドラッグした後、オーディオアイコンと閉じるボタンが更新されなかった。
+	- 特殊なケースでの起動時に発生した軽微なレイアウト問題。
+
 <details>
 <summary>軽微な更新</summary>
 	
