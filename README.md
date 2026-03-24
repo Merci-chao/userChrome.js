@@ -181,6 +181,16 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.5.1**
+- Improvements
+	- The roundness of the corners of buttons and tabs in the Tab Bar begins to decrease once the tab content height and horizontal padding are reduced beyond a certain point.
+	- Update for Firefox 150.
+	- Fine-tune the divider in split views.
+- Fixes
+	- Tab preview panel was wrongly shifted when the tab note feature was disabled.
+	- Audio icons and close buttons didn't update after dragging tabs.
+	- Minor layout issue occurred when start up in special case.
+
 <details>
 <summary>Minor Update</summary>
 
