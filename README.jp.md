@@ -176,7 +176,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
 **Version 4.5.1**
-- 改善
+- 改良
 	- タブバー内のボタンとタブの角の丸みは、タブの内容部分の高さと水平余白が一定の水準まで減ると減り始める。
 	- Firefox 150 への更新。
 	- 分割ビューの区切り線を微調整。
