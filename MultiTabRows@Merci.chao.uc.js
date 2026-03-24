@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.5.0.1
+// @version        4.5.1
 // @compatibility  Firefox 115, 148-150
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -191,7 +191,7 @@ const emptyFunc = () => {};
 				} catch (e) {
 					let l10n = {
 						en: `${SCRIPT_FILE_NAME}\n\nThe preference "${csp}" is locked to "false" by the script loader. Please modify or remove the corresponding restriction, or use another script loader.`,
-						ja: `${SCRIPT_FILE_NAME}\n\n設定 "${csp}" はスクリプトローダーによって "false" ロックされています。該当する制限を修正または削除するか、別のスクリプトローダーを使用してください。`,
+						ja: `${SCRIPT_FILE_NAME}\n\n設定「${csp}」はスクリプトローダーによって「false」にロックされています。該当する制限を修正または削除するか、別のスクリプトローダーをご利用ください。`,
 					};
 					l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
 					alert(l10n);
@@ -506,7 +506,7 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 			!prefs.spaceBeforeTabs && !prefs.spaceBeforeTabsOnMaximizedWindow
 		),
 	);
-	lock("previewPanelNoteEditable", !getPref("browser.tabs.notes.enabled", TAB_NOTE_SUPPORT));
+	lock("previewPanelNoteEditable", !getPref("browser.tabs.notes.enabled", TAB_NOTE_SUPPORT), false);
 	lock("positionPinnedTabs", prefs.pinnedTabsFlexWidth || prefs.autoCollapse, false);
 	lock("lastRowTabsFlexibe", prefs.justifyCenter == 2);
 	lock("previewPanelShiftedAlways", !prefs.previewPanelShifted);
@@ -729,6 +729,8 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 				downloadKey: "M",
 				changelog: "Changelog",
 				changelogKey: "C",
+				finished: "Done",
+				finishedKey: "D",
 				later: "Remind Tomorrow",
 				laterKey: "R",
 				link: "#changelog",
@@ -743,6 +745,8 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 				downloadKey: "M",
 				changelog: "変更履歴",
 				changelogKey: "C",
+				finished: "完了",
+				finishedKey: "D",
 				later: "明日再通知する",
 				laterKey: "R",
 				link: "/blob/main/README.jp.md#変更履歴",
@@ -830,6 +834,11 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 								accessKey: l10n.changelogKey,
 								callback: showChangelog,
 								primary: true,
+							},
+							{
+								label: l10n.finished,
+								accessKey: l10n.finishedKey,
+								callback: emptyFunc,
 							},
 						],
 						"chrome://browser/skin/migration/success.svg",
@@ -934,7 +943,7 @@ const borderSnapping = size => CSS.supports("flex", "round(1)")
 		max( /*at least 1 device px, or 0 if size <= 0*/
 			round( /*round down to integer*/
 				down,
-				${size} * var(--device-pixel-ratio), /*covert to device px*/
+				(${size}) * var(--device-pixel-ratio), /*covert to device px*/
 				1px
 			),
 			min( /*will only be 1px (size > 0), or NaN (size <= 0) which forces the final result to be 0px*/
@@ -945,7 +954,7 @@ const borderSnapping = size => CSS.supports("flex", "round(1)")
 		/ var(--device-pixel-ratio) /*covert back to css px*/
 	)`.replace(/\/\*.+?\*\//g, "")
 	//fallback to approximation
-	: /*js*/`calc(${size} / var(--device-pixel-ratio))`;
+	: /*js*/`calc((${size}) / var(--device-pixel-ratio))`;
 
 const outlineOffsetSnappingPref = [1, 2].includes(getPref("layout.css.outline-offset.snapping"));
 const outlineOffsetSnapping = size =>
@@ -984,8 +993,21 @@ mainStyle.innerHTML = /*css*/`
 :root {
 	--max-tab-rows: 1;
 	--tab-icon-size: 16px;
-	--tab-block-margin: ${Math.min(Math.max(prefs.tabVerticalMargin, 0), TAB_BLOCK_MARGIN * 3)}px;
-	--tab-inline-padding: ${Math.min(Math.max(prefs.tabHorizontalPadding, 0), TAB_INLINE_PADDING * 3)}px;
+	--tab-block-margin: ${Math.min(
+		Math.max(prefs.tabVerticalMargin, 0),
+		TAB_BLOCK_MARGIN * 3
+	)}px;
+	--tab-inline-padding: ${Math.min(
+		Math.max(prefs.tabHorizontalPadding, 0),
+		TAB_INLINE_PADDING * 3
+	)}px;
+	--tab-border-radius: min(
+		var(--toolbarbutton-border-radius),
+		max(
+			var(--tab-inline-padding),
+			(var(--tab-min-height) - var(--tab-icon-size)) / 2
+		)
+	);
 	--tab-pinned-inline-padding: 2px;
 	--tab-overflow-clip-margin: ${Math.min(Math.max(prefs.tabHorizontalMargin, 0), TAB_INLINE_MARGIN * 3)}px;
 	--tabstrip-min-height: calc(var(--tab-min-height) + 2 * var(--tab-block-margin));
@@ -1266,6 +1288,10 @@ ${prefs.compactControlButtons || win7 || win8 ? /*css*/`
 #TabsToolbar > .titlebar-buttonbox-container,
 #TabsToolbar .toolbarbutton-1 {
 	height: calc(var(--tabstrip-min-height) - var(--tabs-navbar-shadow-size, 0px)); /*fx 115*/
+}
+
+#TabsToolbar .toolbarbutton-1 > :is(.toolbarbutton-icon, .toolbarbutton-text, .toolbarbutton-badge-stack) {
+	border-radius: min(var(--toolbarbutton-inner-padding), var(--tab-border-radius));
 }
 
 #TabsToolbar #TabsToolbar-customization-target > :not(#tabbrowser-tabs, .toolbarbutton-1) {
@@ -1670,13 +1696,13 @@ ${_}::part(scrollbutton-down) {
 }
 
 ${_}[highlight]::part(scrollbutton-down) {
-	--color: var(--attention-dot-color, var(--tab-attention-icon-color));
+	--color: var(--tab-attention-dot-color, var(--attention-dot-color, var(--tab-attention-icon-color)));
 	opacity: 1 !important;
 	background: var(--color) !important;
 }
 
 ${_}[highlight]::part(scrollbutton-down-icon) {
-	color: var(--color);
+	fill: var(--color);
 	filter: invert(1) grayscale(1);
 	background: none;
 }
@@ -1824,7 +1850,7 @@ ${_} [size-locked=accurate] {
 	max-width: var(--locked-size) !important;
 }
 
-#TabsToolbar #tabbrowser-tabs tab-group {
+${"#tabbrowser-arrowscrollbox".repeat(3)} tab-group {
 	--line-overlap-length: 0px;
 	--line-indent: 0px;
 	--line-border-radius: 0px;
@@ -1927,6 +1953,7 @@ ${_} [size-locked=accurate] {
 		.tab-group-label {
 			max-width: var(--group-label-max-width);
 			align-content: center;
+			border-radius: max(var(--tab-border-radius) - 2px, var(--tab-group-label-padding));
 
 			/*https://bugzil.la/1985445*/
 			&::before {
@@ -2182,7 +2209,7 @@ ${_}${condition = prefs.pinnedTabsFlexWidth ? "[class][class]" : ":not([pinned])
 	visibility: hidden;
 }
 
-#TabsToolbar #tabbrowser-tabs
+${"#tabbrowser-arrowscrollbox".repeat(3)}
 	:is(
 		${_}${prefs.pinnedTabsFlexWidth ? "" : ":not([pinned])"},
 		tab-split-view-wrapper
@@ -2371,7 +2398,7 @@ ${appVersion > 136 ? /*css*/`
 	--button-min-height-small: var(--size);
 }
 
-#TabsToolbar #tabbrowser-tabs tab-split-view-wrapper {
+${"#tabbrowser-arrowscrollbox".repeat(3)} tab-split-view-wrapper {
 	--w: 0px;
 	--width-rounding-diff: 0px;
 	--splitview-width-rounding-diff: var(--width-rounding-diff);
@@ -2379,6 +2406,7 @@ ${appVersion > 136 ? /*css*/`
 	--splitview-outline-width: 1px;
 	--splitview-background-color: transparent;
 	--splitview-separator-color: var(--toolbarbutton-icon-fill);
+	--splitview-separator-indent: 1px;
 	--splitview-tab-min-height: max(calc(var(--tab-min-height) - var(--tab-overflow-clip-margin) * 2), var(--tab-icon-size));
 	display: flex;
 	align-items: center;
@@ -2470,6 +2498,7 @@ ${appVersion > 136 ? /*css*/`
 		--splitview-outline-color: var(--focus-outline-color);
 		--splitview-background-color: var(--tab-selected-bgcolor);
 		--splitview-separator-color: var(--splitview-outline-color);
+		--splitview-separator-indent: 0px;
 
 		&:not([dragover-groupTarget])::after {
 			box-shadow: var(--tab-selected-shadow);
@@ -2537,12 +2566,20 @@ ${appVersion > 136 ? /*css*/`
 
 		/* 1st tab */
 		&:has(+ &:not([closing])) {
+			--box-shadow-indent: ${borderSnapping(`
+				var(--tab-block-margin)
+				+ var(--splitview-outline-width)
+				+ var(--splitview-separator-indent)
+			`)};
 			/*https://bugzil.la/2007048*/
 			box-shadow:
-				calc((var(--tab-block-margin) + ${borderSnapping("var(--splitview-outline-width)")}) * ${DIR})
+				calc((
+					var(--box-shadow-indent)
+					+ ${borderSnapping("var(--splitview-outline-width)")}
+				) * ${DIR})
 				0
 				0
-				calc(var(--tab-block-margin) * -1)
+				calc(var(--box-shadow-indent) * -1)
 				var(--splitview-separator-color);
 
 			tab-group[collapsed] :not([hasactivetab]) > & {
@@ -2839,7 +2876,7 @@ ${!prefs.autoCollapse ? /*css*/`
 ` : ``}
 
 /* raise the priority high enough */
-#navigator-toolbox #TabsToolbar #tabbrowser-tabs[forced-overflow] #tabbrowser-arrowscrollbox
+${"#tabbrowser-tabs".repeat(5)}[forced-overflow]
 	[last-inflow-node]
 {
 	margin-inline-end: var(--forced-overflow-adjustment) !important;
@@ -2958,7 +2995,7 @@ ${!prefs.autoCollapse ? /*css*/`
 }
 */
 
-#TabsToolbar #tabbrowser-tabs > #pinned-drop-indicator {
+${"#tabbrowser-tabs".repeat(3)} > #pinned-drop-indicator {
 	display: flex;
 	align-items: center;
 	position: absolute;
@@ -3054,7 +3091,7 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 		--control-box-radius-start: 0px;
 		--control-box-radius-end: 0px;
 		--control-box-clip-scrollbar-reserved: var(--scrollbar-clip-reserved);
-		/*3px is calculated from --box-shadow-tab*/
+		/*3px is calculated from --tab-box-shadow*/
 		--tab-shadow-size: var(--tab-selected-shadow-size, var(--tab-shadow-max-size, 3px));
 	}
 
@@ -3823,7 +3860,7 @@ ${debug && debug < 3 ? /*css*/`
 	${_}:hover {
 		clip-path: none !important;
 	}
-	${_ = `#TabsToolbar #tabbrowser-tabs
+	${_ = `${"#tabbrowser-arrowscrollbox".repeat(3)}
 			:is(
 				.tabbrowser-tab, .tab-group-label-container,
 				.tab-group-overflow-count-container, tab-split-view-wrapper
@@ -4209,9 +4246,9 @@ rAF(2).then(() => root.removeAttribute("multitabrows-applying-style"));
 	//ignore #updateScrollButtonsDisabledState as it is private,
 	//[scrolledtostart] and [scrolledtoend] have been taken charge so don't bother
 	arrowScrollbox._updateScrollButtonsDisabledState = function() {
-		let {scrollTop} = scrollbox;
+		let {scrollTop, scrollTopMax} = scrollbox;
 		this[!scrollTop ? "setAttribute" : "removeAttribute"]("scrolledtostart", true, true);
-		this[scrollTop == scrollbox.scrollTopMax ? "setAttribute" : "removeAttribute"]("scrolledtoend", true, true);
+		this[scrollTop == scrollTopMax ? "setAttribute" : "removeAttribute"]("scrolledtoend", true, true);
 	};
 
 	arrowScrollbox.on_scroll = function(e) {
@@ -6532,8 +6569,8 @@ let GET_DRAG_TARGET;
 								tabContainer._unlockTabSizing({unlockSlot: false});
 								tabContainer._keepTabSizeLocked = true;
 								gBrowser[newPinState ? "pinMultiSelectedTabs" : "unpinMultiSelectedTabs"]();
-								tabContainer.updateLayout();
 								await refreshGroups();
+								tabContainer.updateLayout();
 							},
 							{
 								translated: true,
@@ -7598,19 +7635,16 @@ let GET_DRAG_TARGET;
 
 		this._updateState();
 
+		console?.timeEnd("updateLayout");
+
 		if (
 			//overflow may fired when moving tab then locking the slot
 			lastLayoutData.overflowing && !prvOverflowing && !this.isMovingTab ||
 			pointDelta(prvSlotWidth, lastLayoutData.slotWidth)
-		) {
-			console?.timeEnd("updateLayout");
+		)
 			this._unlockTabSizing({instant: true});
-			return;
-		}
-
-		console?.timeEnd("updateLayout");
-
-		this._updateCloseButtons();
+		else
+			requestAnimationFrame(() => this._updateCloseButtons());
 	};
 
 	tabContainer._updateState = function() {
@@ -8684,8 +8718,11 @@ let GET_DRAG_TARGET;
 		let r;
 		let run = () => {
 			r = createTabsForSessionRestore.apply(this, arguments);
-			tabContainer.updateLayout();
-			setTimeout(() => tabContainer._handleTabSelect(true));
+			//wait for the follow-ups finished e.g. label update of the active collapsed group
+			requestAnimationFrame(() => {
+				tabContainer.updateLayout();
+				tabContainer._handleTabSelect(true);
+			});
 		};
 		if (animatingLayout)
 			run();
