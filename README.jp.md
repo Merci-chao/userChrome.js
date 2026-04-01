@@ -138,7 +138,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `dynamicThemeImageSize` | テーマ使用時、背景画像のサイズが現在の段数に応じて変化する。 |
+| `dynamicThemeImageSize` | テーマ使用時、背景画像のサイズが現在の段数に応じて変化する。そうでない場合は、許可されている最大段数に依存。 |
 | `floatingBackdropBlurriness` | タブバーがスクロール可能時にタブを覆う要素の背景ぼかし強度を設定する。`tabsUnderControlButtons` が `2` のときのみ有効。Firefox 115 では、またはぼかし効果が効かない場合には非対応。 |
 | `floatingBackdropClip` | タブバーがスクロール可能時にタブバーを覆う要素の領域をクリップする。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `floatingBackdropOpacity` | タブバーがスクロール可能時にタブを覆う要素の背景の不透明度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
