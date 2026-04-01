@@ -106,7 +106,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `hideAllTabs` | Hide the "List all tabs" button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing "Remove from Toolbar". |
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when Tab Bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
-| `maxTabRows` | Maximum number of rows to display at once. Minimum: `1`. |
+| `maxTabRows` | Maximum number of rows to display at once. Minimum: `1`.<br>📝 Note: The actual count depends on the window width, refer to `rowIncreaseEvery`. |
 | `newTabButtonAfterLastTab` | Place the New Tab button after the last tab. When disabled, the button follows the position specified in toolbar customization.<br>📝 Note: The New Tab button stays after the last tab only when it is placed directly after the tabs. |
 | `positionPinnedTabs` | Position pinned tabs as a fixed grid before normal tabs when the Tab Bar is scrollable. |
 | `privateBrowsingIconOnNavBar` | Move the private window icon to Navigation Bar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled. |
