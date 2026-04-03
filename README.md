@@ -54,7 +54,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 2. Restart Firefox and check whether the script loader is running correctly if you are using:
 	- <details><summary><code>firefox-scripts</code></summary>Open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.</details>
-	- <details><summary><code>fx-autoconfig</code></summary><ul><li>On the first run, Firefox will display the notification message <code>fx-autoconfig: Firefox is being modified with custom autoconfig scripting</code>.</li><li>If you are not sure, open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.firstRunShown</code> to verify whether the preference exists.</li></ul></details>
+	- <details><summary><code>fx-autoconfig</code></summary>On the first run, Firefox will display the notification message "fx-autoconfig: Firefox is being modified with custom autoconfig scripting". If are not sure, open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.firstRunShown</code> to verify whether the preference exists.</details>
 
 3. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of `chrome`.
    <br>⚠️ There are many reports of issues caused by conflicts with customized styles.
