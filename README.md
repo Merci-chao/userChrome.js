@@ -43,7 +43,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 - Always use scripts and files from sources you trust.
 
 ## Installation
-1. Install the script loader. Skip this step if you already have some scripts in use. There are several script loaders available:
+1. Install the script loader (`userChrome.js`). Skip this step if you already have some scripts in use. There are several script loaders available:
 	- [`firefox-scripts`](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) by *[xiaoxiaoflood](https://github.com/xiaoxiaoflood)*, maintained by *[onemen](https://github.com/onemen)*
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig) by *[MrOtherGuy](https://github.com/MrOtherGuy)*
  	- [`userChrome.js`](https://github.com/alice0775/userChrome.js) by *[alice0775](https://github.com/alice0775)*
