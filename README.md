@@ -54,7 +54,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 2. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of `chrome`.
    <br>⚠️ There are many reports of issues caused by conflicts with customized styles.
 
-3. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) and place it into `chrome`.
+3. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as), place it into `chrome`.
 
 4. Restart Firefox to apply.
 
