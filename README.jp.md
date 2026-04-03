@@ -45,7 +45,7 @@ Firefox に多段タブ表示をサポートさせる。
 	- [`userChrome.js`](https://github.com/alice0775/userChrome.js)（作者：[alice0775](https://github.com/alice0775)）
 	- [`firefox-scripts`](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)（作者：[xiaoxiaoflood](https://github.com/xiaoxiaoflood)、メンテ：[onemen](https://github.com/onemen)）
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)（作者：[MrOtherGuy](https://github.com/MrOtherGuy)）
-<br><br>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。ファイルの配置場所は使用するローダーによって多少異なるため、以下は `userChrome.js` または `firefox-scripts` を使用する場合の例。
+<br><br>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。ファイルの配置場所は使用するローダーによって多少異なるため、以下は `userChrome.js` または `firefox-scripts` を使用する場合の例。`firefox-scripts` のインストール手順は [bunji_ 氏の記事](https://kamehiyo.com/firefox_multitub_new/)に参考できます。
 
 2. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` から移動する。
    <br>⚠️ スタイルとの競合によって発生する不具合が多数報告されている。
