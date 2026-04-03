@@ -52,7 +52,7 @@ Firefox に多段タブ表示をサポートさせる。
 2. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` から移動する。
    <br>⚠️ スタイルとの競合によって発生する不具合が多数報告されている。
 
-3. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし、`chrome` に配置する。<br>
+3. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし（右クリックして保存）、`chrome` に配置する。<br>
 
 4. Firefox を再起動して適用する。
 
