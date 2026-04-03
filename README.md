@@ -47,7 +47,8 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 	- [`firefox-scripts`](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) by *[xiaoxiaoflood](https://github.com/xiaoxiaoflood)*, maintained by *[onemen](https://github.com/onemen)*
 	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig) by *[MrOtherGuy](https://github.com/MrOtherGuy)*
  	- [`userChrome.js`](https://github.com/alice0775/userChrome.js) by *[alice0775](https://github.com/alice0775)*
-  <br><br>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘 [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the `firefox-scripts`. ⛔ DO NOT install Tab Mix Plus as it will cause conflict.
+  <br><br>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘 [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the `firefox-scripts`.
+  <br>⛔ DO NOT install Tab Mix Plus as it will cause conflict.
   <br>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
   <br>📝 The file placement location may slightly vary depending on the loader. The following steps assume the use of `firefox-scripts`.
 
@@ -55,14 +56,14 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 	- <details><summary><code>firefox-scripts</code></summary>Open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.</details>
 	- <details><summary><code>fx-autoconfig</code></summary><ul><li>On the first run, Firefox will display the notification message <code>fx-autoconfig: Firefox is being modified with custom autoconfig scripting</code>.</li><li>If you are not sure, open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.firstRunShown</code> to verify whether the preference exists.</li></ul></details>
 
-4. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of `chrome`.
+3. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of `chrome`.
    <br>⚠️ There are many reports of issues caused by conflicts with customized styles.
 
-5. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as), place it into `chrome`.
+4. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as), place it into `chrome`.
 
-6. Restart Firefox to apply.
+5. Restart Firefox to apply.
 
-7. If you moved some files out of `chrome` in step 2, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and style rules accordingly. If you need help, please provide the information 🛟 [here](https://github.com/Merci-chao/userChrome.js/issues/new).
+6. If you moved some files out of `chrome` in step 3, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and style rules accordingly. If you need help, please provide the information 🛟 [here](https://github.com/Merci-chao/userChrome.js/issues/new).
 
 > [!IMPORTANT]
 > If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
