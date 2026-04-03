@@ -50,6 +50,7 @@ Firefox に多段タブ表示をサポートさせる。
 2. Firefox を再起動し、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
 	- <details><summary><code>firefox-scripts</code></summary><a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> を開き、<code>userChromeJS.enabled</code> を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。</details>
 	- <details><summary><code>fx-autoconfig</code></summary>初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。不明な場合は <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> を開き、<code>userChromeJS.firstRunShown</code> を検索して設定が存在するか確認する。</details>
+	- <code>userChrome.js</code>（簡易な検証手段が見当たらない）
 
 3. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` から移動する。
    <br>⚠️ スタイルとの競合によって発生する不具合が多数報告されている。
