@@ -50,7 +50,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
   <br><br>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘 [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the Firefox Scripts.
   <br><br>⛔ DO NOT install Tab Mix Plus as it will cause conflict.
   <br><br>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
-  <br><br>📝 The file placement location may slightly vary depending on the loader. The following steps assume the use of Firefox Scripts.
+  <br><br>📝 The file placement location may slightly vary depending on the loader. The following steps assume the use of Firefox Scripts or `alice0775/userChrome.js`.
 
 2. Restart Firefox and check whether the script loader is running correctly if you are using:
 	- <details><summary>Firefox Scripts</summary>Open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.</details>
