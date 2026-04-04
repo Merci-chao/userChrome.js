@@ -45,7 +45,7 @@ Firefox に多段タブ表示をサポートさせる。
 	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)（作者：[xiaoxiaoflood](https://github.com/xiaoxiaoflood)、メンテ：[onemen](https://github.com/onemen)）
 	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
 	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
-<br><br>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。ファイルの配置場所は使用するローダーによって多少異なるため、以下は Firefox Scripts または `alice0775/userChrome.js` を使用する場合の例。Firefox Scripts のインストール手順は [bunji_ 氏の記事](https://kamehiyo.com/firefox_multitub_new/)に参考できます。
+<br><br>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。Firefox Scripts を選ぶ場合、インストール手順は [bunji_ 氏の記事](https://kamehiyo.com/firefox_multitub_new/)に参考できます。ファイルの配置場所は使用するローダーによって多少異なるため、以下は Firefox Scripts または `alice0775/userChrome.js` を使用する場合の例。
 
 2. Firefox を再起動し、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
 	- <details><summary>Firefox Scripts</summary><a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> を開き、<code>userChromeJS.enabled</code> を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。</details>
