@@ -53,8 +53,9 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
   <br><br>📝 The file placement location may slightly vary depending on the loader. The following steps assume the use of Firefox Scripts or `alice0775/userChrome.js`.
 
 2. Restart Firefox and check whether the script loader is running correctly if you are using:
-	- <details><summary>Firefox Scripts</summary>Open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.</details>
-	- <details><summary><code>MrOtherGuy/fx-autoconfig</code></summary>On the first run, Firefox will display the notification message "fx-autoconfig: Firefox is being modified with custom autoconfig scripting". If you are not sure, open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.firstRunShown</code> to verify whether the preference exists.</details>
+	- Firefox Scripts - open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.
+
+	- <code>MrOtherGuy/fx-autoconfig</code> - on the first run, Firefox will display the notification message "fx-autoconfig: Firefox is being modified with custom autoconfig scripting". If you are not sure, open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.firstRunShown</code> to verify whether the preference exists.
 
 3. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of `chrome`.
    <br>⚠️ There are many reports of issues caused by conflicts with customized styles.
