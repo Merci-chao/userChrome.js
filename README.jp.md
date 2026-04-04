@@ -48,9 +48,11 @@ Firefox に多段タブ表示をサポートさせる。
 <br><br>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。Firefox Scripts を選ぶ場合、インストール手順は [bunji_ 氏の記事](https://kamehiyo.com/firefox_multitub_new/)に参考できます。ファイルの配置場所は使用するローダーによって多少異なるため、以下は Firefox Scripts または `alice0775/userChrome.js` を使用する場合の例。
 
 2. Firefox を再起動し、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
-	- <details><summary>Firefox Scripts</summary><a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> を開き、<code>userChromeJS.enabled</code> を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。</details>
-	- <details><summary><code>MrOtherGuy/fx-autoconfig</code></summary>初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。不明な場合は <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> を開き、<code>userChromeJS.firstRunShown</code> を検索して設定が存在するか確認する。</details>
-	- <code>alice0775/userChrome.js</code>（簡易な検証手段が見当たらない）
+	- Firefox Scripts－<a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> を開き、<code>userChromeJS.enabled</code> を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。
+
+	- <code>alice0775/userChrome.js</code>－簡易な検証手段が見当たらない。
+
+	- <code>MrOtherGuy/fx-autoconfig</code>－初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。不明な場合は <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> を開き、<code>userChromeJS.firstRunShown</code> を検索して設定が存在するか確認する。
 
 3. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` から移動する。
    <br>⚠️ スタイルとの競合によって発生する不具合が多数報告されている。
