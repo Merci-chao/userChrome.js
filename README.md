@@ -23,9 +23,9 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 - Windows 7 to 11, Ubuntu
 
 - Supports general `userChrome.js` script loaders, such as:
-	- [`firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
-	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
- 	- [`userChrome.js`](https://github.com/alice0775/userChrome.js)
+	- [`xiaoxiaoflood/firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
+	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
+ 	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
@@ -44,17 +44,17 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 ## Installation
 1. Install the script loader (`userChrome.js`). Skip to step 3 if you already have some scripts in use. There are several script loaders available:
-	- [`firefox-scripts`](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) by *[xiaoxiaoflood](https://github.com/xiaoxiaoflood)*, maintained by *[onemen](https://github.com/onemen)*
-	- [`fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig) by *[MrOtherGuy](https://github.com/MrOtherGuy)*
- 	- [`userChrome.js`](https://github.com/alice0775/userChrome.js) by *[alice0775](https://github.com/alice0775)*
-  <br><br>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘 [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the `firefox-scripts`.
+	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) by *[xiaoxiaoflood](https://github.com/xiaoxiaoflood)*, maintained by *[onemen](https://github.com/onemen)*
+	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
+ 	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
+  <br><br>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘 [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the Firefox Scripts.
   <br>⛔ DO NOT install Tab Mix Plus as it will cause conflict.
   <br>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
-  <br>📝 The file placement location may slightly vary depending on the loader. The following steps assume the use of `firefox-scripts`.
+  <br>📝 The file placement location may slightly vary depending on the loader. The following steps assume the use of Firefox Scripts.
 
 2. Restart Firefox and check whether the script loader is running correctly if you are using:
-	- <details><summary><code>firefox-scripts</code></summary>Open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.</details>
-	- <details><summary><code>fx-autoconfig</code></summary>On the first run, Firefox will display the notification message "fx-autoconfig: Firefox is being modified with custom autoconfig scripting". If you are not sure, open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.firstRunShown</code> to verify whether the preference exists.</details>
+	- <details><summary>Firefox Scripts</summary>Open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.</details>
+	- <details><summary><code>MrOtherGuy/fx-autoconfig</code></summary>On the first run, Firefox will display the notification message "fx-autoconfig: Firefox is being modified with custom autoconfig scripting". If you are not sure, open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.firstRunShown</code> to verify whether the preference exists.</details>
 
 3. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of `chrome`.
    <br>⚠️ There are many reports of issues caused by conflicts with customized styles.
