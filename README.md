@@ -32,7 +32,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 - This script is developed for Windows and has been lightly tested on Ubuntu (Linux). It has not been tested on macOS and probably does not work there.
 
 - Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)), user scripts (`*.uc.js`) or CSS styles (`userChrome.css`) can cause weird glitches and bugs.
-  <br>⚠️ Please follow the installation steps below carefully.
+  <p>⚠️ Please follow the installation steps below carefully.</p>
 
 - This is an unofficial and complex script maintained solely by me. It may contain unforeseen bugs, and if unexpected issues occur, restarting Firefox may be required. In extreme cases — especially when using an outdated version of the script with a newly updated Firefox — the browser may become unusable, potentially resulting in the permanent loss of your previous browsing session. You may need to disable the script in such situations. Please use this script only if you are capable of and prepared to handle these risks.
 
@@ -48,20 +48,25 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
  	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
   <br><br>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘 [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the Firefox Scripts.
-  <br><br>⛔ DO NOT install Tab Mix Plus as it will cause conflict.
-  <br><br>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)
-  <br><br>📝 The file placement location may slightly vary depending on the loader. The following steps assume the use of Firefox Scripts or `alice0775/userChrome.js`.
+  <br><p>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)<p>⛔ DO NOT install Tab Mix Plus as it will cause conflict.</p></p>
 
 2. Restart Firefox and check whether the script loader is running correctly if you are using:
-	- Firefox Scripts - open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.
+   <table>
+	   <tr>
+		   <td>Firefox Scripts</td>
+		   <td>Open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.</td>
+	   </tr>
+	   <tr>
+		   <td><code>MrOtherGuy/fx-autoconfig</code></td>
+		   <td><p>On the first run, Firefox will display the notification message "fx-autoconfig: Firefox is being modified with custom autoconfig scripting". If you are not sure, open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.firstRunShown</code> to verify whether the preference exists.</p><p>📝 Please note that the file placement location in the following steps slightly varies.</p></td>
+	   </tr>
+   </table>
 
-	- <code>MrOtherGuy/fx-autoconfig</code> - on the first run, Firefox will display the notification message "fx-autoconfig: Firefox is being modified with custom autoconfig scripting". If you are not sure, open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.firstRunShown</code> to verify whether the preference exists.
+4. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of `chrome`.
+   <p>⚠️ There are many reports of issues caused by conflicts with customized styles.</p>
 
-3. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of `chrome`.
-   <br>⚠️ There are many reports of issues caused by conflicts with customized styles.
-
-4. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as) and place it into `chrome`.
-   <br>⚠️ DO NOT use copy & paste or other methods, as it may cause incorrect file encoding.
+5. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as) and place it into `chrome`.
+   <p>⚠️ DO NOT use copy & paste or other methods, as it may cause incorrect file encoding.</p>
 
 6. Restart Firefox to apply.
 
