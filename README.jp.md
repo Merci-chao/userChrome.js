@@ -53,7 +53,7 @@ Firefox に多段タブ表示をサポートさせる。
 2. Firefox を再起動し、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
    <table>
 	   <tr>
-		   <td>Firefox Scripts</td>
+		   <td width="230">Firefox Scripts</td>
 		   <td><a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> を開き、<code>userChromeJS.enabled</code> を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。</td>
 	   </tr>
 	   <tr>
