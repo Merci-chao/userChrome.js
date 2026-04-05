@@ -54,7 +54,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 2. Restart Firefox and check whether the script loader is running correctly if you are using:
    <table>
 	   <tr>
-		   <td>Firefox Scripts</td>
+		   <td width="230">Firefox Scripts</td>
 		   <td>Open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.</td>
 	   </tr>
 	   <tr>
