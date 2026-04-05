@@ -91,7 +91,7 @@ Firefox に多段タブ表示をサポートさせる。
 user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ```
 
-**🚨 注意：他の設定との依存関係により、これらの設定の多くが反映されない可能性がある。`user.js` を使用するのではなく、`about:config` 経由で直接設定することを強く推奨。**
+⚠️ 注意：他の設定との依存関係により、これらの設定の多くが反映されない可能性がある。`user.js` を使用するのではなく、`about:config` 経由で直接設定することを強く推奨。
 
 ### 操作
 
