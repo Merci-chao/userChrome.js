@@ -49,7 +49,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
  	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
    <p>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘 <a href="https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts">Tab Mix Plus - Docs</a> to install the Firefox Scripts.</p>
    <p><image src="https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png"></p>
-   <p>⛔ DO NOT install Tab Mix Plus as it will cause conflict.</p>
+   <p>⛔ Do not install Tab Mix Plus as it will cause conflict.</p>
 
 2. Restart Firefox and check whether the script loader is running correctly if you are using:
    <table>
@@ -72,6 +72,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 4. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as) and place it into `chrome`.
    <p>⚠️ Creating the file by copy & paste or other methods may cause incorrect encoding.</p>
+   <p>⛔ Do not modify the file name during or after downloading.</p>
 
 5. Restart Firefox to apply.
 
