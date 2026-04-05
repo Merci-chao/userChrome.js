@@ -57,12 +57,12 @@ Firefox に多段タブ表示をサポートさせる。
 		   <td><a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> を開き、<code>userChromeJS.enabled</code> を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。</td>
 	   </tr>
 	   <tr>
-		   <td><code>alice0775/userChrome.js</code></td>
-		   <td>簡易な検証手段が見当たらない。</td>
-	   </tr>
-	   <tr>
 		   <td><code>BSTweaker/UserChromeJS</code></td>
 		   <td>ツールメニュー（<code>Alt + T</code>）に「UserChromeJSLoader」という新しい項目が表示される。</td>
+	   </tr>
+	   <tr>
+		   <td><code>alice0775/userChrome.js</code></td>
+		   <td>簡易な検証手段が見当たらない。</td>
 	   </tr>
 	   <tr>
 		   <td><code>MrOtherGuy/fx-autoconfig</code></td>
