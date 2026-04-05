@@ -22,16 +22,17 @@ Firefox に多段タブ表示をサポートさせる。
 - Windows 7〜11 と Ubuntu
 
 - 一般的なスクリプトローダーに対応、例：
-	- [`xiaoxiaoflood/firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
-	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
  	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
+	- [`xiaoxiaoflood/firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
  	- [`BSTweaker/UserChromeJS`](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
+	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
 
 ## 注意事項
 **🚨 ご使用の前に、以下の注意点をよくお読みください：**
 - このスクリプトは Windows 向けに作られ、Ubuntu（Linux）で簡単なテストをしている。macOS では試していないので、動かないか不具合が出る可能性がある。
 
-- Firefox に最適化されたレイアウト計算を多く含むため、タブ関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト（`*.uc.js`）、CSS スタイル（`userChrome.css`）との競合によって、不具合が発生する可能性がある。<br>⚠️ 以下のインストール手順をよく読んで、慎重に進めてください。
+- Firefox に最適化されたレイアウト計算を多く含むため、タブ関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト（`*.uc.js`）、CSS スタイル（`userChrome.css`）との競合によって、不具合が発生する可能性がある。
+  <p>⚠️ 以下のインストール手順をよく読んで、慎重に進めてください。</p>
 
 - このスクリプトは非公式かつ複雑で、管理者は私一人のみ。予期しないバグが含まれる可能性があり、問題が発生した場合は Firefox を再起動する必要があるかもしれない。特に、旧バージョンのスクリプトを最新の Firefox で使用した場合、ブラウザが使用不能になり、以前のセッションが永久に失われる可能性もある。そのような場合には、スクリプトの無効化が必要になることがある。これらのリスクに対応できる準備がある方のみご使用ください。
 
@@ -47,26 +48,37 @@ Firefox に多段タブ表示をサポートさせる。
  	- [`BSTweaker/UserChromeJS`](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
 	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
 	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
-<br><br>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。Firefox Scripts を選ぶ場合、インストール手順は [bunji_ 氏の記事](https://kamehiyo.com/firefox_multitub_new/)に参考できる。`MrOtherGuy/fx-autoconfig` のファイル配置場所は若干異なる場合があるのでご注意。
+    <p>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。Firefox Scripts を選ぶ場合、インストール手順は <a href="https://kamehiyo.com/firefox_multitub_new/">bunji_ 氏の記事</a>に参考できる。</p>
 
 2. Firefox を再起動し、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
-	- Firefox Scripts－[`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開き、`userChromeJS.enabled` を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。
-
-	- `BSTweaker/UserChromeJS`－ツールメニュー（`Alt + T`）に「UserChromeJSLoader」という新しい項目が表示される。
-	
-	- `alice0775/userChrome.js`－簡易な検証手段が見当たらない。
-
-	- `MrOtherGuy/fx-autoconfig`－初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。不明な場合は [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開き、`userChromeJS.firstRunShown` を検索して設定が存在するか確認する。
+   <table>
+	   <tr>
+		   <td>Firefox Scripts</td>
+		   <td><a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> を開き、<code>userChromeJS.enabled</code> を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。</td>
+	   </tr>
+	   <tr>
+		   <td><code>alice0775/userChrome.js</code></td>
+		   <td>簡易な検証手段が見当たらない。</td>
+	   </tr>
+	   <tr>
+		   <td><code>BSTweaker/UserChromeJS</code></td>
+		   <td>ツールメニュー（<code>Alt + T</code>）に「UserChromeJSLoader」という新しい項目が表示される。</td>
+	   </tr>
+	   <tr>
+		   <td><code>MrOtherGuy/fx-autoconfig</code></td>
+		   <td><p>初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。不明な場合は <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> を開き、<code>userChromeJS.firstRunShown</code> を検索して設定が存在するか確認する。</p><p>📝 ファイル配置場所は若干異なる場合があるのでご注意。</p></td>
+	   </tr>
+   </table>
 
 3. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` から移動する。
-   <br>⚠️ スタイルとの競合によって発生する不具合が多数報告されている。
+   <p>⚠️ スタイルとの競合によって発生する不具合が多数報告されている。</p>
 
 4. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし（右クリックして保存）、`chrome` に配置する。
-   <br>⚠️ コピー＆ペーストやその他の方法を使用すると、誤ったファイルエンコードが発生する可能性がある。
+   <p>⚠️ コピー＆ペーストやその他の方法を使用すると、誤ったファイルエンコードが発生する可能性がある。</p>
 
-6. Firefox を再起動して適用する。
+5. Firefox を再起動して適用する。
 
-7. 手順 3 で一部のファイルを `chrome` の外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、スクリプトやスタイルルールを調整してください。お困りの際は、🛟 [こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
+6. 手順 3 で一部のファイルを `chrome` の外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、スクリプトやスタイルルールを調整してください。お困りの際は、🛟 [こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
 
 **🚨 注意：** Firefox 更新後にスクリプトローダーが動作しなくなった場合は、上記ページから最新のスクリプトローダーを再インストールしてください。
 
