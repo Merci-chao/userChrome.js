@@ -47,8 +47,9 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) by *[xiaoxiaoflood](https://github.com/xiaoxiaoflood)*, maintained by *[onemen](https://github.com/onemen)*
 	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
  	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
-  <br><br>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘 [Tab Mix Plus - Docs](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) to install the Firefox Scripts.
-  <br><p>![screenshot](https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png)<p>⛔ DO NOT install Tab Mix Plus as it will cause conflict.</p></p>
+   <p>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘 <a href="https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts">Tab Mix Plus - Docs</a> to install the Firefox Scripts.</p>
+   <p><image src="https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png"></p>
+   <p>⛔ DO NOT install Tab Mix Plus as it will cause conflict.</p>
 
 2. Restart Firefox and check whether the script loader is running correctly if you are using:
    <table>
