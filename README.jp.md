@@ -44,7 +44,7 @@ Firefox に多段タブ表示をサポートさせる。
 
 ## インストール手順
 1. スクリプトローダー（`userChrome.js`）をインストールする。すでに使用している場合は、手順 3 に進む。使えるスクリプトローダーはいくつかある：
-	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)（作者：[xiaoxiaoflood](https://github.com/xiaoxiaoflood)、メンテ：[onemen](https://github.com/onemen)）
+	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
  	- [`BSTweaker/UserChromeJS`](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
 	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
 	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
@@ -124,8 +124,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。 |
 | `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、タブバーがスクロール可能時にその空白を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0`－無効</li><li>`1`－一段のみの場合</li><li>`2`－常に有効（タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある）</li></ul> |
-| `maxTabRows` | 表示可能な最大段数。最小値：`1`。<br>📝 備考：実際のカウントはウィンドウの幅によって変わり、`rowIncreaseEvery` を参照。 |
-| `newTabButtonAfterLastTab` | 「新しいタブ」ボタンを最後のタブの後に配置。無効化されている場合、ツールバーのカスタマイズで指定された位置に従う。<br>📝 備考：タブの直後に置かれた場合のみ最後のタブの後に固定される。 |
+| `maxTabRows` | <p>表示可能な最大段数。最小値：`1`。</p><p>📝 備考：実際のカウントはウィンドウの幅によって変わり、`rowIncreaseEvery` を参照。</p> |
+| `newTabButtonAfterLastTab` | <p>「新しいタブ」ボタンを最後のタブの後に配置。無効化されている場合、ツールバーのカスタマイズで指定された位置に従う。<p><p>📝 備考：タブの直後に置かれた場合のみ最後のタブの後に固定される。</p> |
 | `positionPinnedTabs` | タブバーがスクロール可能な時、ピン留めされたタブを通常タブの前にグリッドとして配置。 |
 | `privateBrowsingIconOnNavBar` | プライベートウィンドウアイコンをナビゲーションバーに移動。Firefox 115 では非対応。`tabsAtBottom` が有効な場合は強制的に有効化される。 |
 | `rowIncreaseEvery` | ウィンドウの幅がこの幅広がるたびに、表示される段が一段追加される。幅が狭いウィンドウでは、同時に表示できる行数が少なくなる。`0` にすると最大段数が常に表示される。 |
@@ -135,7 +135,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ操作ボタン前の空白スペース。最小値：`0`。 |
 | `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値：`0`。 |
 | `spaceBeforeTabsOnMaximizedWindow` | 最大化時の左端空白スペース。最小値：`0`。 |
-| `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0`－メニューバー下</li><li>`1`－ナビゲーションツールバー下</li><li>`2`－ブックマークツールバー下</li></ul>Firefox 115 では非対応。 |
+| `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0`－メニューバー下</li><li>`1`－ナビゲーションツールバー下</li><li>`2`－ブックマークツールバー下</li></ul><p>Firefox 115 では非対応。</p> |
 | `tabsbarItemsAlign` | 多段モードでタブバー内の項目（主にボタン）の配置：<ul><li>`start`－上</li><li>`center`－中</li><li>`end`－下</li></ul>`tabsUnderControlButtons` が `0` または `1` でタブバーがスクロール可能時のみ有効。 |
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>多段表示時にウィンドウ操作ボタンの下にタブを配置：<ul><li>`0`－無効</li><li>`1`－タブバーがスクロール不可能場合のみ（旧式オプション、非推奨）</li><li>`2`－常に有効</li></ul>不具合が出る場合は `0` に設定してください。 |
 | `thinScrollbar` | タブバーがスクロール可能な時、上下ボタンなしの細いスクロールバーを使用。 |
