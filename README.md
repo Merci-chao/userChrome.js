@@ -72,7 +72,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 4. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as) and place it into `chrome`.
    <p>⚠️ Creating the file by copy & paste or other methods may cause incorrect encoding.</p>
-   <p>⛔ Do not modify the file name during or after downloading.</p>
+   <p>⛔ Do not modify the file name during or after saving.</p>
 
 5. Restart Firefox to apply.
 
