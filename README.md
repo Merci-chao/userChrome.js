@@ -71,7 +71,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
    <p>⚠️ There are many reports of issues caused by conflicts with customized styles.</p>
 
 4. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as) and place it into `chrome`.
-   <p>⚠️ DO NOT use copy & paste or other methods, as it may cause incorrect file encoding.</p>
+   <p>⚠️ DO NOT use copy & paste or other methods to create the file, as it may cause incorrect file encoding.</p>
 
 5. Restart Firefox to apply.
 
