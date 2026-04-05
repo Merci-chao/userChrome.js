@@ -44,7 +44,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 ## Installation
 1. Install the script loader (`userChrome.js`). Skip to step 3 if you already have one in use. There are several script loaders available:
-	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts) by *[xiaoxiaoflood](https://github.com/xiaoxiaoflood)*, maintained by *[onemen](https://github.com/onemen)*
+	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
 	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
  	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
    <p>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the 📘 <a href="https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts">Tab Mix Plus - Docs</a> to install the Firefox Scripts.</p>
@@ -60,6 +60,10 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 	   <tr>
 		   <td><code>MrOtherGuy/fx-autoconfig</code></td>
 		   <td><p>On the first run, Firefox will display the notification message "fx-autoconfig: Firefox is being modified with custom autoconfig scripting". If you are not sure, open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.firstRunShown</code> to verify whether the preference exists.</p><p>📝 Please note that the file placement location in the following steps slightly varies.</p></td>
+	   </tr>
+	   <tr>
+		   <td><code>alice0775/userChrome.js</code></td>
+		   <td>There is no simple method to verify.</td>
 	   </tr>
    </table>
 
@@ -119,8 +123,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `hideAllTabs` | Hide the "List all tabs" button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing "Remove from Toolbar". |
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when Tab Bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
-| `maxTabRows` | Maximum number of rows to display at once. Minimum: `1`.<br>📝 Note: The actual count depends on the window width, refer to `rowIncreaseEvery`. |
-| `newTabButtonAfterLastTab` | Place the New Tab button after the last tab. When disabled, the button follows the position specified in toolbar customization.<br>📝 Note: The New Tab button stays after the last tab only when it is placed directly after the tabs. |
+| `maxTabRows` | <p>Maximum number of rows to display at once. Minimum: `1`.</p><p>📝 Note: The actual count depends on the window width, refer to `rowIncreaseEvery`.</p> |
+| `newTabButtonAfterLastTab` | <p>Place the New Tab button after the last tab. When disabled, the button follows the position specified in toolbar customization.</p><p>📝 Note: The New Tab button stays after the last tab only when it is placed directly after the tabs.</p> |
 | `positionPinnedTabs` | Position pinned tabs as a fixed grid before normal tabs when the Tab Bar is scrollable. |
 | `privateBrowsingIconOnNavBar` | Move the private window icon to Navigation Bar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled. |
 | `rowIncreaseEvery` | Each time the window width increases by this amount, one more row is displayed. A narrower window will therefore show fewer rows at once. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
@@ -130,7 +134,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. Minimum: `0`. |
 | `spaceBeforeTabs` | Empty space on the left side of the window. Minimum: `0`. |
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. Minimum: `0`. |
-| `tabsAtBottom` | Position the Tab Bar beneath:<ul><li>`0` - Menu Bar</li><li>`1` - Navigation Toolbar</li><li>`2` - Bookmarks Toolbar</li></ul>Not available on Firefox 115. |
+| `tabsAtBottom` | Position the Tab Bar beneath:<ul><li>`0` - Menu Bar</li><li>`1` - Navigation Toolbar</li><li>`2` - Bookmarks Toolbar</li></ul><p>Not available on Firefox 115.</p> |
 | `tabsbarItemsAlign` | Alignment of the items (mainly buttons) in Tab Bar when there are multiple rows:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with Tab Bar is scrollable. |
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when Tab Bar is not scrollable (legacy option, not recommended)</li><li>`2` - always</li></ul>If any issues occur, set the value to `0` to disable this feature. |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons when Tab Bar is scrollable. |
@@ -169,7 +173,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable, or `0` to disable. The value will be updated with the last checking time (e.g. `1759911972`).<br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b><br>📝 Note: Updates for this script will not be notified when using older versions of Firefox (except 115). |
+| `checkUpdate` | <p>Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable, or `0` to disable. The value will be updated with the last checking time (e.g. `1759911972`).</p><p>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</p><p>📝 Note: Updates for this script will not be notified when using older versions of Firefox (except 115).</p> |
 | `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and sliently, also receive updates for minor changes and fixes that do not trigger notifications</li></ul> |
 | `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
 | `debugMode`<span title="Do Not Use">⛔</span> | Mode for debugging, not for general use. |
