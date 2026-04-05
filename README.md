@@ -149,7 +149,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| `dynamicThemeImageSize` | When using themes, the size of the background image changes according to the current number of rows. Otherwise, it depends on the maximum number of rows allowed. |
+| `dynamicThemeImageSize` | When using themes, the size of the background image changes according to the current number of rows. Otherwise, it depends on the maximum number of rows allowed. No difference when the image height is large enough to support the number of rows. |
 | `floatingBackdropBlurriness` | How blurry the background of items covering the tabs is when Tab Bar is scrollable, available when `tabsUnderControlButtons` is `2`. Minimum: `0`. Not available on Firefox 115 and in some cases where the blur effect cannot be applied. |
 | `floatingBackdropClip` | Clip the area covered by items on the Tab Bar when it is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `floatingBackdropOpacity` | How opaque the background of items covering the tab is when Tab Bar is scrollable, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
