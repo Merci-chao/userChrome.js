@@ -25,6 +25,7 @@ Firefox に多段タブ表示をサポートさせる。
 	- [`xiaoxiaoflood/firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
 	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
  	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
+ 	- [`BSTweaker/UserChromeJS`](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
 
 ## 注意事項
 **🚨 ご使用の前に、以下の注意点をよくお読みください：**
@@ -43,16 +44,19 @@ Firefox に多段タブ表示をサポートさせる。
 ## インストール手順
 1. スクリプトローダー（`userChrome.js`）をインストールする。すでに使用している場合は、手順 3 に進む。使えるスクリプトローダーはいくつかある：
 	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)（作者：[xiaoxiaoflood](https://github.com/xiaoxiaoflood)、メンテ：[onemen](https://github.com/onemen)）
+ 	- [`BSTweaker/UserChromeJS`](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
 	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
 	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
-<br><br>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。Firefox Scripts を選ぶ場合、インストール手順は [bunji_ 氏の記事](https://kamehiyo.com/firefox_multitub_new/)に参考できます。ファイルの配置場所は使用するローダーによって多少異なるため、以下は Firefox Scripts または `alice0775/userChrome.js` を使用する場合の例。
+<br><br>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。Firefox Scripts を選ぶ場合、インストール手順は [bunji_ 氏の記事](https://kamehiyo.com/firefox_multitub_new/)に参考できる。`MrOtherGuy/fx-autoconfig` のファイル配置場所は若干異なる場合があるのでご注意。
 
 2. Firefox を再起動し、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
-	- Firefox Scripts－<a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> を開き、<code>userChromeJS.enabled</code> を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。
+	- Firefox Scripts－[`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開き、`userChromeJS.enabled` を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。
 
-	- <code>alice0775/userChrome.js</code>－簡易な検証手段が見当たらない。
+	- `BSTweaker/UserChromeJS`－ツールメニュー（`Alt + T`）に「UserChromeJSLoader」という新しい項目が表示される。
+	
+	- `alice0775/userChrome.js`－簡易な検証手段が見当たらない。
 
-	- <code>MrOtherGuy/fx-autoconfig</code>－初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。不明な場合は <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> を開き、<code>userChromeJS.firstRunShown</code> を検索して設定が存在するか確認する。
+	- `MrOtherGuy/fx-autoconfig`－初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。不明な場合は [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開き、`userChromeJS.firstRunShown` を検索して設定が存在するか確認する。
 
 3. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` から移動する。
    <br>⚠️ スタイルとの競合によって発生する不具合が多数報告されている。
