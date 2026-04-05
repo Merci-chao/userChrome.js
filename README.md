@@ -60,11 +60,12 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 3. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of `chrome`.
    <br>⚠️ There are many reports of issues caused by conflicts with customized styles.
 
-4. Right-click the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js), choose "Save As", and place it into `chrome`.
+4. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as), place it into `chrome`.
+   <br>⚠️ DO NOT use copy & paste or other methods, as it may cause incorrect file encoding.
 
-5. Restart Firefox to apply.
+6. Restart Firefox to apply.
 
-6. If you moved some files out of `chrome` in step 3, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and style rules accordingly. If you need help, please provide the information 🛟 [here](https://github.com/Merci-chao/userChrome.js/issues/new).
+7. If you moved some files out of `chrome` in step 3, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and style rules accordingly. If you need help, please provide the information 🛟 [here](https://github.com/Merci-chao/userChrome.js/issues/new).
 
 > [!IMPORTANT]
 > If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
