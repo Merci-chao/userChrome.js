@@ -59,7 +59,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 	   </tr>
 	   <tr>
 		   <td><code>MrOtherGuy/fx-autoconfig</code></td>
-		   <td><p>On the first run, Firefox will display the notification message "fx-autoconfig: Firefox is being modified with custom autoconfig scripting". If you are not sure, open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.firstRunShown</code> to verify whether the preference exists.</p><p>📝 Please note that the file placement location in the following steps slightly varies.</p></td>
+		   <td><p>On the first run, Firefox will display the notification message "fx-autoconfig: Firefox is being modified with custom autoconfig scripting". If you are not sure, open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.firstRunShown</code> to verify whether the preference exists.</p><p>📝 Please note that the script file placement location in the following steps slightly varies.</p></td>
 	   </tr>
 	   <tr>
 		   <td><code>alice0775/userChrome.js</code></td>
