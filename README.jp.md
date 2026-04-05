@@ -57,11 +57,12 @@ Firefox に多段タブ表示をサポートさせる。
 3. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` から移動する。
    <br>⚠️ スタイルとの競合によって発生する不具合が多数報告されている。
 
-4. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし（右クリックして保存）、`chrome` に配置する。<br>
+4. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし（右クリックして保存）、`chrome` に配置する。
+   <br>⚠️ コピー＆ペーストやその他の方法を使用すると、誤ったファイルエンコードが発生する可能性がある。
 
-5. Firefox を再起動して適用する。
+6. Firefox を再起動して適用する。
 
-6. 手順 3 で一部のファイルを `chrome` の外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、スクリプトやスタイルルールを調整してください。お困りの際は、🛟 [こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
+7. 手順 3 で一部のファイルを `chrome` の外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、スクリプトやスタイルルールを調整してください。お困りの際は、🛟 [こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
 
 **🚨 注意：** Firefox 更新後にスクリプトローダーが動作しなくなった場合は、上記ページから最新のスクリプトローダーを再インストールしてください。
 
