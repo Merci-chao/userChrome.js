@@ -58,7 +58,7 @@ Firefox に多段タブ表示をサポートさせる。
 	   </tr>
 	   <tr>
 		   <td><code>MrOtherGuy/fx-autoconfig</code></td>
-		   <td><p>初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。さらに、ツールメニュー（<code>Alt + T</code>）に「userScripts」という新しい項目が表示される。</p><p>📝 以下の手順におけるスクリプトファイルの配置場所は、若干異なる場合があるのでご注意。</p></td>
+		   <td><p>初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。さらに、ツールメニュー（<code>Alt + T</code>）に「userScripts」という新しい項目が表示される。</p><p>📝 以下の手順では、スクリプトファイルの配置場所がサブフォルダ <code>chrome/JS</code> に変更されることにご注意。</p></td>
 	   </tr>
 	   <tr>
 		   <td><code>BSTweaker/UserChromeJS</code></td>
