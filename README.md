@@ -47,7 +47,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
 	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
  	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
-   <p>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can try <code>MrOtherGuy/fx-autoconfig</code>, which provides update-checking features, or follow the instructions in the <a href="https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts">Tab Mix Plus - Docs</a> to install the Firefox Scripts.</p>
+   <p>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can try <code>MrOtherGuy/fx-autoconfig</code>, which provides an update-checking feature, or follow the instructions in the <a href="https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts">Tab Mix Plus - Docs</a> to install the Firefox Scripts.</p>
    <p><image src="https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png"></p>
    <p>⛔ Do not install Tab Mix Plus as it will cause conflict.</p>
 
