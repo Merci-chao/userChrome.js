@@ -45,8 +45,8 @@ Firefox に多段タブ表示をサポートさせる。
 ## インストール手順
 1. スクリプトローダー（`userChrome.js`）をインストールする。すでに使用している場合は、手順 3 に進む。使えるスクリプトローダーはいくつかある：
 	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
- 	- [`BSTweaker/UserChromeJS`](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
 	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
+ 	- [`BSTweaker/UserChromeJS`](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
 	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
     <p>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に希望がなければ、更新チェック機能を提供する <code>MrOtherGuy/fx-autoconfig</code> を試すか、<a href="https://kamehiyo.com/firefox_multitub_new/">bunji_ 氏の記事</a>を参考にして Firefox Scripts をインストールすることができる。</p>
 
