@@ -59,7 +59,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 	   </tr>
 	   <tr>
 		   <td><code>MrOtherGuy/fx-autoconfig</code></td>
-		   <td><p>On the first run, Firefox will display the notification message "fx-autoconfig: Firefox is being modified with custom autoconfig scripting". Additionally, A new item called "userScripts" appears in the Tools menu (<code>Alt + T</code>).</p><p>📝 Please note that the script file placement location in the following steps slightly varies.</p></td>
+		   <td><p>On the first run, Firefox will display the notification message "fx-autoconfig: Firefox is being modified with custom autoconfig scripting". Additionally, A new item called "userScripts" appears in the Tools menu (<code>Alt + T</code>).</p><p>📝 Please note that in the following steps, the script file placement location changes to the subfolder <code>chrome/JS</code>.</p></td>
 	   </tr>
 	   <tr>
 		   <td><code>alice0775/userChrome.js</code></td>
