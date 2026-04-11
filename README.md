@@ -63,7 +63,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 	   </tr>
 	   <tr>
 		   <td><code>alice0775/userChrome.js</code></td>
-		   <td>There is no simple method to verify. <a href="https://github.com/alice0775/userChrome.js/issues/96">(details)</a></td>
+		   <td>There is no simple method to verify <a href="https://github.com/alice0775/userChrome.js/issues/96">(details)</a>.</td>
 	   </tr>
    </table>
 
