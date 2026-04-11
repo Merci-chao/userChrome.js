@@ -66,7 +66,7 @@ Firefox に多段タブ表示をサポートさせる。
 	   </tr>
 	   <tr>
 		   <td><code>alice0775/userChrome.js</code></td>
-		   <td>簡易な検証手段が見当たらない。</td>
+		   <td><a href="https://github.com/alice0775/userChrome.js/issues/96">簡易な検証手段が見当たらない。</a></td>
 	   </tr>
    </table>
 
