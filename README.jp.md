@@ -48,7 +48,7 @@ Firefox に多段タブ表示をサポートさせる。
 	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
  	- [`BSTweaker/UserChromeJS`](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
 	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
-    <p>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に希望がなければ、更新チェック機能を提供する <code>MrOtherGuy/fx-autoconfig</code> を試すか、<a href="https://kamehiyo.com/firefox_multitub_new/">bunji_ 氏の記事</a>を参考にして Firefox Scripts をインストールすることができる。</p>
+    <p>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に希望がなければ、<a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">更新チェック機能</a>を提供する <code>MrOtherGuy/fx-autoconfig</code> を試すか、<a href="https://kamehiyo.com/firefox_multitub_new/">bunji_ 氏の記事</a>を参考にして Firefox Scripts をインストールすることができる。</p>
 
 2. Firefox を再起動し、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
    <table>
