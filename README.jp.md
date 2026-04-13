@@ -252,6 +252,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `showScrollShadow` は Firefox 115 で動作しなかった。
 	- 特殊なケースで発生する軽微な表示不具合。
 
+<details>
+<summary>旧バージョン</summary>
+
 **Version 4.4**
 - 追加
 	- `showScrollShadow` を追加：タブバーがスクロール可能な場合、上下の端にシャドウを表示し、Firefox のインターフェースデザインに合わせる。
@@ -267,9 +270,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 		- DLP ボタンをナビゲーションツールバーへ移動。
 - 修正
 	- 特定の状況ごとに発生する複数のドラッグ＆ドロップの問題。
-
-<details>
-<summary>旧バージョン</summary>
 
 **Version 4.3.1**
 - 改良
