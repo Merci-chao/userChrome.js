@@ -253,6 +253,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `showScrollShadow` did not work on Firefox 115.
 	- Minor visual bugs in special cases.
 
+<details>
+<summary>Old Versions</summary>
+
 **Version 4.4**
 - New
 	- Add `showScrollShadow`: Show shadow on the top and bottom edges when the tab bar is scrollable, to align with the interface design of Firefox.
@@ -268,9 +271,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 		- Move the DLP button to the navigation toolbar.
 - Fix
 	- Drag & drop problems in special cases.
-
-<details>
-<summary>Old Versions</summary>
 
 **Version 4.3.1**
 - Improvements
