@@ -17,7 +17,7 @@ Firefox に多段タブ表示をサポートさせる。
 注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja/)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
-- Firefox 115、148〜150（ESR バージョンを除く）
+- Firefox 115、149〜151（ESR バージョンを除く）
 
 - Windows 7〜11 と Ubuntu
 
@@ -97,8 +97,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `animateTabMoveMaxCount`<span title="欠陥的な機能">🐞</span> | ドラッグされたタブの数がこの値を超えると、ラッグ＆ドロップのアニメーションは無効化され、代わりにドロップ位置のインジケーターを表示する。最小値：`0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。<br>📝 備考：タブグループの一部の操作が使用できない場合がある。最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある（例：Firefox バグ [#1985434](https://bugzilla.mozilla.org/show_bug.cgi?id=1985434)、[#1988159](https://bugzilla.mozilla.org/show_bug.cgi?id=1988159)、[#1988162](https://bugzilla.mozilla.org/show_bug.cgi?id=1988162)、[#1988194](https://bugzilla.mozilla.org/show_bug.cgi?id=1988194)）。 |
-| `animateTabMoveShiftKeyToPause`<span title="欠陥的な機能">🐞</span> | `Shift` キーを押している際、ドラッグ＆ドロップのアニメーションを一時停止し、代わりにドロップインジケーターを表示する。 |
+| `animateTabMoveMaxCount` | ドラッグされたタブの数がこの値を超えると、ラッグ＆ドロップのアニメーションは無効化され、代わりにドロップ位置のインジケーターを表示する。最小値：`0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。 |
+| `animateTabMoveShiftKeyToPause` | `Shift` キーを押している際、ドラッグ＆ドロップのアニメーションを一時停止し、代わりにドロップインジケーターを表示する。 |
 | `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する）。 |
 | ~~`disableDragToPinOrUnpin`~~<span title="削除された">🗑</span> | 組み込み設定 [`browser.tabs.dragDrop.dragToPin.enabled`](#dragToPinEnabled) を使用してください。 |
 | `dragStackPreceding` | ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。 |
@@ -136,7 +136,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ操作ボタン前の空白スペース。最小値：`0`。 |
 | `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値：`0`。 |
 | `spaceBeforeTabsOnMaximizedWindow` | 最大化時の左端空白スペース。最小値：`0`。 |
-| `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0`－メニューバー下</li><li>`1`－ナビゲーションツールバー下</li><li>`2`－ブックマークツールバー下</li></ul><p>Firefox 115 では非対応。</p> |
+| `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0`－メニューバー下</li><li>`1`－ナビゲーションツールバー下</li><li>`2`－ブックマークツールバー下</li><li>`-1`－ブラウザコンテンツ下</li></ul><p>Firefox 115 では非対応。</p> |
 | `tabsbarItemsAlign` | 多段モードでタブバー内の項目（主にボタン）の配置：<ul><li>`start`－上</li><li>`center`－中</li><li>`end`－下</li></ul>`tabsUnderControlButtons` が `0` または `1` でタブバーがスクロール可能時のみ有効。 |
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>多段表示時にウィンドウ操作ボタンの下にタブを配置：<ul><li>`0`－無効</li><li>`1`－タブバーがスクロール不可能場合のみ（旧式オプション、非推奨）</li><li>`2`－常に有効</li></ul>不具合が出る場合は `0` に設定してください。 |
 | `thinScrollbar` | タブバーがスクロール可能な時、上下ボタンなしの細いスクロールバーを使用。 |
@@ -161,7 +161,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `dynamicThemeImageSize` | テーマ使用時、背景画像のサイズが現在の段数に応じて変化する。そうでない場合は、許可されている最大段数に依存。画像の高さが段数を収容できるほど十分に大きい場合は、違いはない。 |
+| ~~`dynamicThemeImageSize`~~<span title="削除された">🗑</span> | `themeImageSize` に置き換えた。 |
 | `floatingBackdropBlurriness` | タブバーがスクロール可能時にタブを覆う要素の背景ぼかし強度を設定する。`tabsUnderControlButtons` が `2` のときのみ有効。Firefox 115 では、またはぼかし効果が効かない場合には非対応。 |
 | `floatingBackdropClip` | タブバーがスクロール可能時にタブバーを覆う要素の領域をクリップする。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `floatingBackdropOpacity` | タブバーがスクロール可能時にタブを覆う要素の背景の不透明度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
@@ -169,6 +169,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `scrollbarThumbColor` | スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
 | `scrollbarTrackColor` | スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
 | `showScrollShadow` | タブバーがスクロール可能な場合、上下の端にシャドウを表示。 |
+| `themeImageSize` | 背景画像を繰り返さないテーマを使用している場合、その画像のサイズは以下に基づいて決定される：<ul><li>`0`－許可されている最大段数</li><li>`1`－現在のウィンドウ幅で許可されている最大段数</li><li>`2`－現在の段数</li></ul><p>画像の高さが段数を収容できるほど十分に大きい場合は、違いはない。</p> |
 
 ### その他
 
@@ -197,6 +198,24 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.6**
+- 追加
+	- ブラウザ下部にタブバーを配置できるようになる（`tabsAtBottom` を `-1` に設定することで有効）。
+	- `dynamicThemeImageSize` を `themeImageSize` に置き換え、新しいオプションを提供。
+- 改良
+	- インジケーターを使って移動する時が Firefox ネイティブ関数に依存せず、正しい結果を返すようになる（`animateTabMoveMaxCount` と `animateTabMoveShiftKeyToPause` に関連）。
+	- 不要なアニメーションを減らしてパフォーマンスを向上。
+	- 最後の段で唯一のタブを閉じる際の挙動を改善。
+	- Firefox 150 と 151 への対応。
+	- ネットワークエラーが発生した場合、アップデートチェックは翌日に再試行される。
+- 修正
+	- 1 段だけ許可されている場合の不具合。
+	- インジケーターを使ったタブ移動の不具合。
+	- 背景画像を繰り返し使用したテーマが正しく動作しなかった。
+	- タブバーが極端に狭いときに Firefox がフリーズする可能性があった。
+	- `gapAfterPinned` は一部のケースでは動作しなかった。
+	- 特殊なケースで発生する軽微なレイアウトと表示上の不具合。
 
 **Version 4.5.1**
 - 改良
