@@ -18,7 +18,7 @@ Make Firefox support multiple rows of tabs.
 Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights with screenshots and detailed descriptions.
 
 ## Compatibility
-- Firefox 115, 148 to 150 (excluding ESR versions)
+- Firefox 115, 149 to 151 (excluding ESR versions)
 
 - Windows 7 to 11, Ubuntu
 
@@ -96,8 +96,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| `animateTabMoveMaxCount`<span title="Defective">🐞</span> | When the number of dragged tabs exceeds this value, disable the drag & drop animation, and show the drop indicator instead. Minimum: `0`. If dragging too many tabs causes lag, consider lowering this value.<br>📝 Note: Some tab grouping operations may be unavailable, and the final drop position is determined by Firefox's native behavior, which may not behave as expected in certain scenarios (e.g. Firefox bug [#1985434](https://bugzilla.mozilla.org/show_bug.cgi?id=1985434), [#1988159](https://bugzilla.mozilla.org/show_bug.cgi?id=1988159), [#1988162](https://bugzilla.mozilla.org/show_bug.cgi?id=1988162), [#1988194](https://bugzilla.mozilla.org/show_bug.cgi?id=1988194)). |
-| `animateTabMoveShiftKeyToPause`<span title="Defective">🐞</span> | When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. |
+| `animateTabMoveMaxCount` | When the number of dragged tabs exceeds this value, disable the drag & drop animation, and show the drop indicator instead. Minimum: `0`. If dragging too many tabs causes lag, consider lowering this value. |
+| `animateTabMoveShiftKeyToPause` | When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. |
 | `animationDuration` | Duration of animations in milliseconds (valid range: `0` - `1000`). Note: Lengthy animations could strain system performance. |
 | ~~`disableDragToPinOrUnpin`~~<span title="Removed">🗑</span> | Use the built-in preference [`browser.tabs.dragDrop.dragToPin.enabled`](#dragToPinEnabled) instead. |
 | `dragStackPreceding` | Stack the preceding selected tabs of the dragged one (see [`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking)). When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue. |
@@ -135,7 +135,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. Minimum: `0`. |
 | `spaceBeforeTabs` | Empty space on the left side of the window. Minimum: `0`. |
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. Minimum: `0`. |
-| `tabsAtBottom` | Position the tab bar beneath:<ul><li>`0` - the menu bar</li><li>`1` - the navigation toolbar</li><li>`2` - the bookmarks toolbar</li></ul><p>Not available on Firefox 115.</p> |
+| `tabsAtBottom` | Position the tab bar beneath:<ul><li>`0` - the menu bar</li><li>`1` - the navigation toolbar</li><li>`2` - the bookmarks toolbar</li><li>`-1` - the browser content</li></ul><p>Not available on Firefox 115.</p> |
 | `tabsbarItemsAlign` | Alignment of the items (mainly buttons) in the tab bar when there are multiple rows:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with the tab bar is scrollable. |
 | `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when the tab bar is not scrollable (legacy option, not recommended)</li><li>`2` - always</li></ul>If any issues occur, set the value to `0` to disable this feature. |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons when the tab bar is scrollable. |
@@ -161,7 +161,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| `dynamicThemeImageSize` | When using themes, the size of the background image changes according to the current number of rows. Otherwise, it depends on the maximum number of rows allowed. No difference when the image height is large enough to support the number of rows. |
+| ~~`dynamicThemeImageSize`~~<span title="Removed">🗑</span> | Replaced with `themeImageSize`. |
 | `floatingBackdropBlurriness` | How blurry the background of items covering the tabs is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. Minimum: `0`. Not available on Firefox 115 and in some cases where the blur effect cannot be applied. |
 | `floatingBackdropClip` | Clip the area covered by items on the tab bar when it is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `floatingBackdropOpacity` | How opaque the background of items covering the tab is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
@@ -169,6 +169,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
 | `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`. |
 | `showScrollShadow` | Show shadow on the top and bottom edges when the tab bar is scrollable. |
+| `themeImageSize` | When using themes with non-repeated background images, size the image according to:<ul><li>`0` - the maximum number of rows allowed</li><li>`1` - the maximum number of rows allowed within the current window width</li><li>`2` - the current number of rows</li></ul><p>No difference when the image height is large enough to support the number of rows.</p> |
 
 ### Miscellaneous
 
@@ -198,6 +199,24 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.6**
+- New
+	- Support placing the tab bar at the bottom of browser (by setting `tabsAtBottom` to `-1`).
+	- Replace `dynamicThemeImageSize` with `themeImageSize`, which provides a new option.
+- Improvements
+	- Using the indicator to move tabs no longer relies on Firefox native functions and now produces correct results (related to `animateTabMoveMaxCount` and `animateTabMoveShiftKeyToPause`).
+	- Reduce some unnecessary animation to improve performance.
+	- Refine the behavior when closing the only tab in the last row.
+	- Update for Firefox 150 and 151.
+	- Update-checking will retry tomorrow if a network error occurs.
+- Fixes
+	- Issues when only one row was allowed.
+	- Issues when using the indicator to move tabs.
+	- Themes with repeated background image did not behave correctly.
+	- Potential freeze when the tab bar was extremely narrow.
+	- `gapAfterPinned` did not work in some cases.
+	- Minor layout and visual issues in special cases.
 
 **Version 4.5.1**
 - Improvements
