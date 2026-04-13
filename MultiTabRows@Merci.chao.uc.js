@@ -3,8 +3,8 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.5.1
-// @compatibility  Firefox 115, 148-150
+// @version        4.6
+// @compatibility  Firefox 115, 149-151
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
@@ -42,7 +42,9 @@ if (gBrowser?._initialized) {
 } else
 	addEventListener("DOMContentLoaded", () => {
 		try { setup() }
-		catch(e) { alert([SCRIPT_FILE_NAME,e,e.stack].join("\n"));console.error(e) }
+		catch (e) {
+			showError(e, e.stack);
+		}
 	}, {once: true});
 
 function setup() {
@@ -190,11 +192,10 @@ const emptyFunc = () => {};
 				// eslint-disable-next-line no-unused-vars
 				} catch (e) {
 					let l10n = {
-						en: `${SCRIPT_FILE_NAME}\n\nThe preference "${csp}" is locked to "false" by the script loader. Please modify or remove the corresponding restriction, or use another script loader.`,
-						ja: `${SCRIPT_FILE_NAME}\n\n設定「${csp}」はスクリプトローダーによって「false」にロックされています。該当する制限を修正または削除するか、別のスクリプトローダーをご利用ください。`,
+						en: `The preference "${csp}" is locked to "false" by the script loader. Please modify or remove the corresponding restriction, or use another script loader.`,
+						ja: `設定「${csp}」はスクリプトローダーによって「false」にロックされています。該当する制限を修正または削除するか、別のスクリプトローダーをご利用ください。`,
 					};
-					l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
-					alert(l10n);
+					showError(l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en);
 					return;
 				}
 			} else {
@@ -216,7 +217,7 @@ const emptyFunc = () => {};
 		$$("#toolbar-context-toggle-vertical-tabs, #context_toggleVerticalTabs, #sidebar-context-menu-enable-vertical-tabs")
 			.forEach(e => e.disabled = true);
 	} catch (e) {
-		alert([SCRIPT_FILE_NAME,e,e.stack].join("\n"));
+		showError(e, e.stack);
 	}
 }
 
@@ -238,7 +239,8 @@ let micaEnabled = false,
 	defaultDarkTheme = false,
 	defaultAutoTheme = false,
 	defaultTheme = false,
-	bgImgTheme = false;
+	bgImgTheme = false,
+	bgImgRepeat = false;
 
 const lastLayoutData = {};
 
@@ -303,7 +305,6 @@ const createDefaultPrefs = () => ({
 	thinScrollbar: true,
 	scrollbarTrackColor: "auto",
 	scrollbarThumbColor: "auto",
-	dynamicThemeImageSize: false,
 	tabsUnderControlButtons: 2,
 	debugMode: 0,
 	floatingBackdropClip: win7 || win8 ? defaultTheme : mica,
@@ -349,6 +350,7 @@ const createDefaultPrefs = () => ({
 	// dlpButtonOnNavBar: $(".content-analysis-indicator") ? false : null,
 	smartWindowButtonOnNavBar: appVersion > 148 ? false : null,
 	showScrollShadow: true,
+	themeImageSize: 0,
 });
 
 const PREFS_TO_PROPS = {
@@ -395,6 +397,10 @@ const getPrefs = (branch, data) => Object.fromEntries(
 		showScrollSahdow: v =>
 			v == false &&
 			prefs.setBoolPref(prefBranchStr + "showScrollShadow", v),
+
+		dynamicThemeImageSize: v =>
+			v &&
+			prefs.setIntPref(prefBranchStr + "themeImageSize", 2),
 	})) {
 		name = prefBranchStr + name;
 		action?.(getPref(name));
@@ -417,6 +423,7 @@ let observedBrowserPrefs = [
 	"browser.uidensity",
 	"extensions.activeThemeID",
 	"layout.css.has-selector.enabled",
+	"sidebar.position_start",
 	"toolkit.tabbox.switchByScrolling",
 	"ui.prefersReducedMotion",
 	"widget.windows.mica",
@@ -436,33 +443,34 @@ addEventListener("unload", e => {
 function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 	setDefaultPrefs(Services.prefs.getDefaultBranch(prefBranchStr), defaultPrefs);
 	prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defaultPrefs);
+	prefs.tabsAtBottom ??= 0;
 
-	let maxMove = prefs.animateTabMoveMaxCount;
-	let moveOverThreshold = getPref("browser.tabs.dragDrop.moveOverThresholdPercent", 0);
-	let singleRow = prefs.maxTabRows < 2;
-	let nativeDragToGroup = moveOverThreshold > 50 && getPref("browser.tabs.groups.enabled", TAB_GROUP_SUPPORT);
+	const moveOverThreshold = getPref("browser.tabs.dragDrop.moveOverThresholdPercent", 0);
+	const singleRow = prefs.maxTabRows < 2;
+	const supportsHas = getPref("layout.css.has-selector.enabled", true);
+	const noAutoCollapse = !supportsHas || singleRow;
 
-	let supportsHas = getPref("layout.css.has-selector.enabled", true);
-	let noAutoCollapse = !supportsHas || singleRow;
+	lock("autoCollapse", noAutoCollapse);
+
+	const {autoCollapse, tabsAtBottom, animateTabMoveMaxCount: maxMove} = prefs;
 
 	lock("linesToDragScroll", singleRow);
 	lock("linesToScroll", singleRow || getPref("toolkit.tabbox.switchByScrolling"));
 	lock("nativeWindowStyle", bgImgTheme);
-	lock("autoCollapse", noAutoCollapse);
 	lock(
 		["autoCollapseDelayCollapsing", "autoCollapseDelayExpanding", "autoCollapseCurrentRowStaysTop"],
-		!prefs.autoCollapse,
+		!autoCollapse,
 	);
 	lock(
 		["rowStartIncreaseFrom", "rowIncreaseEvery"],
-		singleRow || prefs.autoCollapse,
+		singleRow || autoCollapse,
 		0,
 	);
-	lock("dynamicThemeImageSize", singleRow || !bgImgTheme || prefs.autoCollapse);
-	lock("tabsUnderControlButtons", singleRow || prefs.autoCollapse, 0);
+	lock("themeImageSize", !bgImgTheme || bgImgRepeat || singleRow || autoCollapse || tabsAtBottom < 0);
+	lock("tabsUnderControlButtons", singleRow || autoCollapse, 0);
 	lock("floatingBackdropClip", singleRow || prefs.tabsUnderControlButtons < 2);
 	lock("floatingBackdropOpacity", singleRow || prefs.tabsUnderControlButtons < 2 || prefs.floatingBackdropClip, 75);
-	lock("tabsbarItemsAlign", singleRow || prefs.tabsUnderControlButtons > 1 || prefs.autoCollapse);
+	lock("tabsbarItemsAlign", singleRow || prefs.tabsUnderControlButtons > 1 || autoCollapse);
 	lock(
 		"floatingBackdropBlurriness",
 		(
@@ -474,22 +482,24 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 		),
 	);
 	lock(["checkUpdateFrequency", "checkUpdateAutoApply"], !prefs.checkUpdate);
-	lock("dragToGroupTabs", !nativeDragToGroup || !maxMove, false);
 	lock(
 		"dynamicMoveOverThreshold",
-		!getPref("browser.tabs.dragDrop.createGroup.enabled", TAB_GROUP_SUPPORT) || moveOverThreshold <= 50,
+		(
+			!maxMove ||
+			!getPref("browser.tabs.dragDrop.createGroup.enabled", TAB_GROUP_SUPPORT) ||
+			moveOverThreshold <= 50
+		),
 		false,
 	);
-	lock("hideDragPreview", !maxMove);
 	lock(
 		[
 			"privateBrowsingIconOnNavBar",
 			// "dlpButtonOnNavBar",
 		],
-		prefs.tabsAtBottom,
+		tabsAtBottom,
 		true,
 	);
-	lock("smartWindowButtonOnNavBar", prefs.tabsAtBottom || !getPref("browser.smartwindow.enabled", AI_WINDOW_SUPPORT), prefs.tabsAtBottom);
+	lock("smartWindowButtonOnNavBar", tabsAtBottom || !getPref("browser.smartwindow.enabled", AI_WINDOW_SUPPORT), !!tabsAtBottom);
 	lock("hidePinnedDropIndicator", !getPref("browser.tabs.dragDrop.dragToPin.enabled", NATIVE_DRAG_TO_PIN) || !maxMove, true);
 	lock("pinnedTabsFlexWidthIndicator", !prefs.pinnedTabsFlexWidth);
 	lock("dragStackPreceding", !getPref("browser.tabs.dragDrop.multiselectStacking", TAB_STACKING_SUPPORT) || maxMove < 2);
@@ -502,15 +512,15 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 		"hideEmptyPlaceholderWhenScrolling",
 		(
 			prefs.tabsUnderControlButtons < 2 ||
-			prefs.tabsAtBottom ||
+			tabsAtBottom ||
 			!prefs.spaceBeforeTabs && !prefs.spaceBeforeTabsOnMaximizedWindow
 		),
 	);
 	lock("previewPanelNoteEditable", !getPref("browser.tabs.notes.enabled", TAB_NOTE_SUPPORT), false);
-	lock("positionPinnedTabs", prefs.pinnedTabsFlexWidth || prefs.autoCollapse, false);
+	lock("positionPinnedTabs", prefs.pinnedTabsFlexWidth || autoCollapse, false);
 	lock("lastRowTabsFlexibe", prefs.justifyCenter == 2);
 	lock("previewPanelShiftedAlways", !prefs.previewPanelShifted);
-	lock("animateTabMoveShiftKeyToPause", !prefs.animateTabMoveMaxCount);
+	lock("animateTabMoveShiftKeyToPause", !maxMove);
 	lock("animationDuration", getPref("ui.prefersReducedMotion") == 1);
 
 	prefs.animationDuration = Math.min(Math.max(prefs.animationDuration, 0), prefs.debugMode ? Infinity : 1000);
@@ -626,8 +636,9 @@ async function onPrefChange(pref, type, name) {
 		// case "dlpButtonOnNavBar":
 			setStyle();
 			tabContainer.updateLayout();
+			updateNavToolboxNetHeight();
 			updateAIWindowButtonsPosition();
-			updateNavBarOverflow()
+			updateNavBarOverflow();
 			break;
 		case "tabHorizontalMargin":
 		case "tabHorizontalPadding":
@@ -705,7 +716,17 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		let localScript = await (await fetch(localFileURI)).text();
 		let updateURL = localScript.match(/^\/\/\s*@updateURL\s+(.+?)\s*$/mi)[1];
 		let homeURL = "https://github.com/Merci-chao/userChrome.js";
-		let remoteScript = (await (await fetch(updateURL)).text()).trim();
+
+		let remoteScript;
+
+		try {
+			remoteScript = (await (await fetch(updateURL)).text()).trim();
+		} catch (e) {
+			window.console.error(e, updateURL);
+			setTomorrow();
+			return;
+		}
+
 		let local = getVer(localScript);
 		let remote = getVer(remoteScript);
 		let compatibility = remoteScript?.match(/^\/\/\s*@compatibility\s+firefox\s*(.+?)\s*$/mi)?.[1]
@@ -735,26 +756,21 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 				laterKey: "R",
 				link: "#changelog",
 				done: `${SCRIPT_NAME} has been updated to version ${remote}. You may restart Firefox to apply.`,
-				error: `Failed to apply the update of ${SCRIPT_NAME} version ${remote}. Please ensure the file is not read-only or locked by another program:`,
+				error: `Failed to apply the update of version ${remote}. Please ensure the file is not read-only or locked by another program:`,
 			},
 			ja: {
 				message: `${SCRIPT_NAME}（${SCRIPT_FILE_NAME}）の新バージョン ${remote} がリリースされました。`,
 				update: "今すぐ更新",
-				updateKey: "N",
 				download: "手動で更新",
-				downloadKey: "M",
 				changelog: "変更履歴",
-				changelogKey: "C",
 				finished: "完了",
-				finishedKey: "D",
 				later: "明日再通知する",
-				laterKey: "R",
 				link: "/blob/main/README.jp.md#変更履歴",
 				done: `${SCRIPT_NAME} ${remote} を更新しました。Firefox を再起動すると変更が適用になります。`,
-				error: `${SCRIPT_NAME} バージョン ${remote} の更新処理に失敗しました。ファイルが読み取り専用でないこと、または他のプログラムによってロックされていないことを確認してください：`,
+				error: `バージョン ${remote} の更新処理に失敗しました。ファイルが読み取り専用でないこと、または他のプログラムによってロックされていないことを確認してください：`,
 			},
 		};
-		l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
+		l10n = assign(l10n.en, l10n[Services.locale.appLocaleAsLangTag.split("-")[0]]);
 
 		if (auto > 1)
 			install();
@@ -776,10 +792,7 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 					{
 						label: l10n.later,
 						accessKey: l10n.laterKey,
-						callback: () => Services.prefs.setIntPref(
-							prefBranchStr + "checkUpdate",
-							Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60,
-						),
+						callback: setTomorrow,
 					},
 				],
 				"chrome://browser/skin/update-badge.svg",
@@ -843,8 +856,8 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 						],
 						"chrome://browser/skin/migration/success.svg",
 					), 500);
-			} catch(e) {
-				Services.prompt.alert(window, l10n.title, [l10n.error, localFilePath, e.message].join("\n\n"));
+			} catch (e) {
+				showError(l10n.error, localFilePath, e.message);
 				return true;
 			}
 		}
@@ -852,6 +865,13 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		function showChangelog() {
 			/*global openURL*/
 			openURL(homeURL + l10n.link);
+		}
+
+		function setTomorrow() {
+			Services.prefs.setIntPref(
+				prefBranchStr + "checkUpdate",
+				Date.now() / 1000 - (Math.max(prefs.checkUpdateFrequency, 1) - 1) * 24 * 60 * 60,
+			);
 		}
 	})();
 }
@@ -936,6 +956,10 @@ const preTabsButtons = `:is(
 	:root[privatebrowsingmode]:not([firefoxviewhidden]) :is(toolbarbutton:not(#firefox-view-button), toolbarpaletteitem:not(#wrapper-firefox-view-button))
 )`;
 const showAudioButton = "[muted], [soundplaying], [activemedia-blocked]";
+const sidebarAtStart = getPref("sidebar.position_start");
+const navToolboxWithAISidebar = ":root[ai-window] #navigator-toolbox:has(~ #browser #sidebar-main:not([hidden], [collapsed]))";
+const navToolboxWithAsk = "#navigator-toolbox:has(~ #browser #ai-window-box:not([hidden], [collapsed]))";
+const autoCollapseExpandDir = prefs.tabsAtBottom < 0 ? "top" : "bottom";
 
 const borderSnapping = size => CSS.supports("flex", "round(1)")
 	//https://drafts.csswg.org/css-values-4/#snap-a-length-as-a-border-width
@@ -992,7 +1016,8 @@ if (win7 || win8) {
 mainStyle.innerHTML = /*css*/`
 :root {
 	--max-tab-rows: 1;
-	--tab-icon-size: 16px;
+	--tab-animation: ${prefs.animationDuration}ms ${debug > 1 ? "ease" : "var(--animation-easing-function)"};
+	--tab-icon-size: var(--icon-size, 16px);
 	--tab-block-margin: ${Math.min(
 		Math.max(prefs.tabVerticalMargin, 0),
 		TAB_BLOCK_MARGIN * 3
@@ -1016,6 +1041,13 @@ mainStyle.innerHTML = /*css*/`
 	--tab-group-line-toolbar-border-distance: clamp(0px, var(--tab-block-margin) - var(--tab-group-line-thickness) - 1px, 1px);
 	--tab-icon-end-margin: 6px;
 	--tab-outline-max-width: 2px;
+}
+
+/*ui.prefersReducedMotion = 1*/
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--tab-animation: 0s;
+	}
 }
 
 ${[...Array(maxRows).keys()].slice(1).map(i => /*css*/`
@@ -1101,7 +1133,7 @@ ${
 		!prefs.floatingBackdropClip &&
 		prefs.floatingBackdropBlurriness &&
 		prefs.floatingBackdropOpacity < 100 &&
-		!mica &&
+		!(mica && getPref("browser.tabs.inTitlebar")) &&
 		!prefs.nativeWindowStyle
 	)
 	? /*css*/`
@@ -1173,6 +1205,48 @@ ${prefs.tabsAtBottom ? /*css*/`
 	#notifications-toolbar {
 		order: 2;
 	}
+
+	${prefs.tabsAtBottom < 0 ? /*css*/`
+		${_} {
+			position: fixed;
+			inset: auto 0 0;
+
+			${prefs.autoCollapse ? /*css*/`
+				.browser-toolbox-background > & {
+					background: inherit;
+					background-attachment: fixed;
+				}
+			` : ``}
+		}
+
+		#browser, #customization-container {
+			${prefs.autoCollapse ? /*css*/`
+				margin-bottom: var(--tabstrip-min-height);
+			` : /*css*/`
+				margin-bottom: calc(var(--tabstrip-min-height) * var(--tab-rows));
+
+				:root[animating-tabs-slot-size] & {
+					margin-bottom: min(
+						var(--tabs-slot-animate-height),
+						var(--tabstrip-min-height) * var(--max-tab-rows)
+					);
+					transition: var(--tab-animation) margin-bottom;
+				}
+			`}
+		}
+
+		:root:not([inDOMFullscreen]) .browserContainer {
+			@media -moz-pref("sidebar.revamp") and -moz-pref("sidebar.revamp.round-content-area") {
+				#tabbrowser-tabbox[sidebar-shown] & {
+					border-end-${sidebarAtStart ? "start" : "end"}-radius: var(--border-radius-medium);
+				}
+			}
+
+			:root[ai-window] & {
+				border-radius: var(--border-radius-medium);
+			}
+		}
+	` : ``}
 ` : ``}
 
 ${context=`#navigator-toolbox:is([movingtab], [tabs-dragging]) toolbar:not(${_})`} {
@@ -1309,7 +1383,6 @@ ${_="#tabbrowser-tabs[orient]"} {
 	--gap-after-pinned: ${prefs.gapAfterPinned}px;
 	--group-line-padding: ${TAB_GROUP_SUPPORT ? "3px" : "0px"};
 	--group-label-max-width: ${TAB_GROUP_SUPPORT ? "10em" : "0px"};
-	--tab-animation: ${prefs.animationDuration}ms ${debug > 1 ? "ease" : "var(--animation-easing-function)"};
 	--calculated-tab-min-width: 0px;
 	--tab-max-width: max(${prefs.tabMaxWidth}px, var(--calculated-tab-min-width));
 	--tab-split-view-min-width: calc((var(--calculated-tab-min-width) + var(--tab-overflow-clip-margin)) * 2 + 1px);
@@ -1346,8 +1419,33 @@ ${_}[movingtab] {
 
 ${preTabsButtons} ~ ${_} {
 	--tabstrip-padding: 2px;
+	${appVersion > 150 ? /*css*/`
+		/* add back the traditional border which moved to ::before https://bugzil.la/2023473 */
+		border-inline-start: var(--tabstrip-inner-border);
+		margin-inline-start: var(--tabstrip-padding);
+	` : ``}
 }
 
+${!prefs.autoCollapse ? /*css*/`
+	@media ${prefs.tabsUnderControlButtons < 2 ? "screen" : singleRow} {
+		${preTabsButtons} ~ ${_}[movingtab] {
+			/* https://bugzil.la/2023473 */
+			mask: linear-gradient(
+				transparent var(--extra-drag-space),
+				red 0%,
+				red calc(100% - var(--extra-drag-space)),
+				transparent 0%
+			);
+		}
+	}
+` : ``}
+
+/* override https://bugzil.la/2023473 */
+${_}::before {
+	border: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
 
 ${prefs.showScrollShadow ? /*css*/`
 	${_}::before,
@@ -1355,6 +1453,9 @@ ${prefs.showScrollShadow ? /*css*/`
 		--color: light-dark(rgba(0, 0, 0, .05), rgba(255, 255, 255, .05));
 		--height: calc(var(--tabstrip-min-height) * .15);
 		--shift: calc(var(--extra-drag-space) - var(--height) * 4);
+		--clip-left: 0;
+		--clip-right: 0;
+		--dir: 1;
 		content: "";
 		pointer-events: none;
 		position: absolute;
@@ -1362,12 +1463,17 @@ ${prefs.showScrollShadow ? /*css*/`
 		inset-inline: var(--scroll-content-start) 0;
 		height: calc(var(--height) * 4);
 		border-radius: min(20%, var(--tabstrip-min-height)) / 50%;
-		clip-path: inset(100% 0 -100% 0);
+		clip-path: inset(
+			calc(100% * var(--dir))
+			var(--clip-right)
+			calc(-100% * var(--dir))
+			var(--clip-left)
+		);
 		z-index: -1;
 		transition: opacity var(--tabs-item-opacity-transition);
 		box-shadow:
 			0
-			calc(var(--height) * var(--dir, 1))
+			calc(var(--height) * var(--dir))
 			var(--height)
 			var(--color);
 	}
@@ -1376,7 +1482,6 @@ ${prefs.showScrollShadow ? /*css*/`
 		--dir: -1;
 		top: auto;
 		bottom: var(--shift);
-		clip-path: inset(-100% 0 100% 0);
 	}
 
 	${!CSS.supports("color: light-dark(red, red)") ? /*css*/`
@@ -1405,7 +1510,7 @@ ${prefs.showScrollShadow ? /*css*/`
 ${prefs.autoCollapse ? /*css*/`
 	#navigator-toolbox,
 	#titlebar,
-	#TabsToolbar,
+	${prefs.tabsAtBottom > -1 ? "#TabsToolbar," : ""}
 	#TabsToolbar > .toolbar-items,
 	#TabsToolbar-customization-target {
 		z-index: calc(1/0) !important;
@@ -1416,7 +1521,7 @@ ${prefs.autoCollapse ? /*css*/`
 		/*ensure the transitionstart/end will be fired*/
 		--transition-delay-after: ${Math.max(prefs.autoCollapseDelayCollapsing, 1)}ms;
 		--transition-delay-before: ${Math.max(prefs.autoCollapseDelayExpanding, 1)}ms;
-		will-change: margin-bottom, height;
+		will-change: margin-${autoCollapseExpandDir}, height;
 		outline: 1px solid transparent !important;
 	}
 
@@ -1445,16 +1550,16 @@ ${prefs.autoCollapse ? /*css*/`
 		--auto-collapse-delay: var(--transition-delay-after);
 		transition: var(--tab-animation) var(--auto-collapse-delay);
 		transition-property:
-			background-color, height, margin-bottom, outline,
+			background-color, height, margin-${autoCollapseExpandDir}, outline,
 			border-color, box-shadow, border-radius, color, text-shadow;
 		overflow: clip;
 	}
 
 	${context} ${_}${TEMP_SHOW_CONDITIONS} {
 		--auto-collapse-delay: var(--transition-delay-before);
-		margin-bottom: calc((var(--tab-scroll-rows) - 1) * var(--tabstrip-min-height) * -1);
+		margin-${autoCollapseExpandDir}: calc((var(--tab-scroll-rows) - 1) * var(--tabstrip-min-height) * -1);
 		height: calc(var(--tab-scroll-rows) * var(--tabstrip-min-height));
-		outline: 1px solid var(--arrowpanel-border-color) !important;
+		outline: 1px solid var(--panel-border-color, var(--arrowpanel-border-color)) !important;
 		border-color: transparent;
 		background-color: var(--toolbar-field-focus-background-color);
 		box-shadow: 0 2px 14px rgba(0, 0, 0, 0.13);
@@ -1505,16 +1610,10 @@ ${prefs.autoCollapse ? /*css*/`
 	}
 ` : ``}
 
-/*ui.prefersReducedMotion = 1*/
-@media (prefers-reduced-motion: reduce) {
-	${_} {
-		--tab-animation: 0s;
-	}
-}
-
 ${_="#tabbrowser-arrowscrollbox[orient][id]"} {
 	position: relative;
-	min-width: 1px; /*fx143+*/
+	/*it will fall into endless loop of layout reflow when too narrow to overflow*/
+	min-width: var(--max-item-width);
 	scrollbar-color:
 		${
 			prefs.scrollbarThumbColor == "auto"
@@ -1536,7 +1635,11 @@ ${_="#tabbrowser-arrowscrollbox[orient][id]"} {
 		};
 }
 
-#tabbrowser-tabs[animating-slot-size] ${_} {
+#tabbrowser-tabs[hasadjacentnewtabbutton] ${_} {
+	min-width: calc(var(--max-item-width) + var(--new-tab-button-width));
+}
+
+:root[animating-tabs-slot-size] ${_} {
 	overflow: hidden;
 }
 
@@ -1798,7 +1901,6 @@ ${_}::part(items-wrapper) {
 	flex-wrap: wrap;
 	min-height: var(--slot-height, var(--tabstrip-min-height));
 	min-width: var(--slot-width, 1px); /*ensure it is visible and able to make the scrollbox overflow*/
-	align-items: end;
 	align-content: start;
 	transition: padding-bottom var(--tab-animation);
 	/*fx115*/
@@ -1878,21 +1980,44 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-group {
 		}
 	}
 
-	&[collapsed]:not([stacked]) {
-		&[movingtabgroup][hasactivetab] > tab[selected] {
-			max-width: var(--tab-max-width) !important;
-			min-width: var(--calculated-tab-min-width) !important;
+	&[collapsed] {
+		&:not([stacked]) {
+			&[movingtabgroup][hasactivetab] > tab[selected] {
+				max-width: var(--tab-max-width) !important;
+				min-width: var(--calculated-tab-min-width) !important;
 
-			&[size-locked] {
-				max-width: var(--locked-size) !important;
-				min-width: var(--locked-size) !important;
+				&[size-locked] {
+					max-width: var(--locked-size) !important;
+					min-width: var(--locked-size) !important;
+				}
+			}
+
+			/* counter the change for https://bugzil.la/1986587 */
+			& > tab:not([selected], [stacking]) {
+				min-width: 0 !important;
+				max-width: 0 !important;
 			}
 		}
 
-		/* counter the change for https://bugzil.la/1986587 */
-		& > tab:not([selected], [stacking]) {
-			min-width: 0 !important;
-			max-width: 0 !important;
+		& >
+			[movetarget]:is(
+				tab:not([selected]),
+				tab-split-view-wrapper:not([hasactivetab])
+			):not([stacking])
+		{
+			&:not([animate-shifting]) {
+				visibility: hidden;
+			}
+
+			tab-split-view-wrapper& tab {
+				overflow: clip;
+			}
+		}
+
+		#tabbrowser-tabs[dragging]:not([movingtab]) & >
+			tab:not([selected], [animate-shifting])
+		{
+			visibility: hidden;
 		}
 	}
 
@@ -2053,6 +2178,13 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-group {
 				}
 			}
 		}
+
+		/*the context line margin causes the tab background can't shrink*/
+		tab-group[collapsed] &[selected][usercontextid] .tab-context-line {
+			margin: 0;
+			width: calc(100% - var(--tab-border-radius));
+			align-self: center;
+		}
 	}
 
 	.tab-group-overflow-count-container {
@@ -2112,21 +2244,6 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-group {
 		max-width: 0 !important;
 
 		.tab-stack {
-			overflow: clip;
-		}
-	}
-
-	&[collapsed] >
-		[movetarget]:is(
-			tab:not([selected]),
-			tab-split-view-wrapper:not([hasactivetab])
-		):not([stacking])
-	{
-		&:not([animate-shifting]) {
-			visibility: hidden;
-		}
-
-		tab-split-view-wrapper& tab {
 			overflow: clip;
 		}
 	}
@@ -2242,6 +2359,12 @@ ${__} tab {
 }
 */
 
+${appVersion < 134 ? /*css*/`
+	${_}[image] > .tab-stack > .tab-content[attention]:not([pinned], [selected]) {
+		background-position-x: ${START} calc(var(--tab-inline-padding) + 6px);
+	}
+` : ``}
+
 ${prefs.pinnedTabsFlexWidth ? /*css*/`
 	${_}[pinned] {
 		--tab-label-mask-size: ${appVersion < 130 ? 2 : 1}em !important;
@@ -2250,6 +2373,14 @@ ${prefs.pinnedTabsFlexWidth ? /*css*/`
 
 	${_}[pinned] .tab-content {
 		min-width: 0;
+	}
+
+	${_}${__="[pinned][attention] > .tab-stack > .tab-content[attention]:not([selected])"} {
+		background-position-x: ${START} calc(var(--tab-inline-padding) + 6px);
+	}
+
+	${_}:not([image])${__} {
+		background: none;
 	}
 
 	${_}[pinned]
@@ -3289,19 +3420,19 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 		${prefs.floatingBackdropClip && prefs.tabsUnderControlButtons > 1 ? /*css*/`
 			${context="#TabsToolbar"+showPlaceHolder}:not(${tbDraggingHidePlaceHolder}) ${_="#tabbrowser-tabs"} {
 				clip-path: polygon(
-					${START_PC} ${y="var(--tabstrip-min-height)"},
+					${START_PC} ${y=/*js*/`calc(var(--tabstrip-min-height) + var(--extra-drag-space))`},
 					var(--top-placeholder-clip,
 						var(--pre-tabs-clip,
 							${x=/*js*/`calc(${START_PC} + (var(--pre-tabs-items-width) + var(--tabstrip-padding)) * ${DIR})`} ${y},
 							${x} ${y=/*js*/`calc(var(--tabs-top-space) * -1)`}
 						),
 						${x=/*js*/`calc(${END_PC} - (var(--post-tabs-items-width) - var(--post-tabs-clip-reserved)) * ${DIR})`} ${y},
-						${x} ${y="var(--tabstrip-min-height)"},
+						${x} ${y=/*js*/`calc(var(--tabstrip-min-height) + var(--extra-drag-space))`},
 						${x=/*js*/`calc(${END_PC} - var(--scollbar-clip-width, (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved))) * ${DIR})`} ${y}
 					),
-					${x} ${y=/*js*/`calc(var(--control-box-reserved-height) - var(--tabs-top-space))`},
+					${x} ${y=/*js*/`calc(var(--control-box-reserved-height) + var(--extra-drag-space) - var(--tabs-top-space))`},
 					${x=/*js*/`calc(${END_PC} - (var(--control-box-margin-end) + var(--control-box-radius-end)) * ${DIR})`} ${y},
-					${x=/*js*/`calc(${END_PC} - var(--control-box-margin-end) * ${DIR})`} calc(var(--control-box-reserved-height) - var(--tabs-top-space) - var(--control-box-radius-end)),
+					${x=/*js*/`calc(${END_PC} - var(--control-box-margin-end) * ${DIR})`} calc(var(--control-box-reserved-height) + var(--extra-drag-space) - var(--tabs-top-space) - var(--control-box-radius-end)),
 					${x} 0,
 					${x=END_PC} 0,
 					${x} 100%,
@@ -3309,6 +3440,17 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 					${START_PC} 100%
 				);
 			}
+
+			${prefs.showScrollShadow ? /*css*/`
+				${__=`${_}[orient]:is(:not([dragging], [movingtab], [movingtab-finishing]), [moving-positioned-tab])`}::before {
+					--clip-${START}: max(var(--pre-tabs-items-width) - var(--scroll-content-start), 0px);
+					--clip-${END}: var(--post-tabs-items-width);
+				}
+
+				${__}[hasadjacentnewtabbutton]::after {
+					--clip-${END}: calc(var(--new-tab-button-width) + var(--tabs-scrollbar-width));
+				}
+			` : ``}
 
 			${context}:not(${tbDraggingHidePlaceHolder})[tabs-scrolledtostart] ${_} {
 				--scollbar-clip-width: var(--tabs-scrollbar-visual-width);
@@ -3326,7 +3468,7 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 			${context}:not([tabs-scrolledtoend]) ${_}[overflow][hasadjacentnewtabbutton] {
 				--new-tab-clip:
 					${x=/*js*/`calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)) * ${DIR})`} 100%,
-					${x} ${y=/*js*/`calc(100% - var(--tabstrip-min-height))`},
+					${x} ${y=/*js*/`calc(100% - var(--tabstrip-min-height) - var(--extra-drag-space))`},
 					${x=/*js*/`calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--new-tab-button-width)) * ${DIR})`} ${y},
 					${x} 100%;
 			}
@@ -3362,9 +3504,9 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 				${x=START_PC} 100%,
 				${x} ${y="calc(var(--tabs-top-space) * -1)"},
 				${x=/*js*/`calc(${END_PC} - var(--tabs-scrollbar-width) * ${DIR})`} ${y},
-				${x} ${y=/*js*/`calc(var(--control-box-reserved-height) - var(--tabs-top-space))`},
+				${x} ${y=/*js*/`calc(var(--control-box-reserved-height) + var(--extra-drag-space) - var(--tabs-top-space))`},
 				${x=/*js*/`calc(${END_PC} - (var(--control-box-margin-end) + var(--control-box-radius-end)) * ${DIR})`} ${y},
-				${x=/*js*/`calc(${END_PC} - var(--control-box-margin-end) * ${DIR})`} ${y=/*js*/`calc(var(--control-box-reserved-height) - var(--tabs-top-space) - var(--control-box-radius-end))`},
+				${x=/*js*/`calc(${END_PC} - var(--control-box-margin-end) * ${DIR})`} ${y=/*js*/`calc(var(--control-box-reserved-height) + var(--extra-drag-space) - var(--tabs-top-space) - var(--control-box-radius-end))`},
 				${x} ${y="calc(var(--tabs-top-space) * -1)"},
 				${x=END_PC} ${y},
 				${x} 100%
@@ -3421,6 +3563,10 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 		flex-shrink: 0;
 	}
 
+	#tabbrowser-tabs[overflow] ${_}::before {
+		opacity: 0;
+	}
+
 	/*Height is not set for the post-tabs placeholder to let it not occupy an empty row,
 	  such as when closing the only tab in the second row, tabs in the first row are locking size
 	  and the placeholder is wrapped to the second row alone.*/
@@ -3433,12 +3579,14 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 		display: none;
 	}
 
-	${context="#TabsToolbar:not([pinned-tabs-wraps-placeholder])"} ${_}::before {
-		border-inline-end: var(--tabstrip-border);
-		padding-inline-end: var(--tabstrip-padding);
-		margin-inline-end: calc(
-			var(--tabstrip-padding) + var(--tabstrip-border-width) - ${borderSnapping("var(--tabstrip-border-width)")}
-		);
+	@media ${multiRows} {
+		${context="#TabsToolbar:not([pinned-tabs-wraps-placeholder])"} ${_}::before {
+			border-inline-end: var(--tabstrip-border);
+			padding-inline-end: var(--tabstrip-padding);
+			margin-inline-end: calc(
+				var(--tabstrip-padding) + var(--tabstrip-border-width) - ${borderSnapping("var(--tabstrip-border-width)")}
+			);
+		}
 	}
 
 	${context}[tabs-multirows] ${_}::before {
@@ -3461,8 +3609,11 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 
 	${_=".tabs-placeholder"} {
 		--clip-shadow: calc(var(--tab-shadow-size) * -1);
+		--section-border-width: 0px;
+		--section-border-radius: 0;
+		--section-clip: 0;
 		box-sizing: content-box;
-		height: var(--tabstrip-min-height);
+		height: calc(var(--tabstrip-min-height) - var(--section-border-width) * 2);
 		position: absolute;
 		z-index: calc(var(--tabs-moving-max-z-index) + 2);
 		box-shadow: var(--tabs-placeholder-shadow);
@@ -3472,9 +3623,21 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 		transition-property: box-shadow, backdrop-filter, border-color, opacity;
 	}
 
-	#TabsToolbar[tabs-scrolledtostart] ${_} {
-		transition-property: box-shadow, backdrop-filter, border-color, opacity, height, margin-top;
+	[tabs-scrolledtostart] ${_}[position=top] {
+		pointer-events: none;
 	}
+
+	${win7 || win8 ? /*css*/`
+		:root[${CUSTOM_TITLEBAR}] ${hiddenMenubar} + #TabsToolbar
+			:is(
+				#TabsToolbar:not(${staticPreTabsPlaceHolder}) #tabs-placeholder-pre-tabs,
+				#tabs-placeholder-post-tabs
+			)
+		{
+			height: calc(var(--tabstrip-min-height) + var(--tabs-padding-top) + var(--nav-toolbox-padding-top));
+			margin-top: calc((var(--tabs-padding-top) + var(--nav-toolbox-padding-top)) * -1);
+		}
+	` : ``}
 
 	${prefs.floatingBackdropOpacity && !prefs.floatingBackdropClip ? /*css*/`
 		${_}::before {
@@ -3522,37 +3685,45 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 		}
 	` : ``}
 
-	#tabs-placeholder-pre-tabs {
+	${_="#tabs-placeholder-pre-tabs"} {
+		--clip-end: var(--clip-shadow);
 		inset-inline-start: 0;
 		width: var(--pre-tabs-items-width);
 		padding-inline-end: var(--tabstrip-padding);
 		/*by default, the margin end will be -1 to cancel out the border*/
 		margin-inline-end: calc(var(--tabstrip-padding) + var(--tabstrip-border-width) - var(--tabs-placeholder-border-width));
-		border-top-width: 0;
+		border-top-width: var(--section-border-width);
 		border-inline-start: 0;
 		border-color: var(--tabstrip-border-color);
 		border-top-color: transparent;
+		border-start-end-radius: var(--section-border-radius);
 		border-end-end-radius: var(--tabs-placeholder-border-radius);
 		clip-path: inset(
+			var(--section-clip)
+			${RTL_UI ? 0 : "var(--clip-end)"}
 			var(--clip-shadow)
-			${RTL_UI ? 0 : "var(--clip-shadow)"}
-			var(--clip-shadow)
-			${RTL_UI ? "var(--clip-shadow)" : 0}
+			${RTL_UI ? "var(--clip-end)" : 0}
 		);
 	}
 
 	#TabsToolbar:not([pinned-tabs-wraps-placeholder], [tabs-scrolledtostart])
-		#tabs-placeholder-pre-tabs
+		${_}
 	{
 		border-color: var(--tabs-placeholder-border-color);
 	}
 
+	#TabsToolbar${staticPreTabsPlaceHolder} ${_} {
+		--section-border-radius: 0 !important;
+		box-shadow: none;
+		backdrop-filter: none;
+	}
+
 	${prefs.hideEmptyPlaceholderWhenScrolling ? /*css*/`
-		${context="#TabsToolbar[tabs-is-first-visible]"} #tabs-placeholder-pre-tabs {
+		${context="#TabsToolbar[tabs-is-first-visible]"} ${_} {
 			visibility: hidden;
 		}
 
-		${context}:not([has-items-pre-tabs]) #tabs-placeholder-pre-tabs {
+		${context}:not([has-items-pre-tabs]) ${_} {
 			/*collapse it so that its width is zero since it has a border*/
 			visibility: collapse;
 		}
@@ -3565,127 +3736,75 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 	${_="#tabs-placeholder-post-tabs"} {
 		inset-inline-end: calc(var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved));
 		width: calc(var(--post-tabs-items-width) - var(--tabs-scrollbar-width) - var(--scrollbar-clip-reserved));
-		border-top-width: 0;
+		border-top-width: var(--section-border-width);
 		border-inline-end: 0;
+		border-start-start-radius: var(--section-border-radius);
 		border-end-start-radius: var(--tabs-placeholder-border-radius);
 		clip-path: inset(
-			var(--clip-shadow)
+			var(--section-clip)
 			${RTL_UI ? "var(--clip-shadow)" : 0}
 			var(--clip-shadow)
 			${RTL_UI ? 0 : "var(--clip-shadow)"}
 		);
 	}
 
-	[multirow-pinned-tabs] ${_} {
-		visibility: collapse;
-	}
-
-	#TabsToolbar[tabs-scrolledtostart] :is(${_}, #tabs-placeholder-pre-tabs) {
-		pointer-events: none;
-	}
-
 	${_="#tabs-placeholder-new-tab-button"} {
-		--clip-bottom: 0;
 		bottom: var(--extra-drag-space);
 		inset-inline-end: calc(var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved));
 		width: calc(var(--new-tab-button-width) - var(--scrollbar-clip-reserved));
 		border-inline-end: 0;
-		border-bottom-width: 0;
+		border-bottom-width: var(--section-border-width);
+		border-end-start-radius: var(--section-border-radius);
 		border-start-start-radius: var(--tabs-placeholder-border-radius);
 		clip-path: inset(
 			var(--clip-shadow)
 			${RTL_UI ? "var(--clip-shadow)" : 0}
-			var(--clip-bottom)
+			var(--section-clip)
 			${RTL_UI ? 0 : "var(--clip-shadow)"}
 		);
+		pointer-events: none;
 	}
 
-	${!prefs.floatingBackdropClip ? /*css*/`
-		${
-			context = prefs.tabsAtBottom
-				? "#TabsToolbar"
-				: `#TabsToolbar:is(
-					${prefs.nativeWindowStyle
-						? `:root:not([${CUSTOM_TITLEBAR}], [ai-window]) *,`
-						: ``}
-					${shownMenubar} + *
-				)`
-		}
-			${_=`:is(#TabsToolbar:not(${staticPreTabsPlaceHolder}) #tabs-placeholder-pre-tabs, #tabs-placeholder-post-tabs)`}
-		{
-			border-top-width: var(--tabs-placeholder-border-width);
-			border-top-color: var(--tabs-placeholder-border-color);
-		}
-
-		${context}${condition="[tabs-scrolledtostart]"} ${_} {
-			border-top-color: transparent;
-		}
-
-		${context}:not(${condition}, ${staticPreTabsPlaceHolder}) #tabs-placeholder-pre-tabs {
-			border-start-end-radius: ${__="var(--tabs-placeholder-border-radius)"};
-		}
-
-		${context} #tabs-placeholder-post-tabs {
-			border-start-start-radius: ${__};
-		}
-
-		${
-			prefs.tabsAtBottom
-				? `:is(
-					${prefs.tabsAtBottom == 1
-						? `:root:not([inFullscreen]) #TabsToolbar:has(~ #PersonalToolbar:not([collapsed=true], [collapsed=""])),`
-						: ``}
-					:root[ai-window] #TabsToolbar:has(~ #notifications-toolbar notification-message),
-					:root[aiwindow-immersive-view],
-					#navigator-toolbox:has(~ #browser #ai-window-box:not([hidden], [collapsed]))
-				)`
-				: `:root[ai-window]`
-		}
-			#tabs-placeholder-new-tab-button
-		{
-			--clip-bottom: var(--clip-shadow);
-			border-end-start-radius: ${__};
-			border-bottom-width: var(--tabs-placeholder-border-width);
-			border-bottom-color: var(--tabs-placeholder-border-color);
-			height: calc(var(--tabstrip-min-height) - var(--tabs-placeholder-border-width));
-		}
-	` : ``}
-
-	${_="#TabsToolbar"}${staticPreTabsPlaceHolder} #tabs-placeholder-pre-tabs {
-		box-shadow: none;
-		backdrop-filter: none;
-	}
-
-	${!prefs.tabsAtBottom ? /*css*/`
-		${hiddenMenubar} + #TabsToolbar
-			:is(
-				${_}:not(${staticPreTabsPlaceHolder}) #tabs-placeholder-pre-tabs,
+	/* show the top/bottom border when tabs bar visually connects to above/below */
+	${!prefs.floatingBackdropClip ? `
+		${prefs.tabsAtBottom < 0 ? `
+			${sidebarAtStart ? navToolboxWithAISidebar : navToolboxWithAsk}
+				#tabs-placeholder-pre-tabs,
+			${!sidebarAtStart ? navToolboxWithAISidebar : navToolboxWithAsk}
 				#tabs-placeholder-post-tabs
-			)
+		` : `
+			${
+				prefs.tabsAtBottom
+					? ""
+					: `:is(
+						${prefs.nativeWindowStyle
+							? `:root:not([${CUSTOM_TITLEBAR}], [ai-window]),` : ``}
+						${shownMenubar} + #TabsToolbar
+					)`
+			}
+				.tabs-placeholder[position=top],
+			${
+				prefs.tabsAtBottom
+					? `:is(
+						${prefs.tabsAtBottom == 1
+							? `:root:not([inFullscreen]) #TabsToolbar:has(~ #PersonalToolbar:not([collapsed=true], [collapsed=""])),` : ``}
+						${!prefs.nativeWindowStyle ? ":root[ai-window]" : ""}
+							#TabsToolbar:has(~ #notifications-toolbar notification-message),
+						${sidebarAtStart ? navToolboxWithAsk : navToolboxWithAISidebar},
+						:root[aiwindow-immersive-view]
+					)`
+					: `:root[ai-window]`
+			}
+				#tabs-placeholder-new-tab-button
+		`}
 		{
-			height: calc(var(--tabstrip-min-height) + var(--tabs-padding-top) + var(--nav-toolbox-padding-top));
-			margin-top: calc((var(--tabs-padding-top) + var(--nav-toolbox-padding-top)) * -1);
+			--section-clip: var(--clip-shadow);
+			--section-border-width: var(--tabs-placeholder-border-width);
+			--section-border-radius: var(--tabs-placeholder-border-radius);
 		}
 	` : ``}
 
-	${prefs.tabsAtBottom ? `` : `:not(${hiddenMenubar}) +`} #TabsToolbar
-		:is(
-			${_}:not(${staticPreTabsPlaceHolder}) #tabs-placeholder-pre-tabs,
-			#tabs-placeholder-post-tabs
-		)
-	{
-		height: calc(
-			var(--tabstrip-min-height)
-			+ var(--tabs-padding-top)
-			+ var(--nav-toolbox-padding-top)
-			- ${prefs.floatingBackdropClip ? "0px" : "var(--tabs-placeholder-border-width)"} * 2
-		);
-	}
-
-	${_}:not([tabs-hide-placeholder], [pinned-tabs-wraps-placeholder])
-		#tabbrowser-tabs:is([overflow], [positionpinnedtabs])
-			#tabbrowser-arrowscrollbox::part(items-wrapper)::before,
-	${_}[tabs-scrolledtostart] #tabs-placeholder-post-tabs,
+	${_="#TabsToolbar"}[tabs-scrolledtostart] #tabs-placeholder-post-tabs,
 	${_}[tabs-scrolledtoend] #tabs-placeholder-new-tab-button {
 		opacity: 0;
 	}
@@ -3807,10 +3926,23 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 
 ${!prefs.autoCollapse && prefs.maxTabRows > 1 ? /*css*/`
 	:root {
-		--multirows-background-size: max(
-			var(--nav-toolbox-net-height) + var(--tabstrip-min-height) * ${prefs.dynamicThemeImageSize ? "var(--tab-rows)" : maxRows},
-			var(--lwt-background-image-natural-height, 0px)
-		);
+		--multirows-background-size: ${
+			bgImgRepeat
+				? "auto"
+				: `
+					max(
+						${
+							prefs.tabsAtBottom > -1
+								? `var(--nav-toolbox-net-height) + var(--tabstrip-min-height) * ${
+									[maxRows, "var(--max-tab-rows)"][prefs.themeImageSize] ||
+									"var(--tab-rows)"
+								},`
+								: ""
+						}
+						var(--lwt-background-image-natural-height, 0px)
+					)
+				`
+		};
 	}
 
 	${win7 || win8 ? `:root,` : ``}
@@ -3835,17 +3967,17 @@ ${!prefs.previewPanelNoteEditable ? /*css*/`
 	}
 ` : ``}
 
-${_=`:root[multitabrows-applying-style] #navigator-toolbox`},
-${_} > toolbar {
+${_=`:root[multitabrows-applying-style]`} {
+	--tab-animation: 0s;
+}
+
+${_} #navigator-toolbox,
+${_} #navigator-toolbox > toolbar {
 	transition: none !important;
 }
 
 ${_} #TabsToolbar {
 	--tabs-item-opacity-transition: 0s;
-}
-
-${_} #tabbrowser-tabs[orient] {
-	--tab-animation: 0s;
 }
 
 ${debug && debug < 3 ? /*css*/`
@@ -4174,7 +4306,9 @@ rAF(2).then(() => root.removeAttribute("multitabrows-applying-style"));
 
 /** arrowScrollbox **/
 {
-	//fx 115, reset the cache in case the script is load after the box is overflowed
+	/*fx 115*/
+	arrowScrollbox.style.minWidth = "";
+	//reset the cache in case the script is load after the box is overflowed
 	delete arrowScrollbox._startEndProps;
 
 	$$("[id^=scrollbutton-]", arrowScrollbox.shadowRoot).forEach(btn => btn.icon.part.add(btn.id + "-icon"));
@@ -4390,28 +4524,8 @@ if (splitViewProto) {
 		},
 	});
 
-	/* #splitview-patch (fixed) */
-	define(splitViewProto, {
-		group: function() {
-			return this.tabs[0]?.group;
-		},
-
-		visible: function() {
-			return this.group?.isTabVisibleInGroup(this) != false;
-		},
-
-		pinned: function() {
-			return false;
-		},
-
-		multiselected: function() {
-			let {selectedElements: n} = gBrowser;
-			return !!(n[1] && n.includes(this));
-		},
-	}, false);
-
 	let {
-		reverseTabs, replaceTab,
+		reverseTabs, replaceTab, unsplitTabs,
 	} = splitViewProto;
 
 	assign(splitViewProto, {
@@ -4440,6 +4554,16 @@ if (splitViewProto) {
 			}, {
 				shouldUpdateLayout: false,
 				includeNodes: this.tabs.find(t => t != oldTab),
+			});
+		},
+
+		unsplitTabs: function() {
+			animateLayout(() => {
+				unsplitTabs.apply(this, arguments);
+				tabContainer._unlockTabSizing({instant: true, unlockSlot: false});
+			}, {
+				includeNodes: this.tabs,
+				excludeNodes: this,
 			});
 		},
 
@@ -4794,35 +4918,21 @@ let GET_DRAG_TARGET;
 		/*global TabDragAndDrop*/
 		let constructorString = TabDragAndDrop.toString().replace(/(^(\s+([gs]et\s+)?)|this.)(#)/mg, "$1_");
 
-		if (appVersion < 149)
-			/* #splitview-patch */
-			constructorString = constructorString
-				.replace(
-					/* startTabDrag (fixed) */
-					/*js*/ `let browser = isTab(tab) && tab.linkedBrowser;`,
-					/*js*/ `let browser = isTabLike(tab) && (tab.tabs?.find(t => t.selected) ?? tab).linkedBrowser;`,
-				).replace(
-					/* getDropEffectForTabDrag (fixed) */
-					/*js*/ `(isTab(sourceNode) || isTabGroupLabel(sourceNode))`,
-					/*js*/ `(isTabLike(sourceNode) || isTabGroupLabel(sourceNode))`,
-				).replace(
-					/* _getDragTarget (fixed) */
-					/*js*/ `isTab(target) || isTabGroupLabel(target)`,
-					/*js*/ `isTabLike(target) || isTabGroupLabel(target)`,
-				).replace(
-					/* _getDropIndex (fixed) */
-					/*js*/ `let item = this._getDragTarget(event);`,
-					/*js*/ `let item = this._getDragTarget(event); item = item?.splitview ?? item;`,
-				).replace(
-					/* handle_drop (fixed) */
-					/isTabGroupLabel\(dropElement\)\s+&&\s+isTab\(draggedTab\)/,
-					/*js*/ `isTabGroupLabel(dropElement) && isTabLike(draggedTab)`,
-				);
-
 		constructorString = constructorString.replace(
 			/* _getDragTarget, https://bugzil.la/2007720 */
-			/*js*/ `target === this._tabbrowserTabs.arrowScrollbox`,
+			/*js*/`target === this._tabbrowserTabs.arrowScrollbox`,
 			false,
+		).replace(
+			/* _getDropIndex, https://bugzil.la/1988159 */
+			/*js*/`let item = this._getDragTarget(event);`,
+			/*js*/`
+				let item = this._getDragTarget(event);
+				if (!item) {
+					let overflowContainer = event.target?.closest(".tab-group-overflow-count-container");
+					if (overflowContainer)
+						return getGroup(overflowContainer).visibleNodes.at(-2).elementIndex + 1;
+				}
+			`,
 		);
 
 		/*js*/
@@ -5197,6 +5307,15 @@ let GET_DRAG_TARGET;
 		let idx = this._getDropIndex(e);
 		let lastNode = nodes.at(-1);
 		let lastIdx = indexOf(lastNode);
+		let draggingGroup = isTabGroupLabel(draggedTab);
+
+		if (!draggingGroup) {
+			let overflowContainer = e.originalTarget?.closest(".tab-group-overflow-count-container");
+			if (overflowContainer) {
+				target = overflowContainer;
+				idx = overflowContainer.getAttribute("elementIndex") - .5;
+			}
+		}
 
 		console?.debug("drag ind", idx, target);
 
@@ -5220,14 +5339,14 @@ let GET_DRAG_TARGET;
 				delete _dragData.newPinState;
 		} else {
 			//dragging a group
-			if (isTabGroupLabel(draggedTab)) {
+			if (draggingGroup) {
 				//dragging to pinned area
 				if (target?.pinned)
 					idx = numPinned;
 				//dragging to normal area
 				else {
-					//in case dragging over oveflow container, which target willl be null
-					let group = e.originalTarget?.closest?.("tab-group");
+					//in case dragging over oveflow container, which target is null
+					let group = getGroup(e.originalTarget);
 					//handle group over group
 					if (group)
 						//will drop before
@@ -5273,6 +5392,18 @@ let GET_DRAG_TARGET;
 			//dragging external thing or copying tabs to pinned area
 			else if (target?.pinned && (!draggedTab || sameWindow))
 				idx = numPinned;
+			else if (!sameWindow || copy || !draggedTab) {
+				//dragging onto a collapsed active group
+				let group = getGroup(target);
+				if (
+					group?.collapsed &&
+					(
+						isTabGroupLabelContainer(target) ||
+						isTabLike(target) && idx != target.elementIndex
+					)
+				)
+					target = group.visibleNodes.at(-1);
+			}
 
 			//handle all cases which will drop as first normal
 			if (
@@ -5294,12 +5425,15 @@ let GET_DRAG_TARGET;
 
 		//handle out of drop range
 		if (idx > lastIdx || !target)
-			target = lastNode;
+			target = lastNode.pinned
+				? lastNode
+				: getNodes().at(-1); //in case the last one is overflow label
 
 		if (target) {
 			let targetRect = getRect(elementToMove(target), {translated: false});
 			let boxRect = getRect(arrowScrollbox);
-			let x = targetRect[idx != indexOf(target) ? "end" : "start"] - boxRect.start;
+			let dropBefore = idx == indexOf(target);
+			let x = targetRect[dropBefore ? "start" : "end"] - boxRect.start;
 			let boxHalf = boxRect.height / 2;
 			let y = Math.max(Math.min((targetRect.y + targetRect.height / 2) - (boxRect.y + boxHalf), boxHalf), -boxHalf);
 			let {style} = ind;
@@ -5308,6 +5442,11 @@ let GET_DRAG_TARGET;
 				rAF(2).then(() => style.transition = "");
 			}
 			style.transform = `translate(calc(${x}px + 50% * ${DIR}), ${y}px)`;
+
+			assign(_dragData, {
+				dropElement: target,
+				dropBefore,
+			});
 		} else
 			ind.hidden = true;
 
@@ -5715,7 +5854,7 @@ let GET_DRAG_TARGET;
 					cursorRow == firstRect.row && !pointDelta(firstRect.y, boxRect.y),
 				);
 				let r = getRect(pinDropInd, {box: "margin"});
-				let interactive = isOverlapping(r, new Rect(x, y));
+				let interactive = isOverlapping(r, new Rect(x + (RTL_UI ? 1 : 0), y, 1, 1));
 				if (!pinDropInd.hasAttribute("visible"))
 					if (!interactive && pointDeltaH(rTranX, tranX) < r.width)
 						this._clearPinnedDropIndicatorTimer();
@@ -5950,7 +6089,7 @@ let GET_DRAG_TARGET;
 										groupOfDraggedNode.visibleTabLikes.at(-1) == movingNodes.at(-1)
 									)
 								) ||
-								t?.matches(".tab-group-overflow-count-container") ||
+								isTabGroupOverflowContainer(t) ||
 								(
 									isTabGroupLabelContainer(t) &&
 									t.parentNode[appVersion > 142 ? "isShowingOverflowCount" : "collapsed"]
@@ -6116,13 +6255,7 @@ let GET_DRAG_TARGET;
 			);
 		console?.log({shouldMove, dropBefore, dropElement, overlapBefore, overlapAfter});
 
-		if (isTabGroupLabelContainer(dropElement)) {
-			let group = dropElement.parentNode;
-			dropElement = dropBefore || group.collapsed && !group.hasActiveTab
-				? group
-				: $("slot", group);
-		} else if (!dropBefore && dropElement?.matches(".tab-group-overflow-count-container"))
-			dropElement = dropElement.parentNode;
+		dropElement = this._redirectDropElement({movingNodes, dropElement, dropBefore});
 
 		shouldMove &&= _dragData.dropBefore != dropBefore || _dragData.dropElement != dropElement;
 		console?.log({shouldMove, dropBefore, dropElement});
@@ -6406,10 +6539,6 @@ let GET_DRAG_TARGET;
 			delete _dragData.shouldDropIntoCollapsedTabGroup;
 			dragDropProto[CLEAR_DRAG_OVER_GROUPING_TIMER]();
 		}
-
-		function getGroup(e) {
-			return e?.closest("tab-group");
-		}
 	};
 
 	dragDropProto._clearPinnedDropIndicatorTimer ??= function() {
@@ -6424,6 +6553,35 @@ let GET_DRAG_TARGET;
 		$$("[test-drop-before]").forEach(e => e.removeAttribute("test-drop-before"));
 		$$("[test-drop-overlap]").forEach(e => e.removeAttribute("test-drop-overlap"));
 		getNodes().forEach(t => style(t, {outline: "", boxShadow: ""}));
+	};
+
+	dragDropProto._redirectDropElement = function({movingTabs, dropElement, dropBefore}, event) {
+		if (!dropElement)
+			return;
+
+		let group = getGroup(dropElement);
+
+		//drag tab out of the current group
+		if (
+			!dropBefore &&
+			dropElement == group?.visibleTabLikes.at(-1) &&
+			(
+				dropElement == movingTabs?.at(-1) ||
+				event && !this[GET_DRAG_TARGET](event)
+			) &&
+			!group.isShowingOverflowCount
+		)
+			return group;
+
+		if (dropElement.closest(".tab-group-label-container"))
+			return dropBefore || group.collapsed && !group.hasActiveTab
+				? group
+				: $("slot", group);
+
+		if (!dropBefore && isTabGroupOverflowContainer(dropElement))
+			return dropElement.parentNode;
+
+		return dropElement;
 	};
 
 	dragDropProto[`${HANDLE}_dragleave`] = function(e) {
@@ -6447,10 +6605,21 @@ let GET_DRAG_TARGET;
 		let sameWindow = draggedTab?.ownerGlobal == window;
 		let {_dragData} = draggedTab || {};
 		let useIndicatorToMove = _dragData?.fromTabList;
+		let stopAnimateTabMove = _dragData?.stopAnimateTabMove || _dragData?.pauseAnimateTabMove;
 		let moveTabTo;
 		if (_dragData) {
+			let {dropElement} = _dragData;
 			if (_dragData.shouldDropIntoCollapsedTabGroup)
-				_dragData.dropElement = _dragData.dropElement.labelElement;
+				_dragData.dropElement = dropElement.labelElement;
+			else if (stopAnimateTabMove)
+				assign(_dragData, {
+					fromTabList: false,
+					dropElement: this._redirectDropElement(_dragData, event),
+					//for fx 115
+					animDropIndex:
+						(dropElement.elementIndex ?? dropElement._tPos)
+						+ (_dragData.dropBefore ? 0 : 1),
+				});
 			else if (!_dragData.shouldCreateGroupOnDrop)
 				delete _dragData.dropElement;
 
@@ -6475,7 +6644,11 @@ let GET_DRAG_TARGET;
 			}
 		}
 
-		let run = () => nullifyNativeDragStyle(() => handle_drop.apply(this, arguments), draggedTab, "#resetTabsAfterDrop");
+		let run = () => {
+			nullifyNativeDragStyle(() => handle_drop.apply(this, arguments), draggedTab, "#resetTabsAfterDrop");
+			if (stopAnimateTabMove || dt.dropEffect == "copy")
+				tabContainer._unlockTabSizing({unlockSlot: true});
+		};
 		if (draggedTab && !sameWindow)
 			animateLayout(() => {
 				let nodes = getNodes({onlyFocusable: true});
@@ -6499,7 +6672,11 @@ let GET_DRAG_TARGET;
 				this[GET_DRAG_TARGET](event)?.pinned
 			)
 		)
-			animateLayout(run);
+			animateLayout(
+				run,
+				//tabs may be dragged into a collapsed group
+				{includeNodes: _dragData?.movingTabs.filter(isTabLike)},
+			);
 		else
 			run();
 
@@ -6660,13 +6837,6 @@ let GET_DRAG_TARGET;
 					}
 				}
 
-				tabGroups?.forEach(g => {
-					if (g.collapsed)
-						for (let t of g.tabs)
-							if (t.multiselected && !t.selected)
-								gBrowser.removeFromMultiSelectedTabs(t);
-				});
-
 				tabContainer.setAttribute("movingtab-finishing", "dropped");
 
 				if (stacking) {
@@ -6674,8 +6844,11 @@ let GET_DRAG_TARGET;
 					await animateLayout(() => {
 						for (let t of movingNodes)
 							t.stacking = false;
-						delete tabContainer._keepTabSizeLocked;
-						tabContainer._unlockTabSizing({unlockSlot: !tabContainer.overflowing});
+						//no need to unlcock tab size since the layout won't change after unstacking
+						if (!movingNodes[0].group?.collapsed) {
+							delete tabContainer._keepTabSizeLocked;
+							tabContainer._unlockTabSizing({unlockSlot: !tabContainer.overflowing});
+						}
 					});
 				}
 
@@ -6782,6 +6955,9 @@ let GET_DRAG_TARGET;
 
 		this._tabDropIndicator.style.transform = "";
 
+		for (let t of $$("tab-group[collapsed] tab:not([selected])[multiselected]", arrowScrollbox))
+			gBrowser.removeFromMultiSelectedTabs(t);
+
 		arrowScrollbox.lockScroll = false;
 
 		for (let [node, attrs] of [
@@ -6848,6 +7024,10 @@ let GET_DRAG_TARGET;
 				style(this, {"--forced-overflow-adjustment": v ? v + "px" : ""});
 			},
 		},
+
+		suggestToLockSlot: function() {
+			return this.overflowing || prefs.tabsAtBottom < 0;
+		},
 	}, false);
 
 	tabContainer.switchByScrolling = getPref("toolkit.tabbox.switchByScrolling");
@@ -6862,13 +7042,15 @@ let GET_DRAG_TARGET;
 	tabContainer._pinnedTabsLayoutCache = null;
 
 	arrowScrollbox.before(
-		...["pre-tabs", "post-tabs", "new-tab-button"].map(n =>
-			tabContainer["_placeholder" + n.replace(/(?:^|-)(\w)/g, (m, w) => w.toUpperCase())] =
+		...["new-tab-button", "pre-tabs", "post-tabs"].map((n, i) => {
+			let ele = tabContainer["_placeholder" + n.replace(/(?:^|-)(\w)/g, (m, w) => w.toUpperCase())] =
 				assign(document.createXULElement("hbox"), {
 					id: "tabs-placeholder-" + n,
 					className: "tabs-placeholder",
-				})
-		)
+				});
+			ele.setAttribute("position", i ? "top" : "bottom");
+			return ele;
+		})
 	);
 	//sometimes double clicking on the spaces doesn't perform the window maximizing/restoring, don't know why
 	$$(".titlebar-spacer, .tabs-placeholder", gNavToolbox).forEach(node => node.addEventListener("dblclick", ondblclick, true));
@@ -6928,13 +7110,12 @@ let GET_DRAG_TARGET;
 	}
 
 	tabContainer._positionPinnedTabs = function(numPinned, recursion) {
-		if (!prefs.positionPinnedTabs && !this.positioningPinnedTabs)
-			return;
-
 		numPinned ??= gBrowser.pinnedTabCount;
+		this.toggleAttribute("haspinnedtabs", numPinned);
 
 		if (
 			!numPinned && !this._lastNumPinned ||
+			!prefs.positionPinnedTabs && !this.positioningPinnedTabs ||
 			!tabHeight ||
 			//it seems this checking is no necessary anymore but there's no harm to keep it
 			appVersion < 132 && isCalledBy("_initializeArrowScrollbox/<")
@@ -7011,11 +7192,10 @@ let GET_DRAG_TARGET;
 
 		console?.time("_positionPinnedTabs - update");
 
-		if (this._lastNumPinned != numPinned) {
-			this.toggleAttribute("haspinnedtabs", numPinned);
-			this._lastNumPinned = numPinned;
+		if (this._lastNumPinned != numPinned)
 			this._handleTabSelect(true);
-		}
+
+		this._lastNumPinned = numPinned;
 
 		if (!isPositioned && floatPinnedTabs)
 			//not sure why the !important is required, it is overrided by some unknown rule
@@ -7351,7 +7531,9 @@ let GET_DRAG_TARGET;
 			let adjacentNewTab = this.hasAttribute("hasadjacentnewtabbutton");
 			let positionPinned = this.positioningPinnedTabs;
 			let pinnedWidth = numPinned && !positionPinned
-				? firstNonStackingMinWidth
+				? prefs.pinnedTabsFlexWidth
+					? tabMinWidth
+					: firstNonStackingMinWidth
 				: 0;
 			let firstNodeMinWidth = pinnedWidth || firstUnpinnedMinWidth;
 			let pinnedGap = prefs.gapAfterPinned;
@@ -7374,43 +7556,69 @@ let GET_DRAG_TARGET;
 					${prefs.floatingBackdropClip ? /*css*/`
 						#tabbrowser-tabs${condition} {
 							--top-placeholder-clip:
-								${START_PC} var(--tabstrip-min-height),
-								calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)) * ${DIR}) var(--tabstrip-min-height);
+								${START_PC} calc(var(--tabstrip-min-height) + var(--extra-drag-space)),
+								calc(${END_PC} - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)) * ${DIR}) calc(var(--tabstrip-min-height) + var(--extra-drag-space));
+						}
+
+						#tabbrowser-tabs::before {
+							--clip-left: 0 !important;
+							--clip-right: 0 !important;
 						}
 					` : ``}
+
 					#TabsToolbar:not([tabs-hide-placeholder]) #tabbrowser-tabs[multirows]${condition}
 						#tabbrowser-arrowscrollbox::part(items-wrapper)::before
 					{
 						width: calc(100% - var(--tabstrip-separator-size)) !important;
 						margin-inline-end: 0;
 						border-inline-end-width: 0;
-						border-end-end-radius: 0;
+						border-radius: 0;
 						padding-inline-end: var(--tabstrip-separator-size);
 					}
+
 					#tabs-placeholder-pre-tabs {
 						--tabstrip-padding: 0;
+						--section-clip: 0 !important;
+						--clip-end: 0;
 						width: calc(100vw - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)));
 						border-inline-end-width: 0;
-						border-radius: 0;
-						clip-path: inset(0 0 var(--clip-shadow) 0);
+						border-radius: 0 !important;
 					}
+
+					${prefs.tabsAtBottom < 0 ? /*css*/`
+						:root[ai-window] #navigator-toolbox:has(~ #browser :is(#sidebar-main, #ai-window-box):not([hidden], [collapsed]))
+							#tabs-placeholder-pre-tabs
+						{
+							--section-border-width: var(--tabs-placeholder-border-width);
+						}
+					` : ``}
+
 					#tabs-placeholder-pre-tabs::before {
 						clip-path: var(--controlbox-clip-path);
 					}
+
 					${prefs.hideEmptyPlaceholderWhenScrolling ? /*css*/`
 						#TabsToolbar[tabs-is-first-visible] #tabs-placeholder-pre-tabs {
 							visibility: visible;
 						}
 					` : ``}
+
 					#tabs-placeholder-post-tabs,
 					#tabbrowser-tabs[multirows]${condition}
 						#tabbrowser-arrowscrollbox::part(items-wrapper)::after
 					{
 						visibility: collapse;
 					}
-					#tabbrowser-tabs${condition} #tabbrowser-arrowscrollbox
+
+					#tabbrowser-tabs[orient]:is(:not([dragging], [movingtab], [movingtab-finishing]), [moving-positioned-tab])::before {
+						${prefs.floatingBackdropClip
+							? "top: calc(var(--shift) + var(--tabstrip-min-height));"
+							: "display: none !important;"}
+					}
+
+					${"#tabbrowser-tabs".repeat(2)}${condition}
 						:is(
-							.tabbrowser-tab,
+							:not(tab-split-view-wrapper) > tab,
 							.tab-group-label-container,
 							.tab-group-overflow-count-container,
 							tab-split-view-wrapper,
@@ -7716,7 +7924,7 @@ let GET_DRAG_TARGET;
 		"TabHide", "TabShow",
 		"TabGroupCreate",
 		"TabGroupExpand", "TabGroupCollapse",
-		"TabPinned", "TabUnpinned",
+		"TabPinned", "TabUnpinned", "SplitViewRemoved",
 	])
 		tabContainer.addEventListener(n, updateElementIndex);
 
@@ -7935,18 +8143,12 @@ let GET_DRAG_TARGET;
 			} else if (closingLastTab) {
 				if (
 					pointDelta(getRect(lastNode).y, actionNodeRect.y) < 0 ||
-					actionGroup?.collapsed
+					actionGroup?.collapsed ||
+					lastNode?.pinned
 				) {
 					this._clearSpacer();
 					this.removeAttribute("ignore-newtab-btn");
-
-					if (this.overflowing) {
-						this.lockSlotSize();
-						lock = true;
-					}
-				} else if (lastNode?.pinned) {
-					this._clearSpacer();
-					this.removeAttribute("ignore-newtab-btn");
+					this.unlockSlotSize();
 				} else {
 					let space = pointDeltaH(slotRect.end, actionNodeRect.end);
 					if (atFirstRow)
@@ -7964,7 +8166,9 @@ let GET_DRAG_TARGET;
 				let rowWidth, remainingSpace, hasPinned, hasNonPinned;
 				let selectedNodePinned = selectedNode.pinned;
 				let canFitIn = true, visuallyFitIn = true, lockFirstRow = false;
-				let unifiedWidth = Infinity, unifiedSplitViewWidth = Infinity;
+				//the closing tab may have the smallest size
+				let unifiedWidth = isClosingTab ? actionNodeRect.width : Infinity;
+				let unifiedSplitViewWidth = Infinity;
 				let firstNodeRect;
 
 				for (let n of nodes) {
@@ -8013,6 +8217,7 @@ let GET_DRAG_TARGET;
 						) ||
 						(
 							stacking &&
+							!collapsingGroup &&
 							n != selectedNode &&
 							n.multiselected &&
 							pinned == selectedNodePinned &&
@@ -8059,7 +8264,7 @@ let GET_DRAG_TARGET;
 					remainingSpace -= visualWidth;
 				}
 
-				if (this.isMovingTab || this.overflowing)
+				if (this.isMovingTab || this.suggestToLockSlot)
 					this.lockSlotSize();
 
 				let ignoreNewTab = false;
@@ -8158,12 +8363,12 @@ let GET_DRAG_TARGET;
 			isCalledBy("([_#]expandGroupOnDrop|on_TabGroupCollapse)") ||
 			(
 				!(ignorePanels ?? instant) &&
-				$$(`
+				$(`:is(
 					#tab-preview-panel,
 					#tabgroup-preview-panel,
 					#tab-group-editor .tab-group-editor-panel,
 					#tabNotePanel
-				`).some(p => p.state == "open")
+				):is(:hover, :focus-within)`)
 			)
 		)
 			return;
@@ -8223,7 +8428,7 @@ let GET_DRAG_TARGET;
 	};
 
 	tabContainer.unlockSlotSize = function(instant) {
-		instant ||= !this.overflowing;
+		instant ||= !this.suggestToLockSlot;
 
 		let oldHeight;
 		if (!instant)
@@ -8233,7 +8438,8 @@ let GET_DRAG_TARGET;
 
 		if (instant) return;
 
-		let delta = pointDelta(oldHeight, slot.clientHeight);
+		let newHeight = slot.clientHeight;
+		let delta = pointDelta(oldHeight, newHeight);
 		if (delta <= 0) return;
 
 		style(slot, {
@@ -8244,10 +8450,18 @@ let GET_DRAG_TARGET;
 
 		return (async () => {
 			await rAF();
-			this.setAttribute("animating-slot-size", "");
+			root.setAttribute("animating-tabs-slot-size", "");
+			style(root, {"--tabs-slot-animate-height": newHeight + "px"});
 			style(slot, {transition: "", paddingBottom: ""});
+			// overflow may be triggered and the attribute is set incorrectly during shrinking
+			if (prefs.tabsAtBottom < 0 && !this.overflowing) {
+				let {on_overflow} = this;
+				this.on_overflow = emptyFunc;
+				requestAnimationFrame(() => assign(this, {on_overflow}));
+			}
 			await waitForTransition(slot, "padding-bottom");
-			this.removeAttribute("animating-slot-size");
+			root.removeAttribute("animating-tabs-slot-size");
+			style(root, {"--tabs-slot-animate-height": ""});
 			this._handleTabSelect();
 		})();
 	};
@@ -8374,7 +8588,7 @@ let GET_DRAG_TARGET;
 		let start = e.type == "transitionstart";
 		if (
 			prefs.autoCollapse && e.target == this && e.pseudoElement == "" &&
-			e.propertyName == "margin-bottom"
+			e.propertyName == "margin-" + (prefs.tabsAtBottom < 0 ? "top" : "bottom")
 		) {
 			let showing = this.matches(TEMP_SHOW_CONDITIONS);
 			this.toggleAttribute("animating-collapse", start);
@@ -8442,7 +8656,7 @@ let GET_DRAG_TARGET;
 		addTab, removeTab, pinTab, unpinTab, pinMultiSelectedTabs,
 		_updateTabBarForPinnedTabs, createTabsForSessionRestore, addTabGroup,
 		replaceTabsWithWindow, replaceGroupWithWindow,
-		unsplitTabs, adoptTabGroup, addTabSplitView,
+		adoptTabGroup, addTabSplitView,
 	} = gBrowser;
 
 	let {moveTabToGroup} = gBrowser;
@@ -8460,25 +8674,37 @@ let GET_DRAG_TARGET;
 			return run();
 
 		let tab;
-		let action = () => {
-			let oldNodes = getNodes({onlyFocusable: true});
-			tab = run();
-
-			//because of the fix of https://bugzil.la/1997096, multiple nodes may become visible after creating a tab
-			return tab?.group?.collapsed == false
-				? getNodes({onlyFocusable: true}).filter(n => !oldNodes.includes(n))
-				: tab;
-		};
-
 		try {
-			animateLayout(
-				uri?.match(/^about:firefoxview#?/i)
-					// let the animation run in subprocess to
-					// wait for the firefox view tab to be hidden
-					? async () => action()
-					: action,
-				{animate: !o?.skipAnimation},
-			);
+			if (isCalledBy("openLinkInSplitView"))
+				animateLayout(async () => {
+					tab = run();
+					if (animatingLayout) {
+						await 0;
+						let {rects, nodes} = animatingLayout;
+						nodes.push(tab);
+						rects.set(tab, rects.get(tab.previousSibling).clone().collapse());
+					}
+				});
+			else {
+				let action = () => {
+					let oldNodes = getNodes({onlyFocusable: true});
+					tab = run();
+
+					//because of the fix of https://bugzil.la/1997096, multiple nodes may become visible after creating a tab
+					return tab?.group?.collapsed == false
+						? getNodes({onlyFocusable: true}).filter(n => !oldNodes.includes(n))
+						: tab;
+				};
+
+				animateLayout(
+					uri?.match(/^about:firefoxview#?/i)
+						// let the animation run in subprocess to
+						// wait for the firefox view tab to be hidden
+						? async () => action()
+						: action,
+					{animate: !o?.skipAnimation},
+				);
+			}
 		} catch(e) {
 			window.console.error(e);
 		}
@@ -8680,20 +8906,6 @@ let GET_DRAG_TARGET;
 		return w;
 	};
 
-	gBrowser.unsplitTabs &&= function(splitview) {
-		let run = () => unsplitTabs.apply(this, arguments);
-		if (splitview)
-			animateLayout(() => {
-				run();
-				tabContainer._unlockTabSizing({instant: true, unlockSlot: false});
-			}, {
-				includeNodes: splitview.tabs,
-				excludeNodes: splitview,
-			});
-		else
-			run();
-	};
-
 	gBrowser.replaceTabsWithWindow = function(contextTab) {
 		let w;
 		let nodes = contextTab.multiselected ? this.selectedElements : [contextTab];
@@ -8839,6 +9051,12 @@ if (TAB_GROUP_PREVIEW_SUPPORT) {
 					(prefs.previewPanelShiftedAlways || tabContainer.hasAttribute("multirows"))
 				)
 					opts.position = "bottomcenter topleft";
+				if (prefs.tabsAtBottom < 0)
+					opts.position = opts.position.replace(
+						/(top|bottom)/g,
+						pos => pos == "top" ? "bottom" : "top",
+					);
+
 				return opts;
 			},
 		});
@@ -9006,9 +9224,9 @@ function scrollIntoView({behavior} = {}) {
 	let rect = getRect(this);
 	let boxRect = getRect(scrollbox);
 	if (!tabsBar.hasAttribute("tabs-hide-placeholder") && tabContainer.overflowing) {
-		let preTabs = getRect(tabContainer._placeholderPreTabs, {box: "content", checkVisibility: true});
-		let postTabs = getRect(tabContainer._placeholderPostTabs, {box: "content", checkVisibility: true});
-		let newTab = getRect(tabContainer._placeholderNewTabButton, {box: "content", checkVisibility: true});
+		let [preTabs, postTabs, newTab] = ["PreTabs", "PostTabs", "NewTabButton"]
+			.map(n => getRect(tabContainer["_placeholder" + n], {box: "content", checkVisibility: true}));
+
 		if (
 			!(prefs.hideEmptyPlaceholderWhenScrolling && tabsBar.hasAttribute("tabs-is-first-visible")) &&
 			preTabs.width && pointDelta(rect.y, preTabs.bottom) < 0 && pointDeltaH(rect.start, preTabs.end) < 0
@@ -9047,6 +9265,15 @@ function scrollIntoView({behavior} = {}) {
 		top: scrollbox.scrollTop + (top < 0 ? top : bottom),
 		behavior,
 	});
+}
+
+/** @param {(Element|null)} n */
+function getGroup(n) {
+	let host;
+	// eslint-disable-next-line no-cond-assign
+	while (host = n?.getRootNode().host)
+		n = host;
+	return n?.closest("tab-group");
 }
 
 /** @param {(Element|null)} n */
@@ -9282,9 +9509,9 @@ function updateNavToolboxNetHeight() {
 		personalbar.collapsed = false;
 	}
 
-	let netHeight = gNavToolbox.getBoundingClientRect().height - scrollbox.clientHeight;
+	let netHeight = getRect(gNavToolbox).height - scrollbox.clientHeight;
 	if (!countPersonalbar && !personalbarCollapsed)
-		netHeight -= personalbar.getBoundingClientRect().height;
+		netHeight -= getRect(personalbar).height;
 	style(root, {"--nav-toolbox-net-height": netHeight + "px"});
 
 	if (menubarAutoHide)
@@ -9324,9 +9551,14 @@ function updateThemeStatus() {
 		.includes(id);
 	defaultDarkTheme = id == "firefox-compact-dark@mozilla.org";
 	defaultAutoTheme = ["", "default-theme@mozilla.org"].includes(id);
-	bgImgTheme = getComputedStyle(BACKGROUND_ON_BODY ? document.body : gNavToolbox).backgroundImage.includes("url(");
 	micaEnabled = getPref("widget.windows.mica", false);
 	mica = micaEnabled && defaultAutoTheme && !accentColorInTitlebarMQ.matches;
+
+	let cs = getComputedStyle(
+		BACKGROUND_ON_BODY && !root.hasAttribute("lwtheme-image-y-align") ? document.body : gNavToolbox
+	);
+	bgImgTheme = cs.backgroundImage.includes("url(");
+	bgImgRepeat = cs.backgroundRepeat == "repeat";
 }
 
 /**
@@ -9417,8 +9649,8 @@ function exposePrivateMethod(element, method, context = "") {
 			eval(`${context}; f = function ${newMethod} ${code};`);
 			element.prototype[newMethod] = f;
 			relatedMehtods.forEach(m => exposePrivateMethod(element, m, context));
-		} catch(e) {
-			alert([SCRIPT_FILE_NAME,e,e.stack,method].join("\n"));
+		} catch (e) {
+			showError(e, method, e.stack);
 		}
 }
 
@@ -9532,8 +9764,8 @@ async function animateLayout(
 
 		if (deltaNodes[0]) {
 			if (
-				deltaNodes.find(isTabGroupOverflowContainer)
-					?.closest("tab-group").getAttribute("toggling")
+				getGroup(deltaNodes.find(isTabGroupOverflowContainer))
+					?.getAttribute("toggling")
 				!= "collapse"
 			)
 				tabContainer._unlockTabSizing({instant: true, unlockSlot: false});
@@ -9559,7 +9791,7 @@ async function animateLayout(
 				);
 			for (let n of deltaNodes) {
 				if (isTabGroupOverflowContainer(n)) {
-					let group = n.closest("tab-group");
+					let group = getGroup(n);
 					let r = rects.get(
 						group.getAttribute("toggling") == "collapse"
 							? group.nonHiddenTabLikes.at(-1)
@@ -9580,13 +9812,18 @@ async function animateLayout(
 						prv && getRect(prv);
 
 					if (prvNewR && !pointDelta(prvNewR.y, newR.y)) {
-						r = (rects.get(prv) || prvNewR).clone();
+						r = rects.get(prv)?.clone();
+						if (!r) {
+							r = prvNewR.clone();
+							r.basedOnNewLayout = true;
+						}
 						r.start = r.end;
 					} else if (nxtNewR && !pointDelta(nxtNewR.y, newR.y))
 						r = nxtR.clone();
 					else {
 						r = newR.clone();
 						r.start = newRowStartPoint;
+						r.basedOnNewLayout = true;
 					}
 					r.y += scrollbox.scrollTop - scrollTop;
 					if (!n.pinned || prefs.pinnedTabsFlexWidth)
@@ -9597,36 +9834,38 @@ async function animateLayout(
 		}
 
 		let newTabsRect = getRect(tabContainer, {box: "content"});
-		let run = () => Promise.all(nodes.map(n =>
-			animateShifting(
+		let run = () => Promise.all(nodes.map(n => {
+			let r = rects.get(n);
+			return animateShifting(
 				n,
-				rects.get(n).relativeTo(tabsRect),
+				r.relativeTo(r.basedOnNewLayout ? newTabsRect : tabsRect),
 				newRects.get(n).relativeTo(newTabsRect),
-			)
-		)).then(rs);
+			);
+		})).then(rs);
 
-		if (tabContainer.overflowing) {
-			nodes = nodes.filter(n => {
-				let nR = newRects.get(n);
-				return (
-					nR.relative ||
-					isOverlapping(nR, newTabsRect) ||
-					isOverlapping(rects.get(n), newTabsRect) ||
-					deltaNodes?.includes(n)
-				);
-			});
-			if (arrowScrollbox.hasAttribute("scrolledtoend")) {
-				//workaround for a weird bug that the scrollbox may scroll up
-				//when closing that only tab in the last row or collapsing a tab group with keyboard.
-				//it seems not the case of overflow changing, resizing, scrollTop assign, scrollIntoView,
-				//nor inline placeholder related.
-				//it just happens when the css variables applied on the first tab on the second row when animateShifting().
-				let {scrollTop} = scrollbox;
-				run();
-				if (scrollbox.scrollTop != scrollTop)
-					arrowScrollbox.instantScroll(scrollTop);
-			} else
-				run();
+		nodes = nodes.filter(n => {
+			if (n.stacking == "hidden")
+				return true;
+
+			let nR = newRects.get(n);
+			return (
+				nR.relative ||
+				isOverlapping(nR, newTabsRect) ||
+				isOverlapping(rects.get(n), newTabsRect) ||
+				deltaNodes?.includes(n)
+			);
+		});
+
+		if (tabContainer.overflowing && arrowScrollbox.hasAttribute("scrolledtoend")) {
+			//workaround for a weird bug that the scrollbox may scroll up
+			//when closing that only tab in the last row or collapsing a tab group with keyboard.
+			//it seems not the case of overflow changing, resizing, scrollTop assign, scrollIntoView,
+			//nor inline placeholder related.
+			//it just happens when the css variables applied on the first tab on the second row when animateShifting().
+			let {scrollTop} = scrollbox;
+			run();
+			if (scrollbox.scrollTop != scrollTop)
+				arrowScrollbox.instantScroll(scrollTop);
 		} else
 			run();
 	});
@@ -9743,6 +9982,7 @@ async function waitForTransition(node, property, pseudo) {
 function isOverlapping(r1, r2) {
 	return (
 		r1.visible && r2.visible &&
+		r1.width && r1.height && r2.width && r2.height &&
 		pointDelta(r1.right, r2.x) > 0 && pointDelta(r1.x, r2.right) < 0 &&
 		pointDelta(r1.bottom, r2.y) > 0 && pointDelta(r1.y, r2.bottom) < 0
 	);
@@ -10017,5 +10257,17 @@ function updateNavBarOverflow() {
 	dispatchEvent(new Event("resize"));
 }
 
-} catch (e) {alert([SCRIPT_FILE_NAME, e, e.stack].join("\n")); console.error(e);}
+} catch (e) {
+	showError(e, e.stack);
+}
+
+function showError(...texts) {
+	for (let t of texts)
+		if (t instanceof Error) {
+			console.error(t);
+			break;
+		}
+	setTimeout(() => Services.prompt.alert(window, `${SCRIPT_NAME} (${SCRIPT_FILE_NAME})`, texts.join("\n\n")));
+}
+
 }
