@@ -169,7 +169,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
 | `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`. |
 | `showScrollShadow` | Show shadow on the top and bottom edges when the tab bar is scrollable. |
-| `themeImageSize` | When using themes with non-repeated background images, size the image according to:<ul><li>`0` - the maximum number of rows allowed</li><li>`1` - the maximum number of rows allowed within the current window width</li><li>`2` - the current number of rows</li></ul><p>No difference when the image height is large enough to support the number of rows.</p> |
+| `themeImageSize` | When using themes with non-repeated background images, size the image according to:<ul><li>`-1` - the original size of the image</li><li>`0` - the maximum number of rows allowed</li><li>`1` - the maximum number of rows allowed within the current window width</li><li>`2` - the current number of rows</li></ul><p>No difference when the image height is large enough to support the number of rows.</p> |
 
 ### Miscellaneous
 
@@ -199,6 +199,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.6.1**
+- Add new option for `themeImageSize`: `-1` - the original size of the image.
 
 **Version 4.6**
 - New
