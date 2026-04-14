@@ -169,7 +169,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `scrollbarThumbColor` | スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
 | `scrollbarTrackColor` | スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
 | `showScrollShadow` | タブバーがスクロール可能な場合、上下の端にシャドウを表示。 |
-| `themeImageSize` | 背景画像を繰り返さないテーマを使用している場合、その画像のサイズは以下に基づいて決定される：<ul><li>`0`－許可されている最大段数</li><li>`1`－現在のウィンドウ幅で許可されている最大段数</li><li>`2`－現在の段数</li></ul><p>画像の高さが段数を収容できるほど十分に大きい場合は、違いはない。</p> |
+| `themeImageSize` | 背景画像を繰り返さないテーマを使用している場合、その画像のサイズは以下に基づいて決定される：<ul><li>`-1`－画像の元のサイズ</li><li>`0`－許可されている最大段数</li><li>`1`－現在のウィンドウ幅で許可されている最大段数</li><li>`2`－現在の段数</li></ul><p>画像の高さが段数を収容できるほど十分に大きい場合は、違いはない。</p> |
 
 ### その他
 
@@ -198,6 +198,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.6.1**
+- `themeImageSize` に新しいオプションを追加：`-1`－画像の元のサイズ。
 
 **Version 4.6**
 - 追加
