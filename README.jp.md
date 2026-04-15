@@ -198,6 +198,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+<details>
+<summary>軽微な更新</summary>
+
+**Version 4.6.1.1**
+- Firefox 151 への更新。
+- タブノートを有効にした直後に「ノートを追加」項目が表示されない不具合を修正。
+</details>
+
 **Version 4.6.1**
 - `themeImageSize` に新しいオプションを追加：`-1`－画像の元のサイズ。
 
