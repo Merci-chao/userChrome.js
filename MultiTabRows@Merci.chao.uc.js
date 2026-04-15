@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.6.1
+// @version        4.6.1.1
 // @compatibility  Firefox 115, 149-151
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -252,7 +252,7 @@ const NATIVE_DRAG_TO_PIN = !!(window.TabDragAndDrop || FX_USING_PRIVATE_SET_STYL
 const TAB_GROUP_SUPPORT = "tabGroups" in gBrowser;
 const SPLIT_VIEW_SUPPORT = "addTabSplitView" in gBrowser;
 const SPLIT_VIEW_NEED_PATCH = SPLIT_VIEW_SUPPORT && !("adoptSplitView" in gBrowser);
-const TAB_NOTE_SUPPORT = "deleteTabNotes" in TabContextMenu;
+const TAB_NOTE_SUPPORT = "tabNoteMenu" in gBrowser;
 const TAB_GROUP_PREVIEW_SUPPORT = appVersion > 143;
 const TAB_STACKING_SUPPORT = appVersion > 148 || "TabStacking" in window;
 const BACKGROUND_ON_BODY = appVersion > 148 && !gNavToolbox.matches(".browser-toolbox-background");
@@ -682,7 +682,6 @@ async function onPrefChange(pref, type, name) {
 		case "previewPanelShiftedAlways":
 		case "browser.tabs.dragDrop.moveOverThresholdPercent":
 		case "browser.tabs.groups.enabled":
-		case "browser.tabs.notes.enabled":
 			break;
 		case "toolkit.tabbox.switchByScrolling":
 			tabContainer.switchByScrolling = getPref("toolkit.tabbox.switchByScrolling");
