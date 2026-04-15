@@ -199,6 +199,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+<details>
+<summary>Minor Update</summary>
+
+**Version 4.6.1.1**
+- Update for Firefox 151.
+- Fix issue where the "Add Note" item did not display when tab notes had just been enabled.
+</details>
+
 **Version 4.6.1**
 - Add new option for `themeImageSize`: `-1` - the original size of the image.
 
