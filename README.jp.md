@@ -186,7 +186,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `browser.tabs.dragDrop.createGroup.delayMS` | ドラッグしてグループ化を開始するまでの遅延時間（ミリ秒）。Firefox 115 では非対応。 |
 | <span id="dragToPinEnabled">`browser.tabs.dragDrop.dragToPin.enabled`</span> | 同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を有効化。例：タブをピン留めされたタブにドロップすると、ピン留めされるかどうか。この名前で新しい真偽設定を作成し切り替える。 |
 | <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | タブを他のタブにドロップした際にグループ化。Firefox 115 では非対応。Firefox 149 以前では、この名前で新しい真偽設定を作成し切り替える。 |
-| `browser.tabs.dragDrop.moveOverThresholdPercent` | ドラッグして移動する際に必要な重なりの割合。`100 - n` がグループ化のしきい値を定義する。例えば値が `80` の場合、20% 以上重なればグループ化され、80% 以上重なれば移動される。最小値：`0`、最大値：`100`。以下の場合は値が `50` に固定される：<ul><li>Firefox 115 を使用している場合</li><li>ドラッグによるグループ化が無効化されている場合</li><li>`dynamicMoveOverThreshold` が有効な特定のシナリオ</li></ul> |
+| `browser.tabs.dragDrop.moveOverThresholdPercent` | ドラッグして移動する際に必要な重なりの割合。`100 - n` がグループ化のしきい値を定義する。例えば値が `80` の場合、20% 以上重なればグループ化され、80% 以上重なれば移動される。最小値：`0`、最大値：`100`。以下の場合は値が `50` に固定される：<ul><li>別の段へ移動する場合</li><li>Firefox 115 を使用している場合</li><li>ドラッグによるグループ化が無効化されている場合</li><li>`dynamicMoveOverThreshold` が有効な特定のシナリオ</li></ul> |
 | <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | タブのドラッグ時にスタッキング（積み重ね）を有効化。Firefox 115－145、149+ では、この名前で新しい真偽設定を作成し切り替える。 |
 | `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <a href="#hidePinnedDropIndicator">ピン留めインジケーター</a>を表示するまでの遅延時間（ミリ秒）。Firefox 115 では非対応。 |
 | `browser.tabs.splitView.enabled` | Firefox 146 以降で実装された分割ビュー機能を有効化。 |
