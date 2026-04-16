@@ -40,7 +40,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 - This script is more like a meticulous tab extension than a simple multi-row tweak. It consolidates thousands of lines of logic and styling into a single file, yet remains as manageable as a typical script. It is a hardcore implementation built with perfection and performance in mind. The number of lines is never a concern during development — just as *Tab Mix Plus* could never be achieved with only a few hundred lines of code. However, if you prefer something simple and fully understandable in coding — providing a stronger sense of safety and allowing you to easily make changes at will — this may not be your favorite choice.
 
-- Always use scripts and files from sources you trust.
+- Always use scripts and files from sources you trust. Malicious code can cause severe damage, such as corrupting your files, hacking into your accounts, or stealing sensitive information like bank and credit card details.
 
 ## Installation
 1. Install the script loader (*userChrome.js*). Skip to step 3 if you already have one in use. There are several script loaders available:
