@@ -22,48 +22,48 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 - Windows 7 to 11, Ubuntu
 
-- Supports general `userChrome.js` script loaders, such as:
-	- [`xiaoxiaoflood/firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
-	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
- 	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
+- Supports general *userChrome.js* script loaders, such as:
+	- [*xiaoxiaoflood/firefox-scripts*](https://github.com/xiaoxiaoflood/firefox-scripts)
+	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
+ 	- [*alice0775/userChrome.js*](https://github.com/alice0775/userChrome.js)
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
 - This script is developed for Windows and has been lightly tested on Ubuntu (Linux). It has not been tested on macOS and probably does not work there.
 
-- Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)), user scripts (`*.uc.js`) or CSS styles (`userChrome.css`) can cause weird glitches and bugs.
+- Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. [*Tab Mix Plus*](https://onemen.github.io/tabmixplus-docs)), user scripts (`*.uc.js`) or CSS styles (`userChrome.css`) can cause weird glitches and bugs.
   <p>⚠️ Please follow the installation steps below carefully.</p>
 
 - This is an unofficial and complex script maintained solely by me. It may contain unforeseen bugs, and if unexpected issues occur, restarting Firefox may be required. In extreme cases — especially when using an outdated version of the script with a newly updated Firefox — the browser may become unusable, potentially resulting in the permanent loss of your previous browsing session. You may need to disable the script in such situations. Please use this script only if you are capable of and prepared to handle these risks.
 
-- This script needs to override the tab functions of Firefox and requires [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) to be enabled on Firefox 139+ for this purpose. The said setting is enabled automatically once you are applying this script, and it requires a manual disabling through `about:config` after disabling or removing the script. Please note that and use this script with understanding.
+- This script needs to override the tab functions of Firefox and requires [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) to be enabled on Firefox 139+ for this purpose. The said setting is enabled automatically once you are applying this script, and it requires a manual disabling through *about:config* after disabling or removing the script. Please note that and use this script with understanding.
 
-- This script is more like a meticulous tab extension than a simple multi-row tweak. It consolidates thousands of lines of logic and styling into a single file, yet remains as manageable as a typical script. It is a hardcore implementation built with perfection and performance in mind. The number of lines is never a concern during development — just as Tab Mix Plus could never be achieved with only a few hundred lines of code. However, if you prefer something simple and fully understandable in coding — providing a stronger sense of safety and allowing you to easily make changes at will — this may not be your favorite choice.
+- This script is more like a meticulous tab extension than a simple multi-row tweak. It consolidates thousands of lines of logic and styling into a single file, yet remains as manageable as a typical script. It is a hardcore implementation built with perfection and performance in mind. The number of lines is never a concern during development — just as *Tab Mix Plus* could never be achieved with only a few hundred lines of code. However, if you prefer something simple and fully understandable in coding — providing a stronger sense of safety and allowing you to easily make changes at will — this may not be your favorite choice.
 
 - Always use scripts and files from sources you trust.
 
 ## Installation
-1. Install the script loader (`userChrome.js`). Skip to step 3 if you already have one in use. There are several script loaders available:
-	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
-	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
- 	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
-   <p>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can try <code>MrOtherGuy/fx-autoconfig</code>, which provides an <a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">update-checking feature</a>, or follow the instructions in the <a href="https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts">Tab Mix Plus - Docs</a> to install the Firefox Scripts.</p>
+1. Install the script loader (*userChrome.js*). Skip to step 3 if you already have one in use. There are several script loaders available:
+	- [*Firefox Scripts*](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
+	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
+ 	- [*alice0775/userChrome.js*](https://github.com/alice0775/userChrome.js)
+   <p>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can try <em>MrOtherGuy/fx-autoconfig</em>, which provides an <a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">update-checking feature</a>, or follow the instructions in the <a href="https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts"><em>Tab Mix Plus - Docs</em></a> to install the <em>Firefox Scripts</em>.</p>
    <p><image src="https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png"></p>
-   <p>⛔ Do not install Tab Mix Plus as it will cause conflict.</p>
+   <p>⛔ Do not install <em>Tab Mix Plus</em> as it will cause conflict.</p>
 
 2. Restart Firefox and check whether the script loader is running correctly if you are using:
    <table>
 	   <tr>
-		   <td width="230">Firefox Scripts</td>
-		   <td>Open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.</td>
+		   <td width="230"><em>Firefox Scripts</em></td>
+		   <td>Open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><em>about:config</em></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.</td>
 	   </tr>
 	   <tr>
-		   <td><code>MrOtherGuy/fx-autoconfig</code></td>
-		   <td><p>On the first run, Firefox will display the notification message "fx-autoconfig: Firefox is being modified with custom autoconfig scripting". Additionally, A new item called "userScripts" appears in the Tools menu (<code>Alt + T</code>).</p><p>📝 Please note that in the following steps, the script file placement location changes to the subfolder <code>chrome/JS</code>.</p></td>
+		   <td><em>MrOtherGuy/fx-autoconfig</em></td>
+		   <td><p>On the first run, Firefox will display the notification message <em>"fx-autoconfig: Firefox is being modified with custom autoconfig scripting"</em>. Additionally, A new item called <em>userScripts</em> appears in the <em>Tools</em> menu (<code>Alt</code>+<code>T</code>).</p><p>📝 Please note that in the following steps, the script file placement location changes to the subfolder <code>chrome/JS</code>.</p></td>
 	   </tr>
 	   <tr>
-		   <td><code>alice0775/userChrome.js</code></td>
-		   <td><a href="https://github.com/alice0775/userChrome.js/issues/96">Details</a></td>
+		   <td><em>alice0775/userChrome.js</em></td>
+		   <td>Press <code>Ctrl</code>+<code>Shift</code>+<code>J</code> to open the <em>Browser Console</em>. Enable the <em>Logs</em> filter, enter <code>getScripts</code> in the <em>Filter Output</em>, and verify whether the related logs appear.<details><summary>Screenshot</summary><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/alice-scriptloader-en.png"></details></td>
 	   </tr>
    </table>
 
@@ -82,15 +82,15 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 > If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
 
 ## Settings
-Open [`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) and search for the prefix `userChromeJS.multiTabRows@Merci.chao.`. Settings shown in gray are disabled due to dependency on other preferences.
+Open [*about:config*](https://support.mozilla.org/kb/about-config-editor-firefox) and search for the prefix `userChromeJS.multiTabRows@Merci.chao.`. Settings shown in gray are disabled due to dependency on other preferences.
 
-If configuring via `user.js` (not recommended), be sure to include the prefix `userChromeJS.multiTabRows@Merci.chao.`. Example:
+If configuring via *user.js* (not recommended), be sure to include the prefix `userChromeJS.multiTabRows@Merci.chao.`. Example:
 ```js
 user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ```
 
 > [!NOTE]
-> Many of these settings may not take effect due to dependencies with other preferences. It is strongly recommended to configure them via `about:config` rather than using `user.js`.
+> Many of these settings may not take effect due to dependencies with other preferences. It is strongly recommended to configure them via *about:config* rather than using *user.js*.
 
 ### Interactions
 
@@ -121,7 +121,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `autoCollapseDelayCollapsing` | Delay before collapsing the tabs when the cursor moves away (in milliseconds). Minimum: `0`. |
 | `autoCollapseDelayExpanding` | Delay before expanding the tabs when the cursor hovers over them (in milliseconds). Minimum: `0`. |
 | `compactControlButtons` | Display the window control buttons to a compact size, only available on Windows 10 and 11. |
-| `hideAllTabs` | Hide the "List all tabs" button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing "Remove from Toolbar". |
+| `hideAllTabs` | Hide the *List all tabs* button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing *Remove from Toolbar*. |
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
 | `maxTabRows` | <p>Maximum number of rows to display at once. Minimum: `1`.</p><p>📝 Note: The actual count depends on the window width, refer to `rowIncreaseEvery`.</p> |
@@ -165,7 +165,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `floatingBackdropBlurriness` | How blurry the background of items covering the tabs is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. Minimum: `0`. Not available on Firefox 115 and in some cases where the blur effect cannot be applied. |
 | `floatingBackdropClip` | Clip the area covered by items on the tab bar when it is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `floatingBackdropOpacity` | How opaque the background of items covering the tab is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
-| `nativeWindowStyle` | Display the system-native theme style (e.g. transparency effects of Windows 11 and effects from tools like [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass)) on the tab bar. To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. Not available on Firefox 115, or using any Firefox theme with background image. |
+| `nativeWindowStyle` | Display the system-native theme style (e.g. transparency effects of Windows 11 and effects from tools like [*DWMBlurGlass*](https://github.com/Maplespe/DWMBlurGlass)) on the tab bar. To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. Not available on Firefox 115, or using any Firefox theme with background image. |
 | `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
 | `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`. |
 | `showScrollShadow` | Show shadow on the top and bottom edges when the tab bar is scrollable. |
@@ -194,7 +194,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. Minimum: `50`. |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on the tab bar (Windows 10). |
 | `widget.windows.mica` | Apply the native system style on the tab bar (Windows 11). |
-| `widget.windows.mica.toplevel-backdrop` | Choose the effect of backdrop (Windows 11).<ul><li>`0` - Auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
+| `widget.windows.mica.toplevel-backdrop` | Choose the effect of backdrop (Windows 11).<ul><li>`0` - auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
