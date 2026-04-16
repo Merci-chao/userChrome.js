@@ -53,12 +53,12 @@ Firefox に多段タブ表示をサポートさせる。
 2. Firefox を再起動し、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
    <table>
 	   <tr>
-		   <td width="230">Firefox Scripts</td>
-		   <td><a href="https://support.mozilla.org/kb/about-config-editor-firefox">about:config</a> を開き、<code>userChromeJS.enabled</code> を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。</td>
-	   </tr>
-	   <tr>
 		   <td>MrOtherGuy/fx-autoconfig</td>
 		   <td><p>初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。さらに、ツールメニュー（<code>Alt</code>+<code>T</code>）に userScripts という新しい項目が表示される。</p><p>📝 以下の手順では、スクリプトファイルの配置場所がサブフォルダ <code>chrome/JS</code> に変更されることにご注意。</p></td>
+	   </tr>
+	   <tr>
+		   <td width="230">Firefox Scripts</td>
+		   <td><a href="https://support.mozilla.org/kb/about-config-editor-firefox">about:config</a> を開き、<code>userChromeJS.enabled</code> を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。</td>
 	   </tr>
 	   <tr>
 		   <td>BSTweaker/UserChromeJS</td>
