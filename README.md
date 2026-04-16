@@ -721,6 +721,9 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
 
+**Version 2026-04-16**
+- Update for Firefox 151.
+
 **Version 2026-01-09**
 - Fix minor layout issues according to the Trust Panel.
 
