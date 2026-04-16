@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Page Title in URL Bar
 // @description    Show page title in URL Bar.
-// @version        2026-01-09
+// @version        2026-04-16
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#page-title-in-url-bar
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-2
@@ -649,27 +649,27 @@ style.innerHTML = /*css*/`
 	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
 		:is(#identity-icon-box, #trust-icon-container)
 {
-	background-color: var(--urlbar-box-bgcolor);
+	background-color: var(--urlbar-box-background-color, var(--urlbar-box-bgcolor));
 }
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar[focused]:not(:is([nopagetitle], [pageproxystate=invalid]))
 		:is(#identity-icon-box, #trust-icon-container)
 {
-	background-color: var(--urlbar-box-focus-bgcolor);
+	background-color: var(--urlbar-box-background-color-focus, var(--urlbar-box-focus-bgcolor));
 }
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
 		:is(#identity-icon-box, #trust-icon-container):hover:not([open])
 {
-	background-color: var(--urlbar-box-hover-bgcolor);
-	color: var(--urlbar-box-hover-text-color);
+	background-color: var(--urlbar-box-background-color-hover, var(--urlbar-box-hover-bgcolor));
+	color: var(--urlbar-box-text-color-hover, var(--urlbar-box-hover-text-color));
 }
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
 		:is(#identity-icon-box, #trust-icon-container):is(:hover:active, [open])
 {
-	background-color: var(--urlbar-box-active-bgcolor);
-	color: var(--urlbar-box-hover-text-color);
+	background-color: var(--urlbar-box-background-color-active, var(--urlbar-box-active-bgcolor));
+	color: var(--urlbar-box-text-color-hover, var(--urlbar-box-hover-text-color));
 }
 
 /* margin inline end of identity-box */
