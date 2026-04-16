@@ -720,6 +720,9 @@ URL バーにページタイトルを表示。
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
 
+**Version 2026-04-16**
+- Firefox 151 への更新。
+
 **Version 2026-01-09**
 - Trust Panel によって軽微なレイアウトの問題を修正。
 
