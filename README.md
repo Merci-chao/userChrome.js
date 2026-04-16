@@ -653,7 +653,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 </details>
 
 ## Won't Fixed Compatibility Issues
-- Other tab related scripts, styles, and legacy extensions (e.g. [Tab Mix Plus](https://onemen.github.io/tabmixplus-docs))
+- Other tab related scripts, styles, and legacy extensions (e.g. [*Tab Mix Plus*](https://onemen.github.io/tabmixplus-docs))
 - Firefox Nightly
 - Firefox 116 to the previous versions of latest released
 - Other Firefox-based derivative browsers
