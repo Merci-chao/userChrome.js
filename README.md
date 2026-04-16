@@ -54,12 +54,12 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 2. Restart Firefox and check whether the script loader is running correctly if you are using:
    <table>
 	   <tr>
-		   <td width="230"><em>Firefox Scripts</em></td>
-		   <td>Open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><em>about:config</em></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.</td>
-	   </tr>
-	   <tr>
 		   <td><em>MrOtherGuy/fx-autoconfig</em></td>
 		   <td><p>On the first run, Firefox will display the notification message <em>"fx-autoconfig: Firefox is being modified with custom autoconfig scripting"</em>. Additionally, A new item called <em>userScripts</em> appears in the <em>Tools</em> menu (<code>Alt</code>+<code>T</code>).</p><p>📝 Please note that in the following steps, the script file placement location changes to the subfolder <code>chrome/JS</code>.</p></td>
+	   </tr>
+	   <tr>
+		   <td width="230"><em>Firefox Scripts</em></td>
+		   <td>Open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><em>about:config</em></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.</td>
 	   </tr>
 	   <tr>
 		   <td><em>alice0775/userChrome.js</em></td>
