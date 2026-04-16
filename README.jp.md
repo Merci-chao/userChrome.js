@@ -22,10 +22,10 @@ Firefox に多段タブ表示をサポートさせる。
 - Windows 7〜11 と Ubuntu
 
 - 一般的なスクリプトローダーに対応、例：
- 	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
-	- [`xiaoxiaoflood/firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts)
- 	- [`BSTweaker/UserChromeJS`](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
-	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
+ 	- [alice0775/userChrome.js](https://github.com/alice0775/userChrome.js)
+	- [xiaoxiaoflood/firefox-scripts](https://github.com/xiaoxiaoflood/firefox-scripts)
+ 	- [BSTweaker/UserChromeJS](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
+	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)
 
 ## 注意事項
 **🚨 ご使用の前に、以下の注意点をよくお読みください：**
@@ -36,37 +36,37 @@ Firefox に多段タブ表示をサポートさせる。
 
 - このスクリプトは非公式かつ複雑で、管理者は私一人のみ。予期しないバグが含まれる可能性があり、問題が発生した場合は Firefox を再起動する必要があるかもしれない。特に、旧バージョンのスクリプトを最新の Firefox で使用した場合、ブラウザが使用不能になり、以前のセッションが永久に失われる可能性もある。そのような場合には、スクリプトの無効化が必要になることがある。これらのリスクに対応できる準備がある方のみご使用ください。
 
-- Firefox のタブ機能を上書きする必要があるため、Firefox 139 以降では [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) の設定が必要。この設定はスクリプト適用時に自動で有効化されるが、スクリプト削除時には `about:config` で手動無効化が必要。その点にご留意のうえ、理解してこのスクリプトをご使用ください。
+- Firefox のタブ機能を上書きする必要があるため、Firefox 139 以降では [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) の設定が必要。この設定はスクリプト適用時に自動で有効化されるが、スクリプト削除時には about:config で手動無効化が必要。その点にご留意のうえ、理解してこのスクリプトをご使用ください。
 
 - このスクリプトは単純な調整というより、綿密なタブ拡張に近い。一万程度の行に及ぶロジックとスタイルをひとつのファイルにまとめており、典型的なスクリプトと同じくらい扱いやすいままになっている。完璧さとパフォーマンスを意識した本格的な実装であり、開発では行数は気にする点ではない⸺Tab Mix Plus が中途半端な千行ほどだけで実現できることは決してないのと同じ。ただし、もしコードがシンプルで完全に理解しやすく、より強い安心感を与え、さらに自由に改修できるものを好むなら、これは好ましい選択にはならないかもしれない。
 
 - 信頼できるソースからのスクリプトやファイルのみを使用してください。
 
 ## インストール手順
-1. スクリプトローダー（`userChrome.js`）をインストールする。すでに使用している場合は、手順 3 に進む。使えるスクリプトローダーはいくつかある：
+1. スクリプトローダー（userChrome.js）をインストールする。すでに使用している場合は、手順 3 に進む。使えるスクリプトローダーはいくつかある：
 	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
-	- [`MrOtherGuy/fx-autoconfig`](https://github.com/MrOtherGuy/fx-autoconfig)
- 	- [`BSTweaker/UserChromeJS`](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
-	- [`alice0775/userChrome.js`](https://github.com/alice0775/userChrome.js)
-    <p>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に希望がなければ、<a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">更新チェック機能</a>を提供する <code>MrOtherGuy/fx-autoconfig</code> を試すか、<a href="https://kamehiyo.com/firefox_multitub_new/">bunji_ 氏の記事</a>を参考にして Firefox Scripts をインストールすることができる。</p>
+	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)
+ 	- [BSTweaker/UserChromeJS](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
+	- [alice0775/userChrome.js](https://github.com/alice0775/userChrome.js)
+    <p>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に希望がなければ、<a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">更新チェック機能</a>を提供する MrOtherGuy/fx-autoconfig を試すか、<a href="https://kamehiyo.com/firefox_multitub_new/">bunji_ 氏の記事</a>を参考にして Firefox Scripts をインストールすることができる。</p>
 
 2. Firefox を再起動し、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
    <table>
 	   <tr>
 		   <td width="230">Firefox Scripts</td>
-		   <td><a href="https://support.mozilla.org/kb/about-config-editor-firefox"><code>about:config</code></a> を開き、<code>userChromeJS.enabled</code> を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。</td>
+		   <td><a href="https://support.mozilla.org/kb/about-config-editor-firefox">about:config</a> を開き、<code>userChromeJS.enabled</code> を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。</td>
 	   </tr>
 	   <tr>
-		   <td><code>MrOtherGuy/fx-autoconfig</code></td>
-		   <td><p>初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。さらに、ツールメニュー（<code>Alt + T</code>）に「userScripts」という新しい項目が表示される。</p><p>📝 以下の手順では、スクリプトファイルの配置場所がサブフォルダ <code>chrome/JS</code> に変更されることにご注意。</p></td>
+		   <td>MrOtherGuy/fx-autoconfig</td>
+		   <td><p>初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。さらに、ツールメニュー（<code>Alt</code>+<code>T</code>）に userScripts という新しい項目が表示される。</p><p>📝 以下の手順では、スクリプトファイルの配置場所がサブフォルダ <code>chrome/JS</code> に変更されることにご注意。</p></td>
 	   </tr>
 	   <tr>
-		   <td><code>BSTweaker/UserChromeJS</code></td>
-		   <td>ツールメニュー（<code>Alt + T</code>）に「UserChromeJSLoader」という新しい項目が表示される。</td>
+		   <td>BSTweaker/UserChromeJS</td>
+		   <td>ツールメニュー（<code>Alt</code>+<code>T</code>）に UserChromeJSLoader という新しい項目が表示される。</td>
 	   </tr>
 	   <tr>
-		   <td><code>alice0775/userChrome.js</code></td>
-		   <td><a href="https://github.com/alice0775/userChrome.js/issues/96">詳細</a></td>
+		   <td>alice0775/userChrome.js</td>
+		   <td><code>Ctrl</code>+<code>Shift</code>+<code>J</code> を押してブラウザーコンソールを開く。「ログ」フィルターを有効にし、 「出力を絞り込み」に <code>getScripts</code> を入力して、関連ログが表示されるか確認。<details><summary>スクリーンショット</summary><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/alice-scriptloader-ja.png"></details></td>
 	   </tr>
    </table>
 
@@ -84,14 +84,14 @@ Firefox に多段タブ表示をサポートさせる。
 **🚨 注意：** Firefox 更新後にスクリプトローダーが動作しなくなった場合は、上記ページから最新のスクリプトローダーを再インストールしてください。
 
 ## 設定
-[`about:config`](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao.` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されている。
+[about:config](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao.` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されている。
 
-`user.js` で設定する場合（※非推奨）、接頭辞 `userChromeJS.multiTabRows@Merci.chao.` を含めてください。例：
+user.js で設定する場合（※非推奨）、接頭辞 `userChromeJS.multiTabRows@Merci.chao.` を含めてください。例：
 ```js
 user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ```
 
-⚠️ 注意：他の設定との依存関係により、これらの設定の多くが反映されない可能性がある。`user.js` を使用するのではなく、`about:config` 経由で直接設定することを強く推奨。
+⚠️ 注意：他の設定との依存関係により、これらの設定の多くが反映されない可能性がある。user.js を使用するのではなく、about:config 経由で直接設定することを強く推奨。
 
 ### 操作
 
