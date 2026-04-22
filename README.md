@@ -55,7 +55,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
    <table>
 	   <tr>
 		   <td><em>MrOtherGuy/fx-autoconfig</em></td>
-		   <td><p>On the first run, Firefox will display the notification message <em>"fx-autoconfig: Firefox is being modified with custom autoconfig scripting"</em>. Additionally, A new item called <em>userScripts</em> appears in the <em>Tools</em> menu (<code>Alt</code>+<code>T</code>).</p><p>📝 Please note that in the following steps, the script file placement location changes to the subfolder <code>chrome/JS</code>.</p></td>
+		   <td>On the first run, Firefox will display the notification message <em>"fx-autoconfig: Firefox is being modified with custom autoconfig scripting"</em>. Additionally, A new item called <em>userScripts</em> appears in the <em>Tools</em> menu (<code>Alt</code>+<code>T</code>).</td>
 	   </tr>
 	   <tr>
 		   <td width="230"><em>Firefox Scripts</em></td>
@@ -70,7 +70,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 3. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of `chrome`.
    <p>⚠️ There are many reports of issues caused by conflicts with customized styles in <code>userChrome.css</code>.</p>
 
-4. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as) and place it into `chrome`.
+4. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as) and place it in `chrome` (or in `chrome/JS` if you are using *MrOtherGuy/fx-autoconfig*).
    <p>⚠️ Creating the file by copy & paste or other methods may cause incorrect encoding.</p>
    <p>⛔ Do not modify the file name during or after saving.</p>
 
