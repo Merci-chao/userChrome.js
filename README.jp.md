@@ -97,9 +97,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `animateTabMoveMaxCount` | ドラッグされたタブの数がこの値を超えると、ラッグ＆ドロップのアニメーションは無効化され、代わりにドロップ位置のインジケーターを表示する。最小値：`0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。 |
-| `animateTabMoveShiftKeyToPause` | `Shift` キーを押している際、ドラッグ＆ドロップのアニメーションを一時停止し、代わりにドロップインジケーターを表示する。 |
-| `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する）。 |
+| `animateTabMoveMaxCount` | ドラッグされたタブの数がこの値を超えると、ラッグ＆ドロップのアニメーションは無効化され、代わりにドロップ位置のインジケーターを表示。最小値：`0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。 |
+| `animateTabMoveShiftKeyToPause` | `Shift` キーを押している際、ドラッグ＆ドロップのアニメーションを一時停止し、代わりにドロップインジケーターを表示。 |
+| `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する可能性がある）。 |
 | ~~`disableDragToPinOrUnpin`~~<span title="削除された">🗑</span> | 組み込み設定 [`browser.tabs.dragDrop.dragToPin.enabled`](#dragToPinEnabled) を使用してください。 |
 | `dragStackPreceding` | ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。 |
 | ~~`dragToGroupTabs`~~<span title="削除された">🗑</span> | 組み込み設定 [`browser.tabs.dragDrop.createGroup.enabled`](#dragToGroupTabs) を使用してください。 |
