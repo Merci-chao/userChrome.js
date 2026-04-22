@@ -97,7 +97,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
 | `animateTabMoveMaxCount` | When the number of dragged tabs exceeds this value, disable the drag & drop animation, and show the drop indicator instead. Minimum: `0`. If dragging too many tabs causes lag, consider lowering this value. |
-| `animateTabMoveShiftKeyToPause` | When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. |
+| `animateTabMoveShiftKeyToPause` | When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. This feature can be helpful when it is difficult to move items next to a specific one in another row. |
 | `animationDuration` | Duration of animations in milliseconds (valid range: `0` - `1000`). Note: Lengthy animations could strain system performance. |
 | ~~`disableDragToPinOrUnpin`~~<span title="Removed">🗑</span> | Use the built-in preference [`browser.tabs.dragDrop.dragToPin.enabled`](#dragToPinEnabled) instead. |
 | `dragStackPreceding` | Stack the preceding selected tabs of the dragged one (see [`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking)). When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue. |
