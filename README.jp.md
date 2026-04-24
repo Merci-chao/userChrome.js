@@ -17,7 +17,7 @@ Firefox に多段タブ表示をサポートさせる。
 注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja/)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
-- Firefox 115、149〜151（ESR バージョンを除く）
+- Firefox 115、150〜152（ESR バージョンを除く）
 
 - Windows 7〜11 と Ubuntu
 
@@ -44,14 +44,18 @@ Firefox に多段タブ表示をサポートさせる。
 
 ## インストール手順
 1. スクリプトローダー（userChrome.js）をインストールする。すでに使用している場合は、手順 3 に進む。使えるスクリプトローダーはいくつかある：
+	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)
 	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
 	- [alice0775/userChrome.js](https://github.com/alice0775/userChrome.js)
-	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)
  	- [BSTweaker/UserChromeJS](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
-    <p>MrOtherGuy/fx-autoconfig と BSTweaker/UserChromeJS では「ワンクリック更新」がサポートされていない以外、どのローダーを使ってもこのスクリプトを適用する上で大きな違いはない。好きなものを選べばいい。特に希望がなければ、<a href="https://kamehiyo.com/firefox_multitub_new/">bunji_ 氏の記事</a>を参考にして Firefox Scripts をインストールすることができる。</p>
+    <p>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に希望がなければ、<a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">更新チェック機能</a>を提供する MrOtherGuy/fx-autoconfig を試すか、<a href="https://kamehiyo.com/firefox_multitub_new/">bunji_ 氏の記事</a>を参考にして Firefox Scripts をインストールすることができる。</p>
 
 2. Firefox を再起動し、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
    <table>
+	   <tr>
+		   <td>MrOtherGuy/fx-autoconfig</td>
+		   <td>初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。さらに、ツールメニュー（<code>Alt</code>+<code>T</code>）に userScripts という新しい項目が表示される。</td>
+	   </tr>
 	   <tr>
 		   <td width="230">Firefox Scripts</td>
 		   <td><a href="https://support.mozilla.org/kb/about-config-editor-firefox">about:config</a> を開き、<code>userChromeJS.enabled</code> を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。</td>
@@ -59,10 +63,6 @@ Firefox に多段タブ表示をサポートさせる。
 	   <tr>
 		   <td>alice0775/userChrome.js</td>
 		   <td><code>Ctrl</code>+<code>Shift</code>+<code>J</code> を押してブラウザーコンソールを開く。「ログ」フィルターを有効にし、 「出力を絞り込み」に <code>getScripts</code> を入力して、関連ログが表示されるか確認。<details><summary>スクリーンショット</summary><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/alice-scriptloader-ja.png"></details></td>
-	   </tr>
-	   <tr>
-		   <td>MrOtherGuy/fx-autoconfig</td>
-		   <td>初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。さらに、ツールメニュー（<code>Alt</code>+<code>T</code>）に userScripts という新しい項目が表示される。</td>
 	   </tr>
 	   <tr>
 		   <td>BSTweaker/UserChromeJS</td>
@@ -176,7 +176,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | `checkUpdate` | <p>Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認。`0` で無効、`1` 以上で有効。値は最後に確認した時刻（例：`1759911972`）で更新される。</p><p>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</p><p>📝 備考：Firefox の旧バージョン（115 を除く）を使用している場合、このスクリプトの更新は通知されない。</p> |
-| `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`1`－無効</li><li>`2`－有効</li><li>`3`－有効（通知なし）、通知されない軽微な変更や修正の更新も自動的に受け取り</li></ul><p>一部のスクリプトローダーでは非対応（例：MrOtherGuy/fx-autoconfig、BSTweaker/UserChromeJS）。</p> |
+| `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`1`－無効</li><li>`2`－有効</li><li>`3`－有効（通知なし）、通知されない軽微な変更や修正の更新も自動的に受け取り</li></ul> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値：`1`。 |
 | `debugMode`<span title="使用禁止">⛔</span> | デバッグモード。一般向けではない。 |
 
@@ -197,6 +197,19 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.7**
+- 改良
+	- インジケーターで移動するとき、タブをグループ化するためのドラッグ操作に対応。`browser.tabs.dragDrop.createGroup.enabled` または `browser.tabs.dragDrop.createGroup.delayMS` を変更して挙動を調整。
+- 改修
+	- `animateTabMoveMaxCount` を `animateTabMoveUnderLimit` に置き換え：表示されているタブ数が指定数に達したときは、インジケーターで移動する。
+- 修正
+	- 一部のスクリプトローダーで更新を直接適用できなかった。
+	- `tabsAtBottom` が有効な場合に、ウェブアプリに関連する問題。
+	- インジケーターで移動するとき：
+		- 特殊なケースでタブが揺れることがあった。
+		- タブバーがスクロール可能なとき、新しいタブボタンが隠れなかった。
+	- 特殊なケースで発生する軽微な表示上の不具合。
 
 <details>
 <summary>軽微な更新</summary>
@@ -226,6 +239,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- タブバーが極端に狭いときに Firefox がフリーズする可能性があった。
 	- `gapAfterPinned` は一部のケースでは動作しなかった。
 	- 特殊なケースで発生する軽微なレイアウトと表示上の不具合。
+
+<details>
+<summary>旧バージョン</summary>
 
 **Version 4.5.1**
 - 改良
@@ -261,9 +277,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- ドラッグ中にスクロールすると発生する軽微な問題。
 	- `showScrollShadow` は Firefox 115 で動作しなかった。
 	- 特殊なケースで発生する軽微な表示不具合。
-
-<details>
-<summary>旧バージョン</summary>
 
 **Version 4.4**
 - 追加
