@@ -18,7 +18,7 @@ Make Firefox support multiple rows of tabs.
 Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights with screenshots and detailed descriptions.
 
 ## Compatibility
-- Firefox 115, 149 to 151 (excluding ESR versions)
+- Firefox 115, 150 to 152 (excluding ESR versions)
 
 - Windows 7 to 11, Ubuntu
 
@@ -44,15 +44,19 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 ## Installation
 1. Install the script loader (*userChrome.js*). Skip to step 3 if you already have one in use. There are several script loaders available:
+	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
 	- [*Firefox Scripts*](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
  	- [*alice0775/userChrome.js*](https://github.com/alice0775/userChrome.js)
-	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
-   <p>Apart from one-click update not being supported on <em>MrOtherGuy/fx-autoconfig</em>, there is no major difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the <a href="https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts"><em>Tab Mix Plus - Docs</em></a> to install the <em>Firefox Scripts</em>.</p>
+   <p>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can try <em>MrOtherGuy/fx-autoconfig</em>, which provides an <a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">update-checking feature</a>, or follow the instructions in the <a href="https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts"><em>Tab Mix Plus - Docs</em></a> to install the <em>Firefox Scripts</em>.</p>
    <p><image src="https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png"></p>
    <p>⛔ Do not install <em>Tab Mix Plus</em> as it will cause conflict.</p>
 
 2. Restart Firefox and check whether the script loader is running correctly if you are using:
    <table>
+	   <tr>
+		   <td><em>MrOtherGuy/fx-autoconfig</em></td>
+		   <td>On the first run, Firefox will display the notification message <em>"fx-autoconfig: Firefox is being modified with custom autoconfig scripting"</em>. Additionally, A new item called <em>userScripts</em> appears in the <em>Tools</em> menu (<code>Alt</code>+<code>T</code>).</td>
+	   </tr>
 	   <tr>
 		   <td width="230"><em>Firefox Scripts</em></td>
 		   <td>Open <a href="https://support.mozilla.org/kb/about-config-editor-firefox"><em>about:config</em></a> and search for <code>userChromeJS.enabled</code> to verify whether the preference exists, and there is no delete button (🗑) on the right.</td>
@@ -60,10 +64,6 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 	   <tr>
 		   <td><em>alice0775/userChrome.js</em></td>
 		   <td>Press <code>Ctrl</code>+<code>Shift</code>+<code>J</code> to open the <em>Browser Console</em>. Enable the <em>Logs</em> filter, enter <code>getScripts</code> in the <em>Filter Output</em>, and verify whether the related logs appear.<details><summary>Screenshot</summary><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/alice-scriptloader-en.png"></details></td>
-	   </tr>
-	   <tr>
-		   <td><em>MrOtherGuy/fx-autoconfig</em></td>
-		   <td>On the first run, Firefox will display the notification message <em>"fx-autoconfig: Firefox is being modified with custom autoconfig scripting"</em>. Additionally, A new item called <em>userScripts</em> appears in the <em>Tools</em> menu (<code>Alt</code>+<code>T</code>).</td>
 	   </tr>
    </table>
 
