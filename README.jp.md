@@ -24,8 +24,8 @@ Firefox に多段タブ表示をサポートさせる。
 - 一般的なスクリプトローダーに対応、例：
  	- [alice0775/userChrome.js](https://github.com/alice0775/userChrome.js)
 	- [xiaoxiaoflood/firefox-scripts](https://github.com/xiaoxiaoflood/firefox-scripts)
- 	- [BSTweaker/UserChromeJS](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
 	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)
+ 	- [BSTweaker/UserChromeJS](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
 
 ## 注意事項
 **🚨 ご使用の前に、以下の注意点をよくお読みください：**
@@ -44,11 +44,11 @@ Firefox に多段タブ表示をサポートさせる。
 
 ## インストール手順
 1. スクリプトローダー（userChrome.js）をインストールする。すでに使用している場合は、手順 3 に進む。使えるスクリプトローダーはいくつかある：
-	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)
 	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
- 	- [BSTweaker/UserChromeJS](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
 	- [alice0775/userChrome.js](https://github.com/alice0775/userChrome.js)
-    <p>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に希望がなければ、<a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">更新チェック機能</a>を提供する MrOtherGuy/fx-autoconfig を試すか、<a href="https://kamehiyo.com/firefox_multitub_new/">bunji_ 氏の記事</a>を参考にして Firefox Scripts をインストールすることができる。</p>
+	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)
+ 	- [BSTweaker/UserChromeJS](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
+    <p>MrOtherGuy/fx-autoconfig と BSTweaker/UserChromeJS では「ワンクリック更新」がサポートされていない以外、どのローダーを使ってもこのスクリプトを適用する上で大きな違いはない。好きなものを選べばいい。特に希望がなければ、<a href="https://kamehiyo.com/firefox_multitub_new/">bunji_ 氏の記事</a>を参考にして Firefox Scripts をインストールすることができる。</p>
 
 2. Firefox を再起動し、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
    <table>
@@ -176,7 +176,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | `checkUpdate` | <p>Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認。`0` で無効、`1` 以上で有効。値は最後に確認した時刻（例：`1759911972`）で更新される。</p><p>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</p><p>📝 備考：Firefox の旧バージョン（115 を除く）を使用している場合、このスクリプトの更新は通知されない。</p> |
-| `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`1`－無効</li><li>`2`－有効</li><li>`3`－有効（通知なし）、通知されない軽微な変更や修正の更新も自動的に受け取り</li></ul> |
+| `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`1`－無効</li><li>`2`－有効</li><li>`3`－有効（通知なし）、通知されない軽微な変更や修正の更新も自動的に受け取り</li></ul><p>一部のスクリプトローダーでは非対応（例：MrOtherGuy/fx-autoconfig、BSTweaker/UserChromeJS）。</p> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値：`1`。 |
 | `debugMode`<span title="使用禁止">⛔</span> | デバッグモード。一般向けではない。 |
 
