@@ -205,7 +205,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 改修
 	- `animateTabMoveMaxCount` を `animateTabMoveUnderLimit` に置き換え：表示されているタブ数が指定数に達したときは、インジケーターで移動する。
 - 修正
-	- 一部のスクリプトローダーで更新を直接適用できなかった。
+	- 一部のスクリプトローダー使用時に更新を直接適用できなかった。
 	- `tabsAtBottom` が有効な場合に、ウェブアプリに関連する問題。
 	- インジケーターで移動するとき：
 		- 特殊なケースでタブが揺れることがあった。
