@@ -24,8 +24,8 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 - Supports general *userChrome.js* script loaders, such as:
 	- [*xiaoxiaoflood/firefox-scripts*](https://github.com/xiaoxiaoflood/firefox-scripts)
-	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
  	- [*alice0775/userChrome.js*](https://github.com/alice0775/userChrome.js)
+	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
