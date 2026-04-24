@@ -44,10 +44,10 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 ## Installation
 1. Install the script loader (*userChrome.js*). Skip to step 3 if you already have one in use. There are several script loaders available:
-	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
 	- [*Firefox Scripts*](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
  	- [*alice0775/userChrome.js*](https://github.com/alice0775/userChrome.js)
-   <p>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can try <em>MrOtherGuy/fx-autoconfig</em>, which provides an <a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">update-checking feature</a>, or follow the instructions in the <a href="https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts"><em>Tab Mix Plus - Docs</em></a> to install the <em>Firefox Scripts</em>.</p>
+	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
+   <p>Apart from one-click-update not being supported on <em>MrOtherGuy/fx-autoconfig</em>, there is no major difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can follow the instructions in the <a href="https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts"><em>Tab Mix Plus - Docs</em></a> to install the <em>Firefox Scripts</em>.</p>
    <p><image src="https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png"></p>
    <p>⛔ Do not install <em>Tab Mix Plus</em> as it will cause conflict.</p>
 
@@ -176,7 +176,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
 | `checkUpdate` | <p>Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable, or `0` to disable. The value will be updated with the last checking time (e.g. `1759911972`).</p><p>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</p><p>📝 Note: Updates for this script will not be notified when using older versions of Firefox (except 115).</p> |
-| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and sliently, also receive updates for minor changes and fixes that do not trigger notifications</li></ul> |
+| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and sliently, also receive updates for minor changes and fixes that do not trigger notifications</li></ul><p>Not available on some script loader, e.g.: *MrOtherGuy/fx-autoconfig*.</p> |
 | `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
 | `debugMode`<span title="Do Not Use">⛔</span> | Mode for debugging, not for general use. |
 
