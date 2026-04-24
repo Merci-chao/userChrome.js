@@ -96,8 +96,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| `animateTabMoveMaxCount` | When the number of dragged tabs exceeds this value, disable the drag & drop animation, and show the drop indicator instead. Minimum: `0`. If dragging too many tabs causes lag, consider lowering this value. |
+| ~~`animateTabMoveMaxCount`~~<span title="Removed">🗑</span> | Replaced with `animateTabMoveUnderLimit`. |
 | `animateTabMoveShiftKeyToPause` | When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. This feature can be helpful in special situations where it is difficult to move items next to a specific one in another row. |
+| `animateTabMoveUnderLimit` | When the number of visible tabs reaches this amount, disable the drag & drop animation and show the drop indicator instead. Setting the value below `3` will effectively force using the indicator for moving. If dragging causes lag with many tabs, consider lowering this value. |
 | `animationDuration` | Duration of animations in milliseconds (valid range: `0` - `1000`). Note: Lengthy animations could strain system performance. |
 | ~~`disableDragToPinOrUnpin`~~<span title="Removed">🗑</span> | Use the built-in preference [`browser.tabs.dragDrop.dragToPin.enabled`](#dragToPinEnabled) instead. |
 | `dragStackPreceding` | Stack the preceding selected tabs of the dragged one (see [`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking)). When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue. |
@@ -199,6 +200,19 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.7**
+- Improvement
+	- Dragging to group tabs is now supported when using the indicator to move. Modify `browser.tabs.dragDrop.createGroup.enabled` or `browser.tabs.dragDrop.createGroup.delayMS` to adjust the behavior.
+- Change
+	- Replaced `animateTabMoveMaxCount` with `animateTabMoveUnderLimit`: use the indicator to move when the number of visible tabs reaches the specified amount.
+- Fixes
+	- Could not apply updates directly on some script loaders.
+	- Issues related to web apps when `tabsAtBottom` was enabled.
+	- When using the indicator to move:
+		- Tabs might jitter in special cases.
+		- The New Tab button was not hidden when the tab bar was scrollable.
+	- Minor visual issues in special cases.
+
 <details>
 <summary>Minor Update</summary>
 
@@ -227,6 +241,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Potential freeze when the tab bar was extremely narrow.
 	- `gapAfterPinned` did not work in some cases.
 	- Minor layout and visual issues in special cases.
+
+<details>
+<summary>Old Versions</summary>
 
 **Version 4.5.1**
 - Improvements
@@ -262,9 +279,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Minor issue that occurred when scrolling during dragging.
 	- `showScrollShadow` did not work on Firefox 115.
 	- Minor visual bugs in special cases.
-
-<details>
-<summary>Old Versions</summary>
 
 **Version 4.4**
 - New
