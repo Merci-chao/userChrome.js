@@ -206,7 +206,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Change
 	- Replaced `animateTabMoveMaxCount` with `animateTabMoveUnderLimit`: use the indicator to move when the number of visible tabs reaches the specified amount.
 - Fixes
-	- Could not apply updates directly on some script loaders.
+	- Could not apply updates directly when using some script loaders.
 	- Issues related to web apps when `tabsAtBottom` was enabled.
 	- When using the indicator to move:
 		- Tabs might jitter in special cases.
