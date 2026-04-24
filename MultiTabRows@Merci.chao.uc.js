@@ -3,8 +3,8 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.6.1.1
-// @compatibility  Firefox 115, 149-151
+// @version        4.7
+// @compatibility  Firefox 115, 150-152
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
@@ -271,7 +271,7 @@ const [
 ] = (() => {
 	let cs = getComputedStyle(root);
 	return [
-		["min-width"],
+		["--window-min-width", 450],
 		["--tab-block-margin", 4],
 		["--tab-inline-padding", 8],
 		["--tab-overflow-clip-margin", 2],
@@ -330,7 +330,7 @@ const createDefaultPrefs = () => ({
 	checkUpdateAutoApply: 1,
 	pinnedTabsFlexWidth: false,
 	pinnedTabsFlexWidthIndicator: false,
-	animateTabMoveMaxCount: 30,
+	animateTabMoveUnderLimit: 200,
 	hidePinnedDropIndicator: $("#pinned-drop-indicator") ? false : null,
 	dragStackPreceding: true,
 	privateBrowsingIconOnNavBar: $("#private-browsing-indicator-with-label") ? null : false,
@@ -386,6 +386,8 @@ const getPrefs = (branch, data) => Object.fromEntries(
 {
 	let {prefs} = Services;
 	for (let [name, action] of Object.entries({
+		animateTabMoveMaxCount: null,
+
 		disableDragToPinOrUnpin: v =>
 			v == NATIVE_DRAG_TO_PIN &&
 			prefs.setBoolPref("browser.tabs.dragDrop.dragToPin.enabled", !v),
@@ -452,7 +454,8 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 
 	lock("autoCollapse", noAutoCollapse);
 
-	const {autoCollapse, tabsAtBottom, animateTabMoveMaxCount: maxMove} = prefs;
+	const {autoCollapse, tabsAtBottom} = prefs;
+	const alwaysIndMove = prefs.animateTabMoveUnderLimit < 3;
 
 	lock("linesToDragScroll", singleRow);
 	lock("linesToScroll", singleRow || getPref("toolkit.tabbox.switchByScrolling"));
@@ -485,7 +488,7 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 	lock(
 		"dynamicMoveOverThreshold",
 		(
-			!maxMove ||
+			alwaysIndMove ||
 			!getPref("browser.tabs.dragDrop.createGroup.enabled", TAB_GROUP_SUPPORT) ||
 			moveOverThreshold <= 50
 		),
@@ -500,9 +503,9 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 		true,
 	);
 	lock("smartWindowButtonOnNavBar", tabsAtBottom || !getPref("browser.smartwindow.enabled", AI_WINDOW_SUPPORT), !!tabsAtBottom);
-	lock("hidePinnedDropIndicator", !getPref("browser.tabs.dragDrop.dragToPin.enabled", NATIVE_DRAG_TO_PIN) || !maxMove, true);
+	lock("hidePinnedDropIndicator", !getPref("browser.tabs.dragDrop.dragToPin.enabled", NATIVE_DRAG_TO_PIN) || alwaysIndMove, true);
 	lock("pinnedTabsFlexWidthIndicator", !prefs.pinnedTabsFlexWidth);
-	lock("dragStackPreceding", !getPref("browser.tabs.dragDrop.multiselectStacking", TAB_STACKING_SUPPORT) || maxMove < 2);
+	lock("dragStackPreceding", !getPref("browser.tabs.dragDrop.multiselectStacking", TAB_STACKING_SUPPORT) || alwaysIndMove);
 	lock(
 		["spaceAfterTabs", "spaceAfterTabsOnMaximizedWindow", "spaceBeforeTabs", "spaceBeforeTabsOnMaximizedWindow"],
 		!getPref("browser.tabs.inTitlebar") || $(`#toolbar-menubar:not(${MENUBAR_AUTOHIDE})`),
@@ -520,7 +523,7 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 	lock("positionPinnedTabs", prefs.pinnedTabsFlexWidth || autoCollapse, false);
 	lock("lastRowTabsFlexibe", prefs.justifyCenter == 2);
 	lock("previewPanelShiftedAlways", !prefs.previewPanelShifted);
-	lock("animateTabMoveShiftKeyToPause", !maxMove);
+	lock("animateTabMoveShiftKeyToPause", alwaysIndMove);
 	lock("animationDuration", getPref("ui.prefersReducedMotion") == 1);
 
 	prefs.animationDuration = Math.min(Math.max(prefs.animationDuration, 0), prefs.debugMode ? Infinity : 1000);
@@ -670,7 +673,7 @@ async function onPrefChange(pref, type, name) {
 		case "newTabButtonAfterLastTab":
 			tabContainer._updateNewTabVisibility();
 			break;
-		case "animateTabMoveMaxCount":
+		case "animateTabMoveUnderLimit":
 		case "animateTabMoveShiftKeyToPause":
 		case "autoCollapseCurrentRowStaysTop":
 		case "checkUpdate":
@@ -711,7 +714,6 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 			.replace(/((\d+\.\d+\.\d+)\.\d+)/, auto < 3 ? "$2" : "$1")
 			.replace(/(\.0)+$/, "");
 		let localFileURI = new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0];
-		let localFilePath = decodeURI(localFileURI.replace(/^file:\/\/\/|\?.*$/g, "")).replaceAll("/", "\\");
 		let localScript = await (await fetch(localFileURI)).text();
 		let updateURL = localScript.match(/^\/\/\s*@updateURL\s+(.+?)\s*$/mi)[1];
 		let homeURL = "https://github.com/Merci-chao/userChrome.js";
@@ -802,7 +804,7 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		 * @param {Object[]} buttons
 		 * @param {string} icon
 		 */
-		async function showNotification(label, buttons, icon) {
+		async function showNotification(label, buttons, icon, color) {
 			let box = await gNotificationBox.appendNotification(
 				"multitabrows",
 				{
@@ -814,7 +816,6 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 			);
 			if (icon) {
 				let node = $(".icon", box.shadowRoot);
-				let color = "var(--panel-banner-item-update-supported-bgcolor)";
 				node.src = icon;
 				style(node, {
 					fill: color,
@@ -824,16 +825,24 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 			}
 		}
 
+		/*global FileUtils, NetUtil*/
 		function install() {
+			let file;
 			try {
-				/*global FileUtils*/
-				let fos = FileUtils.openFileOutputStream(
-					FileUtils.File(localFilePath),
-					FileUtils.MODE_WRONLY | FileUtils.MODE_TRUNCATE,
-				);
+				file =
+					NetUtil.newChannel({
+						uri: Services.io.newURI(localFileURI),
+						loadUsingSystemPrincipal: true,
+					}).URI.QueryInterface(Ci.nsIFileURL).file;
 				let converter = Cc["@mozilla.org/intl/converter-output-stream;1"]
 					.createInstance(Ci.nsIConverterOutputStream);
-				converter.init(fos, "UTF-8");
+				converter.init(
+					FileUtils.openFileOutputStream(
+						file,
+						FileUtils.MODE_WRONLY | FileUtils.MODE_TRUNCATE,
+					),
+					"UTF-8",
+				);
 				converter.writeString(remoteScript);
 				converter.close();
 				if (auto < 3)
@@ -854,9 +863,10 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 							},
 						],
 						"chrome://browser/skin/migration/success.svg",
+						"var(--panel-banner-item-update-supported-bgcolor)",
 					), 500);
 			} catch (e) {
-				showError(l10n.error, localFilePath, e.message);
+				showError(l10n.error, file?.path || localFileURI, e.message);
 				return true;
 			}
 		}
@@ -1142,7 +1152,7 @@ ${
 	` : ``
 }
 
-${prefs.tabsAtBottom ? /*css*/`
+${prefs.tabsAtBottom && !root.hasAttribute("taskbartab") ? /*css*/`
 	#navigator-toolbox {
 		&:not([tabs-hidden]) > #nav-bar > .titlebar-buttonbox-container {
 			display: flex;
@@ -1263,15 +1273,15 @@ ${prefs.privateBrowsingIconOnNavBar ? /*css*/`
 		display: none;
 	}
 
-	:root[privatebrowsingmode=temporary] #navigator-toolbox #nav-bar .private-browsing-indicator-with-label {
+	:root[privatebrowsingmode=temporary] #nav-bar#nav-bar .private-browsing-indicator-with-label {
 		display: flex;
-		margin-inline-end: 12px;
+		margin-inline-end: ${appVersion > 151 ? "var(--space-medium)" : "12px"};
 	}
 ` : ``}
 
 ${prefs.tabsAtBottom/*dlpButtonOnNavBar*/ ? /*css*/`
 	:root[contentanalysisactive] {
-		#navigator-toolbox #nav-bar .content-analysis-indicator {
+		#nav-bar#nav-bar .content-analysis-indicator {
 			display: flex;
 		}
 
@@ -2014,9 +2024,14 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-group {
 		}
 
 		#tabbrowser-tabs[dragging]:not([movingtab]) & >
-			tab:not([selected], [animate-shifting])
+			tab:not([selected])
 		{
-			visibility: hidden;
+			/*prevent exception of getting elementIndex*/
+			pointer-events: none;
+
+			&:not([animate-shifting]) {
+				visibility: hidden;
+			}
 		}
 	}
 
@@ -2174,6 +2189,10 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-group {
 				#tabbrowser-tabs[movingtab] & {
 					${__="--dragover-tab-group-color"}: var(--tab-group-color);
 					${__}-invert: var(--tab-group-color-invert);
+				}
+
+				tab-group tab[dragover-groupSource] & {
+					display: flex;
 				}
 			}
 		}
@@ -2410,12 +2429,19 @@ ${_}${condition}::after {
 	flex-shrink: 0;
 }
 
-${_}[closing]${!prefs.pinnedTabsFlexWidth ? ":not([pinned])" : ""},
+${_}[closing],
 #tabbrowser-tabs[orient] tab-group[collapsed] > ${_}[closing] {
 	max-width: .1px !important;
 	min-width: .1px !important;
+	padding: 0 !important;
 	margin-inline-start: -.1px !important;
 }
+
+${!prefs.pinnedTabsFlexWidth ? /*css*/`
+	${_}[closing][pinned] {
+		visibility: hidden;
+	}
+` : ``}
 
 ${_}[closing] .tab-stack {
 	overflow: clip;
@@ -2619,7 +2645,7 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-split-view-wrapper {
 		[stacking],
 		:not(:has(> :not([multiselected]))),
 		#tabbrowser-tabs[movingtab-group]
-			:is([dragover-groupTarget], [movetarget]),
+			:is([dragover-groupTarget], [dragover-groupSource]),
 		#tabbrowser-tabs[stackingtabs]:not([movingtab-finishing])
 			[movetarget]:has(> [multiselected]),
 		#tabbrowser-tabs[stackingtabs][movingtab-finishing=""]
@@ -2635,7 +2661,7 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-split-view-wrapper {
 		}
 
 		#tabbrowser-tabs[movingtab-group] & {
-			&[movetarget] {
+			&[dragover-groupSource] {
 				--splitview-outline-color: var(--dragover-tab-group-color);
 				--splitview-outline-width: 2px;
 			}
@@ -4798,7 +4824,7 @@ if (groupProto) {
 
 		refreshState: async function() {
 			let {hasActiveTab} = this;
-			if (hasActiveTab == null) return;
+			if (hasActiveTab == null || !this.collapsed) return;
 
 			let isSelectedGroup = gBrowser.selectedTab.group == this;
 			if (hasActiveTab || isSelectedGroup) {
@@ -5038,12 +5064,16 @@ let GET_DRAG_TARGET;
 		let movingTabs = draggingTab && !opt?.fromTabList
 			? selectedElements.filter(t => t.pinned == pinned)
 			: [tab];
-		let stopAnimateTabMove = movingTabs.length > prefs.animateTabMoveMaxCount;
-		let pauseAnimateTabMove = !stopAnimateTabMove && e.shiftKey && prefs.animateTabMoveShiftKeyToPause;
 
-		if (stopAnimateTabMove || pauseAnimateTabMove)
-			//in case opt is null
-			opt = assign(opt, {fromTabList: true});
+		let stopAnimateTabMove, pauseAnimateTabMove;
+		if (!opt?.fromTabList) {
+			stopAnimateTabMove = getNodes().length >= prefs.animateTabMoveUnderLimit;
+			pauseAnimateTabMove = !stopAnimateTabMove && e.shiftKey && prefs.animateTabMoveShiftKeyToPause;
+
+			if (stopAnimateTabMove || pauseAnimateTabMove)
+				//in case opt is null
+				opt = assign(opt, {fromTabList: true});
+		}
 
 		let useCustomGrouping = tab.multiselected;
 		let {removeFromMultiSelectedTabs} = gBrowser;
@@ -5091,6 +5121,7 @@ let GET_DRAG_TARGET;
 			movingTabs,
 			scrollPos, //fx115
 			movingPositionPinned: pinned && tabContainer.positioningPinnedTabs,
+			createGroupDelay: getPref("browser.tabs.dragDrop.createGroup.delayMS"),
 		});
 
 		delete tabContainer._lastMouseDownData;
@@ -5189,20 +5220,23 @@ let GET_DRAG_TARGET;
 		let copy = dt.dropEffect == "copy";
 
 		if (sameWindow && prefs.animateTabMoveShiftKeyToPause && !_dragData.stopAnimateTabMove)
-			if (e.shiftKey) {
-				if (!_dragData.pauseAnimateTabMove)
-					_dragData.pauseAnimateTabMove = true;
-				_dragData.fromTabList = true;
-				delete _dragData.shouldCreateGroupOnDrop;
-				delete _dragData.shouldDropIntoCollapsedTabGroup;
-			} else if (_dragData.pauseAnimateTabMove) {
-				delete _dragData.pauseAnimateTabMove;
-				_dragData.fromTabList = false;
-			}
+			if (e.shiftKey)
+				assign(_dragData, {
+					pauseAnimateTabMove: true,
+					fromTabList: true,
+				});
+			else if (_dragData.pauseAnimateTabMove)
+				assign(_dragData, {
+					pauseAnimateTabMove: false,
+					fromTabList: false,
+				});
 
 		let animate = sameWindow && !copy && !_dragData.fromTabList;
 
-		tabsBar.toggleAttribute("tabs-dragging-ext", !animate);
+		tabsBar.toggleAttribute(
+			"tabs-dragging-ext",
+			!animate && !_dragData?.pauseAnimateTabMove && !_dragData?.stopAnimateTabMove,
+		);
 
 		if (!tabContainer.hasAttribute("dragging")) {
 			console?.time("on_dragover - setup");
@@ -5294,6 +5328,8 @@ let GET_DRAG_TARGET;
 		if (hidden) {
 			if (isMovingTab)
 				ind.style.transform = "";
+			else
+				this._clearGrouping(_dragData);
 			return;
 		}
 
@@ -5428,13 +5464,15 @@ let GET_DRAG_TARGET;
 				? lastNode
 				: getNodes().at(-1); //in case the last one is overflow label
 
+		let groupTarget;
+
 		if (target) {
 			let targetRect = getRect(elementToMove(target), {translated: false});
 			let boxRect = getRect(arrowScrollbox);
 			let dropBefore = idx == indexOf(target);
-			let x = targetRect[dropBefore ? "start" : "end"] - boxRect.start;
+			let x = +(targetRect[dropBefore ? "start" : "end"] - boxRect.start).toFixed(3);
 			let boxHalf = boxRect.height / 2;
-			let y = Math.max(Math.min((targetRect.y + targetRect.height / 2) - (boxRect.y + boxHalf), boxHalf), -boxHalf);
+			let y = +Math.max(Math.min((targetRect.y + targetRect.height / 2) - (boxRect.y + boxHalf), boxHalf), -boxHalf).toFixed(3);
 			let {style} = ind;
 			if (!style.transform) {
 				style.transition = "none";
@@ -5442,12 +5480,44 @@ let GET_DRAG_TARGET;
 			}
 			style.transform = `translate(calc(${x}px + 50% * ${DIR}), ${y}px)`;
 
+			if (
+				sameWindow &&
+				!copy &&
+				!draggingGroup &&
+				target == _dragData.dropElement &&
+				this._tabGroupDragToCreate &&
+				gBrowser._tabGroupsEnabled &&
+				!_dragData.pinned &&
+				!target.pinned &&
+				(_dragData.stopAnimateTabMove || _dragData.pauseAnimateTabMove)
+			) {
+				groupTarget = asNode(this[GET_DRAG_TARGET](e, {ignoreSides: true}));
+				if (
+					!(
+						target == groupTarget &&
+						isTabLike(target) &&
+						!target.group &&
+						!_dragData.movingTabs.includes(target)
+					) &&
+					!(
+						isTabGroupLabelContainer(groupTarget) &&
+						groupTarget.parentNode.matches("[collapsed]:not([hasactivetab])")
+					)
+				)
+					groupTarget = null;
+			}
+
 			assign(_dragData, {
 				dropElement: target,
 				dropBefore,
 			});
 		} else
 			ind.hidden = true;
+
+		if (groupTarget)
+			this._timeGrouping(_dragData, groupTarget);
+		else
+			this._clearGrouping(_dragData);
 
 		function indexOf(e) {
 			return e.elementIndex ?? e._tPos;
@@ -5520,7 +5590,6 @@ let GET_DRAG_TARGET;
 				numPinned,
 				moveOverThreshold,
 				groupThreshold,
-				createGroupDelay: dragToGroupTabs && getPref("browser.tabs.dragDrop.createGroup.delayMS"),
 			});
 
 			console?.log(_dragData);
@@ -5643,7 +5712,7 @@ let GET_DRAG_TARGET;
 		console?.timeEnd("_animateTabMove - setup");
 
 		if (arrowScrollbox._isScrolling)
-			clearGrouping();
+			this._clearGrouping(_dragData);
 		else {
 			_dragData.lastScrollPos = scrollPos;
 
@@ -5671,7 +5740,7 @@ let GET_DRAG_TARGET;
 			moveForward,
 			nodes, nodeRects,
 			boxRect,
-			moveOverThreshold, groupThreshold, createGroupDelay,
+			moveOverThreshold, groupThreshold,
 		} = _dragData;
 
 		let dirX = Math.sign(x - (lastX ?? oriX));
@@ -6195,29 +6264,14 @@ let GET_DRAG_TARGET;
 					.includes(e.originalTarget)
 			) {
 				if (dragToGroupTabs)
-					this[DRAG_OVER_GROUPING_TIMER] = setTimeout(
-						() => {
-							let args = [overlappingTab ? overlapTarget : overlapTarget.parentNode.labelElement];
-							if (appVersion > 142) {
-								_dragData[
-									overlappingTab ? "shouldCreateGroupOnDrop" : "shouldDropIntoCollapsedTabGroup"
-								] = true;
-								this._setDragOverGroupColor(
-									overlappingTab ? _dragData.tabGroupCreationColor : overlapTarget.parentNode.color
-								);
-							} else
-								args.unshift(_dragData);
-							this["_" + TRIGGER_DRAG_OVER_GROUPING](...args);
-						},
-						createGroupDelay,
-					);
+					this._timeGrouping(_dragData, overlapTarget);
 
 				if (overlapBefore) {
 					dropBefore = false;
 					dropElement = dropAfterElement;
 				}
 			} else {
-				clearGrouping();
+				this._clearGrouping(_dragData);
 
 				let groupOfPreceding = getGroup(dropAfterElement);
 				if (groupOfPreceding?.collapsed == false)
@@ -6524,20 +6578,54 @@ let GET_DRAG_TARGET;
 			oriY = (_dragData.oriY += nR.y - oR.y - _dragData.lastScrollPos + scrollPos);
 			_dragData.oriNodeRect = nR;
 		}
+	};
 
-		function clearGrouping() {
-			if (!dragToGroupTabs)
-				return;
-			tabContainer.removeAttribute(MOVINGTAB_GROUP);
-			tabContainer.removeAttribute("movingtab-addToGroup");
-			$(
-				`[${DRAGOVER_GROUPTARGET}]`,
-				arrowScrollbox,
-			)?.removeAttribute(DRAGOVER_GROUPTARGET);
-			delete _dragData.shouldCreateGroupOnDrop;
-			delete _dragData.shouldDropIntoCollapsedTabGroup;
-			dragDropProto[CLEAR_DRAG_OVER_GROUPING_TIMER]();
-		}
+	dragDropProto._timeGrouping = function(_dragData, target) {
+		if (this[DRAG_OVER_GROUPING_TIMER])
+			return;
+
+		let overlappingTab = isTabLike(target);
+		this[DRAG_OVER_GROUPING_TIMER] = setTimeout(
+			() => {
+				let args = [overlappingTab ? target : target.parentNode.labelElement];
+				if (appVersion > 142) {
+					_dragData[
+						overlappingTab ? "shouldCreateGroupOnDrop" : "shouldDropIntoCollapsedTabGroup"
+					] = true;
+					this._setDragOverGroupColor(
+						overlappingTab ? _dragData.tabGroupCreationColor : target.parentNode.color
+					);
+				} else
+					args.unshift(_dragData);
+				this["_" + TRIGGER_DRAG_OVER_GROUPING](...args);
+				for (let t of _dragData.movingTabs)
+					asNode(t).setAttribute("dragover-groupSource", "");
+			},
+			_dragData.createGroupDelay,
+		);
+	};
+
+	dragDropProto._clearGrouping = function(_dragData) {
+		if (!this._tabGroupDragToCreate || !gBrowser._tabGroupsEnabled)
+			return;
+
+		tabContainer.removeAttribute(MOVINGTAB_GROUP);
+		tabContainer.removeAttribute("movingtab-addToGroup");
+
+		$(
+			`[${DRAGOVER_GROUPTARGET}]`,
+			arrowScrollbox,
+		)
+			?.removeAttribute(DRAGOVER_GROUPTARGET);
+
+		for (let t of $$("[dragover-groupSource]", arrowScrollbox))
+			t.removeAttribute("dragover-groupSource");
+
+		assign(_dragData, {
+			shouldCreateGroupOnDrop: false,
+			shouldDropIntoCollapsedTabGroup: false,
+		});
+		this[CLEAR_DRAG_OVER_GROUPING_TIMER]();
 	};
 
 	dragDropProto._clearPinnedDropIndicatorTimer ??= function() {
@@ -6608,9 +6696,10 @@ let GET_DRAG_TARGET;
 		let moveTabTo;
 		if (_dragData) {
 			let {dropElement} = _dragData;
-			if (_dragData.shouldDropIntoCollapsedTabGroup)
-				_dragData.dropElement = dropElement.labelElement;
-			else if (stopAnimateTabMove)
+			if (_dragData.shouldDropIntoCollapsedTabGroup) {
+				if (_dragData.dropElement.tagName == "tab-group")
+					_dragData.dropElement = dropElement.labelElement;
+			} else if (useIndicatorToMove)
 				assign(_dragData, {
 					fromTabList: false,
 					dropElement: this._redirectDropElement(_dragData, event),
@@ -6626,13 +6715,7 @@ let GET_DRAG_TARGET;
 				if (
 					sameWindow &&
 					dt.dropEffect == "move" &&
-					_dragData.movingTabs.includes(
-						(
-							tabContainer.dragAndDropElements ??
-							tabContainer.ariaFocusableItems ??
-							gBrowser.visibleTabs
-						)[this._getDropIndex(event)]
-					)
+					_dragData.movingTabs.includes(_dragData.dropElement)
 				) {
 					({moveTabTo} = gBrowser);
 					gBrowser.moveTabTo = emptyFunc;
@@ -6645,9 +6728,15 @@ let GET_DRAG_TARGET;
 
 		let run = () => {
 			nullifyNativeDragStyle(() => handle_drop.apply(this, arguments), draggedTab, "#resetTabsAfterDrop");
-			if (stopAnimateTabMove || dt.dropEffect == "copy")
+			if (
+				(stopAnimateTabMove || dt.dropEffect == "copy") &&
+				!tabContainer.suggestToLockSlot
+			)
 				tabContainer._unlockTabSizing({unlockSlot: true});
 		};
+		//tabs may be dragged into a collapsed group
+		let param = {includeNodes: _dragData?.movingTabs.filter(isTabLike)};
+
 		if (draggedTab && !sameWindow)
 			animateLayout(() => {
 				let nodes = getNodes({onlyFocusable: true});
@@ -6670,12 +6759,32 @@ let GET_DRAG_TARGET;
 				!_dragData.pinned &&
 				this[GET_DRAG_TARGET](event)?.pinned
 			)
-		)
-			animateLayout(
-				run,
-				//tabs may be dragged into a collapsed group
-				{includeNodes: _dragData?.movingTabs.filter(isTabLike)},
-			);
+		) {
+			if (_dragData.shouldDropIntoCollapsedTabGroup)
+				animateLayout(async () => {
+					await run();
+					let {group} = draggedTab;
+					if (group?.isShowingOverflowCount)
+						return group.overflowContainer;
+				});
+			else {
+				if (_dragData.shouldCreateGroupOnDrop)
+					animateLayout(
+						async () => {
+							tabContainer.isFinishingTabMove = true;
+							await run();
+							return draggedTab.group?.labelContainerElement;
+						},
+						param,
+					).then(() => {
+						tabContainer.isFinishingTabMove = false;
+						tabContainer.dispatchEvent(new Event("FinishAnimateTabMove"));
+					});
+				else
+					animateLayout(run, param);
+			}
+		} else if (useIndicatorToMove)
+			animateLayout(run, param);
 		else
 			run();
 
@@ -6935,18 +7044,7 @@ let GET_DRAG_TARGET;
 	};
 
 	dragDropProto._postDraggingCleanup = function() {
-		if (this._tabGroupDragToCreate && gBrowser._tabGroupsEnabled) {
-			this[CLEAR_DRAG_OVER_GROUPING_TIMER]();
-			tabContainer.removeAttribute(MOVINGTAB_GROUP);
-			$(
-				`[${DRAGOVER_GROUPTARGET}]`,
-				arrowScrollbox,
-			)?.removeAttribute(DRAGOVER_GROUPTARGET);
-		}
-
-		clearTimeout(this._dragoverTimeout);
-		delete this._dragoverTimeout;
-
+		this._clearGrouping();
 		this._clearPinnedDropIndicatorTimer();
 		this._pinnedDropIndicator?.removeAttribute("interactive");
 
@@ -8380,7 +8478,7 @@ let GET_DRAG_TARGET;
 			console?.time("_unlockTabSizing - general");
 
 			//the slot can only shrink in height so only handle underflowing
-			if (!instant && this.overflowing) {
+			if (!instant && this.overflowing && !this.matches("[dragging], [tabmousedown]")) {
 				let tabsBarPadding = getStyle(tabsBar, "padding-inline-end", true);
 				let slotWidth = getStyle(arrowScrollbox, "--slot-width") || getRect(slot).width + "px";
 
