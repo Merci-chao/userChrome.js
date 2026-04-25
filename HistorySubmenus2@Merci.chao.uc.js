@@ -83,7 +83,6 @@ setTimeout(() => {
 				let auto = prefs.checkUpdateAutoApply;
 				let getVer = code => code?.match(/^\/\/\s*@version\s+(.+?)\s*$/mi)?.[1];
 				let localFileURI = new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0];
-				let localFilePath = decodeURI(localFileURI.replace(/^file:\/\/\/|\?.*$/g, "")).replaceAll("/", "\\");
 				let localScript = await (await fetch(localFileURI)).text();
 				let updateURL = localScript.match(/^\/\/\s*@updateURL\s+(.+?)\s*$/mi)[1];
 				let homeURL = "https://github.com/Merci-chao/userChrome.js";
@@ -105,6 +104,8 @@ setTimeout(() => {
 						downloadKey: "M",
 						changelog: "Changelog",
 						changelogKey: "C",
+						finished: "Done",
+						finishedKey: "D",
 						later: "Remind Tomorrow",
 						laterKey: "R",
 						link: "#changelog-1",
@@ -114,19 +115,16 @@ setTimeout(() => {
 					ja: {
 						message: `${SCRIPT_NAME}（${SCRIPT_FILE_NAME}）の新バージョン ${remote} がリリースされました。`,
 						update: "今すぐ更新",
-						updateKey: "N",
 						download: "手動で更新",
-						downloadKey: "M",
 						changelog: "変更履歴",
-						changelogKey: "C",
+						finished: "完了",
 						later: "明日再通知する",
-						laterKey: "R",
 						link: "/blob/main/README.jp.md#変更履歴-1",
-						done: `${SCRIPT_NAME} ${remote} を更新しました。Firefox を再起動すると変更が有効になります。`,
+						done: `${SCRIPT_NAME} ${remote} に更新しました。Firefox を再起動すると変更が適用になります。`,
 						error: `${SCRIPT_NAME} バージョン ${remote} の更新処理に失敗しました。ファイルが読み取り専用でないこと、または他のプログラムによってロックされていないことを確認してください：`,
 					},
 				};
-				l10n = l10n[Services.locale.appLocaleAsLangTag.split("-")[0]] || l10n.en;
+				l10n = Object.assign(l10n.en, l10n[Services.locale.appLocaleAsLangTag.split("-")[0]]);
 
 				if (auto > 1)
 					install();
@@ -157,7 +155,7 @@ setTimeout(() => {
 						"chrome://browser/skin/update-badge.svg",
 					);
 
-				async function showNotification(label, buttons, icon) {
+				async function showNotification(label, buttons, icon, color) {
 					let box = await gNotificationBox.appendNotification(
 						"multitabrows",
 						{
@@ -169,7 +167,6 @@ setTimeout(() => {
 					);
 					if (icon) {
 						let node = box.shadowRoot.querySelector(".icon");
-						let color = "var(--panel-banner-item-update-supported-bgcolor)";
 						node.src = icon;
 						Object.assign(node.style, {
 							fill: color,
@@ -180,15 +177,23 @@ setTimeout(() => {
 				}
 
 				function install() {
+					let file;
 					try {
-						/*global FileUtils*/
-						let fos = FileUtils.openFileOutputStream(
-							FileUtils.File(localFilePath),
-							FileUtils.MODE_WRONLY | FileUtils.MODE_TRUNCATE,
-						);
+						/*global FileUtils, NetUtil*/
+						file =
+							NetUtil.newChannel({
+								uri: Services.io.newURI(localFileURI),
+								loadUsingSystemPrincipal: true,
+							}).URI.QueryInterface(Ci.nsIFileURL).file;
 						let converter = Cc["@mozilla.org/intl/converter-output-stream;1"]
 							.createInstance(Ci.nsIConverterOutputStream);
-						converter.init(fos, "UTF-8");
+						converter.init(
+							FileUtils.openFileOutputStream(
+								file,
+								FileUtils.MODE_WRONLY | FileUtils.MODE_TRUNCATE,
+							),
+							"UTF-8",
+						);
 						converter.writeString(remoteScript);
 						converter.close();
 
@@ -201,11 +206,19 @@ setTimeout(() => {
 										label: l10n.changelog,
 										accessKey: l10n.changelogKey,
 										callback: showChangelog,
+										primary: true,
+									},
+									{
+										label: l10n.finished,
+										accessKey: l10n.finishedKey,
+										callback: () => {},
 									},
 								],
+								"chrome://browser/skin/migration/success.svg",
+								"var(--panel-banner-item-update-supported-bgcolor)",
 							), 500);
 					} catch (e) {
-						Services.prompt.alert(window, l10n.title, [l10n.error, localFilePath, e.message].join("\n\n"));
+						Services.prompt.alert(window, l10n.title, [l10n.error, file?.path || localFileURI, e.message].join("\n\n"));
 						return true;
 					}
 				}
