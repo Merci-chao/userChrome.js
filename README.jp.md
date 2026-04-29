@@ -199,6 +199,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.7.1**
+- 折りたたまれたグループからタブを選択した際に、分割ビューに関連する操作で発生していた問題を修正。
+- タブバーがスクロール可能・不可能に切り替わる際、新しいタブボタンにアニメーションを追加。
+
 **Version 4.7**
 - 改良
 	- インジケーターで移動するとき、タブをグループ化するためのドラッグ操作に対応。`browser.tabs.dragDrop.createGroup.enabled` または `browser.tabs.dragDrop.createGroup.delayMS` を変更して挙動を調整。
