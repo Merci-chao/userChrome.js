@@ -200,7 +200,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
 **Version 4.7.1**
-- 折りたたまれたグループからタブを選択した際に、分割ビューに関連する操作で発生していた問題を修正。
+- 折りたたまれたタブグループ内のタブとの間で切り替える際、いずれかが分割ビューに属している場合に発生していた問題を修正。
 - タブバーがスクロール可能・不可能に切り替わる際、新しいタブボタンにアニメーションを追加。
 
 **Version 4.7**
