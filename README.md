@@ -201,7 +201,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
 **Version 4.7.1**
-- Fixed an issue that occurred when selecting a tab from a collapsed group, where the action was related to split view.
+- Fixed an issue when switching between a tab and a tab inside a collapsed tab group, where one of them belonged to a split view.
 - The New Tab button now has an animation when the tab bar switches between scrollable and non-scrollable.
 
 **Version 4.7**
