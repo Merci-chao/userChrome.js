@@ -200,6 +200,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.7.1**
+- Fixed an issue that occurred when selecting a tab from a collapsed group, where the action was related to split view.
+- The New Tab button now has an animation when the tab bar switches between scrollable and non-scrollable.
+
 **Version 4.7**
 - Improvement
 	- Dragging to group tabs is now supported when using the indicator to move. Modify `browser.tabs.dragDrop.createGroup.enabled` or `browser.tabs.dragDrop.createGroup.delayMS` to adjust the behavior.
