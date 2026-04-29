@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.7
+// @version        4.7.1
 // @compatibility  Firefox 115, 150-152
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -767,7 +767,7 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 				finished: "完了",
 				later: "明日再通知する",
 				link: "/blob/main/README.jp.md#変更履歴",
-				done: `${SCRIPT_NAME} ${remote} を更新しました。Firefox を再起動すると変更が適用になります。`,
+				done: `${SCRIPT_NAME} ${remote} に更新しました。Firefox を再起動すると変更が適用になります。`,
 				error: `バージョン ${remote} の更新処理に失敗しました。ファイルが読み取り専用でないこと、または他のプログラムによってロックされていないことを確認してください：`,
 			},
 		};
@@ -1382,7 +1382,10 @@ ${prefs.compactControlButtons || win7 || win8 ? /*css*/`
 	max-height: var(--tabstrip-min-height);
 }
 
-${adjacentNewTab} {
+${prefs.tabsUnderControlButtons
+	? adjacentNewTab
+	: "#tabbrowser-tabs[hasadjacentnewtabbutton] + #new-tab-button"
+} {
 	--toolbarbutton-outer-padding: var(--newtab-button-outer-padding);
 	--toolbarbutton-inner-padding: var(--newtab-button-inner-padding);
 	align-self: end;
@@ -2596,6 +2599,10 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-split-view-wrapper {
 			calc(0px - var(--animate-width) + var(--tab-overflow-clip-margin) ${__});
 	}
 
+	&[animate-shifting]::after {
+		will-change: width, margin-inline;
+	}
+
 	&[animate-shifting=run]::after {
 		transition: var(--tab-animation);
 		transition-property: width, margin-inline;
@@ -3118,38 +3125,6 @@ ${!prefs.autoCollapse ? /*css*/`
 		}
 	}
 ` : ``}
-
-/*TEST: for animating the new tab button when switching between overflow and underflow*/
-/*
-#tabbrowser-arrowscrollbox-periphery {
-	position: static;
-}
-
-#TabsToolbar:not([customizing])
-	#tabbrowser-tabs[overflow][hasadjacentnewtabbutton]:not([dragging], [movingtab-finishing])
-		#tabs-newtab-button
-{
-	display: flex;
-	position: absolute;
-	bottom: 0;
-	inset-inline-end: var(--tabs-scrollbar-width);
-	z-index: calc(var(--tabs-moving-max-z-index) + 2);
-}
-
-#TabsToolbar:not([customizing]):not([tabs-dragging-ext])
-	#tabbrowser-tabs[overflow][hasadjacentnewtabbutton] ~
-		#new-tab-button
-{
-	filter: opacity(0);
-}
-
-#TabsToolbar:not([customizing])
-	#tabbrowser-tabs[overflow][hasadjacentnewtabbutton]:not([dragging], [movingtab-finishing]) ~
-		#new-tab-button
-{
-	visibility: hidden;
-}
-*/
 
 ${"#tabbrowser-tabs".repeat(3)} > #pinned-drop-indicator {
 	display: flex;
@@ -7113,6 +7088,8 @@ let GET_DRAG_TARGET;
 
 		positioningPinnedTabs: "positionpinnedtabs",
 
+		hasAdjacentNewTabButton: "hasadjacentnewtabbutton",
+
 		forcedOverflow: {
 			get: "forced-overflow",
 			set: function(v) {
@@ -7329,16 +7306,15 @@ let GET_DRAG_TARGET;
 							break;
 						lastRowSize += getMinWidth(nodes[i], r);
 					}
-					let adjacentNewTab = this.hasAttribute("hasadjacentnewtabbutton");
 					this.forcedOverflow = Math.max(
-						adjacentNewTab ? newTabButtonWidth : 0,
+						this.hasAdjacentNewTabButton ? newTabButtonWidth : 0,
 						slotRect.width - lastRowSize + 1,
 					);
 					//the last tab may be locked in size, which will look weird as it is wrapped alone
 					this._setLockedSize(nodes.at(-1));
 					arrowScrollbox.instantScroll(_lastScrollTop);
 					console?.warn("positionpinnedtabs causes underflow!", {
-						numPinned, adjacentNewTab, maxRows, lastRowSize,
+						numPinned, maxRows, lastRowSize,
 						outerWidth, lastLayoutData,
 					});
 				}
@@ -7625,16 +7601,15 @@ let GET_DRAG_TARGET;
 			if (!this.isMovingTab || this.hasAttribute("moving-positioned-tab"))
 				this._positionPinnedTabs(numPinned);
 
-			let adjacentNewTab = this.hasAttribute("hasadjacentnewtabbutton");
-			let positionPinned = this.positioningPinnedTabs;
-			let pinnedWidth = numPinned && !positionPinned
+			let {hasAdjacentNewTabButton, positioningPinnedTabs} = this;
+			let pinnedWidth = numPinned && !positioningPinnedTabs
 				? prefs.pinnedTabsFlexWidth
 					? tabMinWidth
 					: firstNonStackingMinWidth
 				: 0;
 			let firstNodeMinWidth = pinnedWidth || firstUnpinnedMinWidth;
 			let pinnedGap = prefs.gapAfterPinned;
-			let pinnedReservedWidth = positionPinned
+			let pinnedReservedWidth = positioningPinnedTabs
 				? parseFloat(getStyle(this, "--tab-overflow-pinned-tabs-width")) + pinnedGap
 				: 0;
 
@@ -7649,7 +7624,7 @@ let GET_DRAG_TARGET;
 			const decimals = -Math.log10(EPSILON);
 
 			let css = [/*css*/`
-				${media(0, base + firstNodeMinWidth + (adjacentNewTab ? newTabButtonWidth : 0) - EPSILON)} {
+				${media(0, base + firstNodeMinWidth + (hasAdjacentNewTabButton ? newTabButtonWidth : 0) - EPSILON)} {
 					${prefs.floatingBackdropClip ? /*css*/`
 						#tabbrowser-tabs${condition} {
 							--top-placeholder-clip:
@@ -7757,7 +7732,7 @@ let GET_DRAG_TARGET;
 				let lastIdx = lastNode.getAttribute("elementIndex");
 				let prvIdx;
 				for (
-					let i = positionPinned ? numPinned : 0;
+					let i = positioningPinnedTabs ? numPinned : 0;
 					pointDelta(base, winMaxWidth) <= 0 && i < nodes.length;
 					i++
 				) {
@@ -7803,7 +7778,7 @@ let GET_DRAG_TARGET;
 								}
 							`);
 
-						if (adjacentNewTab && idx == lastIdx)
+						if (hasAdjacentNewTabButton && idx == lastIdx)
 							css.push(`
 								${media(base, base + newTabButtonWidth - EPSILON)} {
 									${containerSelector}
@@ -7822,7 +7797,7 @@ let GET_DRAG_TARGET;
 				if (this.matches("[movingtab], [movingtab-finishing]") && gBrowser.selectedTab.pinned)
 					numPinned -= gBrowser.selectedTabs.filter(t => t.stacking).length;
 
-				if (adjacentNewTab)
+				if (hasAdjacentNewTabButton)
 					css.push(`
 						${media(0, base + firstNodeMinWidth + newTabButtonWidth - EPSILON)} {
 							${containerSelector}
@@ -7867,7 +7842,7 @@ let GET_DRAG_TARGET;
 						`);
 
 					//wrap the last pinned tab adjacent with new tab
-					if (adjacentNewTab)
+					if (hasAdjacentNewTabButton)
 						css.push(`
 							${media(base, base + newTabButtonWidth - EPSILON)} {
 								${containerSelector}
@@ -7899,7 +7874,7 @@ let GET_DRAG_TARGET;
 						}
 					`);
 					//wrap the last normal tab adjacent with new tab
-					if (adjacentNewTab && pointDelta(base, winMaxWidth) <= 0)
+					if (hasAdjacentNewTabButton && pointDelta(base, winMaxWidth) <= 0)
 						css.push(`
 							${media(base, base + newTabButtonWidth - EPSILON)} {
 								${containerSelector}
@@ -8081,7 +8056,6 @@ let GET_DRAG_TARGET;
 					for (let [n, v] of [[from, false], [to, true]])
 						for (let a of ["visuallyselected", "selected"]) {
 							n[v ? "setAttribute" : "removeAttribute"](a, v);
-							n.splitview?.toggleAttribute("hasactivetab", v);
 							if (!v)
 								for (let t of [...(n.splitview?.tabs ?? [n])])
 									gBrowser.removeFromMultiSelectedTabs(t);
@@ -8152,7 +8126,7 @@ let GET_DRAG_TARGET;
 			let selectingTabsOutsideGroup = collapsingGroup && gBrowser.selectedTabs.some(t => t.group != actionGroup);
 			let tabsOfCollapsingGroup = collapsingGroup?.nonHiddenTabLikes;
 			let hasAdjacentNewTab =
-				this.hasAttribute("hasadjacentnewtabbutton") &&
+				this.hasAdjacentNewTabButton &&
 				!((this.overflowing || this.hasAttribute("multirows")) && (prefs.autoCollapse || maxTabRows() == 1));
 			let lastNode;
 
@@ -8618,7 +8592,7 @@ let GET_DRAG_TARGET;
 	tabContainer._updateNewTabVisibility = function() {
 		_updateNewTabVisibility.apply(this, arguments);
 		if (!prefs.newTabButtonAfterLastTab)
-			this.removeAttribute("hasadjacentnewtabbutton");
+			this.hasAdjacentNewTabButton = false;
 	};
 }
 
@@ -8864,7 +8838,7 @@ let GET_DRAG_TARGET;
 						let nxtNode = nodes[nodes.indexOf(tab) + 1];
 						if (nxtNode)
 							newR = getRect(nxtNode);
-						if (!nxtNode || pointDelta(r.y - tabsRect.y, newR.y - newTabsRect.y)) {
+						if (!nxtNode || !newR.visible || pointDelta(r.y - tabsRect.y, newR.y - newTabsRect.y)) {
 							newR = r.clone();
 							newR.start += newTabsRect.start - tabsRect.start;
 							newR.y += newTabsRect.y - tabsRect.y;
@@ -9538,11 +9512,9 @@ function getNodes({pinned, newTabButton, bypassCache, includeClosing, onlyFocusa
 	if (pinned != null)
 		nodes = nodes.filter(n => !!n.pinned == pinned);
 
-	if (newTabButton) {
-		let btn = tabContainer.newTabButton;
-		if (btn.checkVisibility({checkVisibilityCSS: true}))
-			nodes.push(btn);
-	}
+	if (newTabButton && tabContainer.hasAdjacentNewTabButton)
+		nodes.push(tabContainer.newTabButton);
+
 	return nodes;
 }
 
@@ -9789,6 +9761,7 @@ async function animateLayout(
 	animate &&= !recursion && !gReduceMotion && !!prefs.animationDuration;
 
 	let deltaNodes, cancel, slotRect, tabsRect, scrollTop;
+	let newTabButton, newTabBtnWasVisible;
 
 	if (animate) {
 		({scrollTop} = scrollbox);
@@ -9812,6 +9785,12 @@ async function animateLayout(
 		for (let n of nodes)
 			if (!rects.has(n))
 				rects.set(n, getVisualRect(n, translated));
+
+		if (prefs.tabsUnderControlButtons > 1) {
+			({newTabButton} = tabContainer);
+			if ((newTabBtnWasVisible = rects.get(newTabButton)?.visible) == false)
+				rects.set(newTabButton, getVisualRect($("#new-tab-button", tabsBar), translated));
+		}
 
 		animatingLayout = {nodes, rects, newRects, shouldUpdateLayout, slotRect, tabsRect, scrollTop};
 		if (debug)
@@ -9928,6 +9907,13 @@ async function animateLayout(
 					rects.set(n, r);
 				}
 			}
+		}
+
+		if (newTabBtnWasVisible && !newRects.get(newTabButton).visible) {
+			let staticNewTabBtn = $("#new-tab-button", tabsBar);
+			nodes[nodes.indexOf(newTabButton)] = staticNewTabBtn;
+			rects.set(staticNewTabBtn, rects.get(newTabButton));
+			newRects.set(staticNewTabBtn, getRect(staticNewTabBtn));
 		}
 
 		let newTabsRect = getRect(tabContainer, {box: "content"});
@@ -10237,9 +10223,7 @@ function getPref(name, fallback) {
  * @returns {Object} a copy of `p` if `o` is `null`
  */
 function assign(o, p) {
-	if (!p) return o;
-	if (!o) return {...p};
-	return Object.assign(o, p);
+	return Object.assign(o || {}, p);
 }
 
 /**
