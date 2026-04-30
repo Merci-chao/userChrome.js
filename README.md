@@ -109,7 +109,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `hideScrollButtonsWhenDragging` | Visually hide the up/down scroll buttons when dragging. |
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. Minimum: `1`. |
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. Minimum: `1`. |
-| `previewPanelNoteEditable` | Allows the tab preview panel to be hovered, and the note inside to be editable (Firefox 148+). |
+| `previewPanelNoteEditable` | Allows the tab preview panel to be hovered, and the note inside to be editable. Not available on Firefox 115. |
 | `previewPanelShifted` | Shift the preview panel when there are multiple rows, reducing the effect of the panel blocking items in the rows underneath. Affects tabs only when `previewPanelNoteEditable` is `true`. Not available on Firefox 115.<ul><li>`0` - never</li><li>`1` - for groups</li><li>`2` - for tabs</li><li>`3` - for both</li></ul> |
 | `previewPanelShiftedAlways` | Shift the preview panel even when there is only one row. |
 | `scrollButtonsSize` | The size (in pixels) of the scroll buttons during dragging. Minimum: `0`, but it will be rendered as at least 2 device pixels in height; the maximum is limited to half the tab height. |
@@ -131,7 +131,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `privateBrowsingIconOnNavBar` | Move the private window icon to the navigation toolbar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled. |
 | `rowIncreaseEvery` | Each time the window width increases by this amount, one more row is displayed. A narrower window will therefore show fewer rows at once. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
-| `smartWindowButtonOnNavBar` | Move the Firefox Smart Window switching button to the navigation toolbar. Forcibly activated when `tabsAtBottom` is enabled. Not available on Firefox 148 and below. |
+| `smartWindowButtonOnNavBar` | Move the Firefox Smart Window switching button to the navigation toolbar. Forcibly activated when `tabsAtBottom` is enabled. Not available on Firefox 115. |
 | `spaceAfterTabs` | Empty space before the window control buttons. Minimum: `0`. |
 | `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. Minimum: `0`. |
 | `spaceBeforeTabs` | Empty space on the left side of the window. Minimum: `0`. |
@@ -186,10 +186,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
 | `browser.tabs.dragDrop.createGroup.delayMS` | Time to wait (in milliseconds) before starting to group tabs during dragging. Not available on Firefox 115. |
-| <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | Drag tabs together to create tab groups. Not available on Firefox 115. On Firefox 149 and below, Create a new boolean preference with this name to toggle. |
+| <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | Drag tabs together to create tab groups. Not available on Firefox 115. |
 | <span id="dragToPinEnabled">`browser.tabs.dragDrop.dragToPin.enabled`</span> | Enable tab pinning/unpinning via drag & drop in the same window, e.g. whether dropping tabs onto the pinned tabs will pin them. Create a new boolean preference with this name to toggle. |
 | `browser.tabs.dragDrop.moveOverThresholdPercent` | Percentage of overlap required when dragging to move. `100 - n` defines the grouping threshold. For example, if the value is `80`, then overlapping 20%+ will group tabs, while overlapping 80%+ will move them over. Minimum: `0`, Maximum: `100`. The value is locked at `50` in the following cases: <ul><li>when moving to another row</li><li>when using Firefox 115</li><li>when dragging to group tabs is disabled</li><li>in certain scenarios when `dynamicMoveOverThreshold` is enabled</li></ul> |
-| <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | Enable tab stacking when dragging tabs. On Firefox 115-145 and 149+, create a new boolean preference with this name to toggle. |
+| <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | Enable tab stacking when dragging tabs. Create a new boolean preference with this name to toggle. |
 | `browser.tabs.dragDrop.pinInteractionCue.delayMS` | Time to wait (in milliseconds) before showing the <a href="#hidePinnedDropIndicator">pinned drop indicator</a>. Not available on Firefox 115. |
 | `browser.tabs.tabClipWidth` | Close buttons will show on the tabs that are wider than this size. Takes effect in new windows after changing. When the value is:<ul><li>equal to or larger than `tabMaxWidth` - never show close buttons on non-selected tabs</li><li>smaller than `browser.tabs.tabMinWidth` - always show close buttons on non-selected tabs</li></ul> |
 | `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. Minimum: `50`. |
