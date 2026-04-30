@@ -138,7 +138,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `spaceBeforeTabsOnMaximizedWindow` | Empty space on the left side of the window, when maximumized. Minimum: `0`. |
 | `tabsAtBottom` | Position the tab bar beneath:<ul><li>`0` - the menu bar</li><li>`1` - the navigation toolbar</li><li>`2` - the bookmarks toolbar</li><li>`-1` - the browser content</li></ul><p>Not available on Firefox 115.</p> |
 | `tabsbarItemsAlign` | Alignment of the items (mainly buttons) in the tab bar when there are multiple rows:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with the tab bar is scrollable. |
-| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when the tab bar is not scrollable (legacy option, not recommended)</li><li>`2` - always</li></ul>If any issues occur, set the value to `0` to disable this feature. |
+| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when the tab bar is not scrollable (legacy option, not recommended)</li><li>`2` - always</li></ul> |
 | `thinScrollbar` | Use a thin scrollbar without up and down buttons when the tab bar is scrollable. |
 
 ### Tab Sizing
