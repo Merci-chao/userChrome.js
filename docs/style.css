@@ -96,6 +96,10 @@
   #main_content {
     padding-top: 0;
   }
+  
+  #about-the-developer + p:has(img) {
+    text-align: center;
+  }
 }
 
 #main_content {
