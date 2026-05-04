@@ -23,10 +23,11 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 - Windows 7 to 11, Ubuntu
 
 - Supports general *userChrome.js* script loaders, such as:
+	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
 	- [*xiaoxiaoflood/firefox-scripts*](https://github.com/xiaoxiaoflood/firefox-scripts)
  	- [*alice0775/userChrome.js*](https://github.com/alice0775/userChrome.js)
-	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
  	- [*Endor8/userChrome.js*](https://github.com/Endor8/userChrome.js)
+ 	- [*BSTweaker/UserChromeJS*](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
@@ -47,7 +48,9 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 1. Install the script loader (*userChrome.js*). Skip to step 3 if you already have one in use. There are several script loaders available:
 	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
 	- [*Firefox Scripts*](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
- 	- [*alice0775/userChrome.js*](https://github.com/alice0775/userChrome.js)
+ 	- [*alice0775/userChrome.js*](https://github.com/alice0775/userChrome.js) (Japanese)
+ 	- [*Endor8/userChrome.js*](https://github.com/Endor8/userChrome.js) (German)
+ 	- [*BSTweaker/UserChromeJS*](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/) (Japanese)
    <p>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can try <em>MrOtherGuy/fx-autoconfig</em>, which provides an <a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">update-checking feature</a>, or follow the instructions in the <a href="https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts"><em>Tab Mix Plus - Docs</em></a> to install the <em>Firefox Scripts</em>.</p>
    <p><image src="https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png"></p>
    <p>⛔ Do not install <em>Tab Mix Plus</em> as it will cause conflict.</p>
@@ -65,6 +68,14 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 	   <tr>
 		   <td><em>alice0775/userChrome.js</em></td>
 		   <td>Press <code>Ctrl</code>+<code>Shift</code>+<code>J</code> to open the <em>Browser Console</em>. Enable the <em>Logs</em> filter, enter <code>getScripts</code> in the <em>Filter Output</em>, and verify whether the related logs appear.<details><summary>Screenshot</summary><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/alice-scriptloader-en.png"></details></td>
+	   </tr>
+	   <tr>
+		   <td><em>Endor8/userChrome.js</em></td>
+		   <td>There is no simple method to verify.</td>
+	   </tr>
+	   <tr>
+		   <td><em>BSTweaker/UserChromeJS</em></td>
+		   <td>A new item called <em>UserChromeJSLoader</em> appears in the <em>Tools</em> menu (<code>Alt</code>+<code>T</code>).</td>
 	   </tr>
    </table>
 
