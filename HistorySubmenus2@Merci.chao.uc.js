@@ -12,6 +12,7 @@
 /* global
    Services, openURL, gNotificationBox, Components, ChromeUtils
 */
+if (document.documentElement.matches(`[windowtype="navigator:browser"]:not([chromehidden~=toolbar])`))
 (() => {
 
 const SCRIPT_NAME = "History Submenus II";
@@ -77,6 +78,7 @@ setTimeout(() => {
 		setDefaultPrefs(Services.prefs.getDefaultBranch(prefBranchStr), defPrefs);
 		let prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defPrefs);
 
+		const SCRIPT_ID = 1;
 		if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 >= Math.max(prefs.checkUpdateFrequency, 1)) {
 			Services.prefs.setIntPref(prefBranchStr + "checkUpdate", Date.now() / 1000);
 			(async () => {
@@ -108,7 +110,7 @@ setTimeout(() => {
 						finishedKey: "D",
 						later: "Remind Tomorrow",
 						laterKey: "R",
-						link: "#changelog-1",
+						link: "#changelog-" + SCRIPT_ID,
 						done: `${SCRIPT_NAME} has been updated to version ${remote}. You may restart Firefox to apply.`,
 						error: `Failed to apply the update of ${SCRIPT_NAME} version ${remote}. Please ensure the file is not read-only or locked by another program:`,
 					},
@@ -119,7 +121,7 @@ setTimeout(() => {
 						changelog: "変更履歴",
 						finished: "完了",
 						later: "明日再通知する",
-						link: "/blob/main/README.jp.md#変更履歴-1",
+						link: "/blob/main/README.jp.md#変更履歴-" + SCRIPT_ID,
 						done: `${SCRIPT_NAME} ${remote} に更新しました。Firefox を再起動すると変更が適用になります。`,
 						error: `${SCRIPT_NAME} バージョン ${remote} の更新処理に失敗しました。ファイルが読み取り専用でないこと、または他のプログラムによってロックされていないことを確認してください：`,
 					},
