@@ -706,7 +706,7 @@ There is no setting panel and you need to open `about:config` and search for the
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
 
 **Version 2026-05-04**
-- Improve the compatibility with some script loaders.
+- Improve compatibility with some script loaders.
 
 **Version 2025-08-14**
 - Update for Firefox 143.
@@ -743,7 +743,7 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
 
 **Version 2026-05-04**
-- Improve the compatibility with some script loaders.
+- Improve compatibility with some script loaders.
 
 **Version 2026-04-16**
 - Update for Firefox 151.
@@ -803,7 +803,7 @@ Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.c
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
 
 **Version 2026-05-04**
-- Improve the compatibility with some script loaders.
+- Improve compatibility with some script loaders.
 
 **Version 2025-08-24**
 - Restore missing window border on Windows 7 and 8.
@@ -841,7 +841,7 @@ Open `about:config` and search for the prefix `FloatToolbarsInFullScreen@Merci.c
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
 
 **Version 2026-05-04**
-- Improve the compatibility with some script loaders.
+- Improve compatibility with some script loaders.
 
 **Version 2025-08-16**
 - Now the tab bar will show the native window style in full screen.
