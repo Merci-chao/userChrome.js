@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           History Submenus II
 // @description    Add sub-menus to History Menu for previous days' history.
-// @version        2026-05-04
+// @version        2026-05-04-1
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#history-submenus-ii
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-1
@@ -17,6 +17,9 @@ if (document.documentElement.matches(`[windowtype="navigator:browser"]:not([chro
 
 const SCRIPT_NAME = "History Submenus II";
 const SCRIPT_FILE_NAME = "HistorySubmenus2@Merci.chao.uc.js";
+
+const DOCUMENT_GLOBAL = "documentGlobal" in document
+	? "documentGlobal" : "ownerGlobal";
 
 let {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 
@@ -809,7 +812,7 @@ setTimeout(() => {
 									let btn = frag.appendChild(document.createXULElement("toolbarbutton"));
 									btn.setAttribute("closemenu", "none");
 									btn.addEventListener("command", function() {
-										this.ownerGlobal.PanelUI.showSubView(SUBMENU_ID, this);
+										this[DOCUMENT_GLOBAL].PanelUI.showSubView(SUBMENU_ID, this);
 									}, true);
 									btn.className = "HSM2-submenu subviewbutton subviewbutton-iconic subviewbutton-nav";
 									return btn;
