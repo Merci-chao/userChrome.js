@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Page Title in URL Bar
 // @description    Show page title in URL Bar.
-// @version        2026-04-16
+// @version        2026-05-04
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#page-title-in-url-bar
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-2
@@ -12,7 +12,7 @@
 /* global
    gBrowser, Services, Cc, Ci, openURL, gURLBar, AboutReaderParent, gNotificationBox
 */
-
+if (document.documentElement.matches(`[windowtype="navigator:browser"]`))
 try {(()=>{
 const SCRIPT_NAME = "Page Title in URL Bar";
 const SCRIPT_FILE_NAME = "PageTitle@Merci.chao.uc.js";
