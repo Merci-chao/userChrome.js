@@ -710,6 +710,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
 
+**Version 2026-05-04-1**
+- Firefox 152 への更新。
+
 **Version 2026-05-04**
 - 一部のスクリプトローダーとの互換性を改善。
 
@@ -746,6 +749,9 @@ URL バーにページタイトルを表示。
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
+
+**Version 2026-05-04-1**
+- Firefox 152 への更新。
 
 **Version 2026-05-04**
 - 一部のスクリプトローダーとの互換性を改善。
