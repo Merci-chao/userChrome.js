@@ -717,6 +717,9 @@ There is no setting panel and you need to open `about:config` and search for the
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
 
+**Version 2026-05-04-1**
+- Update for Firefox 152.
+
 **Version 2026-05-04**
 - Improve compatibility with some script loaders.
 
@@ -753,6 +756,9 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
+
+**Version 2026-05-04-1**
+- Update for Firefox 152.
 
 **Version 2026-05-04**
 - Improve compatibility with some script loaders.
