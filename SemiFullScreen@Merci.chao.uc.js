@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name           Semi-Full Screen
 // @description    Full screen with keeping your task bar visible, or hide the toolbars when not maximized (picture-in-picture).
-// @version        2025-08-24
+// @version        2026-05-04
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#semi-full-screen--picture-in-picture-mode
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-3
@@ -13,6 +13,7 @@
 /* global
    Services, gNotificationBox, Cc, Ci, FullScreen
 */
+if (document.documentElement.matches(`[windowtype="navigator:browser"]`))
 try {(() => {
 const SCRIPT_NAME = "Semi-Full Screen";
 const SCRIPT_FILE_NAME = "SemiFullScreen@Merci.chao.uc.js";
