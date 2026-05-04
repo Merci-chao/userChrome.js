@@ -19,7 +19,7 @@ Firefox に多段タブ表示をサポートさせる。
 ## 互換性
 - Firefox 115、150〜152（ESR バージョンを除く）
 
-- Windows 7〜11 と Ubuntu
+- Windows 7〜11
 
 - 一般的なスクリプトローダーに対応、例：
 	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)
