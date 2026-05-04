@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           History Submenus II
 // @description    Add sub-menus to History Menu for previous days' history.
-// @version        2025-08-14
+// @version        2026-05-04
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#history-submenus-ii
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-1
