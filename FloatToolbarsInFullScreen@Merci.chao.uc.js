@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Float Toolbars in Full Screen
 // @description    Float the toolbars over the page in full screen mode, instead of making the web page jumpy when the toolbars showing / hiding.
-// @version        2025-08-16
+// @version        2026-05-04
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#float-toolbars-in-full-screen
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-4
@@ -12,6 +12,7 @@
 /* global
    Services, Cc, Ci, gNotificationBox, FullScreen, fullScreen, gNavToolbox
 */
+if (document.documentElement.matches(`[windowtype="navigator:browser"]`))
 try {
 const SCRIPT_NAME = "Float Toolbars in Full Screen";
 const SCRIPT_FILE_NAME = "FloatToolbarsInFullScreen@Merci.chao.uc.js";
