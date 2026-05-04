@@ -22,9 +22,10 @@ Firefox に多段タブ表示をサポートさせる。
 - Windows 7〜11 と Ubuntu
 
 - 一般的なスクリプトローダーに対応、例：
- 	- [alice0775/userChrome.js](https://github.com/alice0775/userChrome.js)
-	- [xiaoxiaoflood/firefox-scripts](https://github.com/xiaoxiaoflood/firefox-scripts)
 	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)
+	- [xiaoxiaoflood/firefox-scripts](https://github.com/xiaoxiaoflood/firefox-scripts)
+ 	- [alice0775/userChrome.js](https://github.com/alice0775/userChrome.js)
+ 	- [Endor8/userChrome.js](https://github.com/Endor8/userChrome.js)
  	- [BSTweaker/UserChromeJS](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
 
 ## 注意事項
@@ -44,9 +45,10 @@ Firefox に多段タブ表示をサポートさせる。
 
 ## インストール手順
 1. スクリプトローダー（userChrome.js）をインストールする。すでに使用している場合は、手順 3 に進む。使えるスクリプトローダーはいくつかある：
-	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)
-	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
+	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)（英語）
+	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)（英語）
 	- [alice0775/userChrome.js](https://github.com/alice0775/userChrome.js)
+ 	- [Endor8/userChrome.js](https://github.com/Endor8/userChrome.js)（ドイツ語）
  	- [BSTweaker/UserChromeJS](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
     <p>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に希望がなければ、<a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">更新チェック機能</a>を提供する MrOtherGuy/fx-autoconfig を試すか、<a href="https://kamehiyo.com/firefox_multitub_new/">bunji_ 氏の記事</a>を参考にして Firefox Scripts をインストールすることができる。</p>
 
@@ -63,6 +65,10 @@ Firefox に多段タブ表示をサポートさせる。
 	   <tr>
 		   <td>alice0775/userChrome.js</td>
 		   <td><code>Ctrl</code>+<code>Shift</code>+<code>J</code> を押してブラウザーコンソールを開く。「ログ」フィルターを有効にし、 「出力を絞り込み」に <code>getScripts</code> を入力して、関連ログが表示されるか確認。<details><summary>スクリーンショット</summary><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/alice-scriptloader-ja.png"></details></td>
+	   </tr>
+	   <tr>
+		   <td>Endor8/userChrome.js</td>
+		   <td>検証する簡単な方法はない。</td>
 	   </tr>
 	   <tr>
 		   <td>BSTweaker/UserChromeJS</td>
