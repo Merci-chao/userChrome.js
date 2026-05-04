@@ -26,6 +26,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 	- [*xiaoxiaoflood/firefox-scripts*](https://github.com/xiaoxiaoflood/firefox-scripts)
  	- [*alice0775/userChrome.js*](https://github.com/alice0775/userChrome.js)
 	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
+ 	- [*Endor8/userChrome.js*](https://github.com/Endor8/userChrome.js)
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
