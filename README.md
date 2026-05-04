@@ -20,7 +20,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 ## Compatibility
 - Firefox 115, 150 to 152 (excluding ESR versions)
 
-- Windows 7 to 11, Ubuntu
+- Windows 7 to 11
 
 - Supports general *userChrome.js* script loaders, such as:
 	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
