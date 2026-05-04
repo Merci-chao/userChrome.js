@@ -704,6 +704,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
 
+**Version 2026-05-04**
+- 一部のスクリプトローダーとの互換性を改善。
+
 **Version 2025-08-14**
 - Firefox 143 に対応。
 - バージョンチェック機能を追加。
@@ -737,6 +740,9 @@ URL バーにページタイトルを表示。
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
+
+**Version 2026-05-04**
+- 一部のスクリプトローダーとの互換性を改善。
 
 **Version 2026-04-16**
 - Firefox 151 への更新。
@@ -795,6 +801,9 @@ URL バーにページタイトルを表示。
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
 
+**Version 2026-05-04**
+- 一部のスクリプトローダーとの互換性を改善。
+
 **Version 2025-08-24**
 - Windows 7/8 で欠けていたウィンドウ枠を復元。
 - `autoHideToolbarDelay` を追加：マウスがウィンドウ端から外れ、ウィンドウ内に戻らなかった場合に、ツールバーを自動的に非表示にするまでの遅延時間（ミリ秒）。
@@ -829,6 +838,9 @@ URL バーにページタイトルを表示。
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
+
+**Version 2026-05-04**
+- 一部のスクリプトローダーとの互換性を改善。
 
 **Version 2025-08-16**
 - タブバーが全画面表示時にネイティブのウィンドウスタイルで表示。
