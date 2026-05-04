@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Page Title in URL Bar
 // @description    Show page title in URL Bar.
-// @version        2026-05-04
+// @version        2026-05-04-1
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#page-title-in-url-bar
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-2
@@ -16,6 +16,9 @@ if (document.documentElement.matches(`[windowtype="navigator:browser"]`))
 try {(()=>{
 const SCRIPT_NAME = "Page Title in URL Bar";
 const SCRIPT_FILE_NAME = "PageTitle@Merci.chao.uc.js";
+
+const DOCUMENT_GLOBAL = "documentGlobal" in document
+	? "documentGlobal" : "ownerGlobal";
 
 let prefs;
 let prefBranchStr = "extensions.PageTitle@Merci.chao.";
@@ -551,7 +554,7 @@ else
 if (!AboutReaderParent.__PageTitleInit) {
 	let originalFunc = AboutReaderParent.toggleReaderMode;
 	AboutReaderParent.toggleReaderMode = function(event) {
-		event.target.ownerGlobal.gBrowser.selectedTab.label += "\u200B";
+		event.target[DOCUMENT_GLOBAL].gBrowser.selectedTab.label += "\u200B";
 		return originalFunc.apply(this, arguments);
 	};
 	AboutReaderParent.__PageTitleInit = true;
