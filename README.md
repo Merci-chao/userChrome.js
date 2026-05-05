@@ -212,6 +212,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.7.2**
+- Fixed an issue that could cause the "Reopen Closed Tab" to stop functioning and prevent closed windows from being fully unloaded.
+
 **Version 4.7.1**
 - Fixed an issue when switching between a tab and a tab inside a collapsed tab group, where one of them belonged to a split view.
 - The New Tab button now has an animation when the tab bar switches between scrollable and non-scrollable.
