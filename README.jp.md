@@ -128,7 +128,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `autoCollapse`<span title="実験的な機能">🧪</span> | ホバーしていない時は、一段に折りたたむ。有効化すると、`tabsUnderControlButtons` と `positionPinnedTabs` は強制的に無効化される。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要がある。 |
 | `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。最小値：`0`。 |
 | `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。最小値：`0`。 |
-| `compactControlButtons` | ウィンドウ操作ボタンをコンパクトに表示。メニューバーとタイトルバーが両方非表示のとき、Windows 10 以降で利用可能。 |
+| `compactControlButtons` | ウィンドウ操作ボタンをコンパクトに表示。タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
 | `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。 |
 | `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、タブバーがスクロール可能時にその空白を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0`－無効</li><li>`1`－一段のみの場合</li><li>`2`－常に有効（タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある）</li></ul> |
