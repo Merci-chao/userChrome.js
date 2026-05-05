@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.7.1
+// @version        4.7.2
 // @compatibility  Firefox 115, 150-152
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -9180,9 +9180,6 @@ for (let [o, fs] of [
 		"ungroupSplitViews",
 		"ungroupTabsAndSplitViews",
 		["duplicateSelectedTabs", 1],
-	]],
-	[window.SessionWindowUI || window, [
-		["undoCloseTab", 1],
 	]],
 ])
 	for (let f of fs) {
