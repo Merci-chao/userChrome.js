@@ -205,6 +205,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+**Version 4.7.2**
+- 「閉じたタブをひらきなおす」機能が動作しなくなる問題や、閉じたウィンドウが完全に解放されない問題を修正。 
+
 **Version 4.7.1**
 - 折りたたまれたタブグループ内のタブとの間で切り替える際、いずれかが分割ビューに属している場合に発生していた問題を修正。
 - タブバーがスクロール可能・不可能に切り替わる際、新しいタブボタンにアニメーションを追加。
