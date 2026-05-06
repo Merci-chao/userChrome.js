@@ -705,9 +705,6 @@ Add sub-menus to History Menu for previous days' history. [Add-on Page (web arch
 ## Settings
 There is no setting panel and you need to open `about:config` and search for the prefix `extensions.HistorySubmenus2@Merci.chao.`.
 
-> [!NOTE]
-> Settings will apply to new windows.
-
 | Name | Description |
 | ------------- | ------------- |
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
@@ -719,6 +716,10 @@ There is no setting panel and you need to open `about:config` and search for the
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
+
+**Version 2026-05-06**
+- Settings changes now take effect immediately.
+- No longer relies on `security.allow_unsafe_dangerous_privileged_evil_eval` being enabled. Please reset it to `false` if it is not needed for other scripts.
 
 **Version 2026-05-04-1**
 - Update for Firefox 152.
