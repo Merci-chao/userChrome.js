@@ -699,8 +699,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 設定
 設定パネルは存在しません。`about:config` を開いて `extensions.HistorySubmenus2@Merci.chao.` で始まる項目を検索してください。
 
-🔔 設定は新しいウィンドウに適用される。
-
 | 設定項目 | 説明 |
 | --- | --- |
 | `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認する。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新される。<br><b>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b> |
@@ -712,6 +710,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
+
+**Version 2026-05-06**
+- 設定の変更が即時に反映されるようになった。
+- `security.allow_unsafe_dangerous_privileged_evil_eval` が有効化されていることに依存しなくなった。他のスクリプトで必要ない場合は、`false` にリセットしてください。
 
 **Version 2026-05-04-1**
 - Firefox 152 への更新。
