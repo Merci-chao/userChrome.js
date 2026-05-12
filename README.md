@@ -121,7 +121,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `hideScrollButtonsWhenDragging` | Visually hide the up/down scroll buttons when dragging. |
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. Minimum: `1`. |
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. Minimum: `1`. |
-| `previewPanelNoteEditable` | Allows the tab preview panel to be hovered and the note inside to be editable when the tab note feature of Firefox is enabled. Not available on Firefox 115. |
+| `previewPanelNoteEditable` | Allow the tab preview panel to be hovered and the note inside to be editable when the tab note feature of Firefox is enabled. Not available on Firefox 115. |
 | `previewPanelShifted` | Shift the preview panel when there are multiple rows, reducing the effect of the panel blocking items in the rows underneath. Affects tabs only when `previewPanelNoteEditable` is `true`. Not available on Firefox 115.<ul><li>`0` - never</li><li>`1` - for groups</li><li>`2` - for tabs</li><li>`3` - for both</li></ul> |
 | `previewPanelShiftedAlways` | Shift the preview panel even when there is only one row. |
 | `scrollButtonsSize` | The size (in pixels) of the scroll buttons during dragging. Minimum: `0`, but it will be rendered as at least 2 device pixels in height; the maximum is limited to half the tab height. |
@@ -135,7 +135,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `autoCollapseDelayExpanding` | Delay before expanding the tabs when the cursor hovers over them (in milliseconds). Minimum: `0`. |
 | `compactControlButtons` | Display the window control buttons to a compact size. Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
 | `hideAllTabs` | Hide the *List all tabs* button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing *Remove from Toolbar*. |
-| `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper left corner, hide the empty space in that corner when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
+| `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper corner, hide the empty space in that corner when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
 | `maxTabRows` | <p>Maximum number of rows to display at once. Minimum: `1`.</p><p>📝 Note: The actual count depends on the window width, refer to `rowIncreaseEvery`.</p> |
 | `newTabButtonAfterLastTab` | <p>Place the New Tab button after the last tab. When disabled, the button follows the position specified in toolbar customization.</p><p>📝 Note: The New Tab button stays after the last tab only when it is placed directly after the tabs.</p> |
@@ -236,22 +236,22 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <summary>Minor Update</summary>
 
 **Version 4.6.1.1**
-- Update for Firefox 151.
-- Fix issue where the "Add Note" item did not display when tab notes had just been enabled.
+- Updates for Firefox 151.
+- Fixed the issue where the "Add Note" item did not display when tab notes had just been enabled.
 </details>
 
 **Version 4.6.1**
-- Add new option for `themeImageSize`: `-1` - the original size of the image.
+- Adds new option for `themeImageSize`: `-1` - the original size of the image.
 
 **Version 4.6**
 - New
-	- Support placing the tab bar at the bottom of browser (by setting `tabsAtBottom` to `-1`).
-	- Replace `dynamicThemeImageSize` with `themeImageSize`, which provides a new option.
+	- Supports placing the tab bar at the bottom of browser (by setting `tabsAtBottom` to `-1`).
+	- Replaces `dynamicThemeImageSize` with `themeImageSize`, which provides a new option.
 - Improvements
 	- Using the indicator to move tabs no longer relies on Firefox native functions and now produces correct results (related to `animateTabMoveMaxCount` and `animateTabMoveShiftKeyToPause`).
-	- Reduce some unnecessary animation to improve performance.
-	- Refine the behavior when closing the only tab in the last row.
-	- Update for Firefox 150 and 151.
+	- Reduces some unnecessary animation to improve performance.
+	- Refines the behavior when closing the only tab in the last row.
+	- Updates for Firefox 150 and 151.
 	- Update-checking will retry tomorrow if a network error occurs.
 - Fixes
 	- Issues when only one row was allowed.
@@ -267,33 +267,33 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 **Version 4.5.1**
 - Improvements
 	- The roundness of the corners of buttons and tabs in the tab bar begins to decrease once the tab content height and horizontal padding are reduced beyond a certain point.
-	- Update for Firefox 150.
-	- Fine-tune the divider in split views.
+	- Updates for Firefox 150.
+	- Fine-tunes the divider in split views.
 - Fixes
 	- Tab preview panel was wrongly shifted when the tab note feature was disabled.
-	- Audio icons and close buttons didn't update after dragging tabs.
+	- Audio icons and close buttons did not update after dragging tabs.
 	- Minor layout issue occurred when start up in special case.
 
 <details>
 <summary>Minor Update</summary>
 
 **Version 4.5.0.1**
-- Fix minor layout issue in special case.
+- Fixed minor layout issue in special case.
 
 </details>
 
 **Version 4.5**
 - Changes
-	- Remove `disableDragToPinOrUnpin` and use the built-in preference `browser.tabs.dragDrop.dragToPin.enabled` as a replacement.
-	- Remove `dragToGroupTabs` and use the built-in preference `browser.tabs.dragDrop.createGroup.enabled` as a replacement.
+	- Removes `disableDragToPinOrUnpin` and use the built-in preference `browser.tabs.dragDrop.dragToPin.enabled` as a replacement.
+	- Removes `dragToGroupTabs` and use the built-in preference `browser.tabs.dragDrop.createGroup.enabled` as a replacement.
 - Improvements
-	- Improve performance while dragging.
-	- Update for Firefox 149 and 150.
+	- Improved performance while dragging.
+	- Updates for Firefox 149 and 150.
 	- Minor adjustments to drag & drop behavior of tab groups.
-	- Adjust the width of scroll buttons and shadow.
+	- Adjusts the width of scroll buttons and shadow.
 - Fixes
 	- Dragging to move multiple tabs together might result in incorrect order.
-	- Didn't scroll to the seleced tab when resizing window.
+	- Did not scroll to the seleced tab when resizing window.
 	- Minor bugs in the auto-collapse feature.
 	- Minor issue that occurred when scrolling during dragging.
 	- `showScrollShadow` did not work on Firefox 115.
@@ -301,24 +301,24 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 **Version 4.4**
 - New
-	- Add `showScrollShadow`: Show shadow on the top and bottom edges when the tab bar is scrollable, to align with the interface design of Firefox.
-	- Add `animateTabMoveShiftKeyToPause`: When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. Note: Drop position may not behave as expected in certain scenarios due to Firefox bugs.
-	- Add `smartWindowButtonOnNavBar` (Firefox 149+): Move the Firefox Smart Window switching button to the navigation toolbar. Forcibly activated when `tabsAtBottom` is enabled.
+	- Adds `showScrollShadow`: Show shadow on the top and bottom edges when the tab bar is scrollable, to align with the interface design of Firefox.
+	- Adds `animateTabMoveShiftKeyToPause`: When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. Note: Drop position may not behave as expected in certain scenarios due to Firefox bugs.
+	- Adds `smartWindowButtonOnNavBar` (Firefox 149+): Move the Firefox Smart Window switching button to the navigation toolbar. Forcibly activated when `tabsAtBottom` is enabled.
 - Improvements
-	- Add extra dragging space above the tab bar for easier scrolling and dragging (only when the tab bar is not the topmost).
-	- Update compatibility with:
+	- Adds extra dragging space above the tab bar for easier scrolling and dragging (only when the tab bar is not the topmost).
+	- Updates compatibility with:
 		- Firefox Smart Window feature;
 		- Firefox 149.
 	- When `tabsAtBottom` is enabled:
 		- The extra dragging space below the tab bar is ensured;
-		- Move the DLP button to the navigation toolbar.
+		- Moves the DLP button to the navigation toolbar.
 - Fix
 	- Drag & drop problems in special cases.
 
 **Version 4.3.1**
 - Improvements
-	- Display a pin/unpin icon next to the drop indicator to identify dragging to pin/unpin.
-	- Update for Firefox 149.
+	- Displays a pin/unpin icon next to the drop indicator to identify dragging to pin/unpin.
+	- Updates for Firefox 149.
 - Fixes
 	- Firefox might freeze after drag-and-drop in special case of having many pinned tabs and the window was narrow.
 	- Could not rearrange pinned tabs in some cases when the tab bar was scrollable.
@@ -328,16 +328,16 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 **Version 4.3**
 - New
-	- Add `lastRowTabsFlexible`: Tabs in the last row have flexible width when multiple rows are present. Forcibly activated when `justifyCenter` is `2`.
-	- Add `positionPinnedTabs`: Position pinned tabs as a fixed grid before normal tabs when the tab bar is scrollable.
-	- Add `newTabButtonAfterLastTab`: Place the New Tab button after the last tab. When disabled, the button follows the position specified in toolbar customization. Note: The New Tab button stays after the last tab only when it is placed directly after the tabs.
-	- Add `previewPanelShiftedAlways`: Shift the preview panel even when there is only one row.
+	- Adds `lastRowTabsFlexible`: Tabs in the last row have flexible width when multiple rows are present. Forcibly activated when `justifyCenter` is `2`.
+	- Adds `positionPinnedTabs`: Position pinned tabs as a fixed grid before normal tabs when the tab bar is scrollable.
+	- Adds `newTabButtonAfterLastTab`: Place the New Tab button after the last tab. When disabled, the button follows the position specified in toolbar customization. Note: The New Tab button stays after the last tab only when it is placed directly after the tabs.
+	- Adds `previewPanelShiftedAlways`: Shift the preview panel even when there is only one row.
 - Improvements
-	- Support locking tab size when closing tabs or collapsing a group when `justifyCenter` is `1`.
-	- Refine animations for tab group.
+	- Supports locking tab size when closing tabs or collapsing a group when `justifyCenter` is `1`.
+	- Refines animations for tab group.
 	- Fine-tuning of some minor operational details.
-	- Update for Firefox 149.
-	- Update features related to tab notes.
+	- Updates for Firefox 149.
+	- Updates features related to tab notes.
 - Fixes
 	- Temporary layout issues occurring when:
 		- Dragging a group that was not fully collapsed out of the window;
@@ -347,12 +347,12 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 **Version 4.2**
 - New
-	- Add `previewPanelShifted`: Shifts the preview panel when there are multiple rows, reducing the effect of the panel blocking items in the rows underneath. Affects tabs only when `previewPanelNoteEditable` is `true`. Not available on Firefox 115.
+	- Adds `previewPanelShifted`: Shifts the preview panel when there are multiple rows, reducing the effect of the panel blocking items in the rows underneath. Affects tabs only when `previewPanelNoteEditable` is `true`. Not available on Firefox 115.
 		- `0` - never
 		- `1` - for groups
 		- `2` - for tabs
 		- `3` - for both
-	- Add `previewPanelNoteEditable` (for Firefox 148+): Allows the tab preview panel to be hovered, and the note inside to be editable.
+	- Adds `previewPanelNoteEditable` (for Firefox 148+): Allows the tab preview panel to be hovered, and the note inside to be editable.
 - Fixes
 	- Continuously and rapidly closing tabs could result in the window being maximized/restored.
 	- Issue that occurred when dragging the audio button of a non-selected tab.
@@ -374,23 +374,23 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <summary>Minor Updates</summary>
 
 **Version 4.1.2.5**
-- Adjusted margin of mini-audio button to prevent overlap with tab label.
+- Adjusts margin of mini-audio button to prevent overlap with tab label.
 
 **Version 4.1.2.4**
-- Fix the layout issue that occurred when moving pinned tabs to another window while the tab bar is scrollable.
-- Fix the visual issue when closing pinned tabs.
+- Fixed the layout issue that occurred when moving pinned tabs to another window while the tab bar is scrollable.
+- Fixed the visual issue when closing pinned tabs.
 
 **Version 4.1.2.3**
-- Hide secondary tab label when `tabContentHeight` is bellow `30` (compact mode).
-- Adjust the tab height in split view when it is too compact.
+- Hides secondary tab label when `tabContentHeight` is bellow `30` (compact mode).
+- Adjusts the tab height in split view when it is too compact.
 - The default value of `checkUpdateAutoApply` has been changed to `1`, which has the same effect as `0`.
 
 **Version 4.1.2.2**
-- Fix the visual issue of audio button on Firefox 115 since the last version.
+- Fixed the visual issue of audio button on Firefox 115 since the last version.
 
 **Version 4.1.2.1**
-- Fix a visual bug that occurs when a tab in a split view is closing and the `tabMaxWidth` is smaller than a certain amount.
-- Update the support for the tab note icon in Firefox 147+.
+- Fixed a visual bug that occurs when a tab in a split view is closing and the `tabMaxWidth` is smaller than a certain amount.
+- Updates for the tab note icon in Firefox 147+.
 </details>
 
 **Version 4.1.2**
@@ -399,7 +399,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 **Version 4.1.1**
 - Improvement
-	- Update support for Firefox 148.
+	- Updates for Firefox 148.
 - Fix
 	- Padding issue for pinned tabs when enabling `pinnedTabsFlexWidth` since v4.1.
 
@@ -407,21 +407,21 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <summary>Minor Updates</summary>
 
 **Version 4.1.0.7**
-- Fix an issue that may conflict with other scripts since v4.1.
+- Fixed an issue that may conflict with other scripts since v4.1.
 
 **Version 4.1.0.6**
-- Handle the case where `security.allow_unsafe_dangerous_privileged_evil_eval` is locked by the script loader.
+- Handles the case where `security.allow_unsafe_dangerous_privileged_evil_eval` is locked by the script loader.
 
 **Version 4.1.0.2**
-- Tune the sizing of group lines to achieve a better look with different values of `tabVerticalMargin`.
+- Tunes the sizing of group lines to achieve a better look with different values of `tabVerticalMargin`.
 </details>
 
 **Version 4.1**
 - New
-	- Add `tabContentHeight`, `tabVerticalMargin`, `tabHorizontalPadding` and `tabHorizontalMargin` to control tab height and spacing. Not suggested to set narrower than the default value, as Firefox is not designed to be compact and unexpected glitches may occur. These settings may be overridden by rules in `userChrome.css` and have no effect.
-- Improvement
-	- Tune the tab bar layout when it is too compact.
-	- Refine update notification UI.
+	- Adds `tabContentHeight`, `tabVerticalMargin`, `tabHorizontalPadding` and `tabHorizontalMargin` to control tab height and spacing. Not suggested to set narrower than the default value, as Firefox is not designed to be compact and unexpected glitches may occur. These settings may be overridden by rules in `userChrome.css` and have no effect.
+- Improvements
+	- Tunes the tab bar layout when it is too compact.
+	- Refines update notification UI.
 - Fix
 	- Notification bar was placed incorrectly when  was enabled.
 
@@ -429,13 +429,13 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <summary>Minor Updates</summary>
 
 **Version 4.0.2.3**
-- Update the dependencies of settings in `about:config`.
+- Updates the dependencies of settings in `about:config`.
 
 **Version 4.0.2.2**
-- Refine some minor animation related to tab group.
+- Refines some minor animation related to tab group.
 
 **Version 4.0.2.1**
-- Follow up with the fix of Firefox bug [#1997096](https://bugzilla.mozilla.org/show_bug.cgi?id=1997096).
+- Follows up with the fix of Firefox bug [#1997096](https://bugzilla.mozilla.org/show_bug.cgi?id=1997096).
 
 </details>
 
@@ -450,21 +450,21 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 **Version 4.0**
 - New
-	- Support the split view feature introduced in Firefox 146, which can be enabled by setting `browser.tabs.splitView.enabled` to `ture`.
-	- Support for tab stacking when dragging multiple tabs. On Firefox 146, it can be enabled by setting `browser.tabs.dragDrop.multiselectStacking` to `true`. For Firefox 145 and below (including 115), a new boolean preference with that name needs to be created manually.
-	- Add `dragStackPreceding`: stack the preceding selected tabs of the dragged one. When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue.
-	- Support drag to pin/unpin on Firefox 115. Set `disableDragToPinOrUnpin` to `false` to enable.
-	- Add `privateBrowsingIconOnNavBar`: move the private window icon to the navigation toolbar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled.
+	- Supports the split view feature introduced in Firefox 146, which can be enabled by setting `browser.tabs.splitView.enabled` to `ture`.
+	- Supports for tab stacking when dragging multiple tabs. On Firefox 146, it can be enabled by setting `browser.tabs.dragDrop.multiselectStacking` to `true`. For Firefox 145 and below (including 115), a new boolean preference with that name needs to be created manually.
+	- Adds `dragStackPreceding`: stack the preceding selected tabs of the dragged one. When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue.
+	- Supports drag to pin/unpin on Firefox 115. Set `disableDragToPinOrUnpin` to `false` to enable.
+	- Adds `privateBrowsingIconOnNavBar`: move the private window icon to the navigation toolbar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled.
 - Changes
 	- In keeping with the original design of Firefox, `spaceAfterTabs`, `spaceAfterTabsOnMaximizedWindow`, `spaceBeforeTabs` and `spaceBeforeTabsOnMaximizedWindow` now affect the spacing at the edges of the navigation toolbar when `tabsAtBottom` is enabled.
 	- In keeping with the original design of Firefox, `gapAfterPinned` now defaults to `0` on Firefox 143 and above.
-	- Fix the size of New Tab button to prevent layout gliches.
+	- Fixes the size of New Tab button to prevent layout gliches.
 - Improvements
-	- Refine the behavior of tab size locking when closing tabs or collapsing tab groups.
-	- Refine the dragging behavior to avoid the difficulty of moving items to the row edge in certain scenarios.
-	- Update for Firefox 147.
-	- Hide the group hover preview panel when scrolling.
-	- Support `toolkit.tabbox.switchByScrolling`.
+	- Refines the behavior of tab size locking when closing tabs or collapsing tab groups.
+	- Refines the dragging behavior to avoid the difficulty of moving items to the row edge in certain scenarios.
+	- Updates for Firefox 147.
+	- Hides the group hover preview panel when scrolling.
+	- Supports `toolkit.tabbox.switchByScrolling`.
 - Fixes
 	- The group hover preview panel might incorrectly display when collapsing the group.
 	- Scrolling was not smooth when expanding a group and the tab bar started to scroll.
@@ -483,47 +483,47 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 </details>
 
 **Version 3.6.1**
-- Update for `autoCollapse`:
+- Updates for `autoCollapse`:
 	- The tab bar will now only expand for the current window.
 	- Prevent the tab bar expand when URL bar is focused.
 	- Clicking or pressing `Esc` will now help to collapse the tab bar if it is not doing so in some rare cases.
 	- Bug fix: issuse when dragging tab when there is only one row.
 	- Bug fix: part of group line disappears when the tab bar is expanding.
-- Fix a minor Firefox visual bug [#1995909](https://bugzilla.mozilla.org/show_bug.cgi?id=1995909).
+- Fixed a minor Firefox visual bug [#1995909](https://bugzilla.mozilla.org/show_bug.cgi?id=1995909).
 
 <details>
 <summary>Minor Updates</summary>
 
 **Version 3.6.0.2**
-- Reverse some code change for the scrollbar in the previous minor update.
+- Reversed some code change for the scrollbar in the previous minor update.
 
 **Version 3.6.0.1**
-- Bug fix: resize the window immediately after closing a tab might result in an empty row temporarily.
+- Bug fix: resizing the window immediately after closing a tab might result in an empty row temporarily.
 
 </details>
 
 **Version 3.6**
-- Add `pinnedTabsFlexWidthIndicator`: display an icon on pinned tabs when `pinnedTabsFlexWidth` is enabled.
-- Change the "Stop checking" option in the update notification to "Update script file directly".
-- Refine the behavior of dragging a tab and pressing it to the edge of a row, to group with others on another row, or detach from a group.
-- Refine the behavior of dragging tabs into or out of groups when `dragToGroupTabs` is `false`.
-- Refine animations when pinned tabs are present and the tab bar is scrollable.
-- Refine animations for dragging tabs while pressing them against the edge of row.
-- Pause the dragging animation when attempting to pin or unpin tabs.
+- Adds `pinnedTabsFlexWidthIndicator`: display an icon on pinned tabs when `pinnedTabsFlexWidth` is enabled.
+- Changes the "Stop checking" option in the update notification to "Update script file directly".
+- Refines the behavior of dragging a tab and pressing it to the edge of a row, to group with others on another row, or detach from a group.
+- Refines the behavior of dragging tabs into or out of groups when `dragToGroupTabs` is `false`.
+- Refines animations when pinned tabs are present and the tab bar is scrollable.
+- Refines animations for dragging tabs while pressing them against the edge of row.
+- Pauses the dragging animation when attempting to pin or unpin tabs.
 - Workaround for Firefox bug [#1994643](https://bugzilla.mozilla.org/show_bug.cgi?id=1994643), which is amplified by this script.
 - Bug fix: issues when enabling `pinnedTabsFlexWidth` and the pinned tab has no page icon.
-- Fix minor visual bugs.
+- Fixed minor visual bugs.
 
 **Version 3.5.2**
 - Bug fix: dragged tabs might not be moved to the intended position if it is pressed against to the edge.
 
 **Version 3.5.1**
-- Add `disableDragToPinOrUnpin`: Disable tab pinning/unpinning via drag-and-drop in the same window (not available on Firefox 115). This setting will be removed if an official one is introduced.
-- Prevent window dragging during tab drop animation.
+- Adds `disableDragToPinOrUnpin`: Disable tab pinning/unpinning via drag-and-drop in the same window (not available on Firefox 115). This setting will be removed if an official one is introduced.
+- Prevents window dragging during tab drop animation.
 
 **Version 3.5**
-- Update for Firefox 145.
-- Add animation when tabs are moved to another window.
+- Updates for Firefox 145.
+- Adds animation when tabs are moved to another window.
 - Themes without background images can now use `nativeWindowStyle`.
 - Adjust CSS variables: add `--group-label-max-width` and `--group-line-padding` on `#tabbrowser-tabs` to control the size of group label.
 - Always close the menu when dragging an item from it onto the tab strip, if the menu overlaps the tab strip.
@@ -533,7 +533,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Bug fix: issue occured after dragging tabs to copy them to another window.
 - Bug fix: issue occured after dragging a tab group out of the window so fast.
 - Minor bug fixes.
-- Refine code style for better readability.
+- Refined code style for better readability.
 
 **Version 3.4.2**
 - Bug fix: Could not drag and drop tabs when enabling `hidePinnedDropIndicator`.
