@@ -213,9 +213,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - タブバーがスクロール可能・不可能に切り替わる際、新しいタブボタンにアニメーションを追加。
 
 **Version 4.7**
-- 改良
+- 改善
 	- インジケーターで移動するとき、タブをグループ化するためのドラッグ操作に対応。`browser.tabs.dragDrop.createGroup.enabled` または `browser.tabs.dragDrop.createGroup.delayMS` を変更して挙動を調整。
-- 改修
+- 変更
 	- `animateTabMoveMaxCount` を `animateTabMoveUnderLimit` に置き換え：表示されているタブ数が指定数に達したときは、インジケーターで移動する。
 - 修正
 	- 一部のスクリプトローダー使用時に更新を直接適用できなかった。
@@ -238,10 +238,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 **Version 4.6**
 - 追加
-	- ブラウザ下部にタブバーを配置できるようになる（`tabsAtBottom` を `-1` に設定することで有効）。
+	- ブラウザ下部にタブバーを配置できるようになった（`tabsAtBottom` を `-1` に設定することで有効）。
 	- `dynamicThemeImageSize` を `themeImageSize` に置き換え、新しいオプションを提供。
-- 改良
-	- インジケーターを使って移動する時が Firefox ネイティブ関数に依存せず、正しい結果を返すようになる（`animateTabMoveMaxCount` と `animateTabMoveShiftKeyToPause` に関連）。
+- 改善
+	- インジケーターを使って移動する時が Firefox ネイティブ関数に依存せず、正しい結果を返すようになった（`animateTabMoveMaxCount` と `animateTabMoveShiftKeyToPause` に関連）。
 	- 不要なアニメーションを減らしてパフォーマンスを向上。
 	- 最後の段で唯一のタブを閉じる際の挙動を改善。
 	- Firefox 150 と 151 への対応。
@@ -258,7 +258,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <summary>旧バージョン</summary>
 
 **Version 4.5.1**
-- 改良
+- 改善
 	- タブバー内のボタンとタブの角の丸みは、タブの内容部分の高さと水平余白が一定の水準まで減ると減り始める。
 	- Firefox 150 への更新。
 	- 分割ビューの区切り線を微調整。
@@ -279,7 +279,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 変更
 	- `disableDragToPinOrUnpin` を削除し、代わりに組み込みの設定 `browser.tabs.dragDrop.dragToPin.enabled` を使用。
 	- `dragToGroupTabs` を削除し、代わりに組み込みの設定 `browser.tabs.dragDrop.createGroup.enabled` を使用。
-- 改良
+- 改善
 	- ドラッグ時のパフォーマンスを改善。
 	- Firefox 149 と 150 への更新。
 	- タブグループのドラッグ＆ドロップの挙動に軽微な調整。
@@ -297,7 +297,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `showScrollShadow` を追加：タブバーがスクロール可能な場合、上下の端にシャドウを表示し、Firefox のインターフェースデザインに合わせる。
 	- `animateTabMoveShiftKeyToPause` を追加：`Shift` キーを押している際、ドラッグ＆ドロップのアニメーションを一時停止し、代わりにドロップインジケーターを表示する。備考：Firefox のバグにより、特定のシナリオではドロップ位置が期待通りに動作しない可能性がある。
 	- `smartWindowButtonOnNavBar` を追加（Firefox 149 以降）：Firefox Smart Window 切り替えボタンをナビゲーションツールバーに移動。`tabsAtBottom` が有効な場合は強制的に有効化される。
-- 改良
+- 改善
 	- スクロールやドラッグをより容易にするため、タブバー上方にドラッグスペースを追加（タブバーが最上部でない場合のみ）。
 	- 互換性の更新：
 		- Firefox Smart Window 機能；
@@ -309,8 +309,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 特定の状況ごとに発生する複数のドラッグ＆ドロップの問題。
 
 **Version 4.3.1**
-- 改良
-	- ドロップインジケーターの横にピン留め・外すアイコンを表示し、ドラッグ操作でピン留め・外すを識別できるようになる。
+- 改善
+	- ドロップインジケーターの横にピン留め・外すアイコンを表示し、ドラッグ操作でピン留め・外すを識別できるようになった。
 	- Firefox 149 に対応。
 - 修正
 	- ピン留めされたタブが多数ありウィンドウが狭い場合、Firefox はドラッグ＆ドロップした後にフリーズする可能性があった。
@@ -325,8 +325,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `positionPinnedTabs` を追加：タブバーがスクロール可能な時、ピン留めされたタブを通常タブの前にグリッドとして配置。
 	- `newTabButtonAfterLastTab` を追加：「新しいタブ」ボタンを最後のタブの後に配置。無効化されている場合、ツールバーのカスタマイズで指定された位置に従う。備考：タブの直後に置かれた場合のみ最後のタブの後に固定される。
 	- `previewPanelShiftedAlways` を追加：一段しかない場合でもプレビューパネルをシフト。
-- 改良
-	- `justifyCenter` が `1` の時、タブを閉じたりグループを折りたたむ際にタブサイズを固定できるようになる。
+- 改善
+	- `justifyCenter` が `1` の時、タブを閉じたりグループを折りたたむ際にタブサイズを固定できるようになった。
 	- タブグループのアニメーションを改善。
 	- 細かな操作上の詳細を微調整。
 	- Firefox 149 に対応。
@@ -391,7 +391,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `tabMaxWidth` が Firefox 146 以降で動作しない問題。
 
 **Version 4.1.1**
-- 改良
+- 改善
 	- Firefox 148 への対応を更新。
 - 修正
 	- v4.1 以降、`pinnedTabsFlexWidth` を有効化した際のピン留めされたタブの余白の不具合を修正。
@@ -413,7 +413,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 **Version 4.1**
 - 新規
 	- タブの高さと間隔を制御するために `tabContentHeight`、`tabVerticalMargin`、`tabHorizontalPadding`、`tabHorizontalMargin` を追加。デフォルト値より狭く設定するのは推奨されない。Firefox はコンパクト用に設計されていないため、予期しない不具合が起こる可能性がある。これらの設定は `userChrome.css` のルールで上書きされ、効果がなくなる場合がある。
-- 改良
+- 改善
 	- タブバーが過度にコンパクトな時のレイアウトを調整。
 	- アップデート通知 UI を調整。
 - 修正
@@ -450,9 +450,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Firefox 115 でピン留め・外すのドラッグ操作をサポート。`disableDragToPinOrUnpin` を `false` に設定すると有効化。
 	- `privateBrowsingIconOnNavBar` を追加：プライベートウィンドウアイコンをナビゲーションツールバーに移動。Firefox 115 では非対応。`tabsAtBottom` が有効な場合は強制的に有効化される。
 - 変更
-	- Firefox の元のデザインに従い、`tabsAtBottom` が有効な場合、`spaceAfterTabs`、`spaceAfterTabsOnMaximizedWindow`、`spaceBeforeTabs`、および `spaceBeforeTabsOnMaximizedWindow` がナビゲーションツールバーの端のスペースに影響するようになる。
+	- Firefox の元のデザインに従い、`tabsAtBottom` が有効な場合、`spaceAfterTabs`、`spaceAfterTabsOnMaximizedWindow`、`spaceBeforeTabs`、および `spaceBeforeTabsOnMaximizedWindow` がナビゲーションツールバーの端のスペースに影響するようになった。
 	- Firefox の元のデザインに従い、Firefox 143 以降では、`gapAfterPinned` のデフォルト値が `0` になる。
-- 改良
+- 改善
 	- タブを閉じる際やタブグループを折りたたむ際のタブサイズ固定の挙動を改良。
 	- 特定のシナリオにおいて、アイテムを段端へドラッグする際の困難を回避するために、ドラッグ動作を改良。
 	- レイアウトの不具合を防ぐために、「新しいタブ」ボタンのサイズを固定。
@@ -478,9 +478,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 **Version 3.6.1**
 - `autoCollapse` の更新：
-	- タブバーは現在のウィンドウに対してのみ展開されるようになる。
+	- タブバーは現在のウィンドウに対してのみ展開されるようになった。
 	- URL バーにフォーカスがある場合、タブバーが展開されないようにする。
-	- クリックまたは `Esc` キーを押すことで、まれにタブバーが折りたたまれない場合でも折りたたむようになる。
+	- クリックまたは `Esc` キーを押すことで、まれにタブバーが折りたたまれない場合でも折りたたむようになった。
 	- バグ修正：一段しかない状態でドラッグすると発生する問題。
 	- バグ修正：タブバー展開時にグループ線の一部が消える問題。
 - Firefox の軽微な表示バグ [#1995909](https://bugzilla.mozilla.org/show_bug.cgi?id=1995909) を修正。
@@ -518,7 +518,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 **Version 3.5**
 - Firefox 145 に対応。
 - タブを別のウィンドウに移動する際にアニメーションを追加。
-- 背景画像なしのテーマで `nativeWindowStyle` が使えるようになる。
+- 背景画像なしのテーマで `nativeWindowStyle` が使えるようになった。
 - CSS 変数を調整：グループラベルのサイズを制御するために、`#tabbrowser-tabs` に `--group-label-max-width` と `--group-line-padding` を追加。
 - メニューがタブと重なっている場合、そこから項目をドラッグすると常にメニューを閉じるようにする。
 - バグ修正：`tabsAtBottom` 使用時の背景画像の不具合。
@@ -540,7 +540,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <summary>軽微な更新</summary>
 
 **Version 3.4.1.3**
-- ドロップインジケーター付きでドラッグ＆ドロップすると、アニメーションが実行されるようになる。
+- ドロップインジケーター付きでドラッグ＆ドロップすると、アニメーションが実行されるようになった。
 
 **Version 3.4.1.1**
 - バグ修正：タブ以外の項目を固定タブ上にドラッグした際、ドロップインジケーターの位置が誤って表示された。
@@ -549,7 +549,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 **Version 3.4.1**
 - バグ修正：タブバーにタブ以外の項目をドロップすると、不具合が発生。
 - バグ修正：`hideEmptyPlaceholderWhenScrolling` がプライベートウィンドウで正常に動作しない場合があった。
-- `checkUpdateAutoApply` が `3` に設定されている場合、通知が表示されない軽微な変更や修正の更新も受信するようになる。
+- `checkUpdateAutoApply` が `3` に設定されている場合、通知が表示されない軽微な変更や修正の更新も受信するようになった。
 
 **Version 3.4**
 - `animateTabMoveMaxCount` を追加：ドラッグされたタブの数がこの値を超えると、ドラッグアニメーションは無効化され、代わりにドロップ位置のインジケーターが表示。最小値：`0`。多数のタブをドラッグした際に動作が重くなる場合は、この値を下げてください。備考：タブグループの一部の操作が使用できない場合があり、最終的なドロップ位置は Firefox のネイティブな挙動によって決まり、特定の状況では期待どおりに動作しない場合がある。
