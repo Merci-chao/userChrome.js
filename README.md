@@ -18,7 +18,7 @@ Make Firefox support multiple rows of tabs.
 Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights with screenshots and detailed descriptions.
 
 ## Compatibility
-- Firefox 115, 150, 151 (excluding ESR versions)
+- Firefox 115, 150 - 152 (excluding ESR versions)
 
 - Windows 7 to 11
 
@@ -37,8 +37,6 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
   <p>⚠️ Please follow the installation steps below carefully.</p>
 
 - This is an unofficial and complex script maintained solely by me. It may contain unforeseen bugs, and if unexpected issues occur, restarting Firefox may be required. In extreme cases — especially when using an outdated version of the script with a newly updated Firefox — the browser may become unusable, potentially resulting in the permanent loss of your previous browsing session. You may need to disable the script in such situations. Please use this script only if you are capable of and prepared to handle these risks.
-
-- This script needs to override the tab functions of Firefox and requires [`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) to be enabled for this purpose. The said setting is enabled automatically once you are applying this script, and it requires a manual disabling through *about:config* after disabling or removing the script. Please note that and use this script with understanding.
 
 - This script is more like a meticulous tab extension than a simple multi-row tweak. It consolidates thousands of lines of logic and styling into a single file, yet remains as manageable as a typical script. It is a hardcore implementation built with perfection and performance in mind. The number of lines is never a concern during development — just as *Tab Mix Plus* could never be achieved with only a few hundred lines of code. However, if you prefer something simple and fully understandable in coding — providing a stronger sense of safety and allowing you to easily make changes at will — this may not be your favorite choice.
 
@@ -134,6 +132,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `autoCollapseDelayCollapsing` | Delay before collapsing the tabs when the cursor moves away (in milliseconds). Minimum: `0`. |
 | `autoCollapseDelayExpanding` | Delay before expanding the tabs when the cursor hovers over them (in milliseconds). Minimum: `0`. |
 | `compactControlButtons` | Display the window control buttons to a compact size. Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
+| `controlButtonsAutoHide` | Hide the window control buttons and show them when the cursor enters the top right corner:<ul><li>`0` - disabled</li><li>`1` - only on maximized windows</li><li>`2` - on all windows</li></ul><p>Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
+| `controlButtonsAutoHideTriggerHeight` | The height of the trigger area. |
 | `hideAllTabs` | Hide the *List all tabs* button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing *Remove from Toolbar*. |
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper corner, hide the empty space in that corner when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
@@ -197,6 +197,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
+| `browser.nova.enabled` | Apply the Nova design. Available on Firefox 152+. |
 | `browser.tabs.dragDrop.createGroup.delayMS` | Time to wait (in milliseconds) before starting to group tabs during dragging. Not available on Firefox 115. |
 | <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | Drag tabs together to create tab groups. Not available on Firefox 115. |
 | <span id="dragToPinEnabled">`browser.tabs.dragDrop.dragToPin.enabled`</span> | Enable tab pinning/unpinning via drag & drop in the same window, e.g. whether dropping tabs onto the pinned tabs will pin them. Create a new boolean preference with this name to toggle. |
@@ -211,6 +212,25 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.8**
+- New
+	- Adds `controlButtonsAutoHide` and related settings: hide the window control buttons and show them when the cursor enters the top right corner.
+- Change
+	- No longer relies on `security.allow_unsafe_dangerous_privileged_evil_eval` being enabled. Please reset it to `false` if it is not needed for other scripts.
+- Improvements
+	- Supports Nova UI design.
+	- For `tabsAtBottom` set to `-1`:
+		- Supports hiding the tabs bar in full screen mode.
+		- Menus of the items in tabs bar open upward by default.
+	- Updates for Firefox 152.
+	- Minor layout refinements for media buttons.
+- Fixes
+	- A protential memory leak issue.
+	- Incorrect background and icon color in the sidebar when `tabsAtBottom` was enabled.
+	- Animation issues in special cases.
+	- Visual issue where stacking tabs looked messy during dragging on some themes.
+	- Minor visual and layout issues.
 
 **Version 4.7.2**
 - Fixed an issue that could cause the "Reopen Closed Tab" to stop functioning.
