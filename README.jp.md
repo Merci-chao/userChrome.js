@@ -208,7 +208,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 **Version 4.8**
 - 追加
-	- `controlButtonsAutoHide` および関連設定を追加。ウィンドウの操作ボタンを非表示にし、カーソルが右上隅に入ったときに表示されるようにする。
+	- `controlButtonsAutoHide` および関連設定を追加：ウィンドウの操作ボタンを非表示にし、カーソルが右上隅に入ったときに表示されるようにする。
 - 変更
 	- `security.allow_unsafe_dangerous_privileged_evil_eval` が有効化されていることに依存しなくなった。他のスクリプトで必要ない場合は、`false` にリセットしてください。
 - 改善
