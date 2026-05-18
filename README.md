@@ -215,7 +215,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 **Version 4.8**
 - New
-	- Adds `controlButtonsAutoHide` and related settings: hide the window control buttons and show them when the cursor enters the top right corner.
+	- Adds `controlButtonsAutoHide` and related setting: hide the window control buttons and show them when the cursor enters the top right corner.
 - Change
 	- No longer relies on `security.allow_unsafe_dangerous_privileged_evil_eval` being enabled. Please reset it to `false` if it is not needed for other scripts.
 - Improvements
