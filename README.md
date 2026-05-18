@@ -253,6 +253,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Minor visual issues in special cases.
 
 <details>
+<summary>Old Versions</summary>
+
+<details>
 <summary>Minor Update</summary>
 
 **Version 4.6.1.1**
@@ -280,9 +283,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Potential freeze when the tab bar was extremely narrow.
 	- `gapAfterPinned` did not work in some cases.
 	- Minor layout and visual issues in special cases.
-
-<details>
-<summary>Old Versions</summary>
 
 **Version 4.5.1**
 - Improvements
