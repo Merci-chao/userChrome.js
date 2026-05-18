@@ -246,6 +246,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 特殊なケースで発生する軽微な表示上の不具合。
 
 <details>
+<summary>旧バージョン</summary>
+
+<details>
 <summary>軽微な更新</summary>
 
 **Version 4.6.1.1**
@@ -273,9 +276,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- タブバーが極端に狭いときに Firefox がフリーズする可能性があった。
 	- `gapAfterPinned` は一部のケースでは動作しなかった。
 	- 特殊なケースで発生する軽微なレイアウトと表示上の不具合。
-
-<details>
-<summary>旧バージョン</summary>
 
 **Version 4.5.1**
 - 改善
