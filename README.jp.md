@@ -17,7 +17,7 @@ Firefox に多段タブ表示をサポートさせる。
 注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja/)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
-- Firefox 115、150、151（ESR バージョンを除く）
+- Firefox 115、150〜152（ESR バージョンを除く）
 
 - Windows 7〜11
 
@@ -36,8 +36,6 @@ Firefox に多段タブ表示をサポートさせる。
   <p>⚠️ 以下のインストール手順をよく読んで、慎重に進めてください。</p>
 
 - このスクリプトは非公式かつ複雑で、管理者は私一人のみ。予期しないバグが含まれる可能性があり、問題が発生した場合は Firefox を再起動する必要があるかもしれない。特に、旧バージョンのスクリプトを最新の Firefox で使用したとき、最悪の場合ブラウザーが使用不能になり、以前のセッションが永久に失われる可能性もある。そのような場合には、スクリプトの無効化が必要になることがある。これらのリスクに対応できる準備がある方のみご使用ください。
-
-- Firefox のタブ機能を上書きする必要があるため、[`security.allow_unsafe_dangerous_privileged_evil_eval`](https://bugzilla.mozilla.org/show_bug.cgi?id=1958232) を有効にする必要がある。この設定はスクリプト適用時に自動で有効化されるが、スクリプト削除時には about:config で手動無効化が必要。その点にご留意のうえ、理解してこのスクリプトをご使用ください。
 
 - このスクリプトは単純な調整というより、綿密なタブ拡張に近い。一万程度の行に及ぶロジックとスタイルをひとつのファイルにまとめており、典型的なスクリプトと同じくらい扱いやすいままになっている。完璧さとパフォーマンスを意識した本格的な実装であり、開発では行数は気にする点ではない⸺Tab Mix Plus が中途半端な千行ほどだけで実現できることは決してないのと同じ。ただし、もしコードがシンプルで完全に理解しやすく、より強い安心感を与え、さらに自由に改修できるものを好むなら、これは好ましい選択にはならないかもしれない。
 
@@ -129,6 +127,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。最小値：`0`。 |
 | `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。最小値：`0`。 |
 | `compactControlButtons` | ウィンドウ操作ボタンをコンパクトに表示。タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
+| `controlButtonsAutoHide` | ウィンドウの操作ボタンを隠し、カーソルが右上隅に入ったときに表示する：<ul><li>`0`－無効</li><li>`1`－最大化ウィンドウのみ</li><li>`2`－すべてのウィンドウ</li></ul><p>タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
+| `controlButtonsAutoHideTriggerHeight` | トリガー領域の高さ。 |
 | `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。 |
 | `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、タブバーがスクロール可能時にその空白を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0`－無効</li><li>`1`－一段のみの場合</li><li>`2`－常に有効（タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある）</li></ul> |
@@ -190,6 +190,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ### Firefox の組み込み設定
 | 項目（接頭辞なし） | 説明 |
 | ------------- | ------------- |
+| `browser.nova.enabled` | Nova デザインを適用。Firefox 152 以降で利用可能。 |
 | `browser.tabs.dragDrop.createGroup.delayMS` | ドラッグしてグループ化を開始するまでの遅延時間（ミリ秒）。Firefox 115 では非対応。 |
 | <span id="dragToPinEnabled">`browser.tabs.dragDrop.dragToPin.enabled`</span> | 同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を有効化。例：タブをピン留めされたタブにドロップすると、ピン留めされるかどうか。この名前で新しい真偽設定を作成し切り替える。 |
 | <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | タブを他のタブにドロップした際にグループ化。Firefox 115 では非対応。 |
@@ -204,6 +205,25 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.8**
+- 追加
+　	- `controlButtonsAutoHide` および関連設定を追加。ウィンドウの操作ボタンを非表示にし、カーソルが右上隅に入ったときに表示されるようにする。
+- 変更
+	- `security.allow_unsafe_dangerous_privileged_evil_eval` が有効化されていることに依存しなくなった。他のスクリプトで必要ない場合は、`false` にリセットしてください。
+- 改善
+	- Nova UI デザインへのサポート。
+	- `tabsAtBottom` を `-1` に設定した場合：
+		- 全画面表示モードでタブバーを非表示にできるようになった。
+		- タブバー項目のメニューはデフォルトで上方向に開く。
+	- Firefox 152 への更新。
+	- メディアボタンのレイアウトを細かく改善。
+- 修正
+	- 潜在的なメモリリークの問題。
+	- `tabsAtBottom` が有効化されているとき、サイドバーの背景色とアイコンの色が正しく表示されなかった。
+	- 特殊なケースで発生するアニメーションの問題。
+	- 一部のテーマでタブをドラッグ中に、積み重ね表示が乱れて見える問題。
+	- 軽微な表示上とレイアウトの問題。
 
 **Version 4.7.2**
 - 「閉じたタブをひらきなおす」機能が動作しなくなる問題を修正。 
