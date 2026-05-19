@@ -45,7 +45,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 ## Installation
 1. Please ensure you are using a Firefox version listed in the [compatibility list](#compatibility) above. Other Firefox versions and operating systems may potentially not be supported.
 
-2. Install the script loader (*userChrome.js*). Skip to step 3 if you already have one in use. There are several script loaders available:
+2. Install the script loader (*userChrome.js*). Skip to step 4 if you already have one in use. There are several script loaders available:
 	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
 	- [*Firefox Scripts*](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
  	- [*alice0775/userChrome.js*](https://github.com/alice0775/userChrome.js) (Japanese)
