@@ -42,7 +42,9 @@ Firefox に多段タブ表示をサポートさせる。
 - 信頼できるソースからのスクリプトやファイルのみを使用してください。悪意のあるコードは深刻な被害を引き起こす可能性があり、ファイルの破損、アカウントへの不正侵入、銀行やクレジットカードなどの個人情報の盗難につながる恐れがある。しかも、これらはまったく気づかないうちに発生することもある。
 
 ## インストール手順
-1. スクリプトローダー（userChrome.js）をインストールする。すでに使用している場合は、手順 3 に進む。使えるスクリプトローダーはいくつかある：
+1. 上記の[互換性リスト](#互換性)に記載されている Firefox のバージョンを使用しているか確認してください。旧バージョンの Firefox やその他の OS は、サポート対象外となる可能性がある。
+
+2. スクリプトローダー（userChrome.js）をインストールする。すでに使用している場合は、手順 3 に進む。使えるスクリプトローダーはいくつかある：
 	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)（英語）
 	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)（英語）
 	- [alice0775/userChrome.js](https://github.com/alice0775/userChrome.js)
@@ -51,7 +53,7 @@ Firefox に多段タブ表示をサポートさせる。
     <p>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に希望がなければ、<a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">更新チェック機能</a>を提供する MrOtherGuy/fx-autoconfig を試すか、<a href="https://kamehiyo.com/firefox_multitub_new/">bunji_ 氏の記事</a>を参考にして Firefox Scripts をインストールすることができる。</p>
 	<p><strong>🚨 重要：</strong>Firefox のアップデート後にスクリプトローダーが動作しなくなるのは非常によくあるケース。その場合は、使用しているスクリプトローダーの新しいバージョンを上記のページで確認してください。</p>
 
-2. Firefox を再起動し、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
+3. Firefox を再起動し、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
    <table>
 	   <tr>
 		   <td>MrOtherGuy/fx-autoconfig</td>
@@ -75,16 +77,16 @@ Firefox に多段タブ表示をサポートさせる。
 	   </tr>
    </table>
 
-3. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` から移動する。
+4. 他のタブ関連スクリプトや CSS スタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` から移動する。
    <p>⚠️ <code>userChrome.css</code> のカスタマイズされたスタイルの競合によって問題が発生するという報告が多数ある。</p>
 
-4. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし（右クリックして保存）、`chrome` に配置する（MrOtherGuy/fx-autoconfig 使用時は `chrome/JS`）。
+5. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし（右クリックして保存）、`chrome` に配置する（MrOtherGuy/fx-autoconfig 使用時は `chrome/JS`）。
    <p>⚠️ コピーして貼り付けやその他の方法で作成すると、誤ったファイルエンコードが発生する可能性がある。</p>
    <p>⛔ 保存中または保存後にファイル名を変更しないでください。</p>
 
-5. Firefox を再起動して適用する。
+6. Firefox を再起動して適用する。
 
-6. 手順 3 で一部のファイルを `chrome` の外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、スクリプトやスタイルルールを調整してください。お困りの際は、🛟 [こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
+7. 手順 4 で一部のファイルを `chrome` の外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、スクリプトやスタイルルールを調整してください。お困りの際は、🛟 [こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
 
 ## 設定
 [about:config](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao.` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されている。
