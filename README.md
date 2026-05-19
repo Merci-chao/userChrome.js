@@ -43,7 +43,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 - Always use scripts and files from sources you trust. Malicious code can cause severe damage, such as corrupting your files, hacking into your accounts, or stealing sensitive information like bank and credit card details — and all of this can happen without you even noticing.
 
 ## Installation
-1. Please ensure you are using a Firefox version listed in the [compatibility list](#compatibility) above. Older versions of Firefox and other OSs may potentially not be supported.
+1. Please ensure you are using a Firefox version listed in the [compatibility list](#compatibility) above. Other Firefox versions and operating systems may potentially not be supported.
 
 2. Install the script loader (*userChrome.js*). Skip to step 3 if you already have one in use. There are several script loaders available:
 	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
