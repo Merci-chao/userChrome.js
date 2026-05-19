@@ -52,6 +52,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
    <p>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can try <em>MrOtherGuy/fx-autoconfig</em>, which provides an <a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">update-checking feature</a>, or follow the instructions in the <a href="https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts"><em>Tab Mix Plus - Docs</em></a> to install the <em>Firefox Scripts</em>.</p>
    <p><image src="https://raw.githubusercontent.com/Merci-chao/userChrome.js/refs/heads/main/screenshots/installscriptloader.png"></p>
    <p>⛔ Do not install <em>Tab Mix Plus</em> as it will cause conflict.</p>
+   <p>🚨 It is very common for script loaders to stop working after a Firefox update. Please check the pages above for the new version of your script loader if this happens.</p>
 
 2. Restart Firefox and check whether the script loader is running correctly if you are using:
    <table>
@@ -87,9 +88,6 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 5. Restart Firefox to apply.
 
 6. If you moved some files out of `chrome` in step 3, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and style rules accordingly. If you need help, please provide the information 🛟 [here](https://github.com/Merci-chao/userChrome.js/issues/new).
-
-> [!IMPORTANT]
-> If the script loader stops working after updating Firefox, please visit the page above and reinstall the latest version of the script loader.
 
 ## Settings
 Open [*about:config*](https://support.mozilla.org/kb/about-config-editor-firefox) and search for the prefix `userChromeJS.multiTabRows@Merci.chao.`. Settings shown in gray are disabled due to dependency on other preferences.
