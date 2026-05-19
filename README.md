@@ -191,6 +191,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `checkUpdate` | <p>Check for a new version of this script when Firefox starts up or opens new windows. Set to `1` to enable and execute the check immediately in a new window, or `0` to disable. The value will be updated with the last checking time (e.g. `1759911972`).</p><p>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</p><p>📝 Note: Updates for this script will not be notified when using older versions of Firefox (except 115).</p> |
 | `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and sliently, also receive updates for minor changes and fixes that do not trigger notifications</li></ul> |
 | `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
+| `currentVersion` | The current version number. |
 | `debugMode`<span title="Do Not Use">⛔</span> | Mode for debugging, not for general use. |
 
 ### Firefox Built-in Settings
@@ -212,6 +213,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.8.0.1**
+- Adds `currentVersion` to display the current version number.
 
 **Version 4.8**
 - New
