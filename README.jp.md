@@ -212,7 +212,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 変更
 	- `security.allow_unsafe_dangerous_privileged_evil_eval` が有効化されていることに依存しなくなった。他のスクリプトで必要ない場合は、`false` にリセットしてください。
 - 改善
-	- Nova UI デザインへのサポート。
+	- Firefox 152 の Nova UI デザインへのサポート。
 	- `tabsAtBottom` を `-1` に設定した場合：
 		- 全画面表示モードでタブバーを非表示にできるようになった。
 		- タブバー項目のメニューはデフォルトで上方向に開く。
