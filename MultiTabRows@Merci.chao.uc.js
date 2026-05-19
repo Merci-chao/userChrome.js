@@ -3,8 +3,8 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.8.0.1
-// @compatibility  Firefox 115, 150-152
+// @version        4.8.1
+// @compatibility  Firefox 115, 140, 150-152
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
@@ -762,13 +762,12 @@ if (
 			return;
 		}
 
-		let compatibility = remoteScript?.match(/^\/\/\s*@compatibility\s+firefox\s*(.+?)\s*$/mi)?.[1]
-			?.split(/\s*,\s*/).map(v => v.split(/\s*-\s*/));
+		let compatibility = remoteScript.match(/^\/\/\s*@compatibility\s+firefox\s*(.+?)\s*$/mi)[1]
+			.split(/\s*,\s*/).map(v => v.split(/\s*-\s*/));
 		if (
-			!remote ||
 			remote.localeCompare(local, undefined, {numeric: true}) <= 0 ||
 			(
-				appVersion < compatibility?.at(-1).at(-1) &&
+				appVersion < compatibility.at(-1).at(-1) &&
 				!compatibility.some(([min, max]) => max ? min <= appVersion && appVersion <= max : appVersion == min)
 			)
 		)
@@ -2539,11 +2538,14 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-group {
 				[stacking]
 			)::before,
 			tab:not(
-				tab-group[collapsed] > :not([selected]),
+				tab-group[collapsed] > ${TAB_GROUP_PREVIEW_SUPPORT ? ":not([selected])" : "tab"},
 				[stacking]
 			) > &::before {
 				content: "";
-				background-color: var(--tab-group-line-color);
+				background-color: var(
+					--tab-group-line-color,
+					light-dark(var(--tab-group-color), var(--tab-group-color-invert))
+				);
 				position: absolute;
 				height: var(--tab-group-line-thickness);
 				bottom: var(--tab-group-line-toolbar-border-distance);
@@ -5471,7 +5473,19 @@ let GET_DRAG_TARGET;
 
 		HANDLE = "handle";
 	} else {
-		tabContainer.tabDragAndDrop = tabContainer;
+		assign(tabContainer, {
+			tabDragAndDrop: tabContainer,
+			_pinnedDropIndicator: tabContainer.pinnedDropIndicator,
+		});
+
+		if (!tabContainer._getDragTargetTab) {
+			let MozTabbrowserTabs = customElements.get("tabbrowser-tabs");
+			[
+				"#getDropIndex", "#setDragOverGroupColor", "#"+TRIGGER_DRAG_OVER_GROUPING,
+			].forEach(n => exposePrivateMethod(MozTabbrowserTabs, n, {isTab, isTabGroupLabel}));
+			tabContainer._rtlMode = RTL_UI;
+		}
+
 		HANDLE = "on";
 	}
 
@@ -10309,6 +10323,54 @@ function minPointH(a, b) {
 	return Math[RTL_UI ? "max" : "min"](a, b);
 }
 
+/**
+ * @param {(string|CustomElementConstructor)} element
+ * @param {string} method
+ * @param {Object} [context]
+ */
+function exposePrivateMethod(element, method, context) {
+	if (typeof element == "string")
+		element = customElements.get(element);
+	let newMethod = method.replace("#", "_");
+	if (newMethod in element.prototype)
+		return;
+	let relatedMehtods = new Set();
+	let code = element.toString().match(new RegExp(`(?<=\\s+)${method}.+|$`, "s"))[0];
+	let idx = 0, parenthesesIdx = 0, argPartDone;
+	code = code.slice(0, [...code].findIndex(c => {
+		if (argPartDone)
+			switch(c) {
+				case "{": idx++; break;
+				case "}": if (!--idx) return true;
+			}
+		else
+			switch(c) {
+				case "(":
+					parenthesesIdx++;
+					break;
+				case ")":
+					if (!argPartDone && !--parenthesesIdx)
+						argPartDone = true;
+					break;
+			}
+	}) + 1).replace(/\bthis\s*\.\s*(#[\w\s]+)(\()?/gs, (match, property, bracket = "") => {
+		if (bracket)
+			relatedMehtods.add(property);
+		return "this._" + property.slice(1) + bracket;
+	}).slice(method.length);
+	if (code)
+		try {
+			element.prototype[newMethod] = evalInSandbox(
+				/*js*/
+				`(function ${newMethod} ${code})`,
+				assign(new Cu.Sandbox(window, {sandboxPrototype: window, sameZoneAs: window}), context),
+			);
+			relatedMehtods.forEach(m => exposePrivateMethod(element, m, context));
+		} catch (e) {
+			showError(e, method, e.stack);
+		}
+}
+
 function setDebug() {
 	// eslint-disable-next-line no-cond-assign
 	({console} = (debug = prefs.debugMode) ? window : {});
@@ -10953,10 +11015,9 @@ function evalInSandbox(script, sandbox) {
 			useSandbox = true;
 		}
 
-	if (useSandbox)
-		Cu.evalInSandbox(script, sandbox);
-	else
-		eval(script);
+	return useSandbox
+		? Cu.evalInSandbox(script, sandbox)
+		: eval(script);
 }
 
 /**
@@ -10964,10 +11025,12 @@ function evalInSandbox(script, sandbox) {
  * @param {string} [param0.uri]
  * @param {boolean} [param0.skipMinorVer]
  */
-async function getScriptInfo({uri, skipMinorVer} = {}) {
-	uri ||= new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0];
+async function getScriptInfo({
+	uri = new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0],
+	skipMinorVer,
+} = {}) {
 	let script = (await(await fetch(uri)).text()).trim();
-	let version = script.match(/^\/\/\s*@version\s+(.+?)\s*$/mi)?.[1]
+	let version = script.match(/^\/\/\s*@version\s+(.+?)\s*$/mi)[1]
 		.replace(/((\d+\.\d+\.\d+)\.\d+)/, skipMinorVer ? "$2" : "$1")
 		.replace(/(\.0)+$/, "")
 	return {script, version, uri};
