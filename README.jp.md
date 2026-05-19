@@ -186,6 +186,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `checkUpdate` | <p>Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認。`1` で有効化（新しいウィンドウですぐにチェックを実行）、`0` で無効化。値は最後に確認した時刻（例：`1759911972`）で更新される。</p><p>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</p><p>📝 備考：Firefox の旧バージョン（115 を除く）を使用している場合、このスクリプトの更新は通知されない。</p> |
 | `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`1`－無効</li><li>`2`－有効</li><li>`3`－有効（通知なし）、通知されない軽微な変更や修正の更新も自動的に受け取り</li></ul> |
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値：`1`。 |
+| `currentVersion` | 現在のバージョン。 |
 | `debugMode`<span title="使用禁止">⛔</span> | デバッグモード。一般向けではない。 |
 
 ### Firefox の組み込み設定
@@ -206,6 +207,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.8.0.1**
+- `currentVersion` を追加：現在のバージョンを表示。
 
 **Version 4.8**
 - 追加
