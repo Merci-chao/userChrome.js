@@ -219,7 +219,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Change
 	- No longer relies on `security.allow_unsafe_dangerous_privileged_evil_eval` being enabled. Please reset it to `false` if it is not needed for other scripts.
 - Improvements
-	- Supports Nova UI design.
+	- Supports Nova UI design of Firefox 152.
 	- For `tabsAtBottom` set to `-1`:
 		- Supports hiding the tabs bar in full screen mode.
 		- Menus of the items in tabs bar open upward by default.
