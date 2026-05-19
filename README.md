@@ -43,7 +43,9 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 - Always use scripts and files from sources you trust. Malicious code can cause severe damage, such as corrupting your files, hacking into your accounts, or stealing sensitive information like bank and credit card details — and all of this can happen without you even noticing.
 
 ## Installation
-1. Install the script loader (*userChrome.js*). Skip to step 3 if you already have one in use. There are several script loaders available:
+1. Please ensure you are using a Firefox version listed in the [compatibility list](#compatibility) above. Older versions of Firefox and other OSs may potentially not be supported.
+
+2. Install the script loader (*userChrome.js*). Skip to step 3 if you already have one in use. There are several script loaders available:
 	- [*MrOtherGuy/fx-autoconfig*](https://github.com/MrOtherGuy/fx-autoconfig)
 	- [*Firefox Scripts*](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)
  	- [*alice0775/userChrome.js*](https://github.com/alice0775/userChrome.js) (Japanese)
@@ -54,7 +56,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
    <p>⛔ Do not install <em>Tab Mix Plus</em> as it will cause conflict.</p>
    <p>🚨 It is very common for script loaders to stop working after a Firefox update. Please check the pages above for the new version of your script loader if this happens.</p>
 
-2. Restart Firefox and check whether the script loader is running correctly if you are using:
+3. Restart Firefox and check whether the script loader is running correctly if you are using:
    <table>
 	   <tr>
 		   <td><em>MrOtherGuy/fx-autoconfig</em></td>
@@ -78,16 +80,16 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 	   </tr>
    </table>
 
-3. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of `chrome`.
+4. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of `chrome`.
    <p>⚠️ There are many reports of issues caused by conflicts with customized styles in <code>userChrome.css</code>.</p>
 
-4. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as) and place it in `chrome` (or in `chrome/JS` if you are using *MrOtherGuy/fx-autoconfig*).
+5. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as) and place it in `chrome` (or in `chrome/JS` if you are using *MrOtherGuy/fx-autoconfig*).
    <p>⚠️ Creating the file by copy & paste or other methods may cause incorrect encoding.</p>
    <p>⛔ Do not modify the file name during or after saving.</p>
 
-5. Restart Firefox to apply.
+6. Restart Firefox to apply.
 
-6. If you moved some files out of `chrome` in step 3, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and style rules accordingly. If you need help, please provide the information 🛟 [here](https://github.com/Merci-chao/userChrome.js/issues/new).
+7. If you moved some files out of `chrome` in step 3, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and style rules accordingly. If you need help, please provide the information 🛟 [here](https://github.com/Merci-chao/userChrome.js/issues/new).
 
 ## Settings
 Open [*about:config*](https://support.mozilla.org/kb/about-config-editor-firefox) and search for the prefix `userChromeJS.multiTabRows@Merci.chao.`. Settings shown in gray are disabled due to dependency on other preferences.
