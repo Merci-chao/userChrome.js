@@ -44,7 +44,7 @@ Firefox に多段タブ表示をサポートさせる。
 ## インストール手順
 1. 上記の[互換性リスト](#互換性)に記載されている Firefox のバージョンを使用しているか確認してください。それ以外の Firefox バージョンや OS は、サポート対象外となる可能性がある。
 
-2. スクリプトローダー（userChrome.js）をインストールする。すでに使用している場合は、手順 3 に進む。使えるスクリプトローダーはいくつかある：
+2. スクリプトローダー（userChrome.js）をインストールする。すでに使用している場合は、手順 4 に進む。使えるスクリプトローダーはいくつかある：
 	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)（英語）
 	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)（英語）
 	- [alice0775/userChrome.js](https://github.com/alice0775/userChrome.js)
