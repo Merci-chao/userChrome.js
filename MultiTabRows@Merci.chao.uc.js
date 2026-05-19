@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.8
+// @version        4.8.0.1
 // @compatibility  Firefox 115, 150-152
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -411,6 +411,15 @@ const getPrefs = (branch, data) => Object.fromEntries(
 updateThemeStatus();
 loadPrefs();
 
+{
+	let name = "currentVersion";
+	if (!getPref(prefBranchStr + name))
+		getScriptInfo().then(({version}) => {
+			Services.prefs.getDefaultBranch(prefBranchStr).setStringPref(name, version);
+			Services.prefs.lockPref(prefBranchStr + name);
+		});
+}
+
 Object.keys(prefs).forEach(n => Services.prefs.addObserver(prefBranchStr + n, onPrefChange));
 let observedBrowserPrefs = [
 	"browser.smartwindow.enabled",
@@ -725,30 +734,34 @@ async function onPrefChange(pref, type, name) {
 
 setDebug();
 
-if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 >= Math.max(prefs.checkUpdateFrequency, 1)) {
+if (
+	prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24
+		>= Math.max(prefs.checkUpdateFrequency, 1)
+) {
 	Services.prefs.setIntPref(prefBranchStr + "checkUpdate", Date.now() / 1000);
 	(async () => {
 		let auto = prefs.checkUpdateAutoApply;
-		let getVer = code => code?.match(/^\/\/\s*@version\s+(.+?)\s*$/mi)?.[1]
-			.replace(/((\d+\.\d+\.\d+)\.\d+)/, auto < 3 ? "$2" : "$1")
-			.replace(/(\.0)+$/, "");
-		let localFileURI = new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0];
-		let localScript = await (await fetch(localFileURI)).text();
+		let skipMinorVer = auto < 3;
+
+		let {script: localScript, version: local, uri: localFileURI} =
+			await getScriptInfo({skipMinorVer});
+
 		let updateURL = localScript.match(/^\/\/\s*@updateURL\s+(.+?)\s*$/mi)[1];
 		let homeURL = "https://github.com/Merci-chao/userChrome.js";
 
-		let remoteScript;
+		let remoteScript, remote;
 
 		try {
-			remoteScript = (await (await fetch(updateURL)).text()).trim();
+			(
+				{script: remoteScript, version: remote} =
+					await getScriptInfo({uri: updateURL, skipMinorVer})
+			);
 		} catch (e) {
 			window.console.error(e, updateURL);
 			setTomorrow();
 			return;
 		}
 
-		let local = getVer(localScript);
-		let remote = getVer(remoteScript);
 		let compatibility = remoteScript?.match(/^\/\/\s*@compatibility\s+firefox\s*(.+?)\s*$/mi)?.[1]
 			?.split(/\s*,\s*/).map(v => v.split(/\s*-\s*/));
 		if (
@@ -10944,6 +10957,20 @@ function evalInSandbox(script, sandbox) {
 		Cu.evalInSandbox(script, sandbox);
 	else
 		eval(script);
+}
+
+/**
+ * @param {Object} param0
+ * @param {string} [param0.uri]
+ * @param {boolean} [param0.skipMinorVer]
+ */
+async function getScriptInfo({uri, skipMinorVer} = {}) {
+	uri ||= new Error().stack.match(/(?<=@).+?(?=:\d+:\d+$)/m)[0];
+	let script = (await(await fetch(uri)).text()).trim();
+	let version = script.match(/^\/\/\s*@version\s+(.+?)\s*$/mi)?.[1]
+		.replace(/((\d+\.\d+\.\d+)\.\d+)/, skipMinorVer ? "$2" : "$1")
+		.replace(/(\.0)+$/, "")
+	return {script, version, uri};
 }
 
 console?.timeEnd("setup");
