@@ -17,7 +17,7 @@ Firefox に多段タブ表示をサポートさせる。
 注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja/)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
-- Firefox 115、150〜152（ESR バージョンを除く）
+- Firefox 115、140、150〜152
 
 - Windows 7〜11
 
@@ -207,6 +207,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.8.1**
+- Firefox ESR バージョン（140）へのサポート。
 
 **Version 4.8.0.1**
 - `currentVersion` を追加：現在のバージョンを表示。
