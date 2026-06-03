@@ -228,8 +228,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Improvements
 	- Supports Nova UI design of Firefox 152.
 	- For `tabsAtBottom` set to `-1`:
-		- Supports hiding the tabs bar in full screen mode.
-		- Menus of the items in tabs bar open upward by default.
+		- Supports hiding the tab bar in full screen mode.
+		- Menus of the items in tab bar open upward by default.
 	- Updates for Firefox 152.
 	- Minor layout refinements for media buttons.
 - Fixes
