@@ -87,7 +87,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
    <p>⚠️ Creating the file by copy & paste or other methods may cause incorrect encoding.</p>
    <p>⛔ Do not modify the file name during or after saving.</p>
 
-6. Quit (`Ctrl`+`Shift`+`Q`) Firefox completely and restart to apply.
+6. Quit Firefox completely (`Ctrl`+`Shift`+`Q`) and restart to apply.
 
 7. If you moved some files out of `chrome` in step 4, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and style rules accordingly. If you need help, please provide the information 🛟 [here](https://github.com/Merci-chao/userChrome.js/issues/new).
 
