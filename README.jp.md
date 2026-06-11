@@ -53,7 +53,7 @@ Firefox に多段タブ表示をサポートさせる。
     <p>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に希望がなければ、<a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">更新チェック機能</a>を提供する MrOtherGuy/fx-autoconfig を試すか、<a href="https://kamehiyo.com/firefox_multitub_new/">bunji_ 氏の記事</a>を参考にして Firefox Scripts をインストールすることができる。</p>
 	<p><strong>🚨 重要：</strong>Firefox のアップデート後にスクリプトローダーが動作しなくなるのは非常によくあるケース。その場合は、使用しているスクリプトローダーの新しいバージョンを上記のページで確認してください。</p>
 
-3. Firefox を再起動し、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
+3. Firefox を完全に終了（`Ctrl`+`Shift`+`Q`）し、再起動する（または [about:support](https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox) の「起動時キャッシュを消去」ボタンを使用して再起動）、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
    <table>
 	   <tr>
 		   <td>MrOtherGuy/fx-autoconfig</td>
@@ -84,7 +84,7 @@ Firefox に多段タブ表示をサポートさせる。
    <p>⚠️ コピーして貼り付けやその他の方法で作成すると、誤ったファイルエンコードが発生する可能性がある。</p>
    <p>⛔ 保存中または保存後にファイル名を変更しないでください。</p>
 
-6. Firefox を完全に終了（`Ctrl`+`Shift`+`Q`）し、再起動して適用する。
+6. Firefox を再起動して適用する。
 
 7. 手順 4 で一部のファイルを `chrome` の外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、スクリプトやスタイルルールを調整してください。お困りの際は、🛟 [こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
 
