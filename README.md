@@ -56,7 +56,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
    <p>⛔ Do not install <em>Tab Mix Plus</em> as it will cause conflict.</p>
    <p>🚨 It is very common for script loaders to stop working after a Firefox update. Please check the pages above for the new version of your script loader if this happens.</p>
 
-3. Restart Firefox and check whether the script loader is running correctly if you are using:
+3. Quit Firefox completely (`Ctrl`+`Shift`+`Q`) and restart (or use the **Clear startup cache** button in [*about:support*](https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox) to restart), then check whether the script loader is running correctly if you are using:
    <table>
 	   <tr>
 		   <td><em>MrOtherGuy/fx-autoconfig</em></td>
@@ -87,7 +87,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
    <p>⚠️ Creating the file by copy & paste or other methods may cause incorrect encoding.</p>
    <p>⛔ Do not modify the file name during or after saving.</p>
 
-6. Quit Firefox completely (`Ctrl`+`Shift`+`Q`) and restart to apply.
+6. Restart Firefox to apply.
 
 7. If you moved some files out of `chrome` in step 4, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and style rules accordingly. If you need help, please provide the information 🛟 [here](https://github.com/Merci-chao/userChrome.js/issues/new).
 
