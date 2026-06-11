@@ -3,8 +3,8 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.8.1
-// @compatibility  Firefox 115, 140, 150-152
+// @version        4.9
+// @compatibility  Firefox 115, 140, 151-153
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
 // @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
@@ -73,11 +73,16 @@ class Rect {
 	#start;
 	/** @type {(number|undefined)} */
 	#y;
+	/** @type {boolean} */
+	relative = false;
+	/** @type {boolean} */
+	visible;
+	/** @type {number} */
+	widthRoundingDiff;
+	/** @type {number} */
+	heightRoundingDiff;
 
-	/**
-	 * @param {("start"|"y")} n
-	 * @returns {number}
-	 */
+	/** @param {("start"|"y")} n */
 	#pos(n) {
 		let v = n == "y" ? this.#y : this.#start;
 		if (v == null)
@@ -85,45 +90,40 @@ class Rect {
 		return v ?? 0;
 	}
 
-	/** @returns {number} */
-	get start() { return this.#pos("start") }
 	/** @param {number} v */
-	set start(v) { this.#start = v }
+	set start(v) {this.#start = v;}
+	get start() {return this.#pos("start");}
 
-	/** @returns {number} */
-	get end() { return this.start + this.width * DIR }
 	/** @param {number} v */
-	set end(v) { this.width = (v - this.start) * DIR }
+	set end(v) {this.width = (v - this.start) * DIR;}
+	get end() {return this.start + this.width * DIR;}
 
-	/** @returns {number} */
-	get x() { return this[LEFT] }
 	/** @param {number} v */
-	set x(v) { this[LEFT] = v }
+	set x(v) {this[LEFT] = v;}
+	get x() {return this[LEFT];}
 
-	/** @returns {number} */
-	get right() { return this[RIGHT] }
 	/** @param {number} v */
-	set right(v) { this[RIGHT] = v }
+	set right(v) {this[RIGHT] = v;}
+	get right() {return this[RIGHT];}
 
-	/** @returns {number} */
-	get left() { return this.x }
 	/** @param {number} v */
-	set left(v) { this.x = v }
+	set left(v) {this.x = v;}
+	get left() {return this.x;}
 
-	/** @returns {number} */
-	get y() { return this.#pos("y") }
 	/** @param {number} v */
-	set y(v) { this.#y = v }
+	set y(v) {this.#y = v;}
+	get y() {return this.#pos("y");}
 
-	/** @returns {number} */
-	get top() { return this.y }
 	/** @param {number} v */
-	set top(v) { this.y = v }
+	set top(v) {this.y = v;}
+	get top() {return this.y;}
 
-	/** @returns {number} */
-	get bottom() { return this.y + this.height }
 	/** @param {number} v */
-	set bottom(v) { this.height = v - this.y }
+	set bottom(v) {this.height = v - this.y;}
+	get bottom() {return this.y + this.height;}
+
+	get centerX() {return this.start + this.width / 2 * DIR;}
+	get centerY() {return this.y + this.height / 2;}
 
 	/** @returns {Rect} */
 	clone() {
@@ -160,6 +160,52 @@ class Rect {
 		return r;
 	}
 }
+
+const prefBranchStr = "userChromeJS.multiTabRows@Merci.chao.";
+
+(async () => {
+	let name = "currentVersion";
+	if (!getPref(prefBranchStr + name)) {
+		let {prefs} = Services;
+		let compatibilityPref = prefBranchStr + "incompatible";
+		let {version, compatible, compatibility} = await getScriptInfo();
+
+		prefs.getDefaultBranch(prefBranchStr).setStringPref(name, version);
+		prefs.lockPref(prefBranchStr + name);
+		if (compatible)
+			prefs.clearUserPref(compatibilityPref);
+		else {
+			let prefValue = version + "_" + appVersion;
+			if (getPref(compatibilityPref) != prefValue) {
+				let ver = compatibility.at(-1)[0];
+				let texts = l10n({
+					en: {
+						msg: `You are using Firefox ${appVersion} and this script may not be fully compatible. Please update to Firefox ${ver} or above to ensure the compatibility.`,
+						checkMsg: "Don't show again",
+					},
+					ja: {
+						msg: `Firefox ${appVersion} を使用しています。このスクリプトは完全な互換性がない可能性があります。互換性を確保するため、Firefox ${ver} 以上に更新してください。`,
+						checkMsg: "今後表示しない",
+					},
+				});
+
+				await defer();
+
+				let checked = {};
+				Services.prompt.alertCheck(
+					window,
+					`${SCRIPT_NAME} (${SCRIPT_FILE_NAME})`,
+					texts.msg,
+					texts.checkMsg,
+					checked,
+				);
+
+				if (checked.value)
+					prefs.setStringPref(compatibilityPref, prefValue);
+			}
+		}
+	}
+})();
 
 const tabsBar = $("#TabsToolbar");
 const {tabContainer} = gBrowser, {arrowScrollbox} = tabContainer, {scrollbox} = arrowScrollbox;
@@ -209,20 +255,24 @@ const TEMP_SHOW_CONDITIONS = `:is(
 	:focus-within
 ):not([urlbar-view-open] #tabbrowser-tabs)`;
 const MENUBAR_AUTOHIDE = appVersion > 142 ? "[autohide]" : "[autohide=true]";
+const THEME_IMAGE_IN_TOOLBOX = appVersion > 152 ? "theme-image-in-toolbox" : "lwtheme-image-y-align";
 
 const win7 = matchMedia("(-moz-platform: windows-win7)").matches;
 const win8 = matchMedia("(-moz-platform: windows-win8)").matches;
 const accentColorInTitlebarMQ = matchMedia("(-moz-windows-accent-color-in-titlebar)");
+const micaMQ = matchMedia("(-moz-windows-mica)");
 const novaMQ = matchMedia(`-moz-pref("browser.nova.enabled")`);
 const OVERLAY_SCROLLBARS = matchMedia("(-moz-overlay-scrollbars)").matches;
 
 let micaEnabled = false,
 	mica = false,
+	micaTheme = false,
 	defaultDarkTheme = false,
 	defaultAutoTheme = false,
 	defaultTheme = false,
 	bgImgTheme = false,
-	bgImgRepeat = false,
+	bgImgHasRepeat = false,
+	bgImgAllRepeat = false,
 	nova = false;
 
 const lastLayoutData = {};
@@ -275,81 +325,95 @@ let TAB_BLOCK_MARGIN_CURRENT = TAB_BLOCK_MARGIN;
 let console;
 let debug = false;
 
-const prefBranchStr = "userChromeJS.multiTabRows@Merci.chao.";
-
 /** @type {Object} */
 let prefs;
-const createDefaultPrefs = () => ({
-	maxTabRows: 4,
-	rowStartIncreaseFrom: VIEW_MIN_WIDTH,
-	rowIncreaseEvery: 200,
-	spaceAfterTabs: 40,
-	spaceAfterTabsOnMaximizedWindow: 40,
-	spaceBeforeTabs: 40,
-	spaceBeforeTabsOnMaximizedWindow: 0,
-	hideEmptyPlaceholderWhenScrolling: true,
-	gapAfterPinned: appVersion < 143 ? 12 : 0,
-	tabsbarItemsAlign: "start",
-	linesToScroll: 1,
-	linesToDragScroll: 1,
-	thinScrollbar: true,
-	scrollbarTrackColor: "auto",
-	scrollbarThumbColor: "auto",
-	tabsUnderControlButtons: 2,
-	debugMode: 0,
-	floatingBackdropClip: win7 || win8
+function createDefaultPrefs() {
+	const shouldClip = win7 || win8
 		? defaultTheme
-		: !!(mica && getPref("browser.tabs.inTitlebar") || getPref(prefBranchStr + "nativeWindowStyle")),
-	floatingBackdropBlurriness: appVersion > 116 ? 5 : null,
-	floatingBackdropOpacity: appVersion > 116 && !mica ? 25 : 75,
-	compactControlButtons: win7 || win8 ? null : false,
-	hideAllTabs: $("#alltabs-button")?.getAttribute("removable") == "false" ? false : null,
-	checkUpdate: 1,
-	checkUpdateFrequency: 1,
-	dynamicMoveOverThreshold: TAB_GROUP_SUPPORT ? true : null,
-	nativeWindowStyle: appVersion > 130 ? false : null,
-	animationDuration: ANIMATE_DURATION,
-	autoCollapse: false,
-	autoCollapseDelayExpanding: 100,
-	autoCollapseDelayCollapsing: 400,
-	// autoCollapseCurrentRowStaysTop: false,
-	hideDragPreview: FOR_GROUP,
-	tabsAtBottom: appVersion > 132 ? 0 : null,
-	tabMaxWidth: 225,
-	hideScrollButtonsWhenDragging: false,
-	scrollButtonsSize: 10,
-	justifyCenter: 0,
-	checkUpdateAutoApply: 1,
-	pinnedTabsFlexWidth: false,
-	pinnedTabsFlexWidthIndicator: false,
-	animateTabMoveUnderLimit: 200,
-	hidePinnedDropIndicator: $("#pinned-drop-indicator") ? false : null,
-	dragStackPreceding: true,
-	privateBrowsingIconOnNavBar: $("#private-browsing-indicator-with-label") ? null : false,
-	tabContentHeight:
-		nova
-			? TAB_CONTENT_HEIGHT_NOVA
-			: (
-				TAB_CONTENT_HEIGHT[getPref("browser.uidensity")] ||
-				TAB_CONTENT_HEIGHT[0]
-			),
-	tabVerticalMargin: TAB_BLOCK_MARGIN_CURRENT,
-	tabHorizontalPadding: TAB_INLINE_PADDING,
-	tabHorizontalMargin: TAB_INLINE_MARGIN,
-	previewPanelNoteEditable: TAB_NOTE_SUPPORT ? true : null,
-	previewPanelShifted: TAB_GROUP_PREVIEW_SUPPORT ? FOR_TAB | FOR_GROUP : null,
-	previewPanelShiftedAlways: TAB_GROUP_PREVIEW_SUPPORT ? false : null,
-	newTabButtonAfterLastTab: true,
-	positionPinnedTabs: true,
-	lastRowTabsFlexibe: true,
-	animateTabMoveShiftKeyToPause: true,
-	// dlpButtonOnNavBar: $(".content-analysis-indicator") ? false : null,
-	smartWindowButtonOnNavBar: appVersion > 148 ? false : null,
-	showScrollShadow: true,
-	themeImageSize: 0,
-	controlButtonsAutoHide: win7 || win8 ? null : 0,
-	controlButtonsAutoHideTriggerHeight: win7 || win8 ? null : 2,
-});
+		: !!(
+			mica && getPref("browser.tabs.inTitlebar") ||
+			getPref(prefBranchStr + "nativeWindowStyle")
+		);
+	return {
+		maxTabRows: 4,
+		rowStartIncreaseFrom: VIEW_MIN_WIDTH,
+		rowIncreaseEvery: 200,
+		spaceAfterTabs: 40,
+		spaceAfterTabsOnMaximizedWindow: 40,
+		spaceBeforeTabs: 40,
+		spaceBeforeTabsOnMaximizedWindow: 0,
+		hideEmptyPlaceholderWhenScrolling: true,
+		gapAfterPinned: appVersion < 143 ? 12 : 0,
+		tabsbarItemsAlign: "start",
+		linesToScroll: 1,
+		linesToDragScroll: 1,
+		thinScrollbar: true,
+		scrollbarTrackColor: "auto",
+		scrollbarThumbColor: "auto",
+		tabsUnderControlButtons: 2,
+		debugMode: 0,
+		floatingBackdropClip: shouldClip,
+		floatingBackdropBlurriness: appVersion > 116 ? 5 : null,
+		floatingBackdropOpacity:
+			appVersion < 117 || shouldClip
+					? 100 : 25,
+		compactControlButtons: win7 || win8 ? null : false,
+		hideAllTabs: $("#alltabs-button")?.getAttribute("removable") == "false" ? false : null,
+		checkUpdate: 1,
+		checkUpdateFrequency: 1,
+		dynamicMoveOverThreshold: TAB_GROUP_SUPPORT ? true : null,
+		nativeWindowStyle: appVersion > 130 ? false : null,
+		nativeWindowStyleToolbarColorOpacity:
+			appVersion > 130
+				? !nova && getPref(prefBranchStr + "tabsAtBottom")
+					? 0 : 100
+				: null,
+		nativeWindowStyleURLBarColorOpacity: appVersion > 130 ? 100 : null,
+		animationDuration: ANIMATE_DURATION,
+		autoCollapse: false,
+		autoCollapseDelayExpanding: 100,
+		autoCollapseDelayCollapsing: 400,
+		// autoCollapseCurrentRowStaysTop: false,
+		hideDragPreview: FOR_GROUP,
+		tabsAtBottom: appVersion > 132 ? 0 : null,
+		tabMaxWidth: 225,
+		hideScrollButtonsWhenDragging: false,
+		scrollButtonsSize: 10,
+		justifyCenter: 0,
+		checkUpdateAutoApply: 1,
+		pinnedTabsFlexWidth: false,
+		pinnedTabsFlexWidthIndicator: false,
+		animateTabMoveUnderLimit: 200,
+		hidePinnedDropIndicator: $("#pinned-drop-indicator") ? false : null,
+		dragStackPreceding: true,
+		privateBrowsingIconOnNavBar: $("#private-browsing-indicator-with-label") ? null : false,
+		tabContentHeight:
+			nova
+				? TAB_CONTENT_HEIGHT_NOVA
+				: (
+					TAB_CONTENT_HEIGHT[getPref("browser.uidensity")] ||
+					TAB_CONTENT_HEIGHT[0]
+				),
+		tabVerticalMargin: TAB_BLOCK_MARGIN_CURRENT,
+		tabHorizontalPadding: TAB_INLINE_PADDING,
+		tabHorizontalMargin: TAB_INLINE_MARGIN,
+		previewPanelNoteEditable: TAB_NOTE_SUPPORT ? true : null,
+		previewPanelShifted: TAB_GROUP_PREVIEW_SUPPORT ? FOR_TAB | FOR_GROUP : null,
+		previewPanelShiftedAlways: TAB_GROUP_PREVIEW_SUPPORT ? false : null,
+		newTabButtonAfterLastTab: true,
+		positionPinnedTabs: true,
+		lastRowTabsFlexibe: true,
+		animateTabMoveShiftKeyToPause: true,
+		// dlpButtonOnNavBar: $(".content-analysis-indicator") ? false : null,
+		smartWindowButtonOnNavBar: appVersion > 148 ? false : null,
+		showScrollShadow: true,
+		themeImageSize: bgImgHasRepeat ? -1 : 0,
+		controlButtonsAutoHide: win7 || win8 ? null : 0,
+		controlButtonsAutoHideTriggerHeight: win7 || win8 ? null : 2,
+		hamburgerMenuOnTabBar: window.AIWindow?.init.toString().includes("_updateToolbarButtonPositions") == false
+			? true : null,
+	};
+}
 
 const PREFS_TO_PROPS = {
 	"browser.tabs.dragDrop.multiselectStacking": {
@@ -371,10 +435,12 @@ const PREFS_TO_PROPS = {
 	),
 };
 
-const setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
-	value != null &&
-	branch[`set${{string: "String", number: "Int", boolean: "Bool"}[typeof value]}Pref`](name, value)
-);
+const setDefaultPrefs = (branch, data) => {
+	Object.entries(data).forEach(([name, value]) => {
+		if (value != null)
+			branch[`set${{string: "String", number: "Int", boolean: "Bool"}[typeof value]}Pref`](name, value);
+	});
+};
 const getPrefs = (branch, data) => Object.fromEntries(
 	Object.entries(data).filter(([, value]) => value != null)
 		.map(([name, value]) => [name, branch[`get${{string: "String", number: "Int", boolean: "Bool"}[typeof value]}Pref`](name)])
@@ -411,17 +477,9 @@ const getPrefs = (branch, data) => Object.fromEntries(
 updateThemeStatus();
 loadPrefs();
 
-{
-	let name = "currentVersion";
-	if (!getPref(prefBranchStr + name))
-		getScriptInfo().then(({version}) => {
-			Services.prefs.getDefaultBranch(prefBranchStr).setStringPref(name, version);
-			Services.prefs.lockPref(prefBranchStr + name);
-		});
-}
-
 Object.keys(prefs).forEach(n => Services.prefs.addObserver(prefBranchStr + n, onPrefChange));
 let observedBrowserPrefs = [
+	"browser.ai.control.smartWindow",
 	"browser.smartwindow.enabled",
 	"browser.tabs.dragDrop.moveOverThresholdPercent",
 	"browser.tabs.groups.enabled",
@@ -435,42 +493,65 @@ let observedBrowserPrefs = [
 	"sidebar.position_start",
 	"toolkit.tabbox.switchByScrolling",
 	"ui.prefersReducedMotion",
-	"widget.windows.mica",
 	...Object.keys(PREFS_TO_PROPS),
+];
+let observedNotifications = [
+	"ai-window-state-changed",
+	"lightweight-theme-styling-update",
 ];
 for (let p of observedBrowserPrefs)
 	Services.prefs.addObserver(p, onPrefChange);
+for (let p of observedNotifications)
+	Services.obs.addObserver(onNofitied, p);
 accentColorInTitlebarMQ.onchange = () => onPrefChange(null, null, "-moz-windows-accent-color-in-titlebar");
 novaMQ.onchange = () => onPrefChange(null, null, "browser.nova.enabled");
+micaMQ.onchange = () => onPrefChange(null, null, "widget.windows.mica");
 
 addEventListener("unload", e => {
 	if (e.target != document) return;
 	Object.keys(prefs).forEach(n => Services.prefs.removeObserver(prefBranchStr + n, onPrefChange));
 	for (let p of observedBrowserPrefs)
 		Services.prefs.removeObserver(p, onPrefChange);
+	for (let p of observedNotifications)
+		Services.obs.removeObserver(onNofitied, p);
 }, true);
 
 function loadPrefs(defaultPrefs = createDefaultPrefs()) {
-	setDefaultPrefs(Services.prefs.getDefaultBranch(prefBranchStr), defaultPrefs);
+	let defaultBranch = Services.prefs.getDefaultBranch(prefBranchStr);
+	setDefaultPrefs(defaultBranch, defaultPrefs);
 	prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defaultPrefs);
 	prefs.tabsAtBottom ??= 0;
 
-	const showTitleBar = !getPref("browser.tabs.inTitlebar");
+	for (let [p, [min, max]] of Object.entries({
+		animationDuration: [0, prefs.debugMode ? Infinity : 1000],
+		nativeWindowStyleToolbarColorOpacity: [0, 100],
+		nativeWindowStyleURLBarColorOpacity: [0, 100],
+	}))
+		if (p in prefs)
+			prefs[p] = Math.min(Math.max(prefs[p], min), max);
+
+	const showMenubar = !!$(`#toolbar-menubar:not(${MENUBAR_AUTOHIDE})`);
+	const allWindowsHaveTitleOrMenuBar =
+		!getPref("browser.tabs.inTitlebar") ||
+		!("TaskbarTabsChrome" in window) && showMenubar;
 	const moveOverThreshold = getPref("browser.tabs.dragDrop.moveOverThresholdPercent", 0);
 	const singleRow = prefs.maxTabRows < 2;
 	const supportsHas = getPref("layout.css.has-selector.enabled", true);
 	const noAutoCollapse = !supportsHas || singleRow;
+	const noSmartWindow = !["available", "enabled"].includes(window.AIWindow?.aiControlState);
 
 	lock("autoCollapse", noAutoCollapse);
 
 	const {autoCollapse, tabsAtBottom} = prefs;
 	const alwaysIndMove = prefs.animateTabMoveUnderLimit < 3;
 
-	lock(["compactControlButtons", "controlButtonsAutoHide"], showTitleBar);
+	lock("themeImageSize", !bgImgTheme || singleRow || autoCollapse || tabsAtBottom < 0);
+	lock("nativeWindowStyleToolbarColorOpacity", !prefs.nativeWindowStyle || !nova && tabsAtBottom);
+	lock("nativeWindowStyleURLBarColorOpacity", !prefs.nativeWindowStyle);
+	lock(["compactControlButtons", "controlButtonsAutoHide"], allWindowsHaveTitleOrMenuBar);
 	lock("controlButtonsAutoHideTriggerHeight", !prefs.controlButtonsAutoHide);
 	lock("linesToDragScroll", singleRow);
 	lock("linesToScroll", singleRow || getPref("toolkit.tabbox.switchByScrolling"));
-	lock("nativeWindowStyle", bgImgTheme || nova);
 	lock(
 		["autoCollapseDelayCollapsing", "autoCollapseDelayExpanding", "autoCollapseCurrentRowStaysTop"],
 		!autoCollapse,
@@ -480,7 +561,6 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 		singleRow || autoCollapse,
 		0,
 	);
-	lock("themeImageSize", !bgImgTheme || bgImgRepeat || singleRow || autoCollapse || tabsAtBottom < 0);
 	lock("tabsUnderControlButtons", singleRow || autoCollapse, 0);
 	lock("floatingBackdropClip", singleRow || prefs.tabsUnderControlButtons < 2);
 	lock("floatingBackdropOpacity", singleRow || prefs.tabsUnderControlButtons < 2 || prefs.floatingBackdropClip, 75);
@@ -492,7 +572,7 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 			prefs.floatingBackdropClip ||
 			singleRow ||
 			prefs.tabsUnderControlButtons < 2 ||
-			(mica || prefs.nativeWindowStyle) && !getPref("browser.smartwindow.enabled", AI_WINDOW_SUPPORT)
+			(mica || prefs.nativeWindowStyle) && noSmartWindow
 		),
 	);
 	lock(["checkUpdateFrequency", "checkUpdateAutoApply"], !prefs.checkUpdate);
@@ -513,13 +593,13 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 		tabsAtBottom,
 		true,
 	);
-	lock("smartWindowButtonOnNavBar", tabsAtBottom || !getPref("browser.smartwindow.enabled", AI_WINDOW_SUPPORT), !!tabsAtBottom);
+	lock("smartWindowButtonOnNavBar", tabsAtBottom || noSmartWindow, !!tabsAtBottom);
 	lock("hidePinnedDropIndicator", !getPref("browser.tabs.dragDrop.dragToPin.enabled", NATIVE_DRAG_TO_PIN) || alwaysIndMove, true);
 	lock("pinnedTabsFlexWidthIndicator", !prefs.pinnedTabsFlexWidth);
 	lock("dragStackPreceding", !getPref("browser.tabs.dragDrop.multiselectStacking", TAB_STACKING_SUPPORT) || alwaysIndMove);
 	lock(
 		["spaceAfterTabs", "spaceAfterTabsOnMaximizedWindow", "spaceBeforeTabs", "spaceBeforeTabsOnMaximizedWindow"],
-		showTitleBar,
+		allWindowsHaveTitleOrMenuBar,
 		0,
 	);
 	lock(
@@ -532,16 +612,18 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 	);
 	lock("previewPanelNoteEditable", !getPref("browser.tabs.notes.enabled", TAB_NOTE_SUPPORT), false);
 	lock("positionPinnedTabs", prefs.pinnedTabsFlexWidth || autoCollapse, false);
-	lock("lastRowTabsFlexibe", prefs.justifyCenter == 2);
+	lock("lastRowTabsFlexibe", prefs.justifyCenter > 1);
 	lock("previewPanelShiftedAlways", !prefs.previewPanelShifted);
 	lock("animateTabMoveShiftKeyToPause", alwaysIndMove);
 	lock("animationDuration", getPref("ui.prefersReducedMotion") == 1);
+	lock("hamburgerMenuOnTabBar", tabsAtBottom || noSmartWindow, false);
 
-	prefs.animationDuration = Math.min(Math.max(prefs.animationDuration, 0), prefs.debugMode ? Infinity : 1000);
 	if (gNavToolbox.hasAttribute("tabs-hidden"))
 		prefs.tabsUnderControlButtons = 0;
-	if ($(`:root:not([chromehidden~=menubar]) #toolbar-menubar:not(${MENUBAR_AUTOHIDE})`))
-		prefs.controlButtonsAutoHide = false;
+	if (showMenubar && root.matches(":not([chromehidden~=menubar])"))
+		prefs.controlButtonsAutoHide = 0;
+	/*global PrivateBrowsingUtils*/
+	prefs.hamburgerMenuOnTabBar &&= !PrivateBrowsingUtils.isWindowPrivate(window);
 
 	/**
 	 * @param {string|Array<string>} name
@@ -559,8 +641,26 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 	}
 }
 
+async function onNofitied(subject, name) {
+	switch (name) {
+		case "lightweight-theme-styling-update": {
+			if (!root.hasAttribute("ai-window"))
+				return;
+			updateThemeStatus(subject.wrappedJSObject);
+			break;
+		} case "ai-window-state-changed":
+			if (subject != window)
+				return;
+			updateAIWindowButtonsPosition();
+			await 0;
+			updateThemeStatus();
+			break;
+	}
+	await onPrefChange(null, null, name);
+}
+
 /**
- * @param {string} pref
+ * @param {Object} pref
  * @param {string} type
  * @param {string} name
  */
@@ -584,7 +684,13 @@ async function onPrefChange(pref, type, name) {
 		case "-moz-windows-accent-color-in-titlebar":
 		case "widget.windows.mica":
 		case "browser.nova.enabled":
+		case "nativeWindowStyle":
 			updateThemeStatus();
+			break;
+		case "browser.ai.control.smartWindow":
+		case "browser.smartwindow.enabled":
+			await 0;
+			break;
 	}
 
 	if (name == "browser.nova.enabled") {
@@ -592,6 +698,7 @@ async function onPrefChange(pref, type, name) {
 		TAB_BLOCK_MARGIN_CURRENT = parseFloat(getStyle(root, "--tab-block-margin", true));
 		novaTabsBarResizeObserver[nova ? "observe" : "unobserve"](tabsBar);
 		updateNovaURLBarPosition();
+		tabContainer[ON_UI_DENSITY_CHANGED]();
 	}
 
 	let browsers = [...Services.wm.getEnumerator("navigator:browser")];
@@ -655,8 +762,10 @@ async function onPrefChange(pref, type, name) {
 		case "spaceBeforeTabsOnMaximizedWindow":
 		case "privateBrowsingIconOnNavBar":
 		case "tabsAtBottom":
+		case "browser.ai.control.smartWindow":
 		case "browser.smartwindow.enabled":
 		case "smartWindowButtonOnNavBar":
+		case "hamburgerMenuOnTabBar":
 		case "controlButtonsAutoHide":
 		// case "dlpButtonOnNavBar":
 			setStyle();
@@ -749,11 +858,11 @@ if (
 		let updateURL = localScript.match(/^\/\/\s*@updateURL\s+(.+?)\s*$/mi)[1];
 		let homeURL = "https://github.com/Merci-chao/userChrome.js";
 
-		let remoteScript, remote;
+		let remoteScript, remote, compatible;
 
 		try {
 			(
-				{script: remoteScript, version: remote} =
+				{script: remoteScript, version: remote, compatible} =
 					await getScriptInfo({uri: updateURL, skipMinorVer})
 			);
 		} catch (e) {
@@ -762,18 +871,13 @@ if (
 			return;
 		}
 
-		let compatibility = remoteScript.match(/^\/\/\s*@compatibility\s+firefox\s*(.+?)\s*$/mi)[1]
-			.split(/\s*,\s*/).map(v => v.split(/\s*-\s*/));
 		if (
-			remote.localeCompare(local, undefined, {numeric: true}) <= 0 ||
-			(
-				appVersion < compatibility.at(-1).at(-1) &&
-				!compatibility.some(([min, max]) => max ? min <= appVersion && appVersion <= max : appVersion == min)
-			)
+			!compatible ||
+			remote.localeCompare(local, undefined, {numeric: true}) <= 0
 		)
 			return;
 
-		let l10n = {
+		let texts = l10n({
 			en: {
 				message: `${SCRIPT_NAME} (${SCRIPT_FILE_NAME}) version ${remote} is released.`,
 				update: "Update Now",
@@ -801,29 +905,28 @@ if (
 				done: `${SCRIPT_NAME} ${remote} に更新しました。Firefox を再起動すると変更が適用になります。`,
 				error: `バージョン ${remote} の更新処理に失敗しました。ファイルが読み取り専用でないこと、または他のプログラムによってロックされていないことを確認してください：`,
 			},
-		};
-		l10n = assign(l10n.en, l10n[Services.locale.appLocaleAsLangTag.split("-")[0]]);
+		});
 
 		if (auto > 1)
 			install();
 		else
 			showNotification(
-				l10n.message,
+				texts.message,
 				[
 					{
-						label: l10n.update,
-						accessKey: l10n.updateKey,
+						label: texts.update,
+						accessKey: texts.updateKey,
 						callback: install,
 						primary: true,
 					},
 					{
-						label: l10n.download,
-						accessKey: l10n.downloadKey,
+						label: texts.download,
+						accessKey: texts.downloadKey,
 						callback: showChangelog,
 					},
 					{
-						label: l10n.later,
-						accessKey: l10n.laterKey,
+						label: texts.later,
+						accessKey: texts.laterKey,
 						callback: setTomorrow,
 					},
 				],
@@ -879,17 +982,17 @@ if (
 				if (auto < 3)
 					//Delay a bit to make the installation feel like it's actually running
 					setTimeout(() => showNotification(
-						l10n.done,
+						texts.done,
 						[
 							{
-								label: l10n.changelog,
-								accessKey: l10n.changelogKey,
+								label: texts.changelog,
+								accessKey: texts.changelogKey,
 								callback: showChangelog,
 								primary: true,
 							},
 							{
-								label: l10n.finished,
-								accessKey: l10n.finishedKey,
+								label: texts.finished,
+								accessKey: texts.finishedKey,
 								callback: emptyFunc,
 							},
 						],
@@ -897,14 +1000,14 @@ if (
 						"var(--panel-banner-item-update-supported-bgcolor)",
 					), 500);
 			} catch (e) {
-				showError(l10n.error, file?.path || localFileURI, e.message);
+				showError(texts.error, file?.path || localFileURI, e.message);
 				return true;
 			}
 		}
 
 		function showChangelog() {
 			/*global openURL*/
-			openURL(homeURL + l10n.link);
+			openURL(homeURL + texts.link);
 		}
 
 		function setTomorrow() {
@@ -984,7 +1087,6 @@ const hidePlaceHolder = "[customizing], [tabs-hide-placeholder]";
 const showPlaceHolder = `:not(${hidePlaceHolder})`;
 const tbDraggingHidePlaceHolder = ":is([tabs-dragging], [movingtab]):not([moving-positioned-tab])";
 const staticPreTabsPlaceHolder = ":is([tabs-scrolledtostart], [pinned-tabs-wraps-placeholder])";
-const autoHideBookmarksBar = getPref("browser.toolbars.bookmarks.visibility") == "newtab";
 const preTabsButtons = `:is(
 	:root:not([privatebrowsingmode], [firefoxviewhidden]) :is(toolbarbutton, toolbarpaletteitem),
 	:root[privatebrowsingmode]:not([firefoxviewhidden]) :is(toolbarbutton:not(#firefox-view-button), toolbarpaletteitem:not(#wrapper-firefox-view-button))
@@ -995,7 +1097,9 @@ const navToolboxWithSidebar = "#navigator-toolbox:has(~ #browser #sidebar-main:n
 const navToolboxWithAsk = "#navigator-toolbox:has(~ #browser #ai-window-box:not([hidden], [collapsed]))";
 const autoCollapseExpandDir = prefs.tabsAtBottom < 0 ? "top" : "bottom";
 const taskBarTab = root.hasAttribute("taskbartab");
+const isYAlign = root.hasAttribute(THEME_IMAGE_IN_TOOLBOX);
 
+/** @param {string} size */
 const borderSnapping = size => CSS.supports("flex", "round(1)")
 	//https://drafts.csswg.org/css-values-4/#snap-a-length-as-a-border-width
 	? /*js*/`calc(
@@ -1015,9 +1119,42 @@ const borderSnapping = size => CSS.supports("flex", "round(1)")
 	//fallback to approximation
 	: /*js*/`calc((${size}) / var(--device-pixel-ratio))`;
 
+let dummyElement;
+/**
+ * @param {string} color
+ * @param {string} [colorScheme]
+ * @returns {{a: number, b: number, g: number, r: number}}
+ */
+const colorToRGBA = (color, colorScheme) => {
+	if (color.includes("light-dark(")) {
+		style(
+			(dummyElement ||= root.appendChild(document.createElement("div"))),
+			{color, colorScheme},
+		);
+		({color} = getComputedStyle(dummyElement));
+	}
+	return InspectorUtils.colorToRGBA(color);
+};
+
+/**
+ * @param {CSSStyleDeclaration} cs
+ * @param {string|Array<string>} property
+ */
+const getColor = (cs, property) => {
+	for (let p of [property].flat()) {
+		let v = cs.getPropertyValue(p);
+		if (v)
+			return colorToRGBA(v, cs.colorScheme);
+	}
+};
+
 const outlineOffsetSnappingPref = [1, 2].includes(getPref("layout.css.outline-offset.snapping"));
+
+/** @param {string} size */
 const outlineOffsetSnapping = size =>
 	outlineOffsetSnappingPref ? size : borderSnapping(size);
+
+const rootCS = getComputedStyle(root);
 
 let controlBoxInfo;
 if (win7 || win8) {
@@ -1047,6 +1184,55 @@ if (win7 || win8) {
 		},
 	};
 }
+
+const novaBlockStyle = nova &&
+	!!(
+		prefs.tabsAtBottom > -1 ||
+		getColor(rootCS, "--chrome-content-separator-color")?.a ||
+		(
+			!(prefs.nativeWindowStyle && !prefs.nativeWindowStyleToolbarColorOpacity) &&
+			getColor(rootCS, "--toolbar-background-color")?.a
+		)
+	);
+
+/*cannot use any nesting here since the properties are also applied on .tabs-placeholder::before*/
+const themeBackgroundStyle = `
+	background-image: var(--multirows-toolbox-background-image);
+	${!nova ? `background-color: var(--multirows-toolbox-background-color);` : ``}
+	background-size: var(--multirows-background-size);
+	background-position: var(--multirows-background-position);
+	background-repeat: var(--multirows-toolbox-background-repeat);
+	background-attachment: fixed;
+`;
+const toolbarBackgroundStyle = nova
+	? `
+		--chrome-block-foreground-color: transparent;
+		${root.matches("[lwtheme]:not([theme-image-in-toolbox])") ? `
+			--chrome-block-background-color: ${root.hasAttribute("lwtheme-brighttext")
+				? "rgba(255, 255, 255, .05)" : "rgba(0, 0, 0, .05)"};
+		` : `
+			--chrome-block-background-color: transparent;
+		`}
+		--chrome-block-background-image: var(--multirows-toolbox-background-image);
+		background-image:
+			image(var(--chrome-block-foreground-color)),
+			image(var(--chrome-block-background-color)),
+			var(--chrome-block-background-image);
+		background-color: var(--multirows-toolbox-background-color);
+		background-repeat:
+			repeat,
+			repeat,
+			var(--multirows-toolbox-background-repeat);
+		background-position:
+			0%,
+			0%,
+			var(--multirows-background-position);
+		background-size:
+			auto,
+			auto,
+			var(--multirows-background-size);
+		background-attachment: fixed;
+	` : themeBackgroundStyle;
 
 mainStyle.innerHTML = /*css*/`
 :root {
@@ -1083,14 +1269,109 @@ mainStyle.innerHTML = /*css*/`
 			.transition.match(/\d.+|$/)[0] ||
 		".15s"
 	};
-	--mica-background-color: light-dark(#E8E8E8, #202020);
+
+	--nav-toolbox-margin-border-block: 0px;
+	--nav-toolbox-margin-border-inline: 0px;
+	--original-toolbar-background-color: var(--toolbar-background-color, var(--toolbar-bgcolor));
+	--original-toolbox-background-color: var(--toolbox-background-color, var(--toolbox-bgcolor));
+	--multirows-background-position:
+		var(--toolbox-background-position, var(--lwt-background-alignment));
+	--multirows-background-size: var(--toolbox-background-size, auto);
+	--multirows-toolbox-background-color:
+		var(--toolbox-background-color,
+			var(--toolbox-bgcolor,
+				var(--toolbox-non-lwt-bgcolor,
+					var(--lwt-accent-color)
+				)
+			)
+		);
+	--multirows-toolbox-background-image:
+		var(--ai-gradient,
+			var(--toolbox-background-image,
+				var(--lwt-additional-images)
+			)
+		);
+	--multirows-toolbox-background-repeat:
+		var(--toolbox-background-repeat, var(--lwt-background-tiling));
+	--multirows-toolbox-background-height:
+		${
+			prefs.tabsAtBottom > -1 && prefs.themeImageSize > -1
+				? `max(
+					var(--nav-toolbox-net-padding-box-height)
+						${!isYAlign ? "+ var(--nav-toolbox-margin-border-block) * 2" : ""}
+						+ var(--tabstrip-min-height)
+							* ${
+								[maxRows, "var(--max-tab-rows)"][prefs.themeImageSize] ||
+								"var(--tab-rows)"
+							},
+					var(--nav-toolbox-margin-box-height, 0px)
+						${isYAlign ? "- var(--nav-toolbox-margin-border-block) * 2" : ""}
+				)`
+				: "0px"
+		};
+
+	/*color from measuring the background color of window when enabling mica*/
+	--mica-background-color: #E8E8E8;
+	@media (prefers-color-scheme: dark) {
+		--mica-background-color: #202020;
+	}
+	@media -moz-pref("widget.windows.mica.toplevel-backdrop", 2) {
+		--mica-background-color: ${prefs.nativeWindowStyle ? "#D3D3D3" : "#EDEDED"};
+		@media (prefers-color-scheme: dark) {
+			--mica-background-color: ${prefs.nativeWindowStyle ? "#545454" : "#222222"};
+		}
+	}
 }
+
+:root:-moz-window-inactive {
+	--multirows-toolbox-background-color:
+		var(--toolbox-background-color-inactive,
+			var(--toolbox-bgcolor-inactive,
+				var(--toolbox-non-lwt-bgcolor-inactive,
+					var(--lwt-accent-color-inactive,
+						var(--lwt-accent-color)
+					)
+				)
+			)
+		);
+}
+
+:root[lwtheme-image] {
+	--multirows-toolbox-background-image:
+		var(--ai-gradient,
+			var(--toolbox-background-image,
+				var(--lwt-header-image),
+				var(--lwt-additional-images)
+			)
+		);
+	--multirows-background-position:
+		var(--toolbox-background-position,
+			right top, var(--lwt-background-alignment)
+		);
+}
+
+${nova ? /*css*/`
+	:root:is([builtintheme], :not([lwtheme])) {
+		--multirows-background-size:
+			calc(100vw - ${__="var(--nav-toolbox-margin-border-inline)"} * 2)
+			calc(var(--nav-toolbox-margin-box-height) - ${__} * 2);
+		--multirows-background-position:
+			${__}
+			${__};
+	}
+` : ``}
+
+${prefs.autoCollapse ? /*css*/`
+	:root {
+		--multirows-background-size: var(--toolbox-background-size, auto) !important;
+	}
+` : ``}
 
 /*ui.prefersReducedMotion = 1*/
 @media (prefers-reduced-motion: reduce) {
 	:root {
 		--tab-animation: 0s;
-		--tabs-item-opacity-transitio: 0s;
+		--tabs-item-opacity-transition: 0s;
 	}
 }
 
@@ -1164,16 +1445,10 @@ ${_="#TabsToolbar"} {
 					)
 			)
 			: `
-				--toolbox-background-color,
-					var(--toolbox-bgcolor,
-						var(--toolbox-non-lwt-bgcolor,
-							var(--lwt-accent-color,
-								var(--tab-background-color-selected,
-									var(--tab-selected-bgcolor,
-										var(--lwt-selected-tab-background-color)
-									)
-								)
-							)
+				--multirows-toolbox-background-color,
+					var(--tab-background-color-selected,
+						var(--tab-selected-bgcolor,
+							var(--lwt-selected-tab-background-color)
 						)
 					)
 			`
@@ -1183,6 +1458,27 @@ ${_="#TabsToolbar"} {
 	--newtab-button-outer-padding: 2px;
 	--newtab-button-inner-padding: calc((var(--tab-min-height) - var(--tab-icon-size)) / 2);
 	--tabs-placeholder-backdrop: blur(var(--tabs-placeholder-blurriness));
+
+	${nova && defaultTheme ? /*css*/`
+		:root:not([customtitlebar], [ai-window]) & {
+			${prefs.nativeWindowStyle ? /*css*/`
+				& {
+					--tabs-placeholder-background-color: var(--mica-background-color);
+				}
+			` : /*css*/`
+				&:-moz-window-inactive {
+					--tabs-placeholder-background-color: -moz-dialog;
+				}
+			`}
+		}
+	` : ``}
+}
+
+@media (forced-colors) {
+	${_} {
+		--tabs-placeholder-blurriness: 0px;
+		--tabs-placeholder-border-color: ThreeDShadow;
+	}
 }
 
 ${
@@ -1190,7 +1486,7 @@ ${
 		!prefs.floatingBackdropClip &&
 		prefs.floatingBackdropBlurriness &&
 		prefs.floatingBackdropOpacity < 100 &&
-		!(mica && getPref("browser.tabs.inTitlebar")) &&
+		!(micaTheme && getPref("browser.tabs.inTitlebar")) &&
 		!prefs.nativeWindowStyle
 	)
 	? /*css*/`
@@ -1199,282 +1495,6 @@ ${
 		}
 	` : ``
 }
-
-${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
-	#navigator-toolbox {
-		${nova ? /*css*/`
-			${prefs.tabsAtBottom > 0 ? /*css*/`
-				&[tabs-dragging]:not(
-					${prefs.tabsAtBottom == 1
-						? `:root:not([inFullscreen]) :has(> #PersonalToolbar:not([collapsed])),` : ``}
-					:has(> #notifications-toolbar notification-message)
-				) {
-					overflow: visible !important;
-
-					#TabsToolbar {
-						border-end-start-radius: ${__="var(--chrome-block-inner-radius)"};
-						border-end-end-radius: ${__};
-					}
-
-					#toolbar-menubar,
-					#toolbar-menubar[autohide][inactive] ~ #nav-bar {
-						border-start-start-radius: ${__};
-						border-start-end-radius: ${__};
-					}
-
-					${OVERLAY_SCROLLBARS ? /*css*/`
-						#tabs-placeholder-new-tab-button {
-							border-end-end-radius: ${__};
-						}
-					` : ``}
-				}
-			` : /*css*/`
-				#tabs-placeholder-pre-tabs {
-					border-start-start-radius: ${__="var(--chrome-block-inner-radius)"};
-				}
-
-				${OVERLAY_SCROLLBARS ? /*css*/`
-					#tabs-placeholder-post-tabs {
-						border-start-end-radius: ${__};
-					}
-
-					#tabs-placeholder-new-tab-button {
-						border-end-end-radius: ${__};
-					}
-				` : ``}
-			`}
-		` : `
-			border-bottom-color: transparent;
-		` }
-
-		&:not([tabs-hidden]) > #nav-bar > .titlebar-buttonbox-container {
-			display: flex;
-		}
-
-		&[tabs-dragging] ~ #browser {
-			pointer-events: none;
-		}
-	}
-
-	${_} {
-		order: 1;
-		z-index: 1;
-	}
-
-	${prefs.tabsAtBottom == 1 ? /*css*/`
-		#PersonalToolbar {
-			order: 2;
-		}
-	` : ``}
-
-	#nav-bar, #PersonalToolbar {
-		border-top: 0;
-		background: none;
-		color: var(--toolbox-text-color, var(--toolbox-textcolor));
-
-		&:-moz-window-inactive {
-			color: var(--toolbox-text-color-inactive, var(--toolbox-textcolor-inactive));
-		}
-
-		:root[${CUSTOM_TITLEBAR}] & {
-			&, #urlbar:popover-open {
-				will-change: opacity;
-				/*override the --ext-theme-background-transition*/
-				transition: var(--inactive-window-transition) !important;
-				transition-property: opacity, background-color !important;
-
-				&:-moz-window-inactive {
-					opacity: var(--inactive-titlebar-opacity);
-				}
-			}
-		}
-	}
-
-	#browser {
-		background: none;
-	}
-
-	#sidebar-main {
-		color: var(--toolbox-text-color);
-	}
-
-	:root[ai-window][aiwindow-immersive-view] #nav-bar:not(.browser-titlebar) {
-		height: auto;
-		min-height: 20px;
-		visibility: visible;
-	}
-
-	${_} :is(.titlebar-buttonbox-container, .titlebar-spacer) {
-		display: none;
-	}
-
-	:root[${CUSTOM_TITLEBAR}] #toolbar-menubar${MENUBAR_AUTOHIDE} ~ #nav-bar .titlebar-spacer[class] {
-		display: flex;
-	}
-
-	#notifications-toolbar {
-		order: 2;
-	}
-
-	:root[customtitlebar] #navigator-toolbox:not([tabs-hidden]) #toolbar-menubar${MENUBAR_AUTOHIDE} {
-		min-height: calc(var(--urlbar-min-height) + 2 * var(--urlbar-padding-block));
-	}
-
-	${prefs.tabsAtBottom < 0 ? /*css*/`
-		${_} {
-			position: fixed;
-			inset: auto 0 0;
-
-			${nova ? `
-				margin: inherit;
-				border: inherit;
-				border-color: var(--chrome-content-separator-color);
-				border-radius: inherit;
-
-				:root[ai-window] & {
-					border-color: transparent;
-				}
-
-				${!prefs.autoCollapse ? `
-					:root:not([inFullscreen]) &:not([tabs-dragging]) {
-						overflow: hidden;
-					}
-				` : ``}
-
-				&::before {
-					content: "";
-					inset: calc(-1px - var(--chrome-window-gap));
-					position: absolute;
-				}
-			` : ``}
-
-			${prefs.autoCollapse ? /*css*/`
-				.browser-toolbox-background > & {
-					background: inherit;
-					background-attachment: fixed;
-				}
-			` : ``}
-
-			.urlbar[breakout] {
-				translate: 0 ${nova ? "var(--urlbar-input-container-top)" : ""};
-				display: flex;
-				flex-direction: column-reverse;
-
-				.urlbar-input-container {
-					min-height: var(--urlbar-height);
-				}
-
-				&[breakout-extend] {
-					translate: 0;
-
-					&[open] {
-						translate: 0 calc(var(--urlbar-container-height) - 100%);
-
-						${nova ? /*css*/`
-							.urlbar-input-container {
-								margin-block: 0 var(--urlbar-input-container-top);
-							}
-
-							.urlbar-background {
-								translate: 0 var(--urlbar-margin-inline);
-							}
-						` : /*css*/`
-							.urlbar-input-container {
-								min-height: var(--urlbar-container-height);
-							}
-						`}
-					}
-				}
-			}
-		}
-
-		#browser, #customization-container {
-			--margin-bottom-adjustment: ${nova
-				? `calc(var(--chrome-window-gap, 0px) * 2 - ${borderSnapping("2px")})`
-				: "0px"};
-
-			${prefs.autoCollapse ? /*css*/`
-				margin-bottom: calc(var(--tabstrip-min-height) + var(--margin-bottom-adjustment));
-			` : /*css*/`
-				margin-bottom: calc(var(--tabstrip-min-height) * var(--tab-rows) + var(--margin-bottom-adjustment));
-
-				:root[animating-tabs-slot-size] & {
-					margin-bottom: calc(
-						min(
-							var(--tabs-slot-animate-height),
-							var(--tabstrip-min-height) * var(--max-tab-rows)
-						)
-						+ var(--margin-bottom-adjustment)
-					);
-					transition: var(--tab-animation) margin-bottom;
-				}
-			`}
-		}
-
-		@media -moz-pref("browser.fullscreen.autohide") {
-			:root[inFullscreen]:not([animating-tabs-slot-size]) {
-				#navigator-toolbox {
-					z-index: calc(1/0);
-				}
-
-				#TabsToolbar {
-					clip-path: inset(
-						calc(100% - var(--height, 100% - var(--chrome-window-gap, 0px)))
-						${__="calc(var(--chrome-window-gap, 0px) * -1)"}
-						${__}
-						${__}
-					);
-				}
-
-				&:not(:has(
-					#TabsToolbar:is(:hover, :focus-within),
-					#TabsToolbar-customization-target
-						:is(toolbarbutton, moz-button)[open],
-					menupopup[anchor-to-tabsbar],
-					:is(${TABS_RELATED_PANELS})[panelopen]
-				)) {
-					--tabs-under-content-hiding-transition: 0s .4s;
-
-					#TabsToolbar {
-						--height: 1px;
-						filter: opacity(0);
-						transition: var(--tabs-under-content-hiding-transition);
-						transition-property: clip-path, filter;
-
-						[breakout] {
-							visibility: hidden;
-
-							:root:not([entering-fullscreen]) & {
-								transition: visibility var(--tabs-under-content-hiding-transition);
-							}
-						}
-					}
-
-					#browser, #customization-container {
-						margin-bottom: 0;
-
-						/*workaround with a bug that the transition applied*/
-						:root:not([entering-fullscreen]) & {
-							transition: margin-bottom var(--tabs-under-content-hiding-transition);
-						}
-					}
-				}
-			}
-		}
-
-		:root:not([inDOMFullscreen]) .browserContainer {
-			@media -moz-pref("sidebar.revamp") and -moz-pref("sidebar.revamp.round-content-area") {
-				#tabbrowser-tabbox[sidebar-shown] & {
-					border-end-${sidebarAtStart ? "start" : "end"}-radius: var(--border-radius-medium);
-				}
-			}
-
-			:root[ai-window] & {
-				border-radius: var(--border-radius-medium);
-			}
-		}
-	` : ``}
-` : ``}
 
 ${nova && !prefs.tabsAtBottom ? /*css*/`
 	#navigator-toolbox:has(> ${hiddenMenubar} ~ #TabsToolbar[tabs-dragging]) {
@@ -1544,15 +1564,17 @@ ${prefs.controlButtonsAutoHide ? /*css*/`
 	${context = prefs.controlButtonsAutoHide < 2 ? ":root:not([sizemode=normal])" : ""}
 		${__ = ".titlebar-buttonbox-container"}
 	{
+		--transition:
+			filter var(--tabs-item-opacity-transition),
+			background-color var(--inactive-window-transition);
 		position: absolute;
 		top: 0;
 		inset-inline-end: 0;
-		background: inherit;
 		box-shadow: var(--tab-selected-shadow, 0 0 4px rgba(0,0,0,.4));
 		border: var(--tabstrip-inner-border, 1px solid color-mix(in srgb, currentColor 25%, transparent));
 		border-inline-end: 0;
 		border-top: 0;
-		transition: filter var(--tabs-item-opacity-transition);
+		transition: var(--transition);
 		z-index: calc(1/0) !important;
 		/*10px is large enough for the shadow*/
 		clip-path: inset(
@@ -1561,37 +1583,18 @@ ${prefs.controlButtonsAutoHide ? /*css*/`
 			calc(100% - var(--height, 100% - 10px))
 			-10px
 		);
-		${nova ? `
-			border-end-start-radius: var(--chrome-block-radius);
-			border-start-end-radius: var(--chrome-block-inner-radius, 0);
-			overflow: hidden;
-			background: var(--background-color-canvas);
-		` : mica ? `
-			background-color: var(--mica-background-color);
-		` : prefs.nativeWindowStyle ? `
-			background-color: var(--toolbox-background-color);
+		${toolbarBackgroundStyle}
 
-			&:-moz-window-inactive {
-				background-color: var(--toolbox-background-color-inactive);
+		${micaTheme ? /*css*/`
+			:root[customtitlebar] & {
+				background-color: var(--mica-background-color);
 			}
 		` : ``}
 	}
 
 	${context} #navigator-toolbox {
 		position: relative;
-
-		${!nova && BACKGROUND_ON_BODY ? /*css*/`
-			:root:not([lwtheme-image-y-align]) & {
-				background: inherit;
-			}
-		` : ``}
 	}
-
-	${prefs.tabsAtBottom ? /*css*/`
-		${context} #nav-bar {
-			background: inherit;
-		}
-	` : ``}
 
 	${context} ${__}:is(:not(:hover), #navigator-toolbox[tabs-dragging] *) {
 		--height: calc(${Math.max(prefs.controlButtonsAutoHideTriggerHeight, 1)}px + var(--window-border, 0px));
@@ -1601,7 +1604,7 @@ ${prefs.controlButtonsAutoHide ? /*css*/`
 		*/
 		filter: opacity(0);
 		transition:
-			filter var(--tabs-item-opacity-transition),
+			var(--transition),
 			clip-path 0s var(--tabs-item-opacity-transition);
 		${debug == 2 ? `
 			filter: opacity(.75);
@@ -1624,12 +1627,6 @@ ${prefs.controlButtonsAutoHide ? /*css*/`
 		--window-border: max(8px - var(--chrome-window-gap, 0px), 0px);
 	}
 
-	${nova && !prefs.tabsAtBottom ? /*css*/`
-		${context} #TabsToolbar {
-			background: inherit;
-		}
-	` : ``}
-
 	${prefs.compactControlButtons ? /*css*/`
 		${context} #toolbar-menubar:not([inactive]) {
 			min-height: 29px !important;
@@ -1645,18 +1642,6 @@ ${prefs.controlButtonsAutoHide ? /*css*/`
 			min-height: calc(var(--urlbar-min-height) + 2 * var(--urlbar-padding-block));
 		}
 	`}
-` : ``}
-
-${prefs.nativeWindowStyle ? /*css*/`
-	:root,
-	:root > body,
-	${prefs.tabsAtBottom ? `
-		#navigator-toolbox > toolbar${autoHideBookmarksBar ? ":not(#PersonalToolbar)" : ""},
-	` : ``}
-	#navigator-toolbox {
-		background-color: transparent !important;
-		border-top-color: transparent !important;
-	}
 ` : ``}
 
 ${win7 || win8 ? /*css*/`
@@ -2008,25 +1993,36 @@ ${_="#tabbrowser-arrowscrollbox[orient][id]"} {
 	position: relative;
 	/*it will fall into endless loop of layout reflow when too narrow to overflow*/
 	min-width: var(--max-item-width);
-	scrollbar-color:
-		${
-			prefs.scrollbarThumbColor == "auto"
-				? (
-					getStyle(root, "--toolbarbutton-icon-fill")
-						? "var(--toolbarbutton-icon-fill)"
-						: "var(--toolbar-text-color, var(--toolbar-color))"
-				)
-				: prefs.scrollbarThumbColor
-		}
-		${
-			prefs.scrollbarTrackColor == "auto"
-				? (
-					win7 && defaultDarkTheme
-						? "var(--tab-icon-overlay-fill)"
-						: "var(--toolbar-background-color, var(--toolbar-bgcolor))"
-				)
-				: prefs.scrollbarTrackColor
-		};
+	${
+	//use the default style for accent color in titlebar
+	!(
+		!micaEnabled &&
+		defaultAutoTheme &&
+		prefs.scrollbarTrackColor == "auto" &&
+		prefs.scrollbarThumbColor == "auto" &&
+		accentColorInTitlebarMQ.matches
+	) ? `
+		scrollbar-color:
+			${
+				prefs.scrollbarThumbColor == "auto"
+					? (
+						["", "currentColor"].includes(getStyle(document.body, "--toolbarbutton-icon-fill", true))
+							? "var(--toolbar-text-color, var(--toolbar-color))"
+							: "var(--toolbarbutton-icon-fill)"
+					)
+					: prefs.scrollbarThumbColor
+			}
+			${
+				prefs.scrollbarTrackColor == "auto"
+					? (
+						win7 && defaultDarkTheme
+							? "var(--tab-icon-overlay-fill)"
+							: !OVERLAY_SCROLLBARS && (nova || prefs.tabsAtBottom)
+								? "transparent" : "var(--toolbar-background-color, var(--toolbar-bgcolor))"
+					)
+					: prefs.scrollbarTrackColor
+			}
+	` : ``};
 }
 
 #tabbrowser-tabs[hasadjacentnewtabbutton] ${_} {
@@ -2190,6 +2186,14 @@ ${_}::part(scrollbutton-down) {
 	background: color-mix(in srgb, var(--tabs-placeholder-border-color) 50%, transparent) !important;
 	align-items: safe center;
 	transition: opacity var(--tabs-item-opacity-transition);
+}
+
+@media (forced-colors) {
+	${_}::part(scrollbutton-up),
+	${_}::part(scrollbutton-down) {
+		border-color: var(--toolbarbutton-outline-color, ButtonText) !important;
+		background-color: var(--tabs-placeholder-background-color) !important;
+	}
 }
 
 ${_}[highlight]::part(scrollbutton-down) {
@@ -2374,6 +2378,12 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-group {
 			pointer-events: none;
 		}
 	}
+
+	${!TAB_GROUP_PREVIEW_SUPPORT ? /*css*/`
+		&[movingtabgroup] > tab:not([animate-shifting]) {
+			visibility: hidden;
+		}
+	` : ``}
 
 	&[collapsed] {
 		&:not([stacked]) {
@@ -2739,18 +2749,6 @@ ${__} tab {
 		* ${DIR}
 	));
 }
-
-/*
-  currently there is no way to animate the appearance of tab/stack when stacking without affecting the group line.
-  the transition is so short and not that noticable thus give up to do this
-*/
-/*
-.tab-stack {
-	--stacking-transition: opacity, transform;
-	transition: var(--tab-animation) !important;
-	transition-property: var(--stacking-transition) !important;
-}
-*/
 
 ${appVersion < 134 ? /*css*/`
 	${_}[image] > .tab-stack > .tab-content:is([attention], [titlechanged]):not([pinned], [selected]) {
@@ -3134,6 +3132,7 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-split-view-wrapper {
 				border-color: transparent;
 				outline-color: transparent;
 				box-shadow: none;
+				transition: none;
 			}
 
 			.tab-close-button {
@@ -3417,7 +3416,7 @@ tab-split-view-wrapper${__}::before,
 }
 
 [animate-shifting=run] > .tab-stack {
-	transition-property: /*var(--stacking-transition),*/ margin-inline-end !important;
+	transition-property: margin-inline-end !important;
 
 	&::before {
 		transition-property: translate !important;
@@ -3630,43 +3629,17 @@ ${"#tabbrowser-tabs".repeat(3)} > #pinned-drop-indicator {
 }
 
 ${prefs.tabsUnderControlButtons ? /*css*/`
-	:root {
-		--multirows-background-position: var(--toolbox-background-position, var(--lwt-background-alignment));
-	}
-
-	:root[lwtheme-image] {
-		--multirows-background-position: var(--toolbox-background-position, right top, var(--lwt-background-alignment));
-	}
-
-	/*the backdrop-filter breaks if the tabs toolbar doesn't have a opaque background and
-	  the window inactive opacity is applying*/
-	:root[${CUSTOM_TITLEBAR}] :is(#titlebar, #TabsToolbar, .browser-titlebar) {
-		background: inherit;
-		transition-property: opacity, background-color;
-	}
-
-	${!nova && BACKGROUND_ON_BODY ? /*css*/`
-		:root[id] #navigator-toolbox {
-			will-change: inherit;
-			transition: inherit;
-
-			:root:not([lwtheme-image-y-align]) & {
-				background: inherit;
-				background-attachment: fixed;
-			}
-
-			&[fullscreenShouldAnimate] {
-				transition:
-					background-color var(--inactive-window-transition),
-					.8s margin-top ease-out;
-			}
+	${!(prefs.nativeWindowStyle && (prefs.tabsAtBottom > 0 || nova)) ? /*css*/`
+		:root[${CUSTOM_TITLEBAR}]
+			:is(
+				${!nova ? `.browser-titlebar, ` : ``}
+				#titlebar,
+				#TabsToolbar
+			)
+		{
+			transition-property: opacity, background-color;
 		}
 	` : ``}
-
-	:root[${CUSTOM_TITLEBAR}][lwtheme] #navigator-toolbox {
-		background-attachment: fixed;
-		background-position: var(--multirows-background-position);
-	}
 
 	${_="#TabsToolbar"} {
 		--post-tabs-clip-reserved: 0px;
@@ -3679,6 +3652,34 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 		--control-box-clip-scrollbar-reserved: var(--scrollbar-clip-reserved);
 		/*3px is calculated from --tab-box-shadow*/
 		--tab-shadow-size: var(--tab-selected-shadow-size, var(--tab-shadow-max-size, 3px));
+
+		${
+			nova && defaultTheme && prefs.tabsAtBottom < 0
+			? `
+				background-color: var(--toolbar-background-color);
+			` : (
+				prefs.tabsAtBottom < 1 &&
+				//the tabs bar will not get tranparency when window inactive thus doesn't need the background
+				!(nova && !prefs.tabsAtBottom && !getPref("browser.tabs.inTitlebar")) &&
+				//exclude the case where the body already has background
+				!(!nova && BACKGROUND_ON_BODY && !isYAlign && prefs.tabsAtBottom < 0)
+			)
+				? toolbarBackgroundStyle
+				//show a y-align-bottom style for tabs unser content
+				: !nova && prefs.tabsAtBottom < 0 && bgImgAllRepeat && !prefs.nativeWindowStyle
+					? /*css*/`
+						#navigator-toolbox:not(${navToolboxWithSidebar}) & {
+							${toolbarBackgroundStyle}
+						}
+					` : ``
+		}
+
+		${nova && micaTheme && !prefs.tabsAtBottom ? /*css*/`
+			& {
+				--chrome-block-background-image: none;
+				background-color: transparent;
+			}
+		` : ``}
 	}
 
 	@media (-moz-overlay-scrollbars) {
@@ -3704,39 +3705,34 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 						)
 				)
 				: `
-					--toolbox-background-color-inactive,
-						var(--toolbox-bgcolor-inactive,
-							var(--toolbox-non-lwt-bgcolor-inactive,
-								var(--lwt-accent-color-inactive,
-									var(--tab-background-color-selected,
-										var(--tab-selected-bgcolor,
-											var(--lwt-selected-tab-background-color)
-										)
-									)
-								)
+					--multirows-toolbox-background-color,
+						var(--tab-background-color-selected,
+							var(--tab-selected-bgcolor,
+								var(--lwt-selected-tab-background-color)
 							)
 						)
 				`
 		});
 	}
 
-	${(micaEnabled && accentColorInTitlebarMQ.matches || prefs.nativeWindowStyle) && defaultAutoTheme ? /*css*/`
-		${!prefs.nativeWindowStyle ? `:root[${CUSTOM_TITLEBAR}]` : ``}
-			${_}
-		{
-			${__="--tabs-placeholder-background-color"}: ActiveCaption;
-		}
+	${(micaEnabled && accentColorInTitlebarMQ.matches) && defaultAutoTheme ? /*css*/`
+		:root:not([ai-window]) {
+			${!prefs.nativeWindowStyle ? `:root[${CUSTOM_TITLEBAR}]` : ``}
+				${_}
+			{
+				${__="--tabs-placeholder-background-color"}: ActiveCaption;
+			}
 
-		${!prefs.nativeWindowStyle ? `:root[${CUSTOM_TITLEBAR}]` : ``}
-			${_}:-moz-window-inactive
-		{
-			${__}: InactiveCaption;
+			${!prefs.nativeWindowStyle ? `:root[${CUSTOM_TITLEBAR}]` : ``}
+				${_}:-moz-window-inactive
+			{
+				${__}: InactiveCaption;
+			}
 		}
 	` : ``}
 
-	${mica ? /*css*/`
-		${_}, ${_}:-moz-window-inactive {
-			/*color from measuring the color of tabs bar when disabling the mica effect and enabling widget.windows.mica*/
+	${micaTheme ? /*css*/`
+		:root[customtitlebar] :is(${_}, ${_}:-moz-window-inactive) {
 			--tabs-placeholder-background-color: var(--mica-background-color);
 		}
 	` : ``}
@@ -3796,6 +3792,11 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 				);
 				transition: var(--tabs-item-opacity-transition) !important;
 				transition-property: box-shadow, backdrop-filter, border-radius, background-color !important;
+
+				@media (forced-colors) {
+					background-color: var(--tabs-placeholder-background-color);
+					box-shadow: none;
+				}
 			`}
 		}
 
@@ -4091,14 +4092,15 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 	${_=".tabs-placeholder"} {
 		--clip-shadow: calc(var(--tab-shadow-size) * -1);
 		--section-border-width: 0px;
-		--section-border-radius: 0;
-		--section-clip: 0;
+		--section-border-radius: 0px;
+		--section-clip: 0px;
 		box-sizing: content-box;
 		height: calc(var(--tabstrip-min-height) - var(--section-border-width) * 2);
 		position: absolute;
 		z-index: calc(var(--tabs-moving-max-z-index) + 2);
 		box-shadow: var(--tabs-placeholder-shadow);
 		border: var(--tabs-placeholder-border);
+		overflow: clip;
 		backdrop-filter: var(--tabs-placeholder-backdrop);
 		transition: var(--tabs-item-opacity-transition);
 		transition-property: box-shadow, backdrop-filter, border-color, opacity;
@@ -4127,29 +4129,21 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 			width: 100%;
 			height: 100%;
 			opacity: ${prefs.floatingBackdropOpacity / 100};
-			border-radius: inherit;
+			transition:
+				background-color var(--inactive-window-transition, 0s),
+				opacity var(--inactive-window-transition, var(--tabs-item-opacity-transition));
+
+			${toolbarBackgroundStyle}
+			${nova && defaultTheme && prefs.tabsAtBottom < 0 ? `
+				--chrome-block-background-image: none;
+			` : ``}
 			background-color: var(--tabs-placeholder-background-color);
-			transition: var(--inactive-window-transition, var(--tabs-item-opacity-transition));
-			transition-property: background-color, opacity;
 		}
 
-		:root[lwtheme] ${_}::before {
-			background-size: auto var(--multirows-background-size);
-			background-attachment: fixed;
-			background-position: var(--multirows-background-position);
-			background-image: var(--toolbox-background-image, var(--lwt-additional-images));
-			background-repeat: var(--toolbox-background-repeat, var(--lwt-background-tiling));
-
-		}
-
-		:root[ai-window] ${_}::before {
-			background-image: var(--ai-gradient);
-			background-size: auto;
-		}
-
-		:root[lwtheme-image] ${_}::before {
-			background-image: var(--toolbox-background-image, var(--lwt-header-image), var(--lwt-additional-images));
-			background-repeat: var(--toolbox-background-repeat, no-repeat, var(--lwt-background-tiling));
+		@media (forced-colors) {
+			${_}::before {
+				opacity: 1;
+			}
 		}
 
 		#tabs-placeholder-pre-tabs::before {
@@ -4199,7 +4193,7 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 		backdrop-filter: none;
 	}
 
-	#tabs-placeholder-post-tabs {
+	${_="#tabs-placeholder-post-tabs"} {
 		inset-inline-end: calc(var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved));
 		width: calc(var(--post-tabs-items-width) - var(--tabs-scrollbar-width) - var(--scrollbar-clip-reserved));
 		border-top-width: var(--section-border-width);
@@ -4236,6 +4230,7 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 	` : ``}
 
 	${_="#tabs-placeholder-new-tab-button"} {
+		--clip-bottom: var(--section-clip);
 		bottom: var(--extra-drag-space);
 		inset-inline-end: calc(var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved));
 		width: calc(var(--new-tab-button-width) - var(--scrollbar-clip-reserved));
@@ -4252,22 +4247,34 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 		pointer-events: none;
 	}
 
+	:where(#TabsToolbar:not([connected-to-navbar])[has-tabs-navbar-shadow]) ${_} {
+		--section-clip: var(--tabs-navbar-shadow-size, 0px);
+	}
+
 	/* show the top/bottom border when tabs bar visually connects to above/below */
 	${!prefs.floatingBackdropClip ? `
 		${prefs.tabsAtBottom < 0 ? (
-			nova ? `
-				:root[ai-window] .tabs-placeholder
-			` : `
-				${sidebarAtStart ? navToolboxWithSidebar : navToolboxWithAsk}
-					#tabs-placeholder-pre-tabs,
-				${!sidebarAtStart ? navToolboxWithSidebar : navToolboxWithAsk}
-					#tabs-placeholder-post-tabs
-		`) : `
+			nova
+				? !novaBlockStyle ? ".tabs-placeholder" : "#dummy:not([id])"
+				: `
+					${sidebarAtStart ? navToolboxWithSidebar : navToolboxWithAsk}
+						#tabs-placeholder-pre-tabs,
+					${!sidebarAtStart ? navToolboxWithSidebar : navToolboxWithAsk}
+						#tabs-placeholder-post-tabs
+				`
+		) : `
 			${
 				prefs.tabsAtBottom
-					? ""
+					? nova
+						? `:is(
+							${prefs.tabsAtBottom > 1 ? `
+								:root[lwtheme]:not([inFullscreen]) #TabsToolbar:has(~ #PersonalToolbar:not([collapsed], [collapsed=""])),
+							` : ``}
+							#TabsToolbar[connected-to-navbar]
+						)`
+						: ""
 					: `:is(
-						${prefs.nativeWindowStyle
+						${!nova && prefs.nativeWindowStyle
 							? `:root:not([${CUSTOM_TITLEBAR}], [ai-window]),` : ``}
 						${shownMenubar} ~ #TabsToolbar
 					)`
@@ -4276,17 +4283,22 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 			${
 				prefs.tabsAtBottom
 					? `:is(
-						${prefs.tabsAtBottom == 1
-							? `:root:not([inFullscreen]) #TabsToolbar:has(~ #PersonalToolbar:not([collapsed=true], [collapsed=""])),` : ``}
-						${!prefs.nativeWindowStyle ? ":root[ai-window]" : ""}
-							#TabsToolbar:has(~ #notifications-toolbar notification-message),
-						${nova ? ":root[ai-window]" : ``}
-							${sidebarAtStart ? navToolboxWithAsk : navToolboxWithSidebar},
-						:root[aiwindow-immersive-view]
+						${prefs.tabsAtBottom == 1 && (!(nova && defaultTheme) || nova && root.hasAttribute("ai-window")) ? `
+							:root:not([inFullscreen])
+								#TabsToolbar:has(~ #PersonalToolbar:not([collapsed=true], [collapsed=""])),
+						` : ``}
+						${!nova ? `
+							:root:not([${THEME_IMAGE_IN_TOOLBOX}])
+								${sidebarAtStart ? navToolboxWithAsk : navToolboxWithSidebar},
+							:root[aiwindow-immersive-view],
+						` : ""}
+						#TabsToolbar:has(
+							${nova && defaultTheme && prefs.tabsAtBottom == 1 ?
+								`~ #PersonalToolbar[collapsed]` : ``}
+							~ #notifications-toolbar notification-message
+						)
 					)`
-					: getStyle(root, "--tabs-navbar-separator-style", true) == "none"
-						? ""
-						: `:root[ai-window]`
+					: "#TabsToolbar[connected-to-navbar]"
 			}
 				#tabs-placeholder-new-tab-button
 		`} {
@@ -4418,41 +4430,454 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 	}
 ` : "" /*prefs.tabsUnderControlButtons*/}
 
-${!prefs.autoCollapse && prefs.maxTabRows > 1 ? /*css*/`
-	:root {
-		--multirows-background-size: ${
-			bgImgRepeat
-				? "auto"
-				: `
-					max(
-						${
-							prefs.tabsAtBottom > -1 && prefs.themeImageSize > -1
-								? `var(--nav-toolbox-net-height) + var(--tabstrip-min-height) * ${
-									[maxRows, "var(--max-tab-rows)"][prefs.themeImageSize] ||
-									"var(--tab-rows)"
-								},`
-								: ""
+${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
+	#navigator-toolbox {
+		${nova ? /*css*/`
+			${prefs.tabsAtBottom > 0 ? /*css*/`
+				&[tabs-dragging]:not(
+					${prefs.tabsAtBottom == 1
+						? `:root:not([inFullscreen]) :has(> #PersonalToolbar:not([collapsed])),` : ``}
+					:has(> #notifications-toolbar notification-message)
+				) {
+					overflow: visible !important;
+
+					#TabsToolbar {
+						border-end-start-radius: ${__="var(--chrome-block-inner-radius)"};
+						border-end-end-radius: ${__};
+					}
+
+					#toolbar-menubar,
+					#toolbar-menubar[autohide][inactive] ~ #nav-bar {
+						border-start-start-radius: ${__};
+						border-start-end-radius: ${__};
+					}
+
+					${OVERLAY_SCROLLBARS ? /*css*/`
+						#tabs-placeholder-new-tab-button {
+							border-end-end-radius: ${__};
 						}
-						var(--lwt-background-image-natural-height, 0px)
-					)
-				`
-		};
+					` : ``}
+				}
+			` : /*css*/`
+				#tabs-placeholder-pre-tabs {
+					border-start-start-radius: ${__="var(--chrome-block-inner-radius)"};
+				}
+
+				${OVERLAY_SCROLLBARS ? /*css*/`
+					#tabs-placeholder-post-tabs {
+						border-start-end-radius: ${__};
+					}
+
+					#tabs-placeholder-new-tab-button {
+						border-end-end-radius: ${__};
+					}
+				` : ``}
+			`}
+		` : `
+			border-bottom-color: transparent;
+		` }
+
+		&:not([tabs-hidden]) > #nav-bar > .titlebar-buttonbox-container {
+			display: flex;
+		}
+
+		&[tabs-dragging] ~ #browser {
+			pointer-events: none;
+		}
+
+		${nova ? /*css*/`
+			#nav-bar {
+				background: none;
+			}
+		` : /*css*/`
+			& > toolbar:not(#TabsToolbar),
+			& ~ #browser {
+				background: none;
+			}
+		`}
 	}
 
-	${win7 || win8 ? `:root,` : ``}
-	${BACKGROUND_ON_BODY ? `:root:not([lwtheme-image-y-align]) body,` : ``}
-	:root:not([ai-window]) #navigator-toolbox {
-		background-size: auto var(--multirows-background-size) !important;
+	${_="#TabsToolbar"} {
+		--inactive-titlebar-opacity: 1;
+		order: 1;
+		z-index: 1;
+		will-change: unset;
+
+		${nova && prefs.tabsAtBottom > 0 ? /*css*/`
+			& {
+				background-color: var(--toolbar-background-color);
+			}
+
+			.tabs-placeholder::before {
+				--chrome-block-foreground-color: var(--toolbar-background-color);
+			}
+
+			${prefs.tabsAtBottom > 1 ? /*css*/`
+				& ~ #PersonalToolbar {
+					border-top: 0;
+					border-bottom: 1px solid var(--chrome-content-separator-color);
+				}
+			` : ``}
+		` : ``}
 	}
 
-	${appVersion < 121 ? /*css*/`
-		:root[lwtheme-image] :is(
-			#firefox-view-button > .toolbarbutton-icon,
-			.tab-background
-		) {
-			--lwt-header-image: none !important;
+	${prefs.tabsAtBottom == 1 ? /*css*/`
+		#PersonalToolbar {
+			order: 2;
 		}
 	` : ``}
+
+	#nav-bar, #PersonalToolbar {
+		color: var(--toolbox-text-color, var(--toolbox-textcolor));
+	}
+
+	#nav-bar {
+		border-top: 0;
+
+		&:-moz-window-inactive {
+			color: var(--toolbox-text-color-inactive, var(--toolbox-textcolor-inactive));
+		}
+
+		:root[${CUSTOM_TITLEBAR}] & {
+			&, #urlbar:popover-open {
+				will-change: opacity;
+				transition:
+					opacity var(--inactive-window-transition) !important;
+
+				&:-moz-window-inactive {
+					opacity: var(--inactive-titlebar-opacity);
+				}
+			}
+		}
+	}
+
+	#sidebar-main {
+		color: var(--toolbox-text-color);
+	}
+
+	:root[ai-window][aiwindow-immersive-view] #nav-bar:not(.browser-titlebar) {
+		height: auto;
+		min-height: 20px;
+		visibility: visible;
+	}
+
+	${_} :is(.titlebar-buttonbox-container, .titlebar-spacer) {
+		display: none;
+	}
+
+	:root[${CUSTOM_TITLEBAR}] #toolbar-menubar${MENUBAR_AUTOHIDE} ~ #nav-bar .titlebar-spacer[class] {
+		display: flex;
+	}
+
+	#notifications-toolbar {
+		order: 2;
+	}
+
+	:root[customtitlebar] #navigator-toolbox:not([tabs-hidden]) #toolbar-menubar${MENUBAR_AUTOHIDE} {
+		min-height: calc(var(--urlbar-min-height) + 2 * var(--urlbar-padding-block));
+	}
+
+	${prefs.tabsAtBottom < 0 ? /*css*/`
+		${_} {
+			position: fixed;
+			inset: auto 0 0;
+
+			${nova ? /*css*/`
+				& {
+					margin: inherit;
+					border: inherit;
+					border-color: var(--chrome-content-separator-color);
+					border-radius: inherit;
+				}
+
+				&, .tabs-placeholder::before {
+					--chrome-block-foreground-color: var(--toolbar-background-color);
+					--chrome-block-background-color: transparent;
+				}
+
+				:root[ai-window] & {
+					border-color: transparent;
+				}
+
+				${!prefs.autoCollapse ? /*css*/`
+					:root:not([inFullscreen]) &:not([tabs-dragging]) {
+						overflow: hidden;
+					}
+				` : ``}
+
+				&::before {
+					content: "";
+					inset: calc(-1px - var(--chrome-window-gap));
+					position: absolute;
+				}
+			` : ``}
+
+			.urlbar {
+				translate: 0;
+				display: flex;
+				flex-direction: column-reverse;
+
+				.urlbar-input-container {
+					min-height: var(--urlbar-height);
+				}
+
+				&[open] {
+					translate: 0 calc(var(--urlbar-container-height) - 100%);
+
+					${nova ? /*css*/`
+						& {
+							margin-top: calc(var(--urlbar-margin-block-start-breakout) * -1);
+						}
+
+						.urlbarView-results {
+							padding-block: 0 var(--urlbarView-padding);
+						}
+					` : /*css*/`
+						.urlbar-input-container {
+							min-height: var(--urlbar-container-height);
+						}
+					`}
+				}
+			}
+		}
+
+		${nova ? /*css*/`
+			:root[lwtheme] #PersonalToolbar {
+				background: none;
+				border-top: 0;
+			}
+		` : ``}
+
+		${(
+			bgImgAllRepeat &&
+			!(
+				BACKGROUND_ON_BODY &&
+				!isYAlign &&
+				(nova || prefs.nativeWindowStyle)
+			)
+		) ? /*css*/`
+			${BACKGROUND_ON_BODY && !isYAlign && !nova
+				? `#navigator-toolbox:not(${navToolboxWithSidebar}),` : ``}
+			:root${BACKGROUND_ON_BODY ? `[${THEME_IMAGE_IN_TOOLBOX}]` : ""}
+			{
+				${_}, .tabs-placeholder::before {
+					background-position-y: bottom !important;
+				}
+			}
+		` : ``}
+
+		#browser, #customization-container {
+			--margin-bottom-adjustment: ${nova
+				? `calc(var(--chrome-window-gap, 0px) * 2 - ${borderSnapping("2px")})`
+				: "0px"};
+
+			${prefs.autoCollapse ? /*css*/`
+				margin-bottom: calc(var(--tabstrip-min-height) + var(--margin-bottom-adjustment));
+			` : /*css*/`
+				margin-bottom: calc(var(--tabstrip-min-height) * var(--tab-rows) + var(--margin-bottom-adjustment));
+
+				:root[animating-tabs-slot-size] & {
+					margin-bottom: calc(
+						min(
+							var(--tabs-slot-animate-height),
+							var(--tabstrip-min-height) * var(--max-tab-rows)
+						)
+						+ var(--margin-bottom-adjustment)
+					);
+					transition: var(--tab-animation) margin-bottom;
+				}
+			`}
+		}
+
+		@media -moz-pref("browser.fullscreen.autohide") {
+			:root[inFullscreen]:not([animating-tabs-slot-size]) {
+				#navigator-toolbox {
+					z-index: calc(1/0);
+				}
+
+				#TabsToolbar {
+					clip-path: inset(
+						calc(100% - var(--height, 100% - var(--chrome-window-gap, 0px)))
+						${__="calc(var(--chrome-window-gap, 0px) * -1)"}
+						${__}
+						${__}
+					);
+				}
+
+				&:not(:has(
+					#TabsToolbar:is(:hover, :focus-within),
+					#TabsToolbar-customization-target
+						:is(toolbarbutton, moz-button)[open],
+					menupopup[anchor-to-tabsbar],
+					:is(${TABS_RELATED_PANELS})[panelopen]
+				)) {
+					--tabs-under-content-hiding-transition: 0s .4s;
+
+					#TabsToolbar {
+						--height: 1px;
+						filter: opacity(0);
+						transition: var(--tabs-under-content-hiding-transition);
+						transition-property: clip-path, filter;
+
+						[breakout] {
+							visibility: hidden;
+
+							:root:not([entering-fullscreen]) & {
+								transition: visibility var(--tabs-under-content-hiding-transition);
+							}
+						}
+					}
+
+					#browser, #customization-container {
+						margin-bottom: 0;
+
+						/*workaround with a bug that the transition applied*/
+						:root:not([entering-fullscreen]) & {
+							transition: margin-bottom var(--tabs-under-content-hiding-transition);
+						}
+					}
+				}
+			}
+		}
+
+		:root:not([inDOMFullscreen]) .browserContainer {
+			@media -moz-pref("sidebar.revamp") and -moz-pref("sidebar.revamp.round-content-area") {
+				#tabbrowser-tabbox[sidebar-shown] & {
+					border-end-${sidebarAtStart ? "start" : "end"}-radius: var(--border-radius-medium);
+				}
+			}
+
+			:root[ai-window] & {
+				border-radius: var(--border-radius-medium);
+			}
+		}
+	` : nova ? /*css*/`
+		#nav-bar {
+			&, &::after {
+				border-bottom: .01px var(--tabs-navbar-separator-style) transparent;
+			}
+
+			&::after {
+				content: "";
+				position: absolute;
+				inset: 100% 0 0;
+				border-color: var(--tabs-navbar-separator-color);
+				background-color: var(--toolbar-background-color);
+			}
+		}
+	` : ``}
+` : ``}
+
+${prefs.nativeWindowStyle ? /*css*/`
+	:root:not([ai-window]) {
+		--original-tabs-navbar-separator-color: var(--tabs-navbar-separator-color);
+		outline-color: var(--background-color-canvas, -moz-dialog);
+
+		&:-moz-window-inactive {
+			--original-toolbox-background-color: var(--toolbox-background-color-inactive, var(--toolbox-bgcolor-inactive));
+		}
+
+		body {
+			--toolbox-background-color: transparent;
+			--toolbox-background-color-inactive: transparent;
+			--toolbar-background-color: transparent;
+			--toolbox-bgcolor: transparent;
+			--toolbox-bgcolor-inactive: transparent;
+			--toolbar-bgcolor: transparent;
+			--tabs-navbar-separator-color: color-mix(
+				in srgb,
+				var(--original-tabs-navbar-separator-color)
+					${prefs.nativeWindowStyleToolbarColorOpacity}%,
+				transparent
+			);
+		}
+
+		${!nova && prefs.tabsAtBottom ? "#navigator-toolbox," : ""}
+		${nova && prefs.tabsAtBottom ? "#TabsToolbar," : ""}
+		${micaTheme ? ".tabs-placeholder::before," : ""}
+		#browser,
+		.browser-toolbar:not(.browser-titlebar),
+		#nav-bar::after {
+			--toolbar-background-color: ${__ = `color-mix(
+				in srgb,
+				var(--original-toolbar-background-color)
+					${prefs.nativeWindowStyleToolbarColorOpacity}%,
+				transparent
+			)`};
+			--toolbar-bgcolor: ${__};
+		}
+
+		${!nova && !prefs.tabsAtBottom ? /*css*/`
+			@media -moz-pref("sidebar.revamp") {
+				#navigator-toolbox {
+					border-bottom-color: ${__};
+				}
+			}
+		` : ``}
+
+		.urlbar:not([focused], [open]) .urlbar-background,
+		#urlbar-background,
+		#searchbar {
+			background-color: color-mix(
+				in srgb,
+				var(--urlbar-background-background-color, var(--toolbar-field-background-color))
+					${prefs.nativeWindowStyleURLBarColorOpacity}%,
+				transparent
+			);
+		}
+
+		&,
+		${!nova ? `#navigator-toolbox,` : ``}
+		${!BACKGROUND_ON_BODY ? `#browser, #TabsToolbar,` : ``}
+		body {
+			background-color: transparent !important;
+		}
+
+		${micaTheme && prefs.tabsAtBottom ? /*css*/`
+			#TabsToolbar {
+				&, &:-moz-window-inactive {
+					--tabs-placeholder-background-color: var(--mica-background-color);
+				}
+			}
+		` : ``}
+
+		${BACKGROUND_ON_BODY && !(nova && defaultTheme) ? /*css*/`
+			&:not([ai-window], [${THEME_IMAGE_IN_TOOLBOX}]) #TabsToolbar {
+				${nova && prefs.tabsAtBottom < 0 ? `
+					--chrome-block-background-image: none;
+					background-color: transparent;
+				` : !nova || (!defaultTheme && !prefs.tabsAtBottom) ? `
+					background: none;
+
+					${micaTheme ? `
+						.tabs-placeholder::before {
+							background-color: var(--mica-background-color);
+						}
+					` : ``}
+				` : ``}
+			}
+		` : ``}
+	}
+` : ``}
+
+${win7 || win8 ? `:root,` : ``}
+${BACKGROUND_ON_BODY
+	? `
+		#main-window[lwtheme]:not([${THEME_IMAGE_IN_TOOLBOX}], [ai-window]) body,
+		:root[${THEME_IMAGE_IN_TOOLBOX}] #navigator-toolbox
+		`
+	: `:root[lwtheme] #navigator-toolbox`}
+{
+	${themeBackgroundStyle}
+}
+
+${appVersion < 121 ? /*css*/`
+	:root[lwtheme-image] :is(
+		#firefox-view-button > .toolbarbutton-icon,
+		.tab-background
+	) {
+		--lwt-header-image: none !important;
+	}
 ` : ``}
 
 ${!prefs.previewPanelNoteEditable ? /*css*/`
@@ -4461,20 +4886,13 @@ ${!prefs.previewPanelNoteEditable ? /*css*/`
 	}
 ` : ``}
 
-${_=`:root[multitabrows-applying-style]`} {
+:root[multitabrows-applying-style] {
 	--tab-animation: 0s;
-}
-
-${_} #navigator-toolbox,
-${_} #navigator-toolbox > toolbar {
-	transition: none !important;
-}
-
-${_} #TabsToolbar {
+	--inactive-window-transition: 0s;
 	--tabs-item-opacity-transition: 0s;
 }
 
-${debug && debug < 3 ? /*css*/`
+${debug && debug < 3 && debug > 0 ? /*css*/`
 	${_="#tabbrowser-tabs"} {
 		background: rgba(0,255,255,.2);
 		box-shadow: 0 -5px rgba(0,255,0,.5);
@@ -4557,6 +4975,27 @@ ${debug && debug < 3 ? /*css*/`
 		outline: 3px solid orange;
 	}
 ` : ""}
+${debug < 0 ? /*css*/`
+	:root:root:is([builtintheme], :not([lwtheme])) {
+		--toolbox-background-gradient: linear-gradient(
+			135deg,
+			green 10%, red 0,
+			red 80%, green 0,
+			green 93%, red 0
+		);
+		${debug < -1 ? `
+			--toolbox-background-gradient: linear-gradient(
+				90deg,
+				green 5%, red 0,
+				red 30%, green 0,
+				green 98%, red 0
+			);
+		` : ``}
+		#nav-bar {
+			background: none !important;
+		}
+	}
+` : ``}
 ${debug > 1 ? /*css*/`
 	:root {
 		--inactive-window-transition: 2s ease;
@@ -4618,56 +5057,138 @@ ${debug > 1 ? /*css*/`
 ` : ``}
 `;
 root.setAttribute("multitabrows-applying-style", "");
-rAF(2).then(() => root.removeAttribute("multitabrows-applying-style"));
-}
 
 {
-	let observer = new ResizeObserver(() =>
-		style(root, {"--nav-toolbox-height": gNavToolbox.getBoundingClientRect().height + "px"})
+	const navBarCS = getComputedStyle($("#nav-bar"));
+	//115
+	const hasShadow =
+		root.hasAttribute("lwtheme") &&
+		parseFloat(navBarCS.getPropertyValue("--tabs-navbar-shadow-size")) &&
+		getColor(navBarCS, "--lwt-tabs-border-color")?.a != 0;
+	tabsBar.toggleAttribute(
+		"connected-to-navbar",
+		(
+			!hasShadow &&
+			(
+				navBarCS.getPropertyValue("--tabs-navbar-separator-style") == "none" ||
+				!getColor(navBarCS, "--tabs-navbar-separator-color")?.a
+			) &&
+			!getColor(navBarCS, ["--toolbar-background-color", "--toolbar-bgcolor"])?.a
+		),
 	);
+	tabsBar.toggleAttribute("has-tabs-navbar-shadow", hasShadow);
+}
 
-	function onLwtChange() {
-		style(root, {"--multirows-background-position": ""});
-		let cs = getComputedStyle(nova ? document.body : gNavToolbox);
+dummyElement?.remove();
 
-		Promise.all(
-			[...cs.backgroundImage.matchAll(/(?<=url\(").+?(?="\))/g)]
-				.flat()
-				.map(src => new Promise(rs => assign(
-					new Image(),
-					{
-						onload: e => rs(e.target.height || 0),
-						onerror: () => rs(0),
-						src,
-					}
-				)))
-		).then(heights =>
-			style(root, {"--lwt-background-image-natural-height": Math.max(0, ...heights) + "px"})
-		);
+rAF(2).then(() => root.removeAttribute("multitabrows-applying-style"));
+} /* setStyle() */
 
-		let bgPos = cs.backgroundPosition;
-		let hasChanged;
-		bgPos = bgPos.split(", ").map(s => {
-			s = s.split(" ");
-			if (s[1] != "0%" && s[1].includes("%")) {
-				hasChanged = true;
-				s[1] = `calc(${
-					s[1]
-						.replace(/calc\(|\)/g, "")
-						.replace(
-							/\d+%/g,
-							m => "(var(--nav-toolbox-height) - var(--multirows-background-size)) * " + parseFloat(m) / 100,
-						)
-				})`;
-			}
-			return s.join(" ");
+{
+	new ResizeObserver(() => {
+		let outer = getRect(gNavToolbox, {box: "margin"});
+		let inner = getRect(gNavToolbox, {box: "padding"});
+		style(root, {
+			"--nav-toolbox-margin-box-height": outer.height + "px",
+			"--nav-toolbox-margin-border-block": inner.y - outer.y + "px",
+			"--nav-toolbox-margin-border-inline": inner.x - outer.x + "px",
 		});
-		if (hasChanged)
-			style(root, {"--multirows-background-position": bgPos});
-		else
-			style(root, {"--nav-toolbox-height": ""});
-		observer[hasChanged ? "observe" : "unobserve"](gNavToolbox);
+	}).observe(gNavToolbox);
+
+	async function onLwtChange() {
+		style(root, {
+			"--multirows-background-position": "",
+			"--multirows-background-size": "",
+			"--original-root-background-color":
+				getComputedStyle(root)[prefs.nativeWindowStyle ? "outlineColor" : "backgroundColor"],
+		});
+
+		if (!root.matches("[ai-window], [taskbartab]")) {
+			let isYAlign;
+			let cs = getComputedStyle(
+				(
+					BACKGROUND_ON_BODY &&
+					!root.hasAttribute(THEME_IMAGE_IN_TOOLBOX)
+				)
+					? document.body : gNavToolbox
+			);
+
+			let heights = await Promise.all(
+				cs.backgroundImage.split(", ").map(p => {
+					let src = p.match(/(?<=url\(").+?(?="\))/);
+					return src
+						? new Promise(rs => assign(
+							new Image(),
+							{
+								onload: e => rs(e.target.height || 0),
+								onerror: () => rs(0),
+								src,
+							}
+						))
+						: 0;
+				})
+			);
+			let maxHeight = Math.max(...heights);
+
+			if (maxHeight) {
+				style(root, {
+					"--multirows-background-size":
+						heights.map(h =>
+							h
+								? `
+									auto
+									calc(
+										max(
+											var(--multirows-toolbox-background-height),
+											${maxHeight}px
+										)
+										* ${h / maxHeight}
+									)
+								`
+								: "auto"
+						).join(", "),
+				});
+
+				let bgPos = cs.backgroundPosition.split(", ").map((s, i) => {
+					s = s.split(" ");
+
+					s[0] = `calc(
+						${s[0]}
+						+ var(--nav-toolbox-margin-border-inline)
+							* ${1 - parseFloat(s[0]) / 50}
+					)`;
+
+					if (s[1] != "0%") {
+						isYAlign = true;
+						s[1] = `calc(${
+							s[1].replace(/calc\(|\)/g, "")
+								.replace(
+									/\d+%/g,
+									m => `
+										(
+											var(--nav-toolbox-margin-box-height)
+											- var(--nav-toolbox-margin-border-block) * 2
+											- max(
+												var(--multirows-toolbox-background-height),
+												${heights[i]}px
+											)
+										) * ${parseFloat(m) / 100}
+										+ var(--nav-toolbox-margin-border-block)
+									`,
+								)
+						})`;
+					} else
+						s[1] = `var(--nav-toolbox-margin-border-block)`;
+
+					return s.join(" ");
+				});
+
+				if (isYAlign || !BACKGROUND_ON_BODY)
+					style(root, {"--multirows-background-position": bgPos.join(", ")});
+			}
+		}
 	}
+
 	addEventListener("windowlwthemeupdate", onLwtChange, true);
 	onLwtChange();
 }
@@ -5455,10 +5976,8 @@ let GET_DRAG_TARGET;
 
 		evalInSandbox(
 			/*js*/`window.TabDragAndDrop = ${constructorString}`,
-			assign(
-				new Cu.Sandbox(window, {sandboxPrototype: window, sameZoneAs: window}),
-				{isTab, isTabGroupLabel, isSplitViewWrapper, elementToMove, getGroup},
-			),
+			new Cu.Sandbox(window, {sandboxPrototype: window, sameZoneAs: window}),
+			{isTab, isTabGroupLabel, isSplitViewWrapper, elementToMove, getGroup},
 		);
 
 		assign(TabDragAndDrop.prototype, {
@@ -5663,20 +6182,17 @@ let GET_DRAG_TARGET;
 			});
 		}
 
-		let run = () => {
-			for (let {dir, tab, target} of tasks)
-				gBrowser[`moveTabs` + dir]([tab], target);
-		};
-
-		if (tasks.length) {
+		if (tasks[0]) {
 			if (
 				this.multiselectStacking &&
 				(draggedTab == movingTabs[0] || !prefs.dragStackPreceding)
 			)
-				tabContainer._lockTabSizing(draggedTab, {stacking: true});
-			animateLayout(run);
-		} else
-			run();
+				tabContainer._lockTabSizing(draggedTab);
+			animateLayout(() => {
+				for (let {dir, tab, target} of tasks)
+					gBrowser[`moveTabs` + dir]([tab], target);
+			});
+		}
 
 		console?.timeEnd("_groupSelectedTabs");
 
@@ -5758,6 +6274,10 @@ let GET_DRAG_TARGET;
 					panel.hidePopup();
 			}, tabContainer._dragOverDelay || getPref("browser.tabs.dragDrop.selectTab.delayMS", 350));
 			fakeScrollbar.scrollTop = scrollbox.scrollTop;
+
+			//the scrollbar is regenerated when overflow of gNavToolbox is changed
+			if (nova)
+				style(getScrollbar(fakeScrollbar), {opacity: 1, transition: "none"});
 
 			if (animate) {
 				//set the attribute early to prevent the placeholders hide during moving pinned tabs together
@@ -5967,7 +6487,7 @@ let GET_DRAG_TARGET;
 			let dropBefore = idx == indexOf(target);
 			let x = +(targetRect[dropBefore ? "start" : "end"] - boxRect.start).toFixed(3);
 			let boxHalf = boxRect.height / 2;
-			let y = +Math.max(Math.min((targetRect.y + targetRect.height / 2) - (boxRect.y + boxHalf), boxHalf), -boxHalf).toFixed(3);
+			let y = +Math.max(Math.min(targetRect.centerY - boxRect.centerY, boxHalf), -boxHalf).toFixed(3);
 			let {style} = ind;
 			if (!style.transform) {
 				style.transition = "none";
@@ -6180,17 +6700,28 @@ let GET_DRAG_TARGET;
 							tabContainer._positionPinnedTabs();
 						tabContainer.updateLayout();
 
-						if (stackPreceding && animatingLayout) {
-							let {rects} = animatingLayout;
-							let firstRect = rects.get(movingNodes[0]);
-							let draggedRect = rects.get(draggedNode);
-							let deltaStart = firstRect.start - draggedRect.start;
-							let deltaY = firstRect.y - draggedRect.y;
-							for (let n of movingNodes) {
-								let r = rects.get(n);
-								r.start += deltaStart;
-								r.y += deltaY;
+						if (animatingLayout) {
+							if (stackPreceding || prefs.justifyCenter > 1) {
+								let {rects, newRects} = animatingLayout;
+								let oldDraggedR = rects.get(draggedNode);
+								let newDraggedR = getRect(draggedNode);
+								let stackedR = assign(newDraggedR.clone(), {start: 0, y: 0});
+								_dragData.rectsBeforeStacking = new Map(rects);
+
+								for (let n of movingNodes) {
+									if (n.stacking == "hidden")
+										continue;
+									rects.set(n, rects.get(n).relativeTo(oldDraggedR));
+									newRects.set(
+										n,
+										n.stacking || n == draggedNode
+											? stackedR
+											: getRect(n).relativeTo(newDraggedR),
+									);
+								}
 							}
+
+							animatingLayout.nodes = animatingLayout.nodes.filter(n => n.stacking != "hidden");
 						}
 					}, {shouldUpdateLayout: false}).then(() => _dragData.stacking = true);
 
@@ -6289,7 +6820,7 @@ let GET_DRAG_TARGET;
 			cursorRow = Math.min(
 				Math.max(
 					Math.floor(
-						(draggedRect.y + draggedRect.height / 2 + tranY + scrollPos + scrollChange - boxRect.y)
+						(draggedRect.centerY + tranY + scrollPos + scrollChange - boxRect.y)
 						/ tabHeight
 					),
 					firstRect.row,
@@ -6507,6 +7038,49 @@ let GET_DRAG_TARGET;
 		};
 		shiftMovingNodes();
 
+		if (_dragData.rectsBeforeStacking) {
+			let rects = _dragData.rectsBeforeStacking;
+			let p = _dragData.atTabXPercent;
+			let oldDraggedR = rects.get(draggedNode);
+			let newDraggedR = rect(draggedNode);
+			let deltaTranX = pointDeltaH(rTranX, tranX);
+			let deltaStart = pointDeltaH(oldDraggedR.start, newDraggedR.start + rTranX);
+			let deltaEnd = pointDeltaH(oldDraggedR.end, newDraggedR.end + rTranX);
+			let deltaY = pointDelta(oldDraggedR.y, newDraggedR.y + rTranY);
+			let deltaWidth = newDraggedR.width - oldDraggedR.width;
+			let deltaX = deltaEnd > 0 && deltaTranX < 0
+				? deltaEnd + deltaWidth
+				: (
+					deltaStart < 0 && deltaTranX > 0 ||
+					(
+						prefs.justifyCenter > 1 &&
+						(!followingNode || pointDelta(rect(followingNode).y, newDraggedR.y)) &&
+						(!precedingNode || pointDelta(rect(precedingNode).y, newDraggedR.y))
+					)
+				)
+					? deltaStart
+					: deltaWidth * (RTL_UI ? 1 - p : p);
+			deltaX *= DIR;
+			deltaY = rTranY < tranY && deltaY > 0
+				? deltaY - scrollPos : 0;
+
+			if (deltaX || deltaY)
+				for (let n of movingNodes)
+					if (n.getAttribute("animate-shifting") == "start")
+						style(n, {
+							"--x": parseFloat(getStyle(n, "--x") || 0) + deltaX + "px",
+							"--y": parseFloat(getStyle(n, "--y") || 0) + deltaY + "px",
+						});
+					else if (n == draggedNode)
+						animateShifting(
+							n,
+							assign(oldDraggedR.clone(), {start: deltaX, y: deltaY}),
+							newDraggedR.relativeTo(newDraggedR),
+						);
+
+			delete _dragData.rectsBeforeStacking;
+		}
+
 		console?.timeEnd("_animateTabMove - update dragtarget position");
 
 		if (arrowScrollbox._isScrolling) {
@@ -6544,7 +7118,7 @@ let GET_DRAG_TARGET;
 		let tabsBeforeMoving = nodes.slice(0, firstMovingIdx);
 		let tabsAfterMoving = nodes.slice(lastMovingIdx + 1);
 
-		let leaderCenterY = leaderRect.y + leaderRect.height / 2;
+		let leaderCenterY = leaderRect.centerY;
 
 		if (
 			firstMovingRect.row == firstRect.row &&
@@ -7012,8 +7586,6 @@ let GET_DRAG_TARGET;
 
 				//without this will cause the animating tabs can't apply upcoming animation
 				await rAF();
-
-				requestAnimationFrame(() => tabContainer._updateCloseButtons());
 			}, {
 				shouldUpdateLayout: false,
 				animate: !recursion,
@@ -7240,12 +7812,18 @@ let GET_DRAG_TARGET;
 		}
 
 		let run = () => {
+			let groupOfDraggedTab = draggedTab.group;
+
 			handle_drop.apply(this, arguments);
+
 			if (
 				(stopAnimateTabMove || dt.dropEffect == "copy") &&
 				!tabContainer.suggestToLockSlot
 			)
 				tabContainer._unlockTabSizing({unlockSlot: true});
+
+			if (groupOfDraggedTab?.collapsed && draggedTab.group != groupOfDraggedTab)
+				groupOfDraggedTab.refreshState();
 		};
 		//tabs may be dragged into a collapsed group
 		let param = {includeNodes: _dragData?.movingTabs.filter(isTabLike)};
@@ -7314,7 +7892,7 @@ let GET_DRAG_TARGET;
 
 	dragDropProto[FINISH_ANIMATE_TAB_MOVE] = async function() {
 		//_animateTabMove is not triggered when copying tab at first, i.e. pressing ctrl before dragging tab
-		//thus chack the [movingtab] of tabs bar instead to identify whether the animate has performed
+		//thus check the [movingtab] of tabs bar instead to identify whether the animate has performed
 		let finishing = tabContainer.isFinishingTabMove;
 		let movingTabGroup = !finishing && tabContainer.hasAttribute("moving-tabgroup");
 		//the dragover would not be triggered and marked as moving when dragging out of the window so fast
@@ -7369,6 +7947,7 @@ let GET_DRAG_TARGET;
 								gBrowser[newPinState ? "pinMultiSelectedTabs" : "unpinMultiSelectedTabs"]();
 								await refreshGroups();
 								tabContainer.updateLayout();
+								await rAF();
 							},
 							{
 								translated: true,
@@ -7414,13 +7993,19 @@ let GET_DRAG_TARGET;
 							rects: rectsBeforeDrop,
 						});
 					} else {
+						await rAF();
+						await Promise.all(movingNodes.map(waitForAnimate));
 						await Promise.all([
-							...movingNodes.map(async n => {
-								n.setAttribute("animate-shifting", "run");
-								await rAF();
-								style(n, noTransform);
-								await waitForAnimate(n);
-							}),
+							...movingNodes.map(
+								gReduceMotion
+									? n => style(n, noTransform)
+									: async n => {
+										n.setAttribute("animate-shifting", "run");
+										await rAF();
+										style(n, noTransform);
+										await waitForAnimate(n);
+									},
+							),
 							//in case dropping before the collapsing is done
 							stacking,
 							draggedGroup?.togglingAnimation,
@@ -7578,6 +8163,15 @@ let GET_DRAG_TARGET;
 			for (let a of attrs)
 				node?.removeAttribute(a);
 
+		//the scrollbar is regenerated when overflow of gNavToolbox is changed
+		if (nova)
+			rAF().then(async () => {
+				let {style} = getScrollbar(scrollbox);
+				style.transition = "none";
+				await rAF();
+				style.transition = "";
+			});
+
 		cleanUpDragDebug();
 	};
 }
@@ -7702,7 +8296,8 @@ let GET_DRAG_TARGET;
 			!prefs.positionPinnedTabs && !this.positioningPinnedTabs ||
 			!tabHeight ||
 			//it seems this checking is no necessary anymore but there's no harm to keep it
-			appVersion < 132 && isCalledBy("_initializeArrowScrollbox/<")
+			appVersion < 132 && isCalledBy("_initializeArrowScrollbox/<") ||
+			appVersion < 141 && isCalledBy("on_(ov|und)erflow")
 		)
 			return;
 
@@ -7715,8 +8310,9 @@ let GET_DRAG_TARGET;
 
 		let layoutData = this._pinnedTabsLayoutCache;
 		let uiDensity = root.getAttribute("uidensity");
-		if (!layoutData || layoutData.uiDensity != uiDensity)
+		if (!layoutData || layoutData.uiDensity != uiDensity || layoutData.nova != nova)
 			layoutData = this._pinnedTabsLayoutCache = {
+				nova,
 				uiDensity,
 				scrollStartOffset: gap,
 			};
@@ -7995,7 +8591,7 @@ let GET_DRAG_TARGET;
 
 	let _closeButtonsUpdatePending;
 	tabContainer._updateCloseButtons = function() {
-		if (!animatingLayout && !_closeButtonsUpdatePending && !isCalledBy("handleResize")) {
+		if (!animatingLayout?.shouldUpdateLayout && !_closeButtonsUpdatePending && !isCalledBy("handleResize")) {
 			_closeButtonsUpdatePending = true;
 			rAF(2).then(() => {
 				console?.time("_updateCloseButtons");
@@ -8164,15 +8760,15 @@ let GET_DRAG_TARGET;
 					}
 
 					#tabs-placeholder-pre-tabs {
-						--tabstrip-padding: 0;
-						--section-clip: 0 !important;
-						--clip-end: 0;
+						--tabstrip-padding: 0px;
+						--section-clip: 0px !important;
+						--clip-end: 0px;
 						width: calc(100vw - (var(--tabs-scrollbar-width) + var(--scrollbar-clip-reserved)));
 						border-inline-end-width: 0;
 						border-radius: 0 !important;
 					}
 
-					${prefs.tabsAtBottom < 0 ? /*css*/`
+					${!nova && prefs.tabsAtBottom < 0 ? /*css*/`
 						:root[ai-window] #navigator-toolbox:has(~ #browser :is(#sidebar-main, #ai-window-box):not([hidden], [collapsed]))
 							#tabs-placeholder-pre-tabs
 						{
@@ -8655,7 +9251,7 @@ let GET_DRAG_TARGET;
 			actionNode.splitview ||
 			gBrowser[CLOSING_THE_ONLY_TAB] ||
 			positionPinned && actionNode.pinned ||
-			prefs.justifyCenter == 2
+			prefs.justifyCenter > 1
 		)
 			return;
 
@@ -8989,7 +9585,7 @@ let GET_DRAG_TARGET;
 			this._keepTabSizeLocked ||
 			isCalledBy("([_#]expandGroupOnDrop|on_TabGroupCollapse)") ||
 			(
-				isCalledBy("handleEvent@tabs.js") &&
+				isCalledBy("handleEvent@tabs.js", "*") &&
 				$$(`${TABS_RELATED_PANELS}, #tabContextMenu`)
 					.some(p => ["open", "hiding"].includes(p.state))
 			)
@@ -9050,7 +9646,7 @@ let GET_DRAG_TARGET;
 		delete this._unlockingTabs;
 	};
 
-	tabContainer.unlockSlotSize = function(instant) {
+	tabContainer.unlockSlotSize = function(instant = gReduceMotion) {
 		instant ||= !this.suggestToLockSlot;
 
 		let oldHeight;
@@ -9337,7 +9933,6 @@ let GET_DRAG_TARGET;
 		else {
 			let {splitview} = tab;
 			let hasPrompted;
-			let oldOrder = getComputedStyle(tab)?.order;
 			//wait a little to check if the tab still exists, if it does it's probably get prompted
 			//the prompt may not show if there has no interaction in page yet but it will still get some delay before closing
 			setTimeout(() => hasPrompted = !tab.closing, 10);
@@ -9388,22 +9983,19 @@ let GET_DRAG_TARGET;
 				//and it's unable to know if the tab will be placed at the previous row end
 				//if all closing tabs become zero width
 				if (animate && !splitview) {
+					let newTabsRect = getRect(tabContainer, {box: "content"});
+
 					for (let node of nodes) {
-						if (!isTab(node) || !node.closing || node._animationTargetingRect)
+						if (!isTab(node) || !node.closing || !node.isConnected || node._animationTargetingRect)
 							continue;
-						let r = rects.get(node);
+						let oldR = rects.get(node);
 						let newR = getRect(node);
-						let newTabsRect = getRect(tabContainer, {box: "content"});
-						if (
-							//not working when get prompted
-							pointDelta(r.y - tabsRect.y, newR.y - newTabsRect.y) ||
-							getComputedStyle(node)?.order != oldOrder
-						) {
-							let nxtNode = nodes.slice(nodes.indexOf(node) + 1).find(n => !n.closing);
+						if (pointDelta(oldR.y - tabsRect.y, newR.y - newTabsRect.y)) {
+							let nxtNode = nodes.slice(nodes.indexOf(node) + 1).find(n => !n.closing && n.isConnected);
 							if (nxtNode)
 								newR = getRect(nxtNode);
-							if (!nxtNode || !newR.visible || pointDelta(r.y - tabsRect.y, newR.y - newTabsRect.y)) {
-								newR = r.clone();
+							if (!nxtNode || !newR.visible || pointDelta(oldR.y - tabsRect.y, newR.y - newTabsRect.y)) {
+								newR = oldR.clone();
 								newR.start += newTabsRect.start - tabsRect.start;
 								newR.y += newTabsRect.y - tabsRect.y;
 							}
@@ -9725,9 +10317,10 @@ if (TAB_GROUP_SUPPORT) {
 	}
 }
 
-/** panel **/
+/** XULPopupElement **/
 if ("tabsAtBottom" in prefs) {
-	let panelProto = customElements.get("panel").prototype;
+	/* global XULPopupElement */
+	let panelProto = XULPopupElement.prototype;
 	let {openPopup, moveToAnchor} = panelProto;
 
 	panelProto.openPopup = function(anchor, opt, ...args) {
@@ -9827,7 +10420,7 @@ if (nova)
 
 $("#toolbar-menubar").addEventListener("toolbarvisibilitychange", () => {
 	onPrefChange(null, null, "menubar-autohide-change");
-	updateNavToolboxNetHeight();
+	rAF().then(updateNavToolboxNetHeight);
 	if (prefs.tabsAtBottom)
 		updateNavBarOverflow();
 }, true);
@@ -9847,7 +10440,8 @@ if (AI_WINDOW_SUPPORT) {
 					win.dispatchEvent(new win.Event("AIWindowUpdateButtonsPosition"));
 				};
 			`,
-			assign(new Cu.Sandbox(Services.scriptSecurityManager.getSystemPrincipal()), {AIWindow}),
+			new Cu.Sandbox(Services.scriptSecurityManager.getSystemPrincipal()),
+			{AIWindow},
 		);
 
 	updateAIWindowButtonsPosition();
@@ -10157,7 +10751,7 @@ function updateAIWindowButtonsPosition() {
 	if (!AI_WINDOW_SUPPORT) return;
 
 	let aiBtn = $("#ai-window-toggle");
-	let menuBtn = document.getElementById("PanelUI-button");
+	let menuBtn = $("#PanelUI-button");
 	let [nav, tabs] = ["nav-bar", "TabsToolbar"].map(id => $(`#${id} .titlebar-buttonbox-container`));
 	if (prefs.tabsAtBottom)
 		nav.before(aiBtn, menuBtn);
@@ -10165,14 +10759,14 @@ function updateAIWindowButtonsPosition() {
 		tabs.before(aiBtn, menuBtn);
 	else {
 		(prefs.smartWindowButtonOnNavBar ? nav : tabs).before(aiBtn);
-		nav.before(menuBtn);
+		(prefs.hamburgerMenuOnTabBar ? tabs : nav).before(menuBtn);
 	}
 	updateNavBarOverflow();
 }
 
 /** @param {boolean} [allRows] */
 function getRowCount(allRows) {
-	if (!tabHeight)
+	if (!tabHeight && !gNavToolbox.hasAttribute("tabs-hidden"))
 		tabContainer[ON_UI_DENSITY_CHANGED]();
 	return Math.max(Math.round(getRect(allRows ? slot : scrollbox, {box: "content"}).height / tabHeight) || 1, 1);
 }
@@ -10196,26 +10790,21 @@ function getScrollbar(box, orient = "vertical") {
 
 function updateNavToolboxNetHeight() {
 	console?.time("updateNavToolboxNetHeight");
-	let menubar = $("#toolbar-menubar");
 	let personalbar = $("#PersonalToolbar");
-	let menubarAutoHide = menubar.hasAttribute("autohide");
 	let countPersonalbar = getPref("browser.toolbars.bookmarks.visibility") != "never";
 	let personalbarCollapsed = personalbar.collapsed;
 
-	if (menubarAutoHide)
-		menubar.removeAttribute("inactive");
 	if (countPersonalbar && personalbarCollapsed) {
 		personalbar.style.transition = "none";
 		personalbar.collapsed = false;
 	}
 
-	let netHeight = getRect(gNavToolbox).height - scrollbox.clientHeight;
+	let netHeight = getRect(gNavToolbox, {box: "padding"}).height - scrollbox.clientHeight;
 	if (!countPersonalbar && !personalbarCollapsed)
 		netHeight -= getRect(personalbar).height;
-	style(root, {"--nav-toolbox-net-height": netHeight + "px"});
+	netHeight -= getRect($("#notifications-toolbar")).height;
+	style(root, {"--nav-toolbox-net-padding-box-height": netHeight + "px"});
 
-	if (menubarAutoHide)
-		menubar.setAttribute("inactive", true);
 	if (countPersonalbar && personalbarCollapsed) {
 		personalbar.collapsed = true;
 		rAF().then(() => {
@@ -10245,21 +10834,38 @@ function restrictScroll(lines) {
 	return Math.max(Math.min(lines, rows), 1);
 }
 
-function updateThemeStatus() {
+function updateThemeStatus(themeData) {
+	let aiWindow = root.hasAttribute("ai-window");
 	let id = getPref("extensions.activeThemeID");
 	defaultTheme = ["", "default-theme@mozilla.org", "firefox-compact-light@mozilla.org", "firefox-compact-dark@mozilla.org"]
 		.includes(id);
 	defaultDarkTheme = id == "firefox-compact-dark@mozilla.org";
 	defaultAutoTheme = ["", "default-theme@mozilla.org"].includes(id);
-	micaEnabled = getPref("widget.windows.mica", false);
+	micaEnabled = micaMQ.matches;
 	nova = novaMQ.matches;
-	mica = !nova && micaEnabled && defaultAutoTheme && !accentColorInTitlebarMQ.matches;
+	mica = micaEnabled && defaultAutoTheme && !accentColorInTitlebarMQ.matches;
+	micaTheme = !aiWindow && (mica || micaEnabled && getPref(prefBranchStr + "nativeWindowStyle"));
 
-	let cs = getComputedStyle(
-		BACKGROUND_ON_BODY && !root.hasAttribute("lwtheme-image-y-align") ? document.body : gNavToolbox
-	);
-	bgImgTheme = cs.backgroundImage.includes("url(");
-	bgImgRepeat = cs.backgroundRepeat == "repeat";
+	if (!themeData && aiWindow)
+		return;
+
+	let repeatVal;
+	if (themeData) {
+		console?.debug(themeData);
+		let {theme} = themeData;
+		bgImgTheme = !!(theme?.headerImage || theme?.headerURL || theme?.additionalBackgrounds?.[0]);
+		repeatVal = theme?.backgroundsTiling || "";
+	} else {
+		let cs = getComputedStyle(
+			BACKGROUND_ON_BODY && !root.hasAttribute(THEME_IMAGE_IN_TOOLBOX) ? document.body : gNavToolbox
+		);
+		bgImgTheme = cs.backgroundImage.includes("url(");
+		repeatVal = cs.backgroundRepeat;
+	}
+	repeatVal = repeatVal.split(/,\s*/);
+	let isRepeat = p => ["repeat", "repeat-y"].includes(p);
+	bgImgHasRepeat = bgImgTheme && repeatVal.some(isRepeat);
+	bgImgAllRepeat = bgImgTheme && repeatVal.every(isRepeat);
 }
 
 /**
@@ -10363,7 +10969,8 @@ function exposePrivateMethod(element, method, context) {
 			element.prototype[newMethod] = evalInSandbox(
 				/*js*/
 				`(function ${newMethod} ${code})`,
-				assign(new Cu.Sandbox(window, {sandboxPrototype: window, sameZoneAs: window}), context),
+				new Cu.Sandbox(window, {sandboxPrototype: window, sameZoneAs: window}),
+				context,
 			);
 			relatedMehtods.forEach(m => exposePrivateMethod(element, m, context));
 		} catch (e) {
@@ -10525,13 +11132,8 @@ async function animateLayout(
 			let nxtR = rects.get(nxt);
 			let nxtNewR = newRects.get(nxt);
 			let newSlotRect = getRect(slot, {box: "content"});
-			let newRowStartPoint =
-				newSlotRect.start
-				+ (
-					prefs.justifyCenter == 2
-						? newSlotRect.width / 2 * DIR
-						: 0
-				);
+			let newRowStartPoint = newSlotRect[prefs.justifyCenter < 2 ? "start" : "centerX"];
+
 			for (let n of deltaNodes) {
 				if (isTabGroupOverflowContainer(n)) {
 					let group = getGroup(n);
@@ -10602,10 +11204,11 @@ async function animateLayout(
 				return true;
 
 			let nR = newRects.get(n);
+			let oR = rects.get(n);
 			return (
-				nR.relative ||
+				oR.relative || nR.relative ||
 				isOverlapping(nR, newTabsRect) ||
-				isOverlapping(rects.get(n), newTabsRect) ||
+				isOverlapping(oR, newTabsRect) ||
 				deltaNodes?.includes(n)
 			);
 		});
@@ -10629,67 +11232,78 @@ const ANIMATE_REQUEST = Symbol("animateRequest");
 const APPLYING_ANIMATION = Symbol("applyingAnimation");
 
 /**
- * @param {Element} t
+ * @param {Element} n
  * @param {Rect} oR
  * @param {Rect} nR
  */
-async function animateShifting(t, oR, nR) {
-	if (gReduceMotion || !t.isConnected || !oR.visible || !nR.visible || !prefs.animationDuration)
-		return t;
+async function animateShifting(n, oR, nR) {
+	if (gReduceMotion || !n.isConnected || !oR.visible || !nR.visible || !prefs.animationDuration)
+		return n;
 
 	let {start: oS, y: oY, width: oW} = oR;
 	let {start: nS, y: nY, width: nW, widthRoundingDiff: wrd, heightRoundingDiff: hrd} = nR;
 
 	let s = pointDelta(oS, nS), y = pointDelta(oY, nY), w = pointDelta(oW, nW);
+
+	if (n.getAttribute("animate-shifting") == "start") {
+		n.removeAttribute("animate-shifting");
+		delete n[ANIMATE_REQUEST];
+	}
+
 	let {abs} = Math;
-	if (abs(s) < 1 && abs(y) < 1 && (abs(w) < 1 || !isTabLike(t))) {
-		if (t.hasAttribute("animate-shifting"))
-			style(t, {
+	if (abs(s) < 1 && abs(y) < 1 && (abs(w) < 1 || !isTabLike(n))) {
+		if (n.hasAttribute("animate-shifting"))
+			style(n, {
 				"--width-rounding-diff": wrd + "px",
 				"--height-rounding-diff": hrd + "px",
 			});
-		return t;
+		return n;
 	}
 
 	let to = [nS, nY, nW];
-	if (t[ANIMATE_REQUEST]?.every((v, i) => abs(v - to[i]) < 1)) {
-		await waitForAnimate(t);
-		console?.debug(t, "previous animate done");
-		return t;
+	if (n[ANIMATE_REQUEST]?.every((v, i) => abs(v - to[i]) < 1)) {
+		await waitForAnimate(n);
+		console?.debug(n, "previous animate done");
+		return n;
 	}
-	t[ANIMATE_REQUEST] = to;
+	n[ANIMATE_REQUEST] = to;
 
-	// eslint-disable-next-line no-async-promise-executor
-	await (t[APPLYING_ANIMATION] = new Promise(async rs => {
-		t.setAttribute("animate-shifting", "start");
-		style(t, {
-			"--x": s + "px",
-			"--y": y + "px",
-			"--w": w + "px",
-			"--l": nW + "px",
-			"--width-rounding-diff": wrd + "px",
-			"--height-rounding-diff": hrd + "px",
-		});
+	n.setAttribute("animate-shifting", "start");
+	style(n, {
+		"--x": s + "px",
+		"--y": y + "px",
+		"--w": w + "px",
+		"--l": nW + "px",
+		"--width-rounding-diff": wrd + "px",
+		"--height-rounding-diff": hrd + "px",
+	});
 
-		await rAF(2);
+	await (
+		n[APPLYING_ANIMATION] = rAF(2).then(() => {
+			if (n[ANIMATE_REQUEST] == to) {
+				n.setAttribute("animate-shifting", "run");
+				style(n, {"--x": "", "--y": "", "--w": ""});
+			}
+		})
+	);
 
-		t.setAttribute("animate-shifting", "run");
-		style(t, {"--x": "", "--y": "", "--w": ""});
+	if (n[ANIMATE_REQUEST] == to) {
+		delete n[APPLYING_ANIMATION];
 
-		rs();
-	}));
-	delete t[APPLYING_ANIMATION];
+		await waitForAnimate(n);
 
-	await waitForAnimate(t);
+		n.removeAttribute("animate-shifting");
+		style(n, {"--l": ""});
+		if (["--translate-x", "--translate-y"].every(p => !getStyle(n, p)))
+			style(n, {"--width-rounding-diff": "", "--height-rounding-diff": ""});
 
-	t.removeAttribute("animate-shifting");
-	style(t, {"--l": ""});
-	if (["--translate-x", "--translate-y"].every(p => !getStyle(t, p)))
-		style(t, {"--width-rounding-diff": "", "--height-rounding-diff": ""});
+		delete n[ANIMATE_REQUEST];
+	} else {
+		await n[APPLYING_ANIMATION];
+		await waitForAnimate(n);
+	}
 
-	delete t[ANIMATE_REQUEST];
-
-	return t;
+	return n;
 }
 
 /** @param {Element} n */
@@ -10748,16 +11362,15 @@ function isOverlapping(r1, r2) {
  */
 function getVisualRect(n, translated = "translate") {
 	let r = getRect(n, {translated});
-	if (isTab(n) || isSplitViewWrapper(n)) {
+	if (r.visible && isTabLike(n)) {
 		let cs = getComputedStyle(
 			n.stack ?? n,
 			n.stack ? "" : "::after"
 		);
-		//in case there is no CS, e.g. the node is disconnected
-		r.width -= parseFloat(cs?.marginInlineEnd) || 0;
+		r.width -= parseFloat(cs.marginInlineEnd) || 0;
 		if (!n.stack)
 			//a property that store the value of the original margin inline end
-			r.width += parseFloat(cs?.minHeight) || 0;
+			r.width += parseFloat(cs.minHeight) || 0;
 	}
 	return r;
 }
@@ -10853,7 +11466,7 @@ function isCalledBy(func, ignoreFunc) {
 	func = func.split("@");
 	let match = stack.match(new RegExp(`^(${func[0]})@.+${func[1]||""}(\\?\\d+)?:\\d+:\\d+$`, "m"));
 	if (match && stack.match(/^.+\*/m)?.index < match.index) {
-		if (!ignoreFunc || !isCalledBy(ignoreFunc))
+		if (ignoreFunc != "*" && (!ignoreFunc || !isCalledBy(ignoreFunc)))
 			window.console.error("Unsafe stack checking!", func, stack);
 		return false;
 	}
@@ -11004,7 +11617,7 @@ function $$(selector, scope = document) {
  * @param {string} script
  * @param {Sandbox} sandbox
  */
-function evalInSandbox(script, sandbox) {
+function evalInSandbox(script, sandbox, context = {}) {
 	let useSandbox = !debug;
 
 	if (!useSandbox)
@@ -11016,8 +11629,8 @@ function evalInSandbox(script, sandbox) {
 		}
 
 	return useSandbox
-		? Cu.evalInSandbox(script, sandbox)
-		: eval(script);
+		? Cu.evalInSandbox(script, assign(sandbox, context))
+		: new Function(...Object.keys(context), script)(...Object.values(context));
 }
 
 /**
@@ -11032,8 +11645,20 @@ async function getScriptInfo({
 	let script = (await(await fetch(uri)).text()).trim();
 	let version = script.match(/^\/\/\s*@version\s+(.+?)\s*$/mi)[1]
 		.replace(/((\d+\.\d+\.\d+)\.\d+)/, skipMinorVer ? "$2" : "$1")
-		.replace(/(\.0)+$/, "")
-	return {script, version, uri};
+		.replace(/(\.0)+$/, "");
+	let compatibility = script.match(/^\/\/\s*@compatibility\s+firefox\s*(.+?)\s*$/mi)[1]
+		.split(/\s*,\s*/).map(v => v.split(/\s*-\s*/));
+	let compatible =
+		appVersion > compatibility.at(-1).at(-1) ||
+		compatibility.some(([min, max]) => max ? min <= appVersion && appVersion <= max : appVersion == min);
+	return {script, version, compatible, compatibility, uri};
+}
+
+/**
+ * @param {Object} texts
+ */
+function l10n(texts) {
+	return assign(texts.en, texts[Services.locale.appLocaleAsLangTag.split("-")[0]]);
 }
 
 console?.timeEnd("setup");
