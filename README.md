@@ -134,6 +134,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `compactControlButtons` | Display the window control buttons to a compact size. Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
 | `controlButtonsAutoHide` | Hide the window control buttons and show them when the cursor enters the top right corner:<ul><li>`0` - disabled</li><li>`1` - only on maximized windows</li><li>`2` - on all windows</li></ul><p>Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
 | `controlButtonsAutoHideTriggerHeight` | The height of the trigger area. |
+| `hamburgerMenuOnTabBar` | Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar when Firefox Smart Window is available. Forcibly inactivated when `tabsAtBottom` is enabled. Not available on Firefox 153 below. |
 | `hideAllTabs` | Hide the *List all tabs* button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing *Remove from Toolbar*. |
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper corner, hide the empty space in that corner when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
@@ -178,11 +179,13 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `floatingBackdropBlurriness` | How blurry the background of items covering the tabs is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. Minimum: `0`. Not available on Firefox 115 and in some cases where the blur effect cannot be applied. |
 | `floatingBackdropClip` | Clip the area covered by items on the tab bar when it is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `floatingBackdropOpacity` | How opaque the background of items covering the tab is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
-| `nativeWindowStyle` | Display the system-native theme style (e.g. transparency effects of Windows 11 and effects from tools like [*DWMBlurGlass*](https://github.com/Maplespe/DWMBlurGlass)) on the tab bar. To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. Not available on Firefox 115, or using any Firefox theme with background image. |
+| `nativeWindowStyle` | Display the system-native theme style (e.g. transparency effects of Windows 11 and effects from tools like [*DWMBlurGlass*](https://github.com/Maplespe/DWMBlurGlass)) on the tab bar. To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. It also allows you to remove the background color on themes designed with patterns with transparency. Not available on Firefox 115. |
+| `nativeWindowStyleToolbarColorOpacity` | The opacity of the background color of toolbars, and the dividing line between the navigation toolbar and the tab bar, minimum: `0`, maximum: `100`. Changing this setting cannot increase the opacity of a color if the original color contains transparency. Available when the tab bar is at the top or Firefox Nova is enabled. |
+| `nativeWindowStyleURLBarColorOpacity`: The opacity of the background color of the address bar and he search bar, minimum: `0`, maximum: `100`. Changing this setting cannot increase opacity if the original color includes transparency. |
 | `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
 | `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`. |
 | `showScrollShadow` | Show shadow on the top and bottom edges when the tab bar is scrollable. |
-| `themeImageSize` | When using themes with non-repeated background images, size the image according to:<ul><li>`-1` - the original size of the image</li><li>`0` - the maximum number of rows allowed</li><li>`1` - the maximum number of rows allowed within the current window width</li><li>`2` - the current number of rows</li></ul><p>The best choice depends on your preference and the design of the theme. No difference when the image height is large enough to support the number of rows.</p> |
+| `themeImageSize` | When using themes with background images, size the image according to:<ul><li>`-1` - the original size of the image</li><li>`0` - the maximum number of rows allowed</li><li>`1` - the maximum number of rows allowed within the current window width</li><li>`2` - the current number of rows</li></ul><p>The best choice depends on your preference and the design of the theme. No difference when the image height is large enough to support the number of rows.</p> |
 
 ### Miscellaneous
 
@@ -193,6 +196,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
 | `currentVersion` | The version number you are currently using. |
 | `debugMode`<span title="Do Not Use">⛔</span> | Mode for debugging, not for general use. |
+| `incompatible` | This item only appears when you are running an incompatible version of Firefox. Modifying it will cause the compatibility alert to show up again when Firefox starts up. |
 
 ### Firefox Built-in Settings
 
@@ -213,6 +217,24 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.9**
+- New
+	- Adds new sub-settings for `nativeWindowStyle`:
+		- `nativeWindowStyleToolbarColorOpacity`: The opacity of the background color of toolbars, and the dividing line between the navigation toolbar and the tab bar. Available when the tab bar is at the top or Firefox Nova is enabled.
+		- `nativeWindowStyleURLBarColorOpacity`: The opacity of the background color of the address bar and the search bar.
+	- Adds `hamburgerMenuOnTabBar` (Firefox 153+): Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar when Firefox Smart Window is available.
+- Improvements
+	- Improved theme support and compatibility:
+		- `themeImageSize` is now available for themes that have repeated background images, and no more reserving size for the hidden menu bar.
+		- `nativeWindowStyle` is now available for themes that have background images, which allows you to remove the background color on themes designed with patterns with transparency.
+		- Supports themes that have multiple layers of images.
+		- Some themes now have a better presentation when the tab bar is showing beneath the browser content.
+		- Updates for Nova UI design of Firefox 152+.
+	- Shows alert when running on an incompatible version of Firefox.
+- Fixes
+	- Animation glitches in special cases and when dragging multiple tabs.
+	- Minor visual issues.
 
 **Version 4.8.1**
 - Supports Firefox ESR version (140).
@@ -239,6 +261,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Visual issue where stacking tabs looked messy during dragging on some themes.
 	- Minor visual and layout issues.
 
+<details>
+<summary>Old Versions</summary>
+
 **Version 4.7.2**
 - Fixed an issue that could cause the "Reopen Closed Tab" to stop functioning.
 
@@ -258,9 +283,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 		- Tabs might jitter in special cases.
 		- The New Tab button was not hidden when the tab bar was scrollable.
 	- Minor visual issues in special cases.
-
-<details>
-<summary>Old Versions</summary>
 
 <details>
 <summary>Minor Update</summary>
