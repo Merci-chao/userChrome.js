@@ -130,6 +130,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `compactControlButtons` | ウィンドウ操作ボタンをコンパクトに表示。タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
 | `controlButtonsAutoHide` | ウィンドウの操作ボタンを隠し、カーソルが右上隅に入ったときに表示する：<ul><li>`0`－無効</li><li>`1`－最大化ウィンドウのみ</li><li>`2`－すべてのウィンドウ</li></ul><p>タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
 | `controlButtonsAutoHideTriggerHeight` | トリガー領域の高さ。 |
+| `hamburgerMenuOnTabBar` | `false` に設定すると、Firefox Smart Window が利用可能な場合に Firefox メニューボタン（☰）をナビゲーションツールバーに戻す。`tabsAtBottom` が有効な場合は強制的に無効化される。Firefox 153 未満では非対応。 |
 | `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。 |
 | `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、タブバーがスクロール可能時にその空白を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0`－無効</li><li>`1`－一段のみの場合</li><li>`2`－常に有効（タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある）</li></ul> |
@@ -173,11 +174,13 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `floatingBackdropBlurriness` | タブバーがスクロール可能時にタブを覆う要素の背景ぼかし強度を設定する。`tabsUnderControlButtons` が `2` のときのみ有効。Firefox 115 では、またはぼかし効果が効かない場合には非対応。 |
 | `floatingBackdropClip` | タブバーがスクロール可能時にタブバーを覆う要素の領域をクリップする。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `floatingBackdropOpacity` | タブバーがスクロール可能時にタブを覆う要素の背景の不透明度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
-| `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（例えば、Windows 11 の透明効果や [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果）を表示。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合がある。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をする。Firefox 115 または背景画像付きテーマでは非対応。 |
+| `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（例えば、Windows 11 の透明効果や [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果）を表示。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合がある。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をする。また、透過パターンでデザインされたテーマの背景色を除去可能。Firefox 115 では非対応。 |
+| `nativeWindowStyleToolbarColorOpacity` | ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。。最小値：`0`、最大値：`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。タブバーが上部にある場合、または Firefox Nova が有効になっている場合に利用可能。 |
+| `nativeWindowStyleURLBarColorOpacity` | アドレスバーと検索バーの背景色の不透明度。最小値：`0`、最大値：`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。 |
 | `scrollbarThumbColor` | スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
 | `scrollbarTrackColor` | スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
 | `showScrollShadow` | タブバーがスクロール可能な場合、上下の端にシャドウを表示。 |
-| `themeImageSize` | 背景画像を繰り返さないテーマを使用している場合、その画像のサイズは以下に基づいて決定される：<ul><li>`-1`－画像の元のサイズ</li><li>`0`－許可されている最大段数</li><li>`1`－現在のウィンドウ幅で許可されている最大段数</li><li>`2`－現在の段数</li></ul><p>最適な選択は好みとテーマのデザインに依存。画像の高さが段数を収容できるほど十分に大きい場合は、違いはない。</p> |
+| `themeImageSize` | 背景画像付きのテーマを使用する場合、その画像のサイズは以下に基づいて決定される：<ul><li>`-1`－画像の元のサイズ</li><li>`0`－許可されている最大段数</li><li>`1`－現在のウィンドウ幅で許可されている最大段数</li><li>`2`－現在の段数</li></ul><p>最適な選択は好みとテーマのデザインに依存。画像の高さが段数を収容できるほど十分に大きい場合は、違いはない。</p> |
 
 ### その他
 
@@ -188,6 +191,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値：`1`。 |
 | `currentVersion` | 現在使用しているバージョン。 |
 | `debugMode`<span title="使用禁止">⛔</span> | デバッグモード。一般向けではない。 |
+| `incompatible` | この項目は互換性のないバージョンの Firefox を実行している場合にのみ表示される。変更すると、Firefox の起動時に再び互換性警告が表示される。 |
 
 ### Firefox の組み込み設定
 | 項目（接頭辞なし） | 説明 |
@@ -207,6 +211,24 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+**Version 4.9**
+- 追加
+	- `nativeWindowStyle` に新しいサブ設定を追加：
+		- `nativeWindowStyleToolbarColorOpacity`：ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。タブバーが上部にある場合、または Firefox Nova が有効になっている場合に利用可能。
+		- `nativeWindowStyleURLBarColorOpacity`：アドレスバーと検索バーの背景色の不透明度。
+	- `hamburgerMenuOnTabBar` を追加（Firefox 153+）：`false` に設定すると、Firefox Smart Window が利用可能な場合に Firefox メニューボタン（☰）をナビゲーションツールバーに戻す。
+- 改善
+	- テーマとのサポートと互換性を改善：
+		- 繰り返し背景画像を持つテーマに対して `themeImageSize` が利用可能になった。非表示のメニューバーのためにサイズを確保する必要もなくなった。
+		- 背景画像を持つテーマに対して `nativeWindowStyle` が利用可能。これにより、透過パターンでデザインされたテーマの背景色を削除できる。
+		- 複数の画像レイヤーを持つテーマをサポート。
+		- タブバーがブラウザーコンテンツの下に表示されている場合、一部のテーマの表現が改善された。
+		- Firefox 152 以降の Nova UI デザインへの更新。
+	- 非互換の Firefox バージョンで実行している場合に警告を表示。
+- 修正
+	- 特殊なケースや複数タブをドラッグする際のアニメーションの不具合。
+	- 軽微な表示上の問題。
 
 **Version 4.8.1**
 - Firefox ESR バージョン（140）へのサポート。
@@ -233,6 +255,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 一部のテーマでタブをドラッグ中に、積み重ね表示が乱れて見える問題。
 	- 軽微な表示上とレイアウトの問題。
 
+<details>
+<summary>旧バージョン</summary>
+
 **Version 4.7.2**
 - 「閉じたタブをひらきなおす」機能が動作しなくなる問題を修正。 
 
@@ -252,9 +277,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 		- 特殊なケースでタブが揺れることがあった。
 		- タブバーがスクロール可能なとき、新しいタブボタンが隠れなかった。
 	- 特殊なケースで発生する軽微な表示上の不具合。
-
-<details>
-<summary>旧バージョン</summary>
 
 <details>
 <summary>軽微な更新</summary>
