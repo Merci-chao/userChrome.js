@@ -269,14 +269,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Old Versions</summary>
 
-**Version 4.7.2**
+[**Version 4.7.2**](https://github.com/Merci-chao/userChrome.js/raw/e907a3752a237595c93c9c6b69f228b612af1569/MultiTabRows@Merci.chao.uc.js)
 - Fixed an issue that could cause the "Reopen Closed Tab" to stop functioning.
 
-**Version 4.7.1**
+[**Version 4.7.1**](https://github.com/Merci-chao/userChrome.js/raw/d684754c50e71e0c0d4159948837e099a02f323a/MultiTabRows@Merci.chao.uc.js)
 - Fixed an issue when switching between a tab and a tab inside a collapsed tab group, where one of them belonged to a split view.
 - The New Tab button now has an animation when the tab bar switches between scrollable and non-scrollable.
 
-**Version 4.7**
+[**Version 4.7**](https://github.com/Merci-chao/userChrome.js/raw/798b230f25123a0556f0fc0c80ed156fd497f600/MultiTabRows@Merci.chao.uc.js)
 - Improvement
 	- Dragging to group tabs is now supported when using the indicator to move. Modify `browser.tabs.dragDrop.createGroup.enabled` or `browser.tabs.dragDrop.createGroup.delayMS` to adjust the behavior.
 - Change
@@ -292,15 +292,15 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Minor Update</summary>
 
-**Version 4.6.1.1**
+[**Version 4.6.1.1**](https://github.com/Merci-chao/userChrome.js/raw/4e12d4cda2b3d4239901a72fe0786aa12f20883f/MultiTabRows@Merci.chao.uc.js)
 - Updates for Firefox 151.
 - Fixed the issue where the "Add Note" item did not display when tab notes had just been enabled.
 </details>
 
-**Version 4.6.1**
+[**Version 4.6.1**](https://github.com/Merci-chao/userChrome.js/raw/05a819fa133b8814693f2cbe2300770657311fc6/MultiTabRows@Merci.chao.uc.js)
 - Adds new option for `themeImageSize`: `-1` - the original size of the image.
 
-**Version 4.6**
+[**Version 4.6**](https://github.com/Merci-chao/userChrome.js/raw/10479eb67e6851bb17cbade0aa3861e353bcc942/MultiTabRows@Merci.chao.uc.js)
 - New
 	- Supports placing the tab bar at the bottom of browser (by setting `tabsAtBottom` to `-1`).
 	- Replaces `dynamicThemeImageSize` with `themeImageSize`, which provides a new option.
@@ -318,7 +318,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `gapAfterPinned` did not work in some cases.
 	- Minor layout and visual issues in special cases.
 
-**Version 4.5.1**
+[**Version 4.5.1**](https://github.com/Merci-chao/userChrome.js/raw/e109f1131ea71e4d94e5c99f8f8d977af9ceba8a/MultiTabRows@Merci.chao.uc.js)
 - Improvements
 	- The roundness of the corners of buttons and tabs in the tab bar begins to decrease once the tab content height and horizontal padding are reduced beyond a certain point.
 	- Updates for Firefox 150.
@@ -331,12 +331,12 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Minor Update</summary>
 
-**Version 4.5.0.1**
+[**Version 4.5.0.1**](https://github.com/Merci-chao/userChrome.js/raw/1f0f7f439884512fc882c308452b3a504f9489c9/MultiTabRows@Merci.chao.uc.js)
 - Fixed minor layout issue in special case.
 
 </details>
 
-**Version 4.5**
+[**Version 4.5**](https://github.com/Merci-chao/userChrome.js/raw/4aaf427455b1873ac386f7c2074c7c0474564a30/MultiTabRows@Merci.chao.uc.js)
 - Changes
 	- Removes `disableDragToPinOrUnpin` and use the built-in preference `browser.tabs.dragDrop.dragToPin.enabled` as a replacement.
 	- Removes `dragToGroupTabs` and use the built-in preference `browser.tabs.dragDrop.createGroup.enabled` as a replacement.
@@ -353,7 +353,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `showScrollShadow` did not work on Firefox 115.
 	- Minor visual bugs in special cases.
 
-**Version 4.4**
+[**Version 4.4**](https://github.com/Merci-chao/userChrome.js/raw/1cd561a9b926abe7d6ee00f39c8347efed860133/MultiTabRows@Merci.chao.uc.js)
 - New
 	- Adds `showScrollShadow`: Show shadow on the top and bottom edges when the tab bar is scrollable, to align with the interface design of Firefox.
 	- Adds `animateTabMoveShiftKeyToPause`: When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. Note: Drop position may not behave as expected in certain scenarios due to Firefox bugs.
@@ -369,7 +369,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Fix
 	- Drag & drop problems in special cases.
 
-**Version 4.3.1**
+[**Version 4.3.1**](https://github.com/Merci-chao/userChrome.js/raw/4393a0f31b062811872d658884fe1f4803a5eb03/MultiTabRows@Merci.chao.uc.js)
 - Improvements
 	- Displays a pin/unpin icon next to the drop indicator to identify dragging to pin/unpin.
 	- Updates for Firefox 149.
@@ -380,7 +380,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Minor visual issues when drag-and-drop in special cases.
 	- Minor appearance issues in special cases.
 
-**Version 4.3**
+[**Version 4.3**](https://github.com/Merci-chao/userChrome.js/raw/8e58bd0162eefb9f258257249dcd10172943826a/MultiTabRows@Merci.chao.uc.js)
 - New
 	- Adds `lastRowTabsFlexible`: Tabs in the last row have flexible width when multiple rows are present. Forcibly activated when `justifyCenter` is `2`.
 	- Adds `positionPinnedTabs`: Position pinned tabs as a fixed grid before normal tabs when the tab bar is scrollable.
@@ -399,7 +399,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 		- Grouping tabs by dragging.
 	- Minor issues in special-case dragging and animation.
 
-**Version 4.2**
+[**Version 4.2**](https://github.com/Merci-chao/userChrome.js/raw/00c0f19da45e1a391a96c5d7203c4a2413cd9360/MultiTabRows@Merci.chao.uc.js)
 - New
 	- Adds `previewPanelShifted`: Shifts the preview panel when there are multiple rows, reducing the effect of the panel blocking items in the rows underneath. Affects tabs only when `previewPanelNoteEditable` is `true`. Not available on Firefox 115.
 		- `0` - never
@@ -417,7 +417,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Layout issue of tab group labels on older versions of Firefox.
 	- Minor layout and visual issues.
 
-**Version 4.1.3**
+[**Version 4.1.3**](https://github.com/Merci-chao/userChrome.js/raw/6c0a12ca3fb872c3f5b4c644454b6b7b69b38eef/MultiTabRows@Merci.chao.uc.js)
 - Fixes
 	- Firefox could freeze in certain cases when pinned tabs were present and the tab bar became scrollable.
 	- `tabHorizontalMargin` did not apply correctly to pinned tabs in Firefox 115.
@@ -427,31 +427,31 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Minor Updates</summary>
 
-**Version 4.1.2.5**
+[**Version 4.1.2.5**](https://github.com/Merci-chao/userChrome.js/raw/c6e59860ed977aec878ce0550c5a7f0b8327d0b9/MultiTabRows@Merci.chao.uc.js)
 - Adjusts margin of mini-audio button to prevent overlap with tab label.
 
-**Version 4.1.2.4**
+[**Version 4.1.2.4**](https://github.com/Merci-chao/userChrome.js/raw/d6f43131d380eb5159fdd6a845ed184d20618ccb/MultiTabRows@Merci.chao.uc.js)
 - Fixed the layout issue that occurred when moving pinned tabs to another window while the tab bar is scrollable.
 - Fixed the visual issue when closing pinned tabs.
 
-**Version 4.1.2.3**
+[**Version 4.1.2.3**](https://github.com/Merci-chao/userChrome.js/raw/3c4e92e7733abd23a720d91687ee84121b716407/MultiTabRows@Merci.chao.uc.js)
 - Hides secondary tab label when `tabContentHeight` is bellow `30` (compact mode).
 - Adjusts the tab height in split view when it is too compact.
 - The default value of `checkUpdateAutoApply` has been changed to `1`, which has the same effect as `0`.
 
-**Version 4.1.2.2**
+[**Version 4.1.2.2**](https://github.com/Merci-chao/userChrome.js/raw/2f2ed90bffb0d8c36ed9ad1a9e93030a4b2e7390/MultiTabRows@Merci.chao.uc.js)
 - Fixed the visual issue of audio button on Firefox 115 since the last version.
 
-**Version 4.1.2.1**
+[**Version 4.1.2.1**](https://github.com/Merci-chao/userChrome.js/raw/e1897daad71fb35903eb129f90f7799ae1a0bead/MultiTabRows@Merci.chao.uc.js)
 - Fixed a visual bug that occurs when a tab in a split view is closing and the `tabMaxWidth` is smaller than a certain amount.
 - Updates for the tab note icon in Firefox 147+.
 </details>
 
-**Version 4.1.2**
+[**Version 4.1.2**](https://github.com/Merci-chao/userChrome.js/raw/d7accbd33d613703bbf3f88bf085369b5aa43072/MultiTabRows@Merci.chao.uc.js)
 - Fix
 	- `tabMaxWidth` did not work on Firefox 146+.
 
-**Version 4.1.1**
+[**Version 4.1.1**](https://github.com/Merci-chao/userChrome.js/raw/2605d71e35fe3d3811ff795695581d3d957ab54d/MultiTabRows@Merci.chao.uc.js)
 - Improvement
 	- Updates for Firefox 148.
 - Fix
@@ -460,17 +460,17 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Minor Updates</summary>
 
-**Version 4.1.0.7**
+[**Version 4.1.0.7**](https://github.com/Merci-chao/userChrome.js/raw/4f41b6419194e5be3883ebd9c332386573459ccd/MultiTabRows@Merci.chao.uc.js)
 - Fixed an issue that may conflict with other scripts since v4.1.
 
-**Version 4.1.0.6**
+[**Version 4.1.0.6**](https://github.com/Merci-chao/userChrome.js/raw/131ae1fe0a6893515a238d4e996e0346f0587e5e/MultiTabRows@Merci.chao.uc.js)
 - Handles the case where `security.allow_unsafe_dangerous_privileged_evil_eval` is locked by the script loader.
 
-**Version 4.1.0.2**
+[**Version 4.1.0.2**](https://github.com/Merci-chao/userChrome.js/raw/d4ba5f8d43c6e68e42ada1cd8f2108b55d7c444c/MultiTabRows@Merci.chao.uc.js)
 - Tunes the sizing of group lines to achieve a better look with different values of `tabVerticalMargin`.
 </details>
 
-**Version 4.1**
+[**Version 4.1**](https://github.com/Merci-chao/userChrome.js/raw/915d87a20b0dbaacbb1b3ac5709dede2bc02cbd0/MultiTabRows@Merci.chao.uc.js)
 - New
 	- Adds `tabContentHeight`, `tabVerticalMargin`, `tabHorizontalPadding` and `tabHorizontalMargin` to control tab height and spacing. Not suggested to set narrower than the default value, as Firefox is not designed to be compact and unexpected glitches may occur. These settings may be overridden by rules in `userChrome.css` and have no effect.
 - Improvements
@@ -482,27 +482,27 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Minor Updates</summary>
 
-**Version 4.0.2.3**
+[**Version 4.0.2.3**](https://github.com/Merci-chao/userChrome.js/raw/5b908e70e03a724c9c7bee6208ede691498e6f13/MultiTabRows@Merci.chao.uc.js)
 - Updates the dependencies of settings in `about:config`.
 
-**Version 4.0.2.2**
+[**Version 4.0.2.2**](https://github.com/Merci-chao/userChrome.js/raw/6fe214ec244687756c2f238c8af21a2864c1e81d/MultiTabRows@Merci.chao.uc.js)
 - Refines some minor animation related to tab group.
 
-**Version 4.0.2.1**
+[**Version 4.0.2.1**](https://github.com/Merci-chao/userChrome.js/raw/8b5df9cd8f39e2a19405f53d18cd87df8d7a0485/MultiTabRows@Merci.chao.uc.js)
 - Follows up with the fix of Firefox bug [#1997096](https://bugzilla.mozilla.org/show_bug.cgi?id=1997096).
 
 </details>
 
-**Version 4.0.2**
+[**Version 4.0.2**](https://github.com/Merci-chao/userChrome.js/raw/fcc877abb73d14e2be2743d4c056ca7881d40c32/MultiTabRows@Merci.chao.uc.js)
 - Fix
 	- Layout problem that could occur when there were tabs with audio buttons since v4.0.
 
-**Version 4.0.1**
+[**Version 4.0.1**](https://github.com/Merci-chao/userChrome.js/raw/03f755577005868ecb0960c77189d28d56336974/MultiTabRows@Merci.chao.uc.js)
 - Fixes
 	- Script was failed when newly installed.
  	- Could not move tabs between windows since v4.0.
 
-**Version 4.0**
+[**Version 4.0**](https://github.com/Merci-chao/userChrome.js/raw/ea2ce83a7cbfabae30c0e3f873769b62619e2894/MultiTabRows@Merci.chao.uc.js)
 - New
 	- Supports the split view feature introduced in Firefox 146, which can be enabled by setting `browser.tabs.splitView.enabled` to `ture`.
 	- Supports for tab stacking when dragging multiple tabs. On Firefox 146, it can be enabled by setting `browser.tabs.dragDrop.multiselectStacking` to `true`. For Firefox 145 and below (including 115), a new boolean preference with that name needs to be created manually.
@@ -531,12 +531,12 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Minor Update</summary>
 
-**Version 3.6.1.1**
+[**Version 3.6.1.1**](https://github.com/Merci-chao/userChrome.js/raw/c78381b0d0d5d8c95cc881021d1329f907bec051/MultiTabRows@Merci.chao.uc.js)
 - Bug fix: tab sizes were unlocked unexpectedly when rows were reduced, since version 3.6.0.1.
 
 </details>
 
-**Version 3.6.1**
+[**Version 3.6.1**](https://github.com/Merci-chao/userChrome.js/raw/0fc2766a8e4df89944cb82088fcb2b4e69c5ccea/MultiTabRows@Merci.chao.uc.js)
 - Updates for `autoCollapse`:
 	- The tab bar will now only expand for the current window.
 	- Prevent the tab bar expand when URL bar is focused.
@@ -548,15 +548,15 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Minor Updates</summary>
 
-**Version 3.6.0.2**
+[**Version 3.6.0.2**](https://github.com/Merci-chao/userChrome.js/raw/a3399b69e7f91e34f62a1fce4e61515c663d309e/MultiTabRows@Merci.chao.uc.js)
 - Reversed some code change for the scrollbar in the previous minor update.
 
-**Version 3.6.0.1**
+[**Version 3.6.0.1**](https://github.com/Merci-chao/userChrome.js/raw/6172e2fc2e47088803b839a12c2f05358a736365/MultiTabRows@Merci.chao.uc.js)
 - Bug fix: resizing the window immediately after closing a tab might result in an empty row temporarily.
 
 </details>
 
-**Version 3.6**
+[**Version 3.6**](https://github.com/Merci-chao/userChrome.js/raw/f8527bad286d272b7ef74faaf1196c87a13a0329/MultiTabRows@Merci.chao.uc.js)
 - Adds `pinnedTabsFlexWidthIndicator`: display an icon on pinned tabs when `pinnedTabsFlexWidth` is enabled.
 - Changes the "Stop checking" option in the update notification to "Update script file directly".
 - Refines the behavior of dragging a tab and pressing it to the edge of a row, to group with others on another row, or detach from a group.
