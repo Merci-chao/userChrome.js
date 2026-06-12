@@ -218,7 +218,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-**Version 4.9**
+[**Version 4.9.1**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/4dbfa4635dfad1c4c410c90b60952b171c363c17/MultiTabRows%40Merci.chao.uc.js)
+- Fixed a regression where the tab bar had an opaque background on Windows 7 and 8.
+
+[**Version 4.9**](https://github.com/Merci-chao/userChrome.js/raw/dcd1edf80d34213cc10beb57c702a38fa3818197/MultiTabRows@Merci.chao.uc.js)
 - New
 	- Adds new sub-settings for `nativeWindowStyle`:
 		- `nativeWindowStyleToolbarColorOpacity`: The opacity of the background color of toolbars, and the dividing line between the navigation toolbar and the tab bar. Available when the tab bar is at the top or Firefox Nova is enabled.
@@ -236,13 +239,13 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Animation glitches in special cases and when dragging multiple tabs.
 	- Minor visual issues.
 
-**Version 4.8.1**
+[**Version 4.8.1**](https://github.com/Merci-chao/userChrome.js/raw/7b465c52edf88e2175afe29c35996cd4f71aa1b9/MultiTabRows@Merci.chao.uc.js)
 - Supports Firefox ESR version (140).
 
-**Version 4.8.0.1**
+[**Version 4.8.0.1**](https://github.com/Merci-chao/userChrome.js/raw/802f2c376de9b24ff6708a4607c3545f850714bb/MultiTabRows@Merci.chao.uc.js)
 - Adds `currentVersion` to display the current version number.
 
-**Version 4.8**
+[**Version 4.8**](https://github.com/Merci-chao/userChrome.js/raw/9a9c6cd694b60b8f4ae6069e468450cc4d2f26e4/MultiTabRows@Merci.chao.uc.js)
 - New
 	- Adds `controlButtonsAutoHide` and related setting: hide the window control buttons and show them when the cursor enters the top right corner.
 - Change
