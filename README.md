@@ -218,8 +218,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-[**Version 4.9.1**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/4dbfa4635dfad1c4c410c90b60952b171c363c17/MultiTabRows%40Merci.chao.uc.js)
-- Fixed a regression where the tab bar had an opaque background on Windows 7 and 8.
+[**Version 4.9.1**](https://github.com/Merci-chao/userChrome.js/raw/de38d8381282d4097ac7a0c83dbaf9bb169246a0/MultiTabRows@Merci.chao.uc.js)
+- Regression Fixes:
+	- Could not drop links or bookmarks onto the tab bar to open tabs.
+	- The tab bar had an opaque background on Windows 7 and 8.
 
 [**Version 4.9**](https://github.com/Merci-chao/userChrome.js/raw/dcd1edf80d34213cc10beb57c702a38fa3818197/MultiTabRows@Merci.chao.uc.js)
 - New
