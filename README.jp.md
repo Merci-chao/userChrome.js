@@ -212,7 +212,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-**Version 4.9**
+[**Version 4.9.1**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/4dbfa4635dfad1c4c410c90b60952b171c363c17/MultiTabRows%40Merci.chao.uc.js)
+- Windows 7 と 8 でタブバーの背景が不透明になるリグレッションを修正。
+
+[**Version 4.9**](https://github.com/Merci-chao/userChrome.js/raw/dcd1edf80d34213cc10beb57c702a38fa3818197/MultiTabRows@Merci.chao.uc.js)
 - 追加
 	- `nativeWindowStyle` に新しいサブ設定を追加：
 		- `nativeWindowStyleToolbarColorOpacity`：ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。タブバーが上部にある場合、または Firefox Nova が有効になっている場合に利用可能。
@@ -230,13 +233,13 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 特殊なケースや複数タブをドラッグする際のアニメーションの不具合。
 	- 軽微な表示上の問題。
 
-**Version 4.8.1**
+[**Version 4.8.1**](https://github.com/Merci-chao/userChrome.js/raw/7b465c52edf88e2175afe29c35996cd4f71aa1b9/MultiTabRows@Merci.chao.uc.js)
 - Firefox ESR バージョン（140）へのサポート。
 
-**Version 4.8.0.1**
+[**Version 4.8.0.1**](https://github.com/Merci-chao/userChrome.js/raw/802f2c376de9b24ff6708a4607c3545f850714bb/MultiTabRows@Merci.chao.uc.js)
 - `currentVersion` を追加：現在のバージョンを表示。
 
-**Version 4.8**
+[**Version 4.8**](https://github.com/Merci-chao/userChrome.js/raw/9a9c6cd694b60b8f4ae6069e468450cc4d2f26e4/MultiTabRows@Merci.chao.uc.js)
 - 追加
 	- `controlButtonsAutoHide` および関連設定を追加：ウィンドウの操作ボタンを非表示にし、カーソルが右上隅に入ったときに表示されるようにする。
 - 変更
