@@ -212,8 +212,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-[**Version 4.9.1**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/4dbfa4635dfad1c4c410c90b60952b171c363c17/MultiTabRows%40Merci.chao.uc.js)
-- Windows 7 と 8 でタブバーの背景が不透明になるリグレッションを修正。
+[**Version 4.9.1**](https://github.com/Merci-chao/userChrome.js/raw/de38d8381282d4097ac7a0c83dbaf9bb169246a0/MultiTabRows@Merci.chao.uc.js)
+- 退行バグ修正
+	- リンクやブックマークをタブバーにドロップしてタブを開くことができなかった。
+	- Windows 7 と 8 でタブバーの背景が不透明になった。
 
 [**Version 4.9**](https://github.com/Merci-chao/userChrome.js/raw/dcd1edf80d34213cc10beb57c702a38fa3818197/MultiTabRows@Merci.chao.uc.js)
 - 追加
