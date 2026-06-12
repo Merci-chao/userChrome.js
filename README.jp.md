@@ -263,14 +263,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>旧バージョン</summary>
 
-**Version 4.7.2**
+[**Version 4.7.2**](https://github.com/Merci-chao/userChrome.js/raw/e907a3752a237595c93c9c6b69f228b612af1569/MultiTabRows@Merci.chao.uc.js)
 - 「閉じたタブをひらきなおす」機能が動作しなくなる問題を修正。 
 
-**Version 4.7.1**
+[**Version 4.7.1**](https://github.com/Merci-chao/userChrome.js/raw/d684754c50e71e0c0d4159948837e099a02f323a/MultiTabRows@Merci.chao.uc.js)
 - 折りたたまれたタブグループ内のタブとの間で切り替える際、いずれかが分割ビューに属している場合に発生していた問題を修正。
 - タブバーがスクロール可能・不可能に切り替わる際、新しいタブボタンにアニメーションを追加。
 
-**Version 4.7**
+[**Version 4.7**](https://github.com/Merci-chao/userChrome.js/raw/798b230f25123a0556f0fc0c80ed156fd497f600/MultiTabRows@Merci.chao.uc.js)
 - 改善
 	- インジケーターで移動するとき、タブをグループ化するためのドラッグ操作に対応。`browser.tabs.dragDrop.createGroup.enabled` または `browser.tabs.dragDrop.createGroup.delayMS` を変更して挙動を調整。
 - 変更
@@ -286,15 +286,15 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>軽微な更新</summary>
 
-**Version 4.6.1.1**
+[**Version 4.6.1.1**](https://github.com/Merci-chao/userChrome.js/raw/4e12d4cda2b3d4239901a72fe0786aa12f20883f/MultiTabRows@Merci.chao.uc.js)
 - Firefox 151 への更新。
 - タブノートを有効にした直後に「ノートを追加」項目が表示されない不具合を修正。
 </details>
 
-**Version 4.6.1**
+[**Version 4.6.1**](https://github.com/Merci-chao/userChrome.js/raw/05a819fa133b8814693f2cbe2300770657311fc6/MultiTabRows@Merci.chao.uc.js)
 - `themeImageSize` に新しいオプションを追加：`-1`－画像の元のサイズ。
 
-**Version 4.6**
+[**Version 4.6**](https://github.com/Merci-chao/userChrome.js/raw/10479eb67e6851bb17cbade0aa3861e353bcc942/MultiTabRows@Merci.chao.uc.js)
 - 追加
 	- ブラウザ下部にタブバーを配置できるようになった（`tabsAtBottom` を `-1` に設定することで有効）。
 	- `dynamicThemeImageSize` を `themeImageSize` に置き換え、新しいオプションを提供。
@@ -312,7 +312,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `gapAfterPinned` は一部のケースでは動作しなかった。
 	- 特殊なケースで発生する軽微なレイアウトと表示上の不具合。
 
-**Version 4.5.1**
+[**Version 4.5.1**](https://github.com/Merci-chao/userChrome.js/raw/e109f1131ea71e4d94e5c99f8f8d977af9ceba8a/MultiTabRows@Merci.chao.uc.js)
 - 改善
 	- タブバー内のボタンとタブの角の丸みは、タブの内容部分の高さと水平余白が一定の水準まで減ると減り始める。
 	- Firefox 150 への更新。
@@ -325,12 +325,12 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>軽微な更新</summary>
 	
-**Version 4.5.0.1**
+[**Version 4.5.0.1**](https://github.com/Merci-chao/userChrome.js/raw/1f0f7f439884512fc882c308452b3a504f9489c9/MultiTabRows@Merci.chao.uc.js)
 - 特殊なケースでの軽微なレイアウト問題を修正。
 
 </details>
 
-**Version 4.5**
+[**Version 4.5**](https://github.com/Merci-chao/userChrome.js/raw/4aaf427455b1873ac386f7c2074c7c0474564a30/MultiTabRows@Merci.chao.uc.js)
 - 変更
 	- `disableDragToPinOrUnpin` を削除し、代わりに組み込みの設定 `browser.tabs.dragDrop.dragToPin.enabled` を使用。
 	- `dragToGroupTabs` を削除し、代わりに組み込みの設定 `browser.tabs.dragDrop.createGroup.enabled` を使用。
@@ -347,7 +347,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `showScrollShadow` は Firefox 115 で動作しなかった。
 	- 特殊なケースで発生する軽微な表示不具合。
 
-**Version 4.4**
+[**Version 4.4**](https://github.com/Merci-chao/userChrome.js/raw/1cd561a9b926abe7d6ee00f39c8347efed860133/MultiTabRows@Merci.chao.uc.js)
 - 追加
 	- `showScrollShadow` を追加：タブバーがスクロール可能な場合、上下の端にシャドウを表示し、Firefox のインターフェースデザインに合わせる。
 	- `animateTabMoveShiftKeyToPause` を追加：`Shift` キーを押している際、ドラッグ＆ドロップのアニメーションを一時停止し、代わりにドロップインジケーターを表示する。備考：Firefox のバグにより、特定のシナリオではドロップ位置が期待通りに動作しない可能性がある。
@@ -363,7 +363,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 修正
 	- 特定の状況ごとに発生する複数のドラッグ＆ドロップの問題。
 
-**Version 4.3.1**
+[**Version 4.3.1**](https://github.com/Merci-chao/userChrome.js/raw/4393a0f31b062811872d658884fe1f4803a5eb03/MultiTabRows@Merci.chao.uc.js)
 - 改善
 	- ドロップインジケーターの横にピン留め・外すアイコンを表示し、ドラッグ操作でピン留め・外すを識別できるようになった。
 	- Firefox 149 に対応。
@@ -374,7 +374,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 特殊な場合にドラッグ＆ドロップした際の軽微な表示上の問題。
 	- 特別な場合における外観上の軽微な問題。
 
-**Version 4.3**
+[**Version 4.3**](https://github.com/Merci-chao/userChrome.js/raw/8e58bd0162eefb9f258257249dcd10172943826a/MultiTabRows@Merci.chao.uc.js)
 - 新規
 	- `lastRowTabsFlexible` を追加：多段がある場合、最後の段のタブ幅を伸縮自在にする。`justifyCenter` が `2` の場合は強制的に有効化される。
 	- `positionPinnedTabs` を追加：タブバーがスクロール可能な時、ピン留めされたタブを通常タブの前にグリッドとして配置。
@@ -393,7 +393,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 		- タブをドラッグしてグループ化した時。
 	- 特殊ケースのドラッグやアニメーションにおける軽微な問題。
 
-**Version 4.2**
+[**Version 4.2**](https://github.com/Merci-chao/userChrome.js/raw/00c0f19da45e1a391a96c5d7203c4a2413cd9360/MultiTabRows@Merci.chao.uc.js)
 - 新規
 	- `previewPanelShifted` を追加：多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 では非対応。
 		- `0`－無効
@@ -411,7 +411,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 旧バージョンの Firefox におけるタブグループラベルのレイアウト問題。
 	- レイアウトとアニメーションの軽微な不具合。
 
-**Version 4.1.3**
+[**Version 4.1.3**](https://github.com/Merci-chao/userChrome.js/raw/6c0a12ca3fb872c3f5b4c644454b6b7b69b38eef/MultiTabRows@Merci.chao.uc.js)
 - 修正
 	- 特定のケースで、ピン留めされたタブがありタブバーがスクロール可能になると、Firefox がフリーズする可能性があった。
 	- Firefox 115 において、ピン留めされたタブで `tabHorizontalMargin` が機能しなかった。
@@ -421,31 +421,31 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>軽微な更新</summary>
 
-**Version 4.1.2.5**
+[**Version 4.1.2.5**](https://github.com/Merci-chao/userChrome.js/raw/c6e59860ed977aec878ce0550c5a7f0b8327d0b9/MultiTabRows@Merci.chao.uc.js)
 - ミニオーディオボタンの余白を調整し、タブラベルとの重なりを防止。
 
-**Version 4.1.2.4**
+[**Version 4.1.2.4**](https://github.com/Merci-chao/userChrome.js/raw/d6f43131d380eb5159fdd6a845ed184d20618ccb/MultiTabRows@Merci.chao.uc.js)
 - スクロール可能なタブバーでピン留めされたタブを別ウィンドウに移動した際に発生するレイアウトの問題を修正。
 - ピン留めされたタブを閉じる際に発生する表示上の問題を修正。
 
-**Version 4.1.2.3**
+[**Version 4.1.2.3**](https://github.com/Merci-chao/userChrome.js/raw/3c4e92e7733abd23a720d91687ee84121b716407/MultiTabRows@Merci.chao.uc.js)
 - `tabContentHeight` が `30` 未満の場合（コンパクトモード）にタブのセカンダリラベルを非表示（外国語版のみ）。
 - 分割ビューでタブの高さがコンパクトすぎる場合に調整。
 - `checkUpdateAutoApply` のデフォルト値は `1` に変更されたが、`0` と同じ効果がある。
 
-**Version 4.1.2.2**
+[**Version 4.1.2.2**](https://github.com/Merci-chao/userChrome.js/raw/2f2ed90bffb0d8c36ed9ad1a9e93030a4b2e7390/MultiTabRows@Merci.chao.uc.js)
 - 前回バージョン以降、Firefox 115 でオーディオボタンのビジュアル問題を修正。
 
-**Version 4.1.2.1**
+[**Version 4.1.2.1**](https://github.com/Merci-chao/userChrome.js/raw/e1897daad71fb35903eb129f90f7799ae1a0bead/MultiTabRows@Merci.chao.uc.js)
 - 分割ビューでタブを閉じる際、`tabMaxWidth` がある一定値より小さい場合に発生する表示上の不具合を修正。
 - Firefox 147 以降におけるタブノートアイコンのサポートを更新。
 </details>
 
-**Version 4.1.2**
+[**Version 4.1.2**](https://github.com/Merci-chao/userChrome.js/raw/d7accbd33d613703bbf3f88bf085369b5aa43072/MultiTabRows@Merci.chao.uc.js)
 - 修正
 	- `tabMaxWidth` が Firefox 146 以降で動作しない問題。
 
-**Version 4.1.1**
+[**Version 4.1.1**](https://github.com/Merci-chao/userChrome.js/raw/2605d71e35fe3d3811ff795695581d3d957ab54d/MultiTabRows@Merci.chao.uc.js)
 - 改善
 	- Firefox 148 への対応を更新。
 - 修正
@@ -454,18 +454,18 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>軽微な更新</summary>
 
-**Version 4.1.0.7**
+[**Version 4.1.0.7**](https://github.com/Merci-chao/userChrome.js/raw/4f41b6419194e5be3883ebd9c332386573459ccd/MultiTabRows@Merci.chao.uc.js)
 - v4.1 以降、他のスクリプトと競合する可能性のある問題を修正。
 
-**Version 4.1.0.6**
+[**Version 4.1.0.6**](https://github.com/Merci-chao/userChrome.js/raw/131ae1fe0a6893515a238d4e996e0346f0587e5e/MultiTabRows@Merci.chao.uc.js)
 - スクリプトローダーによって `security.allow_unsafe_dangerous_privileged_evil_eval` がロックされたケースを処理。
 
-**Version 4.1.0.2**
+[**Version 4.1.0.2**](https://github.com/Merci-chao/userChrome.js/raw/d4ba5f8d43c6e68e42ada1cd8f2108b55d7c444c/MultiTabRows@Merci.chao.uc.js)
 - `tabVerticalMargin` の値に合わせてグループラインのサイズを調整し、見栄えを改良。
 
 </details>
 
-**Version 4.1**
+[**Version 4.1**](https://github.com/Merci-chao/userChrome.js/raw/915d87a20b0dbaacbb1b3ac5709dede2bc02cbd0/MultiTabRows@Merci.chao.uc.js)
 - 新規
 	- タブの高さと間隔を制御するために `tabContentHeight`、`tabVerticalMargin`、`tabHorizontalPadding`、`tabHorizontalMargin` を追加。デフォルト値より狭く設定するのは推奨されない。Firefox はコンパクト用に設計されていないため、予期しない不具合が起こる可能性がある。これらの設定は `userChrome.css` のルールで上書きされ、効果がなくなる場合がある。
 - 改善
@@ -477,27 +477,27 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>軽微な更新</summary>
 
-**Version 4.0.2.3**
+[**Version 4.0.2.3**](https://github.com/Merci-chao/userChrome.js/raw/5b908e70e03a724c9c7bee6208ede691498e6f13/MultiTabRows@Merci.chao.uc.js)
 - `about:config` 内の設定の依存関係を更新。
 
-**Version 4.0.2.2**
+[**Version 4.0.2.2**](https://github.com/Merci-chao/userChrome.js/raw/6fe214ec244687756c2f238c8af21a2864c1e81d/MultiTabRows@Merci.chao.uc.js)
 - タブグループに関連する軽微なアニメーションを修正。
 
-**Version 4.0.2.1**
+[**Version 4.0.2.1**](https://github.com/Merci-chao/userChrome.js/raw/8b5df9cd8f39e2a19405f53d18cd87df8d7a0485/MultiTabRows@Merci.chao.uc.js)
 - Firefox のバグ修正 [#1997096](https://bugzilla.mozilla.org/show_bug.cgi?id=1997096) をフォローアップ。
 
 </details>
 
-**Version 4.0.2**
+[**Version 4.0.2**](https://github.com/Merci-chao/userChrome.js/raw/fcc877abb73d14e2be2743d4c056ca7881d40c32/MultiTabRows@Merci.chao.uc.js)
 - 修正
 	- v4.0 以降、オーディオボタン付きのタブがあるときにレイアウトの問題が発生する場合があった。
 
-**Version 4.0.1**
+[**Version 4.0.1**](https://github.com/Merci-chao/userChrome.js/raw/03f755577005868ecb0960c77189d28d56336974/MultiTabRows@Merci.chao.uc.js)
 - 修正
 	- 新規インストール時にスクリプトが失敗。
 	- v4.0 以降、ウィンドウ間でタブを移動できなくなった。
-
-**Version 4.0**
+[
+**Version 4.0**](https://github.com/Merci-chao/userChrome.js/raw/ea2ce83a7cbfabae30c0e3f873769b62619e2894/MultiTabRows@Merci.chao.uc.js)
 - 新規
 	- Firefox 146 で実装された分割ビュー機能に対応。`browser.tabs.splitView.enabled` を `true` に設定することで有効化可能。
 	- 複数のタブをドラッグする際のスタッキング（積み重ね）に対応。Firefox 146 では、`browser.tabs.dragDrop.multiselectStacking` を `true` に設定することで有効化可能。Firefox 145 以下（115 も含む）では、その名で新規真偽値設定の作成が必要ある。
@@ -526,12 +526,12 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>軽微な更新</summary>
 
-**Version 3.6.1.1**
+[**Version 3.6.1.1**](https://github.com/Merci-chao/userChrome.js/raw/c78381b0d0d5d8c95cc881021d1329f907bec051/MultiTabRows@Merci.chao.uc.js)
 - バグ修正：バージョン 3.6.0.1 以降で発生した、段数を減らした際にタブサイズが予期せず解除された問題。
 
 </details>
-
-**Version 3.6.1**
+[
+**Version 3.6.1**](https://github.com/Merci-chao/userChrome.js/raw/0fc2766a8e4df89944cb82088fcb2b4e69c5ccea/MultiTabRows@Merci.chao.uc.js)
 - `autoCollapse` の更新：
 	- タブバーは現在のウィンドウに対してのみ展開されるようになった。
 	- URL バーにフォーカスがある場合、タブバーが展開されないようにする。
@@ -542,16 +542,16 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 <details>
 <summary>軽微な更新</summary>
-
-**Version 3.6.0.2**
+[
+**Version 3.6.0.2**](https://github.com/Merci-chao/userChrome.js/raw/a3399b69e7f91e34f62a1fce4e61515c663d309e/MultiTabRows@Merci.chao.uc.js)
 - 前回の軽微な更新で行ったスクロールバー関連のコード変更を一部元に戻す。
-
-**Version 3.6.0.1**
+[
+**Version 3.6.0.1**](https://github.com/Merci-chao/userChrome.js/raw/6172e2fc2e47088803b839a12c2f05358a736365/MultiTabRows@Merci.chao.uc.js)
 - バグ修正：タブを閉じた直後にウィンドウサイズを変更すると、一時的に空の行が表示されることがあった。
 
 </details>
 
-**Version 3.6**
+[**Version 3.6**](https://github.com/Merci-chao/userChrome.js/raw/f8527bad286d272b7ef74faaf1196c87a13a0329/MultiTabRows@Merci.chao.uc.js)
 - `pinnedTabsFlexWidthIndicator` を追加：`pinnedTabsFlexWidth` が有効な場合、ピン留めされたタブにアイコンを表示。
 - 更新通知の「チェックを停止」オプションを「スクリプトファイルを直接更新」に変更。
 - タブをドラッグして段の端に押し付けることで、別の行の項目とグループ化したり、既存のグループから除外したりする操作の挙動を改良。
