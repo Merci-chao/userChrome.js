@@ -530,8 +530,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - バグ修正：バージョン 3.6.0.1 以降で発生した、段数を減らした際にタブサイズが予期せず解除された問題。
 
 </details>
-[
-**Version 3.6.1**](https://github.com/Merci-chao/userChrome.js/raw/0fc2766a8e4df89944cb82088fcb2b4e69c5ccea/MultiTabRows@Merci.chao.uc.js)
+
+[**Version 3.6.1**](https://github.com/Merci-chao/userChrome.js/raw/0fc2766a8e4df89944cb82088fcb2b4e69c5ccea/MultiTabRows@Merci.chao.uc.js)
 - `autoCollapse` の更新：
 	- タブバーは現在のウィンドウに対してのみ展開されるようになった。
 	- URL バーにフォーカスがある場合、タブバーが展開されないようにする。
