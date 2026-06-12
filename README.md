@@ -202,7 +202,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
-| `browser.nova.enabled` | Apply the Nova design. Available on Firefox 152+. |
+| `browser.nova.enabled` | Apply the Nova design (in development). Available on Firefox 152+. |
 | `browser.tabs.dragDrop.createGroup.delayMS` | Time to wait (in milliseconds) before starting to group tabs during dragging. Not available on Firefox 115. |
 | <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | Drag tabs together to create tab groups. Not available on Firefox 115. |
 | <span id="dragToPinEnabled">`browser.tabs.dragDrop.dragToPin.enabled`</span> | Enable tab pinning/unpinning via drag & drop in the same window, e.g. whether dropping tabs onto the pinned tabs will pin them. Create a new boolean preference with this name to toggle. |
