@@ -711,8 +711,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 [**Version 2.1.2**](https://github.com/Merci-chao/userChrome.js/raw/1983caf3eee3844a5d0e0a28e95580ef23d128ff/MultiTabRows@Merci.chao.uc.js)
 - バージョン 2.1 以降、「1 行のみ表示」時にタブ前のボタンがクリックできないバグを修正。
-[
-**Version 2.1.1**](https://github.com/Merci-chao/userChrome.js/raw/c3f78eee83c336425402eaec9df7e9f8a70508eb/MultiTabRows@Merci.chao.uc.js)
+
+[**Version 2.1.1**](https://github.com/Merci-chao/userChrome.js/raw/c3f78eee83c336425402eaec9df7e9f8a70508eb/MultiTabRows@Merci.chao.uc.js)
 - 特定条件でタブが跳ねるバグを修正。
 
 [**Version 2.1**](https://github.com/Merci-chao/userChrome.js/raw/3f24205a522a586451683d49625c42b897df8bba/MultiTabRows@Merci.chao.uc.js)
