@@ -568,14 +568,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Bug fix: issues when enabling `pinnedTabsFlexWidth` and the pinned tab has no page icon.
 - Fixed minor visual bugs.
 
-**Version 3.5.2**
+[**Version 3.5.2**](https://github.com/Merci-chao/userChrome.js/raw/6e0aeaec8a9deb2275f00d8f2c0d4078543f2384/MultiTabRows@Merci.chao.uc.js)
 - Bug fix: dragged tabs might not be moved to the intended position if it is pressed against to the edge.
 
-**Version 3.5.1**
+[**Version 3.5.1**](https://github.com/Merci-chao/userChrome.js/raw/f8754c538d7912ac4f246594f0e99418753ce49c/MultiTabRows@Merci.chao.uc.js)
 - Adds `disableDragToPinOrUnpin`: Disable tab pinning/unpinning via drag-and-drop in the same window (not available on Firefox 115). This setting will be removed if an official one is introduced.
 - Prevents window dragging during tab drop animation.
 
-**Version 3.5**
+[**Version 3.5**](https://github.com/Merci-chao/userChrome.js/raw/04835a0ae05f8af40aa88b2be69811d3f8d2874d/MultiTabRows@Merci.chao.uc.js)
 - Updates for Firefox 145.
 - Adds animation when tabs are moved to another window.
 - Themes without background images can now use `nativeWindowStyle`.
@@ -589,7 +589,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Minor bug fixes.
 - Refined code style for better readability.
 
-**Version 3.4.2**
+[**Version 3.4.2**](https://github.com/Merci-chao/userChrome.js/raw/d81d597c10eecb899817c42e7686eb9dde020fed/MultiTabRows@Merci.chao.uc.js)
 - Bug fix: Could not drag and drop tabs when enabling `hidePinnedDropIndicator`.
 - Bug fix: Tabs might have a weird jump on a newly opened window
 - Bug fix: Tab close buttons did not always display or hide correctly.
@@ -599,19 +599,19 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <details>
 <summary>Minor Updates</summary>
 
-**Version 3.4.1.3**
+[**Version 3.4.1.3**](https://github.com/Merci-chao/userChrome.js/raw/2770e1cd7330b6ad59cddc9184ad1e967b65f7ce/MultiTabRows@Merci.chao.uc.js)
 - Drag-and-drop with a drop indicator now animate.
 
-**Version 3.4.1.1**
+[**Version 3.4.1.1**](https://github.com/Merci-chao/userChrome.js/raw/e07d6395a0d8c19e3a3a2cb1772106e7c95c3f99/MultiTabRows@Merci.chao.uc.js)
 - Bug fix: Drop indicator is positioned incorrectly when dragging non-tab items onto the pinned tabs.
 </details>
 
-**Version 3.4.1**
+[**Version 3.4.1**](https://github.com/Merci-chao/userChrome.js/raw/537abb84e34ae05f49fee5934b0ae85ed6f1b89d/MultiTabRows@Merci.chao.uc.js)
 - Bug fix: Dropping non-tab items onto the tab bar causes issues.
 - Bug fix: `hideEmptyPlaceholderWhenScrolling` may not work on private windows.
 - With `checkUpdateAutoApply` set to `3`, it will now also receive updates for minor changes and fixes that do not trigger notifications.
 
-**Version 3.4**
+[**Version 3.4**](https://github.com/Merci-chao/userChrome.js/raw/24a669b235a4ef2eda7ffc2575e73939c68fd28d/MultiTabRows@Merci.chao.uc.js)
 - Add `animateTabMoveMaxCount`: When the number of dragged tabs exceeds this value, drag animations are disabled and a drop indicator is shown instead. Minimum: `0`. If dragging too many tabs causes lag, consider lowering this value. Note: Some tab grouping operations may be unavailable, and the final drop position is determined by Firefox's native behavior, which may not behave as expected in certain scenarios.
 - Add `hidePinnedDropIndicator`: Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs (not available on Firefox 115).
 - Streamline and improve the animation logic.
@@ -626,7 +626,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Update for Firefox 143 and 144.
 - Multiple minor bug fixes.
 
-**Version 3.3**
+[**Version 3.3**](https://github.com/Merci-chao/userChrome.js/raw/2094baff3cc4802583d6b6013d406929f117c67a/MultiTabRows@Merci.chao.uc.js)
 - Add `pinnedTabsFlexWidth`: Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when the tab bar is scrollable (experimental).
 - Add `checkUpdateAutoApply`: Update the script file automatically when there is a new version. `0` - never, `1` - ask, `2` - always, `3` - always and slient.
 - Fix a bug where reopening a closed pinned tab causes tab functions to not work normally on Firefox 142.
@@ -635,20 +635,20 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Refine the behavior for locking the size of the tab bar.
 - Minor bug fix.
 
-**Version 3.2.1**
+[**Version 3.2.1**](https://github.com/Merci-chao/userChrome.js/raw/ff2876589433550df6128c3091a1cd51fb17e8b7/MultiTabRows@Merci.chao.uc.js)
 - Bug fix: Tabs occasionally exhibit strange jittering during animation.
 - Bug fix: "Drag to create group" sometimes doesn't behave smoothly.
 - Bug fix: Dragging an open group doesn't behave smoothly since the previous version.
 - Update for Firefox 143.
 
-**Version 3.2**
+[**Version 3.2**](https://github.com/Merci-chao/userChrome.js/raw/950eb48e30775f8f8656f71ddcc68a88020919b3/MultiTabRows@Merci.chao.uc.js)
 - Add `justifyCenter`: Justify tabs to the center horizontally: `0` - never, `1` - when there is only one row, `2` - always. Behaviors such as closing tabs and collapsing tab groups may differ slightly when tabs are centered.
 - Add `scrollButtonsSize`: The size (in pixels) of the scroll buttons during dragging. Minimum: `2`; the maximum is limited to half the tab height.
 - Update for Firefox 143.
 - Fix the problem that cannot drag tabs onto the bookmarks toolbar in some cases.
 - Bug fixes.
 
-**Version 3.1**
+[**Version 3.1**](https://github.com/Merci-chao/userChrome.js/raw/9401e40c4c7b7d4ec9338a81750dfb89210f9438/MultiTabRows@Merci.chao.uc.js)
 - Add `autoCollapse` and related settings: tabs will collapse to a single row when the cursor is not hovering. On Firefox 115, `layout.css.has-selector.enabled` is required. (experimental)
 - Add `tabsAtBottom`: position the tab bar beneath `1` - the navigation toolbar, `2` - the bookmarks toolbar. Not available on Firefox 115.
 - Add `hideDragPreview`: hide the drag preview during a drag interaction. Valid values are: `0` (never), `1` (tab groups only), `2` (tabs only), `3` (both).
@@ -662,7 +662,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - `compactControlButtons` is always available on Windows 11 now.
 - Minor bug-fixes.
 
-**Version 3.0**
+[**Version 3.0**](https://github.com/Merci-chao/userChrome.js/raw/45cbb07d406c1ae9c53c100533836c8c008f60bb/MultiTabRows@Merci.chao.uc.js)
 - Add full support for tab groups.
 - Introduce animations for various tab-related actions.
 - Add the `dragToGroupTabs` option to enable or disable tab grouping when dragging tabs over another.
@@ -671,62 +671,62 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Update for Firefox 141.
 - Bug fixes and improvements.
  
-**Version 2.6**
+[**Version 2.6**](https://github.com/Merci-chao/userChrome.js/raw/8482a3baaa85b59ac68fbbd604d98cc36e5480a0/MultiTabRows@Merci.chao.uc.js)
 - Fix layout problem when there are some audio playing/blocked/muted tabs.
 - Fix layout problem when UI density is `Touch`.
 
-**Version 2.5.1**
+[**Version 2.5.1**](https://github.com/Merci-chao/userChrome.js/raw/29c6c200b979bde17232b9eb231c0b2cc57b8d69/MultiTabRows@Merci.chao.uc.js)
 - Fix a bug that can't drop non-tab things onto the tab bar since the previous version.
 
-**Version 2.5**
+[**Version 2.5**](https://github.com/Merci-chao/userChrome.js/raw/a3a0b4f574821a9c7b85441f15d8e921c8d87e19/MultiTabRows@Merci.chao.uc.js)
 - Improve the experience of dragging non-adjacent tabs.
 - Add check-update feature. Change `checkUpdateFrequency` to how often (days) you want, disable it by setting `checkUpdate` to `0`.
 
-**Version 2.4**
+[**Version 2.4**](https://github.com/Merci-chao/userChrome.js/raw/39998cf614f7ba2abd0933e72a0628009afd608c/MultiTabRows@Merci.chao.uc.js)
 - Update for Firefox 138.
 - Improvements and bug-fixings for tab dragging animation.
 
-**Version 2.3.5.1**
+[**Version 2.3.5.1**](https://github.com/Merci-chao/userChrome.js/raw/bcbd6da374d913b17ccb0a59e4d4179d5ab53839/MultiTabRows@Merci.chao.uc.js)
 - Bug fix: not working on Firefox 115
 
-**Version 2.3.5**
+[**Version 2.3.5**](https://github.com/Merci-chao/userChrome.js/raw/1258248ebcfcea275df749bfed7ba3dc1124dc5c/MultiTabRows@Merci.chao.uc.js)
 - Update for Firefox 137.
 
-**Version 2.3.4.2**
+[**Version 2.3.4.2**](https://github.com/Merci-chao/userChrome.js/raw/ea0d771e6e4b0bea68ce81b1e59a16c4710fc34a/MultiTabRows@Merci.chao.uc.js)
 - Bug fix: tabs cannot be dragged to the first row in a special case.
 
-**Version 2.3.3**
+[**Version 2.3.3**](https://github.com/Merci-chao/userChrome.js/raw/14387581e5fee5898182738e0e37bc53cec6a025/MultiTabRows@Merci.chao.uc.js)
 - Fix several bugs that occur when the window is too narrow and only one scrolling row is allowed to show.
 
-**Version 2.3.2.3**
+[**Version 2.3.2.3**](https://github.com/Merci-chao/userChrome.js/raw/636331c8b2b31f3688c96f5dcba197b0bea599e9/MultiTabRows@Merci.chao.uc.js)
 - Update for Firefox 136.
 
-**Version 2.3.1**
+[**Version 2.3.1**](https://github.com/Merci-chao/userChrome.js/raw/c901f71a1b61851e8d1782184a39b75caefe1572/MultiTabRows@Merci.chao.uc.js)
 - Update for the native tab groups feature.
 - Fix a visual glitch when moving the selected pinned tabs together and the tab bar is scrollable.
 
-**Version 2.2**
+[**Version 2.2**](https://github.com/Merci-chao/userChrome.js/raw/f16a647ba27288eaf6b3aadbed0b5418c1866cbe/MultiTabRows@Merci.chao.uc.js)
 - Update the appearance of the scrollbar on Windows 11.
 - Bug fix: layout may break when the display scaling is not 100%.
 - Bug fix: tabs keep bouncing in some circumstances.
 
-**Version 2.1.3.1**
+[**Version 2.1.3.1**](https://github.com/Merci-chao/userChrome.js/raw/af7757559d7549297640572070099897bcf87734/MultiTabRows@Merci.chao.uc.js)
 - Bug fix: tabs keep bouncing in some spacial cases, typically happens when there are many pinned tabs.
 - `tabsUnderControlButtons` is forced to be `0` now when tab groups is enabled (`browser.tabs.groups.enabled` is `true`).
 
-**Version 2.1.2**
+[**Version 2.1.2**](https://github.com/Merci-chao/userChrome.js/raw/1983caf3eee3844a5d0e0a28e95580ef23d128ff/MultiTabRows@Merci.chao.uc.js)
 - Fix a bug since version 2.1: buttons before tabs cannot be clicked when there is only one row.
 
-**Version 2.1.1**
+[**Version 2.1.1**](https://github.com/Merci-chao/userChrome.js/raw/c3f78eee83c336425402eaec9df7e9f8a70508eb/MultiTabRows@Merci.chao.uc.js)
 - Fixed a bug where tabs kept bouncing in some cases.
 
-**Version 2.1**
+[**Version 2.1**](https://github.com/Merci-chao/userChrome.js/raw/3f24205a522a586451683d49625c42b897df8bba/MultiTabRows@Merci.chao.uc.js)
 - Improve the behavior when closing tabs.
 
-**Version 2.0.1**
+[**Version 2.0.1**](https://github.com/Merci-chao/userChrome.js/raw/4893ce6eac6d5df54af6c0eea51561110249a17d/MultiTabRows@Merci.chao.uc.js)
 - Bug fix: Changing settings or theme when there are multiple windows could cause Firefox to lag or freeze.
 
-**Version 2.0**
+[**Version 2.0**](https://github.com/Merci-chao/userChrome.js/raw/0ac08cc86ba14d0db05d618163b84892560594f3/MultiTabRows@Merci.chao.uc.js)
 - Implement `tabsUnderControlButtons = 2` (default).
 - Add new settings: `floatingBackdropClip`, `floatingBackdropBlurriness`, `floatingBackdropOpacity`, `hideEmptyPlaceholderWhenScrolling`.
 - Change `scrollbarTrackColor` and `scrollbarThumbColor` default value to `auto`.
@@ -735,7 +735,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Support Firefox 134.
 - Various improvements and bug fixes.
 
-**Version 1.0**
+[**Version 1.0**](https://github.com/Merci-chao/userChrome.js/raw/6156d334bffb877a85d8561bb401c620d3209304/MultiTabRows@Merci.chao.uc.js)
 - First release.
 </details>
 
