@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.9
+// @version        4.9.1
 // @compatibility  Firefox 115, 140, 151-153
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -435,12 +435,10 @@ const PREFS_TO_PROPS = {
 	),
 };
 
-const setDefaultPrefs = (branch, data) => {
-	Object.entries(data).forEach(([name, value]) => {
-		if (value != null)
-			branch[`set${{string: "String", number: "Int", boolean: "Bool"}[typeof value]}Pref`](name, value);
-	});
-};
+const setDefaultPrefs = (branch, data) => Object.entries(data).forEach(([name, value]) =>
+	value != null &&
+	branch[`set${{string: "String", number: "Int", boolean: "Bool"}[typeof value]}Pref`](name, value)
+);
 const getPrefs = (branch, data) => Object.fromEntries(
 	Object.entries(data).filter(([, value]) => value != null)
 		.map(([name, value]) => [name, branch[`get${{string: "String", number: "Int", boolean: "Bool"}[typeof value]}Pref`](name)])
@@ -517,8 +515,7 @@ addEventListener("unload", e => {
 }, true);
 
 function loadPrefs(defaultPrefs = createDefaultPrefs()) {
-	let defaultBranch = Services.prefs.getDefaultBranch(prefBranchStr);
-	setDefaultPrefs(defaultBranch, defaultPrefs);
+	setDefaultPrefs(Services.prefs.getDefaultBranch(prefBranchStr), defaultPrefs);
 	prefs = getPrefs(Services.prefs.getBranch(prefBranchStr), defaultPrefs);
 	prefs.tabsAtBottom ??= 0;
 
@@ -644,9 +641,10 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 async function onNofitied(subject, name) {
 	switch (name) {
 		case "lightweight-theme-styling-update": {
-			if (!root.hasAttribute("ai-window"))
+			let data = subject.wrappedJSObject;
+			if (!data || !root.hasAttribute("ai-window"))
 				return;
-			updateThemeStatus(subject.wrappedJSObject);
+			updateThemeStatus(data);
 			break;
 		} case "ai-window-state-changed":
 			if (subject != window)
@@ -1198,7 +1196,9 @@ const novaBlockStyle = nova &&
 /*cannot use any nesting here since the properties are also applied on .tabs-placeholder::before*/
 const themeBackgroundStyle = `
 	background-image: var(--multirows-toolbox-background-image);
-	${!nova ? `background-color: var(--multirows-toolbox-background-color);` : ``}
+	${!nova && !((win7 || win8) && defaultTheme) ? `
+		background-color: var(--multirows-toolbox-background-color);
+	` : ``}
 	background-size: var(--multirows-background-size);
 	background-position: var(--multirows-background-position);
 	background-repeat: var(--multirows-toolbox-background-repeat);
@@ -1206,31 +1206,36 @@ const themeBackgroundStyle = `
 `;
 const toolbarBackgroundStyle = nova
 	? `
-		--chrome-block-foreground-color: transparent;
-		${root.matches("[lwtheme]:not([theme-image-in-toolbox])") ? `
-			--chrome-block-background-color: ${root.hasAttribute("lwtheme-brighttext")
-				? "rgba(255, 255, 255, .05)" : "rgba(0, 0, 0, .05)"};
-		` : `
-			--chrome-block-background-color: transparent;
-		`}
+		--chrome-block-toolbar-color: transparent;
+		--chrome-block-foreground-color: ${
+			root.matches("[lwtheme]:not([theme-image-in-toolbox])")
+				? root.hasAttribute("lwtheme-brighttext")
+					? "rgba(255, 255, 255, .05)" : "rgba(0, 0, 0, .05)"
+				: "transparent"
+		};
 		--chrome-block-background-image: var(--multirows-toolbox-background-image);
+		--chrome-block-background-color: transparent;
 		background-image:
+			image(var(--chrome-block-toolbar-color)),
 			image(var(--chrome-block-foreground-color)),
-			image(var(--chrome-block-background-color)),
-			var(--chrome-block-background-image);
+			var(--chrome-block-background-image),
+			image(var(--chrome-block-background-color));
 		background-color: var(--multirows-toolbox-background-color);
 		background-repeat:
 			repeat,
 			repeat,
-			var(--multirows-toolbox-background-repeat);
+			var(--multirows-toolbox-background-repeat),
+			repeat;
 		background-position:
 			0%,
 			0%,
-			var(--multirows-background-position);
+			var(--multirows-background-position),
+			0%;
 		background-size:
 			auto,
 			auto,
-			var(--multirows-background-size);
+			var(--multirows-background-size),
+			auto;
 		background-attachment: fixed;
 	` : themeBackgroundStyle;
 
@@ -1350,14 +1355,22 @@ mainStyle.innerHTML = /*css*/`
 		);
 }
 
-${nova ? /*css*/`
-	:root:is([builtintheme], :not([lwtheme])) {
+${nova && defaultTheme ? /*css*/`
+	:root {
 		--multirows-background-size:
 			calc(100vw - ${__="var(--nav-toolbox-margin-border-inline)"} * 2)
 			calc(var(--nav-toolbox-margin-box-height) - ${__} * 2);
 		--multirows-background-position:
 			${__}
 			${__};
+
+		${prefs.tabsAtBottom > -1 ? /*css*/`
+			${!mica ? "#TabsToolbar," : ""}
+			.titlebar-buttonbox-container,
+			.tabs-placeholder::before {
+				--chrome-block-background-color: var(--toolbar-background-color);
+			}
+		` : ``}
 	}
 ` : ``}
 
@@ -3655,23 +3668,25 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 
 		${
 			nova && defaultTheme && prefs.tabsAtBottom < 0
-			? `
-				background-color: var(--toolbar-background-color);
-			` : (
-				prefs.tabsAtBottom < 1 &&
-				//the tabs bar will not get tranparency when window inactive thus doesn't need the background
-				!(nova && !prefs.tabsAtBottom && !getPref("browser.tabs.inTitlebar")) &&
-				//exclude the case where the body already has background
-				!(!nova && BACKGROUND_ON_BODY && !isYAlign && prefs.tabsAtBottom < 0)
-			)
-				? toolbarBackgroundStyle
-				//show a y-align-bottom style for tabs unser content
-				: !nova && prefs.tabsAtBottom < 0 && bgImgAllRepeat && !prefs.nativeWindowStyle
-					? /*css*/`
-						#navigator-toolbox:not(${navToolboxWithSidebar}) & {
-							${toolbarBackgroundStyle}
-						}
-					` : ``
+				? `
+					background-color: var(--toolbar-background-color);
+				` : (
+					prefs.tabsAtBottom < 1 &&
+					//the tabs bar will not get tranparency when window inactive thus doesn't need the background
+					!(nova && !prefs.tabsAtBottom && !getPref("browser.tabs.inTitlebar")) &&
+					//exclude the case where the body already has background
+					!(!nova && BACKGROUND_ON_BODY && !isYAlign && prefs.tabsAtBottom < 0) &&
+					//there is no backgound on win7 and win8 with default themes
+					!(defaultTheme && (win7 || win8))
+				)
+					? toolbarBackgroundStyle
+					//show a y-align-bottom style for tabs unser content
+					: !nova && prefs.tabsAtBottom < 0 && bgImgAllRepeat && !prefs.nativeWindowStyle
+						? /*css*/`
+							#navigator-toolbox:not(${navToolboxWithSidebar}) & {
+								${toolbarBackgroundStyle}
+							}
+						` : ``
 		}
 
 		${nova && micaTheme && !prefs.tabsAtBottom ? /*css*/`
@@ -4509,7 +4524,7 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 			}
 
 			.tabs-placeholder::before {
-				--chrome-block-foreground-color: var(--toolbar-background-color);
+				--chrome-block-toolbar-color: var(--toolbar-background-color);
 			}
 
 			${prefs.tabsAtBottom > 1 ? /*css*/`
@@ -4591,8 +4606,8 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 				}
 
 				&, .tabs-placeholder::before {
-					--chrome-block-foreground-color: var(--toolbar-background-color);
-					--chrome-block-background-color: transparent;
+					--chrome-block-toolbar-color: var(--toolbar-background-color);
+					--chrome-block-foreground-color: transparent;
 				}
 
 				:root[ai-window] & {
@@ -4794,7 +4809,8 @@ ${prefs.nativeWindowStyle ? /*css*/`
 
 		${!nova && prefs.tabsAtBottom ? "#navigator-toolbox," : ""}
 		${nova && prefs.tabsAtBottom ? "#TabsToolbar," : ""}
-		${micaTheme ? ".tabs-placeholder::before," : ""}
+		${!nova && micaTheme ? ".tabs-placeholder::before," : ""}
+		#tabbrowser-arrowscrollbox,
 		#browser,
 		.browser-toolbar:not(.browser-titlebar),
 		#nav-bar::after {
@@ -4860,13 +4876,12 @@ ${prefs.nativeWindowStyle ? /*css*/`
 	}
 ` : ``}
 
-${win7 || win8 ? `:root,` : ``}
 ${BACKGROUND_ON_BODY
 	? `
 		#main-window[lwtheme]:not([${THEME_IMAGE_IN_TOOLBOX}], [ai-window]) body,
 		:root[${THEME_IMAGE_IN_TOOLBOX}] #navigator-toolbox
 		`
-	: `:root[lwtheme] #navigator-toolbox`}
+	: `:root[lwtheme] ${"#navigator-toolbox".repeat(win7 || win8 ? 3 : 1)}`}
 {
 	${themeBackgroundStyle}
 }
@@ -10857,7 +10872,10 @@ function updateThemeStatus(themeData) {
 		repeatVal = theme?.backgroundsTiling || "";
 	} else {
 		let cs = getComputedStyle(
-			BACKGROUND_ON_BODY && !root.hasAttribute(THEME_IMAGE_IN_TOOLBOX) ? document.body : gNavToolbox
+			BACKGROUND_ON_BODY && !root.hasAttribute(THEME_IMAGE_IN_TOOLBOX)
+				? document.body
+				: win7 || win8
+					? root : gNavToolbox
 		);
 		bgImgTheme = cs.backgroundImage.includes("url(");
 		repeatVal = cs.backgroundRepeat;
