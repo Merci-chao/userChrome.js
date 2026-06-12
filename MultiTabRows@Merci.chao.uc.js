@@ -7827,7 +7827,7 @@ let GET_DRAG_TARGET;
 		}
 
 		let run = () => {
-			let groupOfDraggedTab = draggedTab.group;
+			let groupOfDraggedTab = draggedTab?.group;
 
 			handle_drop.apply(this, arguments);
 
