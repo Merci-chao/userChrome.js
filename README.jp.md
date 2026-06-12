@@ -496,8 +496,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 修正
 	- 新規インストール時にスクリプトが失敗。
 	- v4.0 以降、ウィンドウ間でタブを移動できなくなった。
-[
-**Version 4.0**](https://github.com/Merci-chao/userChrome.js/raw/ea2ce83a7cbfabae30c0e3f873769b62619e2894/MultiTabRows@Merci.chao.uc.js)
+
+[**Version 4.0**](https://github.com/Merci-chao/userChrome.js/raw/ea2ce83a7cbfabae30c0e3f873769b62619e2894/MultiTabRows@Merci.chao.uc.js)
 - 新規
 	- Firefox 146 で実装された分割ビュー機能に対応。`browser.tabs.splitView.enabled` を `true` に設定することで有効化可能。
 	- 複数のタブをドラッグする際のスタッキング（積み重ね）に対応。Firefox 146 では、`browser.tabs.dragDrop.multiselectStacking` を `true` に設定することで有効化可能。Firefox 145 以下（115 も含む）では、その名で新規真偽値設定の作成が必要ある。
@@ -542,11 +542,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 <details>
 <summary>軽微な更新</summary>
-[
-**Version 3.6.0.2**](https://github.com/Merci-chao/userChrome.js/raw/a3399b69e7f91e34f62a1fce4e61515c663d309e/MultiTabRows@Merci.chao.uc.js)
+
+[**Version 3.6.0.2**](https://github.com/Merci-chao/userChrome.js/raw/a3399b69e7f91e34f62a1fce4e61515c663d309e/MultiTabRows@Merci.chao.uc.js)
 - 前回の軽微な更新で行ったスクロールバー関連のコード変更を一部元に戻す。
-[
-**Version 3.6.0.1**](https://github.com/Merci-chao/userChrome.js/raw/6172e2fc2e47088803b839a12c2f05358a736365/MultiTabRows@Merci.chao.uc.js)
+
+[**Version 3.6.0.1**](https://github.com/Merci-chao/userChrome.js/raw/6172e2fc2e47088803b839a12c2f05358a736365/MultiTabRows@Merci.chao.uc.js)
 - バグ修正：タブを閉じた直後にウィンドウサイズを変更すると、一時的に空の行が表示されることがあった。
 
 </details>
