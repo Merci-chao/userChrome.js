@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.9.1
+// @version        4.9.2
 // @compatibility  Firefox 115, 140, 151-153
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -270,6 +270,7 @@ let micaEnabled = false,
 	defaultDarkTheme = false,
 	defaultAutoTheme = false,
 	defaultTheme = false,
+	tempTheme = false,
 	bgImgTheme = false,
 	bgImgHasRepeat = false,
 	bgImgAllRepeat = false,
@@ -642,9 +643,10 @@ async function onNofitied(subject, name) {
 	switch (name) {
 		case "lightweight-theme-styling-update": {
 			let data = subject.wrappedJSObject;
-			if (!data || !root.hasAttribute("ai-window"))
+			if (!data || tempTheme && "window" in data && data.theme)
 				return;
 			updateThemeStatus(data);
+			tempTheme = data.theme?.id && data.theme.id != getThemeData().theme?.id;
 			break;
 		} case "ai-window-state-changed":
 			if (subject != window)
@@ -1207,12 +1209,7 @@ const themeBackgroundStyle = `
 const toolbarBackgroundStyle = nova
 	? `
 		--chrome-block-toolbar-color: transparent;
-		--chrome-block-foreground-color: ${
-			root.matches("[lwtheme]:not([theme-image-in-toolbox])")
-				? root.hasAttribute("lwtheme-brighttext")
-					? "rgba(255, 255, 255, .05)" : "rgba(0, 0, 0, .05)"
-				: "transparent"
-		};
+		--chrome-block-foreground-color: transparent;
 		--chrome-block-background-image: var(--multirows-toolbox-background-image);
 		--chrome-block-background-color: transparent;
 		background-image:
@@ -2771,19 +2768,16 @@ ${appVersion < 134 ? /*css*/`
 
 /*the context line margin causes the tab background can't shrink*/
 .tabbrowser-tab[usercontextid] > .tab-stack > .tab-background > .tab-context-line {
-	position: absolute;
-	top: var(--tab-block-margin);
+	${nova ? `
+		--margin-start: calc(var(--tab-inline-padding) + 8px);
+		--margin-end: calc(var(--tab-inline-padding) / 2 + 12px);
+	` : `
+		--margin-start: calc(var(--tab-border-radius) / 2);
+		--margin-end: calc(var(--tab-border-radius) / 2);
+	`}
 	margin: 0;
-	/* https://bugzil.la/2039854 */
-	width: calc(
-		100%
-		- ${nova ? "var(--tab-min-height) + 4px" : "var(--tab-border-radius)"}
-	);
-	align-self: center;
-
-	tab-split-view-wrapper & {
-		top: 0;
-	}
+	width: calc(100% - var(--margin-start) - var(--margin-end));
+	translate: var(--margin-start);
 }
 
 ${prefs.pinnedTabsFlexWidth ? /*css*/`
@@ -4445,6 +4439,20 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 	}
 ` : "" /*prefs.tabsUnderControlButtons*/}
 
+${nova ? /*css*/`
+	:root[lwtheme]:not([theme-image-in-toolbox]) {
+		${__="#TabsToolbar, .tabs-placeholder::before, .titlebar-buttonbox-container"} {
+			--chrome-block-foreground-color: rgba(0, 0, 0, .05);
+		}
+
+		&[lwtheme-brighttext] {
+			${__} {
+				--chrome-block-foreground-color: rgba(255, 255, 255, .05);
+			}
+		}
+	}
+` : ``}
+
 ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 	#navigator-toolbox {
 		${nova ? /*css*/`
@@ -4807,7 +4815,7 @@ ${prefs.nativeWindowStyle ? /*css*/`
 			);
 		}
 
-		${!nova && prefs.tabsAtBottom ? "#navigator-toolbox," : ""}
+		${!nova && prefs.tabsAtBottom || nova && defaultTheme ? "#navigator-toolbox," : ""}
 		${nova && prefs.tabsAtBottom ? "#TabsToolbar," : ""}
 		${!nova && micaTheme ? ".tabs-placeholder::before," : ""}
 		#tabbrowser-arrowscrollbox,
@@ -8320,18 +8328,8 @@ let GET_DRAG_TARGET;
 
 		console?.time("_positionPinnedTabs - calculation");
 
-		let width, rows, maxRows, columns, spacers, preTabsItemsSize, wrapPlaceholder;
+		let tabWidth, rows, maxRows, columns, spacers, preTabsItemsSize, wrapPlaceholder;
 		let gap = prefs.gapAfterPinned;
-
-		let layoutData = this._pinnedTabsLayoutCache;
-		let uiDensity = root.getAttribute("uidensity");
-		if (!layoutData || layoutData.uiDensity != uiDensity || layoutData.nova != nova)
-			layoutData = this._pinnedTabsLayoutCache = {
-				nova,
-				uiDensity,
-				scrollStartOffset: gap,
-			};
-
 		let {forcedOverflow} = this;
 		let isPositioned = this.positioningPinnedTabs && !forcedOverflow;
 		let nodes = getNodes();
@@ -8348,13 +8346,13 @@ let GET_DRAG_TARGET;
 			tabsUnderControlButtons = 0;
 
 		if (floatPinnedTabs) {
-			width = (layoutData.width ||= getRect(nodes[0]).width);
+			({width: tabWidth} = getRect(nodes[0]));
 			preTabsItemsSize = getRect(this._placeholderPreTabs, {box: "margin"}).width;
 			rows = getRowCount();
 			maxRows = maxTabRows();
 			if (rows > 1) {
 				if (tabsUnderControlButtons > 1) {
-					spacers = Math.ceil(preTabsItemsSize / width);
+					spacers = Math.ceil(preTabsItemsSize / tabWidth);
 					if (spacers && spacers == numPinned - 1)
 						spacers++;
 				} else
@@ -8373,14 +8371,14 @@ let GET_DRAG_TARGET;
 			let boxWidth = getRect(this, {box: "padding"}).width;
 			floatPinnedTabs = pointDelta(
 				(
-					columns * width + gap
+					columns * tabWidth + gap
 					+ maxItemWidth
 					+ this.newTabButton.clientWidth
 					+ (lastLayoutData.postTabsItemsSize ?? scrollbox.scrollbarWidth)
 				),
 				boxWidth,
 			) <= 0;
-			wrapPlaceholder = floatPinnedTabs && pointDelta(columns * width + gap, preTabsItemsSize) >= 0;
+			wrapPlaceholder = floatPinnedTabs && pointDelta(columns * tabWidth + gap, preTabsItemsSize) >= 0;
 		}
 
 		console?.timeEnd("_positionPinnedTabs - calculation");
@@ -8402,7 +8400,7 @@ let GET_DRAG_TARGET;
 		tabsBar.toggleAttribute("pinned-tabs-wraps-placeholder", !!wrapPlaceholder);
 
 		if (floatPinnedTabs) {
-			style(this, {"--tab-overflow-pinned-tabs-width": columns * width + "px"});
+			style(this, {"--tab-overflow-pinned-tabs-width": columns * tabWidth + "px"});
 
 			if (!isPositioned && !slot.heightLocked) {
 				let lastNodeRect = getRect(lastNode);
@@ -8446,7 +8444,7 @@ let GET_DRAG_TARGET;
 			pinnedTabs.filter(t => !t.stacking).forEach((t, i) => {
 				i += spacers + Math.max(columns - numPinned, 0);
 				style(t, {
-					insetInlineStart: i % columns * width + "px",
+					insetInlineStart: i % columns * tabWidth + "px",
 					top: Math.floor(i / columns) * tabHeight + "px",
 					marginInlineStart: "",
 				});
@@ -10849,38 +10847,30 @@ function restrictScroll(lines) {
 	return Math.max(Math.min(lines, rows), 1);
 }
 
-function updateThemeStatus(themeData) {
-	let aiWindow = root.hasAttribute("ai-window");
-	let id = getPref("extensions.activeThemeID");
-	defaultTheme = ["", "default-theme@mozilla.org", "firefox-compact-light@mozilla.org", "firefox-compact-dark@mozilla.org"]
-		.includes(id);
-	defaultDarkTheme = id == "firefox-compact-dark@mozilla.org";
-	defaultAutoTheme = ["", "default-theme@mozilla.org"].includes(id);
+function getThemeData() {
+	/* global ChromeUtils */
+	return ChromeUtils.importESModule("resource://gre/modules/LightweightThemeManager.sys.mjs")
+		.LightweightThemeManager.themeData
+}
+
+function updateThemeStatus(themeData = getThemeData()) {
 	micaEnabled = micaMQ.matches;
 	nova = novaMQ.matches;
+
+	let {theme} = themeData;
+	let {id} = theme || {id: ""};
+
+	defaultTheme =
+		!tempTheme &&
+		["", "default-theme@mozilla.org", "firefox-compact-light@mozilla.org", "firefox-compact-dark@mozilla.org"]
+			.includes(id);
+	defaultDarkTheme = !tempTheme && id == "firefox-compact-dark@mozilla.org";
+	defaultAutoTheme = !tempTheme && ["", "default-theme@mozilla.org"].includes(id);
 	mica = micaEnabled && defaultAutoTheme && !accentColorInTitlebarMQ.matches;
-	micaTheme = !aiWindow && (mica || micaEnabled && getPref(prefBranchStr + "nativeWindowStyle"));
+	micaTheme = !root.hasAttribute("ai-window") && (mica || micaEnabled && getPref(prefBranchStr + "nativeWindowStyle"));
 
-	if (!themeData && aiWindow)
-		return;
-
-	let repeatVal;
-	if (themeData) {
-		console?.debug(themeData);
-		let {theme} = themeData;
-		bgImgTheme = !!(theme?.headerImage || theme?.headerURL || theme?.additionalBackgrounds?.[0]);
-		repeatVal = theme?.backgroundsTiling || "";
-	} else {
-		let cs = getComputedStyle(
-			BACKGROUND_ON_BODY && !root.hasAttribute(THEME_IMAGE_IN_TOOLBOX)
-				? document.body
-				: win7 || win8
-					? root : gNavToolbox
-		);
-		bgImgTheme = cs.backgroundImage.includes("url(");
-		repeatVal = cs.backgroundRepeat;
-	}
-	repeatVal = repeatVal.split(/,\s*/);
+	bgImgTheme = !!(theme?.headerImage || theme?.headerURL || theme?.additionalBackgrounds?.[0]);
+	let repeatVal = theme?.backgroundsTiling?.split(/,\s*/) || [];
 	let isRepeat = p => ["repeat", "repeat-y"].includes(p);
 	bgImgHasRepeat = bgImgTheme && repeatVal.some(isRepeat);
 	bgImgAllRepeat = bgImgTheme && repeatVal.every(isRepeat);
