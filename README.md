@@ -776,17 +776,17 @@ There is no setting panel and you need to open `about:config` and search for the
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
 
-**Version 2026-05-06**
+[**Version 2026-05-06**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/a6c1cf1ca95ad2535edac611efdef41a78adeaa3/HistorySubmenus2%40Merci.chao.uc.js)
 - Settings changes now take effect immediately.
 - No longer relies on `security.allow_unsafe_dangerous_privileged_evil_eval` being enabled. Please reset it to `false` if it is not needed for other scripts.
 
-**Version 2026-05-04-1**
+[**Version 2026-05-04-1**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/f2f62fafc822d003c21e826a8cd6f314735154cd/HistorySubmenus2%40Merci.chao.uc.js)
 - Update for Firefox 152.
 
-**Version 2026-05-04**
+[**Version 2026-05-04**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/ed561f60c44227f176847cb224f5f08bf71c5bb5/HistorySubmenus2%40Merci.chao.uc.js)
 - Improve compatibility with some script loaders.
 
-**Version 2025-08-14**
+[**Version 2025-08-14**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/ed74f043645ef8c91211aaf5f593ee2bc536fe0d/HistorySubmenus2%40Merci.chao.uc.js)
 - Update for Firefox 143.
 - Add check upate feature.
 
@@ -829,33 +829,33 @@ Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`
 [**Version 2026-05-04**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/9a0ee009101ca89dd15188677e51731e7bff79f5/PageTitle%40Merci.chao.uc.js)
 - Improve compatibility with some script loaders.
 
-**Version 2026-04-16**
+[**Version 2026-04-16**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/1d73ef36bd4e4ca88f5106560d66b752ea45bf29/PageTitle%40Merci.chao.uc.js)
 - Update for Firefox 151.
 
-**Version 2026-01-09**
+[**Version 2026-01-09**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/cff7e5f0cc0f930ee3216790876fe8b8da827321/PageTitle%40Merci.chao.uc.js)
 - Fix minor layout issues according to the Trust Panel.
 
-**Version 2025-12-16**
+[**Version 2025-12-16**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/0a74ea21813d6fb5aa4c24b583c5850ad3fad64c/PageTitle%40Merci.chao.uc.js)
 - Add `showUnicodeDomain`: display the Unicode characters in domain. 
 
-**Version 2025-12-12**
+[**Version 2025-12-12**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/dfcd52a73eb79e9e9a7db2b5d2a25872d4c736e7/PageTitle%40Merci.chao.uc.js)
 - Support Trust Panel feature.
 - Update the update-checking feature.
 - Add `checkUpdateAutoApply`: update the script file automatically when there is a new version, `1` - never, `2` - always, `3` - always and sliently.
 
-**Version 2025-11-28**
+[**Version 2025-11-28**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/6d6b2481f653efee2432134088713fc70729bf81/PageTitle%40Merci.chao.uc.js)
 - Update for Firefox 147.
 
-**Version 2025-11-16**
+[**Version 2025-11-16-01**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/1a5106bb79819ce02b7b23d58e1e1cff8ace156e/PageTitle%40Merci.chao.uc.js)
 - Update for Firefox 147.
 
-**Version 2025-09-09**
+[**Version 2025-09-09**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/cb188806fef8b365d8761ad2609a59055ac885e6/PageTitle%40Merci.chao.uc.js)
 - Add check upate feature.
 
 ---
 
-# [Semi-Full Screen / Picture-in-Picture Mode](https://github.com/Merci-chao/userChrome.js/blob/main/SemiFullScreen@Merci.chao.uc.js)
-Full screen with keeping your task bar visible, or hide the toolbars when not maximized (picture-in-picture). [Add-on Page (web archive)](https://web.archive.org/web/20181102230042/https://addons.mozilla.org/en-US/firefox/addon/semi-full-screen/)
+# [Semi-Full Screen / Toolbar Auto-Hide](https://github.com/Merci-chao/userChrome.js/blob/main/SemiFullScreen@Merci.chao.uc.js)
+Full screen with keeping your task bar visible, or hide the toolbars when not maximized. [Add-on Page (web archive)](https://web.archive.org/web/20181102230042/https://addons.mozilla.org/en-US/firefox/addon/semi-full-screen/)
 
 > [!WARNING]
 > This version of Semi-Full Screen is not tested on Mac OS and Ubuntu (Linux). It is probably glitchy or simply doesn't work at all.
@@ -886,17 +886,17 @@ Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.c
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
 
-**Version 2026-05-04**
+[**Version 2026-05-04**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/edd0d7a00b737dde1103dd012a23c9683833dae3/SemiFullScreen%40Merci.chao.uc.js)
 - Improve compatibility with some script loaders.
 
-**Version 2025-08-24**
+[**Version 2025-08-24**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/b1a644af37a53705909283b9bfd1459446596a88/SemiFullScreen%40Merci.chao.uc.js)
 - Restore missing window border on Windows 7 and 8.
 - Add `autoHideToolbarDelay`: The delay (in milliseconds) before auto-hiding the toolbar when the mouse has left the window edge and hasn't re-entered.
 
-**Version 2025-08-20**
+[**Version 2025-08-20**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/c9807aa1d1004f9ec3b7c95b6f5ec3979be9a70c/SemiFullScreen%40Merci.chao.uc.js)
 - Not hiding the dragging spaces on no-tab bar mode.
 
-**Version 2025-08-16**
+[**Version 2025-08-16**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/47a3bd1a4b2c93fbab83a6917926d71ed535e00a/SemiFullScreen%40Merci.chao.uc.js)
 - Fix unintentional space on the tab bar.
 - Add check upate feature.
 
@@ -924,10 +924,10 @@ Open `about:config` and search for the prefix `FloatToolbarsInFullScreen@Merci.c
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
 
-**Version 2026-05-04**
+[**Version 2026-05-04**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/655fe2c483e74d3ec6c68c2055faa9d1ec8fc4c6/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
 - Improve compatibility with some script loaders.
 
-**Version 2025-08-16**
+[**Version 2025-08-16**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/30ece47b652ffa9ec8af996595c3c128c1b4e85d/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
 - Now the tab bar will show the native window style in full screen.
 - Add check upate feature.
 
