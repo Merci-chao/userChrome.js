@@ -809,11 +809,14 @@ URL バーにページタイトルを表示。
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
+[
+**Version 2026-06-17**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/47d3a4b9c2cbfc539be1112c5d623068b585978b/PageTitle%40Merci.chao.uc.js)
+- Firefox 153 への更新。
 
-**Version 2026-05-04-1**
+[**Version 2026-05-04-1**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/e17abacd2975c2b71b912702f69112c206fdb92f/PageTitle%40Merci.chao.uc.js)
 - Firefox 152 への更新。
 
-**Version 2026-05-04**
+[**Version 2026-05-04**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/9a0ee009101ca89dd15188677e51731e7bff79f5/PageTitle%40Merci.chao.uc.js)
 - 一部のスクリプトローダーとの互換性を改善。
 
 **Version 2026-04-16**
