@@ -427,7 +427,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Firefox could freeze in certain cases when pinned tabs were present and the tab bar became scrollable.
 	- `tabHorizontalMargin` did not apply correctly to pinned tabs in Firefox 115.
 	- Layout issue occurred in specific cases when modifying `tabContentHeight`.
-	- `tabVerticalMargin` might be missing in `about:config` in certain cases.
+	- `tabVerticalMargin` might be missing in *about:config* in certain cases.
 
 <details>
 <summary>Minor Updates</summary>
@@ -488,7 +488,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <summary>Minor Updates</summary>
 
 [**Version 4.0.2.3**](https://github.com/Merci-chao/userChrome.js/raw/5b908e70e03a724c9c7bee6208ede691498e6f13/MultiTabRows@Merci.chao.uc.js)
-- Updates the dependencies of settings in `about:config`.
+- Updates the dependencies of settings in *about:config*.
 
 [**Version 4.0.2.2**](https://github.com/Merci-chao/userChrome.js/raw/6fe214ec244687756c2f238c8af21a2864c1e81d/MultiTabRows@Merci.chao.uc.js)
 - Refines some minor animation related to tab group.
@@ -762,7 +762,7 @@ Add sub-menus to History Menu for previous days' history. [Add-on Page (web arch
 ![screenshot](https://web.archive.org/web/20181007203207if_/https://addons.cdn.mozilla.net/user-media/previews/full/63/63969.png?modified=1530208752)
 
 ## Settings
-There is no setting panel and you need to open `about:config` and search for the prefix `extensions.HistorySubmenus2@Merci.chao.`.
+There is no setting panel and you need to open *about:config* and search for the prefix `extensions.HistorySubmenus2@Merci.chao.`.
 
 | Name | Description |
 | ------------- | ------------- |
@@ -798,7 +798,7 @@ Show page title in URL Bar. [Add-on Page (web archive)](https://web.archive.org/
 ![screenshot](https://web.archive.org/web/20181009205610if_/https://addons.cdn.mozilla.net/user-media/previews/full/165/165890.png?modified=1530208887)
 
 ## Settings
-Open `about:config` and search for the prefix `extensions.PageTitle@Merci.chao.`.
+Open *about:config* and search for the prefix `extensions.PageTitle@Merci.chao.`.
 
 > [!NOTE]
 > Settings will apply to new windows.
@@ -870,7 +870,7 @@ Full screen with keeping your task bar visible, or hide the toolbars when not ma
 | `Shift`+`F11` or `Shift`+`⤢` | Enter normal full screen mode. |
 
 ## Settings
-Open `about:config` and search for the prefix `extensions.SemiFullScreen@Merci.chao.`.
+Open *about:config* and search for the prefix `extensions.SemiFullScreen@Merci.chao.`.
 
 > [!NOTE]
 > Settings will apply to new windows.
@@ -910,7 +910,7 @@ Float the toolbars over the page in full screen mode, instead of making the web 
 ![screenshot](https://web.archive.org/web/20181012014653if_/https://addons.cdn.mozilla.net/user-media/previews/full/180/180636.png?modified=1530209532)
 
 ## Settings
-Open `about:config` and search for the prefix `FloatToolbarsInFullScreen@Merci.chao.`.
+Open *about:config* and search for the prefix `FloatToolbarsInFullScreen@Merci.chao.`.
 
 > [!NOTE]
 > Settings will apply to new windows.
