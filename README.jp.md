@@ -771,17 +771,17 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
 
-**Version 2026-05-06**
+[**Version 2026-05-06**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/a6c1cf1ca95ad2535edac611efdef41a78adeaa3/HistorySubmenus2%40Merci.chao.uc.js)
 - 設定の変更が即時に反映されるようになった。
 - `security.allow_unsafe_dangerous_privileged_evil_eval` が有効化されていることに依存しなくなった。他のスクリプトで必要ない場合は、`false` にリセットしてください。
 
-**Version 2026-05-04-1**
+[**Version 2026-05-04-1**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/f2f62fafc822d003c21e826a8cd6f314735154cd/HistorySubmenus2%40Merci.chao.uc.js)
 - Firefox 152 への更新。
 
-**Version 2026-05-04**
+[**Version 2026-05-04**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/ed561f60c44227f176847cb224f5f08bf71c5bb5/HistorySubmenus2%40Merci.chao.uc.js)
 - 一部のスクリプトローダーとの互換性を改善。
 
-**Version 2025-08-14**
+[**Version 2025-08-14**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/ed74f043645ef8c91211aaf5f593ee2bc536fe0d/HistorySubmenus2%40Merci.chao.uc.js)
 - Firefox 143 に対応。
 - バージョンチェック機能を追加。
 
@@ -824,27 +824,27 @@ URL バーにページタイトルを表示。
 [**Version 2026-05-04**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/9a0ee009101ca89dd15188677e51731e7bff79f5/PageTitle%40Merci.chao.uc.js)
 - 一部のスクリプトローダーとの互換性を改善。
 
-**Version 2026-04-16**
+[**Version 2026-04-16**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/1d73ef36bd4e4ca88f5106560d66b752ea45bf29/PageTitle%40Merci.chao.uc.js)
 - Firefox 151 への更新。
 
-**Version 2026-01-09**
+[**Version 2026-01-09**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/cff7e5f0cc0f930ee3216790876fe8b8da827321/PageTitle%40Merci.chao.uc.js)
 - Trust Panel によって軽微なレイアウトの問題を修正。
 
-**Version 2025-12-16**
+[**Version 2025-12-16**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/0a74ea21813d6fb5aa4c24b583c5850ad3fad64c/PageTitle%40Merci.chao.uc.js)
 - `showUnicodeDomain` を追加：ドメインのユニコード文字を表示。
 
-**Version 2025-12-12**
+[**Version 2025-12-12**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/dfcd52a73eb79e9e9a7db2b5d2a25872d4c736e7/PageTitle%40Merci.chao.uc.js)
 - Trust Panel 機能をサポート。
 - アップデートチェック機能を更新。
 - `checkUpdateAutoApply` を追加：新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）、`1`－無効、`2`－有効、`3`－有効（通知なし）。
 
-**Version 2025-11-28**
+[**Version 2025-11-28**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/6d6b2481f653efee2432134088713fc70729bf81/PageTitle%40Merci.chao.uc.js)
 - Firefox 147 に対応。
 
-**Version 2025-11-16**
+[**Version 2025-11-16-01**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/1a5106bb79819ce02b7b23d58e1e1cff8ace156e/PageTitle%40Merci.chao.uc.js)
 - Firefox 147 に対応。
 
-**Version 2025-09-09**
+[**Version 2025-09-09**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/cb188806fef8b365d8761ad2609a59055ac885e6/PageTitle%40Merci.chao.uc.js)
 - バージョンチェック機能を追加。
 
 ---
