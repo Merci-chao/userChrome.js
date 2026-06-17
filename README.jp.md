@@ -421,7 +421,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 特定のケースで、ピン留めされたタブがありタブバーがスクロール可能になると、Firefox がフリーズする可能性があった。
 	- Firefox 115 において、ピン留めされたタブで `tabHorizontalMargin` が機能しなかった。
 	- 特定のケースで、`tabContentHeight` を変更するとレイアウトの問題が発生。
-	- 特定のケースで、`about:config` で `tabVerticalMargin` が欠落する可能性があった。
+	- 特定のケースで、about:config で `tabVerticalMargin` が欠落する可能性があった。
 
 <details>
 <summary>軽微な更新</summary>
@@ -483,7 +483,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <summary>軽微な更新</summary>
 
 [**Version 4.0.2.3**](https://github.com/Merci-chao/userChrome.js/raw/5b908e70e03a724c9c7bee6208ede691498e6f13/MultiTabRows@Merci.chao.uc.js)
-- `about:config` 内の設定の依存関係を更新。
+- about:config 内の設定の依存関係を更新。
 
 [**Version 4.0.2.2**](https://github.com/Merci-chao/userChrome.js/raw/6fe214ec244687756c2f238c8af21a2864c1e81d/MultiTabRows@Merci.chao.uc.js)
 - タブグループに関連する軽微なアニメーションを修正。
@@ -757,7 +757,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ![screenshot](https://web.archive.org/web/20181007203207if_/https://addons.cdn.mozilla.net/user-media/previews/full/63/63969.png?modified=1530208752)
 
 ## 設定
-設定パネルは存在しない。`about:config` を開いて `extensions.HistorySubmenus2@Merci.chao.` で始まる項目を検索してください。
+設定パネルは存在しない。about:config を開いて `extensions.HistorySubmenus2@Merci.chao.` で始まる項目を検索してください。
 
 | 設定項目 | 説明 |
 | --- | --- |
@@ -794,7 +794,7 @@ URL バーにページタイトルを表示。
 ![screenshot](https://web.archive.org/web/20181009205610if_/https://addons.cdn.mozilla.net/user-media/previews/full/165/165890.png?modified=1530208887)
 
 ## 設定
-`about:config` を開き、`extensions.PageTitle@Merci.chao.` で始まる設定項目を検索してください。
+about:config を開き、`extensions.PageTitle@Merci.chao.` で始まる設定項目を検索してください。
 
 🔔 設定は新しいウィンドウに適用される。
 
@@ -866,7 +866,7 @@ URL バーにページタイトルを表示。
 | `Shift`+`F11` または `Shift`+`⤢` | 通常の全画面表示モードに移行。 |
 
 ## 設定
-`about:config` を開き、`extensions.SemiFullScreen@Merci.chao.` で始まる設定項目を検索してください。
+about:config を開き、`extensions.SemiFullScreen@Merci.chao.` で始まる設定項目を検索してください。
 
 🔔 設定は新しいウィンドウに適用される。
 
@@ -906,7 +906,7 @@ URL バーにページタイトルを表示。
 ![screenshot](https://web.archive.org/web/20181012014653if_/https://addons.cdn.mozilla.net/user-media/previews/full/180/180636.png?modified=1530209532)
 
 ## 設定
-`about:config` を開いて `extensions.FloatToolbarsInFullScreen@Merci.chao.` で始まる項目を検索してください。
+about:config を開いて `extensions.FloatToolbarsInFullScreen@Merci.chao.` で始まる項目を検索してください。
 
 🔔 設定は新しいウィンドウに適用される。
 
