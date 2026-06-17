@@ -771,17 +771,17 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
 
-[**Version 2026-05-06**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/a6c1cf1ca95ad2535edac611efdef41a78adeaa3/HistorySubmenus2%40Merci.chao.uc.js)
+[**Version 2026-05-06**](https://github.com/Merci-chao/userChrome.js/raw/a6c1cf1ca95ad2535edac611efdef41a78adeaa3/HistorySubmenus2%40Merci.chao.uc.js)
 - 設定の変更が即時に反映されるようになった。
 - `security.allow_unsafe_dangerous_privileged_evil_eval` が有効化されていることに依存しなくなった。他のスクリプトで必要ない場合は、`false` にリセットしてください。
 
-[**Version 2026-05-04-1**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/f2f62fafc822d003c21e826a8cd6f314735154cd/HistorySubmenus2%40Merci.chao.uc.js)
+[**Version 2026-05-04-1**](https://github.com/Merci-chao/userChrome.js/raw/f2f62fafc822d003c21e826a8cd6f314735154cd/HistorySubmenus2%40Merci.chao.uc.js)
 - Firefox 152 への更新。
 
-[**Version 2026-05-04**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/ed561f60c44227f176847cb224f5f08bf71c5bb5/HistorySubmenus2%40Merci.chao.uc.js)
+[**Version 2026-05-04**](https://github.com/Merci-chao/userChrome.js/raw/ed561f60c44227f176847cb224f5f08bf71c5bb5/HistorySubmenus2%40Merci.chao.uc.js)
 - 一部のスクリプトローダーとの互換性を改善。
 
-[**Version 2025-08-14**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/ed74f043645ef8c91211aaf5f593ee2bc536fe0d/HistorySubmenus2%40Merci.chao.uc.js)
+[**Version 2025-08-14**](https://github.com/Merci-chao/userChrome.js/raw/ed74f043645ef8c91211aaf5f593ee2bc536fe0d/HistorySubmenus2%40Merci.chao.uc.js)
 - Firefox 143 に対応。
 - バージョンチェック機能を追加。
 
@@ -815,36 +815,36 @@ URL バーにページタイトルを表示。
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
 
-[**Version 2026-06-17**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/47d3a4b9c2cbfc539be1112c5d623068b585978b/PageTitle%40Merci.chao.uc.js)
+[**Version 2026-06-17**](https://github.com/Merci-chao/userChrome.js/raw/47d3a4b9c2cbfc539be1112c5d623068b585978b/PageTitle%40Merci.chao.uc.js)
 - Firefox 153 への更新。
 
-[**Version 2026-05-04-1**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/e17abacd2975c2b71b912702f69112c206fdb92f/PageTitle%40Merci.chao.uc.js)
+[**Version 2026-05-04-1**](https://github.com/Merci-chao/userChrome.js/raw/e17abacd2975c2b71b912702f69112c206fdb92f/PageTitle%40Merci.chao.uc.js)
 - Firefox 152 への更新。
 
-[**Version 2026-05-04**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/9a0ee009101ca89dd15188677e51731e7bff79f5/PageTitle%40Merci.chao.uc.js)
+[**Version 2026-05-04**](https://github.com/Merci-chao/userChrome.js/raw/9a0ee009101ca89dd15188677e51731e7bff79f5/PageTitle%40Merci.chao.uc.js)
 - 一部のスクリプトローダーとの互換性を改善。
 
-[**Version 2026-04-16**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/1d73ef36bd4e4ca88f5106560d66b752ea45bf29/PageTitle%40Merci.chao.uc.js)
+[**Version 2026-04-16**](https://github.com/Merci-chao/userChrome.js/raw/1d73ef36bd4e4ca88f5106560d66b752ea45bf29/PageTitle%40Merci.chao.uc.js)
 - Firefox 151 への更新。
 
-[**Version 2026-01-09**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/cff7e5f0cc0f930ee3216790876fe8b8da827321/PageTitle%40Merci.chao.uc.js)
+[**Version 2026-01-09**](https://github.com/Merci-chao/userChrome.js/raw/cff7e5f0cc0f930ee3216790876fe8b8da827321/PageTitle%40Merci.chao.uc.js)
 - Trust Panel によって軽微なレイアウトの問題を修正。
 
-[**Version 2025-12-16**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/0a74ea21813d6fb5aa4c24b583c5850ad3fad64c/PageTitle%40Merci.chao.uc.js)
+[**Version 2025-12-16**](https://github.com/Merci-chao/userChrome.js/raw/0a74ea21813d6fb5aa4c24b583c5850ad3fad64c/PageTitle%40Merci.chao.uc.js)
 - `showUnicodeDomain` を追加：ドメインのユニコード文字を表示。
 
-[**Version 2025-12-12**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/dfcd52a73eb79e9e9a7db2b5d2a25872d4c736e7/PageTitle%40Merci.chao.uc.js)
+[**Version 2025-12-12**](https://github.com/Merci-chao/userChrome.js/raw/dfcd52a73eb79e9e9a7db2b5d2a25872d4c736e7/PageTitle%40Merci.chao.uc.js)
 - Trust Panel 機能をサポート。
 - アップデートチェック機能を更新。
 - `checkUpdateAutoApply` を追加：新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）、`1`－無効、`2`－有効、`3`－有効（通知なし）。
 
-[**Version 2025-11-28**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/6d6b2481f653efee2432134088713fc70729bf81/PageTitle%40Merci.chao.uc.js)
+[**Version 2025-11-28**](https://github.com/Merci-chao/userChrome.js/raw/6d6b2481f653efee2432134088713fc70729bf81/PageTitle%40Merci.chao.uc.js)
 - Firefox 147 に対応。
 
-[**Version 2025-11-16-01**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/1a5106bb79819ce02b7b23d58e1e1cff8ace156e/PageTitle%40Merci.chao.uc.js)
+[**Version 2025-11-16-01**](https://github.com/Merci-chao/userChrome.js/raw/1a5106bb79819ce02b7b23d58e1e1cff8ace156e/PageTitle%40Merci.chao.uc.js)
 - Firefox 147 に対応。
 
-[**Version 2025-09-09**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/cb188806fef8b365d8761ad2609a59055ac885e6/PageTitle%40Merci.chao.uc.js)
+[**Version 2025-09-09**](https://github.com/Merci-chao/userChrome.js/raw/cb188806fef8b365d8761ad2609a59055ac885e6/PageTitle%40Merci.chao.uc.js)
 - バージョンチェック機能を追加。
 
 ---
@@ -881,17 +881,17 @@ URL バーにページタイトルを表示。
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
 
-[**Version 2026-05-04**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/edd0d7a00b737dde1103dd012a23c9683833dae3/SemiFullScreen%40Merci.chao.uc.js)
+[**Version 2026-05-04**](https://github.com/Merci-chao/userChrome.js/raw/edd0d7a00b737dde1103dd012a23c9683833dae3/SemiFullScreen%40Merci.chao.uc.js)
 - 一部のスクリプトローダーとの互換性を改善。
 
-[**Version 2025-08-24**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/b1a644af37a53705909283b9bfd1459446596a88/SemiFullScreen%40Merci.chao.uc.js)
+[**Version 2025-08-24**](https://github.com/Merci-chao/userChrome.js/raw/b1a644af37a53705909283b9bfd1459446596a88/SemiFullScreen%40Merci.chao.uc.js)
 - Windows 7/8 で欠けていたウィンドウ枠を復元。
 - `autoHideToolbarDelay` を追加：マウスがウィンドウ端から外れ、ウィンドウ内に戻らなかった場合に、ツールバーを自動的に非表示にするまでの遅延時間（ミリ秒）。
 
-[**Version 2025-08-20**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/c9807aa1d1004f9ec3b7c95b6f5ec3979be9a70c/SemiFullScreen%40Merci.chao.uc.js)
+[**Version 2025-08-20**](https://github.com/Merci-chao/userChrome.js/raw/c9807aa1d1004f9ec3b7c95b6f5ec3979be9a70c/SemiFullScreen%40Merci.chao.uc.js)
 - タブバー非表示モードでドラッグ用スペースが隠されない。
 
-[**Version 2025-08-16**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/47a3bd1a4b2c93fbab83a6917926d71ed535e00a/SemiFullScreen%40Merci.chao.uc.js)
+[**Version 2025-08-16**](https://github.com/Merci-chao/userChrome.js/raw/47a3bd1a4b2c93fbab83a6917926d71ed535e00a/SemiFullScreen%40Merci.chao.uc.js)
 - タブバーの意図しないスペースを修正。
 - バージョンチェック機能を追加。
 
@@ -919,10 +919,10 @@ URL バーにページタイトルを表示。
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
 
-[**Version 2026-05-04**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/655fe2c483e74d3ec6c68c2055faa9d1ec8fc4c6/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
+[**Version 2026-05-04**](https://github.com/Merci-chao/userChrome.js/raw/655fe2c483e74d3ec6c68c2055faa9d1ec8fc4c6/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
 - 一部のスクリプトローダーとの互換性を改善。
 
-[**Version 2025-08-16**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/30ece47b652ffa9ec8af996595c3c128c1b4e85d/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
+[**Version 2025-08-16**](https://github.com/Merci-chao/userChrome.js/raw/30ece47b652ffa9ec8af996595c3c128c1b4e85d/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
 - タブバーが全画面表示時にネイティブのウィンドウスタイルで表示。
 - バージョンチェック機能を追加。
 
