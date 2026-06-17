@@ -849,8 +849,8 @@ URL バーにページタイトルを表示。
 
 ---
 
-# [Semi-Full Screen / Picture-in-Picture Mode](https://github.com/Merci-chao/userChrome.js/blob/main/SemiFullScreen@Merci.chao.uc.js)
-タスクバーを残したまま全画面表示をしたり、最大化されていない状態でツールバーを非表示にする（ピクチャインピクチャ風）モード。  
+# [Semi-Full Screen / ツールバー自動隠し](https://github.com/Merci-chao/userChrome.js/blob/main/SemiFullScreen@Merci.chao.uc.js)
+タスクバーを残したまま全画面表示をしたり、最大化されていない状態でツールバーを非表示にする。
 [アドオンページ（ウェブアーカイブ）](https://web.archive.org/web/20181102230042/https://addons.mozilla.org/en-US/firefox/addon/semi-full-screen/)
 
 🚨 **注意：この Semi-Full Screen のバージョンは macOS と Ubuntu（Linux）では未検証である。バグがあり、または動作しない可能性がある。**
@@ -881,17 +881,17 @@ URL バーにページタイトルを表示。
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
 
-**Version 2026-05-04**
+[**Version 2026-05-04**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/edd0d7a00b737dde1103dd012a23c9683833dae3/SemiFullScreen%40Merci.chao.uc.js)
 - 一部のスクリプトローダーとの互換性を改善。
 
-**Version 2025-08-24**
+[**Version 2025-08-24**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/b1a644af37a53705909283b9bfd1459446596a88/SemiFullScreen%40Merci.chao.uc.js)
 - Windows 7/8 で欠けていたウィンドウ枠を復元。
 - `autoHideToolbarDelay` を追加：マウスがウィンドウ端から外れ、ウィンドウ内に戻らなかった場合に、ツールバーを自動的に非表示にするまでの遅延時間（ミリ秒）。
 
-**Version 2025-08-20**
+[**Version 2025-08-20**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/c9807aa1d1004f9ec3b7c95b6f5ec3979be9a70c/SemiFullScreen%40Merci.chao.uc.js)
 - タブバー非表示モードでドラッグ用スペースが隠されない。
 
-**Version 2025-08-16**
+[**Version 2025-08-16**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/47a3bd1a4b2c93fbab83a6917926d71ed535e00a/SemiFullScreen%40Merci.chao.uc.js)
 - タブバーの意図しないスペースを修正。
 - バージョンチェック機能を追加。
 
@@ -919,10 +919,10 @@ URL バーにページタイトルを表示。
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
 
-**Version 2026-05-04**
+[**Version 2026-05-04**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/655fe2c483e74d3ec6c68c2055faa9d1ec8fc4c6/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
 - 一部のスクリプトローダーとの互換性を改善。
 
-**Version 2025-08-16**
+[**Version 2025-08-16**](https://raw.githubusercontent.com/Merci-chao/userChrome.js/30ece47b652ffa9ec8af996595c3c128c1b4e85d/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
 - タブバーが全画面表示時にネイティブのウィンドウスタイルで表示。
 - バージョンチェック機能を追加。
 
