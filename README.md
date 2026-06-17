@@ -218,6 +218,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+[**Version 4.9.2**](https://github.com/Merci-chao/userChrome.js/raw/e98e4168878018501e916ee53e8a57475fde5d62/MultiTabRows@Merci.chao.uc.js)
+- Improvements
+	- Improved compatibility with theme customizing extensions.
+	- Updates for Nova.
+
 [**Version 4.9.1**](https://github.com/Merci-chao/userChrome.js/raw/de38d8381282d4097ac7a0c83dbaf9bb169246a0/MultiTabRows@Merci.chao.uc.js)
 - Regression Fixes:
 	- Could not drop links or bookmarks onto the tab bar to open tabs.
