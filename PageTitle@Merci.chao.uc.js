@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Page Title in URL Bar
 // @description    Show page title in URL Bar.
-// @version        2026-05-04-1
+// @version        2026-06-17
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#page-title-in-url-bar
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-2
@@ -571,7 +571,7 @@ style.innerHTML = /*css*/`
 	@media -moz-pref("browser.urlbar.trustPanel.featureGate") {
 		.urlbar-input-container[pageproxystate=valid] > #trust-icon-container:not(.chickletShown) ~ & {
 			&:not(.extensionPage) {
-				margin-inline-end: 0;
+				margin-inline-end: var(--urlbar-input-gap, 0);
 			}
 
 			&.extensionPage #identity-icon-hostport-box {
