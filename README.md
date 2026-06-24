@@ -134,7 +134,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `compactControlButtons` | Display the window control buttons to a compact size. Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
 | `controlButtonsAutoHide` | Hide the window control buttons and show them when the cursor enters the top right corner:<ul><li>`0` - disabled</li><li>`1` - only on maximized windows</li><li>`2` - on all windows</li></ul><p>Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
 | `controlButtonsAutoHideTriggerHeight` | The height of the trigger area. |
-| `hamburgerMenuOnTabBar` | Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar when Firefox Smart Window is available. Forcibly inactivated when `tabsAtBottom` is enabled. Not available on Firefox 153 below. |
+| `hamburgerMenuOnTabBar` | Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar when Firefox Smart Window is available. Forcibly inactivated when `tabsAtBottom` is enabled. Only available on Firefox 153. |
 | `hideAllTabs` | Hide the *List all tabs* button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing *Remove from Toolbar*. |
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper corner, hide the empty space in that corner when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
@@ -233,7 +233,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Adds new sub-settings for `nativeWindowStyle`:
 		- `nativeWindowStyleToolbarColorOpacity`: The opacity of the background color of toolbars, and the dividing line between the navigation toolbar and the tab bar. Available when the tab bar is at the top or Firefox Nova is enabled.
 		- `nativeWindowStyleURLBarColorOpacity`: The opacity of the background color of the address bar and the search bar.
-	- Adds `hamburgerMenuOnTabBar` (Firefox 153+): Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar when Firefox Smart Window is available.
+	- Adds `hamburgerMenuOnTabBar` (Firefox 153): Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar when Firefox Smart Window is available.
 - Improvements
 	- Improved theme support and compatibility:
 		- `themeImageSize` is now available for themes that have repeated background images, and no more reserving size for the hidden menu bar.
