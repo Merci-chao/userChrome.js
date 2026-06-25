@@ -115,12 +115,12 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ~~`dragToGroupTabs`~~<span title="Removed">🗑</span> | Use the built-in preference [`browser.tabs.dragDrop.createGroup.enabled`](#dragToGroupTabs) instead. |
 | `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or `browser.tabs.dragDrop.createGroup.enabled` is `false`. |
 | `hideDragPreview` | Hide the drag preview that appears next to the cursor during dragging:<ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
-| <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs. Not available on Firefox 115. |
+| <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs. Not available on Firefox 115 and 140. |
 | `hideScrollButtonsWhenDragging` | Visually hide the up/down scroll buttons when dragging. |
 | `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. Minimum: `1`. |
 | `linesToScroll` | How many rows to scroll when using the mouse wheel. Minimum: `1`. |
-| `previewPanelNoteEditable` | Allow the tab preview panel to be hovered and the note inside to be editable when the tab note feature of Firefox is enabled. Not available on Firefox 115. |
-| `previewPanelShifted` | Shift the preview panel when there are multiple rows, reducing the effect of the panel blocking items in the rows underneath. Affects tabs only when `previewPanelNoteEditable` is `true`. Not available on Firefox 115.<ul><li>`0` - never</li><li>`1` - for groups</li><li>`2` - for tabs</li><li>`3` - for both</li></ul> |
+| `previewPanelNoteEditable` | Allow the tab preview panel to be hovered and the note inside to be editable when the tab note feature of Firefox is enabled. Not available on Firefox 115 and 140. |
+| `previewPanelShifted` | Shift the preview panel when there are multiple rows, reducing the effect of the panel blocking items in the rows underneath. Affects tabs only when `previewPanelNoteEditable` is `true`. Not available on Firefox 115 and 140.<ul><li>`0` - never</li><li>`1` - for groups</li><li>`2` - for tabs</li><li>`3` - for both</li></ul> |
 | `previewPanelShiftedAlways` | Shift the preview panel even when there is only one row. |
 | `scrollButtonsSize` | The size (in pixels) of the scroll buttons during dragging. Minimum: `0`, but it will be rendered as at least 2 device pixels in height; the maximum is limited to half the tab height. |
 
@@ -144,7 +144,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `privateBrowsingIconOnNavBar` | Move the private window icon to the navigation toolbar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled. |
 | `rowIncreaseEvery` | Each time the window width increases by this amount, one more row is displayed. A narrower window will therefore show fewer rows at once. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
-| `smartWindowButtonOnNavBar` | Move the Firefox Smart Window switching button to the navigation toolbar. Forcibly activated when `tabsAtBottom` is enabled. Not available on Firefox 115. |
+| `smartWindowButtonOnNavBar` | Move the Firefox Smart Window switching button to the navigation toolbar. Forcibly activated when `tabsAtBottom` is enabled. Not available on Firefox 115 and 140. |
 | `spaceAfterTabs` | Empty space before the window control buttons. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
 | `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
 | `spaceBeforeTabs` | Empty space on the left side of the window. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
@@ -204,11 +204,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ------------- | ------------- |
 | `browser.nova.enabled` | Apply the Nova design (in development). Available on Firefox 152+. |
 | `browser.tabs.dragDrop.createGroup.delayMS` | Time to wait (in milliseconds) before starting to group tabs during dragging. Not available on Firefox 115. |
-| <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | Drag tabs together to create tab groups. Not available on Firefox 115. |
+| <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | Drag tabs together to create tab groups. On Firefox 140, create a new boolean preference with this name to toggle. Not available on Firefox 115. |
 | <span id="dragToPinEnabled">`browser.tabs.dragDrop.dragToPin.enabled`</span> | Enable tab pinning/unpinning via drag & drop in the same window, e.g. whether dropping tabs onto the pinned tabs will pin them. Create a new boolean preference with this name to toggle. |
 | `browser.tabs.dragDrop.moveOverThresholdPercent` | Percentage of overlap required when dragging to move. `100 - n` defines the grouping threshold. For example, if the value is `80`, then overlapping 20%+ will group tabs, while overlapping 80%+ will move them over. Minimum: `0`, Maximum: `100`. The value is locked at `50` in the following cases: <ul><li>when moving to another row</li><li>when using Firefox 115</li><li>when dragging to group tabs is disabled</li><li>in certain scenarios when `dynamicMoveOverThreshold` is enabled</li></ul> |
 | <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | Enable tab stacking when dragging tabs. Create a new boolean preference with this name to toggle. |
-| `browser.tabs.dragDrop.pinInteractionCue.delayMS` | Time to wait (in milliseconds) before showing the <a href="#hidePinnedDropIndicator">pinned drop indicator</a>. Not available on Firefox 115. |
+| `browser.tabs.dragDrop.pinInteractionCue.delayMS` | Time to wait (in milliseconds) before showing the <a href="#hidePinnedDropIndicator">pinned drop indicator</a>. Not available on Firefox 115 and 140. |
 | `browser.tabs.tabClipWidth` | Close buttons will show on the tabs that are wider than this size. Takes effect in new windows after changing. When the value is:<ul><li>equal to or larger than `tabMaxWidth` - never show close buttons on non-selected tabs</li><li>smaller than `browser.tabs.tabMinWidth` - always show close buttons on non-selected tabs</li></ul> |
 | `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. Minimum: `50`. |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on the tab bar (Windows 10). |
@@ -595,7 +595,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Refined code style for better readability.
 
 [**Version 3.4.2**](https://github.com/Merci-chao/userChrome.js/raw/d81d597c10eecb899817c42e7686eb9dde020fed/MultiTabRows@Merci.chao.uc.js)
-- Bug fix: Could not drag and drop tabs when enabling `hidePinnedDropIndicator`.
+- Bug fix: Could not drag and drop tabs when enabling ``.
 - Bug fix: Tabs might have a weird jump on a newly opened window
 - Bug fix: Tab close buttons did not always display or hide correctly.
 - Bug fix: Layout issues with `tabsUnderControlButtons` in special cases.
