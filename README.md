@@ -33,7 +33,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 **🚨 Please read the following notes carefully before using this script:**
 - This script is developed for Windows and has been lightly tested on Ubuntu (Linux). It has not been tested on macOS and probably does not work there. Other Firefox-based derivative browsers are not supported.
 
-- Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. [*Tab Mix Plus*](https://onemen.github.io/tabmixplus-docs)), user scripts (`*.uc.js`) or CSS styles (`userChrome.css`) can cause weird glitches and bugs.
+- Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. [*Tab Mix Plus*](https://onemen.github.io/tabmixplus-docs)), user scripts (`*.uc.js`) or customized styles (`userChrome.css`) can cause weird glitches and bugs.
   <p>⚠️ Please follow the installation steps below carefully.</p>
 
 - This is an unofficial and complex script maintained solely by me. It may contain unforeseen bugs, and if unexpected issues occur, restarting Firefox may be required. In extreme cases — especially when using an outdated version of the script with a newly updated Firefox — the browser may become unusable, potentially resulting in the permanent loss of your previous browsing session. You may need to disable the script in such situations. Please use this script only if you are capable of and prepared to handle these risks.
