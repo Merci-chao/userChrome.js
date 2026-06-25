@@ -111,12 +111,12 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ~~`dragToGroupTabs`~~<span title="削除された">🗑</span> | 組み込み設定 [`browser.tabs.dragDrop.createGroup.enabled`](#dragToGroupTabs) を使用してください。 |
 | `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `browser.tabs.dragDrop.createGroup.enabled` が無効な場合は非対応。 |
 | `hideDragPreview` | ドラッグ中にカーソルの傍に表示されるドラッグプレビューを非表示：<ul><li>`0`－常に表示</li><li>`1`－グループのみ</li><li>`2`－タブのみ</li><li>`3`－両方</li></ul> |
-| <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 では非対応。 |
+| <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 と 140 では非対応。 |
 | `hideScrollButtonsWhenDragging` | ドラッグ中にスクロールボタンを視覚的に非表示。 |
 | `linesToDragScroll` | タブを上端・下端へドラッグしたときのスクロール段数。最小値：`1`。 |
 | `linesToScroll` | マウスホイール操作によるスクロール段数。最小値：`1`。 |
-| `previewPanelNoteEditable` | Firefox のタブノート機能が有効になっている場合、タブプレビューパネルにカーソルを合わせると、内部のノートを編集可能。Firefox 115 では非対応。 |
-| `previewPanelShifted` | 多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 では非対応。<ul><li>`0`－無効</li><li>`1`－グループ用</li><li>`2`－タブ用</li><li>`3`－両方用</li></ul> |
+| `previewPanelNoteEditable` | Firefox のタブノート機能が有効になっている場合、タブプレビューパネルにカーソルを合わせると、内部のノートを編集可能。Firefox 115 と 140 では非対応。 |
+| `previewPanelShifted` | 多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 と 140 では非対応。<ul><li>`0`－無効</li><li>`1`－グループ用</li><li>`2`－タブ用</li><li>`3`－両方用</li></ul> |
 | `previewPanelShiftedAlways` | 一段しかない場合でもプレビューパネルをシフト。 |
 | `scrollButtonsSize` | ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値：`0` だが、表示上は少なくとも 2 デバイスピクセルの高さになる。最大値はタブの高さの半分までに制限される。 |
 
@@ -140,7 +140,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `privateBrowsingIconOnNavBar` | プライベートウィンドウアイコンをナビゲーションツールバーに移動。Firefox 115 では非対応。`tabsAtBottom` が有効な場合は強制的に有効化される。 |
 | `rowIncreaseEvery` | ウィンドウの幅がこの幅広がるたびに、表示される段が一段追加される。幅が狭いウィンドウでは、同時に表示できる行数が少なくなる。`0` にすると最大段数が常に表示される。 |
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になる。 |
-| `smartWindowButtonOnNavBar` | Firefox Smart Window 切り替えボタンをナビゲーションツールバーに移動。`tabsAtBottom` が有効な場合は強制的に有効化される。Firefox 115 では非対応。 |
+| `smartWindowButtonOnNavBar` | Firefox Smart Window 切り替えボタンをナビゲーションツールバーに移動。`tabsAtBottom` が有効な場合は強制的に有効化される。Firefox 115 と 140 では非対応。 |
 | `spaceAfterTabs` | ウィンドウ操作ボタンの前にある空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
 | `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ操作ボタン前の空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
 | `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
@@ -198,11 +198,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ------------- | ------------- |
 | `browser.nova.enabled` | Nova デザイン（開発中）を適用。Firefox 152 以降で利用可能。 |
 | `browser.tabs.dragDrop.createGroup.delayMS` | ドラッグしてグループ化を開始するまでの遅延時間（ミリ秒）。Firefox 115 では非対応。 |
+| <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | タブを他のタブにドロップした際にグループ化。Firefox 140 では、この名前で新しい真偽設定を作成し切り替える。Firefox 115 では非対応。 |
 | <span id="dragToPinEnabled">`browser.tabs.dragDrop.dragToPin.enabled`</span> | 同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を有効化。例：タブをピン留めされたタブにドロップすると、ピン留めされるかどうか。この名前で新しい真偽設定を作成し切り替える。 |
-| <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | タブを他のタブにドロップした際にグループ化。Firefox 115 では非対応。 |
 | `browser.tabs.dragDrop.moveOverThresholdPercent` | ドラッグして移動する際に必要な重なりの割合。`100 - n` がグループ化のしきい値を定義する。例えば値が `80` の場合、20% 以上重なればグループ化され、80% 以上重なれば移動される。最小値：`0`、最大値：`100`。以下の場合は値が `50` に固定される：<ul><li>別の段へ移動する場合</li><li>Firefox 115 を使用している場合</li><li>ドラッグによるグループ化が無効化されている場合</li><li>`dynamicMoveOverThreshold` が有効な特定のシナリオ</li></ul> |
 | <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | タブのドラッグ時にスタッキング（積み重ね）を有効化。この名前で新しい真偽設定を作成し切り替える。 |
-| `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <a href="#hidePinnedDropIndicator">ピン留めインジケーター</a>を表示するまでの遅延時間（ミリ秒）。Firefox 115 では非対応。 |
+| `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <a href="#hidePinnedDropIndicator">ピン留めインジケーター</a>を表示するまでの遅延時間（ミリ秒）。Firefox 115 と 140 では非対応。 |
 | `browser.tabs.tabClipWidth` | このサイズを超えるタブには閉じるボタンを表示。変更後、新しいウィンドウで有効になる。値が：<ul><li>`tabMaxWidth` 以上の場合－非選択タブには閉じるボタンを非表示</li><li>`browser.tabs.tabMinWidth` 未満の場合－非選択タブには常に閉じるボタンを表示</li></ul> |
 | `browser.tabs.tabMinWidth` | 通常タブの最小幅（周囲の余白を含む）を指定。最小値：`50`。 |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用。 |
