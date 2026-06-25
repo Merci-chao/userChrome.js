@@ -595,7 +595,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Refined code style for better readability.
 
 [**Version 3.4.2**](https://github.com/Merci-chao/userChrome.js/raw/d81d597c10eecb899817c42e7686eb9dde020fed/MultiTabRows@Merci.chao.uc.js)
-- Bug fix: Could not drag and drop tabs when enabling ``.
+- Bug fix: Could not drag and drop tabs when enabling `hidePinnedDropIndicator`.
 - Bug fix: Tabs might have a weird jump on a newly opened window
 - Bug fix: Tab close buttons did not always display or hide correctly.
 - Bug fix: Layout issues with `tabsUnderControlButtons` in special cases.
