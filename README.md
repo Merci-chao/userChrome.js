@@ -81,7 +81,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
    </table>
 
 4. Make sure that no other tab-related scripts and CSS styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of `chrome`.
-   <p>⚠️ There are many reports of issues caused by conflicts with customized styles in <code>userChrome.css</code>. All styles related to tabs or the tab bar are highly recommended to remove if you are not familiar with coding CSS.</p>
+   <p>⚠️ There are many reports of issues caused by conflicts with customized styles in <code>userChrome.css</code>. It is highly recommended to remove all styles related to tabs or the tab bar first, then rewrite afterward if necessary.</p>
 
 5. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as) and place it in `chrome` (or in `chrome/JS` if you are using *MrOtherGuy/fx-autoconfig*).
    <p>⚠️ Creating the file by copy & paste or other methods may cause incorrect encoding.</p>
