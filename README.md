@@ -89,7 +89,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 6. Restart Firefox to apply.
 
-7. If you moved some files out of `chrome` in step 4, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and style rules in `userChrome.css` accordingly. If you need help, please provide the information 🛟 [here](https://github.com/Merci-chao/userChrome.js/issues/new).
+7. If you moved some files out of `chrome` in step 4, please confirm that this script works as expected. Once verified, you can move the files back. If any conflicts arise, modify the scripts and the style rules in `userChrome.css` accordingly. If you need help, please provide the information 🛟 [here](https://github.com/Merci-chao/userChrome.js/issues/new).
 
 ## Settings
 Open [*about:config*](https://support.mozilla.org/kb/about-config-editor-firefox) and search for the prefix `userChromeJS.multiTabRows@Merci.chao.`. Settings shown in gray are disabled due to dependency on other preferences.
