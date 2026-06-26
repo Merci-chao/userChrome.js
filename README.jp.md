@@ -218,7 +218,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Nova への更新。
 
 [**Version 4.9.1**](https://github.com/Merci-chao/userChrome.js/raw/de38d8381282d4097ac7a0c83dbaf9bb169246a0/MultiTabRows@Merci.chao.uc.js)
-- 退行バグ修正
+- 回帰バグ修正
 	- リンクやブックマークをタブバーにドロップしてタブを開くことができなかった。
 	- Windows 7 と 8 でタブバーの背景が不透明になった。
 
