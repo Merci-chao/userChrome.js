@@ -130,7 +130,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `compactControlButtons` | ウィンドウ操作ボタンをコンパクトに表示。タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
 | `controlButtonsAutoHide` | ウィンドウの操作ボタンを隠し、カーソルが右上隅に入ったときに表示する：<ul><li>`0`－無効</li><li>`1`－最大化ウィンドウのみ</li><li>`2`－すべてのウィンドウ</li></ul><p>タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
 | `controlButtonsAutoHideTriggerHeight` | トリガー領域の高さ。 |
-| `hamburgerMenuOnTabBar` | `false` に設定すると、Firefox Smart Window が利用可能な場合に Firefox メニューボタン（☰）をナビゲーションツールバーに戻す。`tabsAtBottom` が有効な場合は強制的に無効化される。Firefox 153 のみ対応。 |
+| `hamburgerMenuOnTabBar` | Firefox Smart Window が利用可能な場合に、`false` に設定すると、クラシックウィンドウ上で Firefox メニューボタン（☰）をナビゲーションツールバーに戻す。`tabsAtBottom` が有効な場合は強制的に無効化される。Firefox 153 のみ対応。 |
 | `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。 |
 | `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、タブバーがスクロール可能時にその空白を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0`－無効</li><li>`1`－一段のみの場合</li><li>`2`－常に有効（タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある）</li></ul> |
@@ -140,7 +140,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `privateBrowsingIconOnNavBar` | プライベートウィンドウアイコンをナビゲーションツールバーに移動。Firefox 115 では非対応。`tabsAtBottom` が有効な場合は強制的に有効化される。 |
 | `rowIncreaseEvery` | ウィンドウの幅がこの幅広がるたびに、表示される段が一段追加される。幅が狭いウィンドウでは、同時に表示できる行数が少なくなる。`0` にすると最大段数が常に表示される。 |
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になる。 |
-| `smartWindowButtonOnNavBar` | Firefox Smart Window 切り替えボタンをナビゲーションツールバーに移動。`tabsAtBottom` が有効な場合は強制的に有効化される。Firefox 115 と 140 では非対応。 |
+| `smartWindowButtonOnNavBar` | クラシックウィンドウ上で、Firefox Smart Window 切り替えボタンをナビゲーションツールバーに移動。`tabsAtBottom` が有効な場合は強制的に有効化される。Firefox 115 と 140 では非対応。 |
 | `spaceAfterTabs` | ウィンドウ操作ボタンの前にある空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
 | `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ操作ボタン前の空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
 | `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
