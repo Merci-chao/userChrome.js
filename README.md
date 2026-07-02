@@ -134,7 +134,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `compactControlButtons` | Display the window control buttons to a compact size. Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
 | `controlButtonsAutoHide` | Hide the window control buttons and show them when the cursor enters the top right corner:<ul><li>`0` - disabled</li><li>`1` - only on maximized windows</li><li>`2` - on all windows</li></ul><p>Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
 | `controlButtonsAutoHideTriggerHeight` | The height of the trigger area. |
-| `hamburgerMenuOnTabBar` | Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar when Firefox Smart Window is available. Forcibly inactivated when `tabsAtBottom` is enabled. Only available on Firefox 153. |
+| `hamburgerMenuOnTabBar` | On classic windows, setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar when Firefox Smart Window is available. Forcibly inactivated when `tabsAtBottom` is enabled. Only available on Firefox 153. |
 | `hideAllTabs` | Hide the *List all tabs* button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing *Remove from Toolbar*. |
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper corner, hide the empty space in that corner when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
@@ -144,7 +144,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `privateBrowsingIconOnNavBar` | Move the private window icon to the navigation toolbar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled. |
 | `rowIncreaseEvery` | Each time the window width increases by this amount, one more row is displayed. A narrower window will therefore show fewer rows at once. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
-| `smartWindowButtonOnNavBar` | Move the Firefox Smart Window switching button to the navigation toolbar. Forcibly activated when `tabsAtBottom` is enabled. Not available on Firefox 115 and 140. |
+| `smartWindowButtonOnNavBar` | On classic windows, move the Firefox Smart Window switching button to the navigation toolbar. Forcibly activated when `tabsAtBottom` is enabled. Not available on Firefox 115 and 140. |
 | `spaceAfterTabs` | Empty space before the window control buttons. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
 | `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
 | `spaceBeforeTabs` | Empty space on the left side of the window. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
