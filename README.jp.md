@@ -171,9 +171,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | ~~`dynamicThemeImageSize`~~<span title="削除された">🗑</span> | `themeImageSize` に置き換えた。 |
-| `floatingBackdropBlurriness` | タブバーがスクロール可能時にタブを覆う要素の背景ぼかし強度を設定する。`tabsUnderControlButtons` が `2` のときのみ有効。Firefox 115 では、またはぼかし効果が効かない場合には非対応。 |
-| `floatingBackdropClip` | タブバーがスクロール可能時にタブバーを覆う要素の領域をクリップする。`tabsUnderControlButtons` が `2` のときのみ有効。 |
-| `floatingBackdropOpacity` | タブバーがスクロール可能時にタブを覆う要素の背景の不透明度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
+| `floatingBackdropBlurriness` | タブバーがスクロール可能時に浮動領域の背景ぼかし強度を設定する。`tabsUnderControlButtons` が `2` のときのみ有効。Firefox 115 では、またはぼかし効果が効かない場合には非対応。 |
+| `floatingBackdropClip` | タブバーがスクロール可能時に、浮動領域が覆う部分をクリップする。`tabsUnderControlButtons` が `2` のときのみ有効。 |
+| `floatingBackdropOpacity` | タブバーがスクロール可能時に浮動領域の背景の不透明度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
 | `nativeWindowStyle` | タブバーに Windows ネイティブスタイル（例えば、Windows 11 の透明効果や [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果）を表示。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合がある。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をする。また、透過パターンでデザインされたテーマの背景色を除去可能。Firefox 115 では非対応。 |
 | `nativeWindowStyleToolbarColorOpacity` | ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。。最小値：`0`、最大値：`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。タブバーが上部にある場合、または Firefox Nova が有効になっている場合に利用可能。 |
 | `nativeWindowStyleURLBarColorOpacity` | アドレスバーと検索バーの背景色の不透明度。最小値：`0`、最大値：`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。 |
