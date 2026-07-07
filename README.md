@@ -793,7 +793,7 @@ There is no setting panel and you need to open *about:config* and search for the
 ---
 
 # [Page Title in URL Bar](https://github.com/Merci-chao/userChrome.js/blob/main/PageTitle@Merci.chao.uc.js)
-Show page title in URL Bar. [Add-on Page (web archive)](https://web.archive.org/web/20181101232504/https://addons.mozilla.org/en-US/firefox/addon/page-title/)
+Show page title in the address bar. [Add-on Page (web archive)](https://web.archive.org/web/20181101232504/https://addons.mozilla.org/en-US/firefox/addon/page-title/)
 
 ![screenshot](https://web.archive.org/web/20181009205610if_/https://addons.cdn.mozilla.net/user-media/previews/full/165/165890.png?modified=1530208887)
 
@@ -941,7 +941,7 @@ Display the Undo Close Tabs, Recently Closed Tabs, Recently Closed Windows and R
 # [lockBookmarksDefaultLocation.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/lockBookmarksDefaultLocation.uc.js)
 Lock the location of newly added bookmarks, preventing it from being changed by Firefox. 
 
-Before applying this script, click the Star button in the URL bar to create a new bookmark, and set the folder as the default location.
+Before applying this script, click the Star button in the address bar to create a new bookmark, and set the folder as the default location.
 
 ---
 
