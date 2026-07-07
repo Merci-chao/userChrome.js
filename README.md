@@ -544,7 +544,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 [**Version 3.6.1**](https://github.com/Merci-chao/userChrome.js/raw/0fc2766a8e4df89944cb82088fcb2b4e69c5ccea/MultiTabRows@Merci.chao.uc.js)
 - Updates for `autoCollapse`:
 	- The tab bar will now only expand for the current window.
-	- Prevent the tab bar expand when URL bar is focused.
+	- Prevent the tab bar expand when the address bar is focused.
 	- Clicking or pressing `Esc` will now help to collapse the tab bar if it is not doing so in some rare cases.
 	- Bug fix: issuse when dragging tab when there is only one row.
 	- Bug fix: part of group line disappears when the tab bar is expanding.
