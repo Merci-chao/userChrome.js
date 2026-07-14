@@ -820,6 +820,10 @@ Open *about:config* and search for the prefix `extensions.PageTitle@Merci.chao.`
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
 
+[**Version 2026-07-14**](https://github.com/Merci-chao/userChrome.js/raw/3d653904e81287d5123e2a8a7ef3c64f9df9a587/PageTitle%40Merci.chao.uc.js)
+- Update for Firefox 154.
+- Fixed an issue where the corners of text were cut off.
+
 [**Version 2026-06-17**](https://github.com/Merci-chao/userChrome.js/raw/47d3a4b9c2cbfc539be1112c5d623068b585978b/PageTitle%40Merci.chao.uc.js)
 - Update for Firefox 153.
 
