@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Page Title in URL Bar
 // @description    Show page title in URL Bar.
-// @version        2026-06-17
+// @version        2026-07-14
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#page-title-in-url-bar
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-2
@@ -564,14 +564,20 @@ let style = document.body.appendChild(document.createElement("style"));
 style.innerHTML = /*css*/`
 #trust-icon-container {
 	white-space: nowrap;
+
+	&:has(~ #identity-box.extensionPage) #identity-icon-hostport-box {
+		visibility: collapse;
+	}
 }
 #identity-box {
 	margin-inline-end: var(--urlbar-searchmodeswitcher-margin-inline-end, var(--identity-box-margin-inline));
 
 	@media -moz-pref("browser.urlbar.trustPanel.featureGate") {
 		.urlbar-input-container[pageproxystate=valid] > #trust-icon-container:not(.chickletShown) ~ & {
-			&:not(.extensionPage) {
-				margin-inline-end: var(--urlbar-input-gap, 0);
+			margin-inline-end: 0;
+
+			~ .urlbar-input-box {
+				margin-inline-start: var(--urlbar-input-gap, var(--identity-box-margin-inline));
 			}
 
 			&.extensionPage #identity-icon-hostport-box {
@@ -613,14 +619,15 @@ style.innerHTML = /*css*/`
 	padding: 0 !important;
 	margin: 0 !important;
 	border: 0 !important;
+	border-radius: 0 !important;
 	color: inherit;
 	direction: ltr;
 	width: 100%;
 	position: absolute;
-	top: 50%;
 	left: 0;
-	transform: translateY(-50%);
+	align-self: center;
 	pointer-events: none;
+
 }
 :is(#urlbar-pagetitle, #urlbar-pageurl) {
 	width: 100%;
@@ -663,26 +670,26 @@ style.innerHTML = /*css*/`
 
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
-		:is(#identity-icon-box, #trust-icon-container)
+		:is(#identity-icon-box, #trust-icon-container:not(:has(~ #identity-box.extensionPage)))
 {
 	background-color: var(--urlbar-box-background-color, var(--urlbar-box-bgcolor));
 }
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar[focused]:not(:is([nopagetitle], [pageproxystate=invalid]))
-		:is(#identity-icon-box, #trust-icon-container)
+		:is(#identity-icon-box, #trust-icon-container:not(:has(~ #identity-box.extensionPage)))
 {
 	background-color: var(--urlbar-box-background-color-focus, var(--urlbar-box-focus-bgcolor));
 }
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
-		:is(#identity-icon-box, #trust-icon-container):hover:not([open])
+		:is(#identity-icon-box, #trust-icon-container:not(:has(~ #identity-box.extensionPage))):hover:not([open])
 {
 	background-color: var(--urlbar-box-background-color-hover, var(--urlbar-box-hover-bgcolor));
 	color: var(--urlbar-box-text-color-hover, var(--urlbar-box-hover-text-color));
 }
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
-		:is(#identity-icon-box, #trust-icon-container):is(:hover:active, [open])
+		:is(#identity-icon-box, #trust-icon-container:not(:has(~ #identity-box.extensionPage))):is(:hover:active, [open])
 {
 	background-color: var(--urlbar-box-background-color-active, var(--urlbar-box-active-bgcolor));
 	color: var(--urlbar-box-text-color-hover, var(--urlbar-box-hover-text-color));
