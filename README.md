@@ -233,7 +233,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Adds new sub-settings for `nativeWindowStyle`:
 		- `nativeWindowStyleToolbarColorOpacity`: The opacity of the background color of toolbars, and the dividing line between the navigation toolbar and the tab bar. Available when the tab bar is at the top or Firefox Nova is enabled.
 		- `nativeWindowStyleURLBarColorOpacity`: The opacity of the background color of the address bar and the search bar.
-	- Adds `hamburgerMenuOnTabBar` (Firefox 153): Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar when Firefox Smart Window is available.
+	- Adds `hamburgerMenuOnTabBar` (Firefox 153+): Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar when Firefox Smart Window is available.
 - Improvements
 	- Improved theme support and compatibility:
 		- `themeImageSize` is now available for themes that have repeated background images, and no more reserving size for the hidden menu bar.
