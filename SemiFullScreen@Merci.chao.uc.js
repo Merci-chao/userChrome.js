@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name           Semi-Full Screen
 // @description    Full screen with keeping your task bar visible, or hide the toolbars when not maximized (picture-in-picture).
-// @version        2026-05-04
+// @version        2026-07-15
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#semi-full-screen--picture-in-picture-mode
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-3
@@ -281,6 +281,12 @@ SemiFullScreen.prototype = {
 
 							:root[sizemode=normal] #navigator-toolbox[tabs-hidden] #nav-bar .titlebar-spacer {
 								display: flex !important;
+							}
+
+							@media -moz-pref("browser.nova.enabled") {
+								:root[sizemode=normal] :is(#sidebar-container, #sidebar-box, .browserContainer) {
+									--chrome-block-radius: 0px;
+								}
 							}
 						`;
 						if (pip && document.getElementById("TabsToolbar").screenY < document.getElementById("nav-bar").screenY)
