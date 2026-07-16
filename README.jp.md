@@ -140,7 +140,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `privateBrowsingIconOnNavBar` | プライベートウィンドウアイコンをナビゲーションツールバーに移動。Firefox 115 では非対応。`tabsAtBottom` が有効な場合は強制的に有効化される。 |
 | `rowIncreaseEvery` | ウィンドウの幅がこの幅広がるたびに、表示される段が一段追加される。幅が狭いウィンドウでは、同時に表示できる行数が少なくなる。`0` にすると最大段数が常に表示される。 |
 | `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になる。 |
-| `smartWindowButtonOnNavBar` | クラシックウィンドウ上で、Firefox Smart Window 切り替えボタンをナビゲーションツールバーに移動。`tabsAtBottom` が有効な場合は強制的に有効化される。Firefox 115 と 140 では非対応。 |
+| `smartWindowButtonOnNavBar` | クラシックウィンドウ上で、Firefox Smart Window 切り替えボタンをナビゲーションツールバーに移動。`tabsAtBottom` が有効な場合は強制的に有効化される。Firefox 149 から 153 で利用可能。 |
 | `spaceAfterTabs` | ウィンドウ操作ボタンの前にある空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
 | `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ操作ボタン前の空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
 | `spaceBeforeTabs` | ウィンドウ左端の空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
