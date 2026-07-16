@@ -890,6 +890,9 @@ Open *about:config* and search for the prefix `extensions.SemiFullScreen@Merci.c
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
 
+[**Version 2026-07-15**](https://github.com/Merci-chao/userChrome.js/raw/e77f049f86230a54a887ae51af7da26a09ed5361/SemiFullScreen%40Merci.chao.uc.js)
+- Update for Firefox 154.
+
 [**Version 2026-05-04**](https://github.com/Merci-chao/userChrome.js/raw/edd0d7a00b737dde1103dd012a23c9683833dae3/SemiFullScreen%40Merci.chao.uc.js)
 - Improve compatibility with some script loaders.
 
