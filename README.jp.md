@@ -885,6 +885,9 @@ about:config を開き、`extensions.SemiFullScreen@Merci.chao.` で始まる設
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
 
+[**Version 2026-07-15**](https://github.com/Merci-chao/userChrome.js/raw/e77f049f86230a54a887ae51af7da26a09ed5361/SemiFullScreen%40Merci.chao.uc.js)
+- Firefox 154 への更新。
+
 [**Version 2026-05-04**](https://github.com/Merci-chao/userChrome.js/raw/edd0d7a00b737dde1103dd012a23c9683833dae3/SemiFullScreen%40Merci.chao.uc.js)
 - 一部のスクリプトローダーとの互換性を改善。
 
