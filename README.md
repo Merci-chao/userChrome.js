@@ -144,7 +144,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `privateBrowsingIconOnNavBar` | Move the private window icon to the navigation toolbar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled. |
 | `rowIncreaseEvery` | Each time the window width increases by this amount, one more row is displayed. A narrower window will therefore show fewer rows at once. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
 | `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
-| `smartWindowButtonOnNavBar` | On classic windows, move the Firefox Smart Window switching button to the navigation toolbar. Forcibly activated when `tabsAtBottom` is enabled. Not available on Firefox 115 and 140. |
+| `smartWindowButtonOnNavBar` | On classic windows, move the Firefox Smart Window switching button to the navigation toolbar. Forcibly activated when `tabsAtBottom` is enabled. Available on Firefox 149 to 153. |
 | `spaceAfterTabs` | Empty space before the window control buttons. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
 | `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
 | `spaceBeforeTabs` | Empty space on the left side of the window. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
