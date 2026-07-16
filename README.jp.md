@@ -227,7 +227,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `nativeWindowStyle` に新しいサブ設定を追加：
 		- `nativeWindowStyleToolbarColorOpacity`：ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。タブバーが上部にある場合、または Firefox Nova が有効になっている場合に利用可能。
 		- `nativeWindowStyleURLBarColorOpacity`：アドレスバーと検索バーの背景色の不透明度。
-	- `hamburgerMenuOnTabBar` を追加（Firefox 153）：`false` に設定すると、Firefox Smart Window が利用可能な場合に Firefox メニューボタン（☰）をナビゲーションツールバーに戻す。
+	- `hamburgerMenuOnTabBar` を追加（Firefox 153+）：`false` に設定すると、Firefox Smart Window が利用可能な場合に Firefox メニューボタン（☰）をナビゲーションツールバーに戻す。
 - 改善
 	- テーマとのサポートと互換性を改善：
 		- 繰り返し背景画像を持つテーマに対して `themeImageSize` が利用可能になった。非表示のメニューバーのためにサイズを確保する必要もなくなった。
