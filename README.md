@@ -18,7 +18,7 @@ Make Firefox support multiple rows of tabs.
 Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights with screenshots and detailed descriptions.
 
 ## Compatibility
-- Firefox 115, 140, 151 - 153
+- Firefox 115, 140, 152 - 154
 
 - Windows 7 - 11
 
@@ -134,7 +134,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `compactControlButtons` | Display the window control buttons to a compact size. Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
 | `controlButtonsAutoHide` | Hide the window control buttons and show them when the cursor enters the top right corner:<ul><li>`0` - disabled</li><li>`1` - only on maximized windows</li><li>`2` - on all windows</li></ul><p>Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
 | `controlButtonsAutoHideTriggerHeight` | The height of the trigger area. |
-| `hamburgerMenuOnTabBar` | On classic windows, setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar when Firefox Smart Window is available. Forcibly inactivated when `tabsAtBottom` is enabled. Only available on Firefox 153. |
+| `hamburgerMenuOnTabBar` | Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar on smart windows. Forcibly inactivated when `tabsAtBottom` is enabled. Not available on Firefox 115 and 140. |
 | `hideAllTabs` | Hide the *List all tabs* button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing *Remove from Toolbar*. |
 | `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper corner, hide the empty space in that corner when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
@@ -164,12 +164,16 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. Minimum: `0`. |
 | `lastRowTabsFlexibe` | Tabs in the last row have flexible width when multiple rows are present. Forcibly activated when `justifyCenter` is `2`. |
 | `pinnedTabsFlexWidth` | Make pinned tab sizing behave like normal tabs. Enabling this feature will forcibly disable `positionPinnedTabs`. |
-| `pinnedTabsFlexWidthIndicator` | Display an icon on pinned tabs when `pinnedTabsFlexWidth` is enabled. |
+| `pinnedTabsFlexWidthIndicator` | Show a light background on pinned tabs when `pinnedTabsFlexWidth` is enabled. |
 | `tabContentHeight` | Height of tab content. Minimum: `16`. |
+| `tabContentHeightCompact` | Compact mode size when Nova automatic window density is enabled in Firefox 154+. The value is capped to the standard mode value. |
+| `tabCornerRadius` | The radius of the rounded corners of tabs. Set to `-1` to apply the default value. |
 | `tabHorizontalMargin` | Horizontal space around tab. Minimum: `0`. |
 | `tabHorizontalPadding` | Horizontal padding of tab. Minimum: `0`. |
+| `tabHorizontalPaddingCompact` | Compact mode size when Nova automatic window density is enabled in Firefox 154+. The value is capped to the standard mode value. |
 | `tabMaxWidth` | Maximum width of tabs, including the surrounding white space. Use `browser.tabs.tabMinWidth` for the minimum width, and the actual maximum width will never be lower than that. |
 | `tabVerticalMargin` | Vertical space around tab. Minimum: `0`. |
+| `tabVerticalMarginCompact` | Compact mode size when Nova automatic window density is enabled in Firefox 154+. The value is capped to the standard mode value. |
 
 ### Appearance
 
@@ -218,6 +222,39 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+[**Version 4.10**](https://github.com/Merci-chao/userChrome.js/raw/00f690f1d47437e3c31acdc25a18488ad6829931/MultiTabRows@Merci.chao.uc.js)
+- New
+	- Adds `tabCornerRadius`: adjust the radius of the rounded corners of tabs. Set to `-1` to apply the default value.
+	- Adds `tabContentHeightCompact`, `tabHorizontalPaddingCompact` and `tabVerticalMarginCompact` for Firefox 154+ Nova automatic window density feature support.
+- Changes
+	- `pinnedTabsFlexWidthIndicator` now is default as `true`, and matches the style of vertical-tabs mode to show light background on tabs instead of pin icon.
+	- Setting `hamburgerMenuOnTabBar` to `false` now forces the Firefox menu button to stay in the navigation toolbar on smart windows.
+	- Default values of `autoCollapseDelayCollapsing`, `floatingBackdropOpacity` and `scrollButtonsSize` have been tuned.
+	- Allows disabling `hideEmptyPlaceholderWhenScrolling` when `tabsAtBottom` is enabled.
+- Improvements
+	- The floating blocks now have rounded corner when `floatingBackdropClip` is enabled (Firefox 148+).
+	- Updates for Nova.
+	- Updates for Firefox 153 and 154.
+	- Improves the interaction when closing tab or collapsing group in certain situations.
+	- Tabs now collapse into a single row during toolbar customization for better operation.
+	- Adds animation for the "move tab to start/end" shortcuts.
+	- Pinned tabs can now be unpinned by dragging them to the right space.
+- Fixes
+	- Dragging multiple tabs out of the window but not dropping them to another window caused the tabs to disappear.
+	- The distance required for dragging tabs vertically out of the tab bar to detach did not behave as designed.
+	- White space appeared below a full-screen video when placing the tab bar under the browser content.
+	- Position of container lines was incorrect on old versions of Firefox.
+	- `autoCollapse` related:
+		- The address bar covered the expanded tab bar on Firefox 140.
+		- Tabs could not be fully displayed when placed under browser content in full screen.
+	- Minor layout, animation and drag-and-drop issues.
+- Regression Fixes
+	- Theme background image displayed incorrectly in full screen.
+	- Some themes displayed incorrectly when the tab bar showed beneath the browser content.
+	- Audio buttons related:
+		- Incorrect position on pinned tabs when enabling `pinnedTabsFlexWidth`.
+		- Missing background color when enabling `nativeWindowStyle` with themes.
+
 [**Version 4.9.2**](https://github.com/Merci-chao/userChrome.js/raw/e98e4168878018501e916ee53e8a57475fde5d62/MultiTabRows@Merci.chao.uc.js)
 - Improvements
 	- Improved compatibility with theme customizing extensions.
@@ -246,6 +283,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Animation glitches in special cases and when dragging multiple tabs.
 	- Minor visual issues.
 
+<details>
+<summary>Old Versions</summary>
+
 [**Version 4.8.1**](https://github.com/Merci-chao/userChrome.js/raw/7b465c52edf88e2175afe29c35996cd4f71aa1b9/MultiTabRows@Merci.chao.uc.js)
 - Supports Firefox ESR version (140).
 
@@ -270,9 +310,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Animation issues in special cases.
 	- Visual issue where stacking tabs looked messy during dragging on some themes.
 	- Minor visual and layout issues.
-
-<details>
-<summary>Old Versions</summary>
 
 [**Version 4.7.2**](https://github.com/Merci-chao/userChrome.js/raw/e907a3752a237595c93c9c6b69f228b612af1569/MultiTabRows@Merci.chao.uc.js)
 - Fixed an issue that could cause the "Reopen Closed Tab" to stop functioning.
