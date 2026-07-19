@@ -17,7 +17,7 @@ Firefox に多段タブ表示をサポートさせる。
 注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja/)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
-- Firefox 115、140、151〜153
+- Firefox 115、140、152〜154
 
 - Windows 7〜11
 
@@ -130,7 +130,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `compactControlButtons` | ウィンドウ操作ボタンをコンパクトに表示。タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
 | `controlButtonsAutoHide` | ウィンドウの操作ボタンを隠し、カーソルが右上隅に入ったときに表示する：<ul><li>`0`－無効</li><li>`1`－最大化ウィンドウのみ</li><li>`2`－すべてのウィンドウ</li></ul><p>タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
 | `controlButtonsAutoHideTriggerHeight` | トリガー領域の高さ。 |
-| `hamburgerMenuOnTabBar` | Firefox Smart Window が利用可能な場合に、`false` に設定すると、クラシックウィンドウ上で Firefox メニューボタン（☰）をナビゲーションツールバーに戻す。`tabsAtBottom` が有効な場合は強制的に無効化される。Firefox 153 のみ対応。 |
+| `hamburgerMenuOnTabBar` | `false` に設定すると、スマートウィンドウ使用時に Firefox のメニューボタン（☰）がナビゲーションツールバーに戻される。`tabsAtBottom` が有効な場合は強制的に無効化される。Firefox 115 と 140 では非対応。 |
 | `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。 |
 | `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、タブバーがスクロール可能時にその空白を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0`－無効</li><li>`1`－一段のみの場合</li><li>`2`－常に有効（タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある）</li></ul> |
@@ -159,12 +159,16 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `gapAfterPinned` | ピン留めされたタブと通常タブの間の隙間。最小値：`0`。 |
 | `lastRowTabsFlexibe` | 多段がある場合、最後の段のタブ幅を伸縮自在にする。`justifyCenter` が `2` の場合は強制的に有効化される。 |
 | `pinnedTabsFlexWidth` | ピン留めされたタブのサイズを通常のタブと同様に扱う。有効化すると、`positionPinnedTabs` は強制的に無効化される。 |
-| `pinnedTabsFlexWidthIndicator` | `pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブにアイコンを表示。 |
+| `pinnedTabsFlexWidthIndicator` | `pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブ上に淡い背景を表示。 |
+| `tabCornerRadius` | タブの角丸半径。`-1` に設定すると既定値が適用される。 |
 | `tabContentHeight` | タブ内容部分の高さ。最小値：`16`。 |
+| `tabContentHeightCompact` | Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。 |
 | `tabHorizontalMargin` | タブ周囲の水平余白。最小値：`0`。 |
 | `tabHorizontalPadding` | タブ内側の水平余白。最小値：`0`。 |
+| `tabHorizontalPaddingCompact` | Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。 |
 | `tabMaxWidth` | タブの最大幅（周囲の余白を含む）。最小幅には `browser.tabs.tabMinWidth` を使用し、実際の最大幅は必ずこの値より小さくなることはない。 |
 | `tabVerticalMargin` | タブ周囲の垂直余白。最小値：`0`。 |
+| `tabVerticalMarginCompact` | Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。 |
 
 ### 外観
 
@@ -212,6 +216,40 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+[**Version 4.10**](https://github.com/Merci-chao/userChrome.js/raw/00f690f1d47437e3c31acdc25a18488ad6829931/MultiTabRows@Merci.chao.uc.js)
+- 追加
+	- `tabCornerRadius` を追加：タブの角丸半径を調整。`-1` に設定すると既定値が適用される。
+	- Firefox 154 以降の Nova 自動ウィンドウ密度機能をサポートするために、`tabContentHeightCompact`、`tabHorizontalPaddingCompact`、`tabVerticalMarginCompact` を追加。
+- 改修
+	- `pinnedTabsFlexWidthIndicator` はデフォルトで `true` となり、垂直タブモードのスタイルに合わせて、ピンアイコンの代わりにタブ上に淡い背景を表示。
+	- `hamburgerMenuOnTabBar` を `false` に設定すると、スマートウィンドウ使用時に Firefox のメニューボタンがナビゲーションツールバーに固定されるようになった。
+	- `autoCollapseDelayCollapsing`、`floatingBackdropOpacity`、`scrollButtonsSize` のデフォルト値が調整された。
+	- `tabsAtBottom` が有効な場合に、`hideEmptyPlaceholderWhenScrolling` を無効化できるようになった。
+- 改善
+	- `floatingBackdropClip` を有効化した際、浮動領域に角丸が適用されるようになった（Firefox 148+）。
+	- Nova への更新。
+	- Firefox 153 と 154 への更新。
+	- 特定の状況でタブを閉じる、またはグループを折りたたむ際の操作性を改善。
+	- ツールバーをカスタマイズする際、タブが 1 段に折りたたまれるようになり、操作性が向上した。
+	- 「タブを先頭・末尾へ移動」ショートカットにアニメーションを追加。
+	- ピン留めされたタブを右側の空き領域へドラッグすると、ピン留めを外すことができるようになった。
+- 修正
+	- 複数のタブをウィンドウからドラッグし、別のウィンドウにドロップしなかった場合にタブが消えてしまった。
+	- タブをタブバーから垂直にドラッグして分離する際に必要な距離が、設計通りに動作しなかった。
+	- タブバーをブラウザーコンテンツの下に配置した際、全画面動画の下に余白が表示された。
+	- 古いバージョンの Firefox で、コンテナーラインの位置が正しくなかった
+	- `autoCollapse` 関連：
+		- Firefox 140 で、アドレスバーが展開されたタブバーを覆ってしまった。
+		- 全画面表示でタブバーをブラウザーコンテンツの下に配置した際、タブが完全に表示されなかった。
+	- レイアウト、アニメーション、ドラッグ＆ドロップに関する軽微な不具合。
+
+- 回帰バグ修正
+	- 全画面表示モードでテーマの背景画像が正しく表示されなかった。
+	- タブバーがブラウザーコンテンツの下に表示された際、一部テーマが正しく表示されなかった。
+	- オーディオボタン関連：
+		- `pinnedTabsFlexWidth` を有効化した際、ピン留めされたタブ上の位置が正しくなかった。
+		- テーマと併用して `nativeWindowStyle` を有効化した際、背景色が欠落。
+
 [**Version 4.9.2**](https://github.com/Merci-chao/userChrome.js/raw/e98e4168878018501e916ee53e8a57475fde5d62/MultiTabRows@Merci.chao.uc.js)
 - 改善
 	- テーマカスタマイズ拡張との互換性を改善。
@@ -240,6 +278,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 特殊なケースや複数タブをドラッグする際のアニメーションの不具合。
 	- 軽微な表示上の問題。
 
+<details>
+<summary>旧バージョン</summary>
+
 [**Version 4.8.1**](https://github.com/Merci-chao/userChrome.js/raw/7b465c52edf88e2175afe29c35996cd4f71aa1b9/MultiTabRows@Merci.chao.uc.js)
 - Firefox ESR バージョン（140）へのサポート。
 
@@ -264,9 +305,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 特殊なケースで発生するアニメーションの問題。
 	- 一部のテーマでタブをドラッグ中に、積み重ね表示が乱れて見える問題。
 	- 軽微な表示上とレイアウトの問題。
-
-<details>
-<summary>旧バージョン</summary>
 
 [**Version 4.7.2**](https://github.com/Merci-chao/userChrome.js/raw/e907a3752a237595c93c9c6b69f228b612af1569/MultiTabRows@Merci.chao.uc.js)
 - 「閉じたタブをひらきなおす」機能が動作しなくなる問題を修正。 
