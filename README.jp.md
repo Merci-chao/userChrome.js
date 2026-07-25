@@ -217,7 +217,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
 [**Version 4.10.1**](https://github.com/Merci-chao/userChrome.js/raw/636cb568f5219aa8339a0b0c2a316e6da1c5e551/MultiTabRows@Merci.chao.uc.js)
-- `Error.stackTraceLimit` が読み取り専用の場合のケースを処理するようにした。
+- `Error.stackTraceLimit` が読み取り専用のケースを処理するようにした。
 
 [**Version 4.10**](https://github.com/Merci-chao/userChrome.js/raw/00f690f1d47437e3c31acdc25a18488ad6829931/MultiTabRows@Merci.chao.uc.js)
 - 追加
