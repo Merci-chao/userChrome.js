@@ -216,6 +216,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+[**Version 4.10.1**](https://github.com/Merci-chao/userChrome.js/raw/636cb568f5219aa8339a0b0c2a316e6da1c5e551/MultiTabRows@Merci.chao.uc.js)
+- `Error.stackTraceLimit` が読み取り専用の場合のケースを処理するようにした。
+
 [**Version 4.10**](https://github.com/Merci-chao/userChrome.js/raw/00f690f1d47437e3c31acdc25a18488ad6829931/MultiTabRows@Merci.chao.uc.js)
 - 追加
 	- `tabCornerRadius` を追加：タブの角丸半径を調整。`-1` に設定すると既定値が適用される。
