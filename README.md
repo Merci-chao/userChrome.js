@@ -244,7 +244,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Pinned tabs can now be unpinned by dragging them to the right space.
 - Fixes
 	- Dragging multiple tabs out of the window but not dropping them to another window caused the tabs to disappear.
-	- The distance required for dragging tabs vertically out of the tab bar to detach did not behave as designed.
+	- The distance required for dragging tabs vertically out of the tab bar to detach did not behave as official designed.
 	- White space appeared below a full-screen video when placing the tab bar under the browser content.
 	- Position of container lines was incorrect on old versions of Firefox.
 	- `autoCollapse` related:
