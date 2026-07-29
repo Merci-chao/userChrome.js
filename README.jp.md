@@ -967,6 +967,12 @@ about:config を開いて `extensions.FloatToolbarsInFullScreen@Merci.chao.` で
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
 
+[**Version 2026-07-29**](https://github.com/Merci-chao/userChrome.js/raw/2cf37bc894c58adb320bd02b2b326588c9085fa8/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
+- 修正
+	- Firefox メニューから全画面表示モードを終了できなかった。
+	- Nova を有効にした際にテーマ背景画像が欠落していた。
+	- カーソルがブラウザコンテンツ上にあるとき、ツールバーが非表示にならない場合があった。
+
 [**Version 2026-05-04**](https://github.com/Merci-chao/userChrome.js/raw/655fe2c483e74d3ec6c68c2055faa9d1ec8fc4c6/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
 - 一部のスクリプトローダーとの互換性を改善。
 
