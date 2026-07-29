@@ -971,6 +971,12 @@ Open *about:config* and search for the prefix `FloatToolbarsInFullScreen@Merci.c
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
 
+[**Version 2026-07-29**](https://github.com/Merci-chao/userChrome.js/raw/2cf37bc894c58adb320bd02b2b326588c9085fa8/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
+- Fixes
+	- Could not exit full screen mode through the Firefox menu.
+	- Missing theme background image when enabling Nova.
+	- Toolbars might not hide when the cursor hovered over the browser content.
+
 [**Version 2026-05-04**](https://github.com/Merci-chao/userChrome.js/raw/655fe2c483e74d3ec6c68c2055faa9d1ec8fc4c6/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
 - Improve compatibility with some script loaders.
 
