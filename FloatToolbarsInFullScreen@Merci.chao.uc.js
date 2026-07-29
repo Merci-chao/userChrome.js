@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Float Toolbars in Full Screen
 // @description    Float the toolbars over the page in full screen mode, instead of making the web page jumpy when the toolbars showing / hiding.
-// @version        2026-05-04
+// @version        2026-07-29
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#float-toolbars-in-full-screen
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-4
@@ -112,7 +112,7 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 
 		async function showNotification(label, buttons, icon, color) {
 			let box = await gNotificationBox.appendNotification(
-				"multitabrows",
+				"script-update",
 				{
 					label,
 					priority: gNotificationBox.PRIORITY_INFO_HIGH,
@@ -213,15 +213,11 @@ FloatToolbarsInFullScreen.prototype = {
 
 		let mouseEventHandler = {
 			handleEvent: e => {
-				if (e.target == e.currentTarget)
-					switch(e.type) {
-						case "mouseenter":
-							this.mouseOverNavToolbox = true;
-							break;
-						case "mouseleave":
-							this.mouseOverNavToolbox = false;
-							break;
-					}
+				let enter = e.type == "mouseenter";
+				if (e.target == e.currentTarget && e.target == gNavToolbox)
+					this.mouseOverNavToolbox = enter;
+				else if (enter && e.target != gNavToolbox)
+					this.mouseOverNavToolbox = false;
 			},
 		};
 
@@ -245,8 +241,10 @@ FloatToolbarsInFullScreen.prototype = {
 				this.mouseOverNavToolbox = false;
 				contentDeck.style.clipPath = "";
 			}
-			["mouseenter", "mouseleave"].forEach(e =>
-					gNavToolbox[fullScreen ? "addEventListener" : "removeEventListener"](e, mouseEventHandler, true));
+
+			for (let target of [document.getElementById("browser"), gNavToolbox])
+				for (let e of ["mouseenter", "mouseleave"])
+					target[fullScreen ? "addEventListener" : "removeEventListener"](e, mouseEventHandler, true);
 
 			docElt.toggleAttribute("data-float-in-fullscreen-hide-bg", fullScreen && needToHideBackground());
 
@@ -295,21 +293,35 @@ FloatToolbarsInFullScreen.prototype = {
 		};
 
 		FullScreen._setPopupOpen = aEvent => {
-			if (aEvent.type == "popuphidden")
+			let run = () => originalFunctions._setPopupOpen.call(FullScreen, aEvent);
+			if (aEvent.type != "popuphidden" || aEvent.target.id == "appMenu-popup")
+				run();
+			else
 				setTimeout(() => {
-					if (document.querySelector(":is(menu,button,toolbarbutton)[open]:not([hidden]), [panelopen]:not([hidden]), panel[animate=open]:not([hidden])"))
+					if (
+						aEvent.target.parentNode?.closest("menupopup") ||
+						document.querySelector(`
+							:is(menu,button,toolbarbutton)[open]:not([hidden]),
+							[panelopen]:not([hidden], #tab-preview-panel),
+							panel[animate=open]:not([hidden], #tab-preview-panel)
+						`)
+					)
 						return;
 					FullScreen._isPopupOpen = false;
 					if (!this.mouseOverNavToolbox)
-						originalFunctions._setPopupOpen.call(FullScreen, aEvent);
+						run();
 				}, 50);
-			else
-				originalFunctions._setPopupOpen.call(FullScreen, aEvent);
 		};
 
 		FullScreen.hideNavToolbox = aAnimate => {
-			if (this.mouseOverNavToolbox
-					|| document.querySelector(":is(menu,button,toolbarbutton)[open]:not([hidden]), [panelopen]:not([hidden]), panel[animate=open]:not([hidden])"))
+			if (
+				this.mouseOverNavToolbox ||
+				document.querySelector(`
+					:is(menu,button,toolbarbutton)[open]:not([hidden]),
+					[panelopen]:not([hidden], #tab-preview-panel),
+					panel[animate=open]:not([hidden], #tab-preview-panel)
+				`)
+			)
 				return;
 
 			if (contentDeck.style.marginTop)
@@ -383,9 +395,10 @@ new FloatToolbarsInFullScreen();
 function needToHideBackground() {
 	let micaPref = "widget.windows.mica";
 	return Services.prefs.getPrefType(micaPref) &&
-			Services.prefs.getBoolPref(micaPref) &&
-			!matchMedia("(-moz-windows-accent-color-in-titlebar)").matches &&
-			["default-theme@mozilla.org", ""].includes(Services.prefs.getStringPref("extensions.activeThemeID"));
+		Services.prefs.getBoolPref(micaPref) &&
+		!document.documentElement.matches("[theme-image-in-toolbox], [lwtheme-image-y-align]") &&
+		!matchMedia("(-moz-windows-accent-color-in-titlebar)").matches &&
+		["default-theme@mozilla.org", ""].includes(Services.prefs.getStringPref("extensions.activeThemeID"));
 }
 
 } catch(e) {alert(["FloatToolbarsInFullScreen@Merci.chao.uc.js",e,e.stack].join("\n"));console.error(e)}
