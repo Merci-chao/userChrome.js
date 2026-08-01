@@ -57,6 +57,7 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 		let localScript = await (await fetch(localFileURI)).text();
 		let updateURL = localScript.match(/^\/\/\s*@updateURL\s+(.+?)\s*$/mi)[1];
 		let homeURL = "https://github.com/Merci-chao/userChrome.js";
+		if (!/^https:\/\/(raw\.githubusercontent|github)\.com\/Merci-chao\//.test(updateURL)) return;
 		let remoteScript = (await (await fetch(updateURL)).text()).trim();
 		let local = getVer(localScript);
 		let remote = getVer(remoteScript);
@@ -355,7 +356,7 @@ let PageTitle = window.PageTitle = {
 							 */
 							domainLabel.value = protocol[0].replace(/:$/, "");
 							if (protocol != "view-source:")
-								subURL = prefs.showDomain ? url.replace(new RegExp("^" + protocol[0] + "/*"), "") : url;
+								subURL = prefs.showDomain ? url.slice(protocol[0].length).replace(/^\/+/, "") : url;
 							else
 								url = subURL;
 						} else {
