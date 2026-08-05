@@ -45,7 +45,7 @@ Firefox に多段タブ表示をサポートさせる。
 1. 上記の[互換性リスト](#互換性)に記載されている Firefox のバージョンを使用しているか確認してください。それ以外の Firefox バージョンや OS は、サポート対象外となる可能性がある。
 
 2. スクリプトローダー（userChrome.js）をインストールする。すでに使用している場合は、手順 4 に進む。使えるスクリプトローダーはいくつかある：
-	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)（英語）
+	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)（英語） <details><summary>インストール手順</summary><p>📝 注意：これは簡易な参考用の手順なので、詳細な情報は公式ページを確認してください。</p><ol><li><p>導入に必要なファイルを<a href="https://github.com/MrOtherGuy/fx-autoconfig/archive/refs/heads/master.zip">直接リンク</a>か上のページから入手：</p><ul><li>緑の「Code」ボタンをクリック。</li><li>「Download ZIP」を選ぶ。</li></ul></li><li><p>Firefox で <a href="https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox">about:support</a> を開いて、プログラムフォルダーとプロファイルフォルダーを確認：</p><ul><li>「プログラムの実行ファイル」のところで <code>firefox.exe</code> の場所を確認（例：<code>C:\Program Files\Mozilla Firefox</code>）。</li><li>「プロファイルフォルダー」のところで「フォルダーを開く」をクリック。</li></ul></li><li><p>fx-autoconfig-master.zip を解凍して、必要なファイルを正しいフォルダーに置く：</p><ul><li>fx-autoconfig-master\program から config.js と defaults をプログラムフォルダーに置く（管理者権限が必要な場合あり）。</li><li>fx-autoconfig-master\profile から chrome をプロファイルフォルダーに置く。</li></ul></li><li><p>すでにスクリプトを使っている場合：</p><ul><li>選択肢 A：chrome フォルダーの *.uc.js ファイルを全部 chrome\JS サブフォルダーに移動。</li><li>選択肢 B：chrome\utils\chrome.manifest を編集して <code>content userscripts <mark>../JS/</mark></code> を <code>content userscripts <mark>../</mark></code> に変更。これで chrome フォルダーから直接読み込む。</li></ul></li><li><p>about:support の右上にある「起動時キャッシュを消去...」ボタンをクリックして Firefox を再起動。</p></li><li><p>導入が正しく動いているか確認：</p><ul><li>ツールメニュー（<code>Alt</code>+<code>T</code>）に userScripts が追加されているかチェック。</li></ul></li></ol></details>
 	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)（英語、xiaoxiaoflood/firefox-scripts の派生版）
 	- [alice0775/userChrome.js](https://github.com/alice0775/userChrome.js)
  	- [Endor8/userChrome.js](https://github.com/Endor8/userChrome.js)（ドイツ語）
@@ -77,16 +77,16 @@ Firefox に多段タブ表示をサポートさせる。
 	   </tr>
    </table>
 
-4. 他のタブ関連スクリプトやカスタマイズスタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` フォルダから移動する。
+4. 他のタブ関連スクリプトやカスタマイズスタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` フォルダーから移動する。
    <p>⚠️ <code>userChrome.css</code> のカスタマイズスタイルとの競合による問題が多数報告されており、まずタブやタブバーに関連するすべてのスタイルを削除し、以下の設定でカバーできない場合は、必要に応じて後から書き直すことを強く推奨。</p>
 
-5. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし（右クリックして保存）、`chrome` フォルダに配置する（MrOtherGuy/fx-autoconfig 使用時は `chrome\JS` サブフォルダ）。
+5. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし（右クリックして保存）、`chrome` フォルダーに配置する（MrOtherGuy/fx-autoconfig 使用時は `chrome\JS` サブフォルダー）。
    <p>⚠️ コピーして貼り付けやその他の方法で作成すると、誤ったファイルエンコードが発生する可能性がある。</p>
    <p>⛔ 保存中または保存後にファイル名を変更しないでください。</p>
 
 6. Firefox を再起動して適用する。
 
-7. 手順 4 で一部のファイルを `chrome` フォルダの外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、そのスクリプトや `userChrome.css` 内のルールを調整してください。お困りの際は、🛟 [こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
+7. 手順 4 で一部のファイルを `chrome` フォルダーの外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、そのスクリプトや `userChrome.css` 内のルールを調整してください。お困りの際は、🛟 [こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
 
 ## 設定
 [about:config](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao.` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されている。
