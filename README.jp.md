@@ -80,7 +80,7 @@ Firefox に多段タブ表示をサポートさせる。
 4. 他のタブ関連スクリプトやカスタマイズスタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` フォルダから移動する。
    <p>⚠️ <code>userChrome.css</code> のカスタマイズスタイルとの競合による問題が多数報告されており、まずタブやタブバーに関連するすべてのスタイルを削除し、以下の設定でカバーできない場合は、必要に応じて後から書き直すことを強く推奨。</p>
 
-5. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし（右クリックして保存）、`chrome` フォルダに配置する（MrOtherGuy/fx-autoconfig 使用時は `chrome/JS` サブフォルダ）。
+5. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし（右クリックして保存）、`chrome` フォルダに配置する（MrOtherGuy/fx-autoconfig 使用時は `chrome\JS` サブフォルダ）。
    <p>⚠️ コピーして貼り付けやその他の方法で作成すると、誤ったファイルエンコードが発生する可能性がある。</p>
    <p>⛔ 保存中または保存後にファイル名を変更しないでください。</p>
 
