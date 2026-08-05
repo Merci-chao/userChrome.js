@@ -54,10 +54,10 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
    <p>There is no difference among them for applying this script, so simply choose your preferred one. If you have no preference, you can try <em>MrOtherGuy/fx-autoconfig</em>, which provides an <a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">update-checking feature</a>.</p>
    <p>🚨 It is very common for script loaders to stop working after a Firefox update. Please check the pages above for the new version of your script loader if this happens.</p>
 
-3. Make sure that no other tab-related scripts and customized styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of `chrome`.
+3. Make sure that no other tab-related scripts and customized styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of the `chrome` folder.
    <p>⚠️ There are many reports of issues caused by conflicts with customized styles in <code>userChrome.css</code>. It is highly recommended to remove all styles related to tabs or the tab bar first, then rewrite afterward if the settings below do not cover.</p>
 
-4. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as) and place it in `chrome` (or in `chrome\JS` if you are using *MrOtherGuy/fx-autoconfig*).
+4. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as) and place it in the `chrome` folder (or in the `chrome\JS` sub-folder if you are using *MrOtherGuy/fx-autoconfig*).
    <p>⚠️ Creating the file by copy & paste or other methods may cause incorrect encoding.</p>
    <p>⛔ Do not modify the file name during or after saving.</p>
 
