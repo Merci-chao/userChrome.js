@@ -172,7 +172,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ### Firefox の組み込み設定
 | 項目（接頭辞なし） | 説明 |
 | ------------- | ------------- |
-| `browser.nova.enabled` | <p>🔸 **Nova デザイン有効化**</p><p>Nova デザイン（開発中）を適用。Firefox 152 以降で利用可能。</p> |
+| `browser.nova.enabled` | <p>🔸 **Nova デザイン**</p><p>Nova デザイン（開発中）を適用。Firefox 152 以降で利用可能。</p> |
 | `browser.tabs.dragDrop.createGroup.delayMS` | <p>🔸 **ドラッグでグループ化遅延**</p><p>ドラッグしてグループ化を開始するまでの遅延時間（ミリ秒）。Firefox 115 では非対応。</p> |
 | `browser.tabs.dragDrop.createGroup.enabled` | <p>🔸 **ドラッグでグループ化**</p><p>タブを他のタブにドロップした際にグループ化。Firefox 140 では、この名前で新しい真偽設定を作成し切り替える。Firefox 115 では非対応。</p> |
 | `browser.tabs.dragDrop.dragToPin.enabled` | <p>🔸 **ドラッグでピン留め操作**</p><p>同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を有効化。例：タブをピン留めされたタブにドロップするとピン留めされる。この名前で新しい真偽設定を作成し切り替える。</p> |
