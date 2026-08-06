@@ -78,13 +78,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| ~~`animateTabMoveMaxCount`~~<span title="削除された">🗑</span> | `animateTabMoveUnderLimit` に置き換えた。 |
 | `animateTabMoveShiftKeyToPause` | `Shift` キーを押している間、ドラッグ＆ドロップのアニメーションを一時停止して代わりにドロップインジケーターを表示し、他の段の特定アイテムの隣に移動しづらい特別な状況で役立つ。 |
 | `animateTabMoveUnderLimit` | 表示されているタブ数がこの値に達すると、ドラッグ＆ドロップのアニメーションを無効化し、代わりにドロップインジケーターを表示する。値を `3` 未満に設定すると、移動にインジケーターが強制的に使われる。タブが多すぎてドラッグで遅延が発生する場合は、この値を下げることを検討。 |
 | `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する可能性がある）。 |
-| ~~`disableDragToPinOrUnpin`~~<span title="削除された">🗑</span> | 組み込み設定 [`browser.tabs.dragDrop.dragToPin.enabled`](#dragToPinEnabled) を使用してください。 |
 | `dragStackPreceding` | ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。 |
-| ~~`dragToGroupTabs`~~<span title="削除された">🗑</span> | 組み込み設定 [`browser.tabs.dragDrop.createGroup.enabled`](#dragToGroupTabs) を使用してください。 |
 | `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `browser.tabs.dragDrop.createGroup.enabled` が無効な場合は非対応。 |
 | `hideDragPreview` | ドラッグ中にカーソルの傍に表示されるドラッグプレビューを非表示：<ul><li>`0`－常に表示</li><li>`1`－グループのみ</li><li>`2`－タブのみ</li><li>`3`－両方</li></ul> |
 | <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 と 140 では非対応。 |
@@ -150,7 +147,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| ~~`dynamicThemeImageSize`~~<span title="削除された">🗑</span> | `themeImageSize` に置き換えた。 |
 | `floatingBackdropBlurriness` | タブバーがスクロール可能時に浮動領域の背景ぼかし強度を設定する。`tabsUnderControlButtons` が `2` のときのみ有効。Firefox 115 では、またはぼかし効果が効かない場合には非対応。 |
 | `floatingBackdropClip` | タブバーがスクロール可能時に、浮動領域が覆う部分をクリップする。`tabsUnderControlButtons` が `2` のときのみ有効。 |
 | `floatingBackdropOpacity` | タブバーがスクロール可能時に浮動領域の背景の不透明度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
