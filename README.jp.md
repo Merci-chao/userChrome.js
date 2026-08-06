@@ -78,50 +78,50 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `animateTabMoveShiftKeyToPause` | <p>**Shift キーでドラッグアニメ一時停止**</p><p>`Shift` キーを押している間、ドラッグ＆ドロップのアニメーションを一時停止して代わりにドロップインジケーターを表示し、他の段の特定アイテムの隣に移動しづらい特別な状況で役立つ。</p> |
-| `animateTabMoveUnderLimit` | <p>**ドラッグアニメ上限**</p><p>表示されているタブ数がこの値に達すると、ドラッグ＆ドロップのアニメーションを無効化し、代わりにドロップインジケーターを表示する。値を `3` 未満に設定すると、移動にインジケーターが強制的に使われる。タブが多すぎてドラッグで遅延が発生する場合は、この値を下げることを検討。</p> |
-| `animationDuration` | <p>**アニメーション時間**</p><p>アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する可能性がある）。</p> |
-| `dragStackPreceding` | <p>**ドラッグ時の前タブスタック**</p><p>ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。</p> |
-| `dynamicMoveOverThreshold` | <p>**動的ドラッグ閾値**</p><p>ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `browser.tabs.dragDrop.createGroup.enabled` が無効な場合は非対応。</p> |
-| `hideDragPreview` | <p>**ドラッグプレビュー非表示**</p> ドラッグ中にカーソルの傍に表示されるドラッグプレビューを非表示：<ul><li>`0`－常に表示</li><li>`1`－グループのみ</li><li>`2`－タブのみ</li><li>`3`－両方</li></ul> |
-| <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | <p>**ピンインジケーター非表示**</p><p>ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 と 140 では非対応。</p> |
-| `hideScrollButtonsWhenDragging` | <p>**スクロールボタン非表示**</p><p>ドラッグ中にスクロールボタンを視覚的に非表示。</p> |
-| `linesToDragScroll` | <p>**ドラッグスクロール段数**</p><p>タブを上端・下端へドラッグしたときのスクロール段数。最小値：`1`。</p> |
-| `linesToScroll` | <p>**ホイールスクロール段数**</p><p>マウスホイール操作によるスクロール段数。最小値：`1`。</p> |
-| `previewPanelNoteEditable` | <p>**プレビュー内ノート編集可**</p><p>Firefox のタブノート機能が有効になっている場合、タブプレビューパネルにカーソルを合わせると、内部のノートを編集可能。Firefox 115 と 140 では非対応。</p> |
-| `previewPanelShifted` | <p>**プレビューパネルシフト**</p> 多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 と 140 では非対応。<ul><li>`0`－無効</li><li>`1`－グループ用</li><li>`2`－タブ用</li><li>`3`－両方用</li></ul> |
-| `previewPanelShiftedAlways` | <p>**常時パネルシフト**</p><p>一段しかない場合でもプレビューパネルをシフト。</p> |
-| `scrollButtonsSize` | <p>**スクロールボタンサイズ**</p><p>ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値：`0` だが、表示上は少なくとも 2 デバイスピクセルの高さになる。最大値はタブの高さの半分までに制限される。</p> |
+| `animateTabMoveShiftKeyToPause` | <p>🔸**Shift キーでドラッグ一時停止**</p><p>`Shift` キーを押している間、ドラッグ＆ドロップのアニメーションを一時停止して代わりにドロップインジケーターを表示し、他の段の特定アイテムの隣に移動しづらい特別な状況で役立つ。</p> |
+| `animateTabMoveUnderLimit` | <p>🔸**タブ数上限でアニメ停止**</p><p>表示されているタブ数がこの値に達すると、ドラッグ＆ドロップのアニメーションを無効化し、代わりにドロップインジケーターを表示する。値を `3` 未満に設定すると、移動にインジケーターが強制的に使われる。タブが多すぎてドラッグで遅延が発生する場合は、この値を下げることを検討。</p> |
+| `animationDuration` | <p>🔸**アニメーション時間**</p><p>アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する可能性がある）。</p> |
+| `dragStackPreceding` | <p>🔸**ドラッグ時に前タブもスタック**</p><p>ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。</p> |
+| `dynamicMoveOverThreshold` | <p>🔸**ドラッグ動作を滑らかに**</p><p>ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `browser.tabs.dragDrop.createGroup.enabled` が無効な場合は非対応。</p> |
+| `hideDragPreview` | <p>🔸**ドラッグプレビューを非表示**</p> ドラッグ中にカーソルの傍に表示されるドラッグプレビューを非表示：<ul><li>`0`－常に表示</li><li>`1`－グループのみ</li><li>`2`－タブのみ</li><li>`3`－両方</li></ul> |
+| <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | <p>🔸**ピン留めインジケーター非表示**</p><p>ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 と 140 では非対応。</p> |
+| `hideScrollButtonsWhenDragging` | <p>🔸**ドラッグ中スクロールボタン非表示**</p><p>ドラッグ中にスクロールボタンを視覚的に非表示。</p> |
+| `linesToDragScroll` | <p>🔸**ドラッグでスクロール段数**</p><p>タブを上端・下端へドラッグしたときのスクロール段数。最小値：`1`。</p> |
+| `linesToScroll` | <p>🔸**ホイールスクロール段数**</p><p>マウスホイール操作によるスクロール段数。最小値：`1`。</p> |
+| `previewPanelNoteEditable` | <p>🔸**プレビュー内ノート編集**</p><p>Firefox のタブノート機能が有効になっている場合、タブプレビューパネルにカーソルを合わせると、内部のノートを編集可能。Firefox 115 と 140 では非対応。</p> |
+| `previewPanelShifted` | <p>🔸**プレビューパネルをシフト**</p> 多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 と 140 では非対応。<ul><li>`0`－無効</li><li>`1`－グループ用</li><li>`2`－タブ用</li><li>`3`－両方用</li></ul> |
+| `previewPanelShiftedAlways` | <p>🔸**常時プレビューパネルをシフト**</p><p>一段しかない場合でもプレビューパネルをシフト。</p> |
+| `scrollButtonsSize` | <p>🔸**スクロールボタンの高さ**</p><p>ドラッグ中のスクロールボタンの高さ（ピクセル単位）。最小値：`0` だが、表示上は少なくとも 2 デバイスピクセルの高さになる。最大値はタブの高さの半分までに制限される。</p> |
 
 ### タブバーレイアウト
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `autoCollapse`<span title="実験的な機能">🧪</span> | ホバーしていない時は、一段に折りたたむ。有効化すると、`tabsUnderControlButtons` と `positionPinnedTabs` は強制的に無効化される。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要がある。 |
-| `autoCollapseDelayCollapsing` | カーソルが離れてから折りたたむまでの遅延（ミリ秒）。最小値：`0`。 |
-| `autoCollapseDelayExpanding` | ホバー後に展開されるまでの遅延（ミリ秒）。最小値：`0`。 |
-| `compactControlButtons` | ウィンドウ操作ボタンをコンパクトに表示。タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
-| `controlButtonsAutoHide` | ウィンドウの操作ボタンを隠し、カーソルが右上隅に入ったときに表示する：<ul><li>`0`－無効</li><li>`1`－最大化ウィンドウのみ</li><li>`2`－すべてのウィンドウ</li></ul><p>タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
-| `controlButtonsAutoHideTriggerHeight` | トリガー領域の高さ。 |
-| `hamburgerMenuOnTabBar` | `false` に設定すると、スマートウィンドウ使用時に Firefox のメニューボタン（☰）がナビゲーションツールバーに戻される。`tabsAtBottom` が有効な場合は強制的に無効化される。Firefox 115 と 140 では非対応。 |
-| `hideAllTabs` | 「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。 |
-| `hideEmptyPlaceholderWhenScrolling` | 左上に何もない場合、タブバーがスクロール可能時にその空白を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。 |
-| `justifyCenter` | タブを水平方向に中央揃えする設定：<ul><li>`0`－無効</li><li>`1`－一段のみの場合</li><li>`2`－常に有効（タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある）</li></ul> |
-| `maxTabRows` | <p>表示可能な最大段数。最小値：`1`。</p><p>📝 備考：実際のカウントはウィンドウの幅によって変わり、`rowIncreaseEvery` を参照。</p> |
-| `newTabButtonAfterLastTab` | <p>「新しいタブ」ボタンを最後のタブの後に配置。無効化されている場合、ツールバーのカスタマイズで指定された位置に従う。<p><p>📝 備考：タブの直後に置かれた場合のみ最後のタブの後に固定される。</p> |
-| `positionPinnedTabs` | タブバーがスクロール可能な時、ピン留めされたタブを通常タブの前にグリッドとして配置。 |
-| `privateBrowsingIconOnNavBar` | プライベートウィンドウアイコンをナビゲーションツールバーに移動。Firefox 115 では非対応。`tabsAtBottom` が有効な場合は強制的に有効化される。 |
-| `rowIncreaseEvery` | ウィンドウの幅がこの幅広がるたびに、表示される段が一段追加される。幅が狭いウィンドウでは、同時に表示できる行数が少なくなる。`0` にすると最大段数が常に表示される。 |
-| `rowStartIncreaseFrom` | ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になる。 |
-| `smartWindowButtonOnNavBar` | クラシックウィンドウ上で、Firefox Smart Window 切り替えボタンをナビゲーションツールバーに移動。`tabsAtBottom` が有効な場合は強制的に有効化される。Firefox 149 から 153 で利用可能。 |
-| `spaceAfterTabs` | ウィンドウ操作ボタンの前にある空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
-| `spaceAfterTabsOnMaximizedWindow` | 最大化時のウィンドウ操作ボタン前の空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
-| `spaceBeforeTabs` | ウィンドウの左上隅の空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
-| `spaceBeforeTabsOnMaximizedWindow` | 最大化時のウィンドウの左上隅の空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。 |
-| `tabsAtBottom` | タブバーの位置を変更：<ul><li>`0`－メニューバー下</li><li>`1`－ナビゲーションツールバー下</li><li>`2`－ブックマークツールバー下</li><li>`-1`－ブラウザコンテンツ下</li></ul><p>Firefox 115 では非対応。</p> |
-| `tabsbarItemsAlign` | 多段モードでタブバー内の項目（主にボタン）の配置：<ul><li>`start`－上</li><li>`center`－中</li><li>`end`－下</li></ul>`tabsUnderControlButtons` が `0` または `1` でタブバーがスクロール可能時のみ有効。 |
-| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>多段表示時にウィンドウ操作ボタンの下にタブを配置：<ul><li>`0`－無効</li><li>`1`－タブバーがスクロール不可能場合のみ（旧式オプション、非推奨）</li><li>`2`－常に有効</li></ul> |
-| `thinScrollbar` | タブバーがスクロール可能な時、上下ボタンなしの細いスクロールバーを使用。 |
+| `autoCollapse`<span title="実験的な機能">🧪</span> | <p>🔸**自動折りたたみ**</p><p>ホバーしていない時は、一段に折りたたむ。有効化すると、`tabsUnderControlButtons` と `positionPinnedTabs` は強制的に無効化される。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要がある。</p> |
+| `autoCollapseDelayCollapsing` | <p>🔸**折りたたみまでの遅延**</p><p>カーソルが離れてから折りたたむまでの遅延（ミリ秒）。最小値：`0`。</p> |
+| `autoCollapseDelayExpanding` | <p>🔸**展開までの遅延**</p><p>ホバー後に展開されるまでの遅延（ミリ秒）。最小値：`0`。</p> |
+| `compactControlButtons` | <p>🔸**操作ボタンをコンパクト表示**</p><p>ウィンドウ操作ボタンをコンパクトに表示。タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
+| `controlButtonsAutoHide` | <p>🔸**操作ボタンを自動非表示**</p> ウィンドウの操作ボタンを隠し、カーソルが右上隅に入ったときに表示する：<ul><li>`0`－無効</li><li>`1`－最大化ウィンドウのみ</li><li>`2`－すべてのウィンドウ</li></ul><p>タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
+| `controlButtonsAutoHideTriggerHeight` | <p>🔸**操作ボタン表示のトリガー高さ**</p><p>操作ボタンの表示トリガー領域の高さ。</p> |
+| `hamburgerMenuOnTabBar` | <p>🔸**スマートウィンドウ時のタブバー上メニューボタン**</p><p>`false` に設定すると、スマートウィンドウ使用時に Firefox のメニューボタン（☰）がナビゲーションツールバーに戻される。`tabsAtBottom` が有効な場合は強制的に無効化される。Firefox 115 と 140 では非対応。</p> |
+| `hideAllTabs` | <p>🔸**タブ一覧ボタンを非表示**</p><p>「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。</p> |
+| `hideEmptyPlaceholderWhenScrolling` | <p>🔸**スクロール時の空白な浮動領域を非表示**</p><p>左上に何もない場合、タブバーがスクロール可能時にその空白な浮動領域を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。</p> |
+| `justifyCenter` | <p>🔸**タブを中央揃え**</p> タブを水平方向に中央揃えする設定：<ul><li>`0`－無効</li><li>`1`－一段のみの場合</li><li>`2`－常に有効</li></ul> |
+| `maxTabRows` | <p>🔸**表示可能な最大段数**</p><p>表示可能な最大段数。最小値：`1`。</p><p>📝 備考：実際のカウントはウィンドウの幅によって変わり、`rowIncreaseEvery` を参照。</p> |
+| `newTabButtonAfterLastTab` | <p>🔸**最後のタブ後に新規タブボタン**</p><p>「新しいタブ」ボタンを最後のタブの後に配置。無効化されている場合、ツールバーのカスタマイズで指定された位置に従う。</p><p>📝 備考：タブの直後に置かれた場合のみ最後のタブの後に固定される。</p> |
+| `positionPinnedTabs` | <p>🔸**ピン留めタブ固定位置**</p><p>タブバーがスクロール可能な時、ピン留めされたタブを通常タブの前にグリッドとして配置。</p> |
+| `privateBrowsingIconOnNavBar` | <p>🔸**プライベートアイコンをナビバーへ移動**</p><p>プライベートウィンドウアイコンをナビゲーションツールバーに移動。Firefox 115 では非対応。`tabsAtBottom` が有効な場合は強制的に有効化される。</p> |
+| `rowIncreaseEvery` | <p>🔸**幅ごとに段を追加**</p><p>ウィンドウの幅がこの幅広がるたびに、表示される段が一段追加される。`0` にすると最大段数が常に表示される。</p> |
+| `rowStartIncreaseFrom` | <p>🔸**段増加開始の幅**</p><p>ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になる。</p> |
+| `smartWindowButtonOnNavBar` | <p>🔸**スマートウィンドウ切替ボタンをナビバーへ移動**</p><p>クラシックウィンドウ上で、Smart Window 切り替えボタンをナビゲーションツールバーに移動。Firefox 149 から 153 で利用可能。</p> |
+| `spaceAfterTabs` | <p>🔸**右上スペース**</p><p>ウィンドウ操作ボタンの前にある空白スペース。最小値：`0`。</p> |
+| `spaceAfterTabsOnMaximizedWindow` | <p>🔸**最大化時の右上スペース**</p><p>最大化時のウィンドウ操作ボタン前の空白スペース。最小値：`0`。</p> |
+| `spaceBeforeTabs` | <p>🔸**左上スペース**</p><p>ウィンドウの左上隅の空白スペース。最小値：`0`。</p> |
+| `spaceBeforeTabsOnMaximizedWindow` | <p>🔸**最大化時の左上スペース**</p><p>最大化時のウィンドウの左上隅の空白スペース。最小値：`0`。</p> |
+| `tabsAtBottom` | <p>🔸**タブバーの表示位置**</p> タブバーの位置を変更：<ul><li>`0`－メニューバー下</li><li>`1`－ナビゲーションツールバー下</li><li>`2`－ブックマークツールバー下</li><li>`-1`－ブラウザコンテンツ下</li></ul> |
+| `tabsbarItemsAlign` | <p>🔸**タブバー項目の縦位置**</p> 多段モードでタブバー内の項目（主にボタン）の配置：<ul><li>`start`－上</li><li>`center`－中</li><li>`end`－下</li></ul> |
+| `tabsUnderControlButtons` | <p>🔸**操作ボタン下にタブ配置**</p> 多段表示時にウィンドウ操作ボタンの下にタブを配置：<ul><li>`0`－無効</li><li>`1`－スクロール不可時のみ</li><li>`2`－常に有効</li></ul> |
+| `thinScrollbar` | <p>🔸**細いスクロールバー**</p><p>タブバーがスクロール可能な時、上下ボタンなしの細いスクロールバーを使用。</p> |
 
 ### タブサイズ
 
@@ -129,61 +129,61 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `gapAfterPinned` | ピン留めされたタブと通常タブの間の隙間。最小値：`0`。 |
-| `lastRowTabsFlexibe` | 多段がある場合、最後の段のタブ幅を伸縮自在にする。`justifyCenter` が `2` の場合は強制的に有効化される。 |
-| `pinnedTabsFlexWidth` | ピン留めされたタブのサイズを通常のタブと同様に扱う。有効化すると、`positionPinnedTabs` は強制的に無効化される。 |
-| `pinnedTabsFlexWidthIndicator` | `pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブ上に淡い背景を表示。 |
-| `tabCornerRadius` | タブの角丸半径。`-1` に設定すると既定値が適用される。 |
-| `tabContentHeight` | タブ内容部分の高さ。最小値：`16`。 |
-| `tabContentHeightCompact` | Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。 |
-| `tabHorizontalMargin` | タブ周囲の水平余白。最小値：`0`。 |
-| `tabHorizontalPadding` | タブ内側の水平余白。最小値：`0`。 |
-| `tabHorizontalPaddingCompact` | Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。 |
-| `tabMaxWidth` | タブの最大幅（周囲の余白を含む）。最小幅には `browser.tabs.tabMinWidth` を使用し、実際の最大幅は必ずこの値より小さくなることはない。 |
-| `tabVerticalMargin` | タブ周囲の垂直余白。最小値：`0`。 |
-| `tabVerticalMarginCompact` | Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。 |
+| `gapAfterPinned` | <p>🔸**ピン留めタブと通常タブの間隔**</p><p>ピン留めされたタブと通常タブの間の隙間。最小値：`0`。</p> |
+| `lastRowTabsFlexibe` | <p>🔸**最後の段のタブ幅伸縮**</p><p>多段がある場合、最後の段のタブ幅を伸縮自在にする。`justifyCenter` が `2` の場合は強制的に有効化される。</p> |
+| `pinnedTabsFlexWidth` | <p>🔸**ピン留めタブを通常幅扱い**</p><p>ピン留めされたタブのサイズを通常のタブと同様に扱う。有効化すると、`positionPinnedTabs` は強制的に無効化される。</p> |
+| `pinnedTabsFlexWidthIndicator` | <p>🔸**ピン留めタブ背景インジケーター**</p><p>`pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブ上に淡い背景を表示。</p> |
+| `tabCornerRadius` | <p>🔸**タブ角丸半径**</p><p>タブの角丸半径。`-1` に設定すると既定値が適用される。</p> |
+| `tabContentHeight` | <p>🔸**タブ内容部分の高さ**</p><p>タブ内容部分の高さ。最小値：`16`。</p> |
+| `tabContentHeightCompact` | <p>🔸**コンパクトモードの高さ**</p><p>Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。</p> |
+| `tabHorizontalMargin` | <p>🔸**タブ外側の水平余白**</p><p>タブ周囲の水平余白。最小値：`0`。</p> |
+| `tabHorizontalPadding` | <p>🔸**タブ内側の水平余白**</p><p>タブ内側の水平余白。最小値：`0`。</p> |
+| `tabHorizontalPaddingCompact` | <p>🔸**コンパクトモードの水平余白**</p><p>Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。</p> |
+| `tabMaxWidth` | <p>🔸**タブ最大幅**</p><p>タブの最大幅（周囲の余白を含む）。最小幅には `browser.tabs.tabMinWidth` を使用し、実際の最大幅は必ずこの値より小さくなることはない。</p> |
+| `tabVerticalMargin` | <p>🔸**タブ外側の垂直余白**</p><p>タブ周囲の垂直余白。最小値：`0`。</p> |
+| `tabVerticalMarginCompact` | <p>🔸**コンパクトモードの垂直余白**</p><p>Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。</p> |
 
 ### 外観
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `floatingBackdropBlurriness` | タブバーがスクロール可能時に浮動領域の背景ぼかし強度を設定する。`tabsUnderControlButtons` が `2` のときのみ有効。Firefox 115 では、またはぼかし効果が効かない場合には非対応。 |
-| `floatingBackdropClip` | タブバーがスクロール可能時に、浮動領域が覆う部分をクリップする。`tabsUnderControlButtons` が `2` のときのみ有効。 |
-| `floatingBackdropOpacity` | タブバーがスクロール可能時に浮動領域の背景の不透明度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。 |
-| `nativeWindowStyle` | 背景を削除し、ウィンドウのネイティブなシステムスタイルを表示。例えば、Windows 11 の透明効果や [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合がある。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をする。また、透過パターンでデザインされたテーマの背景色を除去可能。Firefox 115 では非対応。 |
-| `nativeWindowStyleToolbarColorOpacity` | ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。最小値：`0`、最大値：`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。タブバーが上部にある場合、または Firefox Nova が有効になっている場合に利用可能。 |
-| `nativeWindowStyleURLBarColorOpacity` | アドレスバーと検索バーの背景色の不透明度。最小値：`0`、最大値：`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。 |
-| `scrollbarThumbColor` | スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
-| `scrollbarTrackColor` | スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。 |
-| `showScrollShadow` | タブバーがスクロール可能な場合、上下の端にシャドウを表示。 |
-| `themeImageSize` | 背景画像付きのテーマを使用する場合、その画像のサイズは以下に基づいて決定される：<ul><li>`-1`－画像の元のサイズ</li><li>`0`－許可されている最大段数</li><li>`1`－現在のウィンドウ幅で許可されている最大段数</li><li>`2`－現在の段数</li></ul><p>最適な選択は好みとテーマのデザインに依存。画像の高さが段数を収容できるほど十分に大きい場合は、違いはない。</p> |
+| `floatingBackdropBlurriness` | <p>🔸**浮動領域の背景ぼかし強度**</p><p>タブバーがスクロール可能時に浮動領域の背景ぼかし強度を設定する。`tabsUnderControlButtons` が `2` のときのみ有効。Firefox 115 では、またはぼかし効果が効かない場合には非対応。</p> |
+| `floatingBackdropClip` | <p>🔸**浮動領域の後ろ側を切り取る**</p><p>タブバーがスクロール可能時に、浮動領域が覆う部分をクリップする。`tabsUnderControlButtons` が `2` のときのみ有効。</p> |
+| `floatingBackdropOpacity` | <p>🔸**浮動領域の背景不透明度**</p><p>タブバーがスクロール可能時に浮動領域の背景の不透明度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。</p> |
+| `nativeWindowStyle` | <p>🔸**ネイティブスタイル表示**</p><p>背景を削除し、ウィンドウのネイティブなシステムスタイルを表示。例えば、Windows 11 の透明効果や DWMBlurGlass などのツールによる視覚効果。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合がある。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をする。また、透過パターンでデザインされたテーマの背景色を除去可能。Firefox 115 では非対応。</p> |
+| `nativeWindowStyleToolbarColorOpacity` | <p>🔸**ツールバー背景色の不透明度**</p><p>ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。最小値：`0`、最大値：`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。タブバーが上部にある場合、または Firefox Nova が有効になっている場合に利用可能。</p> |
+| `nativeWindowStyleURLBarColorOpacity` | <p>🔸**アドレスバー背景色の不透明度**</p><p>アドレスバーと検索バーの背景色の不透明度。最小値：`0`、最大値：`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。</p> |
+| `scrollbarThumbColor` | <p>🔸**スクロールバーつまみ色**</p><p>スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。</p> |
+| `scrollbarTrackColor` | <p>🔸**スクロールバー軌道色**</p><p>スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。</p> |
+| `showScrollShadow` | <p>🔸**スクロール端のシャドウ表示**</p><p>タブバーがスクロール可能な場合、上下の端にシャドウを表示。</p> |
+| `themeImageSize` | <p>🔸**テーマ背景画像サイズ**</p><p>背景画像付きのテーマを使用する場合、その画像のサイズは以下に基づいて決定される：<ul><li>`-1`－画像の元のサイズ</li><li>`0`－許可されている最大段数</li><li>`1`－現在のウィンドウ幅で許可されている最大段数</li><li>`2`－現在の段数</li></ul>最適な選択は好みとテーマのデザインに依存。画像の高さが段数を収容できるほど十分に大きい場合は、違いはない。</p> |
 
 ### その他
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `checkUpdate` | <p>Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認。`1` で有効化、`0` で無効化。値は最後に確認した時刻（例：`1759911972`）で更新される。`1` にリセットすると、新しいウィンドウで即時チェックが実行される。</p><p>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</p><p>📝 備考：Firefox の旧バージョン（115 と 140 を除く）を使用している場合、このスクリプトの更新は通知されない。</p> |
-| `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`1`－無効</li><li>`2`－有効</li><li>`3`－有効（通知なし）、通知されない軽微な変更や修正の更新も自動的に受け取り</li></ul> |
-| `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値：`1`。 |
-| `currentVersion` | 現在使用しているバージョン。 |
-| `debugMode`<span title="使用禁止">⛔</span> | デバッグモード。一般向けではない。 |
-| `incompatible` | この項目は互換性のないバージョンの Firefox を実行している場合にのみ表示される。変更すると、Firefox の起動時に再び互換性警告が表示される。 |
+| `checkUpdate` | <p>🔸**更新チェック**</p><p>Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認。`1` で有効化、`0` で無効化。値は最後に確認した時刻（例：`1759911972`）で更新される。`1` にリセットすると、新しいウィンドウで即時チェックが実行される。</p><p>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</p><p>📝 備考：Firefox の旧バージョン（115 と 140 を除く）を使用している場合、このスクリプトの更新は通知されない。</p> |
+| `checkUpdateAutoApply` | <p>🔸**更新の自動適用**</p> 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`1`－無効</li><li>`2`－有効</li><li>`3`－有効（通知なし）、通知されない軽微な変更や修正の更新も自動的に受け取り</li></ul> |
+| `checkUpdateFrequency` | <p>🔸**更新チェック頻度**</p><p>新バージョンの確認頻度（日単位）。最小値：`1`。</p> |
+| `currentVersion` | <p>🔸**現在のバージョン**</p><p>現在使用しているバージョン。</p> |
+| `debugMode`<span title="使用禁止">⛔</span> | <p>🔸**デバッグモード**</p><p>一般向けではない。</p> |
+| `incompatible` | <p>🔸**互換性警告設定**</p><p>この項目は互換性のないバージョンの Firefox を実行している場合にのみ表示される。変更すると、Firefox の起動時に再び互換性警告が表示される。</p> |
 
 ### Firefox の組み込み設定
 | 項目（接頭辞なし） | 説明 |
 | ------------- | ------------- |
-| `browser.nova.enabled` | Nova デザイン（開発中）を適用。Firefox 152 以降で利用可能。 |
-| `browser.tabs.dragDrop.createGroup.delayMS` | ドラッグしてグループ化を開始するまでの遅延時間（ミリ秒）。Firefox 115 では非対応。 |
-| <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | タブを他のタブにドロップした際にグループ化。Firefox 140 では、この名前で新しい真偽設定を作成し切り替える。Firefox 115 では非対応。 |
-| <span id="dragToPinEnabled">`browser.tabs.dragDrop.dragToPin.enabled`</span> | 同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を有効化。例：タブをピン留めされたタブにドロップすると、ピン留めされるかどうか。この名前で新しい真偽設定を作成し切り替える。 |
-| `browser.tabs.dragDrop.moveOverThresholdPercent` | ドラッグして移動する際に必要な重なりの割合。`100 - n` がグループ化のしきい値を定義する。例えば値が `80` の場合、20% 以上重なればグループ化され、80% 以上重なれば移動される。最小値：`0`、最大値：`100`。以下の場合は値が `50` に固定される：<ul><li>別の段へ移動する場合</li><li>Firefox 115 を使用している場合</li><li>ドラッグによるグループ化が無効化されている場合</li><li>`dynamicMoveOverThreshold` が有効な特定のシナリオ</li></ul> |
-| <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | タブのドラッグ時にスタッキング（積み重ね）を有効化。この名前で新しい真偽設定を作成し切り替える。 |
-| `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <a href="#hidePinnedDropIndicator">ピン留めインジケーター</a>を表示するまでの遅延時間（ミリ秒）。Firefox 115 と 140 では非対応。 |
-| `browser.tabs.tabClipWidth` | このサイズを超えるタブには閉じるボタンを表示。変更後、新しいウィンドウで有効になる。値が：<ul><li>`tabMaxWidth` 以上の場合－非選択タブには閉じるボタンを非表示</li><li>`browser.tabs.tabMinWidth` 未満の場合－非選択タブには常に閉じるボタンを表示</li></ul> |
-| `browser.tabs.tabMinWidth` | 通常タブの最小幅（周囲の余白を含む）を指定。最小値：`50`。 |
-| `browser.theme.windows.accent-color-in-tabs.enabled` | Windows 10 のタブバーにシステムのアクセントカラーを適用。 |
-| `widget.windows.mica` | タブバーに Windows 11 のネイティブスタイルを適用。 |
-| `widget.windows.mica.toplevel-backdrop` | 背景効果の選択肢（Windows 11）：<ul><li>`0`－自動</li><li>`1`－Mica</li><li>`2`－Acrylic</li><li>`3`－Mica Alt</li></ul> |
+| `browser.nova.enabled` | <p>🔸**Nova デザイン有効化**</p><p>Nova デザイン（開発中）を適用。Firefox 152 以降で利用可能。</p> |
+| `browser.tabs.dragDrop.createGroup.delayMS` | <p>🔸**ドラッグでグループ化遅延**</p><p>ドラッグしてグループ化を開始するまでの遅延時間（ミリ秒）。Firefox 115 では非対応。</p> |
+| <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | <p>🔸**ドラッグでグループ化**</p><p>タブを他のタブにドロップした際にグループ化。Firefox 140 では、この名前で新しい真偽設定を作成し切り替える。Firefox 115 では非対応。</p> |
+| <span id="dragToPinEnabled">`browser.tabs.dragDrop.dragToPin.enabled`</span> | <p>🔸**ドラッグでピン留め操作**</p><p>同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を有効化。例：タブをピン留めされたタブにドロップするとピン留めされる。この名前で新しい真偽設定を作成し切り替える。</p> |
+| `browser.tabs.dragDrop.moveOverThresholdPercent` | <p>🔸**ドラッグ移動の重なり閾値**</p><p>ドラッグして移動する際に必要な重なりの割合。`100 - n` がグループ化のしきい値を定義する。例えば値が `80` の場合、20% 以上重なればグループ化され、80% 以上重なれば移動される。最小値：`0`、最大値：`100`。以下の場合は値が `50` に固定される：<ul><li>別の段へ移動する場合</li><li>Firefox 115 を使用している場合</li><li>ドラッグによるグループ化が無効化されている場合</li><li>`dynamicMoveOverThreshold` が有効な特定のシナリオ</li></ul></p> |
+| <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | <p>🔸**ドラッグ時のスタッキング**</p><p>タブのドラッグ時にスタッキング（積み重ね）を有効化。この名前で新しい真偽設定を作成し切り替える。</p> |
+| `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <p>🔸**ピン留めインジケーター表示遅延**</p><p><a href="#hidePinnedDropIndicator">ピン留めインジケーター</a>を表示するまでの遅延時間（ミリ秒）。Firefox 115 と 140 では非対応。</p> |
+| `browser.tabs.tabClipWidth` | <p>🔸**閉じるボタン表示幅**</p><p>このサイズを超えるタブには閉じるボタンを表示。変更後、新しいウィンドウで有効になる。値が：<ul><li>`tabMaxWidth` 以上の場合－非選択タブには閉じるボタンを非表示</li><li>`browser.tabs.tabMinWidth` 未満の場合－非選択タブには常に閉じるボタンを表示</li></ul></p> |
+| `browser.tabs.tabMinWidth` | <p>🔸**タブ最小幅**</p><p>通常タブの最小幅（周囲の余白を含む）を指定。最小値：`50`。</p> |
+| `browser.theme.windows.accent-color-in-tabs.enabled` | <p>🔸**アクセントカラー適用**</p><p>Windows 10 のタブバーにシステムのアクセントカラーを適用。</p> |
+| `widget.windows.mica` | <p>🔸**Mica スタイル**</p><p>Windows 11 の透明スタイルを適用。</p> |
+| `widget.windows.mica.toplevel-backdrop` | <p>🔸**ウィンドウ背景効果選択**</p><p>ウィンドウ背景効果の選択肢（Windows 11）：<ul><li>`0`－自動</li><li>`1`－Mica</li><li>`2`－Acrylic</li><li>`3`－Mica Alt</li></ul></p> |
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
