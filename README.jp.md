@@ -183,7 +183,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `browser.tabs.tabMinWidth` | <p>🔸 **タブ最小幅**</p><p>通常タブの最小幅（周囲の余白を含む）を指定。最小値：`50`。</p> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | <p>🔸 **アクセントカラー適用**</p><p>Windows 10 のタブバーにシステムのアクセントカラーを適用。</p> |
 | `widget.windows.mica` | <p>🔸 **Mica スタイル**</p><p>Windows 11 の透明スタイルを適用。</p> |
-| `widget.windows.mica.toplevel-backdrop` | <p>🔸 **ウィンドウ背景効果選択**</p><p>ウィンドウ背景効果の選択肢（Windows 11）：<ul><li>`0`－自動</li><li>`1`－Mica</li><li>`2`－Acrylic</li><li>`3`－Mica Alt</li></ul></p> |
+| `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Mica 背景効果選択**</p><p>ウィンドウ背景効果の選択肢（Windows 11）：<ul><li>`0`－自動</li><li>`1`－Mica</li><li>`2`－Acrylic</li><li>`3`－Mica Alt</li></ul></p> |
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
