@@ -44,49 +44,25 @@ Firefox に多段タブ表示をサポートさせる。
 ## インストール手順
 1. 上記の[互換性リスト](#互換性)に記載されている Firefox のバージョンを使用しているか確認してください。それ以外の Firefox バージョンや OS は、サポート対象外となる可能性がある。
 
-2. スクリプトローダー（userChrome.js）をインストールする。すでに使用している場合は、手順 4 に進む。使えるスクリプトローダーはいくつかある：
-	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)（英語） <details><summary>インストール手順</summary><p>📝 注意：これは簡易な参考用の手順なので、詳細な情報は公式ページを確認してください。</p><ol><li><p>導入に必要なファイルを<a href="https://github.com/MrOtherGuy/fx-autoconfig/archive/refs/heads/master.zip">直接リンク</a>か上のページから入手：</p><ul><li>緑の「Code」ボタンをクリック。</li><li>「Download ZIP」を選ぶ。</li></ul></li><li><p>Firefox で <a href="https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox">about:support</a> を開いて、プログラムフォルダーとプロファイルフォルダーを確認：</p><ul><li>「プログラムの実行ファイル」のところで <code>firefox.exe</code> の場所を確認（例：<code>C:\Program Files\Mozilla Firefox</code>）。</li><li>「プロファイルフォルダー」のところで「フォルダーを開く」をクリック。</li></ul></li><li><p><code>fx-autoconfig-master.zip</code> を解凍して、必要なファイルを正しいフォルダーに置く：</p><ul><li><code>fx-autoconfig-master\program</code> から <code>config.js</code> と <code>defaults</code> をプログラムフォルダーに置く（管理者権限が必要な場合あり）。</li><li><code>fx-autoconfig-master\profile</code> から <code>chrome</code> をプロファイルフォルダーに置く。</li></ul></li><li><p>すでにスクリプトを使っている場合：</p><ul><li>選択肢 A：<code>chrome</code> フォルダーの <code>*.uc.js</code> ファイルを全部 <code>chrome\JS</code> サブフォルダーに移動。</li><li>選択肢 B：<code>chrome\utils\chrome.manifest</code> を編集して <code>content userscripts <mark>../JS/</mark></code> を <code>content userscripts <mark>../</mark></code> に変更。これで <code>chrome</code> フォルダーから直接読み込む。</li></ul></li><li><p>about:support の右上にある「起動時キャッシュを消去...」ボタンをクリックして Firefox を再起動。</p></li><li><p>導入が正しく動いているか確認：</p><ul><li>ツールメニュー（<code>Alt</code>+<code>T</code>）に userScripts が追加されているかチェック。</li></ul></li><li><p>さらに、自動更新確認機能を有効： </p><ul><li><a href="https://support.mozilla.org/kb/about-config-editor-firefox">about:config</a> を開き、検索ボックスに <code>userChromeJS.updates.update-check.enabled</code> を貼り付けて追加ボタン（+）をクリックし、値を真偽値で <code>true</code> に設定して作成。</li></ul></li></ol></details>
-	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)（英語、xiaoxiaoflood/firefox-scripts の派生版）
-	- [alice0775/userChrome.js](https://github.com/alice0775/userChrome.js)
+2. スクリプトローダー（userChrome.js）をインストールする。すでに使用している場合は、手順 3 に進む。使えるスクリプトローダーはいくつかある：
+	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)（英語） <details><summary>インストール手順</summary><p>📝 注意：これは簡易な参考用の手順なので、正確で詳細な情報は公式ページを確認してください。</p><ol><li><p>導入に必要なファイルを[直接リンク（`fx-autoconfig-master.zip`）](https://github.com/MrOtherGuy/fx-autoconfig/archive/refs/heads/master.zip)か上のページから入手：</p><ul><li>緑の「Code」ボタンをクリック。</li><li>「Download ZIP」を選ぶ。</li></ul></li><li><p>Firefox で [about:support](https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox) を開いて、プログラムフォルダーとプロファイルフォルダーを確認：</p><ul><li>「プログラムの実行ファイル」のところで `firefox.exe` の場所を確認（例：`C:\Program Files\Mozilla Firefox`）。</li><li>「プロファイルフォルダー」のところで「フォルダーを開く」をクリック。</li></ul></li><li><p>`fx-autoconfig-master.zip` を解凍して、必要なファイルを正しいフォルダーに置く：</p><ul><li>`fx-autoconfig-master\program` から `config.js` と `defaults` をプログラムフォルダーに置く（管理者権限が必要な場合あり）。</li><li>`fx-autoconfig-master\profile` から `chrome` をプロファイルフォルダーに置く。</li></ul></li><li><p>すでにスクリプトを使っている場合：</p><ul><li>選択肢 A：`chrome` フォルダーの `*.uc.js` ファイルを全部 `chrome\JS` サブフォルダーに移動。</li><li>選択肢 B：`chrome\utils\chrome.manifest` を編集して <code>content userscripts <mark>../JS/</mark></code> を <code>content userscripts <mark>../</mark></code> に変更。これで `chrome` フォルダーから直接読み込む。</li></ul></li><li><p>about:support の右上にある「起動時キャッシュを消去...」ボタンをクリックして Firefox を再起動。</p></li><li><p>導入が正しく動いているか確認：</p><ul><li>ツールメニュー（`Alt`+`T`）に userScripts が追加されているかチェック。</li></ul></li><li><p>さらに、自動更新確認機能を有効： </p><ul><li>[about:config](https://support.mozilla.org/kb/about-config-editor-firefox) を開き、検索ボックスに `userChromeJS.updates.update-check.enabled` を貼り付けて追加ボタン（✚）をクリックし、値を真偽値で `true` に設定して作成。</li></ul></li></ol></details>
+	- [Firefox Scripts](https://onemen.github.io/tabmixplus-docs/other/installation/#install-firefox-scripts)（英語、xiaoxiaoflood/firefox-scripts の派生版） <details><summary>インストール手順</summary><p>📝 注意：これは簡易な参考用の手順なので、正確で詳細な情報は公式ページを確認してください。</p><ol><li><p>導入に必要なファイルを以下の直接リンクか上のページから入手：</p><ul><li>[Configuration files（`fx-folder.zip`）](https://github.com/onemen/TabMixPlus/releases/download/dev-build/fx-folder.zip)</li><li>[Utils（`utils.zip`）](https://github.com/onemen/TabMixPlus/releases/download/dev-build/utils.zip)</li></ul></li><li><p>Firefox で [about:support](https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox) を開いて、プログラムフォルダーとプロファイルフォルダーを確認：</p><ul><li>「プログラムの実行ファイル」のところで `firefox.exe` の場所を確認（例：`C:\Program Files\Mozilla Firefox`）。</li><li>「プロファイルフォルダー」のところで「フォルダーを開く」をクリック。</li></ul></li><li><p>必要なファイルを正しいフォルダーに展開：</p><ul><li>`fx-folder.zip` を開き、`fx-folder` から `config.js` と `defaults` をプログラムフォルダーに直接展開（管理者権限が必要な場合あり）。</li><li>プロファイルフォルダーに `chrome` フォルダーがなければ作成。</li><li>`chrome` フォルダーに `utils` フォルダーがなければ作成。</li><li>`utils.zip` を開き、すべてのファイルを `utils` フォルダーに直接展開。</li></ul></li><li><p>about:support の右上にある「起動時キャッシュを消去...」ボタンをクリックして Firefox を再起動。</p></li><li><p>導入が正しく動いているか確認：</p><ul><li><p>[about:config](https://support.mozilla.org/kb/about-config-editor-firefox) を開き、`userChromeJS.enabled` を検索。設定が存在し、右側に削除ボタン（🗑️）がないことを確認。もし削除ボタンがある場合はクリックして設定を削除し、Firefox を再起動して再確認。</p></li></ul></li></ol><p>⛔ Tab Mix Plus をインストールすると競合が発生するため導入しないこと。</p></details>
+	- [alice0775/userChrome.js](https://github.com/alice0775/userChrome.js) <details><summary>インストール手順</summary><p>📝 注意：これは簡易な参考用の手順なので、正確で詳細な情報は公式ページを確認してください。</p><ol><li><p>Firefox で [about:support](https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox) を開いて、プログラムフォルダーとプロファイルフォルダーを確認：</p><ul><li>「プログラムの実行ファイル」のところで `firefox.exe` の場所を確認（例：`C:\Program Files\Mozilla Firefox`）。</li><li>「プロファイルフォルダー」のところで「フォルダーを開く」をクリック。</li></ul></li><li><p>[GitHub ページ](https://github.com/alice0775/userChrome.js)を開き、緑の Code ボタンの左にある Go to file 検索ボックスを探すか、`T` キーを押してフォーカス：</p><ul><li>`userChrome.js` と入力して最新バージョン（通常は `xxx/userChrome.js`）を選び、📥 ボタンをクリックしてダウンロード。</li><li>`install_folder` と入力して最新バージョン（通常は `xxx/install_folder`）を選び、`config.js` と `defaults/pref/config-prefs.js` をダウンロード。</li></ul><p>⚠️ コピーして貼り付けやその他の方法で作成すると、誤ったファイルエンコードが発生する可能性がある。</p></li><li><p>必要なファイルをプログラムフォルダーに配置：</p><ul><li>`config.js` をプログラムフォルダーに置く（管理者権限が必要な場合あり）。</li><li>`config-prefs.js` をプログラムフォルダー内の `defaults\pref` フォルダーに置く。</li></ul></li><li><p>必要なファイルをプロファイルフォルダーに配置：</p><ul><li>プロファイルフォルダーに `chrome` フォルダーがなければ作成。</li><li>`userChrome.js` を `chrome` フォルダーに置く。</li></ul></li><li><p>about:support の右上にある「起動時キャッシュを消去...」ボタンをクリックして Firefox を再起動。</p></li><li><p>導入が正しく動いているか確認：</p><ul><li><p>`Ctrl`+`Shift`+`J` を押して「ブラウザーコンソール」を開き、「ログ」フィルターを有効にして Filter Output に `getScripts` を入力し、関連ログが表示されるか確認。</p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/alice-scriptloader-ja.png"></li></ul></li></ol></details>
  	- [Endor8/userChrome.js](https://github.com/Endor8/userChrome.js)（ドイツ語）
  	- [BSTweaker/UserChromeJS](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)
-    <p>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に希望がなければ、<a href="https://github.com/MrOtherGuy/fx-autoconfig/commit/8453c45dc67496864aeb593dabb8d991a5785989">更新チェック機能</a>を提供する MrOtherGuy/fx-autoconfig を試すか、<a href="https://kamehiyo.com/firefox_multitub_new/">bunji_ 氏の記事</a>を参考にして Firefox Scripts をインストールすることができる。</p>
+    <p>どのローダーを使っても、このスクリプトを適用する上で実質的な違いはない。好きなものを選べばいい。特に希望がなければ、更新チェック機能を提供する MrOtherGuy/fx-autoconfig を試すことができる。</p>
 	<p><strong>🚨 重要：</strong>Firefox のアップデート後にスクリプトローダーが動作しなくなるのは非常によくあるケース。その場合は、使用しているスクリプトローダーの新しいバージョンを上記のページで確認してください。</p>
 
-3. Firefox を完全に終了（`Ctrl`+`Shift`+`Q`）し、再起動する（または [about:support](https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox) の「起動時キャッシュを消去」ボタンを使用して再起動）、スクリプトローダーが正しく動作しているか確認する。使用するローダーによって確認方法が異なる：
-   <table>
-	   <tr>
-		   <td>MrOtherGuy/fx-autoconfig</td>
-		   <td>初回起動時に「fx-autoconfig: Firefox is being modified with custom autoconfig scripting」という通知メッセージが表示される。さらに、ツールメニュー（<code>Alt</code>+<code>T</code>）に userScripts という新しい項目が表示される。</td>
-	   </tr>
-	   <tr>
-		   <td width="230">Firefox Scripts</td>
-		   <td><a href="https://support.mozilla.org/kb/about-config-editor-firefox">about:config</a> を開き、<code>userChromeJS.enabled</code> を検索する。設定が存在し、右側に削除ボタン（🗑）が表示されていなければインストール成功。</td>
-	   </tr>
-	   <tr>
-		   <td>alice0775/userChrome.js</td>
-		   <td><code>Ctrl</code>+<code>Shift</code>+<code>J</code> を押してブラウザーコンソールを開く。「ログ」フィルターを有効にし、 「出力を絞り込み」に <code>getScripts</code> を入力して、関連ログが表示されるか確認。<details><summary>スクリーンショット</summary><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/alice-scriptloader-ja.png"></details></td>
-	   </tr>
-	   <tr>
-		   <td>Endor8/userChrome.js</td>
-		   <td>検証する簡単な方法はない。</td>
-	   </tr>
-	   <tr>
-		   <td>BSTweaker/UserChromeJS</td>
-		   <td>ツールメニュー（<code>Alt</code>+<code>T</code>）に UserChromeJSLoader という新しい項目が表示される。</td>
-	   </tr>
-   </table>
-
-4. 他のタブ関連スクリプトやカスタマイズスタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` フォルダーから移動する。
+3. 他のタブ関連スクリプトやカスタマイズスタイルが有効になっていないことを確認してください。念のため、他の `*.uc.js` と `userChrome.css` ファイルを一時的に `chrome` フォルダーから移動する。
    <p>⚠️ <code>userChrome.css</code> のカスタマイズスタイルとの競合による問題が多数報告されており、まずタブやタブバーに関連するすべてのスタイルを削除し、以下の設定でカバーできない場合は、必要に応じて後から書き直すことを強く推奨。</p>
 
-5. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし（右クリックして保存）、`chrome` フォルダーに配置する（MrOtherGuy/fx-autoconfig 使用時は `chrome\JS` サブフォルダー）。
+4. 📥 [スクリプトファイル](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)をダウンロードし（右クリックして保存）、`chrome` フォルダーに配置する（MrOtherGuy/fx-autoconfig 使用時は `chrome\JS` サブフォルダー）。
    <p>⚠️ コピーして貼り付けやその他の方法で作成すると、誤ったファイルエンコードが発生する可能性がある。</p>
    <p>⛔ 保存中または保存後にファイル名を変更しないでください。</p>
 
-6. Firefox を再起動して適用する。
+5. Firefox を再起動して適用する。
 
-7. 手順 4 で一部のファイルを `chrome` フォルダーの外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、そのスクリプトや `userChrome.css` 内のルールを調整してください。お困りの際は、🛟 [こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
+6. 手順 3 で一部のファイルを `chrome` フォルダーの外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、そのスクリプトや `userChrome.css` 内のルールを調整してください。お困りの際は、🛟 [こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
 
 ## 設定
 [about:config](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao.` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されている。
