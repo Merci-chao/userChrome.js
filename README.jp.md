@@ -167,7 +167,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `checkUpdateFrequency` | <p>🔸 **更新チェック頻度**</p><p>新バージョンの確認頻度（日単位）。最小値：`1`。</p> |
 | `currentVersion` | <p>🔸 **現在のバージョン**</p><p>現在使用しているバージョン。</p> |
 | `debugMode`<span title="使用禁止">⛔</span> | <p>🔸 **デバッグモード**</p><p>一般向けではない。</p> |
-| `incompatible` | <p>🔸 **互換性警告設定**</p><p>この項目は互換性のないバージョンの Firefox を実行している場合にのみ表示される。変更すると、Firefox の起動時に再び互換性警告が表示される。</p> |
+| `incompatible` | <p>🔸 **互換性警告**</p><p>この項目は互換性のないバージョンの Firefox を実行している場合にのみ表示される。変更すると、Firefox の起動時に再び互換性警告が表示される。</p> |
 
 ### Firefox の組み込み設定
 | 項目（接頭辞なし） | 説明 |
