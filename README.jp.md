@@ -118,8 +118,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `spaceAfterTabsOnMaximizedWindow` | <p>🔸 **最大化時の右上スペース**</p><p>最大化時のウィンドウ操作ボタン前の空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
 | `spaceBeforeTabs` | <p>🔸 **左上スペース**</p><p>ウィンドウの左上隅の空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
 | `spaceBeforeTabsOnMaximizedWindow` | <p>🔸 **最大化時の左上スペース**</p><p>最大化時のウィンドウの左上隅の空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
-| `tabsAtBottom` | <p>🔸 **タブバーの表示位置**</p> タブバーの位置を変更：<ul><li>`0`－メニューバー下</li><li>`1`－ナビゲーションツールバー下</li><li>`2`－ブックマークツールバー下</li><li>`-1`－ブラウザコンテンツ下</li></ul> |
-| `tabsbarItemsAlign` | <p>🔸 **タブバー項目の縦位置**</p> 多段モードでタブバー内の項目（主にボタン）の配置：<ul><li>`start`－上</li><li>`center`－中</li><li>`end`－下</li></ul><p>Firefox 115 では非対応。</p> |
+| `tabsAtBottom` | <p>🔸 **タブバーの表示位置**</p> タブバーの位置を変更：<ul><li>`0`－メニューバー下</li><li>`1`－ナビゲーションツールバー下</li><li>`2`－ブックマークツールバー下</li><li>`-1`－ブラウザコンテンツ下</li></ul><p>Firefox 115 では非対応。</p> |
+| `tabsbarItemsAlign` | <p>🔸 **タブバー項目の縦位置**</p> 多段モードでタブバー内の項目（主にボタン）の配置：<ul><li>`start`－上</li><li>`center`－中</li><li>`end`－下</li></ul>`tabsUnderControlButtons` が `0` または `1` でタブバーがスクロール可能時のみ有効。 |
 | `tabsUnderControlButtons` | <p>🔸 **操作ボタン下にタブ配置**</p> 多段表示時にウィンドウ操作ボタンの下にタブを配置：<ul><li>`0`－無効</li><li>`1`－タブバーがスクロール不可能時のみ（旧式オプション、非推奨）</li><li>`2`－常に有効</li></ul> |
 | `thinScrollbar` | <p>🔸 **細いスクロールバー**</p><p>タブバーがスクロール可能な時、上下ボタンなしの細いスクロールバーを使用。</p> |
 
@@ -174,8 +174,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ------------- | ------------- |
 | `browser.nova.enabled` | <p>🔸 **Nova デザイン有効化**</p><p>Nova デザイン（開発中）を適用。Firefox 152 以降で利用可能。</p> |
 | `browser.tabs.dragDrop.createGroup.delayMS` | <p>🔸 **ドラッグでグループ化遅延**</p><p>ドラッグしてグループ化を開始するまでの遅延時間（ミリ秒）。Firefox 115 では非対応。</p> |
-| <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | <p>🔸 **ドラッグでグループ化**</p><p>タブを他のタブにドロップした際にグループ化。Firefox 140 では、この名前で新しい真偽設定を作成し切り替える。Firefox 115 では非対応。</p> |
-| <span id="dragToPinEnabled">`browser.tabs.dragDrop.dragToPin.enabled`</span> | <p>🔸 **ドラッグでピン留め操作**</p><p>同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を有効化。例：タブをピン留めされたタブにドロップすると、ピン留めされるかどうか。この名前で新しい真偽設定を作成し切り替える。</p> |
+| `browser.tabs.dragDrop.createGroup.enabled` | <p>🔸 **ドラッグでグループ化**</p><p>タブを他のタブにドロップした際にグループ化。Firefox 140 では、この名前で新しい真偽設定を作成し切り替える。Firefox 115 では非対応。</p> |
+| `browser.tabs.dragDrop.dragToPin.enabled` | <p>🔸 **ドラッグでピン留め操作**</p><p>同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を有効化。例：タブをピン留めされたタブにドロップするとピン留めされる。この名前で新しい真偽設定を作成し切り替える。</p> |
 | `browser.tabs.dragDrop.moveOverThresholdPercent` | <p>🔸 **ドラッグ移動の重なり閾値**</p><p>ドラッグして移動する際に必要な重なりの割合。`100 - n` がグループ化のしきい値を定義する。例えば値が `80` の場合、20% 以上重なればグループ化され、80% 以上重なれば移動される。最小値：`0`、最大値：`100`。以下の場合は値が `50` に固定される：<ul><li>別の段へ移動する場合</li><li>Firefox 115 を使用している場合</li><li>ドラッグによるグループ化が無効化されている場合</li><li>`dynamicMoveOverThreshold` が有効な特定のシナリオ</li></ul></p> |
 | <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | <p>🔸 **ドラッグ時のスタッキング**</p><p>タブのドラッグ時にスタッキング（積み重ね）を有効化。この名前で新しい真偽設定を作成し切り替える。</p> |
 | `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <p>🔸 **ピン留めインジケーター表示遅延**</p><p><a href="#hidePinnedDropIndicator">ピン留めインジケーター</a>を表示するまでの遅延時間（ミリ秒）。Firefox 115 と 140 では非対応。</p> |
