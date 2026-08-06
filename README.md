@@ -108,7 +108,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `hamburgerMenuOnTabBar` | <p>🔸 **Menu Button on Tab Bar (Smart Windows)**</p><p>Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar on smart windows. Forcibly inactivated when `tabsAtBottom` is enabled. Not available on Firefox 115 and 140.</p> |
 | `hideAllTabs` | <p>🔸 **Hide All Tabs Button**</p><p>Hide the *List all tabs* button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing *Remove from Toolbar*.</p> |
 | `hideEmptyPlaceholderWhenScrolling` | <p>🔸 **Hide Empty Floating Area when Scrolling**</p><p>If there is no item in the upper corner, hide the empty area in that corner when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`.</p> |
-| `justifyCenter` | <p>🔸 **Center Justify Tabs**</p> Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
+| `justifyCenter` | <p>🔸 **Center Justify Tabs**</p><p>Justify tabs to the center horizontally:</p><ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
 | `maxTabRows` | <p>🔸 **Maximum Tab Rows**</p><p>Maximum number of rows to display at once. Minimum: `1`.</p><p>📝 Note: The actual count depends on the window width, refer to `rowIncreaseEvery`.</p> |
 | `newTabButtonAfterLastTab` | <p>🔸 **New Tab Button after Last Tab**</p><p>Place the New Tab button after the last tab. When disabled, the button follows the position specified in toolbar customization.</p><p>📝 Note: The New Tab button stays after the last tab only when it is placed directly after the tabs.</p> |
 | `positionPinnedTabs` | <p>🔸 **Pinned Tabs Fixed Position**</p><p>Position pinned tabs as a fixed grid before normal tabs when the tab bar is scrollable.</p> |
@@ -121,8 +121,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `spaceBeforeTabs` | <p>🔸 **Top-Left Space**</p><p>Empty space on the top left corner of the window. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
 | `spaceBeforeTabsOnMaximizedWindow` | <p>🔸 **Top-Left Space (Maximized)**</p><p>Empty space on the top left corner of the window, when maximumized. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
 | `tabsAtBottom` | <p>🔸 **Tab Bar Position**</p><p>Position the tab bar beneath:</p><ul><li>`0` - the menu bar</li><li>`1` - the navigation toolbar</li><li>`2` - the bookmarks toolbar</li><li>`-1` - the browser content</li></ul><p>Not available on Firefox 115.</p> |
-| `tabsbarItemsAlign` | <p>🔸 **Tab Bar Items Alignment**</p> Alignment of the items (mainly buttons) in the tab bar when there are multiple rows:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with the tab bar is scrollable. |
-| `tabsUnderControlButtons` | <p>🔸 **Tabs under Control Buttons**</p> <a name="tabsUnderControlButtons"></a>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when the tab bar is not scrollable (legacy option, not recommended)</li><li>`2` - always</li></ul> |
+| `tabsbarItemsAlign` | <p>🔸 **Tab Bar Items Alignment**</p><p>Alignment of the items (mainly buttons) in the tab bar when there are multiple rows:</p><ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with the tab bar is scrollable. |
+| `tabsUnderControlButtons` | <p>🔸 **Tabs under Control Buttons**</p><p>Show tabs beneath window control buttons when there are multiple rows:</p><ul><li>`0` - never</li><li>`1` - when the tab bar is not scrollable (legacy option, not recommended)</li><li>`2` - always</li></ul> |
 | `thinScrollbar` | <p>🔸 **Thin Scrollbar**</p><p>Use a thin scrollbar without up and down buttons when the tab bar is scrollable.</p> |
 
 ### Tab Sizing
@@ -159,14 +159,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `scrollbarThumbColor` | <p>🔸 **Scrollbar Thumb Color**</p><p>Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`.</p> |
 | `scrollbarTrackColor` | <p>🔸 **Scrollbar Track Color**</p><p>Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`.</p> |
 | `showScrollShadow` | <p>🔸 **Show Scroll Shadow**</p><p>Show shadow on the top and bottom edges when the tab bar is scrollable.</p> |
-| `themeImageSize` | <p>🔸 **Theme Image Size**</p> When using themes with background images, size the image according to:<ul><li>`-1` - the original size of the image</li><li>`0` - the maximum number of rows allowed</li><li>`1` - the maximum number of rows allowed within the current window width</li><li>`2` - the current number of rows</li></ul><p>The best choice depends on your preference and the design of the theme. No difference when the image height is large enough to support the number of rows.</p> |
+| `themeImageSize` | <p>🔸 **Theme Image Size**</p><p>When using themes with background images, size the image according to:</p><ul><li>`-1` - the original size of the image</li><li>`0` - the maximum number of rows allowed</li><li>`1` - the maximum number of rows allowed within the current window width</li><li>`2` - the current number of rows</li></ul><p>The best choice depends on your preference and the design of the theme. No difference when the image height is large enough to support the number of rows.</p> |
 
 ### Miscellaneous
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
 | `checkUpdate` | <p>🔸 **Check for Updates**</p><p>Check for a new version of this script when Firefox starts up or opens new windows. Set to `1` to enable or `0` to disable. The value will be updated with the last checking time (e.g. `1759911972`). Execute the check immediately in a new window by resetting it to `1`.</p><p>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</p><p>📝 Note: Updates for this script will not be notified when using older versions of Firefox (except 115 and 140).</p> |
-| `checkUpdateAutoApply` | <p>🔸 **Auto Apply Updates**</p> Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and sliently, also receive updates for minor changes and fixes that do not trigger notifications</li></ul> |
+| `checkUpdateAutoApply` | <p>🔸 **Auto Apply Updates**</p><p>Update the script file automatically when there is a new version:</p><ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and sliently, also receive updates for minor changes and fixes that do not trigger notifications</li></ul> |
 | `checkUpdateFrequency` | <p>🔸 **Update Check Frequency**</p><p>How often to check for new versions (days). Minimum: `1`.</p> |
 | `currentVersion` | <p>🔸 **Current Version**</p><p>The version number you are currently using.</p> |
 | `debugMode`<span title="Do Not Use">⛔</span> | <p>🔸 **Debug Mode**</p><p>Not for general use.</p> |
@@ -177,17 +177,17 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
 | `browser.nova.enabled` | <p>🔸 **Nova Design**</p><p>Apply the Nova design (in development). Available on Firefox 152+.</p> |
-| `browser.tabs.dragDrop.createGroup.delayMS` | <p>🔸 **Group Creation Delay**</p><p>Time to wait (in milliseconds) before starting to group tabs during dragging. Not available on Firefox 115.</p> |
+| `browser.tabs.dragDrop.createGroup.delayMS` | <p>🔸 **Drag to Create Tab Group Delay**</p><p>Time to wait (in milliseconds) before starting to group tabs during dragging. Not available on Firefox 115.</p> |
 | `browser.tabs.dragDrop.createGroup.enabled` | <p>🔸 **Drag to Create Tab Group**</p><p>Drag tabs together to create tab groups. On Firefox 140, create a new boolean preference with this name to toggle. Not available on Firefox 115.</p> |
 | `browser.tabs.dragDrop.dragToPin.enabled` | <p>🔸 **Drag to Pin Tabs**</p><p>Enable tab pinning/unpinning via drag & drop in the same window, e.g. whether dropping tabs onto the pinned tabs will pin them. Create a new boolean preference with this name to toggle.</p> |
 | `browser.tabs.dragDrop.moveOverThresholdPercent` | <p>🔸 **Drag Overlap Threshold**</p><p>Percentage of overlap required when dragging to move. `100 - n` defines the grouping threshold. For example, if the value is `80`, then overlapping 20%+ will group tabs, while overlapping 80%+ will move them over. Minimum: `0`, Maximum: `100`. The value is locked at `50` in the following cases: </p><ul><li>when moving to another row</li><li>when using Firefox 115</li><li>when dragging to group tabs is disabled</li><li>in certain scenarios when `dynamicMoveOverThreshold` is enabled</li></ul> |
-| <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | <p>🔸 **Enable Tab Stacking**</p><p>Enable tab stacking when dragging tabs. Create a new boolean preference with this name to toggle.</p> |
+| <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | <p>🔸 **Tab Stacking**</p><p>Enable tab stacking when dragging tabs. Create a new boolean preference with this name to toggle.</p> |
 | `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <p>🔸 **Pinned Drop Indicator Delay**</p><p>Time to wait (in milliseconds) before showing the <a href="#hidePinnedDropIndicator">pinned drop indicator</a>. Not available on Firefox 115 and 140.</p> |
 | `browser.tabs.tabClipWidth` | <p>🔸 **Close Button Display Width**</p> Close buttons will show on the tabs that are wider than this size. Takes effect in new windows after changing. When the value is:<ul><li>equal to or larger than `tabMaxWidth` - never show close buttons on non-selected tabs</li><li>smaller than `browser.tabs.tabMinWidth` - always show close buttons on non-selected tabs</li></ul> |
 | `browser.tabs.tabMinWidth` | <p>🔸 **Tab Minimum Width**</p><p>Minimum width of normal tabs, including the white space around. Minimum: `50`.</p> |
-| `browser.theme.windows.accent-color-in-tabs.enabled` | <p>🔸 **Windows Accent Color in Tabs**</p><p>Apply the system accent color on the tab bar (Windows 10).</p> |
+| `browser.theme.windows.accent-color-in-tabs.enabled` | <p>🔸 **Accent Color in Tabs**</p><p>Apply the system accent color on the tab bar (Windows 10).</p> |
 | `widget.windows.mica` | <p>🔸 **Mica Style**</p><p>Apply the native window style (Windows 11).</p> |
-| `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Windows 11 Backdrop Effect**</p> Choose the effect of the window backdrop (Windows 11).<ul><li>`0` - auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
+| `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Mica Backdrop Effect**</p> Choose the effect of the window backdrop (Windows 11).<ul><li>`0` - auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
