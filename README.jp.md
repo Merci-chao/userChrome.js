@@ -78,20 +78,20 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `animateTabMoveShiftKeyToPause` | `Shift` キーを押している間、ドラッグ＆ドロップのアニメーションを一時停止して代わりにドロップインジケーターを表示し、他の段の特定アイテムの隣に移動しづらい特別な状況で役立つ。 |
-| `animateTabMoveUnderLimit` | 表示されているタブ数がこの値に達すると、ドラッグ＆ドロップのアニメーションを無効化し、代わりにドロップインジケーターを表示する。値を `3` 未満に設定すると、移動にインジケーターが強制的に使われる。タブが多すぎてドラッグで遅延が発生する場合は、この値を下げることを検討。 |
-| `animationDuration` | アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する可能性がある）。 |
-| `dragStackPreceding` | ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。 |
-| `dynamicMoveOverThreshold` | ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `browser.tabs.dragDrop.createGroup.enabled` が無効な場合は非対応。 |
-| `hideDragPreview` | ドラッグ中にカーソルの傍に表示されるドラッグプレビューを非表示：<ul><li>`0`－常に表示</li><li>`1`－グループのみ</li><li>`2`－タブのみ</li><li>`3`－両方</li></ul> |
-| <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 と 140 では非対応。 |
-| `hideScrollButtonsWhenDragging` | ドラッグ中にスクロールボタンを視覚的に非表示。 |
-| `linesToDragScroll` | タブを上端・下端へドラッグしたときのスクロール段数。最小値：`1`。 |
-| `linesToScroll` | マウスホイール操作によるスクロール段数。最小値：`1`。 |
-| `previewPanelNoteEditable` | Firefox のタブノート機能が有効になっている場合、タブプレビューパネルにカーソルを合わせると、内部のノートを編集可能。Firefox 115 と 140 では非対応。 |
-| `previewPanelShifted` | 多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 と 140 では非対応。<ul><li>`0`－無効</li><li>`1`－グループ用</li><li>`2`－タブ用</li><li>`3`－両方用</li></ul> |
-| `previewPanelShiftedAlways` | 一段しかない場合でもプレビューパネルをシフト。 |
-| `scrollButtonsSize` | ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値：`0` だが、表示上は少なくとも 2 デバイスピクセルの高さになる。最大値はタブの高さの半分までに制限される。 |
+| `animateTabMoveShiftKeyToPause` | <p>**Shift キーでドラッグアニメ一時停止**</p><p>`Shift` キーを押している間、ドラッグ＆ドロップのアニメーションを一時停止して代わりにドロップインジケーターを表示し、他の段の特定アイテムの隣に移動しづらい特別な状況で役立つ。</p> |
+| `animateTabMoveUnderLimit` | <p>**ドラッグアニメ上限**</p><p>表示されているタブ数がこの値に達すると、ドラッグ＆ドロップのアニメーションを無効化し、代わりにドロップインジケーターを表示する。値を `3` 未満に設定すると、移動にインジケーターが強制的に使われる。タブが多すぎてドラッグで遅延が発生する場合は、この値を下げることを検討。</p> |
+| `animationDuration` | <p>**アニメーション時間**</p><p>アニメーションの時間（ミリ秒、`0`～`1000` ※長すぎるとパフォーマンスに影響する可能性がある）。</p> |
+| `dragStackPreceding` | <p>**ドラッグ時の前タブスタック**</p><p>ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。</p> |
+| `dynamicMoveOverThreshold` | <p>**動的ドラッグ閾値**</p><p>ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `browser.tabs.dragDrop.createGroup.enabled` が無効な場合は非対応。</p> |
+| `hideDragPreview` | <p>**ドラッグプレビュー非表示**</p> ドラッグ中にカーソルの傍に表示されるドラッグプレビューを非表示：<ul><li>`0`－常に表示</li><li>`1`－グループのみ</li><li>`2`－タブのみ</li><li>`3`－両方</li></ul> |
+| <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | <p>**ピンインジケーター非表示**</p><p>ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 と 140 では非対応。</p> |
+| `hideScrollButtonsWhenDragging` | <p>**スクロールボタン非表示**</p><p>ドラッグ中にスクロールボタンを視覚的に非表示。</p> |
+| `linesToDragScroll` | <p>**ドラッグスクロール段数**</p><p>タブを上端・下端へドラッグしたときのスクロール段数。最小値：`1`。</p> |
+| `linesToScroll` | <p>**ホイールスクロール段数**</p><p>マウスホイール操作によるスクロール段数。最小値：`1`。</p> |
+| `previewPanelNoteEditable` | <p>**プレビュー内ノート編集可**</p><p>Firefox のタブノート機能が有効になっている場合、タブプレビューパネルにカーソルを合わせると、内部のノートを編集可能。Firefox 115 と 140 では非対応。</p> |
+| `previewPanelShifted` | <p>**プレビューパネルシフト**</p> 多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 と 140 では非対応。<ul><li>`0`－無効</li><li>`1`－グループ用</li><li>`2`－タブ用</li><li>`3`－両方用</li></ul> |
+| `previewPanelShiftedAlways` | <p>**常時パネルシフト**</p><p>一段しかない場合でもプレビューパネルをシフト。</p> |
+| `scrollButtonsSize` | <p>**スクロールボタンサイズ**</p><p>ドラッグ中のスクロールボタンのサイズ（ピクセル単位）。最小値：`0` だが、表示上は少なくとも 2 デバイスピクセルの高さになる。最大値はタブの高さの半分までに制限される。</p> |
 
 ### タブバーレイアウト
 
