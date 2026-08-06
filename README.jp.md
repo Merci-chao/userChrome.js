@@ -129,18 +129,18 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `gapAfterPinned` | <p>🔸 **ピン留めタブと通常タブの間隔**</p><p>ピン留めされたタブと通常タブの間の隙間。最小値：`0`。</p> |
+| `gapAfterPinned` | <p>🔸 **ピン留めタブと通常タブの間隔**</p><p>最小値：`0`。</p> |
 | `lastRowTabsFlexibe` | <p>🔸 **最後の段のタブ幅伸縮**</p><p>多段がある場合、最後の段のタブ幅を伸縮自在にする。`justifyCenter` が `2` の場合は強制的に有効化される。</p> |
 | `pinnedTabsFlexWidth` | <p>🔸 **ピン留めタブを通常幅扱い**</p><p>ピン留めされたタブのサイズを通常のタブと同様に扱う。有効化すると、`positionPinnedTabs` は強制的に無効化される。</p> |
 | `pinnedTabsFlexWidthIndicator` | <p>🔸 **ピン留めタブ背景インジケーター**</p><p>`pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブ上に淡い背景を表示。</p> |
-| `tabCornerRadius` | <p>🔸 **タブ角丸半径**</p><p>タブの角丸半径。`-1` に設定すると既定値が適用される。</p> |
-| `tabContentHeight` | <p>🔸 **タブ内容部分の高さ**</p><p>タブ内容部分の高さ。最小値：`16`。</p> |
+| `tabCornerRadius` | <p>🔸 **タブ角丸半径**</p><p>`-1` に設定すると既定値が適用される。</p> |
+| `tabContentHeight` | <p>🔸 **タブ内容部分の高さ**</p><p>最小値：`16`。</p> |
 | `tabContentHeightCompact` | <p>🔸 **コンパクトモードの高さ**</p><p>Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。</p> |
-| `tabHorizontalMargin` | <p>🔸 **タブ外側の水平余白**</p><p>タブ周囲の水平余白。最小値：`0`。</p> |
-| `tabHorizontalPadding` | <p>🔸 **タブ内側の水平余白**</p><p>タブ内側の水平余白。最小値：`0`。</p> |
+| `tabHorizontalMargin` | <p>🔸 **タブ外側の水平余白**</p><p>最小値：`0`。</p> |
+| `tabHorizontalPadding` | <p>🔸 **タブ内側の水平余白**</p><p>最小値：`0`。</p> |
 | `tabHorizontalPaddingCompact` | <p>🔸 **コンパクトモードの水平余白**</p><p>Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。</p> |
 | `tabMaxWidth` | <p>🔸 **タブ最大幅**</p><p>タブの最大幅（周囲の余白を含む）。最小幅には `browser.tabs.tabMinWidth` を使用し、実際の最大幅は必ずこの値より小さくなることはない。</p> |
-| `tabVerticalMargin` | <p>🔸 **タブ外側の垂直余白**</p><p>タブ周囲の垂直余白。最小値：`0`。</p> |
+| `tabVerticalMargin` | <p>🔸 **タブ外側の垂直余白**</p><p>最小値：`0`。</p> |
 | `tabVerticalMarginCompact` | <p>🔸 **コンパクトモードの垂直余白**</p><p>Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。</p> |
 
 ### 外観
