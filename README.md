@@ -80,13 +80,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| ~~`animateTabMoveMaxCount`~~<span title="Removed">🗑</span> | Replaced with `animateTabMoveUnderLimit`. |
 | `animateTabMoveShiftKeyToPause` | When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. This feature can be helpful in special situations where it is difficult to move items next to a specific one in another row. |
 | `animateTabMoveUnderLimit` | When the number of visible tabs reaches this amount, disable the drag & drop animation and show the drop indicator instead. Setting the value below `3` will effectively force using the indicator for moving. If dragging causes lag with many tabs, consider lowering this value. |
 | `animationDuration` | Duration of animations in milliseconds (valid range: `0` - `1000`). Note: Lengthy animations could strain system performance. |
-| ~~`disableDragToPinOrUnpin`~~<span title="Removed">🗑</span> | Use the built-in preference [`browser.tabs.dragDrop.dragToPin.enabled`](#dragToPinEnabled) instead. |
 | `dragStackPreceding` | Stack the preceding selected tabs of the dragged one (see [`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking)). When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue. |
-| ~~`dragToGroupTabs`~~<span title="Removed">🗑</span> | Use the built-in preference [`browser.tabs.dragDrop.createGroup.enabled`](#dragToGroupTabs) instead. |
 | `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or `browser.tabs.dragDrop.createGroup.enabled` is `false`. |
 | `hideDragPreview` | Hide the drag preview that appears next to the cursor during dragging:<ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
 | <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs. Not available on Firefox 115 and 140. |
@@ -153,7 +150,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| ~~`dynamicThemeImageSize`~~<span title="Removed">🗑</span> | Replaced with `themeImageSize`. |
 | `floatingBackdropBlurriness` | How blurry the background of the floating blocks is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. Minimum: `0`. Not available on Firefox 115 and in some cases where the blur effect cannot be applied. |
 | `floatingBackdropClip` | Clip the area covered by the floating blocks when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
 | `floatingBackdropOpacity` | How opaque the background of the floating blocks is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
