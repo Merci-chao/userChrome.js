@@ -80,50 +80,50 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| `animateTabMoveShiftKeyToPause` | When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. This feature can be helpful in special situations where it is difficult to move items next to a specific one in another row. |
-| `animateTabMoveUnderLimit` | When the number of visible tabs reaches this amount, disable the drag & drop animation and show the drop indicator instead. Setting the value below `3` will effectively force using the indicator for moving. If dragging causes lag with many tabs, consider lowering this value. |
-| `animationDuration` | Duration of animations in milliseconds (valid range: `0` - `1000`). Note: Lengthy animations could strain system performance. |
-| `dragStackPreceding` | Stack the preceding selected tabs of the dragged one (see [`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking)). When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue. |
-| `dynamicMoveOverThreshold` | Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or `browser.tabs.dragDrop.createGroup.enabled` is `false`. |
-| `hideDragPreview` | Hide the drag preview that appears next to the cursor during dragging:<ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
-| <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs. Not available on Firefox 115 and 140. |
-| `hideScrollButtonsWhenDragging` | Visually hide the up/down scroll buttons when dragging. |
-| `linesToDragScroll` | How many rows to scroll when dragging tabs to top/bottom edge. Minimum: `1`. |
-| `linesToScroll` | How many rows to scroll when using the mouse wheel. Minimum: `1`. |
-| `previewPanelNoteEditable` | Allow the tab preview panel to be hovered and the note inside to be editable when the tab note feature of Firefox is enabled. Not available on Firefox 115 and 140. |
-| `previewPanelShifted` | Shift the preview panel when there are multiple rows, reducing the effect of the panel blocking items in the rows underneath. Affects tabs only when `previewPanelNoteEditable` is `true`. Not available on Firefox 115 and 140.<ul><li>`0` - never</li><li>`1` - for groups</li><li>`2` - for tabs</li><li>`3` - for both</li></ul> |
-| `previewPanelShiftedAlways` | Shift the preview panel even when there is only one row. |
-| `scrollButtonsSize` | The size (in pixels) of the scroll buttons during dragging. Minimum: `0`, but it will be rendered as at least 2 device pixels in height; the maximum is limited to half the tab height. |
+| `animateTabMoveShiftKeyToPause` | <p>🔸 **Pause Drag Animation with Shift Key**</p><p>When pressing `Shift` key, pause the drag & drop animation and show the drop indicator instead. This feature can be helpful in special situations where it is difficult to move items next to a specific one in another row.</p> |
+| `animateTabMoveUnderLimit` | <p>🔸 **Drag Animation Limit**</p><p>When the number of visible tabs reaches this amount, disable the drag & drop animation and show the drop indicator instead. Setting the value below `3` will effectively force using the indicator for moving. If dragging causes lag with many tabs, consider lowering this value.</p> |
+| `animationDuration` | <p>🔸 **Animation Duration**</p><p>Duration of animations in milliseconds (valid range: `0` - `1000`). Note: Lengthy animations could strain system performance.</p> |
+| `dragStackPreceding` | <p>🔸 **Stack Preceding Tabs on Drag**</p><p>Stack the preceding selected tabs of the dragged one (see [`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking)). When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue.</p> |
+| `dynamicMoveOverThreshold` | <p>🔸 **Smooth Dragging**</p><p>Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or `browser.tabs.dragDrop.createGroup.enabled` is `false`.</p> |
+| `hideDragPreview` | <p>🔸 **Hide Drag Preview**</p><p>Hide the drag preview that appears next to the cursor during dragging:</p><ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
+| <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | <p>🔸 **Hide Pinned Drop Indicator**</p><p>Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs. Not available on Firefox 115 and 140.</p> |
+| `hideScrollButtonsWhenDragging` | <p>🔸 **Hide Scroll Buttons on Drag**</p><p>Visually hide the up/down scroll buttons when dragging.</p> |
+| `linesToDragScroll` | <p>🔸 **Drag Scroll Rows**</p><p>How many rows to scroll when dragging tabs to top/bottom edge. Minimum: `1`.</p> |
+| `linesToScroll` | <p>🔸 **Wheel Scroll Rows**</p><p>How many rows to scroll when using the mouse wheel. Minimum: `1`.</p> |
+| `previewPanelNoteEditable` | <p>🔸 **Editable Notes in Preview Panel**</p><p>Allow the tab preview panel to be hovered and the note inside to be editable when the tab note feature of Firefox is enabled. Not available on Firefox 115 and 140.</p> |
+| `previewPanelShifted` | <p>🔸 **Shift Preview Panel**</p><p>Shift the preview panel when there are multiple rows, reducing the effect of the panel blocking items in the rows underneath. Affects tabs only when `previewPanelNoteEditable` is `true`. Not available on Firefox 115 and 140.</p><ul><li>`0` - never</li><li>`1` - for groups</li><li>`2` - for tabs</li><li>`3` - for both</li></ul> |
+| `previewPanelShiftedAlways` | <p>🔸 **Always Shift Preview Panel**</p><p>Shift the preview panel even when there is only one row.</p> |
+| `scrollButtonsSize` | <p>🔸 **Scroll Button Height**</p><p>The height (in pixels) of the scroll buttons during dragging. Minimum: `0`, but it will be rendered as at least 2 device pixels in height; the maximum is limited to half the tab height.</p> |
 
 ### Tab Bar Layout
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| `autoCollapse`<span title="Experimental">🧪</span> | Tabs will collapse to a single row when the cursor is not hovering. Enabling this feature will forcibly disable `tabsUnderControlButtons` and `positionPinnedTabs`. On Firefox 115, setting `layout.css.has-selector.enabled` as `true` is required.
-| `autoCollapseDelayCollapsing` | Delay before collapsing the tabs when the cursor moves away (in milliseconds). Minimum: `0`. |
-| `autoCollapseDelayExpanding` | Delay before expanding the tabs when the cursor hovers over them (in milliseconds). Minimum: `0`. |
-| `compactControlButtons` | Display the window control buttons to a compact size. Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
-| `controlButtonsAutoHide` | Hide the window control buttons and show them when the cursor enters the top right corner:<ul><li>`0` - disabled</li><li>`1` - only on maximized windows</li><li>`2` - on all windows</li></ul><p>Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
-| `controlButtonsAutoHideTriggerHeight` | The height of the trigger area. |
-| `hamburgerMenuOnTabBar` | Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar on smart windows. Forcibly inactivated when `tabsAtBottom` is enabled. Not available on Firefox 115 and 140. |
-| `hideAllTabs` | Hide the *List all tabs* button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing *Remove from Toolbar*. |
-| `hideEmptyPlaceholderWhenScrolling` | If there is no item in the upper corner, hide the empty space in that corner when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
-| `justifyCenter` | Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
-| `maxTabRows` | <p>Maximum number of rows to display at once. Minimum: `1`.</p><p>📝 Note: The actual count depends on the window width, refer to `rowIncreaseEvery`.</p> |
-| `newTabButtonAfterLastTab` | <p>Place the New Tab button after the last tab. When disabled, the button follows the position specified in toolbar customization.</p><p>📝 Note: The New Tab button stays after the last tab only when it is placed directly after the tabs.</p> |
-| `positionPinnedTabs` | Position pinned tabs as a fixed grid before normal tabs when the tab bar is scrollable. |
-| `privateBrowsingIconOnNavBar` | Move the private window icon to the navigation toolbar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled. |
-| `rowIncreaseEvery` | Each time the window width increases by this amount, one more row is displayed. A narrower window will therefore show fewer rows at once. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed. |
-| `rowStartIncreaseFrom` | When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed. |
-| `smartWindowButtonOnNavBar` | On classic windows, move the Firefox Smart Window switching button to the navigation toolbar. Forcibly activated when `tabsAtBottom` is enabled. Available on Firefox 149 to 153. |
-| `spaceAfterTabs` | Empty space before the window control buttons. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
-| `spaceAfterTabsOnMaximizedWindow` | Empty space before the window control buttons, when maximumized. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
-| `spaceBeforeTabs` | Empty space on the top left corner of the window. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
-| `spaceBeforeTabsOnMaximizedWindow` | Empty space on the top left corner of the window, when maximumized. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed. |
-| `tabsAtBottom` | Position the tab bar beneath:<ul><li>`0` - the menu bar</li><li>`1` - the navigation toolbar</li><li>`2` - the bookmarks toolbar</li><li>`-1` - the browser content</li></ul><p>Not available on Firefox 115.</p> |
-| `tabsbarItemsAlign` | Alignment of the items (mainly buttons) in the tab bar when there are multiple rows:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with the tab bar is scrollable. |
-| `tabsUnderControlButtons` | <a name="tabsUnderControlButtons"></a>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when the tab bar is not scrollable (legacy option, not recommended)</li><li>`2` - always</li></ul> |
-| `thinScrollbar` | Use a thin scrollbar without up and down buttons when the tab bar is scrollable. |
+| `autoCollapse`<span title="Experimental">🧪</span> | <p>🔸 **Auto Collapse Tabs**</p><p>Tabs will collapse to a single row when the cursor is not hovering. Enabling this feature will forcibly disable `tabsUnderControlButtons` and `positionPinnedTabs`. On Firefox 115, setting `layout.css.has-selector.enabled` as `true` is required.</p> |
+| `autoCollapseDelayCollapsing` | <p>🔸 **Collapse Delay**</p><p>Delay before collapsing the tabs when the cursor moves away (in milliseconds). Minimum: `0`.</p> |
+| `autoCollapseDelayExpanding` | <p>🔸 **Expand Delay**</p><p>Delay before expanding the tabs when the cursor hovers over them (in milliseconds). Minimum: `0`.</p> |
+| `compactControlButtons` | <p>🔸 **Compact Control Buttons**</p><p>Display the window control buttons to a compact size. Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
+| `controlButtonsAutoHide` | <p>🔸 **Auto-Hide Control Buttons**</p><p>Hide the window control buttons and show them when the cursor enters the top right corner:</p><ul><li>`0` - disabled</li><li>`1` - only on maximized windows</li><li>`2` - on all windows</li></ul><p>Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
+| `controlButtonsAutoHideTriggerHeight` | <p>🔸 **Trigger Height for Showing Control Buttons**</p><p>The height of the trigger area.</p> |
+| `hamburgerMenuOnTabBar` | <p>🔸 **Menu Button on Tab Bar (Smart Windows)**</p><p>Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar on smart windows. Forcibly inactivated when `tabsAtBottom` is enabled. Not available on Firefox 115 and 140.</p> |
+| `hideAllTabs` | <p>🔸 **Hide All Tabs Button**</p><p>Hide the *List all tabs* button. Only available on Firefox 115. On newer versions of Firefox, you may remove it by right-clicking on it and choosing *Remove from Toolbar*.</p> |
+| `hideEmptyPlaceholderWhenScrolling` | <p>🔸 **Hide Empty Floating Area when Scrolling**</p><p>If there is no item in the upper corner, hide the empty area in that corner when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`.</p> |
+| `justifyCenter` | <p>🔸 **Center Justify Tabs**</p> Justify tabs to the center horizontally:<ul><li>`0` - never</li><li>`1` - when there is only one row</li><li>`2` - always (behaviors such as closing tabs and collapsing tab groups may differ slightly)</li></ul> |
+| `maxTabRows` | <p>🔸 **Maximum Tab Rows**</p><p>Maximum number of rows to display at once. Minimum: `1`.</p><p>📝 Note: The actual count depends on the window width, refer to `rowIncreaseEvery`.</p> |
+| `newTabButtonAfterLastTab` | <p>🔸 **New Tab Button after Last Tab**</p><p>Place the New Tab button after the last tab. When disabled, the button follows the position specified in toolbar customization.</p><p>📝 Note: The New Tab button stays after the last tab only when it is placed directly after the tabs.</p> |
+| `positionPinnedTabs` | <p>🔸 **Pinned Tabs Fixed Position**</p><p>Position pinned tabs as a fixed grid before normal tabs when the tab bar is scrollable.</p> |
+| `privateBrowsingIconOnNavBar` | <p>🔸 **Private Browsing Icon on Navigation Toolbar**</p><p>Move the private window icon to the navigation toolbar. Not available on Firefox 115. Forcibly activated when `tabsAtBottom` is enabled.</p> |
+| `rowIncreaseEvery` | <p>🔸 **Row Increase per Width**</p><p>Each time the window width increases by this amount, one more row is displayed. A narrower window will therefore show fewer rows at once. When set to the minimum value `0`, the maximum number of rows is directly allowed to be displayed.</p> |
+| `rowStartIncreaseFrom` | <p>🔸 **Row Increase Start Width**</p><p>When the window width is larger than this number plus `rowIncreaseEvery`, multi-row display is allowed.</p> |
+| `smartWindowButtonOnNavBar` | <p>🔸 **Smart Window Button on Navigation Toolbar**</p><p>On classic windows, move the Firefox Smart Window switching button to the navigation toolbar. Forcibly activated when `tabsAtBottom` is enabled. Available on Firefox 149 to 153.</p> |
+| `spaceAfterTabs` | <p>🔸 **Top-Right Space**</p><p>Empty space before the window control buttons. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
+| `spaceAfterTabsOnMaximizedWindow` | <p>🔸 **Top-Right Space (Maximized)**</p><p>Empty space before the window control buttons, when maximumized. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
+| `spaceBeforeTabs` | <p>🔸 **Top-Left Space**</p><p>Empty space on the top left corner of the window. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
+| `spaceBeforeTabsOnMaximizedWindow` | <p>🔸 **Top-Left Space (Maximized)**</p><p>Empty space on the top left corner of the window, when maximumized. Minimum: `0`. Available when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
+| `tabsAtBottom` | <p>🔸 **Tab Bar Position**</p><p>Position the tab bar beneath:</p><ul><li>`0` - the menu bar</li><li>`1` - the navigation toolbar</li><li>`2` - the bookmarks toolbar</li><li>`-1` - the browser content</li></ul><p>Not available on Firefox 115.</p> |
+| `tabsbarItemsAlign` | <p>🔸 **Tab Bar Items Alignment**</p> Alignment of the items (mainly buttons) in the tab bar when there are multiple rows:<ul><li>`start` - top</li><li>`center` - middle</li><li>`end` - bottom</li></ul>This setting is only valid when `tabsUnderControlButtons` is `0`, or `1` with the tab bar is scrollable. |
+| `tabsUnderControlButtons` | <p>🔸 **Tabs under Control Buttons**</p> <a name="tabsUnderControlButtons"></a>Show tabs beneath window control buttons when there are multiple rows:<ul><li>`0` - never</li><li>`1` - when the tab bar is not scrollable (legacy option, not recommended)</li><li>`2` - always</li></ul> |
+| `thinScrollbar` | <p>🔸 **Thin Scrollbar**</p><p>Use a thin scrollbar without up and down buttons when the tab bar is scrollable.</p> |
 
 ### Tab Sizing
 
@@ -132,62 +132,62 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| `gapAfterPinned` | Empty space between the pinned tabs and normal tabs. Minimum: `0`. |
-| `lastRowTabsFlexibe` | Tabs in the last row have flexible width when multiple rows are present. Forcibly activated when `justifyCenter` is `2`. |
-| `pinnedTabsFlexWidth` | Make pinned tab sizing behave like normal tabs. Enabling this feature will forcibly disable `positionPinnedTabs`. |
-| `pinnedTabsFlexWidthIndicator` | Show a light background on pinned tabs when `pinnedTabsFlexWidth` is enabled. |
-| `tabContentHeight` | Height of tab content. Minimum: `16`. |
-| `tabContentHeightCompact` | Compact mode size when Nova automatic window density is enabled in Firefox 154+. The value is capped to the standard mode value. |
-| `tabCornerRadius` | The radius of the rounded corners of tabs. Set to `-1` to apply the default value. |
-| `tabHorizontalMargin` | Horizontal space around tab. Minimum: `0`. |
-| `tabHorizontalPadding` | Horizontal padding of tab. Minimum: `0`. |
-| `tabHorizontalPaddingCompact` | Compact mode size when Nova automatic window density is enabled in Firefox 154+. The value is capped to the standard mode value. |
-| `tabMaxWidth` | Maximum width of tabs, including the surrounding white space. Use `browser.tabs.tabMinWidth` for the minimum width, and the actual maximum width will never be lower than that. |
-| `tabVerticalMargin` | Vertical space around tab. Minimum: `0`. |
-| `tabVerticalMarginCompact` | Compact mode size when Nova automatic window density is enabled in Firefox 154+. The value is capped to the standard mode value. |
+| `gapAfterPinned` | <p>🔸 **Gap After Pinned Tabs**</p><p>Empty space between the pinned tabs and normal tabs. Minimum: `0`.</p> |
+| `lastRowTabsFlexibe` | <p>🔸 **Flexible Width for Last Row Tabs**</p><p>Tabs in the last row have flexible width when multiple rows are present. Forcibly activated when `justifyCenter` is `2`.</p> |
+| `pinnedTabsFlexWidth` | <p>🔸 **Pinned Tabs Flexible Width**</p><p>Make pinned tab sizing behave like normal tabs. Enabling this feature will forcibly disable `positionPinnedTabs`.</p> |
+| `pinnedTabsFlexWidthIndicator` | <p>🔸 **Pinned Tabs Indicator**</p><p>Show a light background on pinned tabs when `pinnedTabsFlexWidth` is enabled.</p> |
+| `tabContentHeight` | <p>🔸 **Tab Content Height**</p><p>Height of tab content. Minimum: `16`.</p> |
+| `tabContentHeightCompact` | <p>🔸 **Tab Content Height in Auto-Compact**</p><p>Compact mode size when Nova automatic window density is enabled in Firefox 154+. The value is capped to the standard mode value.</p> |
+| `tabCornerRadius` | <p>🔸 **Tab Corner Radius**</p><p>The radius of the rounded corners of tabs. Set to `-1` to apply the default value.</p> |
+| `tabHorizontalMargin` | <p>🔸 **Tab Horizontal Margin**</p><p>Horizontal space around tab. Minimum: `0`.</p> |
+| `tabHorizontalPadding` | <p>🔸 **Tab Horizontal Padding**</p><p>Horizontal padding of tab. Minimum: `0`.</p> |
+| `tabHorizontalPaddingCompact` | <p>🔸 **Tab Horizontal Padding in Auto-Compact**</p><p>Compact mode size when Nova automatic window density is enabled in Firefox 154+. The value is capped to the standard mode value.</p> |
+| `tabMaxWidth` | <p>🔸 **Tab Maximum Width**</p><p>Maximum width of tabs, including the surrounding white space. Use `browser.tabs.tabMinWidth` for the minimum width, and the actual maximum width will never be lower than that.</p> |
+| `tabVerticalMargin` | <p>🔸 **Tab Vertical Margin**</p><p>Vertical space around tab. Minimum: `0`.</p> |
+| `tabVerticalMarginCompact` | <p>🔸 **Tab Vertical Margin in Auto-Compact**</p><p>Compact mode size when Nova automatic window density is enabled in Firefox 154+. The value is capped to the standard mode value.</p> |
 
 ### Appearance
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| `floatingBackdropBlurriness` | How blurry the background of the floating blocks is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. Minimum: `0`. Not available on Firefox 115 and in some cases where the blur effect cannot be applied. |
-| `floatingBackdropClip` | Clip the area covered by the floating blocks when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. |
-| `floatingBackdropOpacity` | How opaque the background of the floating blocks is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`. |
-| `nativeWindowStyle` | Remove the background and display the native system style of windows, e.g. transparency effects of Windows 11 and effects from tools like [*DWMBlurGlass*](https://github.com/Maplespe/DWMBlurGlass). To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. It also allows you to remove the background color on themes designed with patterns with transparency. Not available on Firefox 115. |
-| `nativeWindowStyleToolbarColorOpacity` | The opacity of the background color of toolbars, and the dividing line between the navigation toolbar and the tab bar, minimum: `0`, maximum: `100`. Changing this setting cannot increase opacity if the original color contains transparency. Available when the tab bar is at the top or Firefox Nova is enabled. |
-| `nativeWindowStyleURLBarColorOpacity` | The opacity of the background color of the address bar and he search bar, minimum: `0`, maximum: `100`. Changing this setting cannot increase opacity if the original color includes transparency. |
-| `scrollbarThumbColor` | Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`. |
-| `scrollbarTrackColor` | Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`. |
-| `showScrollShadow` | Show shadow on the top and bottom edges when the tab bar is scrollable. |
-| `themeImageSize` | When using themes with background images, size the image according to:<ul><li>`-1` - the original size of the image</li><li>`0` - the maximum number of rows allowed</li><li>`1` - the maximum number of rows allowed within the current window width</li><li>`2` - the current number of rows</li></ul><p>The best choice depends on your preference and the design of the theme. No difference when the image height is large enough to support the number of rows.</p> |
+| `floatingBackdropBlurriness` | <p>🔸 **Floating Area Background Blurriness**</p><p>How blurry the background of the floating blocks is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. Minimum: `0`. Not available on Firefox 115 and in some cases where the blur effect cannot be applied.</p> |
+| `floatingBackdropClip` | <p>🔸 **Floating Area Clip Behind**</p><p>Clip the area covered by the floating blocks when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`.</p> |
+| `floatingBackdropOpacity` | <p>🔸 **Floating Area Background Opacity**</p><p>How opaque the background of the floating blocks is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. The value should be from `0` to `100`.</p> |
+| `nativeWindowStyle` | <p>🔸 **Native Window Style**</p> Remove the background and display the native system style of windows, e.g. transparency effects of Windows 11 and effects from tools like [*DWMBlurGlass*](https://github.com/Maplespe/DWMBlurGlass). To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. It also allows you to remove the background color on themes designed with patterns with transparency. Not available on Firefox 115. |
+| `nativeWindowStyleToolbarColorOpacity` | <p>🔸 **Toolbar Color Opacity**</p><p>The opacity of the background color of toolbars, and the dividing line between the navigation toolbar and the tab bar, minimum: `0`, maximum: `100`. Changing this setting cannot increase opacity if the original color contains transparency. Available when the tab bar is at the top or Firefox Nova is enabled.</p> |
+| `nativeWindowStyleURLBarColorOpacity` | <p>🔸 **URL Bar Color Opacity**</p><p>The opacity of the background color of the address bar and he search bar, minimum: `0`, maximum: `100`. Changing this setting cannot increase opacity if the original color includes transparency.</p> |
+| `scrollbarThumbColor` | <p>🔸 **Scrollbar Thumb Color**</p><p>Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`.</p> |
+| `scrollbarTrackColor` | <p>🔸 **Scrollbar Track Color**</p><p>Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`.</p> |
+| `showScrollShadow` | <p>🔸 **Show Scroll Shadow**</p><p>Show shadow on the top and bottom edges when the tab bar is scrollable.</p> |
+| `themeImageSize` | <p>🔸 **Theme Image Size**</p> When using themes with background images, size the image according to:<ul><li>`-1` - the original size of the image</li><li>`0` - the maximum number of rows allowed</li><li>`1` - the maximum number of rows allowed within the current window width</li><li>`2` - the current number of rows</li></ul><p>The best choice depends on your preference and the design of the theme. No difference when the image height is large enough to support the number of rows.</p> |
 
 ### Miscellaneous
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| `checkUpdate` | <p>Check for a new version of this script when Firefox starts up or opens new windows. Set to `1` to enable or `0` to disable. The value will be updated with the last checking time (e.g. `1759911972`). Execute the check immediately in a new window by resetting it to `1`.</p><p>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</p><p>📝 Note: Updates for this script will not be notified when using older versions of Firefox (except 115 and 140).</p> |
-| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and sliently, also receive updates for minor changes and fixes that do not trigger notifications</li></ul> |
-| `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
-| `currentVersion` | The version number you are currently using. |
-| `debugMode`<span title="Do Not Use">⛔</span> | Mode for debugging, not for general use. |
-| `incompatible` | This item only appears when you are running an incompatible version of Firefox. Modifying it will cause the compatibility alert to show up again when Firefox starts up. |
+| `checkUpdate` | <p>🔸 **Check for Updates**</p><p>Check for a new version of this script when Firefox starts up or opens new windows. Set to `1` to enable or `0` to disable. The value will be updated with the last checking time (e.g. `1759911972`). Execute the check immediately in a new window by resetting it to `1`.</p><p>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</p><p>📝 Note: Updates for this script will not be notified when using older versions of Firefox (except 115 and 140).</p> |
+| `checkUpdateAutoApply` | <p>🔸 **Auto Apply Updates**</p> Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and sliently, also receive updates for minor changes and fixes that do not trigger notifications</li></ul> |
+| `checkUpdateFrequency` | <p>🔸 **Update Check Frequency**</p><p>How often to check for new versions (days). Minimum: `1`.</p> |
+| `currentVersion` | <p>🔸 **Current Version**</p><p>The version number you are currently using.</p> |
+| `debugMode`<span title="Do Not Use">⛔</span> | <p>🔸 **Debug Mode**</p><p>Not for general use.</p> |
+| `incompatible` | <p>🔸 **Incompatible Info**</p><p>This item only appears when you are running an incompatible version of Firefox. Modifying it will cause the compatibility alert to show up again when Firefox starts up.</p> |
 
 ### Firefox Built-in Settings
 
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
-| `browser.nova.enabled` | Apply the Nova design (in development). Available on Firefox 152+. |
-| `browser.tabs.dragDrop.createGroup.delayMS` | Time to wait (in milliseconds) before starting to group tabs during dragging. Not available on Firefox 115. |
-| <span id="dragToGroupTabs">`browser.tabs.dragDrop.createGroup.enabled`</span> | Drag tabs together to create tab groups. On Firefox 140, create a new boolean preference with this name to toggle. Not available on Firefox 115. |
-| <span id="dragToPinEnabled">`browser.tabs.dragDrop.dragToPin.enabled`</span> | Enable tab pinning/unpinning via drag & drop in the same window, e.g. whether dropping tabs onto the pinned tabs will pin them. Create a new boolean preference with this name to toggle. |
-| `browser.tabs.dragDrop.moveOverThresholdPercent` | Percentage of overlap required when dragging to move. `100 - n` defines the grouping threshold. For example, if the value is `80`, then overlapping 20%+ will group tabs, while overlapping 80%+ will move them over. Minimum: `0`, Maximum: `100`. The value is locked at `50` in the following cases: <ul><li>when moving to another row</li><li>when using Firefox 115</li><li>when dragging to group tabs is disabled</li><li>in certain scenarios when `dynamicMoveOverThreshold` is enabled</li></ul> |
-| <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | Enable tab stacking when dragging tabs. Create a new boolean preference with this name to toggle. |
-| `browser.tabs.dragDrop.pinInteractionCue.delayMS` | Time to wait (in milliseconds) before showing the <a href="#hidePinnedDropIndicator">pinned drop indicator</a>. Not available on Firefox 115 and 140. |
-| `browser.tabs.tabClipWidth` | Close buttons will show on the tabs that are wider than this size. Takes effect in new windows after changing. When the value is:<ul><li>equal to or larger than `tabMaxWidth` - never show close buttons on non-selected tabs</li><li>smaller than `browser.tabs.tabMinWidth` - always show close buttons on non-selected tabs</li></ul> |
-| `browser.tabs.tabMinWidth` | Minimum width of normal tabs, including the white space around. Minimum: `50`. |
-| `browser.theme.windows.accent-color-in-tabs.enabled` | Apply the system accent color on the tab bar (Windows 10). |
-| `widget.windows.mica` | Apply the native system style on the tab bar (Windows 11). |
-| `widget.windows.mica.toplevel-backdrop` | Choose the effect of backdrop (Windows 11).<ul><li>`0` - auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
+| `browser.nova.enabled` | <p>🔸 **Nova Design**</p><p>Apply the Nova design (in development). Available on Firefox 152+.</p> |
+| `browser.tabs.dragDrop.createGroup.delayMS` | <p>🔸 **Group Creation Delay**</p><p>Time to wait (in milliseconds) before starting to group tabs during dragging. Not available on Firefox 115.</p> |
+| `browser.tabs.dragDrop.createGroup.enabled` | <p>🔸 **Drag to Create Tab Group**</p><p>Drag tabs together to create tab groups. On Firefox 140, create a new boolean preference with this name to toggle. Not available on Firefox 115.</p> |
+| `browser.tabs.dragDrop.dragToPin.enabled` | <p>🔸 **Drag to Pin Tabs**</p><p>Enable tab pinning/unpinning via drag & drop in the same window, e.g. whether dropping tabs onto the pinned tabs will pin them. Create a new boolean preference with this name to toggle.</p> |
+| `browser.tabs.dragDrop.moveOverThresholdPercent` | <p>🔸 **Drag Overlap Threshold**</p><p>Percentage of overlap required when dragging to move. `100 - n` defines the grouping threshold. For example, if the value is `80`, then overlapping 20%+ will group tabs, while overlapping 80%+ will move them over. Minimum: `0`, Maximum: `100`. The value is locked at `50` in the following cases: </p><ul><li>when moving to another row</li><li>when using Firefox 115</li><li>when dragging to group tabs is disabled</li><li>in certain scenarios when `dynamicMoveOverThreshold` is enabled</li></ul> |
+| <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | <p>🔸 **Enable Tab Stacking**</p><p>Enable tab stacking when dragging tabs. Create a new boolean preference with this name to toggle.</p> |
+| `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <p>🔸 **Pinned Drop Indicator Delay**</p><p>Time to wait (in milliseconds) before showing the <a href="#hidePinnedDropIndicator">pinned drop indicator</a>. Not available on Firefox 115 and 140.</p> |
+| `browser.tabs.tabClipWidth` | <p>🔸 **Close Button Display Width**</p> Close buttons will show on the tabs that are wider than this size. Takes effect in new windows after changing. When the value is:<ul><li>equal to or larger than `tabMaxWidth` - never show close buttons on non-selected tabs</li><li>smaller than `browser.tabs.tabMinWidth` - always show close buttons on non-selected tabs</li></ul> |
+| `browser.tabs.tabMinWidth` | <p>🔸 **Tab Minimum Width**</p><p>Minimum width of normal tabs, including the white space around. Minimum: `50`.</p> |
+| `browser.theme.windows.accent-color-in-tabs.enabled` | <p>🔸 **Windows Accent Color in Tabs**</p><p>Apply the system accent color on the tab bar (Windows 10).</p> |
+| `widget.windows.mica` | <p>🔸 **Mica Style**</p><p>Apply the native window style (Windows 11).</p> |
+| `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Windows 11 Backdrop Effect**</p> Choose the effect of the window backdrop (Windows 11).<ul><li>`0` - auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
