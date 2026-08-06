@@ -187,7 +187,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `browser.tabs.tabMinWidth` | <p>🔸 **Tab Minimum Width**</p><p>Minimum width of normal tabs, including the white space around. Minimum: `50`.</p> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | <p>🔸 **Accent Color in Tabs**</p><p>Apply the system accent color on the tab bar (Windows 10).</p> |
 | `widget.windows.mica` | <p>🔸 **Mica Style**</p><p>Apply the native window style (Windows 11).</p> |
-| `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Mica Backdrop Effect**</p> Choose the effect of the window backdrop (Windows 11).<ul><li>`0` - auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
+| `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Mica Backdrop Effect**</p><p>Choose the effect of the window backdrop (Windows 11):</p><ul><li>`0` - auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
