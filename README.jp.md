@@ -151,8 +151,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `floatingBackdropClip` | <p>🔸 **浮動領域の後ろ側を切り取る**</p><p>タブバーがスクロール可能時に、浮動領域が覆う部分をクリップする。`tabsUnderControlButtons` が `2` のときのみ有効。</p> |
 | `floatingBackdropOpacity` | <p>🔸 **浮動領域の背景不透明度**</p><p>タブバーがスクロール可能時に浮動領域の背景の不透明度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。</p> |
 | `nativeWindowStyle` | <p>🔸 **ネイティブスタイル表示**</p><p>背景を削除し、ウィンドウのネイティブなシステムスタイルを表示。例えば、Windows 11 の透明効果や [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合がある。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をする。また、透過パターンでデザインされたテーマの背景色を除去可能。Firefox 115 では非対応。</p> |
-| `nativeWindowStyleToolbarColorOpacity` | <p>🔸 **ツールバー背景色の不透明度**</p><p>ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。最小値：`0`、最大値：`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。タブバーが上部にある場合、または Firefox Nova が有効になっている場合に利用可能。</p> |
-| `nativeWindowStyleURLBarColorOpacity` | <p>🔸 **アドレスバー背景色の不透明度**</p><p>アドレスバーと検索バーの背景色の不透明度。最小値：`0`、最大値：`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。</p> |
+| `nativeWindowStyleToolbarColorOpacity` | <p>🔸 **ツールバー背景色の不透明度**</p><p>ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。値は `0`〜`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。タブバーが上部にある場合、または Firefox Nova が有効になっている場合に利用可能。</p> |
+| `nativeWindowStyleURLBarColorOpacity` | <p>🔸 **アドレスバー背景色の不透明度**</p><p>アドレスバーと検索バーの背景色の不透明度。値は `0`〜`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。</p> |
 | `scrollbarThumbColor` | <p>🔸 **スクロールバーつまみ色**</p><p>スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。</p> |
 | `scrollbarTrackColor` | <p>🔸 **スクロールバー軌道色**</p><p>スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。</p> |
 | `showScrollShadow` | <p>🔸 **スクロール端のシャドウ表示**</p><p>タブバーがスクロール可能な場合、上下の端にシャドウを表示。</p> |
@@ -176,7 +176,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `browser.tabs.dragDrop.createGroup.delayMS` | <p>🔸 **ドラッグでグループ化遅延**</p><p>ドラッグしてグループ化を開始するま遅延時間（ミリ秒）。Firefox 115 では非対応。</p> |
 | `browser.tabs.dragDrop.createGroup.enabled` | <p>🔸 **ドラッグでグループ化**</p><p>タブを他のタブにドロップした際にグループ化。Firefox 140 では、この名前で新しい真偽設定を作成し切り替える。Firefox 115 では非対応。</p> |
 | `browser.tabs.dragDrop.dragToPin.enabled` | <p>🔸 **ドラッグでピン留め操作**</p><p>同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を有効化。例：タブをピン留めされたタブにドロップするとピン留めされる。この名前で新しい真偽設定を作成し切り替える。</p> |
-| `browser.tabs.dragDrop.moveOverThresholdPercent` | <p>🔸 **ドラッグ移動の重なり閾値**</p><p>ドラッグして移動する際に必要な重なりの割合。`100 - n` がグループ化のしきい値を定義する。例えば値が `80` の場合、20% 以上重なればグループ化され、80% 以上重なれば移動される。最小値：`0`、最大値：`100`。以下の場合は値が `50` に固定される：<ul><li>別の段へ移動する場合</li><li>Firefox 115 を使用している場合</li><li>ドラッグによるグループ化が無効化されている場合</li><li>`dynamicMoveOverThreshold` が有効な特定のシナリオ</li></ul></p> |
+| `browser.tabs.dragDrop.moveOverThresholdPercent` | <p>🔸 **ドラッグ移動の重なり閾値**</p><p>ドラッグして移動する際に必要な重なりの割合。`100 - n` がグループ化のしきい値を定義する。例えば値が `80` の場合、20% 以上重なればグループ化され、80% 以上重なれば移動される。値は `0`〜`100`。以下の場合は値が `50` に固定される：<ul><li>別の段へ移動する場合</li><li>Firefox 115 を使用している場合</li><li>ドラッグによるグループ化が無効化されている場合</li><li>`dynamicMoveOverThreshold` が有効な特定のシナリオ</li></ul></p> |
 | <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | <p>🔸 **ドラッグ時のスタッキング**</p><p>タブのドラッグ時にスタッキング（積み重ね）を有効化。この名前で新しい真偽設定を作成し切り替える。</p> |
 | `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <p>🔸 **ピン留めインジケーター表示遅延**</p><p><a href="#hidePinnedDropIndicator">ピン留めインジケーター</a>を表示するま遅延時間（ミリ秒）。Firefox 115 と 140 では非対応。</p> |
 | `browser.tabs.tabClipWidth` | <p>🔸 **閉じるボタン表示幅**</p><p>このサイズを超えるタブには閉じるボタンを表示。変更後、新しいウィンドウで有効になる。値が：<ul><li>`tabMaxWidth` 以上の場合－非選択タブには閉じるボタンを非表示</li><li>`browser.tabs.tabMinWidth` 未満の場合－非選択タブには常に閉じるボタンを表示</li></ul></p> |
