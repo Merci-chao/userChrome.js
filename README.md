@@ -135,7 +135,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `gapAfterPinned` | <p>🔸 **Gap After Pinned Tabs**</p><p>Empty space between the pinned tabs and normal tabs. Minimum: `0`.</p> |
 | `lastRowTabsFlexibe` | <p>🔸 **Flexible Width for Last Row Tabs**</p><p>Tabs in the last row have flexible width when multiple rows are present. Forcibly activated when `justifyCenter` is `2`.</p> |
 | `pinnedTabsFlexWidth` | <p>🔸 **Pinned Tabs Flexible Width**</p><p>Make pinned tab sizing behave like normal tabs. Enabling this feature will forcibly disable `positionPinnedTabs`.</p> |
-| `pinnedTabsFlexWidthIndicator` | <p>🔸 **Pinned Tabs Indicator**</p><p>Show a light background on pinned tabs when `pinnedTabsFlexWidth` is enabled.</p> |
+| `pinnedTabsFlexWidthIndicator` | <p>🔸 **Pinned Tabs Background**</p><p>Show a light background on pinned tabs when `pinnedTabsFlexWidth` is enabled.</p> |
 | `tabContentHeight` | <p>🔸 **Tab Content Height**</p><p>Height of tab content. Minimum: `16`.</p> |
 | `tabContentHeightCompact` | <p>🔸 **Tab Content Height in Auto-Compact**</p><p>Compact mode size when Nova automatic window density is enabled in Firefox 154+. The value is capped to the standard mode value.</p> |
 | `tabCornerRadius` | <p>🔸 **Tab Corner Radius**</p><p>The radius of the rounded corners of tabs. Set to `-1` to apply the default value.</p> |
