@@ -132,7 +132,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `gapAfterPinned` | <p>🔸 **ピン留めタブと通常タブの間隔**</p><p>最小値：`0`。</p> |
 | `lastRowTabsFlexibe` | <p>🔸 **最後の段のタブ幅伸縮**</p><p>多段がある場合、最後の段のタブ幅を伸縮自在にする。`justifyCenter` が `2` の場合は強制的に有効化される。</p> |
 | `pinnedTabsFlexWidth` | <p>🔸 **ピン留めタブを通常幅扱い**</p><p>ピン留めされたタブのサイズを通常のタブと同様に扱う。有効化すると、`positionPinnedTabs` は強制的に無効化される。</p> |
-| `pinnedTabsFlexWidthIndicator` | <p>🔸 **ピン留めタブ背景インジケーター**</p><p>`pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブ上に淡い背景を表示。</p> |
+| `pinnedTabsFlexWidthIndicator` | <p>🔸 **ピン留めタブ背景**</p><p>`pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブ上に淡い背景を表示。</p> |
 | `tabCornerRadius` | <p>🔸 **タブ角丸半径**</p><p>`-1` に設定すると既定値が適用される。</p> |
 | `tabContentHeight` | <p>🔸 **タブ内容部分の高さ**</p><p>最小値：`16`。</p> |
 | `tabContentHeightCompact` | <p>🔸 **自動コンパクトでの高さ**</p><p>Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。</p> |
