@@ -135,13 +135,13 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `pinnedTabsFlexWidthIndicator` | <p>🔸 **ピン留めタブ背景インジケーター**</p><p>`pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブ上に淡い背景を表示。</p> |
 | `tabCornerRadius` | <p>🔸 **タブ角丸半径**</p><p>`-1` に設定すると既定値が適用される。</p> |
 | `tabContentHeight` | <p>🔸 **タブ内容部分の高さ**</p><p>最小値：`16`。</p> |
-| `tabContentHeightCompact` | <p>🔸 **コンパクトモードの高さ**</p><p>Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。</p> |
+| `tabContentHeightCompact` | <p>🔸 **自動コンパクトでの高さ**</p><p>Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。</p> |
 | `tabHorizontalMargin` | <p>🔸 **タブ外側の水平余白**</p><p>最小値：`0`。</p> |
 | `tabHorizontalPadding` | <p>🔸 **タブ内側の水平余白**</p><p>最小値：`0`。</p> |
-| `tabHorizontalPaddingCompact` | <p>🔸 **コンパクトモードの水平余白**</p><p>Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。</p> |
+| `tabHorizontalPaddingCompact` | <p>🔸 **自動コンパクトでの水平余白**</p><p>Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。</p> |
 | `tabMaxWidth` | <p>🔸 **タブ最大幅**</p><p>タブの最大幅（周囲の余白を含む）。最小幅には `browser.tabs.tabMinWidth` を使用し、実際の最大幅は必ずこの値より小さくなることはない。</p> |
 | `tabVerticalMargin` | <p>🔸 **タブ外側の垂直余白**</p><p>最小値：`0`。</p> |
-| `tabVerticalMarginCompact` | <p>🔸 **コンパクトモードの垂直余白**</p><p>Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。</p> |
+| `tabVerticalMarginCompact` | <p>🔸 **自動コンパクトでの垂直余白**</p><p>Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。</p> |
 
 ### 外観
 
@@ -173,12 +173,12 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | 項目（接頭辞なし） | 説明 |
 | ------------- | ------------- |
 | `browser.nova.enabled` | <p>🔸 **Nova デザイン**</p><p>Nova デザイン（開発中）を適用。Firefox 152 以降で利用可能。</p> |
-| `browser.tabs.dragDrop.createGroup.delayMS` | <p>🔸 **ドラッグでグループ化遅延**</p><p>ドラッグしてグループ化を開始するまでの遅延時間（ミリ秒）。Firefox 115 では非対応。</p> |
+| `browser.tabs.dragDrop.createGroup.delayMS` | <p>🔸 **ドラッグでグループ化遅延**</p><p>ドラッグしてグループ化を開始するま遅延時間（ミリ秒）。Firefox 115 では非対応。</p> |
 | `browser.tabs.dragDrop.createGroup.enabled` | <p>🔸 **ドラッグでグループ化**</p><p>タブを他のタブにドロップした際にグループ化。Firefox 140 では、この名前で新しい真偽設定を作成し切り替える。Firefox 115 では非対応。</p> |
 | `browser.tabs.dragDrop.dragToPin.enabled` | <p>🔸 **ドラッグでピン留め操作**</p><p>同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を有効化。例：タブをピン留めされたタブにドロップするとピン留めされる。この名前で新しい真偽設定を作成し切り替える。</p> |
 | `browser.tabs.dragDrop.moveOverThresholdPercent` | <p>🔸 **ドラッグ移動の重なり閾値**</p><p>ドラッグして移動する際に必要な重なりの割合。`100 - n` がグループ化のしきい値を定義する。例えば値が `80` の場合、20% 以上重なればグループ化され、80% 以上重なれば移動される。最小値：`0`、最大値：`100`。以下の場合は値が `50` に固定される：<ul><li>別の段へ移動する場合</li><li>Firefox 115 を使用している場合</li><li>ドラッグによるグループ化が無効化されている場合</li><li>`dynamicMoveOverThreshold` が有効な特定のシナリオ</li></ul></p> |
 | <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | <p>🔸 **ドラッグ時のスタッキング**</p><p>タブのドラッグ時にスタッキング（積み重ね）を有効化。この名前で新しい真偽設定を作成し切り替える。</p> |
-| `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <p>🔸 **ピン留めインジケーター表示遅延**</p><p><a href="#hidePinnedDropIndicator">ピン留めインジケーター</a>を表示するまでの遅延時間（ミリ秒）。Firefox 115 と 140 では非対応。</p> |
+| `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <p>🔸 **ピン留めインジケーター表示遅延**</p><p><a href="#hidePinnedDropIndicator">ピン留めインジケーター</a>を表示するま遅延時間（ミリ秒）。Firefox 115 と 140 では非対応。</p> |
 | `browser.tabs.tabClipWidth` | <p>🔸 **閉じるボタン表示幅**</p><p>このサイズを超えるタブには閉じるボタンを表示。変更後、新しいウィンドウで有効になる。値が：<ul><li>`tabMaxWidth` 以上の場合－非選択タブには閉じるボタンを非表示</li><li>`browser.tabs.tabMinWidth` 未満の場合－非選択タブには常に閉じるボタンを表示</li></ul></p> |
 | `browser.tabs.tabMinWidth` | <p>🔸 **タブ最小幅**</p><p>通常タブの最小幅（周囲の余白を含む）を指定。最小値：`50`。</p> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | <p>🔸 **アクセントカラー適用**</p><p>Windows 10 のタブバーにシステムのアクセントカラーを適用。</p> |
