@@ -84,7 +84,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `dragStackPreceding` | <p>🔸 **ドラッグ時に前タブもスタック**</p><p>ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。</p> |
 | `dynamicMoveOverThreshold` | <p>🔸 **ドラッグ動作を滑らかに**</p><p>ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `browser.tabs.dragDrop.createGroup.enabled` が無効な場合は非対応。</p> |
 | `hideDragPreview` | <p>🔸 **ドラッグプレビューを非表示**</p><p>ドラッグ中にカーソルの傍に表示されるドラッグプレビューを非表示：</p><ul><li>`0`－常に表示</li><li>`1`－グループのみ</li><li>`2`－タブのみ</li><li>`3`－両方</li></ul> |
-| <span id="hidePinnedDropIndicator">`hidePinnedDropIndicator`</span> | <p>🔸 **ピン留めインジケーター非表示**</p><p>ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 と 140 では非対応。</p> |
+| `hidePinnedDropIndicator` | <p id="hidePinnedDropIndicator">🔸 **ピン留めインジケーター非表示**</p><p>ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 と 140 では非対応。</p> |
 | `hideScrollButtonsWhenDragging` | <p>🔸 **ドラッグ中スクロールボタン非表示**</p><p>ドラッグ中にスクロールボタンを視覚的に非表示。</p> |
 | `linesToDragScroll` | <p>🔸 **ドラッグでスクロール段数**</p><p>タブを上端・下端へドラッグしたときのスクロール段数。最小値：`1`。</p> |
 | `linesToScroll` | <p>🔸 **ホイールスクロール段数**</p><p>マウスホイール操作によるスクロール段数。最小値：`1`。</p> |
@@ -177,7 +177,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `browser.tabs.dragDrop.createGroup.enabled` | <p>🔸 **ドラッグでグループ化**</p><p>タブを他のタブにドロップした際にグループ化。Firefox 140 では、この名前で新しい真偽設定を作成し切り替える。Firefox 115 では非対応。</p> |
 | `browser.tabs.dragDrop.dragToPin.enabled` | <p>🔸 **ドラッグでピン留め操作**</p><p>同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を有効化。例：タブをピン留めされたタブにドロップするとピン留めされる。この名前で新しい真偽設定を作成し切り替える。</p> |
 | `browser.tabs.dragDrop.moveOverThresholdPercent` | <p>🔸 **ドラッグ移動の重なり閾値**</p><p>ドラッグして移動する際に必要な重なりの割合。`100 - n` がグループ化のしきい値を定義する。例えば値が `80` の場合、20% 以上重なればグループ化され、80% 以上重なれば移動される。値は `0`〜`100`。以下の場合は値が `50` に固定される：<ul><li>別の段へ移動する場合</li><li>Firefox 115 を使用している場合</li><li>ドラッグによるグループ化が無効化されている場合</li><li>`dynamicMoveOverThreshold` が有効な特定のシナリオ</li></ul></p> |
-| <span id="multiselectStacking">`browser.tabs.dragDrop.multiselectStacking`</span> | <p>🔸 **ドラッグ時のスタッキング**</p><p>タブのドラッグ時にスタッキング（積み重ね）を有効化。この名前で新しい真偽設定を作成し切り替える。</p> |
+| `browser.tabs.dragDrop.multiselectStacking` | <p id="multiselectStacking">🔸 **ドラッグ時のスタッキング**</p><p>タブのドラッグ時にスタッキング（積み重ね）を有効化。この名前で新しい真偽設定を作成し切り替える。</p> |
 | `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <p>🔸 **ピン留めインジケーター表示遅延**</p><p><a href="#hidePinnedDropIndicator">ピン留めインジケーター</a>を表示するま遅延時間（ミリ秒）。Firefox 115 と 140 では非対応。</p> |
 | `browser.tabs.tabClipWidth` | <p>🔸 **閉じるボタン表示幅**</p><p>このサイズを超えるタブには閉じるボタンを表示。変更後、新しいウィンドウで有効になる。値が：<ul><li>`tabMaxWidth` 以上の場合－非選択タブには閉じるボタンを非表示</li><li>`browser.tabs.tabMinWidth` 未満の場合－非選択タブには常に閉じるボタンを表示</li></ul></p> |
 | `browser.tabs.tabMinWidth` | <p>🔸 **タブ最小幅**</p><p>通常タブの最小幅（周囲の余白を含む）を指定。最小値：`50`。</p> |
