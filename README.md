@@ -128,7 +128,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ### Tab Sizing
 
 > [!NOTE]
-> Not suggested to set narrower than the default value, as Firefox is not designed to be more compact than the default options and unexpected glitches may occur. These settings may be overridden by rules in `userChrome.css` and have no effect.
+> Not recommended to set narrower than the default value, as Firefox is not designed to be more compact than the default options and unexpected glitches may occur. These settings may be overridden by rules in `userChrome.css` and have no effect.
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
@@ -487,7 +487,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 [**Version 4.1**](https://github.com/Merci-chao/userChrome.js/raw/915d87a20b0dbaacbb1b3ac5709dede2bc02cbd0/MultiTabRows@Merci.chao.uc.js)
 - New
-	- Adds `tabContentHeight`, `tabVerticalMargin`, `tabHorizontalPadding` and `tabHorizontalMargin` to control tab height and spacing. Not suggested to set narrower than the default value, as Firefox is not designed to be compact and unexpected glitches may occur. These settings may be overridden by rules in `userChrome.css` and have no effect.
+	- Adds `tabContentHeight`, `tabVerticalMargin`, `tabHorizontalPadding` and `tabHorizontalMargin` to control tab height and spacing. Not recommended to set narrower than the default value, as Firefox is not designed to be compact and unexpected glitches may occur. These settings may be overridden by rules in `userChrome.css` and have no effect.
 - Improvements
 	- Tunes the tab bar layout when it is too compact.
 	- Refines update notification UI.
