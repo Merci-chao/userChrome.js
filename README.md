@@ -128,7 +128,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ### Tab Sizing
 
 > [!NOTE]
-> Not suggested to set narrower than the default value, as Firefox is not designed to be compact and unexpected glitches may occur. These settings may be overridden by rules in `userChrome.css` and have no effect.
+> Not suggested to set narrower than the default value, as Firefox is not designed to be more compact than the default options and unexpected glitches may occur. These settings may be overridden by rules in `userChrome.css` and have no effect.
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
