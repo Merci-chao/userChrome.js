@@ -18,7 +18,7 @@ Make Firefox support multiple rows of tabs.
 Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights with screenshots and detailed descriptions.
 
 ## Compatibility
-- Firefox 115, 140, 152 - 154
+- Firefox 115, 140, 153 - 155
 
 - Windows 7 - 11
 
@@ -153,8 +153,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `floatingBackdropBlurriness` | <p>🔸 **Floating Area Background Blurriness**</p><p>How blurry the background of the floating blocks is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`. Minimum: `0`. Not available on Firefox 115 and in some cases where the blur effect cannot be applied.</p> |
 | `floatingBackdropClip` | <p>🔸 **Floating Area Clip Behind**</p><p>Clip the area covered by the floating blocks when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`.</p> |
 | `floatingBackdropOpacity` | <p>🔸 **Floating Area Background Opacity**</p><p>How opaque the background of the floating blocks is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. Valid range: `0` - `100`.</p> |
-| `nativeWindowStyle` | <p>🔸 **Native Window Style**</p> Remove the background and display the native system style of windows, e.g. transparency effects of Windows 11 and effects from tools like [*DWMBlurGlass*](https://github.com/Maplespe/DWMBlurGlass). To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. It also allows you to remove the background color on themes designed with patterns with transparency. Not available on Firefox 115. |
+| `nativeWindowStyle` | <p>🔸 **Native Window Style**</p> <p>Remove the background and display the native system style of windows, e.g. transparency effects of Windows 11 and effects from tools like [*DWMBlurGlass*](https://github.com/Maplespe/DWMBlurGlass). To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. It also allows you to remove the background color on themes designed with patterns with transparency.</p><p>📝 Enabling this setting on Windows 7 and 8 when using themes may cause the window control buttons to be covered by the theme background image.</p> |
 | `nativeWindowStyleToolbarColorOpacity` | <p>🔸 **Toolbar Color Opacity**</p><p>The opacity of the background color of toolbars, and the dividing line between the navigation toolbar and the tab bar, valid range: `0` - `100`. Changing this setting cannot increase opacity if the original color contains transparency. Available when the tab bar is at the top or Firefox Nova is enabled.</p> |
+| `nativeWindowStyleToolboxGradientOpacity` | <p>🔸 **Theme Gradient Opacity**</p><p>Opacity of the theme's gradient image, valid range: `0` - `100`. Changing this setting cannot increase the opacity if the original image contains transparency. Available when using themes that apply a gradient image in the toolbar area (e.g. Nova themes).</p> |
 | `nativeWindowStyleURLBarColorOpacity` | <p>🔸 **URL Bar Color Opacity**</p><p>The opacity of the background color of the address bar and he search bar, valid range: `0` - `100`. Changing this setting cannot increase opacity if the original color includes transparency.</p> |
 | `scrollbarThumbColor` | <p>🔸 **Scrollbar Thumb Color**</p><p>Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`.</p> |
 | `scrollbarTrackColor` | <p>🔸 **Scrollbar Track Color**</p><p>Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`.</p> |
@@ -176,6 +177,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
+| `browser.compactmode.auto.threshold` | <p>🔸 **Auto Compact Threshold**</p><p>Switches to compact mode if the ratio of a single tab row height in compact mode to the window content height exceeds this value. Effective only when Nova automatic window density is enabled in Firefox 154+.</p><p>📝 Other factors besides height can also trigger the switch.</p> |
 | `browser.nova.enabled` | <p>🔸 **Nova Design**</p><p>Apply the Nova design (in development). Available on Firefox 152+.</p> |
 | `browser.tabs.dragDrop.createGroup.delayMS` | <p>🔸 **Drag to Create Tab Group Delay**</p><p>Time to wait (in milliseconds) before starting to group tabs during dragging. Not available on Firefox 115.</p> |
 | `browser.tabs.dragDrop.createGroup.enabled` | <p>🔸 **Drag to Create Tab Group**</p><p>Drag tabs together to create tab groups. On Firefox 140, create a new boolean preference with this name to toggle. Not available on Firefox 115.</p> |
@@ -191,6 +193,24 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+[**Version 4.11**](https://github.com/Merci-chao/userChrome.js/raw/d3da1d1faa0891d107bad3b9708c342044b5d152/MultiTabRows@Merci.chao.uc.js)
+- New
+	- Adds `nativeWindowStyleToolboxGradientOpacity`: Opacity of the theme's gradient image. Available when using themes that apply a gradient image in the toolbar area (e.g. Nova themes).
+	- Allows using `nativeWindowStyle` on Windows 7 and 8.
+- Improvements
+	- Updates for Firefox 155.
+	- Better behavior when dragging tabs up to the first of the previous row in special case.
+	- Refactored code of animation.
+- Fixes
+	- The size of pinned tabs differed from the official design in some cases.
+	- The tab bar might remain scrollable unintentionally even after closing the only overflowed tab.
+	- When closing the last tab, the preceding tabs might not resize correctly to keep the close button under the cursor if `prefs.tabsUnderControlButtons` was not set to `2`.
+	- The corner radius of the new tab button was restricted and stopped matching the tabs beyond a certain point.
+	- The Add Note button in the preview panel was difficult to interact with when placing the tab bar below the browser content.
+	- Minor animation glitches.
+- Regression Fix
+	- Tabs might not release their locked size after closing tabs when the cursor moved out of the tab bar.
 
 [**Version 4.10.1**](https://github.com/Merci-chao/userChrome.js/raw/636cb568f5219aa8339a0b0c2a316e6da1c5e551/MultiTabRows@Merci.chao.uc.js)
 - Handle the case where Error.stackTraceLimit is read-only.
@@ -228,6 +248,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 		- Incorrect position on pinned tabs when enabling `pinnedTabsFlexWidth`.
 		- Missing background color when enabling `nativeWindowStyle` with themes.
 
+<details>
+<summary>Old Versions</summary>
+
 [**Version 4.9.2**](https://github.com/Merci-chao/userChrome.js/raw/e98e4168878018501e916ee53e8a57475fde5d62/MultiTabRows@Merci.chao.uc.js)
 - Improvements
 	- Improved compatibility with theme customizing extensions.
@@ -255,9 +278,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Fixes
 	- Animation glitches in special cases and when dragging multiple tabs.
 	- Minor visual issues.
-
-<details>
-<summary>Old Versions</summary>
 
 [**Version 4.8.1**](https://github.com/Merci-chao/userChrome.js/raw/7b465c52edf88e2175afe29c35996cd4f71aa1b9/MultiTabRows@Merci.chao.uc.js)
 - Supports Firefox ESR version (140).
