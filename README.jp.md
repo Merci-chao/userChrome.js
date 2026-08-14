@@ -152,7 +152,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `floatingBackdropOpacity` | <p>🔸 **浮動領域の背景不透明度**</p><p>タブバーがスクロール可能時に浮動領域の背景の不透明度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。</p> |
 | `nativeWindowStyle` | <p>🔸 **ネイティブスタイル表示**</p><p>背景を削除し、ウィンドウのネイティブなシステムスタイルを表示。例えば、Windows 11 の透明効果や [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合がある。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をする。また、透過パターンでデザインされたテーマの背景色を除去可能。</p><p>📝 Windows 7 と 8 でテーマを使用している場合、この設定を有効にすると、ウィンドウの操作ボタンがテーマの背景画像に覆われる可能性がある。</p> |
 | `nativeWindowStyleToolbarColorOpacity` | <p>🔸 **ツールバー背景色の不透明度**</p><p>ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。値は `0`〜`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。タブバーが上部にある場合、または Firefox Nova が有効になっている場合に利用可能。</p> |
-| `nativeWindowStyleToolboxGradientOpacity` | <p>🔸 **グラデーション不透明度**</p><p>テーマのグラデーション画像の不透明度。値は `0`〜`100`。元の画像に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。ツールバー領域にグラデーション画像を適用するテーマを使用している場合にのみ利用可能（例：Nova テーマ）。</p> |
+| `nativeWindowStyleToolboxGradientOpacity` | <p>🔸 **グラデーション不透明度**</p><p>テーマのグラデーション画像の不透明度。値は `0`〜`100`。元の画像に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。ツールバー領域にグラデーション画像を適用するテーマを使用している場合にのみ利用可能（例：Firefox 155+ 用 Nova テーマ）。</p> |
 | `nativeWindowStyleURLBarColorOpacity` | <p>🔸 **アドレスバー背景色の不透明度**</p><p>アドレスバーと検索バーの背景色の不透明度。値は `0`〜`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。</p> |
 | `scrollbarThumbColor` | <p>🔸 **スクロールバーつまみ色**</p><p>スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。</p> |
 | `scrollbarTrackColor` | <p>🔸 **スクロールバー軌道色**</p><p>スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。</p> |
@@ -192,7 +192,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 [**Version 4.11**](https://github.com/Merci-chao/userChrome.js/raw/d3da1d1faa0891d107bad3b9708c342044b5d152/MultiTabRows@Merci.chao.uc.js)
 - 追加
-	- `nativeWindowStyleToolboxGradientOpacity` を追加：テーマのグラデーション画像の不透明度。ツールバー領域にグラデーション画像を適用するテーマを使用している場合にのみ利用可能（例：Nova テーマ）。
+	- `nativeWindowStyleToolboxGradientOpacity` を追加：テーマのグラデーション画像の不透明度。ツールバー領域にグラデーション画像を適用するテーマを使用している場合にのみ利用可能（例：Firefox 155+ 用 Nova テーマ）。
 	- Windows 7 および 8 で `nativeWindowStyle` を使用できるようにした。
 - 改善
 	- Firefox 155 への更新。
