@@ -155,7 +155,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `floatingBackdropOpacity` | <p>🔸 **Floating Area Background Opacity**</p><p>How opaque the background of the floating blocks is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. Valid range: `0` - `100`.</p> |
 | `nativeWindowStyle` | <p>🔸 **Native Window Style**</p> <p>Remove the background and display the native system style of windows, e.g. transparency effects of Windows 11 and effects from tools like [*DWMBlurGlass*](https://github.com/Maplespe/DWMBlurGlass). To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. It also allows you to remove the background color on themes designed with patterns with transparency.</p><p>📝 Enabling this setting on Windows 7 and 8 when using themes may cause the window control buttons to be covered by the theme background image.</p> |
 | `nativeWindowStyleToolbarColorOpacity` | <p>🔸 **Toolbar Color Opacity**</p><p>Opacity of the background color of toolbars, and the dividing line between the navigation toolbar and the tab bar, valid range: `0` - `100`. Changing this setting cannot increase opacity if the original color contains transparency. Available when the tab bar is at the top or Firefox Nova is enabled.</p> |
-| `nativeWindowStyleToolboxGradientOpacity` | <p>🔸 **Gradient Opacity**</p><p>Opacity of the theme's gradient image, valid range: `0` - `100`. Changing this setting cannot increase the opacity if the original image contains transparency. Available when using themes that apply a gradient image in the toolbar area (e.g. Nova themes).</p> |
+| `nativeWindowStyleToolboxGradientOpacity` | <p>🔸 **Gradient Opacity**</p><p>Opacity of the theme's gradient image, valid range: `0` - `100`. Changing this setting cannot increase the opacity if the original image contains transparency. Available when using themes that apply a gradient image in the toolbar area (e.g. Nova themes for Firefox 155+).</p> |
 | `nativeWindowStyleURLBarColorOpacity` | <p>🔸 **URL Bar Color Opacity**</p><p>Opacity of the background color of the address bar and he search bar, valid range: `0` - `100`. Changing this setting cannot increase opacity if the original color includes transparency.</p> |
 | `scrollbarThumbColor` | <p>🔸 **Scrollbar Thumb Color**</p><p>Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`.</p> |
 | `scrollbarTrackColor` | <p>🔸 **Scrollbar Track Color**</p><p>Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`.</p> |
@@ -196,7 +196,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 [**Version 4.11**](https://github.com/Merci-chao/userChrome.js/raw/d3da1d1faa0891d107bad3b9708c342044b5d152/MultiTabRows@Merci.chao.uc.js)
 - New
-	- Adds `nativeWindowStyleToolboxGradientOpacity`: Opacity of the theme's gradient image. Available when using themes that apply a gradient image in the toolbar area (e.g. Nova themes).
+	- Adds `nativeWindowStyleToolboxGradientOpacity`: Opacity of the theme's gradient image. Available when using themes that apply a gradient image in the toolbar area (e.g. Nova themes for Firefox 155+).
 	- Allows using `nativeWindowStyle` on Windows 7 and 8.
 - Improvements
 	- Updates for Firefox 155.
