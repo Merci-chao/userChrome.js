@@ -17,7 +17,7 @@ Firefox に多段タブ表示をサポートさせる。
 注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja/)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
-- Firefox 115、140、152〜154
+- Firefox 115、140、153〜155
 
 - Windows 7〜11
 
@@ -150,8 +150,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `floatingBackdropBlurriness` | <p>🔸 **浮動領域の背景ぼかし強度**</p><p>タブバーがスクロール可能時に浮動領域の背景ぼかし強度を設定する。`tabsUnderControlButtons` が `2` のときのみ有効。Firefox 115 では、またはぼかし効果が効かない場合には非対応。</p> |
 | `floatingBackdropClip` | <p>🔸 **浮動領域の後ろ側を切り取る**</p><p>タブバーがスクロール可能時に、浮動領域が覆う部分をクリップする。`tabsUnderControlButtons` が `2` のときのみ有効。</p> |
 | `floatingBackdropOpacity` | <p>🔸 **浮動領域の背景不透明度**</p><p>タブバーがスクロール可能時に浮動領域の背景の不透明度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。</p> |
-| `nativeWindowStyle` | <p>🔸 **ネイティブスタイル表示**</p><p>背景を削除し、ウィンドウのネイティブなシステムスタイルを表示。例えば、Windows 11 の透明効果や [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合がある。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をする。また、透過パターンでデザインされたテーマの背景色を除去可能。Firefox 115 では非対応。</p> |
+| `nativeWindowStyle` | <p>🔸 **ネイティブスタイル表示**</p><p>背景を削除し、ウィンドウのネイティブなシステムスタイルを表示。例えば、Windows 11 の透明効果や [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合がある。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をする。また、透過パターンでデザインされたテーマの背景色を除去可能。</p><p>📝 Windows 7 と 8 でテーマを使用している場合、この設定を有効にすると、ウィンドウの操作ボタンがテーマの背景画像に覆われる可能性がある。</p> |
 | `nativeWindowStyleToolbarColorOpacity` | <p>🔸 **ツールバー背景色の不透明度**</p><p>ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。値は `0`〜`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。タブバーが上部にある場合、または Firefox Nova が有効になっている場合に利用可能。</p> |
+| `nativeWindowStyleToolboxGradientOpacity` | <p>🔸 **グラデーション不透明度**</p><p>テーマのグラデーション画像の不透明度。値は `0`〜`100`。元の画像に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。ツールバー領域にグラデーション画像を適用するテーマを使用している場合にのみ利用可能（例：Nova テーマ）。</p> |
 | `nativeWindowStyleURLBarColorOpacity` | <p>🔸 **アドレスバー背景色の不透明度**</p><p>アドレスバーと検索バーの背景色の不透明度。値は `0`〜`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。</p> |
 | `scrollbarThumbColor` | <p>🔸 **スクロールバーつまみ色**</p><p>スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。</p> |
 | `scrollbarTrackColor` | <p>🔸 **スクロールバー軌道色**</p><p>スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。</p> |
@@ -172,6 +173,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ### Firefox の組み込み設定
 | 項目（接頭辞なし） | 説明 |
 | ------------- | ------------- |
+| `browser.compactmode.auto.threshold` | <p>🔸 **自動コンパクト閾値**</p><p>コンパクトモードでのタブ段の高さをウィンドウコンテンツの高さで割った比率がこの値を超える場合、コンパクトモードに切り替わる。Firefox 154 以降で Nova の自動ウィンドウ密度機能が有効なときのみ作用。</p><p>📝 高さ以外の要因でも切り替えが発生する。</p> |
 | `browser.nova.enabled` | <p>🔸 **Nova デザイン**</p><p>Nova デザイン（開発中）を適用。Firefox 152 以降で利用可能。</p> |
 | `browser.tabs.dragDrop.createGroup.delayMS` | <p>🔸 **ドラッグでグループ化遅延**</p><p>ドラッグしてグループ化を開始するま遅延時間（ミリ秒）。Firefox 115 では非対応。</p> |
 | `browser.tabs.dragDrop.createGroup.enabled` | <p>🔸 **ドラッグでグループ化**</p><p>タブを他のタブにドロップした際にグループ化。Firefox 140 では、この名前で新しい真偽設定を作成し切り替える。Firefox 115 では非対応。</p> |
@@ -187,6 +189,24 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+[**Version 4.11**](https://github.com/Merci-chao/userChrome.js/raw/d3da1d1faa0891d107bad3b9708c342044b5d152/MultiTabRows@Merci.chao.uc.js)
+- 追加
+	- `nativeWindowStyleToolboxGradientOpacity` を追加：テーマのグラデーション画像の不透明度。ツールバー領域にグラデーション画像を適用するテーマを使用している場合にのみ利用可能（例：Nova テーマ）。
+	- Windows 7 および 8 で `nativeWindowStyle` を使用できるようにした。
+- 改善
+	- Firefox 155 への更新。
+	- 特殊なケースで、タブを前の行の先頭までドラッグした際の挙動が改善された。
+	- アニメーション関連のコードをリファクタリングした。
+- 修正
+	- 一部の状況で、ピン留めされたタブのサイズが公式デザインと異なっていた。
+	- 唯一のはみ出したタブを閉じた後でも、タブバーが意図せずスクロール可能なままになる場合があった。
+	- 最後のタブを閉じる際、`prefs.tabsUnderControlButtons` が `2` に設定されていない場合、直前のタブが正しくリサイズされず、閉じるボタンがカーソルの下に残らない場合があった。
+	- 新しいタブボタンの角丸半径が制限され、ある時点以降タブと一致しなくなった。
+	- タブバーをブラウザコンテンツの下に配置した場合、プレビューパネル内の「ノート追加」ボタンの操作が困難になることがあった。
+	- 軽微なアニメーションの不具合。
+- 回帰バグ修正
+	- タブを閉じた後、カーソルがタブバーから外れると、タブがロックされたサイズを解除しない場合があった。
 
 [**Version 4.10.1**](https://github.com/Merci-chao/userChrome.js/raw/636cb568f5219aa8339a0b0c2a316e6da1c5e551/MultiTabRows@Merci.chao.uc.js)
 - `Error.stackTraceLimit` が読み取り専用のケースを処理するようにした。
@@ -225,6 +245,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 		- `pinnedTabsFlexWidth` を有効化した際、ピン留めされたタブ上の位置が正しくなかった。
 		- テーマと併用して `nativeWindowStyle` を有効化した際、背景色が欠落。
 
+<details>
+<summary>旧バージョン</summary>
+
 [**Version 4.9.2**](https://github.com/Merci-chao/userChrome.js/raw/e98e4168878018501e916ee53e8a57475fde5d62/MultiTabRows@Merci.chao.uc.js)
 - 改善
 	- テーマカスタマイズ拡張との互換性を改善。
@@ -252,9 +275,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 修正
 	- 特殊なケースや複数タブをドラッグする際のアニメーションの不具合。
 	- 軽微な表示上の問題。
-
-<details>
-<summary>旧バージョン</summary>
 
 [**Version 4.8.1**](https://github.com/Merci-chao/userChrome.js/raw/7b465c52edf88e2175afe29c35996cd4f71aa1b9/MultiTabRows@Merci.chao.uc.js)
 - Firefox ESR バージョン（140）へのサポート。
