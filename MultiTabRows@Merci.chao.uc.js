@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.11
+// @version        4.11.1
 // @compatibility  Firefox 115, 140, 153-155
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -417,7 +417,7 @@ function createDefaultPrefs() {
 		animateTabMoveUnderLimit: 200,
 		hidePinnedDropIndicator: $("#pinned-drop-indicator") ? false : null,
 		dragStackPreceding: true,
-		privateBrowsingIconOnNavBar: $("#private-browsing-indicator-button , #private-browsing-indicator-with-label")
+		privateBrowsingIconOnNavBar: $("#private-browsing-indicator-with-label")
 			? null : false,
 		tabContentHeight: (nova ? TAB_CONTENT_HEIGHT_NOVA : TAB_CONTENT_HEIGHT)[uiDensity],
 		tabContentHeightCompact: HAS_AUTO_UI_DENSITY ? TAB_CONTENT_HEIGHT_NOVA[1] : null,
@@ -569,6 +569,11 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 		tabVerticalMarginCompact: [0, prefs.tabVerticalMargin],
 		tabHorizontalPaddingCompact: [0, prefs.tabHorizontalPadding],
 	});
+
+	prefs.tabsbarItemsAlign =
+		CSS.supports("align-items", prefs.tabsbarItemsAlign)
+			? prefs.tabsbarItemsAlign.toLowerCase()
+			: "start";
 
 	function clamp(props) {
 		for (let [p, [min, max]] of Object.entries(props))
@@ -1379,7 +1384,7 @@ const toolbarBackgroundStyle = nova
 
 let css = /*css*/`
 :root {
-	--max-tab-rows: ${rIE ? 1 : maxRows};
+	--max-tab-rows: 1;
 	--tab-animation: ${prefs.animationDuration}ms ${debug > 1 ? "ease" : "var(--animation-easing-function)"};
 	--tab-icon-size: var(--icon-size, 16px);
 	${__TAB_MARGIN_BLOCK != "--tab-margin-block" ? `
@@ -1561,11 +1566,13 @@ ${prefs.autoCollapse ? /*css*/`
 	}
 }
 
-${rIE ? [...Array(maxRows).keys()].slice(1).map(i => /*css*/`
-	@media (min-width: ${rSIF + rIE * i}px) {
-		:root:not([customizing]) { --max-tab-rows: ${i + 1}; }
-	}
-`).join("\n") : ""}
+${
+	[...Array(maxRows).keys()].slice(1).map(i => /*css*/`
+		@media (min-width: ${rSIF + rIE * i}px) {
+			:root:not([customizing]) { --max-tab-rows: ${i + 1}; }
+		}
+	`).join("\n")
+}
 
 ${!win7 && !win8 ? /*css*/`
 	/*make the title bar able to be narrower on 115*/
@@ -2253,7 +2260,7 @@ ${_="#tabbrowser-arrowscrollbox[id][id]"} {
 	) ? `
 		scrollbar-color:
 			${
-				prefs.scrollbarThumbColor == "auto"
+				!CSS.supports("color", prefs.scrollbarThumbColor)
 					? (
 						["", "currentColor"].includes(getStyle(document.body, "--toolbarbutton-icon-fill", true))
 							? "var(--toolbar-text-color, var(--toolbar-color))"
@@ -2262,11 +2269,11 @@ ${_="#tabbrowser-arrowscrollbox[id][id]"} {
 					: prefs.scrollbarThumbColor
 			}
 			${
-				prefs.scrollbarTrackColor == "auto"
+				!CSS.supports("color", prefs.scrollbarTrackColor)
 					? (
 						win7 && defaultDarkTheme
 							? "var(--tab-icon-overlay-fill)"
-							: "var(--original-toolbar-background-color)"
+							: "var(--toolbar-background-color)"
 					)
 					: prefs.scrollbarTrackColor
 			}
@@ -3041,11 +3048,11 @@ ${context = `
 {
 	position: relative;
 	margin: 0 !important;
-	width: calc(100% - var(--margin, 0px) * 2);
+	width: calc(100% - var(--tab-context-line-inline-offset, 0px) * 2);
 	align-self: center;
 
 	${nova && NOVA_IN_TAB_CONTAINER_LINE ? `
-		inset-block-start: calc(var(--tab-context-line-block-offset) - env(hairline));
+		inset-block-start: var(--tab-context-line-block-offset);
 	` : nova && !NOVA_IN_TAB_CONTAINER_LINE || appVersion < 145 ? `
 		inset-block-start:
 			calc(
@@ -3071,26 +3078,20 @@ ${context = `
 
 ${nova && NOVA_IN_TAB_CONTAINER_LINE ? /*css*/`
 	${context} {
-		--margin: calc(12px - env(hairline));
-
-		${!prefs.pinnedTabsFlexWidth ? /*css*/`
-			tab[pinned] & {
-				--margin: 0px;
-			}
-		` : ``}
+		--tab-context-line-inline-offset: calc(var(--tab-inline-padding) + 2px);
 	}
 ` : nova && prefs.tabCornerRadius < 0 ? /*css*/`
 	${!prefs.pinnedTabsFlexWidth ? `tab:not([pinned])` : ``} :is(${context}) {
-		--margin: calc(var(--tab-inline-padding) + 8px);
+		--tab-context-line-inline-offset: calc(var(--tab-inline-padding) + 8px);
 	}
 ` : /*css*/`
 	${context} {
-		--margin: calc(var(--tab-border-radius) / 2);
+		--tab-context-line-inline-offset: calc(var(--tab-border-radius) / 2);
 	}
 
 	${!prefs.pinnedTabsFlexWidth ? /*css*/`
 		tab[pinned] :is(${context}) {
-			--margin:
+			--tab-context-line-inline-offset:
 				min(
 					var(--tab-border-radius) / 2,
 					var(--tab-inline-padding)
@@ -3811,8 +3812,8 @@ ${!prefs.autoCollapse ? /*css*/`
 			margin-inline-start: calc(-.1px - var(--forced-overflow-adjustment, var(--new-tab-button-width))) !important;
 
 			tab-group[collapsed] > &:not(
-				:nth-child(1 of :is(tab:not([hidden]), tab-split-view-wrapper)),
-				:nth-last-child(1 of :is(tab:not([hidden]), tab-split-view-wrapper))
+				:nth-child(1 of :is(tab, tab-split-view-wrapper):not([hidden])),
+				:nth-last-child(1 of :is(tab, tab-split-view-wrapper):not([hidden]))
 			) {
 				margin-inline: -.1px 0 !important;
 			}
@@ -4789,8 +4790,9 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 				inset-inline-end: var(--tabs-scrollbar-width);
 			}
 
+			/*TODO dead code, [tabs-no-next-visible] is only for tabsUnderControlButtons > 1*/
 			${prefs.tabsUnderControlButtons < 2 ? /*css*/`
-				${context=`#TabsToolbar[tabs-no-next-visible]`} ${_} {
+				#TabsToolbar[tabs-no-next-visible] ${_} {
 					position: static;
 					align-self: end;
 					order: 2;
@@ -4800,7 +4802,8 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 
 		${prefs.tabsUnderControlButtons < 2 && prefs.tabsbarItemsAlign == "center" && maxRows > 1 ? /*css*/`
 			@media ${multiRows} and ${twoOrLessRows} {
-				${context} ${_} {
+				/*TODO [tabs-no-next-visible] is only for tabsUnderControlButtons > 1*/
+				#TabsToolbar:not([tabs-no-next-visible]) ${_} {
 					position: static;
 					align-self: end;
 					order: 2;
@@ -5581,6 +5584,8 @@ ${prefs.nativeWindowStyle ? /*css*/`
 							return "";
 						try {
 							const parsed = parseGradient(gradient);
+							if (!parsed)
+								return "";
 							let value = `${parsed.type}(${
 								[
 									parsed.prefix,
@@ -5602,8 +5607,11 @@ ${prefs.nativeWindowStyle ? /*css*/`
 					}
 
 					function parseGradient(gradient) {
-						const type = (gradient = gradient.trim()).match(/^([a-z-]+gradient)\(/i)[1];
+						const type = ((gradient = gradient.trim()).match(/^([a-z-]+gradient)\(/i) || [])[1];
 						let parts = [], current = "", depth = 0;
+
+						if (!type)
+							return;
 
 						for (let c of gradient.slice(type.length + 1, -1).trim()){
 							if (!depth && c == ",") {
@@ -6559,7 +6567,7 @@ if (groupProto) {
 		stacked: {
 			get: "stacked",
 			set: function(v) {
-				if (!!v == !!this.stacked || !this.hasActiveTab)
+				if (!!v == this.stacked || !this.hasActiveTab)
 					return;
 				if (v)
 					this.setAttribute("stacked", `from-${this.collapsed ? "collapsed" : "expanded"}`);
@@ -11306,9 +11314,7 @@ for (let [o, fs] of [
 		if (func)
 			o[name] = function() {
 				let r;
-				animateLayout(() => {
-					r = func.apply(this, arguments);
-				});
+				animateLayout(() => r = func.apply(this, arguments));
 				return r;
 			};
 		else
@@ -11638,10 +11644,7 @@ function getNodes({pinned, newTabButton, bypassCache, includeClosing, onlyFocusa
 				` : ``}
 				tab-group:not([collapsed])
 			) >
-				:is(
-					tab:not([hidden]),
-					tab-split-view-wrapper
-				),
+				:is(tab, tab-split-view-wrapper):not([hidden]),
 			${includeClosing ? `
 				tab-group[collapsed] > tab[closing],
 			` : ``}
