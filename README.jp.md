@@ -190,6 +190,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+[Version 4.11.1](https://github.com/Merci-chao/userChrome.js/raw/45dca2a1c86c8afd1bd857b8bb44ad2054284e1f/MultiTabRows@Merci.chao.uc.js)
+- `rowIncreaseEvery` を `0` に設定し、ウィンドウ幅が `rowStartIncreaseFrom` より狭い場合に不正な挙動が発生するリグレッションを修正。
+- Firefox 156 への更新。
+
 [**Version 4.11**](https://github.com/Merci-chao/userChrome.js/raw/d3da1d1faa0891d107bad3b9708c342044b5d152/MultiTabRows@Merci.chao.uc.js)
 - 追加
 	- `nativeWindowStyleToolboxGradientOpacity` を追加：テーマのグラデーション画像の不透明度。ツールバー領域にグラデーション画像を適用するテーマを使用している場合にのみ利用可能（例：Firefox 155+ 用 Nova テーマ）。
