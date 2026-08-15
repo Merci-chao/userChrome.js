@@ -194,6 +194,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+[Version 4.11.1](https://github.com/Merci-chao/userChrome.js/raw/45dca2a1c86c8afd1bd857b8bb44ad2054284e1f/MultiTabRows@Merci.chao.uc.js)
+- Fixed a regression where incorrect behavior occurred when `rowIncreaseEvery` was set to `0` and the window was narrower than `rowStartIncreaseFrom`.
+- Updates for Firefox 156.
+
 [**Version 4.11**](https://github.com/Merci-chao/userChrome.js/raw/d3da1d1faa0891d107bad3b9708c342044b5d152/MultiTabRows@Merci.chao.uc.js)
 - New
 	- Adds `nativeWindowStyleToolboxGradientOpacity`: Opacity of the theme's gradient image. Available when using themes that apply a gradient image in the toolbar area (e.g. Nova themes for Firefox 155+).
