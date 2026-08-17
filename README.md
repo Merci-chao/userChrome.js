@@ -1004,3 +1004,8 @@ Display the title bar on mouseover at the top edge; hide it when hovering over p
 
 # [showScrollbarInMenus.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
 Display scrollbar for long menus (Bookmarks menu, for instance), instead of arrows at the top and bottom.
+
+---
+
+# [BookmarksMenuItemIconClickable@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
+Clicking the bookmark icon in the Bookmarks Menu opens it in a new tab and keeps the menu open.
