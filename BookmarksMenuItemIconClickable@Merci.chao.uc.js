@@ -1,7 +1,12 @@
 if (document.documentElement.id == "main-window") {
 	let popups = ":is(#bookmarksMenuPopup, #BMB_bookmarksPopup)";
-	let selector = `${popups} .bookmark-item:not([id]) :is(.menu-icon, .menu-iconic-left)`;
+	let menuitems = `${popups} .bookmark-item:not([id])`;
+	let selector = `${menuitems} :is(.menu-icon, .menu-iconic-left)`;
 	document.body.appendChild(document.createElement("style")).textContent = /*css*/`
+		${menuitems} {
+			overflow: clip;
+		}
+	
 		${selector} {
 			--block: var(--panel-menuitem-padding-block, var(--arrowpanel-menuitem-padding-block));
 			--inline: var(--panel-menuitem-padding-inline, var(--arrowpanel-menuitem-padding-inline));
