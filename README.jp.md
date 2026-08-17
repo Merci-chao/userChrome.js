@@ -1002,3 +1002,8 @@ about:config を開いて `extensions.FloatToolbarsInFullScreen@Merci.chao.` で
 
 # [showScrollbarInMenus.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
 長いメニュー（ブックマークメニューなど）にスクロールバーを表示し、上下の矢印による移動を置き換える。
+
+---
+
+# [BookmarksMenuItemIconClickable@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
+ブックマークメニュー内のブックマークアイコンをクリックすると、新しいタブで開き、メニューは開いたままになる。
