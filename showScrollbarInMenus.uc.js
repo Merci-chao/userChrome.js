@@ -10,6 +10,7 @@ addEventListener("popupshowing", ({target}) => {
 			["padding-block", 0],
 			["border-block", 0],
 			["overflow-y", "auto"],
+			["scrollbar-width", "auto"],
 		])
 			scrollBox.scrollbox.style.setProperty(p, v, "important");
 	}
