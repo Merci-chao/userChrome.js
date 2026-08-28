@@ -18,7 +18,7 @@ Make Firefox support multiple rows of tabs.
 Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights with screenshots and detailed descriptions.
 
 ## Compatibility
-- Firefox 115, 140, 153 - 155
+- Firefox 115, 140, 153, 154 - 156
 
 - Windows 7 - 11
 
@@ -194,7 +194,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-[Version 4.11.1](https://github.com/Merci-chao/userChrome.js/raw/45dca2a1c86c8afd1bd857b8bb44ad2054284e1f/MultiTabRows@Merci.chao.uc.js)
+[**Version 4.11.2**](https://github.com/Merci-chao/userChrome.js/raw/87bb5aed31a006dfe1cfc007db0a532e02b130a3/MultiTabRows@Merci.chao.uc.js)
+- Updates for Firefox 156.
+- Fixed a minor visual defect when using the indicator to move tabs.
+
+[**Version 4.11.1**](https://github.com/Merci-chao/userChrome.js/raw/45dca2a1c86c8afd1bd857b8bb44ad2054284e1f/MultiTabRows@Merci.chao.uc.js)
 - Fixed a regression where incorrect behavior occurred when `rowIncreaseEvery` was set to `0` and the window was narrower than `rowStartIncreaseFrom`.
 - Updates for Firefox 156.
 
