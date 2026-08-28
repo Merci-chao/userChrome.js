@@ -17,7 +17,7 @@ Firefox に多段タブ表示をサポートさせる。
 注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja/)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
-- Firefox 115、140、153〜155
+- Firefox 115、140、153、154〜156
 
 - Windows 7〜11
 
@@ -190,7 +190,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-[Version 4.11.1](https://github.com/Merci-chao/userChrome.js/raw/45dca2a1c86c8afd1bd857b8bb44ad2054284e1f/MultiTabRows@Merci.chao.uc.js)
+[**Version 4.11.2**](https://github.com/Merci-chao/userChrome.js/raw/87bb5aed31a006dfe1cfc007db0a532e02b130a3/MultiTabRows@Merci.chao.uc.js)
+- Firefox 156 への更新。
+- インジケーターを使ってタブを移動する際に発生する軽微な表示上の不具合を修正。
+
+[**Version 4.11.1**](https://github.com/Merci-chao/userChrome.js/raw/45dca2a1c86c8afd1bd857b8bb44ad2054284e1f/MultiTabRows@Merci.chao.uc.js)
 - `rowIncreaseEvery` を `0` に設定し、ウィンドウ幅が `rowStartIncreaseFrom` より狭い場合に不正な挙動が発生するリグレッションを修正。
 - Firefox 156 への更新。
 
