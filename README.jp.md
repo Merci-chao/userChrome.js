@@ -190,6 +190,13 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+<details>
+<summary>軽微な更新</summary>
+
+[**Version 4.11.2.1**](https://github.com/Merci-chao/userChrome.js/raw/b8846ab17bd779b41c1b1cf1f20a8dad463b22c5/MultiTabRows@Merci.chao.uc.js)
+- Firefox 155 における Nova の軽微な表示上の不具合を修正。
+</details>
+
 [**Version 4.11.2**](https://github.com/Merci-chao/userChrome.js/raw/87bb5aed31a006dfe1cfc007db0a532e02b130a3/MultiTabRows@Merci.chao.uc.js)
 - Firefox 156 への更新。
 - インジケーターを使ってタブを移動する際に発生する軽微な表示上の不具合を修正。
