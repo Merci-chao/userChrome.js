@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.11.2
+// @version        4.11.2.1
 // @compatibility  Firefox 115, 140, 153, 154-156
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -1180,8 +1180,8 @@ function setStyle() {
 
 root.setAttribute("multitabrows-applying-style", "");
 
-const NOVA_IN_TAB_CONTAINER_LINE = !IS_NOVA_BETA && appVersion > 154;
-const NOVA_FITTS = !IS_NOVA_BETA && appVersion > 154;
+const NOVA_IN_TAB_CONTAINER_LINE = !IS_NOVA_BETA || appVersion > 154;
+const NOVA_FITTS = !IS_NOVA_BETA || appVersion > 154;
 
 //fx 115 doesn't support CSS nesting so use some variables to save code
 let _, __, context, condition;
@@ -5597,21 +5597,9 @@ ${prefs.nativeWindowStyle ? /*css*/`
 			}
 		` : ``}
 
-		#TabsToolbar {
-			.tabs-placeholder::before, .titlebar-buttonbox-container {
-				--chrome-block-background-color: transparent;
-			}
+		.tabs-placeholder::before, .titlebar-buttonbox-container {
+			--chrome-block-background-color: transparent;
 		}
-
-		${nova && novaPrivateTheme ? /*css*/`
-			&[privatebrowsingmode=temporary] {
-				${prefs.controlButtonsAutoHide ? `.titlebar-buttonbox-container,` : ``}
-				.tabs-placeholder::before {
-					--chrome-block-background-color: transparent;
-					background-color: var(--mica-background-color);
-				}
-			}
-		` : ``}
 
 		${cssImgTheme && prefs.nativeWindowStyleToolboxGradientOpacity < 100 ? /*css*/`
 			&:not([multitabrows-changing-gradient]) {
