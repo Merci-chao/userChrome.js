@@ -194,6 +194,13 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+<details>
+<summary>Minor Update</summary>
+
+[**Version 4.11.2.1**](https://github.com/Merci-chao/userChrome.js/raw/b8846ab17bd779b41c1b1cf1f20a8dad463b22c5/MultiTabRows@Merci.chao.uc.js)
+- Fixed minor visual defects of Nova in Firefox 155.
+</details>
+
 [**Version 4.11.2**](https://github.com/Merci-chao/userChrome.js/raw/87bb5aed31a006dfe1cfc007db0a532e02b130a3/MultiTabRows@Merci.chao.uc.js)
 - Updates for Firefox 156.
 - Fixed a minor visual defect when using the indicator to move tabs.
