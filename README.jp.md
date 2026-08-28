@@ -113,7 +113,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `privateBrowsingIconOnNavBar` | <p>🔸 **プライベートアイコンをナビバーへ移動**</p><p>プライベートウィンドウアイコンをナビゲーションツールバーに移動。Firefox 115 では非対応。`tabsAtBottom` が有効な場合は強制的に有効化される。</p> |
 | `rowIncreaseEvery` | <p>🔸 **幅ごとに段を追加**</p><p>ウィンドウ幅が広がるたびに表示可能な段数が 1 ずつ増える。幅が狭いウィンドウでは、同時に表示可能な段数が少なくなる。最小値 `0` に設定すると、最大段数が常に表示可能になる。</p> |
 | `rowStartIncreaseFrom` | <p>🔸 **段増加開始の幅**</p><p>ウィンドウ幅がこの値＋`rowIncreaseEvery` より大きくなったとき、多段表示が可能になる。</p> |
-| `smartWindowButtonOnNavBar` | <p>🔸 **スマートウィンドウ切替ボタンをナビバーへ移動**</p><p>クラシックウィンドウ上で、Firefox Smart Window 切り替えボタンをナビゲーションツールバーに移動。`tabsAtBottom` が有効な場合は強制的に有効化される。Firefox 149 から 153 で利用可能。Firefox 154 以降では、カスタマイズツールバーを使ってボタンを直接移動。</p> |
+| `smartWindowButtonOnNavBar` | <p>🔸 **スマートウィンドウ切替ボタンをナビバーへ移動**</p><p>クラシックウィンドウ上で、Firefox スマートウィンドウ切り替えボタンをナビゲーションツールバーに移動。`tabsAtBottom` が有効な場合は強制的に有効化される。Firefox 149 から 153 で利用可能。Firefox 154 以降では、カスタマイズツールバーを使ってボタンを直接移動。</p> |
 | `spaceAfterTabs` | <p>🔸 **右上スペース**</p><p>ウィンドウ操作ボタンの前にある空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
 | `spaceAfterTabsOnMaximizedWindow` | <p>🔸 **最大化時の右上スペース**</p><p>最大化時のウィンドウ操作ボタン前の空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
 | `spaceBeforeTabs` | <p>🔸 **左上スペース**</p><p>ウィンドウの左上隅の空白スペース。最小値：`0`。タイトルバーが非表示のとき利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
@@ -278,7 +278,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `nativeWindowStyle` に新しいサブ設定を追加：
 		- `nativeWindowStyleToolbarColorOpacity`：ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。タブバーが上部にある場合、または Firefox Nova が有効になっている場合に利用可能。
 		- `nativeWindowStyleURLBarColorOpacity`：アドレスバーと検索バーの背景色の不透明度。
-	- `hamburgerMenuOnTabBar` を追加（Firefox 153+）：`false` に設定すると、Firefox Smart Window が利用可能な場合に Firefox メニューボタン（☰）をナビゲーションツールバーに戻す。
+	- `hamburgerMenuOnTabBar` を追加（Firefox 153+）：`false` に設定すると、Firefox スマートウィンドウが利用可能な場合に Firefox メニューボタン（☰）をナビゲーションツールバーに戻す。
 - 改善
 	- テーマとのサポートと互換性を改善：
 		- 繰り返し背景画像を持つテーマに対して `themeImageSize` が利用可能になった。非表示のメニューバーのためにサイズを確保する必要もなくなった。
@@ -404,11 +404,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 追加
 	- `showScrollShadow` を追加：タブバーがスクロール可能な場合、上下の端にシャドウを表示し、Firefox のインターフェースデザインに合わせる。
 	- `animateTabMoveShiftKeyToPause` を追加：`Shift` キーを押している際、ドラッグ＆ドロップのアニメーションを一時停止し、代わりにドロップインジケーターを表示する。備考：Firefox のバグにより、特定のシナリオではドロップ位置が期待通りに動作しない可能性がある。
-	- `smartWindowButtonOnNavBar` を追加（Firefox 149 以降）：Firefox Smart Window 切り替えボタンをナビゲーションツールバーに移動。`tabsAtBottom` が有効な場合は強制的に有効化される。
+	- `smartWindowButtonOnNavBar` を追加（Firefox 149 以降）：Firefox スマートウィンドウ切り替えボタンをナビゲーションツールバーに移動。`tabsAtBottom` が有効な場合は強制的に有効化される。
 - 改善
 	- スクロールやドラッグをより容易にするため、タブバー上方にドラッグスペースを追加（タブバーが最上部でない場合のみ）。
 	- 互換性の更新：
-		- Firefox Smart Window 機能；
+		- Firefox スマートウィンドウ機能；
 		- Firefox 149。
 	- `tabsAtBottom` が有効な場合：
 		- タブバー下の追加ドラッグスペースが確保されている；
