@@ -796,14 +796,14 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
    - 「ヘルプと報告 → Firefox について」を選択；
    - バージョンを確認；
    - [最新版](https://www.firefox.com/releases)と一致しているか確認。
-   - 一致していなければ[最新版](https://www.firefox.com)をインストール。
+   - 一致していなければ[最新版をインストール](https://www.firefox.com)。
 
 2. 最新版のスクリプトローダーを使用しているか確認：
-   - 不明なら[インストール手順](#installation)に従って最新版をインストール。
+   - 不明なら[インストール手順](#インストール手順)に従って最新版をインストール。
    - どのローダーを使っているか分からない場合は、好みのものを選んで上書きインストール。
 
 3. 最新版の Multi Tab Rows を使用しているか確認：
-   - [最新スクリプト](#changelog)に更新；
+   - [最新スクリプト](#変更履歴)に更新；
    - Firefox を再起動；
    - about:config を開き、`userChromeJS.multiTabRows@Merci.chao.currentVersion` を検索；
    - バージョン番号が最新版と一致しているか確認。
