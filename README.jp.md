@@ -809,7 +809,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
    - バージョン番号が最新版と一致しているか確認。
 
 4. 競合を確認：
-   - 全て更新しても動作しない場合は、[新しい Firefox プロファイル](https://support.mozilla.org/kb/profile-manager-create-and-remove-firefox-profiles)にスクリプトローダーとスクリプトをインストール。
+   - 全て更新しても直せない場合は、[新しい Firefox プロファイル](https://support.mozilla.org/kb/profile-manager-create-and-remove-firefox-profiles)にスクリプトローダーとスクリプトをインストール。
    - 新しいプロファイルで正常に動作する場合は、`*.us.js` や `userChrome.css` のスタイルが原因か確認。
 
 5. まだ正常に動作しない場合：
