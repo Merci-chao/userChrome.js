@@ -2,7 +2,7 @@
 
 ---
 
-💡🐞 ご提案やバグ報告は[こちら](https://github.com/Merci-chao/userChrome.js/issues/new)にどうぞ。動画やスクリーンショットの添付を強く推奨。
+💡🐞 ご提案やバグ報告は[こちら](https://github.com/Merci-chao/userChrome.js/issues/new)にどうぞ。スクリーン録画やスクリーンショットの添付を強く推奨。
 
 ---
 
