@@ -788,6 +788,33 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
   
 </details>
 
+## トラブルシューティング
+スクリプトが正常に動作しない場合、次を確認してください：
+
+1. 最新版の Firefox を使用しているか確認：
+   - Firefox メニュー (☰) をクリック；
+   - 「ヘルプと報告 → Firefox について」を選択；
+   - バージョンを確認；
+   - [最新版](https://www.firefox.com/releases)と一致しているか確認。
+   - 一致していなければ[最新版をインストール](https://www.firefox.com)。
+
+2. 最新版のスクリプトローダーを使用しているか確認：
+   - 不明なら[インストール手順](#インストール手順)に従って最新版をインストール。
+   - どのローダーを使っているか分からない場合は、好みのものを選んで上書きインストール。
+
+3. 最新版の Multi Tab Rows を使用しているか確認：
+   - [最新スクリプト](#変更履歴)に更新；
+   - Firefox を再起動；
+   - about:config を開き、`userChromeJS.multiTabRows@Merci.chao.currentVersion` を検索；
+   - バージョン番号が最新版と一致しているか確認。
+
+4. 競合を確認：
+   - 全て更新しても動作しない場合は、[新しい Firefox プロファイル](https://support.mozilla.org/kb/profile-manager-create-and-remove-firefox-profiles)にスクリプトローダーとスクリプトをインストール。
+   - 新しいプロファイルで正常に動作する場合は、`*.us.js` や `userChrome.css` のスタイルやルールが原因か確認。
+
+5. まだ正常に動作しない場合：
+   - 新しいプロファイルで問題のスクリーン録画（推奨）またはスクリーンショットを取り、再現手順を[こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に提供。
+
 ## 対応しない互換性問題
 - 他のタブ関連スクリプト、スタイル、旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）
 - Firefox Nightly
