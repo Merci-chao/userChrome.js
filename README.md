@@ -2,7 +2,7 @@
 
 ---
 
-💡🐞 You're welcome to post your suggestions and bug reports [here](https://github.com/Merci-chao/userChrome.js/issues/new). Including a video or screenshot is strongly recommended. 
+💡🐞 You're welcome to post your suggestions and bug reports [here](https://github.com/Merci-chao/userChrome.js/issues/new). Including a screen recording or screenshot is strongly recommended. 
 
 ---
 
