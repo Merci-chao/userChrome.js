@@ -792,28 +792,28 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Troubleshooting
 If the script does not run as expected, please check the following points:
 
-1. Ensure using the latest version of Firefox:
+1. Ensure you are using the latest version of Firefox:
    - Click the Firefox menu (☰);
    - Choose *Help and Report* → *About Firefox*;
    - Check the version;
    - Confirm it matches the [latest](https://www.firefox.com/releases).
    - If not, install the [newest](https://www.firefox.com).
 
-2. Ensure using the latest version of script loader:
+2. Ensure you are using the latest version of script loader:
    - If unsure, follow the [installation steps](#installation) and install the latest one.
    - If you don't know which loader you are using, just choose your preferred one to overwrite and install.
 
-3. Ensure using the latest version of Multi Tab Rows:
+3. Ensure you are using the latest version of Multi Tab Rows:
    - Update to the [latest script](#changelog);
    - Restart Firefox;
    - Open *about:config*, search `userChromeJS.multiTabRows@Merci.chao.currentVersion`;
    - Ensure the version number matches the newest one.
 
-4. Check for confliction:
+4. Check for conflicts:
    - If updating everything still doesn't work, install the script loader and script on a [new clean Firefox profile](https://support.mozilla.org/kb/profile-manager-create-and-remove-firefox-profiles).
-   - If the script works fine in a new profile, check if there are any `*.us.js` or rules in `userChrome.css` causing the problem.
+   - If the script works fine in a new profile, check if there are any `*.us.js` or styles in `userChrome.css` causing the problem.
 
-5. Still not work:
+5. If it still does not work:
    - Take a screen recording (recommended) or screenshot of the problem in the new clean profile, and provide the steps of reproduction [here](https://github.com/Merci-chao/userChrome.js/issues/new).
 
 ## Won't Fixed Compatibility Issues
