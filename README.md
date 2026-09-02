@@ -485,7 +485,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Fixed the visual issue when closing pinned tabs.
 
 [**Version 4.1.2.3**](https://github.com/Merci-chao/userChrome.js/raw/3c4e92e7733abd23a720d91687ee84121b716407/MultiTabRows@Merci.chao.uc.js)
-- Hides secondary tab label when `tabContentHeight` is bellow `30` (compact mode).
+- Hides secondary tab label when `tabContentHeight` is below `30` (compact mode).
 - Adjusts the tab height in split view when it is too compact.
 - The default value of `checkUpdateAutoApply` has been changed to `1`, which has the same effect as `0`.
 
@@ -562,7 +562,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Changes
 	- In keeping with the original design of Firefox, `spaceAfterTabs`, `spaceAfterTabsOnMaximizedWindow`, `spaceBeforeTabs` and `spaceBeforeTabsOnMaximizedWindow` now affect the spacing at the edges of the navigation toolbar when `tabsAtBottom` is enabled.
 	- In keeping with the original design of Firefox, `gapAfterPinned` now defaults to `0` on Firefox 143 and above.
-	- Fixes the size of New Tab button to prevent layout gliches.
+	- Fixes the size of New Tab button to prevent layout glitches.
 - Improvements
 	- Refines the behavior of tab size locking when closing tabs or collapsing tab groups.
 	- Refines the dragging behavior to avoid the difficulty of moving items to the row edge in certain scenarios.
@@ -678,7 +678,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 [**Version 3.3**](https://github.com/Merci-chao/userChrome.js/raw/2094baff3cc4802583d6b6013d406929f117c67a/MultiTabRows@Merci.chao.uc.js)
 - Add `pinnedTabsFlexWidth`: Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when the tab bar is scrollable (experimental).
-- Add `checkUpdateAutoApply`: Update the script file automatically when there is a new version. `0` - never, `1` - ask, `2` - always, `3` - always and slient.
+- Add `checkUpdateAutoApply`: Update the script file automatically when there is a new version. `0` - never, `1` - ask, `2` - always, `3` - always and silent.
 - Fix a bug where reopening a closed pinned tab causes tab functions to not work normally on Firefox 142.
 - Fix minor bugs related to full screen.
 - `nativeWindowStyle` will also apply on full screen.
