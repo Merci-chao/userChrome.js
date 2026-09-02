@@ -167,7 +167,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
 | `checkUpdate` | <p>🔸 **Check for Updates**</p><p>Check for a new version of this script when Firefox starts up or opens new windows. Set to `1` to enable or `0` to disable. The value will be updated with the last checking time (e.g. `1759911972`). Execute the check immediately in a new window by resetting it to `1`.</p><p>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</p><p>📝 Note: Updates for this script will not be notified when using older versions of Firefox (except 115 and 140).</p> |
-| `checkUpdateAutoApply` | <p>🔸 **Auto Apply Updates**</p><p>Update the script file automatically when there is a new version:</p><ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and sliently, also receive updates for minor changes and fixes that do not trigger notifications</li></ul> |
+| `checkUpdateAutoApply` | <p>🔸 **Auto Apply Updates**</p><p>Update the script file automatically when there is a new version:</p><ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and silently, also receive updates for minor changes and fixes that do not trigger notifications</li></ul> |
 | `checkUpdateFrequency` | <p>🔸 **Update Check Frequency**</p><p>How often to check for new versions (days). Minimum: `1`.</p> |
 | `currentVersion` | <p>🔸 **Current Version**</p><p>The version number you are currently using.</p> |
 | `debugMode`<span title="Do Not Use">⛔</span> | <p>🔸 **Debug Mode**</p><p>Not for general use.</p> |
@@ -192,7 +192,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Mica Backdrop Effect**</p><p>Choose the effect of the window backdrop (Windows 11):</p><ul><li>`0` - auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 
 ## Changelog
-📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
 <details>
 <summary>Minor Update</summary>
@@ -839,14 +839,14 @@ There is no setting panel and you need to open *about:config* and search for the
 | Name | Description |
 | ------------- | ------------- |
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
-| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and sliently</li></ul> |
+| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and silently</li></ul> |
 | `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
 | `dateFormat` | The format of the name of sub-menus.|
 | `submenuCount` | Count of sub-menus.|
 | `historyCount` | Count of items listing directly in the History menu.|
 
 ## Changelog
-📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
+📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
 
 [**Version 2026-05-06**](https://github.com/Merci-chao/userChrome.js/raw/a6c1cf1ca95ad2535edac611efdef41a78adeaa3/HistorySubmenus2%40Merci.chao.uc.js)
 - Settings changes now take effect immediately.
@@ -878,7 +878,7 @@ Open *about:config* and search for the prefix `extensions.PageTitle@Merci.chao.`
 | Name | Description |
 | ------------- | ------------- |
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
-| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and sliently</li></ul> |
+| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and silently</li></ul> |
 | `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
 | `decodeHashAndSearch` | Decode the hash and the query part, e.g. `/index.html#hello%20world` to `/index.html#hello world`. |
 | `formattingEnabled` | Highlight the domain (only when `showDomain` is `false`). |
@@ -890,7 +890,7 @@ Open *about:config* and search for the prefix `extensions.PageTitle@Merci.chao.`
 | `showUriOnHover` | Display the URL temporarily when mouse hovering. |
 
 ## Changelog
-📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
+📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
 
 [**Version 2026-07-14**](https://github.com/Merci-chao/userChrome.js/raw/3d653904e81287d5123e2a8a7ef3c64f9df9a587/PageTitle%40Merci.chao.uc.js)
 - Update for Firefox 154.
@@ -917,7 +917,7 @@ Open *about:config* and search for the prefix `extensions.PageTitle@Merci.chao.`
 [**Version 2025-12-12**](https://github.com/Merci-chao/userChrome.js/raw/dfcd52a73eb79e9e9a7db2b5d2a25872d4c736e7/PageTitle%40Merci.chao.uc.js)
 - Support Trust Panel feature.
 - Update the update-checking feature.
-- Add `checkUpdateAutoApply`: update the script file automatically when there is a new version, `1` - never, `2` - always, `3` - always and sliently.
+- Add `checkUpdateAutoApply`: update the script file automatically when there is a new version, `1` - never, `2` - always, `3` - always and silently.
 
 [**Version 2025-11-28**](https://github.com/Merci-chao/userChrome.js/raw/6d6b2481f653efee2432134088713fc70729bf81/PageTitle%40Merci.chao.uc.js)
 - Update for Firefox 147.
@@ -955,12 +955,12 @@ Open *about:config* and search for the prefix `extensions.SemiFullScreen@Merci.c
 | ------------- | ------------- |
 | `autoHideToolbarDelay` | The delay (in milliseconds) before auto-hiding the toolbar when the mouse has left the window edge and hasn't re-entered. |
 | `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
-| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and sliently</li></ul> |
+| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and silently</li></ul> |
 | `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
 | `reverse` | Use `F11` for semi-full screen and `Ctrl + F11` for picture-in-picture.|
 
 ## Changelog
-📥 [Download the Lastest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
+📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
 
 [**Version 2026-07-15**](https://github.com/Merci-chao/userChrome.js/raw/e77f049f86230a54a887ae51af7da26a09ed5361/SemiFullScreen%40Merci.chao.uc.js)
 - Update for Firefox 154.
