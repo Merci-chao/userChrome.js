@@ -156,7 +156,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `nativeWindowStyle` | <p>🔸 **Native Window Style**</p> <p>Remove the background and display the native system style of windows, e.g. transparency effects of Windows 11 and effects from tools like [*DWMBlurGlass*](https://github.com/Maplespe/DWMBlurGlass). To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. It also allows you to remove the background color on themes designed with patterns with transparency.</p><p>📝 Enabling this setting on Windows 7 and 8 when using themes may cause the window control buttons to be covered by the theme background image.</p> |
 | `nativeWindowStyleToolbarColorOpacity` | <p>🔸 **Toolbar Color Opacity**</p><p>Opacity of the background color of toolbars, and the dividing line between the navigation toolbar and the tab bar, valid range: `0` - `100`. Changing this setting cannot increase opacity if the original color contains transparency. Available when the tab bar is at the top or Firefox Nova is enabled.</p> |
 | `nativeWindowStyleToolboxGradientOpacity` | <p>🔸 **Gradient Opacity**</p><p>Opacity of the theme's gradient image, valid range: `0` - `100`. Changing this setting cannot increase the opacity if the original image contains transparency. Available when using themes that apply a gradient image in the toolbar area (e.g. Nova themes for Firefox 155+).</p> |
-| `nativeWindowStyleURLBarColorOpacity` | <p>🔸 **URL Bar Color Opacity**</p><p>Opacity of the background color of the address bar and he search bar, valid range: `0` - `100`. Changing this setting cannot increase opacity if the original color includes transparency.</p> |
+| `nativeWindowStyleURLBarColorOpacity` | <p>🔸 **URL Bar Color Opacity**</p><p>Opacity of the background color of the address bar and the search bar, valid range: `0` - `100`. Changing this setting cannot increase opacity if the original color includes transparency.</p> |
 | `scrollbarThumbColor` | <p>🔸 **Scrollbar Thumb Color**</p><p>Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`.</p> |
 | `scrollbarTrackColor` | <p>🔸 **Scrollbar Track Color**</p><p>Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`.</p> |
 | `showScrollShadow` | <p>🔸 **Show Scroll Shadow**</p><p>Show shadow on the top and bottom edges when the tab bar is scrollable.</p> |
@@ -313,7 +313,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Updates for Firefox 152.
 	- Minor layout refinements for media buttons.
 - Fixes
-	- A protential memory leak issue.
+	- A potential memory leak issue.
 	- Incorrect background and icon color in the sidebar when `tabsAtBottom` was enabled.
 	- Animation issues in special cases.
 	- Visual issue where stacking tabs looked messy during dragging on some themes.
@@ -397,7 +397,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Adjusts the width of scroll buttons and shadow.
 - Fixes
 	- Dragging to move multiple tabs together might result in incorrect order.
-	- Did not scroll to the seleced tab when resizing window.
+	- Did not scroll to the selected tab when resizing window.
 	- Minor bugs in the auto-collapse feature.
 	- Minor issue that occurred when scrolling during dragging.
 	- `showScrollShadow` did not work on Firefox 115.
@@ -707,7 +707,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Display the scroll up/down buttons when dragging, set `hideScrollButtonsWhenDragging` to `true` to hide it.
 - When all tabs in a tab group are dragged, the group now remains until the tabs are dropped.
 - Update for Firefox 142.
-- Fix a glich when dragging tab to the top/bottom edge to scroll.
+- Fix a glitch when dragging tab to the top/bottom edge to scroll.
 - Fix display issue with some themes.
 - `compactControlButtons` is always available on Windows 11 now.
 - Minor bug-fixes.
@@ -811,7 +811,7 @@ If the script does not run as expected, please check the following points:
 
 4. Check for conflicts:
    - If updating everything still doesn't work, install the script loader and script on a [new clean Firefox profile](https://support.mozilla.org/kb/profile-manager-create-and-remove-firefox-profiles).
-   - If the script works fine in a new profile, check if there are any `*.us.js` or styles in `userChrome.css` causing the problem.
+   - If the script works fine in a new profile, check if there are any `*.uc.js` or styles in `userChrome.css` causing the problem.
 
 5. If it still does not work:
    - Take a screen recording (recommended) or screenshot of the problem in the new clean profile, and provide the steps of reproduction [here](https://github.com/Merci-chao/userChrome.js/issues/new).
@@ -883,7 +883,7 @@ Open *about:config* and search for the prefix `extensions.PageTitle@Merci.chao.`
 | `decodeHashAndSearch` | Decode the hash and the query part, e.g. `/index.html#hello%20world` to `/index.html#hello world`. |
 | `formattingEnabled` | Highlight the domain (only when `showDomain` is `false`). |
 | `hideWww` | Hide the `www` sub-domain. |
-| `highlightIdentityBox` | Add a backgrond for identity box (only when `showDomain` is `true`). |
+| `highlightIdentityBox` | Add a background for identity box (only when `showDomain` is `true`). |
 | `showDomain` | Display the domain nearby the lock icon. |
 | `showSubTitle` | Display the URL path after the page title. |
 | `showUnicodeDomain` | Display the Unicode characters in domain. |
@@ -942,7 +942,7 @@ Full screen with keeping your task bar visible, or hide the toolbars when not ma
 | Hotkey<br>(`⤢` - Full Screen Button) | Function |
 | ------------- | ------------- |
 | `F11` or `⤢` | Hide the toolbars and enter picture-in-picture mode. |
-| `Ctrl`+`F11` or `Ctrl`+`⤢` | Mazimize the window and enter semi-full screen mode, taskbar and sidebar (if any) will keep visible. |
+| `Ctrl`+`F11` or `Ctrl`+`⤢` | Maximize the window and enter semi-full screen mode, taskbar and sidebar (if any) will keep visible. |
 | `Shift`+`F11` or `Shift`+`⤢` | Enter normal full screen mode. |
 
 ## Settings
