@@ -968,13 +968,75 @@ about:config を開き、`extensions.SemiFullScreen@Merci.chao.` で始まる設
 [**Version 2026-05-04**](https://github.com/Merci-chao/userChrome.js/raw/edd0d7a00b737dde1103dd012a23c9683833dae3/SemiFullScreen%40Merci.chao.uc.js)
 - 一部のスクリプトローダーとの互換性を改善。
 
-[**Version 2025-08-24**](https://github.com/Merci-chao/userChrome.js/raw/b1a644af37a53705909283b9bfd1459446596a88/SemiFullScreen%40Merci.chao.uc.js)
+**Version 2025-08-24**
 - Windows 7/8 で欠けていたウィンドウ枠を復元。
 - `autoHideToolbarDelay` を追加：マウスがウィンドウ端から外れ、ウィンドウ内に戻らなかった場合に、ツールバーを自動的に非表示にするまでの遅延時間（ミリ秒）。
 
-[**Version 2025-08-20**](https://github.com/Merci-chao/userChrome.js/raw/c9807aa1d1004f9ec3b7c95b6f5ec3979be9a70c/SemiFullScreen%40Merci.chao.uc.js)
+**Version 2025-08-20**
 - タブバー非表示モードでドラッグ用スペースが隠されない。
 
-[**Version 2025-08-16**](https://github.com/Merci-chao/userChrome.js/raw/47a3bd1a4b2c93fbab83a6917926d71ed535e00a/SemiFullScreen%40Merci.chao.uc.js)
+**Version 2025-08-16**
 - タブバーの意図しないスペースを修正。
 - バージョンチェック機能を追加。
+
+---
+
+# [Float Toolbars in Full Screen](https://github.com/Merci-chao/userChrome.js/blob/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
+全画面表示モードで、ツールバーをページの上にフロートさせ、表示・非表示のたびにページが跳ねるのを防ぐ。  
+[アドオンページ（ウェブアーカイブ）](https://web.archive.org/web/20181017035437/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/)
+
+**注意: このバージョンは macOS および Ubuntu（Linux）では未検証である。動作に不具合があるか、まったく動作しない可能性があります。**
+
+![screenshot](https://web.archive.org/web/20181012014653if_/https://addons.cdn.mozilla.net/user-media/previews/full/180/180636.png?modified=1530209532)
+
+## 設定
+about:config を開いて `extensions.FloatToolbarsInFullScreen@Merci.chao.` で始まる項目を検索してください。
+
+🔔 設定は新しいウィンドウに適用される。
+
+| 設定項目 | 説明 |
+| --- | --- |
+| `checkUpdate` | Firefox 起動時や新しいウィンドウを開くたびにスクリプトの新バージョンを確認する。`0` で無効、`1` 以上で有効。値は最後に確認した時刻で更新される。<br><b>💡 有効化を強く推奨。古いスクリプトは新しい Firefox では正常に動作しない可能性がある。</b> |
+| `checkUpdateAutoApply` | 新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：<ul><li>`1`－無効</li><li>`2`－有効</li><li>`3`－有効（通知なし）</li></ul> |
+| `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
+
+## 変更履歴
+📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
+
+**Version 2026-07-29**
+- 修正
+	- Firefox メニューから全画面表示モードを終了できなかった。
+	- Nova を有効にした際にテーマ背景画像が欠落していた。
+	- カーソルがブラウザコンテンツ上にあるとき、ツールバーが非表示にならない場合があった。
+
+---
+
+# [undoCloseTab.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/undoCloseTab.uc.js)
+タブバーの右クリックメニューに「閉じたタブを元に戻す」「最近閉じたタブ」「最近閉じたウィンドウ」「以前のセッションを復元」などの項目を表示。
+
+---
+
+# [lockBookmarksDefaultLocation.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/lockBookmarksDefaultLocation.uc.js)
+新しく追加したブックマークの場所を設定して固定し、Firefox に変えられないようにする。
+
+このスクリプトを適用する前に、アドレスバーのスターボタンをクリックして新しいブックマークを作成し、フォルダーをデフォルトの保存先として設定してください。
+
+---
+
+# [restart-button.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/restart-button.uc.js)
+アプリケーションメニューの「終了」ボタンを中クリックすると Firefox を再起動。
+
+---
+
+# [autoTitleBar@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/autoTitleBar%40Merci.chao.uc.js)
+ウィンドウの上端にカーソルが到達したときにタイトルバーを表示し、ページコンテンツ上にカーソルがある間は非表示にします。
+
+---
+
+# [showScrollbarInMenus.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
+長いメニュー（ブックマークメニューなど）にスクロールバーを表示し、上下の矢印による移動を置き換える。
+
+---
+
+# [BookmarksMenuItemIconClickable@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
+ブックマークメニュー内のブックマークアイコンをクリックすると、新しいタブで開き、メニューは開いたままになる。
