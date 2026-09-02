@@ -678,7 +678,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 [**Version 3.3**](https://github.com/Merci-chao/userChrome.js/raw/2094baff3cc4802583d6b6013d406929f117c67a/MultiTabRows@Merci.chao.uc.js)
 - Add `pinnedTabsFlexWidth`: Make pinned tab sizing behave like normal tabs. Pinned tabs will no longer be fixed in position when the tab bar is scrollable (experimental).
-- Add `checkUpdateAutoApply`: Update the script file automatically when there is a new version. `0` - never, `1` - ask, `2` - always, `3` - always and silent.
+- Add `checkUpdateAutoApply`: Update the script file automatically when there is a new version. `0` - never, `1` - ask, `2` - always, `3` - always and silently.
 - Fix a bug where reopening a closed pinned tab causes tab functions to not work normally on Firefox 142.
 - Fix minor bugs related to full screen.
 - `nativeWindowStyle` will also apply on full screen.
