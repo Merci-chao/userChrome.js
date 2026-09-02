@@ -962,19 +962,88 @@ Open *about:config* and search for the prefix `extensions.SemiFullScreen@Merci.c
 ## Changelog
 📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
 
-[**Version 2026-07-15**](https://github.com/Merci-chao/userChrome.js/raw/e77f049f86230a54a887ae51af7da26a09ed5361/SemiFullScreen%40Merci.chao.uc.js)
+**Version 2026-07-15**
 - Update for Firefox 154.
 
-[**Version 2026-05-04**](https://github.com/Merci-chao/userChrome.js/raw/edd0d7a00b737dde1103dd012a23c9683833dae3/SemiFullScreen%40Merci.chao.uc.js)
+**Version 2026-05-04**
 - Improve compatibility with some script loaders.
 
-[**Version 2025-08-24**](https://github.com/Merci-chao/userChrome.js/raw/b1a644af37a53705909283b9bfd1459446596a88/SemiFullScreen%40Merci.chao.uc.js)
+**Version 2025-08-24**
 - Restore missing window border on Windows 7 and 8.
 - Add `autoHideToolbarDelay`: The delay (in milliseconds) before auto-hiding the toolbar when the mouse has left the window edge and hasn't re-entered.
 
-[**Version 2025-08-20**](https://github.com/Merci-chao/userChrome.js/raw/c9807aa1d1004f9ec3b7c95b6f5ec3979be9a70c/SemiFullScreen%40Merci.chao.uc.js)
+**Version 2025-08-20**
 - Not hiding the dragging spaces on no-tab bar mode.
 
-[**Version 2025-08-16**](https://github.com/Merci-chao/userChrome.js/raw/47a3bd1a4b2c93fbab83a6917926d71ed535e00a/SemiFullScreen%40Merci.chao.uc.js)
+**Version 2025-08-16**
 - Fix unintentional space on the tab bar.
 - Add check update feature.
+
+---
+
+# [Float Toolbars in Full Screen](https://github.com/Merci-chao/userChrome.js/blob/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
+Float the toolbars over the page in full screen mode, instead of making the web page jumpy when the toolbars showing / hiding. [Add-on Page (web achive)](https://web.archive.org/web/20181017035437/https://addons.mozilla.org/en-US/firefox/addon/float-toolbars-in-full-screen/)
+
+**CAUTION: This version of Float Toolbars in Full Screen is not tested on Mac OS and Ubuntu (Linux). It is probably glitchy or simply doesn't work at all.**
+
+![screenshot](https://web.archive.org/web/20181012014653if_/https://addons.cdn.mozilla.net/user-media/previews/full/180/180636.png?modified=1530209532)
+
+## Settings
+Open *about:config* and search for the prefix `FloatToolbarsInFullScreen@Merci.chao.`.
+
+> [!NOTE]
+> Settings will apply to new windows.
+
+| Name | Description |
+| ------------- | ------------- |
+| `checkUpdate` | Check for a new version of this script when Firefox starts up or opens new windows. Set it to `1` or larger to enable or `0` to disable. The value will be updated with the last checking time. <br><b>💡 Enabling it is strongly recommended, as outdated scripts are unlikely to function properly on newer versions of Firefox.</b> |
+| `checkUpdateAutoApply` | Update the script file automatically when there is a new version:<ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and silently</li></ul> |
+| `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
+
+## Changelog
+📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
+
+**Version 2026-07-29**
+- Fixes
+	- Could not exit full screen mode through the Firefox menu.
+	- Missing theme background image when enabling Nova.
+	- Toolbars might not hide when the cursor hovered over the browser content.
+
+**Version 2026-05-04**
+- Improve compatibility with some script loaders.
+
+**Version 2025-08-16**
+- Now the tab bar will show the native window style in full screen.
+- Add check update feature.
+
+---
+
+# [undoCloseTab.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/undoCloseTab.uc.js)
+Display the Undo Close Tabs, Recently Closed Tabs, Recently Closed Windows and Restore Previous Session at the tab bar right-click menu.
+
+---
+
+# [lockBookmarksDefaultLocation.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/lockBookmarksDefaultLocation.uc.js)
+Lock the location of newly added bookmarks, preventing it from being changed by Firefox. 
+
+Before applying this script, click the Star button in the address bar to create a new bookmark, and set the folder as the default location.
+
+---
+
+# [restart-button.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/restart-button.uc.js)
+Restart Firefox by middle-clicking on the Exit button in Application menu.
+
+---
+
+# [autoTitleBar@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/autoTitleBar%40Merci.chao.uc.js)
+Display the title bar on mouseover at the top edge; hide it when hovering over page content.
+
+---
+
+# [showScrollbarInMenus.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
+Display scrollbar for long menus (Bookmarks menu, for instance), instead of arrows at the top and bottom.
+
+---
+
+# [BookmarksMenuItemIconClickable@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
+Clicking the bookmark icon in the Bookmarks Menu opens it in a new tab and keeps the menu open.
