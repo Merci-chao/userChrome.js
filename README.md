@@ -860,7 +860,7 @@ There is no setting panel and you need to open *about:config* and search for the
 
 [**Version 2025-08-14**](https://github.com/Merci-chao/userChrome.js/raw/ed74f043645ef8c91211aaf5f593ee2bc536fe0d/HistorySubmenus2%40Merci.chao.uc.js)
 - Update for Firefox 143.
-- Add check upate feature.
+- Add check update feature.
 
 ---
 
@@ -926,7 +926,7 @@ Open *about:config* and search for the prefix `extensions.PageTitle@Merci.chao.`
 - Update for Firefox 147.
 
 [**Version 2025-09-09**](https://github.com/Merci-chao/userChrome.js/raw/cb188806fef8b365d8761ad2609a59055ac885e6/PageTitle%40Merci.chao.uc.js)
-- Add check upate feature.
+- Add check update feature.
 
 ---
 
@@ -977,7 +977,7 @@ Open *about:config* and search for the prefix `extensions.SemiFullScreen@Merci.c
 
 [**Version 2025-08-16**](https://github.com/Merci-chao/userChrome.js/raw/47a3bd1a4b2c93fbab83a6917926d71ed535e00a/SemiFullScreen%40Merci.chao.uc.js)
 - Fix unintentional space on the tab bar.
-- Add check upate feature.
+- Add check update feature.
 
 ---
 
@@ -1014,36 +1014,4 @@ Open *about:config* and search for the prefix `FloatToolbarsInFullScreen@Merci.c
 
 [**Version 2025-08-16**](https://github.com/Merci-chao/userChrome.js/raw/30ece47b652ffa9ec8af996595c3c128c1b4e85d/FloatToolbarsInFullScreen%40Merci.chao.uc.js)
 - Now the tab bar will show the native window style in full screen.
-- Add check upate feature.
-
----
-
-# [undoCloseTab.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/undoCloseTab.uc.js)
-Display the Undo Close Tabs, Recently Closed Tabs, Recently Closed Windows and Restore Previous Session at the tab bar right-click menu.
-
----
-
-# [lockBookmarksDefaultLocation.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/lockBookmarksDefaultLocation.uc.js)
-Lock the location of newly added bookmarks, preventing it from being changed by Firefox. 
-
-Before applying this script, click the Star button in the address bar to create a new bookmark, and set the folder as the default location.
-
----
-
-# [restart-button.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/restart-button.uc.js)
-Restart Firefox by middle-clicking on the Exit button in Application menu.
-
----
-
-# [autoTitleBar@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/autoTitleBar%40Merci.chao.uc.js)
-Display the title bar on mouseover at the top edge; hide it when hovering over page content.
-
----
-
-# [showScrollbarInMenus.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
-Display scrollbar for long menus (Bookmarks menu, for instance), instead of arrows at the top and bottom.
-
----
-
-# [BookmarksMenuItemIconClickable@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
-Clicking the bookmark icon in the Bookmarks Menu opens it in a new tab and keeps the menu open.
+- Add check update feature.
