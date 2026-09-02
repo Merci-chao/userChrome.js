@@ -962,10 +962,10 @@ about:config を開き、`extensions.SemiFullScreen@Merci.chao.` で始まる設
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
 
-[**Version 2026-07-15**](https://github.com/Merci-chao/userChrome.js/raw/e77f049f86230a54a887ae51af7da26a09ed5361/SemiFullScreen%40Merci.chao.uc.js)
+**Version 2026-07-15**
 - Firefox 154 への更新。
 
-[**Version 2026-05-04**](https://github.com/Merci-chao/userChrome.js/raw/edd0d7a00b737dde1103dd012a23c9683833dae3/SemiFullScreen%40Merci.chao.uc.js)
+**Version 2026-05-04**
 - 一部のスクリプトローダーとの互換性を改善。
 
 **Version 2025-08-24**
@@ -1008,6 +1008,13 @@ about:config を開いて `extensions.FloatToolbarsInFullScreen@Merci.chao.` で
 	- Firefox メニューから全画面表示モードを終了できなかった。
 	- Nova を有効にした際にテーマ背景画像が欠落していた。
 	- カーソルがブラウザコンテンツ上にあるとき、ツールバーが非表示にならない場合があった。
+
+**Version 2026-05-04**
+- 一部のスクリプトローダーとの互換性を改善。
+
+**Version 2025-08-16**
+- タブバーが全画面表示時にネイティブのウィンドウスタイルで表示。
+- バージョンチェック機能を追加。
 
 ---
 
