@@ -1046,4 +1046,4 @@ about:config を開いて `extensions.FloatToolbarsInFullScreen@Merci.chao.` で
 ---
 
 # [BookmarksMenuItemIconClickable@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
-ブックマークメニュー内のブックマークアイコンをクリックすると、新しいタブで開き、メニューは開いたままになる。
+ブックマークメニューとブックマークツールバー内のブックマークアイコンをクリックすると、新しいタブで開き、メニューは開いたままになる。
