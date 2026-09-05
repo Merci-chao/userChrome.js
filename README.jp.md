@@ -810,7 +810,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 4. 競合を確認：
    - 全て更新しても直せない場合は、[新しい Firefox プロファイル](https://support.mozilla.org/kb/profile-manager-create-and-remove-firefox-profiles)にスクリプトローダーとスクリプトをインストール。
-   - 新しいプロファイルで正常に動作する場合は、`*.us.js` や `userChrome.css` のスタイルが原因か確認。
+   - 新しいプロファイルで正常に動作する場合は、`*.uc.js` や `userChrome.css` のスタイルが原因か確認。
 
 5. まだ正常に動作しない場合：
    - 新しいプロファイルで問題のスクリーン録画（推奨）またはスクリーンショットを取り、再現手順を[こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に提供。
