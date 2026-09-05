@@ -1,5 +1,5 @@
 if (document.documentElement.id == "main-window") {
-	let containers = ":is(#bookmarksMenuPopup, #BMB_bookmarksPopup, #PlacesToolbarItems)";
+	let containers = ":is(#bookmarksMenuPopup, #BMB_bookmarksPopup, #PlacesToolbarItems, #PlacesChevronPopup)";
 	let items = `${containers} .bookmark-item:not([id])`;
 	let icons = `${items} :is(.menu-icon, .menu-iconic-left, .toolbarbutton-icon)`;
 	document.body.appendChild(document.createElement("style")).textContent = /*css*/`
