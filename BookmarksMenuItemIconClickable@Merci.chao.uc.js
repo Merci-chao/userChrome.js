@@ -39,6 +39,7 @@ if (document.documentElement.id == "main-window") {
 			--margin-end: 4px;
 			border-radius: var(--toolbarbutton-border-radius);
 			height: 100%;
+			object-fit: scale-down;
 		}
 
 		${icons}:hover {
