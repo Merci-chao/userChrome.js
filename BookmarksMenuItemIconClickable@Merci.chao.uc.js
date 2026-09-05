@@ -62,7 +62,9 @@ if (document.documentElement.id == "main-window") {
 			p.addEventListener("click", aEvent => {
 				if (aEvent.button > 1 || !aEvent.target.closest(icons))
 					return;
-
+				aEvent.stopImmediatePropagation();
+				aEvent.stopPropagation();
+				aEvent.preventDefault();
 				let item = aEvent.target.closest(".bookmark-item");
 				item.dispatchEvent(new MouseEvent(
 					item.matches("menu, [type=menu]") ? "click" : "command",
