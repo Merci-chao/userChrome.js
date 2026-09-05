@@ -1046,4 +1046,4 @@ Display scrollbar for long menus (Bookmarks menu, for instance), instead of arro
 ---
 
 # [BookmarksMenuItemIconClickable@Merci.chao.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/showScrollbarInMenus.uc.js)
-Clicking the bookmark icon in the Bookmarks Menu opens it in a new tab and keeps the menu open.
+Clicking the bookmark icon in the Bookmarks Menu and Bookmarks Toolbar opens it in a new tab and keeps the menu open.
