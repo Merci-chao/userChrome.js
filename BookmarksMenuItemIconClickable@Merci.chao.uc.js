@@ -1,6 +1,8 @@
 if (document.documentElement.id == "main-window") {
+	let INCLUDE_FOLDERS = true;
+	
 	let containers = ":is(#bookmarksMenuPopup, #BMB_bookmarksPopup, #PlacesToolbarItems, #PlacesChevronPopup)";
-	let items = `${containers} .bookmark-item:not([id])`;
+	let items = `${containers} .bookmark-item:not([id])${!INCLUDE_FOLDERS ? `:not([type=menu], [container])` : ``}`;
 	let icons = `${items} :is(.menu-icon, .menu-iconic-left, .toolbarbutton-icon)`;
 	document.body.appendChild(document.createElement("style")).textContent = /*css*/`
 		${items} {
