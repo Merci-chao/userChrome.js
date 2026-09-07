@@ -892,6 +892,9 @@ about:config を開き、`extensions.PageTitle@Merci.chao.` で始まる設定�
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
 
+[**Version 2026-09-07**](https://github.com/Merci-chao/userChrome.js/raw/c9d0de72354e98e43c0799ad3a5cc3a63119e194/PageTitle%40Merci.chao.uc.js)
+- 検索バーを誤ってターゲットにしてしまうバグを修正。
+
 [**Version 2026-07-14**](https://github.com/Merci-chao/userChrome.js/raw/3d653904e81287d5123e2a8a7ef3c64f9df9a587/PageTitle%40Merci.chao.uc.js)
 - Firefox 154 への更新。
 - テキストの角が切り取られてしまう不具合を修正。
