@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Page Title in URL Bar
 // @description    Show page title in URL Bar.
-// @version        2026-07-14
+// @version        2026-09-07
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#page-title-in-url-bar
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-2
@@ -128,7 +128,7 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 
 		async function showNotification(label, buttons, icon, color) {
 			let box = await gNotificationBox.appendNotification(
-				"multitabrows",
+				"script-update",
 				{
 					label,
 					priority: gNotificationBox.PRIORITY_INFO_HIGH,
@@ -216,7 +216,7 @@ let formatRange = (selection, textNode, start, end) => {
 
 let urlbar = $("#urlbar");
 let urlbarInput = $("#urlbar-input");
-let container = $(".urlbar-input-box");
+let container = $("#urlbar .urlbar-input-box");
 let insertPoint = urlbarInput.nextSibling;
 
 /* title and url */
@@ -355,7 +355,7 @@ let PageTitle = window.PageTitle = {
 							 */
 							domainLabel.value = protocol[0].replace(/:$/, "");
 							if (protocol != "view-source:")
-								subURL = prefs.showDomain ? url.replace(new RegExp("^" + protocol[0] + "/*"), "") : url;
+								subURL = prefs.showDomain ? url.slice(protocol[0].length).replace(/^\/+/, "") : url;
 							else
 								url = subURL;
 						} else {
@@ -670,26 +670,26 @@ style.innerHTML = /*css*/`
 
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
-		:is(#identity-icon-box, #trust-icon-container:not(:has(~ #identity-box.extensionPage)))
+		:is(#identity-icon-box, #trust-icon-container:has(~ #identity-box:not(.extensionPage)))
 {
 	background-color: var(--urlbar-box-background-color, var(--urlbar-box-bgcolor));
 }
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar[focused]:not(:is([nopagetitle], [pageproxystate=invalid]))
-		:is(#identity-icon-box, #trust-icon-container:not(:has(~ #identity-box.extensionPage)))
+		:is(#identity-icon-box, #trust-icon-container:has(~ #identity-box:not(.extensionPage)))
 {
 	background-color: var(--urlbar-box-background-color-focus, var(--urlbar-box-focus-bgcolor));
 }
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
-		:is(#identity-icon-box, #trust-icon-container:not(:has(~ #identity-box.extensionPage))):hover:not([open])
+		:is(#identity-icon-box, #trust-icon-container:has(~ #identity-box:not(.extensionPage))):hover:not([open])
 {
 	background-color: var(--urlbar-box-background-color-hover, var(--urlbar-box-hover-bgcolor));
 	color: var(--urlbar-box-text-color-hover, var(--urlbar-box-hover-text-color));
 }
 :root[data-pageTitleHighlightIdentity][data-pageTitleShowDomain]
 	#urlbar:not(:is([nopagetitle], [pageproxystate=invalid]))
-		:is(#identity-icon-box, #trust-icon-container:not(:has(~ #identity-box.extensionPage))):is(:hover:active, [open])
+		:is(#identity-icon-box, #trust-icon-container:has(~ #identity-box:not(.extensionPage))):is(:hover:active, [open])
 {
 	background-color: var(--urlbar-box-background-color-active, var(--urlbar-box-active-bgcolor));
 	color: var(--urlbar-box-text-color-hover, var(--urlbar-box-hover-text-color));
@@ -710,7 +710,7 @@ style.innerHTML = /*css*/`
 PageTitle.updatePrefAttributes();
 setTimeout(() => PageTitle.updateURLBarPageTitleText());
 
-//page title may occasionally disappear, ensure it will be repainted
-setInterval(() => pageTitle.style.zIndex ^= 1, 100);
+// //page title may occasionally disappear, ensure it will be repainted
+// setInterval(() => pageTitle.style.zIndex ^= 1, 100);
 
 })()} catch(e) {alert(e);console.error(e, e.stack)}
