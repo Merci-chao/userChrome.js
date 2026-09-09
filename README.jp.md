@@ -820,7 +820,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Firefox Nightly
 - 最新リリース版の Firefox の過去バージョン（ESR 版を除く）
 - Firefox をベースとしたその他の派生ブラウザー
-- タッチ操作 
 - macOS
 - 垂直タブ（当然）
 
