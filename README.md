@@ -821,7 +821,6 @@ If the script does not run as expected, please check the following points:
 - Firefox Nightly
 - Previous versions of the latest release of Firefox (excluding ESR versions)
 - Other Firefox-based derivative browsers
-- Touch operations
 - macOS
 - Vertical tabs, obviously
 
