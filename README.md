@@ -195,6 +195,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+[**Version 4.12.1**](https://github.com/Merci-chao/userChrome.js/raw/bf33586088722b10a92eb75503823ecfcb67ea0c/MultiTabRows@Merci.chao.uc.js)
+- Fixes
+	- Temporary layout misalignment when closing a tab in a split view on the first row.
+	- The gradient opacity not applying correctly when switching between default themes and installed Nova themes.
+
 [**Version 4.12**](https://github.com/Merci-chao/userChrome.js/raw/10f6007f21f1c914096be5bcc8c7fc5e83aeb77f/MultiTabRows@Merci.chao.uc.js)
 - New
 	- Adds `controlButtonsAutoHideOnTriggerExit` for the auto-hide control buttons feature: Control buttons hide when the cursor leaves the trigger area.
