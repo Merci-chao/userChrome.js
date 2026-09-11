@@ -191,7 +191,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-[**Version 4.12**](https://github.com/Merci-chao/userChrome.js/raw/121e4a8d46e9a1ad718bfaddbdfbfce4f7978f85/MultiTabRows@Merci.chao.uc.js)
+[**Version 4.12**](https://github.com/Merci-chao/userChrome.js/raw/4b82010f21f14685023c8b293046d4a7a46146b7/MultiTabRows@Merci.chao.uc.js)
 - 追加
 	- `controlButtonsAutoHideOnTriggerExit` を追加：カーソルがトリガー領域から離れると、操作ボタンが非表示になる。操作ボタンを自動非表示用。
 - 改修
