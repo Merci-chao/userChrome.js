@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.12
+// @version        4.12.1
 // @compatibility  Firefox 115, 140, 153, 155-157
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -514,10 +514,12 @@ const getPrefs = (branch, data) => Object.fromEntries(
 
 		//typo
 		showScrollSahdow: v =>
+			v == false &&
 			prefs.setBoolPref(prefBranchStr + "showScrollShadow", v),
 
 		//typo
 		lastRowTabsFlexibe: v =>
+			v == false &&
 			prefs.setBoolPref(prefBranchStr + "lastRowTabsFlexible", v),
 
 		...(!AI_SWITCHER_FIXED && {smartWindowButtonOnNavBar: null}),
@@ -730,6 +732,7 @@ async function onNofitied(subject, name) {
 				return;
 			updateThemeStatus(data);
 			tempTheme = data.theme?.id && data.theme.id != getThemeData().theme?.id;
+			await 0;
 			break;
 		} case "ai-window-state-changed":
 			if (subject != window || !isCalledBy("toggleAIWindow"))
@@ -1583,11 +1586,6 @@ ${cssImgTheme ? /*css*/`
 		--multirows-background-position:
 			var(--nav-toolbox-margin-inline)
 			var(--nav-toolbox-margin-top);
-
-		${prefs.tabsAtBottom > -1 ? `.tabs-placeholder::before,` : ``}
-		.titlebar-buttonbox-container {
-			--chrome-block-background-color: var(${nativeTheme && appVersion < 157 ? "--toolbox-background-color-current" : "--toolbar-background-color"});
-		}
 	}
 ` : ``}
 
@@ -6539,6 +6537,10 @@ if (splitViewProto) {
 
 		visibleTabs: function() {
 			return this.tabs.filter(t => t.visible);
+		},
+
+		visible: function() {
+			return this.tabs.some(t => t.visible);
 		},
 	});
 
