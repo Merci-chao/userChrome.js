@@ -504,15 +504,15 @@ const getPrefs = (branch, data) => Object.fromEntries(
 			prefs.setIntPref(prefBranchStr + "themeImageSize", 2),
 
 		nativeWindowStyleToolbarColorOpacity: v =>
-			v &&
+			v != null &&
 			prefs.setIntPref(prefBranchStr + "toolbarColorOpacity", v),
 
 		nativeWindowStyleURLBarColorOpacity: v =>
-			v &&
+			v != null &&
 			prefs.setIntPref(prefBranchStr + "urlBarColorOpacity", v),
 
 		nativeWindowStyleToolboxGradientOpacity: v =>
-			v &&
+			v != null &&
 			prefs.setIntPref(prefBranchStr + "themeGradientOpacity", v),
 
 		//typo
