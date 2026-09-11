@@ -195,7 +195,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
-[**Version 4.12**](https://github.com/Merci-chao/userChrome.js/raw/121e4a8d46e9a1ad718bfaddbdfbfce4f7978f85/MultiTabRows@Merci.chao.uc.js)
+[**Version 4.12**](https://github.com/Merci-chao/userChrome.js/raw/4b82010f21f14685023c8b293046d4a7a46146b7/MultiTabRows@Merci.chao.uc.js)
 - New
 	- Adds `controlButtonsAutoHideOnTriggerExit` for the auto-hide control buttons feature: Control buttons hide when the cursor leaves the trigger area.
 - Changes
