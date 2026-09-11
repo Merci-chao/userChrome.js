@@ -18,7 +18,7 @@ Make Firefox support multiple rows of tabs.
 Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights with screenshots and detailed descriptions.
 
 ## Compatibility
-- Firefox 154 - 156, ESR (115, 140, 153)
+- Firefox 155 - 157, ESR (115, 140, 153)
 
 - Windows 7 - 11
 
@@ -104,6 +104,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `autoCollapseDelayExpanding` | <p>🔸 **Expand Delay**</p><p>Delay before expanding the tabs when the cursor hovers over them (in milliseconds). Minimum: `0`.</p> |
 | `compactControlButtons` | <p>🔸 **Compact Control Buttons**</p><p>Display the window control buttons to a compact size. Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
 | `controlButtonsAutoHide` | <p>🔸 **Auto-Hide Control Buttons**</p><p>Hide the window control buttons and show them when the cursor enters the top right corner:</p><ul><li>`0` - disabled</li><li>`1` - only on maximized windows</li><li>`2` - on all windows</li></ul><p>Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
+| `controlButtonsAutoHideOnTriggerExit` | <p>🔸 **Hide on Leaving Trigger**</p><p>Control buttons hide when the cursor leaves the trigger area; when set to `false`, they only hide once the cursor fully leaves the buttons. Not available on Firefox 115.</p> |
 | `controlButtonsAutoHideTriggerHeight` | <p>🔸 **Trigger Height for Showing Control Buttons**</p><p>The height of the trigger area.</p> |
 | `hamburgerMenuOnTabBar` | <p>🔸 **Menu Button on Tab Bar (Smart Windows)**</p><p>Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar on smart windows. Forcibly inactivated when `tabsAtBottom` is enabled. Not available on Firefox 115 and 140.</p> |
 | `hideAllTabs` | <p>🔸 **Hide All Tabs Button**</p><p>Hide the *List all tabs* button. Only available on Firefox 115. On newer versions of Firefox, remove it by right-clicking on it and choosing *Remove from Toolbar*.</p> |
@@ -133,7 +134,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
 | `gapAfterPinned` | <p>🔸 **Gap After Pinned Tabs**</p><p>Empty space between the pinned tabs and normal tabs. Minimum: `0`.</p> |
-| `lastRowTabsFlexibe` | <p>🔸 **Flexible Width for Last Row Tabs**</p><p>Tabs in the last row have flexible width when multiple rows are present. Forcibly activated when `justifyCenter` is `2`.</p> |
+| `lastRowTabsFlexible` | <p>🔸 **Flexible Width for Last Row Tabs**</p><p>Tabs in the last row have flexible width when multiple rows are present. Forcibly activated when `justifyCenter` is `2`.</p> |
 | `pinnedTabsFlexWidth` | <p>🔸 **Pinned Tabs Flexible Width**</p><p>Make pinned tab sizing behave like normal tabs. Enabling this feature will forcibly disable `positionPinnedTabs`.</p> |
 | `pinnedTabsFlexWidthIndicator` | <p>🔸 **Pinned Tabs Background**</p><p>Show a light background on pinned tabs when `pinnedTabsFlexWidth` is enabled.</p> |
 | `tabContentHeight` | <p>🔸 **Tab Content Height**</p><p>Height of tab content. Minimum: `16`.</p> |
@@ -154,13 +155,13 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `floatingBackdropClip` | <p>🔸 **Floating Area Clip Behind**</p><p>Clip the area covered by the floating blocks when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2`.</p> |
 | `floatingBackdropOpacity` | <p>🔸 **Floating Area Background Opacity**</p><p>How opaque the background of the floating blocks is when the tab bar is scrollable, available when `tabsUnderControlButtons` is `2` and `floatingBackdropClip` is `false`. Valid range: `0` - `100`.</p> |
 | `nativeWindowStyle` | <p>🔸 **Native Window Style**</p> <p>Remove the background and display the native system style of windows, e.g. transparency effects of Windows 11 and effects from tools like [*DWMBlurGlass*](https://github.com/Maplespe/DWMBlurGlass). To achieve the full visual effect on Windows 11, you may also need to enable `widget.windows.mica`. This behaves similarly to `browser.theme.windows.accent-color-in-tabs.enabled` when DWM tools are not used on Windows 10. It also allows you to remove the background color on themes designed with patterns with transparency.</p><p>📝 Enabling this setting on Windows 7 and 8 when using themes may cause the window control buttons to be covered by the theme background image.</p> |
-| `nativeWindowStyleToolbarColorOpacity` | <p>🔸 **Toolbar Color Opacity**</p><p>Opacity of the background color of toolbars, and the dividing line between the navigation toolbar and the tab bar, valid range: `0` - `100`. Changing this setting cannot increase opacity if the original color contains transparency. Available when the tab bar is at the top or Firefox Nova is enabled.</p> |
-| `nativeWindowStyleToolboxGradientOpacity` | <p>🔸 **Gradient Opacity**</p><p>Opacity of the theme's gradient image, valid range: `0` - `100`. Changing this setting cannot increase the opacity if the original image contains transparency. Available when using themes that apply a gradient image in the toolbar area (e.g. Nova themes for Firefox 155+).</p> |
-| `nativeWindowStyleURLBarColorOpacity` | <p>🔸 **URL Bar Color Opacity**</p><p>Opacity of the background color of the address bar and the search bar, valid range: `0` - `100`. Changing this setting cannot increase opacity if the original color includes transparency.</p> |
 | `scrollbarThumbColor` | <p>🔸 **Scrollbar Thumb Color**</p><p>Color of the scrollbar thumb, must be a valid CSS color, variable, or the keyword `auto`.</p> |
 | `scrollbarTrackColor` | <p>🔸 **Scrollbar Track Color**</p><p>Color of the scrollbar track, must be a valid CSS color, variable, or the keyword `auto`.</p> |
 | `showScrollShadow` | <p>🔸 **Show Scroll Shadow**</p><p>Show shadow on the top and bottom edges when the tab bar is scrollable.</p> |
+| `themeGradientOpacity` | <p>🔸 **Theme Gradient Opacity**</p><p>Opacity of the theme's gradient image, valid range: `0` - `100`. Changing this setting cannot increase the opacity if the original image contains transparency. Available when using themes that apply a gradient image in the toolbar area (e.g. Nova themes for Firefox 155+).</p> |
 | `themeImageSize` | <p>🔸 **Theme Image Size**</p><p>When using themes with background images, size the image according to:</p><ul><li>`-1` - the original size of the image</li><li>`0` - the maximum number of rows allowed</li><li>`1` - the maximum number of rows allowed within the current window width</li><li>`2` - the current number of rows</li></ul><p>The best choice depends on your preference and the design of the theme. No difference when the image height is large enough to support the number of rows.</p> |
+| `toolbarColorOpacity` | <p>🔸 **Toolbar Color Opacity**</p><p>Opacity of the background color of toolbars, and the dividing line between the navigation toolbar and the tab bar, valid range: `0` - `100`. Changing this setting cannot increase opacity if the original color contains transparency.</p> |
+| `urlBarColorOpacity` | <p>🔸 **Address Bar Color Opacity**</p><p>Opacity of the background color of the address bar and the search bar, valid range: `0` - `100`. Changing this setting cannot increase opacity if the original color includes transparency.</p> |
 
 ### Miscellaneous
 
@@ -194,6 +195,20 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+[**Version 4.12**](https://github.com/Merci-chao/userChrome.js/raw/121e4a8d46e9a1ad718bfaddbdfbfce4f7978f85/MultiTabRows@Merci.chao.uc.js)
+- New
+	- Adds `controlButtonsAutoHideOnTriggerExit` for the auto-hide control buttons feature: Control buttons hide when the cursor leaves the trigger area.
+- Changes
+	- Renamed `nativeWindowStyleToolbarColorOpacity`, `nativeWindowStyleURLBarColorOpacity`, and `nativeWindowStyleToolboxGradientOpacity` to `toolbarColorOpacity`, `urlBarColorOpacity`, and `themeGradientOpacity`, removing the dependency on `nativeWindowStyle`.
+	- The background color of toolbars can now be recovered by setting `toolbarColorOpacity` to `100` when using `tabsAtBottom` with Nova disabled.
+	- `tabHorizontalMargin` now no longer affects the vertical margin of tabs in split views.
+	- Adjusted update checking mechanism to be based on calendar date instead of a 24-hour interval.
+- Improvements
+	- Updates for Firefox 156 and 157.
+	- Using an old version of this script with update checking disabled on a new version of Firefox now shows a compatibility alert.
+- Fixes
+	- Issues when scrolling and using drag & drop on touch devices.
+
 <details>
 <summary>Minor Update</summary>
 
@@ -226,6 +241,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Minor animation glitches.
 - Regression Fix
 	- Tabs might not release their locked size after closing tabs when the cursor moved out of the tab bar.
+
+<details>
+<summary>Old Versions</summary>
 
 [**Version 4.10.1**](https://github.com/Merci-chao/userChrome.js/raw/636cb568f5219aa8339a0b0c2a316e6da1c5e551/MultiTabRows@Merci.chao.uc.js)
 - Handle the case where Error.stackTraceLimit is read-only.
@@ -262,9 +280,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Audio buttons related:
 		- Incorrect position on pinned tabs when enabling `pinnedTabsFlexWidth`.
 		- Missing background color when enabling `nativeWindowStyle` with themes.
-
-<details>
-<summary>Old Versions</summary>
 
 [**Version 4.9.2**](https://github.com/Merci-chao/userChrome.js/raw/e98e4168878018501e916ee53e8a57475fde5d62/MultiTabRows@Merci.chao.uc.js)
 - Improvements
