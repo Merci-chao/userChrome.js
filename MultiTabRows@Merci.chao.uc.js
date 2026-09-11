@@ -504,32 +504,29 @@ const getPrefs = (branch, data) => Object.fromEntries(
 			prefs.setIntPref(prefBranchStr + "themeImageSize", 2),
 
 		nativeWindowStyleToolbarColorOpacity: v =>
-			v != null &&
 			prefs.setIntPref(prefBranchStr + "toolbarColorOpacity", v),
 
 		nativeWindowStyleURLBarColorOpacity: v =>
-			v != null &&
 			prefs.setIntPref(prefBranchStr + "urlBarColorOpacity", v),
 
 		nativeWindowStyleToolboxGradientOpacity: v =>
-			v != null &&
 			prefs.setIntPref(prefBranchStr + "themeGradientOpacity", v),
 
 		//typo
 		showScrollSahdow: v =>
-			v == false &&
 			prefs.setBoolPref(prefBranchStr + "showScrollShadow", v),
 
 		//typo
 		lastRowTabsFlexibe: v =>
-			v == false &&
 			prefs.setBoolPref(prefBranchStr + "lastRowTabsFlexible", v),
 
 		...(!AI_SWITCHER_FIXED && {smartWindowButtonOnNavBar: null}),
 	})) {
 		name = prefBranchStr + name;
-		action?.(getPref(name));
-		prefs.clearUserPref(name);
+		if (Services.prefs.prefHasUserValue(name)) {
+			action?.(getPref(name));
+			prefs.clearUserPref(name);
+		}
 	}
 }
 
