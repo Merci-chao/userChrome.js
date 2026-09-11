@@ -191,6 +191,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+[**Version 4.12.1**](https://github.com/Merci-chao/userChrome.js/raw/bf33586088722b10a92eb75503823ecfcb67ea0c/MultiTabRows@Merci.chao.uc.js)
+- 修正
+	- 最初の段での分割ビューのタブを閉じた際に一時的にレイアウトがずれる問題。
+	- デフォルトテーマとインストールしたの Nova テーマを切り替える際に、グラデーションの不透明度が正しく適用されない問題。
+
 [**Version 4.12**](https://github.com/Merci-chao/userChrome.js/raw/10f6007f21f1c914096be5bcc8c7fc5e83aeb77f/MultiTabRows@Merci.chao.uc.js)
 - 追加
 	- `controlButtonsAutoHideOnTriggerExit` を追加：カーソルがトリガー領域から離れると、操作ボタンが非表示になる。操作ボタンを自動非表示用。
