@@ -17,7 +17,7 @@ Firefox に多段タブ表示をサポートさせる。
 注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja/)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
-- Firefox 154〜156、ESR（115、140、153）
+- Firefox 155〜157、ESR（115、140、153）
 
 - Windows 7〜11
 
@@ -102,6 +102,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `autoCollapseDelayExpanding` | <p>🔸 **展開までの遅延**</p><p>ホバー後に展開されるまでの遅延（ミリ秒）。最小値：`0`。</p> |
 | `compactControlButtons` | <p>🔸 **操作ボタンをコンパクト表示**</p><p>ウィンドウ操作ボタンをコンパクトに表示。タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
 | `controlButtonsAutoHide` | <p>🔸 **操作ボタンを自動非表示**</p><p>ウィンドウの操作ボタンを隠し、カーソルが右上隅に入ったときに表示する：</p><ul><li>`0`－無効</li><li>`1`－最大化ウィンドウのみ</li><li>`2`－すべてのウィンドウ</li></ul><p>タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
+| `controlButtonsAutoHideOnTriggerExit` | <p>🔸 **トリガー離脱時非表示**</p><p>カーソルがトリガー領域から離れると操作ボタンが非表示になり、`false` に設定されている場合はカーソルがボタンから完全に離れた時のみ非表示になる。Firefox 115 では非対応。</p> |
 | `controlButtonsAutoHideTriggerHeight` | <p>🔸 **操作ボタン表示のトリガー高さ**</p><p>操作ボタンの表示トリガー領域の高さ。</p> |
 | `hamburgerMenuOnTabBar` | <p>🔸 **スマートウィンドウ時のタブバー上メニューボタン**</p><p>`false` に設定すると、スマートウィンドウ使用時に Firefox のメニューボタン（☰）がナビゲーションツールバーに戻される。`tabsAtBottom` が有効な場合は強制的に無効化される。Firefox 115 と 140 では非対応。</p> |
 | `hideAllTabs` | <p>🔸 **タブ一覧ボタンを非表示**</p><p>「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。</p> |
@@ -130,7 +131,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
 | `gapAfterPinned` | <p>🔸 **ピン留めタブと通常タブの間隔**</p><p>最小値：`0`。</p> |
-| `lastRowTabsFlexibe` | <p>🔸 **最後の段のタブ幅伸縮**</p><p>多段がある場合、最後の段のタブ幅を伸縮自在にする。`justifyCenter` が `2` の場合は強制的に有効化される。</p> |
+| `lastRowTabsFlexible` | <p>🔸 **最後の段のタブ幅伸縮**</p><p>多段がある場合、最後の段のタブ幅を伸縮自在にする。`justifyCenter` が `2` の場合は強制的に有効化される。</p> |
 | `pinnedTabsFlexWidth` | <p>🔸 **ピン留めタブを通常幅扱い**</p><p>ピン留めされたタブのサイズを通常のタブと同様に扱う。有効化すると、`positionPinnedTabs` は強制的に無効化される。</p> |
 | `pinnedTabsFlexWidthIndicator` | <p>🔸 **ピン留めタブ背景**</p><p>`pinnedTabsFlexWidth` が有効の場合、ピン留めされたタブ上に淡い背景を表示。</p> |
 | `tabCornerRadius` | <p>🔸 **タブ角丸半径**</p><p>`-1` に設定すると既定値が適用される。</p> |
@@ -151,13 +152,13 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `floatingBackdropClip` | <p>🔸 **浮動領域の後ろ側を切り取る**</p><p>タブバーがスクロール可能時に、浮動領域が覆う部分をクリップする。`tabsUnderControlButtons` が `2` のときのみ有効。</p> |
 | `floatingBackdropOpacity` | <p>🔸 **浮動領域の背景不透明度**</p><p>タブバーがスクロール可能時に浮動領域の背景の不透明度を設定する。`tabsUnderControlButtons` が `2` かつ `floatingBackdropClip` が `false` のとき有効。値は `0`〜`100`。</p> |
 | `nativeWindowStyle` | <p>🔸 **ネイティブスタイル表示**</p><p>背景を削除し、ウィンドウのネイティブなシステムスタイルを表示。例えば、Windows 11 の透明効果や [DWMBlurGlass](https://github.com/Maplespe/DWMBlurGlass) などのツールによる視覚効果。Windows 11 で完全な視覚効果を得るには、`widget.windows.mica` を有効にする必要がある場合がある。Windows 10 で DWM ツールを使用していない場合、この設定は `browser.theme.windows.accent-color-in-tabs.enabled` と似た動作をする。また、透過パターンでデザインされたテーマの背景色を除去可能。</p><p>📝 Windows 7 と 8 でテーマを使用している場合、この設定を有効にすると、ウィンドウの操作ボタンがテーマの背景画像に覆われる可能性がある。</p> |
-| `nativeWindowStyleToolbarColorOpacity` | <p>🔸 **ツールバー背景色の不透明度**</p><p>ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。値は `0`〜`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。タブバーが上部にある場合、または Firefox Nova が有効になっている場合に利用可能。</p> |
-| `nativeWindowStyleToolboxGradientOpacity` | <p>🔸 **グラデーション不透明度**</p><p>テーマのグラデーション画像の不透明度。値は `0`〜`100`。元の画像に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。ツールバー領域にグラデーション画像を適用するテーマを使用している場合にのみ利用可能（例：Firefox 155+ 用 Nova テーマ）。</p> |
-| `nativeWindowStyleURLBarColorOpacity` | <p>🔸 **アドレスバー背景色の不透明度**</p><p>アドレスバーと検索バーの背景色の不透明度。値は `0`〜`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。</p> |
 | `scrollbarThumbColor` | <p>🔸 **スクロールバーつまみ色**</p><p>スクロールバーのつまみ部分の色。CSS カラー、変数、`auto` キーワードのいずれか。</p> |
 | `scrollbarTrackColor` | <p>🔸 **スクロールバー軌道色**</p><p>スクロールバーの軌道部分の色。CSS カラー、変数、`auto` キーワードのいずれか。</p> |
 | `showScrollShadow` | <p>🔸 **スクロール端のシャドウ表示**</p><p>タブバーがスクロール可能な場合、上下の端にシャドウを表示。</p> |
+| `themeGradientOpacity` | <p>🔸 **テーマグラデーションの不透明度**</p><p>テーマのグラデーション画像の不透明度。値は `0`〜`100`。元の画像に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。ツールバー領域にグラデーション画像を適用するテーマを使用している場合にのみ利用可能（例：Firefox 155+ 用 Nova テーマ）。</p> |
 | `themeImageSize` | <p>🔸 **テーマ背景画像サイズ**</p><p>背景画像付きのテーマを使用する場合、その画像のサイズは以下に基づいて決定される：</p><ul><li>`-1`－画像の元のサイズ</li><li>`0`－許可されている最大段数</li><li>`1`－現在のウィンドウ幅で許可されている最大段数</li><li>`2`－現在の段数</li></ul><p>最適な選択は好みとテーマのデザインに依存。画像の高さが段数を収容できるほど十分に大きい場合は、違いはない。</p> |
+| `toolbarColorOpacity` | <p>🔸 **ツールバー背景色の不透明度**</p><p>ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。値は `0`〜`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。</p> |
+| `urlBarColorOpacity` | <p>🔸 **アドレスバー背景色の不透明度**</p><p>アドレスバーと検索バーの背景色の不透明度。値は `0`〜`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。</p> |
 
 ### その他
 
@@ -189,6 +190,20 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+
+[**Version 4.12**](https://github.com/Merci-chao/userChrome.js/raw/121e4a8d46e9a1ad718bfaddbdfbfce4f7978f85/MultiTabRows@Merci.chao.uc.js)
+- 追加
+	- `controlButtonsAutoHideOnTriggerExit` を追加：カーソルがトリガー領域から離れると、操作ボタンが非表示になる。操作ボタンを自動非表示用。
+- 改修
+	- `nativeWindowStyleToolbarColorOpacity`、`nativeWindowStyleURLBarColorOpacity`、`nativeWindowStyleToolboxGradientOpacity` をそれぞれ `toolbarColorOpacity`、`urlBarColorOpacity`、`themeGradientOpacity` にリネームし、`nativeWindowStyle` への依存を削除。
+	- `tabsAtBottom` 使用時かつ Nova 無効時に、`toolbarColorOpacity` を `100` に設定することでツールバーの背景色を復元できるようになった。
+	- `tabHorizontalMargin` は分割ビューのタブの外側垂直余白に影響しなくなった。
+	- 更新チェックの仕組みを 24 時間単位ではなく日付単位に変更。
+- 改善
+	- Firefox 156 と 157 への更新。
+	- 新しい Firefox で更新チェックを無効にした古いバージョンのスクリプトを使用すると、互換性警告が表示されるようになった。
+- 修正
+	- タッチデバイスでスクロールやドラッグ＆ドロップ操作を行う際に発生する問題。
 
 <details>
 <summary>軽微な更新</summary>
@@ -222,6 +237,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 軽微なアニメーションの不具合。
 - 回帰バグ修正
 	- タブを閉じた後、カーソルがタブバーから外れると、タブがロックされたサイズを解除しない場合があった。
+
+<details>
+<summary>旧バージョン</summary>
 
 [**Version 4.10.1**](https://github.com/Merci-chao/userChrome.js/raw/636cb568f5219aa8339a0b0c2a316e6da1c5e551/MultiTabRows@Merci.chao.uc.js)
 - `Error.stackTraceLimit` が読み取り専用のケースを処理するようにした。
@@ -259,9 +277,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- オーディオボタン関連：
 		- `pinnedTabsFlexWidth` を有効化した際、ピン留めされたタブ上の位置が正しくなかった。
 		- テーマと併用して `nativeWindowStyle` を有効化した際、背景色が欠落。
-
-<details>
-<summary>旧バージョン</summary>
 
 [**Version 4.9.2**](https://github.com/Merci-chao/userChrome.js/raw/e98e4168878018501e916ee53e8a57475fde5d62/MultiTabRows@Merci.chao.uc.js)
 - 改善
