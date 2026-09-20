@@ -196,6 +196,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+[**Version 4.12.2**](https://github.com/Merci-chao/userChrome.js/raw/8f2950b0c9a3011eeeea2745a8ba63c1b5af44a6/MultiTabRows@Merci.chao.uc.js)
+- Fixed a regression that caused drag‑to‑scroll to not function correctly.
+
 [**Version 4.12.1**](https://github.com/Merci-chao/userChrome.js/raw/bf33586088722b10a92eb75503823ecfcb67ea0c/MultiTabRows@Merci.chao.uc.js)
 - Fixes
 	- Temporary layout misalignment when closing a tab in a split view on the first row.
