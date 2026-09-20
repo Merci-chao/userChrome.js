@@ -192,6 +192,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+[**Version 4.12.2**](https://github.com/Merci-chao/userChrome.js/raw/8f2950b0c9a3011eeeea2745a8ba63c1b5af44a6/MultiTabRows@Merci.chao.uc.js)
+- ドラッグスクロールが正しく機能しなくなるリグレッションを修正。
+
 [**Version 4.12.1**](https://github.com/Merci-chao/userChrome.js/raw/bf33586088722b10a92eb75503823ecfcb67ea0c/MultiTabRows@Merci.chao.uc.js)
 - 修正
 	- 最初の段での分割ビューのタブを閉じた際に一時的にレイアウトがずれる問題。
