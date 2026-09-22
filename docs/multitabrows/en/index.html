@@ -64,7 +64,7 @@
 		</div>
 
 		<script>
-			if (navigator.languages.every(l => !l.startsWith("ja")))
+			if (navigator.languages.every(l => !l.startsWith("ja")) || !document.referrer.match(/ja(\/(index\.html?)?)?([?#].*)?$/))
 				document.getElementById("other_language").style.display = "none";
 		</script>
 
