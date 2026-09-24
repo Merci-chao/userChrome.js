@@ -2,7 +2,7 @@
 
 ---
 
-💡🐞 ご提案やバグ報告は[こちら](https://github.com/Merci-chao/userChrome.js/issues/new)にどうぞ。スクリーン録画やスクリーンショットの添付を強く推奨。
+💡🐞 ご提案やバグ報告は[こちら](https://github.com/Merci-chao/userChrome.js/discussions/new/choose)にどうぞ。スクリーン録画やスクリーンショットの添付を強く推奨。
 
 ---
 
@@ -14,7 +14,7 @@ Firefox に多段タブ表示をサポートさせる。
 ![screenshot](https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/preview-jp.png)
 
 ## 紹介
-注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja/)にまとめていますので、ぜひご覧ください。
+注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
 - Firefox 155〜157、ESR（115、140、153）
