@@ -17,7 +17,7 @@ Firefox に多段タブ表示をサポートさせる。
 注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
-- Firefox 155〜157、ESR（115、140、153）
+- Firefox 156〜158、ESR（115、140、153）
 
 - Windows 7〜11
 
@@ -192,6 +192,16 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
 
+[**Version 4.13**](https://github.com/Merci-chao/userChrome.js/raw/cd493f61adfceab7f1e89da94aba821f34c8767f/MultiTabRows@Merci.chao.uc.js)
+- 変更
+	- Firefox 156 未満のバージョンでの Nova サポートを削除。
+- 改善
+	- Firefox 158 への更新。
+	- 軽微なコードリファクタリング。
+- 修正
+	- 複数のタブを端に移動して上下スクロールしようとした際に発生する視覚的な不具合。
+	- `autoCollapse` 有効時にタブ展開後、予期せずスクロールする問題。
+
 [**Version 4.12.2**](https://github.com/Merci-chao/userChrome.js/raw/8f2950b0c9a3011eeeea2745a8ba63c1b5af44a6/MultiTabRows@Merci.chao.uc.js)
 - ドラッグスクロールが正しく機能しなくなる回帰バグを修正。
 
@@ -213,6 +223,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 新しい Firefox で更新チェックを無効にした古いバージョンのスクリプトを使用すると、互換性警告が表示されるようになった。
 - 修正
 	- タッチデバイスでスクロールやドラッグ＆ドロップ操作を行う際に発生する問題。
+
+<details>
+<summary>旧バージョン</summary>
 
 <details>
 <summary>軽微な更新</summary>
@@ -246,9 +259,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 軽微なアニメーションの不具合。
 - 回帰バグ修正
 	- タブを閉じた後、カーソルがタブバーから外れると、タブがロックされたサイズを解除しない場合があった。
-
-<details>
-<summary>旧バージョン</summary>
 
 [**Version 4.10.1**](https://github.com/Merci-chao/userChrome.js/raw/636cb568f5219aa8339a0b0c2a316e6da1c5e551/MultiTabRows@Merci.chao.uc.js)
 - `Error.stackTraceLimit` が読み取り専用のケースを処理するようにした。
