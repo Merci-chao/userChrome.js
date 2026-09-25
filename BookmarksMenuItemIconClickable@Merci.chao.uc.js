@@ -1,9 +1,9 @@
 if (document.documentElement.id == "main-window") {
 	let INCLUDE_FOLDERS = true;
-	
+
 	let containers = ":is(#bookmarksMenuPopup, #BMB_bookmarksPopup, #PlacesToolbarItems, #PlacesChevronPopup)";
-	let items = `${containers} .bookmark-item:not([id])${!INCLUDE_FOLDERS ? `:not([type=menu], [container])` : ``}`;
-	let icons = `${items} :is(.menu-icon, .menu-iconic-left, .toolbarbutton-icon)`;
+	let items = `${containers} .bookmark-item:not([id], [dragover] > *)${!INCLUDE_FOLDERS ? `:not([type=menu], [container])` : ``}`;
+	let icons = `${items} > :is(.menu-icon, .menu-iconic-left, .toolbarbutton-icon)`;
 	document.body.appendChild(document.createElement("style")).textContent = /*css*/`
 		${items} {
 			overflow: clip;
@@ -58,7 +58,7 @@ if (document.documentElement.id == "main-window") {
 		addEventListener("DOMContentLoaded", init, {once: true});
 
 	function init() {
-		for (let p of [...document.querySelectorAll(containers)])
+		for (let p of [...document.querySelectorAll(containers)]) {
 			p.addEventListener("click", aEvent => {
 				if (aEvent.button > 1 || !aEvent.target.closest(icons))
 					return;
@@ -75,5 +75,11 @@ if (document.documentElement.id == "main-window") {
 					},
 				));
 			});
+
+			p.addEventListener("dragstart", aEvent => {
+				if (aEvent.target.closest(icons))
+					aEvent.preventDefault();
+			});
+		}
 	}
 }
