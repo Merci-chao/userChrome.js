@@ -852,7 +852,7 @@ If the script does not run as expected, please check the following points:
 ## Won't Fixed Compatibility Issues
 - Other tab related scripts, styles, and legacy extensions (e.g. [*Tab Mix Plus*](https://onemen.github.io/tabmixplus-docs))
 - Firefox Nightly
-- Previous versions of the latest release of Firefox (excluding ESR versions)
+- Previous versions of Firefox (excluding ESR versions)
 - Other Firefox-based derivative browsers
 - macOS
 - Vertical tabs, obviously
