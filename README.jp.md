@@ -843,7 +843,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
    - 新しいプロファイルで正常に動作する場合は、`*.uc.js` や `userChrome.css` のスタイルが原因か確認。
 
 5. まだ正常に動作しない場合：
-   - 新しいプロファイルで問題のスクリーン録画（推奨）またはスクリーンショットを取り、再現手順を[こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に提供。
+   - 新しいプロファイルで問題のスクリーン録画（推奨）またはスクリーンショットを取り、再現手順を[こちら](https://github.com/Merci-chao/userChrome.js/discussions/new?category=q-a)に提供。
 
 ## 対応しない互換性問題
 - 他のタブ関連スクリプト、スタイル、旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）
