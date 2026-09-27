@@ -837,7 +837,7 @@ If the script does not run as expected, please check the following points:
 
 3. Make sure you are using the latest version of Multi Tab Rows and that it is loaded properly:
    - Open *about:config*, search `userChromeJS.multiTabRows@Merci.chao.currentVersion`;
-   - Ensure the value matches the [latest version number](#changelog).
+   - Ensure the version number matches the [latest one](#changelog).
    - If not, update to the [latest version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as);
 
 4. Check for conflicts:
