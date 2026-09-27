@@ -827,8 +827,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
    - Firefox メニュー (☰) をクリック；
    - 「ヘルプと報告 → Firefox について」を選択；
    - バージョンを確認；
-   - [最新版](https://www.firefox.com/releases)と一致しているか確認。
-   - 一致していなければ[最新版をインストール](https://www.firefox.com)。
+   - [最新版](https://www.firefox.com/firefox/releasenotes)と一致しているか確認。
+   - 一致していなければ[最新版をインストール](https://www.firefox.com/download)。
 
 2. 最新版のスクリプトローダーを使用しており、正常に動作しているか確認：
    - 不明なら[インストール手順](#インストール手順)に従って最新版をインストール／再インストール。
