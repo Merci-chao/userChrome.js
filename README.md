@@ -845,7 +845,7 @@ If the script does not run as expected, please check the following points:
    - If the script works fine in a new profile, check if there are any `*.uc.js` or styles in `userChrome.css` causing the problem.
 
 5. If it still does not work:
-   - Take a screen recording (recommended) or screenshot of the problem in the new clean profile, and provide the steps of reproduction [here](https://github.com/Merci-chao/userChrome.js/issues/new).
+   - Take a screen recording (recommended) or screenshot of the problem in the new clean profile, and provide the steps of reproduction [here](https://github.com/Merci-chao/userChrome.js/discussions/new?category=q-a).
 
 ## Won't Fixed Compatibility Issues
 - Other tab related scripts, styles, and legacy extensions (e.g. [*Tab Mix Plus*](https://onemen.github.io/tabmixplus-docs))
