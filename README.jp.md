@@ -188,7 +188,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Mica 背景効果選択**</p><p>ウィンドウ背景効果の選択肢（Windows 11）：<ul><li>`0`－自動</li><li>`1`－Mica</li><li>`2`－Acrylic</li><li>`3`－Mica Alt</li></ul></p> |
 
 ## 変更履歴
-📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)（右クリックして保存）
 
 [**Version 4.13**](https://github.com/Merci-chao/userChrome.js/raw/cd493f61adfceab7f1e89da94aba821f34c8767f/MultiTabRows@Merci.chao.uc.js)
 - 変更
@@ -835,7 +835,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
    - どのローダーを使っているか分からない場合は、好みのものを選んで上書きインストール。
 
 3. 最新版の Multi Tab Rows を使用しており、正しく導入されているか確認：
-   - [最新スクリプト](#変更履歴)に更新；
+   - [最新スクリプト](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)に更新（右クリックして保存）；
    - Firefox を再起動；
    - about:config を開き、`userChromeJS.multiTabRows@Merci.chao.currentVersion` を検索；
    - バージョン番号が最新版と一致しているか確認。
@@ -877,7 +877,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `submenuCount` | 履歴サブメニューの数。 |
 
 ## 変更履歴
-📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
+📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)（右クリックして保存）
 
 [**Version 2026-05-06**](https://github.com/Merci-chao/userChrome.js/raw/a6c1cf1ca95ad2535edac611efdef41a78adeaa3/HistorySubmenus2%40Merci.chao.uc.js)
 - 設定の変更が即時に反映されるようになった。
@@ -921,7 +921,7 @@ about:config を開き、`extensions.PageTitle@Merci.chao.` で始まる設定�
 | `showUriOnHover` | マウスホバー時に一時的に URL を表示。 |
 
 ## 変更履歴
-📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
+📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)（右クリックして保存）
 
 [**Version 2026-09-07**](https://github.com/Merci-chao/userChrome.js/raw/c9d0de72354e98e43c0799ad3a5cc3a63119e194/PageTitle%40Merci.chao.uc.js)
 - 検索バーを誤ってターゲットにしてしまうバグを修正。
@@ -994,7 +994,7 @@ about:config を開き、`extensions.SemiFullScreen@Merci.chao.` で始まる設
 | `reverse` | `F11` で Semi-Full Screen、`Ctrl + F11` でピクチャインピクチャモードに切り替え。 |
 
 ## 変更履歴
-📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
+📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)（右クリックして保存）
 
 **Version 2026-07-15**
 - Firefox 154 への更新。
@@ -1035,7 +1035,7 @@ about:config を開いて `extensions.FloatToolbarsInFullScreen@Merci.chao.` で
 | `checkUpdateFrequency` | 新バージョンの確認頻度（日単位）。最小値は `1`。 |
 
 ## 変更履歴
-📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
+📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)（右クリックして保存）
 
 **Version 2026-07-29**
 - 修正
