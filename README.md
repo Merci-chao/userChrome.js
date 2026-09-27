@@ -192,7 +192,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Mica Backdrop Effect**</p><p>Choose the effect of the window backdrop (Windows 11):</p><ul><li>`0` - auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 
 ## Changelog
-📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)
+📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as)
 
 [**Version 4.13**](https://github.com/Merci-chao/userChrome.js/raw/cd493f61adfceab7f1e89da94aba821f34c8767f/MultiTabRows@Merci.chao.uc.js)
 - Change
@@ -837,7 +837,7 @@ If the script does not run as expected, please check the following points:
    - If you don't know which loader you are using, just choose your preferred one to overwrite and install.
 
 3. Make sure you are using the latest version of Multi Tab Rows and that it is loaded properly:
-   - Update to the [latest script](#changelog);
+   - Update to the [latest script](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as);
    - Restart Firefox;
    - Open *about:config*, search `userChromeJS.multiTabRows@Merci.chao.currentVersion`;
    - Ensure the version number matches the newest one.
@@ -878,7 +878,7 @@ There is no setting panel and you need to open *about:config* and search for the
 | `historyCount` | Count of items listing directly in the History menu.|
 
 ## Changelog
-📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js)
+📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/HistorySubmenus2@Merci.chao.uc.js) (right-click and save as)
 
 [**Version 2026-05-06**](https://github.com/Merci-chao/userChrome.js/raw/a6c1cf1ca95ad2535edac611efdef41a78adeaa3/HistorySubmenus2%40Merci.chao.uc.js)
 - Settings changes now take effect immediately.
@@ -922,7 +922,7 @@ Open *about:config* and search for the prefix `extensions.PageTitle@Merci.chao.`
 | `showUriOnHover` | Display the URL temporarily when mouse hovering. |
 
 ## Changelog
-📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js)
+📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js) (right-click and save as)
 
 [**Version 2026-09-07**](https://github.com/Merci-chao/userChrome.js/raw/c9d0de72354e98e43c0799ad3a5cc3a63119e194/PageTitle%40Merci.chao.uc.js)
 - Fixed a bug where the search bar might be wrongly targeted.
@@ -995,7 +995,7 @@ Open *about:config* and search for the prefix `extensions.SemiFullScreen@Merci.c
 | `reverse` | Use `F11` for semi-full screen and `Ctrl + F11` for picture-in-picture.|
 
 ## Changelog
-📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js)
+📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/SemiFullScreen@Merci.chao.uc.js) (right-click and save as)
 
 **Version 2026-07-15**
 - Update for Firefox 154.
@@ -1036,7 +1036,7 @@ Open *about:config* and search for the prefix `FloatToolbarsInFullScreen@Merci.c
 | `checkUpdateFrequency` | How often to check for new versions (days). Minimum: `1`. |
 
 ## Changelog
-📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)
+📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js) (right-click and save as)
 
 **Version 2026-07-29**
 - Fixes
