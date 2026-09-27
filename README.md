@@ -828,18 +828,17 @@ If the script does not run as expected, please check the following points:
 1. Make sure you are using the latest version of Firefox:
    - Click the Firefox menu (☰);
    - Choose *Help and Report* → *About Firefox*;
-   - Check the version;
-   - Confirm it matches the [latest](https://www.firefox.com/firefox/releasenotes).
-   - If not, [install the latest](https://www.firefox.com/download).
+   - Ensure the version number matches the [latest one](https://www.firefox.com/firefox/releasenotes).
+   - If not, [install the latest version](https://www.firefox.com/download).
 
 2. Make sure you are using the latest version of the script loader and that it is working properly:
-   - If unsure, follow the [installation steps](#installation) to install/re-install the latest one.
+   - If unsure, follow the [installation steps](#installation) to install/re-install the latest version.
    - If you don't know which loader you are using, just choose your preferred one to overwrite and install.
 
 3. Make sure you are using the latest version of Multi Tab Rows and that it is loaded properly:
    - Open *about:config*, search `userChromeJS.multiTabRows@Merci.chao.currentVersion`;
-   - Ensure the version number matches the [latest one](#changelog).
-   - If not, update to the [latest](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as);
+   - Ensure the value matches the [latest version number](#changelog).
+   - If not, update to the [latest version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as);
 
 4. Check for conflicts:
    - If updating everything still doesn't work, install the script loader and script on a [new clean Firefox profile](https://support.mozilla.org/kb/profile-manager-create-and-remove-firefox-profiles).
