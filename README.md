@@ -833,7 +833,7 @@ If the script does not run as expected, please check the following points:
    - If not, install the [newest](https://www.firefox.com).
 
 2. Make sure you are using the latest version of the script loader and that it is working properly:
-   - If unsure, follow the [installation steps](#installation) and install/re-install the latest one.
+   - If unsure, follow the [installation steps](#installation) to install/re-install the latest one.
    - If you don't know which loader you are using, just choose your preferred one to overwrite and install.
 
 3. Make sure you are using the latest version of Multi Tab Rows and that it is loaded properly:
