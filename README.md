@@ -829,8 +829,8 @@ If the script does not run as expected, please check the following points:
    - Click the Firefox menu (☰);
    - Choose *Help and Report* → *About Firefox*;
    - Check the version;
-   - Confirm it matches the [latest](https://www.firefox.com/releases).
-   - If not, install the [newest](https://www.firefox.com).
+   - Confirm it matches the [newest](https://www.firefox.com/firefox/releasenotes).
+   - If not, [install the newest](https://www.firefox.com/download).
 
 2. Make sure you are using the latest version of the script loader and that it is working properly:
    - If unsure, follow the [installation steps](#installation) to install/re-install the latest one.
