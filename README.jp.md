@@ -826,8 +826,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 1. 最新版の Firefox を使用しているか確認：
    - Firefox メニュー (☰) をクリック；
    - 「ヘルプと報告 → Firefox について」を選択；
-   - バージョンを確認；
-   - [最新版](https://www.firefox.com/firefox/releasenotes)と一致しているか確認。
+   - バージョン番号が[最新版](https://www.firefox.com/firefox/releasenotes)と一致しているか確認。
    - 一致していなければ[最新版をインストール](https://www.firefox.com/download)。
 
 2. 最新版のスクリプトローダーを使用しており、正常に動作しているか確認：
@@ -835,10 +834,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
    - どのローダーを使っているか分からない場合は、好みのものを選んで上書きインストール。
 
 3. 最新版の Multi Tab Rows を使用しており、正しく導入されているか確認：
-   - [最新スクリプト](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)に更新（右クリックして保存）；
-   - Firefox を再起動；
    - about:config を開き、`userChromeJS.multiTabRows@Merci.chao.currentVersion` を検索；
-   - バージョン番号が最新版と一致しているか確認。
+   - バージョン番号が[最新版](#変更履歴)と一致しているか確認。
+   - 一致していなければ[最新スクリプト](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)に更新（右クリックして保存）；
 
 4. 競合を確認：
    - 全て更新しても直せない場合は、[新しい Firefox プロファイル](https://support.mozilla.org/kb/profile-manager-create-and-remove-firefox-profiles)にスクリプトローダーとスクリプトをインストール。
