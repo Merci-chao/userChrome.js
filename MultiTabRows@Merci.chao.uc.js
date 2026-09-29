@@ -7,7 +7,7 @@
 // @compatibility  Firefox 115, 140, 153, 156-158
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
-// @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
+// @supportURL     https://github.com/Merci-chao/userChrome.js/discussions/new/choose
 // @updateURL      https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js
 // ==/UserScript==
 
