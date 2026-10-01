@@ -166,7 +166,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `checkUpdateAutoApply` | <p>🔸 **更新の自動適用**</p><p>新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：</p><ul><li>`1`－無効</li><li>`2`－有効</li><li>`3`－有効（通知なし）、通知されない軽微な変更や修正の更新も自動的に受け取り</li></ul> |
 | `checkUpdateFrequency` | <p>🔸 **更新チェック頻度**</p><p>新バージョンの確認頻度（日単位）。最小値：`1`。</p> |
 | `currentVersion` | <p>🔸 **現在のバージョン**</p><p>現在使用しているバージョン。</p> |
-| `debugMode` | <p>🔸 **デバッグモード**</p><p>⛔ 使用禁止。一般向けではない。</p> |
+| `debugMode` | <p>🔸 **デバッグモード**</p><p>⛔ 一般向けではない。</p> |
 | `incompatible` | <p>🔸 **互換性警告**</p><p>この項目は互換性のないバージョンの Firefox を実行している場合にのみ表示される。変更すると、Firefox の起動時に再び互換性警告が表示される。</p> |
 
 ### Firefox の組み込み設定
