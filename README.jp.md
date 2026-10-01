@@ -95,7 +95,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
-| `autoCollapse`<span title="実験的な機能">🧪</span> | <p>🔸 **自動折りたたみ**</p><p>ホバーしていない時は、一段に折りたたむ。有効化すると、`tabsUnderControlButtons` と `positionPinnedTabs` は強制的に無効化される。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要がある。</p> |
+| `autoCollapse` | <p>🔸 **自動折りたたみ**</p><p>ホバーしていない時は、一段に折りたたむ。有効化すると、`tabsUnderControlButtons` と `positionPinnedTabs` は強制的に無効化される。Firefox 115 では `layout.css.has-selector.enabled` を `true` にする必要がある。</p><p>🧪 実験的な機能。</p> |
 | `autoCollapseDelayCollapsing` | <p>🔸 **折りたたみまでの遅延**</p><p>カーソルが離れてから折りたたむまでの遅延（ミリ秒）。最小値：`0`。</p> |
 | `autoCollapseDelayExpanding` | <p>🔸 **展開までの遅延**</p><p>ホバー後に展開されるまでの遅延（ミリ秒）。最小値：`0`。</p> |
 | `compactControlButtons` | <p>🔸 **操作ボタンをコンパクト表示**</p><p>ウィンドウ操作ボタンをコンパクトに表示。タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
@@ -166,7 +166,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `checkUpdateAutoApply` | <p>🔸 **更新の自動適用**</p><p>新しいバージョンがある場合にスクリプトファイルを自動更新（上書き）：</p><ul><li>`1`－無効</li><li>`2`－有効</li><li>`3`－有効（通知なし）、通知されない軽微な変更や修正の更新も自動的に受け取り</li></ul> |
 | `checkUpdateFrequency` | <p>🔸 **更新チェック頻度**</p><p>新バージョンの確認頻度（日単位）。最小値：`1`。</p> |
 | `currentVersion` | <p>🔸 **現在のバージョン**</p><p>現在使用しているバージョン。</p> |
-| `debugMode`<span title="使用禁止">⛔</span> | <p>🔸 **デバッグモード**</p><p>一般向けではない。</p> |
+| `debugMode` | <p>🔸 **デバッグモード**</p><p>⛔ 使用禁止。一般向けではない。</p> |
 | `incompatible` | <p>🔸 **互換性警告**</p><p>この項目は互換性のないバージョンの Firefox を実行している場合にのみ表示される。変更すると、Firefox の起動時に再び互換性警告が表示される。</p> |
 
 ### Firefox の組み込み設定
