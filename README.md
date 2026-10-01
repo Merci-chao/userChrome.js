@@ -97,7 +97,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
-| `autoCollapse`<span title="Experimental">🧪</span> | <p>🔸 **Auto Collapse Tabs**</p><p>Tabs will collapse to a single row when the cursor is not hovering. Enabling this feature will forcibly disable `tabsUnderControlButtons` and `positionPinnedTabs`. On Firefox 115, setting `layout.css.has-selector.enabled` as `true` is required.</p> |
+| `autoCollapse` | <p>🔸 **Auto Collapse Tabs**</p><p>Tabs will collapse to a single row when the cursor is not hovering. Enabling this feature will forcibly disable `tabsUnderControlButtons` and `positionPinnedTabs`. On Firefox 115, setting `layout.css.has-selector.enabled` as `true` is required.</p><p>🧪 Experimental feature.</p> |
 | `autoCollapseDelayCollapsing` | <p>🔸 **Collapse Delay**</p><p>Delay before collapsing the tabs when the cursor moves away (in milliseconds). Minimum: `0`.</p> |
 | `autoCollapseDelayExpanding` | <p>🔸 **Expand Delay**</p><p>Delay before expanding the tabs when the cursor hovers over them (in milliseconds). Minimum: `0`.</p> |
 | `compactControlButtons` | <p>🔸 **Compact Control Buttons**</p><p>Display the window control buttons to a compact size. Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
@@ -169,7 +169,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `checkUpdateAutoApply` | <p>🔸 **Auto Apply Updates**</p><p>Update the script file automatically when there is a new version:</p><ul><li>`1` - never</li><li>`2` - always</li><li>`3` - always and silently, also receive updates for minor changes and fixes that do not trigger notifications</li></ul> |
 | `checkUpdateFrequency` | <p>🔸 **Update Check Frequency**</p><p>How often to check for new versions (days). Minimum: `1`.</p> |
 | `currentVersion` | <p>🔸 **Current Version**</p><p>The version number you are currently using.</p> |
-| `debugMode`<span title="Do Not Use">⛔</span> | <p>🔸 **Debug Mode**</p><p>Not for general use.</p> |
+| `debugMode` | <p>🔸 **Debug Mode**</p><p>⛔ Not for general use.</p> |
 | `incompatible` | <p>🔸 **Incompatible Info**</p><p>This item only appears when you are running an incompatible version of Firefox. Modifying it will cause the compatibility alert to show up again when Firefox starts up.</p> |
 
 ### Firefox Built-in Settings
