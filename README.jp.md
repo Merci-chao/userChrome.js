@@ -43,7 +43,7 @@ Firefox に多段タブ表示をサポートさせる。
 1. 上記の[互換性リスト](#互換性)に記載されている Firefox のバージョンを使用しているか確認してください。それ以外の Firefox バージョンや OS は、サポート対象外となる可能性がある。
 
 2. スクリプトローダー（userChrome.js）をインストールする。すでに使用している場合は、手順 3 に進む。使えるスクリプトローダーはいくつかある：
-	- [onemen/firefox-scripts](https://github.com/onemen/firefox-scripts)（バイブコーディングで開発されたインストーラーとアップデーター搭載） <p></p> <details><summary>インストール手順（インストーラー）</summary><p>📝 注意：これは簡易な参考用の手順なので、正確で詳細な情報は上記の公式ページ（英語）を確認してください。</p><ol><li><p>[公式ページ](https://github.com/onemen/firefox-scripts/releases#release-latest)か以下の直接リンクから OS 用インストーラーをダウンロード：</p><ul><li>[`installer_win.exe`](https://github.com/onemen/firefox-scripts/releases/latest/download/installer_win.exe) ⸺ Windows</li><li>[`installer_linux`](https://github.com/onemen/firefox-scripts/releases/latest/download/installer_linux) ⸺ Linux (x86_64)</li><li>[`installer_linux_aarch64`](https://github.com/onemen/firefox-scripts/releases/latest/download/installer_linux_aarch64) ⸺ Linux (ARM64)</li></ul></li><li><p>Firefox 起動中にインストーラーを実行。</p></li><li><p>Firefox に表示されるインストールページで必要な要素をインストール（管理者権限が必要な場合あり）：</p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-installer.png"></li><li><p>導入が正しく動いているか確認：</p><ul><li>Firefox のアドレスバーに `chrome://firefox-scripts/content/ui/updater.html` を貼り付けて開く。</li><li>ページが表示され、すべての項目が緑色の状態であることを確認。</li></ul></li><li><p>更新が公開されたら、Firefox に表示されるアップデーターページで要素を更新：</p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-updater.png"></li></ol></details><details><summary>インストール手順（手動）</summary><p>📝 注意：これは簡易な参考用の手順なので、正確で詳細な情報は上記の公式ページ（英語）を確認してください。</p><ol><li><p>導入に必要なファイルを[公式ページ](https://github.com/onemen/firefox-scripts/releases#release-latest)か以下の直接リンクから入手：</p><ul><li>[`fx-folder.zip`](https://github.com/onemen/firefox-scripts/releases/latest/download/fx-folder.zip)</li><li>[`utils.zip`](https://github.com/onemen/firefox-scripts/releases/latest/download/utils.zip)</li></ul></li><li><p>Firefox で [about:support](https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox) を開き、プログラムフォルダーとプロファイルフォルダーを確認：</p><ul><li>「プログラムの実行ファイル」のところで `firefox.exe` の場所を確認（例：`C:\Program Files\Mozilla Firefox`）。</li><li>「プロファイルフォルダー」のところで「フォルダーを開く」をクリック。</li></ul></li><li><p>必要なファイルを正しいフォルダーに展開：</p><ul><li>`fx-folder.zip` ファイルを開き、`fx-folder` フォルダーから `config.js` ファイルと `defaults` フォルダーをプログラムフォルダーに直接展開（管理者権限が必要な場合あり）。</li><li>プロファイルフォルダーに `chrome` フォルダーがなければ作成。</li><li>`chrome` フォルダーに `utils` フォルダーがなければ作成。</li><li>`utils.zip` ファイルを開き、すべてのファイルを `utils` フォルダーに直接展開。</li></ul></li><li><p>about:support の右上にある「起動時キャッシュを消去...」ボタンをクリックして Firefox を再起動。</p></li><li><p>導入が正しく動いているか確認：</p><ul><li>Firefox のアドレスバーに `chrome://firefox-scripts/content/ui/updater.html` を貼り付けて開く。</li><li>「ファイルが見つかりませんでした」と表示された場合は、1 分ほど待ってからもう一度試す。</li><li>ページが表示され、すべての項目が緑色の状態であることを確認。</li></ul></li><li><p>更新が公開されたら、Firefox に表示されるアップデーターページで要素を更新：</p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-updater.png"></li></ol></details>
+	- [onemen/firefox-scripts](https://github.com/onemen/firefox-scripts)（バイブコーディングで開発されたインストーラーとアップデーター搭載） <p></p> <details><summary>インストール手順（インストーラー）</summary><p></p><p>📝 注意：これは簡易な参考用の手順なので、正確で詳細な情報は上記の公式ページ（英語）を確認してください。</p><ol><li><p>[公式ページ](https://github.com/onemen/firefox-scripts/releases#release-latest)か以下の直接リンクから OS 用インストーラーをダウンロード：</p><ul><li>[`installer_win.exe`](https://github.com/onemen/firefox-scripts/releases/latest/download/installer_win.exe) ⸺ Windows</li><li>[`installer_linux`](https://github.com/onemen/firefox-scripts/releases/latest/download/installer_linux) ⸺ Linux (x86_64)</li><li>[`installer_linux_aarch64`](https://github.com/onemen/firefox-scripts/releases/latest/download/installer_linux_aarch64) ⸺ Linux (ARM64)</li></ul></li><li><p>Firefox 起動中にインストーラーを実行。</p></li><li><p>Firefox に表示されるインストールページで必要な要素をインストール（管理者権限が必要な場合あり）：</p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-installer.png"></li><li><p>導入が正しく動いているか確認：</p><ul><li>Firefox のアドレスバーに `chrome://firefox-scripts/content/ui/updater.html` を貼り付けて開く。</li><li>ページが表示され、すべての項目が緑色の状態であることを確認。</li></ul></li><li><p>更新が公開されたら、Firefox に表示されるアップデーターページで要素を更新：</p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-updater.png"></li></ol></details><details><summary>インストール手順（手動）</summary><p></p><p>📝 注意：これは簡易な参考用の手順なので、正確で詳細な情報は上記の公式ページ（英語）を確認してください。</p><ol><li><p>導入に必要なファイルを[公式ページ](https://github.com/onemen/firefox-scripts/releases#release-latest)か以下の直接リンクから入手：</p><ul><li>[`fx-folder.zip`](https://github.com/onemen/firefox-scripts/releases/latest/download/fx-folder.zip)</li><li>[`utils.zip`](https://github.com/onemen/firefox-scripts/releases/latest/download/utils.zip)</li></ul></li><li><p>Firefox で [about:support](https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox) を開き、プログラムフォルダーとプロファイルフォルダーを確認：</p><ul><li>「プログラムの実行ファイル」のところで `firefox.exe` の場所を確認（例：`C:\Program Files\Mozilla Firefox`）。</li><li>「プロファイルフォルダー」のところで「フォルダーを開く」をクリック。</li></ul></li><li><p>必要なファイルを正しいフォルダーに展開：</p><ul><li>`fx-folder.zip` ファイルを開き、`fx-folder` フォルダーから `config.js` ファイルと `defaults` フォルダーをプログラムフォルダーに直接展開（管理者権限が必要な場合あり）。</li><li>プロファイルフォルダーに `chrome` フォルダーがなければ作成。</li><li>`chrome` フォルダーに `utils` フォルダーがなければ作成。</li><li>`utils.zip` ファイルを開き、すべてのファイルを `utils` フォルダーに直接展開。</li></ul></li><li><p>about:support の右上にある「起動時キャッシュを消去...」ボタンをクリックして Firefox を再起動。</p></li><li><p>導入が正しく動いているか確認：</p><ul><li>Firefox のアドレスバーに `chrome://firefox-scripts/content/ui/updater.html` を貼り付けて開く。</li><li>「ファイルが見つかりませんでした」と表示された場合は、1 分ほど待ってからもう一度試す。</li><li>ページが表示され、すべての項目が緑色の状態であることを確認。</li></ul></li><li><p>更新が公開されたら、Firefox に表示されるアップデーターページで要素を更新：</p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-updater.png"></li></ol></details>
 	- [MrOtherGuy/fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig)（更新確認機能搭載） <p></p> <details><summary>インストール手順</summary><p>📝 これは簡易な参考用の手順なので、正確で詳細な情報は上記の公式ページ（英語）を確認してください。</p><ol><li><p>`fx-autoconfig-master.zip` ファイルを[直接リンク](https://github.com/MrOtherGuy/fx-autoconfig/archive/refs/heads/master.zip)か[公式ページ](https://github.com/MrOtherGuy/fx-autoconfig)から入手：</p><ul><li>緑の「Code」ボタンをクリック。</li><li>「Download ZIP」を選ぶ。</li></ul></li><li><p>Firefox で [about:support](https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox) を開き、プログラムフォルダーとプロファイルフォルダーを確認：</p><ul><li>「プログラムの実行ファイル」のところで `firefox.exe` の場所を確認（例：`C:\Program Files\Mozilla Firefox`）。</li><li>「プロファイルフォルダー」のところで「フォルダーを開く」をクリック。</li></ul></li><li><p>`fx-autoconfig-master.zip` ファイルを展開して、内容を正しいフォルダーに置く：</p><ul><li>`fx-autoconfig-master\program` フォルダーから `config.js` ファイルと `defaults` フォルダーをプログラムフォルダーに置く（管理者権限が必要な場合あり）。</li><li>`fx-autoconfig-master\profile` フォルダーから `chrome` フォルダーをプロファイルフォルダーに置く。</li></ul></li><li><p>すでにスクリプトを使っている場合：</p><ul><li>選択肢 A：`chrome` フォルダーの `*.uc.js` ファイルを全部 `chrome\JS` サブフォルダーに移動。</li><li>選択肢 B：`chrome\utils\chrome.manifest` ファイルを編集して <code>content userscripts <mark>../JS/</mark></code> を <code>content userscripts <mark>../</mark></code> に変更。これで `chrome` フォルダーから直接読み込む。</li></ul></li><li><p>about:support の右上にある「起動時キャッシュを消去...」ボタンをクリックして Firefox を再起動。</p></li><li><p>導入が正しく動いているか確認：</p><ul><li>ツールメニュー（`Alt`+`T`）に userScripts という新しいメニュー項目が追加されているかチェック。</li></ul></li><li><p>さらに、自動更新確認機能を有効： </p><ul><li>[about:config](https://support.mozilla.org/kb/about-config-editor-firefox) を開き、検索ボックスに `userChromeJS.updates.update-check.enabled` を貼り付けて追加ボタン（✚）をクリックし、値を真偽値で `true` に設定して作成。</li></ul></li></ol></details>
 	- [alice0775/userChrome.js](https://github.com/alice0775/userChrome.js) <p></p> <details><summary>インストール手順</summary><p>📝 これは簡易な参考用の手順なので、正確で詳細な情報は上記の公式ページを確認してください。</p><ol><li><p>Firefox で [about:support](https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox) を開き、プログラムフォルダーとプロファイルフォルダーを確認：</p><ul><li>「プログラムの実行ファイル」のところで `firefox.exe` の場所を確認（例：`C:\Program Files\Mozilla Firefox`）。</li><li>「プロファイルフォルダー」のところで「フォルダーを開く」をクリック。</li></ul></li><li><p>[公式ページ](https://github.com/alice0775/userChrome.js)を開き、緑の Code ボタンの左にある Go to file 検索ボックスを探すか、`T` キーを押してフォーカス：</p><ul><li>`userChrome.js` と入力して最新バージョン（通常は `xxx/userChrome.js`）を選び、ダウンロードボタンをクリックして保存。<br><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/github-download-file.png"></li><li>`install_folder` と入力して最新バージョン（通常は `xxx/install_folder`）を選び、`config.js` ファイルと `defaults/pref/config-prefs.js` ファイルをダウンロード。</li></ul><p>⚠️ コピーして貼り付けやその他の方法で作成すると、誤ったファイルエンコードが発生する可能性がある。</p></li><li><p>必要なファイルをプログラムフォルダーに配置：</p><ul><li>`config.js` ファイルをプログラムフォルダーに置く（管理者権限が必要な場合あり）。</li><li>`config-prefs.js` ファイルをプログラムフォルダー内の `defaults\pref` サブフォルダーに置く。</li></ul></li><li><p>必要なファイルをプロファイルフォルダーに配置：</p><ul><li>プロファイルフォルダーに `chrome` フォルダーがなければ作成。</li><li>`userChrome.js` ファイルを `chrome` フォルダーに置く。</li></ul></li><li><p>about:support の右上にある「起動時キャッシュを消去...」ボタンをクリックして Firefox を再起動。</p></li><li><p>導入が正しく動いているか確認：</p><ul><li><p>`Ctrl`+`Shift`+`J` を押して「ブラウザーコンソール」を開き、「ログ」と「ブラウザー」フィルターを有効にして Filter Output に `getScripts` を入力し、関連ログが表示されるか確認。</p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/alice-scriptloader-ja.png"></li></ul></li></ol></details>
  	- [BSTweaker/UserChromeJS](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/) <p></p> <details><summary>インストール手順</summary><p>📝 これは簡易な参考用の手順なので、正確で詳細な情報は上記の公式ページを確認してください。</p><ol><li><p>Firefox で [about:support](https://support.mozilla.org/kb/use-troubleshooting-information-page-fix-firefox) を開き、プログラムフォルダーとプロファイルフォルダーを確認：</p><ul><li>「プログラムの実行ファイル」のところで `firefox.exe` の場所を確認（例：`C:\Program Files\Mozilla Firefox`）。</li><li>「プロファイルフォルダー」のところで「フォルダーを開く」をクリック。</li></ul></li><li><p>必要なファイルを準備：</p><ul><li><p>[公式ページ](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/)を開き、表示されているソースコードをコピーして `config.js` という名前で保存（UTF-8 BOM なしで保存）。</p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/BSTweaker-config-js.png"></li><li><p>`config-prefs.js` という名前のファイルを作成し、以下の内容を記述（UTF-8 BOM なしで保存）：</p><pre>pref("general.config.obscure_value", 0);<br>pref("general.config.filename", "config.js");<br>pref("general.config.sandbox_enabled", false);</pre></li><li><p>[`UserChromeJSLoader.mjs`](https://bitbucket.org/BSTweaker/userchromejs/src/master/loader/UserChromeJSLoader.mjs) ファイルをダウンロード：</p><img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/BSTweaker-save-file.ja.png"></li></ul></li><li><p>必要なファイルをプログラムフォルダーに配置：</p><ul><li>`config.js` ファイルをプログラムフォルダーに置く（管理者権限が必要な場合あり）。</li><li>`config-prefs.js` ファイルをプログラムフォルダー内の `defaults\pref` サブフォルダーに置く。</li></ul></li><li><p>必要なファイルをプロファイルフォルダーに配置：</p><ul><li>プロファイルフォルダーに `chrome` フォルダーがなければ作成。</li><li>`UserChromeJSLoader.mjs` ファイルを `chrome` フォルダーに置く。</li></ul></li><li><p>about:support の右上にある「起動時キャッシュを消去...」ボタンをクリックして Firefox を再起動。</p></li><li><p>導入が正しく動いているか確認：</p><ul><li>ツールメニュー（`Alt`+`T`）に UserChromeJSLoader という新しいメニュー項目が追加されていることを確認。</li></ul></li></ol></details>
@@ -222,10 +222,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- タッチデバイスでスクロールやドラッグ＆ドロップ操作を行う際に発生する問題。
 
 <details>
-<summary>旧バージョン</summary>
+<summary>旧バージョン</summary><p></p>
 
 <details>
-<summary>軽微な更新</summary>
+<summary>軽微な更新</summary><p></p>
 
 [**Version 4.11.2.1**](https://github.com/Merci-chao/userChrome.js/raw/b8846ab17bd779b41c1b1cf1f20a8dad463b22c5/MultiTabRows@Merci.chao.uc.js)
 - Firefox 155 における Nova の軽微な表示上の不具合を修正。
@@ -368,7 +368,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 特殊なケースで発生する軽微な表示上の不具合。
 
 <details>
-<summary>軽微な更新</summary>
+<summary>軽微な更新</summary><p></p>
 
 [**Version 4.6.1.1**](https://github.com/Merci-chao/userChrome.js/raw/4e12d4cda2b3d4239901a72fe0786aa12f20883f/MultiTabRows@Merci.chao.uc.js)
 - Firefox 151 への更新。
@@ -407,7 +407,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 特殊なケースでの起動時に発生した軽微なレイアウト問題。
 
 <details>
-<summary>軽微な更新</summary>
+<summary>軽微な更新</summary><p></p>
 	
 [**Version 4.5.0.1**](https://github.com/Merci-chao/userChrome.js/raw/1f0f7f439884512fc882c308452b3a504f9489c9/MultiTabRows@Merci.chao.uc.js)
 - 特殊なケースでの軽微なレイアウト問題を修正。
@@ -503,7 +503,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 特定のケースで、about:config で `tabVerticalMargin` が欠落する可能性があった。
 
 <details>
-<summary>軽微な更新</summary>
+<summary>軽微な更新</summary><p></p>
 
 [**Version 4.1.2.5**](https://github.com/Merci-chao/userChrome.js/raw/c6e59860ed977aec878ce0550c5a7f0b8327d0b9/MultiTabRows@Merci.chao.uc.js)
 - ミニオーディオボタンの余白を調整し、タブラベルとの重なりを防止。
@@ -536,7 +536,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- v4.1 以降、`pinnedTabsFlexWidth` を有効化した際のピン留めされたタブの余白の不具合を修正。
 
 <details>
-<summary>軽微な更新</summary>
+<summary>軽微な更新</summary><p></p>
 
 [**Version 4.1.0.7**](https://github.com/Merci-chao/userChrome.js/raw/4f41b6419194e5be3883ebd9c332386573459ccd/MultiTabRows@Merci.chao.uc.js)
 - v4.1 以降、他のスクリプトと競合する可能性のある問題を修正。
@@ -559,7 +559,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `tabsAtBottom` を有効にした時に通知バーの位置が誤っていた。
 
 <details>
-<summary>軽微な更新</summary>
+<summary>軽微な更新</summary><p></p>
 
 [**Version 4.0.2.3**](https://github.com/Merci-chao/userChrome.js/raw/5b908e70e03a724c9c7bee6208ede691498e6f13/MultiTabRows@Merci.chao.uc.js)
 - about:config 内の設定の依存関係を更新。
@@ -608,7 +608,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- いろんな軽微なバグや不具合。
 
 <details>
-<summary>軽微な更新</summary>
+<summary>軽微な更新</summary><p></p>
 
 [**Version 3.6.1.1**](https://github.com/Merci-chao/userChrome.js/raw/c78381b0d0d5d8c95cc881021d1329f907bec051/MultiTabRows@Merci.chao.uc.js)
 - バグ修正：バージョン 3.6.0.1 以降で発生した、段数を減らした際にタブサイズが予期せず解除された問題。
@@ -625,7 +625,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Firefox の軽微な表示バグ [#1995909](https://bugzilla.mozilla.org/show_bug.cgi?id=1995909) を修正。
 
 <details>
-<summary>軽微な更新</summary>
+<summary>軽微な更新</summary><p></p>
 
 [**Version 3.6.0.2**](https://github.com/Merci-chao/userChrome.js/raw/a3399b69e7f91e34f62a1fce4e61515c663d309e/MultiTabRows@Merci.chao.uc.js)
 - 前回の軽微な更新で行ったスクロールバー関連のコード変更を一部元に戻す。
@@ -676,7 +676,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Firefox の旧バージョン（115 を除く）を使用している場合、このスクリプトの更新は通知されなくなる。
  
 <details>
-<summary>軽微な更新</summary>
+<summary>軽微な更新</summary><p></p>
 
 [**Version 3.4.1.3**](https://github.com/Merci-chao/userChrome.js/raw/2770e1cd7330b6ad59cddc9184ad1e967b65f7ce/MultiTabRows@Merci.chao.uc.js)
 - ドロップインジケーター付きでドラッグ＆ドロップすると、アニメーションが実行されるようになった。
