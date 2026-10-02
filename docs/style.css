@@ -141,6 +141,25 @@
   }
 }
 
+.code {
+  color: #222;
+  background-color: #fff;
+  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+  font-size: 0.875em;
+  border-radius: 2px;
+  padding: 3px;
+  margin: 0 3px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .code {
+    background-color: rgb(24, 26, 27);
+    box-shadow: 0 0 10px rgba(255,255,255,.05);
+  }
+}
+
 a code {
   color: inherit;
 }
+
