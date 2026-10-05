@@ -1034,6 +1034,9 @@ Open *about:config* and search for the prefix `FloatToolbarsInFullScreen@Merci.c
 ## Changelog
 📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js) (right-click and save as)
 
+**Version 2026-10-05**
+- Update for Nova.
+
 **Version 2026-07-29**
 - Fixes
 	- Could not exit full screen mode through the Firefox menu.
