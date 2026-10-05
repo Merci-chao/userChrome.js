@@ -54,6 +54,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 3. Make sure that no other tab-related scripts and customized styles are currently in use. Just in case, temporarily move all other `*.uc.js` and `userChrome.css` files out of the `chrome` folder.
    <p>⚠️ There are many reports of issues caused by conflicts with customized styles in <code>userChrome.css</code>. It is highly recommended to remove all styles related to tabs or the tab bar first, then rewrite afterward if the settings below do not cover.</p>
+   <p>📝 Depends on your operating system settings, file extensions may be hidden by default. For example, <code>*.uc.js</code> and <code>userChrome.css</code> will be displayed as <code>*.uc</code> and <code>userChrome</code> only. You can right-click on the file and select <em>Properties</em> to check its file type and extension.</p>
 
 4. Download the 📥 [script file](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as) and place it in the `chrome` folder (or in the `chrome\JS` sub-folder if you are using *MrOtherGuy/fx-autoconfig*).
    <p>⚠️ Creating the file by copy & paste or other methods may cause incorrect encoding.</p>
@@ -841,6 +842,7 @@ If the script does not run as expected, please check the following points:
 4. Check for conflicts:
    - If updating everything still doesn't work, install the script loader and script on a [new clean Firefox profile](https://support.mozilla.org/kb/profile-manager-create-and-remove-firefox-profiles).
    - If the script works fine in a new profile, check if there are any `*.uc.js` or styles in `userChrome.css` causing the problem.
+   <p>📝 Depends on your operating system settings, file extensions may be hidden by default. For example, <code>*.uc.js</code> and <code>userChrome.css</code> will be displayed as <code>*.uc</code> and <code>userChrome</code> only. You can right-click on the file and select <em>Properties</em> to check its file type and extension.</p>
 
 5. If it still does not work:
    - Take a screen recording (recommended) or screenshot of the problem in the new clean profile, and provide the steps of reproduction [here](https://github.com/Merci-chao/userChrome.js/discussions/new?category=q-a).
