@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Float Toolbars in Full Screen
 // @description    Float the toolbars over the page in full screen mode, instead of making the web page jumpy when the toolbars showing / hiding.
-// @version        2026-07-29
+// @version        2026-10-05
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#float-toolbars-in-full-screen
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-4
@@ -111,6 +111,15 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 			);
 
 		async function showNotification(label, buttons, icon, color) {
+			if (icon)
+				await new Promise(rs => Object.assign(
+					new Image(),
+					{
+						src: icon,
+						onload: rs,
+						onerror: () => { icon = null; rs(); },
+					},
+				));
 			let box = await gNotificationBox.appendNotification(
 				"script-update",
 				{
@@ -221,15 +230,20 @@ FloatToolbarsInFullScreen.prototype = {
 			},
 		};
 
-		document.body.appendChild(document.createElement("style")).innerHTML = `
+		document.body.appendChild(document.createElement("style")).innerHTML = /*css*/`
 			#navigator-toolbox[data-float-in-fullscreen-ready] {
-				z-index: calc(1/0) !important;
 				position: relative !important;
 			}
 
 			:root[data-float-in-fullscreen-hide-bg],
 			:root[data-float-in-fullscreen-hide-bg] #navigator-toolbox {
 				background: none !important;
+			}
+
+			@media -moz-pref("browser.nova.enabled") {
+				:root[inFullscreen] #tabbrowser-tabpanels > :not(.split-view-panel) .browserContainer {
+					border-top: 0;
+				}
 			}
 		`;
 
