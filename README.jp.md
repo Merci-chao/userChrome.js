@@ -60,7 +60,7 @@ Firefox に多段タブ表示をサポートさせる。
 
 5. Firefox を再起動して適用する。
 
-6. 手順 3 で一部のファイルを `chrome` フォルダーの外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、そのスクリプトや `userChrome.css` 内のルールを調整してください。お困りの際は、🛟 [こちら](https://github.com/Merci-chao/userChrome.js/issues/new)に情報をご提供ください。
+6. 手順 3 で一部のファイルを `chrome` フォルダーの外に移動した場合は、まずこのスクリプトが正常に動作することを確認してください。動作が確認できたら、ファイルを戻してください。もし競合が発生した場合は、そのスクリプトや `userChrome.css` 内のルールを調整してください。お困りの際は、🛟 [こちら](https://github.com/Merci-chao/userChrome.js/discussions/new?category=q-a)に情報をご提供ください（日本語で OK）。
 
 ## 設定
 [about:config](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao.` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されている。
