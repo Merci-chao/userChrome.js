@@ -1034,6 +1034,9 @@ about:config を開いて `extensions.FloatToolbarsInFullScreen@Merci.chao.` で
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/FloatToolbarsInFullScreen@Merci.chao.uc.js)（右クリックして保存）
 
+**Version 2026-10-05**
+- Nova への更新。
+
 **Version 2026-07-29**
 - 修正
 	- Firefox メニューから全画面表示モードを終了できなかった。
