@@ -125,7 +125,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ### タブサイズ
 
-📝 デフォルト値より狭く設定するのは推奨されない。Firefox は既定のオプション以上にコンパクトに動作するよう設計されていないため、予期しない不具合が起こる可能性がある。これらの設定は `userChrome.css` のルールで上書きされ、効果がなくなる場合がある。
+📝 既定値より狭く設定するのは推奨されない。Firefox は既定のオプション以上にコンパクトに動作するよう設計されていないため、予期しない不具合が起こる可能性がある。これらの設定は `userChrome.css` のルールで上書きされ、効果がなくなる場合がある。
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
@@ -219,7 +219,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 [**Version 4.12.1**](https://github.com/Merci-chao/userChrome.js/raw/bf33586088722b10a92eb75503823ecfcb67ea0c/MultiTabRows@Merci.chao.uc.js)
 - 修正
 	- 最初の段での分割ビューのタブを閉じた際に一時的にレイアウトがずれる問題。
-	- デフォルトテーマとインストールしたの Nova テーマを切り替える際に、グラデーションの不透明度が正しく適用されない問題。
+	- 既定テーマとインストールしたの Nova テーマを切り替える際に、グラデーションの不透明度が正しく適用されない問題。
 
 [**Version 4.12**](https://github.com/Merci-chao/userChrome.js/raw/10f6007f21f1c914096be5bcc8c7fc5e83aeb77f/MultiTabRows@Merci.chao.uc.js)
 - 追加
@@ -276,9 +276,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `tabCornerRadius` を追加：タブの角丸半径を調整。`-1` に設定すると既定値が適用される。
 	- Firefox 154 以降の Nova 自動ウィンドウ密度機能をサポートするために、`tabContentHeightCompact`、`tabHorizontalPaddingCompact`、`tabVerticalMarginCompact` を追加。
 - 改修
-	- `pinnedTabsFlexWidthIndicator` はデフォルトで `true` となり、垂直タブモードのスタイルに合わせて、ピンアイコンの代わりにタブ上に淡い背景を表示。
+	- `pinnedTabsFlexWidthIndicator` は既定で `true` となり、垂直タブモードのスタイルに合わせて、ピンアイコンの代わりにタブ上に淡い背景を表示。
 	- `hamburgerMenuOnTabBar` を `false` に設定すると、スマートウィンドウ使用時に Firefox のメニューボタンがナビゲーションツールバーに固定されるようになった。
-	- `autoCollapseDelayCollapsing`、`floatingBackdropOpacity`、`scrollButtonsSize` のデフォルト値が調整された。
+	- `autoCollapseDelayCollapsing`、`floatingBackdropOpacity`、`scrollButtonsSize` の既定値が調整された。
 	- `tabsAtBottom` が有効な場合に、`hideEmptyPlaceholderWhenScrolling` を無効化できるようになった。
 - 改善
 	- `floatingBackdropClip` を有効化した際、浮動領域に角丸が適用されるようになった（Firefox 148+）。
@@ -348,7 +348,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Firefox 152 の Nova UI デザインへのサポート。
 	- `tabsAtBottom` を `-1` に設定した場合：
 		- 全画面表示モードでタブバーを非表示にできるようになった。
-		- タブバー項目のメニューはデフォルトで上方向に開く。
+		- タブバー項目のメニューは既定で上方向に開く。
 	- Firefox 152 への更新。
 	- メディアボタンのレイアウトを細かく改善。
 - 修正
@@ -526,7 +526,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 [**Version 4.1.2.3**](https://github.com/Merci-chao/userChrome.js/raw/3c4e92e7733abd23a720d91687ee84121b716407/MultiTabRows@Merci.chao.uc.js)
 - `tabContentHeight` が `30` 未満の場合（コンパクトモード）にタブのセカンダリラベルを非表示（外国語版のみ）。
 - 分割ビューでタブの高さがコンパクトすぎる場合に調整。
-- `checkUpdateAutoApply` のデフォルト値は `1` に変更されたが、`0` と同じ効果がある。
+- `checkUpdateAutoApply` の既定値は `1` に変更されたが、`0` と同じ効果がある。
 
 [**Version 4.1.2.2**](https://github.com/Merci-chao/userChrome.js/raw/2f2ed90bffb0d8c36ed9ad1a9e93030a4b2e7390/MultiTabRows@Merci.chao.uc.js)
 - 前回バージョン以降、Firefox 115 でオーディオボタンのビジュアル問題を修正。
@@ -562,7 +562,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 [**Version 4.1**](https://github.com/Merci-chao/userChrome.js/raw/915d87a20b0dbaacbb1b3ac5709dede2bc02cbd0/MultiTabRows@Merci.chao.uc.js)
 - 新規
-	- タブの高さと間隔を制御するために `tabContentHeight`、`tabVerticalMargin`、`tabHorizontalPadding`、`tabHorizontalMargin` を追加。デフォルト値より狭く設定するのは推奨されない。Firefox はコンパクト用に設計されていないため、予期しない不具合が起こる可能性がある。これらの設定は `userChrome.css` のルールで上書きされ、効果がなくなる場合がある。
+	- タブの高さと間隔を制御するために `tabContentHeight`、`tabVerticalMargin`、`tabHorizontalPadding`、`tabHorizontalMargin` を追加。既定値より狭く設定するのは推奨されない。Firefox はコンパクト用に設計されていないため、予期しない不具合が起こる可能性がある。これらの設定は `userChrome.css` のルールで上書きされ、効果がなくなる場合がある。
 - 改善
 	- タブバーが過度にコンパクトな時のレイアウトを調整。
 	- アップデート通知 UI を調整。
@@ -601,7 +601,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `privateBrowsingIconOnNavBar` を追加：プライベートウィンドウアイコンをナビゲーションツールバーに移動。Firefox 115 では非対応。`tabsAtBottom` が有効な場合は強制的に有効化される。
 - 変更
 	- Firefox の元のデザインに従い、`tabsAtBottom` が有効な場合、`spaceAfterTabs`、`spaceAfterTabsOnMaximizedWindow`、`spaceBeforeTabs`、および `spaceBeforeTabsOnMaximizedWindow` がナビゲーションツールバーの端のスペースに影響するようになった。
-	- Firefox の元のデザインに従い、Firefox 143 以降では、`gapAfterPinned` のデフォルト値が `0` になる。
+	- Firefox の元のデザインに従い、Firefox 143 以降では、`gapAfterPinned` の既定値が `0` になる。
 - 改善
 	- タブを閉じる際やタブグループを折りたたむ際のタブサイズ固定の挙動を改良。
 	- 特定のシナリオにおいて、アイテムを段端へドラッグする際の困難を回避するために、ドラッグ動作を改良。
@@ -707,7 +707,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - アニメーションの処理を見直して、動作を改良。
 - `tabsAtBottom` を `2` にすると、ブックマークツールバーを「新しいタブのみ表示する」に設定していても、タブバーはブックマークツールバーの下に表示。
 - `autoCollapse` の改良：右クリックメニューが表示されている間、タブバーは展開されたままになる。
-- `autoCollapse` における 2 つの遅延パラメータのデフォルト値を引き上げた。
+- `autoCollapse` における 2 つの遅延パラメータの既定値を引き上げた。
 - バグ修正：タブグループが複数行にまたがる場合、一部の状況下でグループの折りたたみやドラッグ操作がスムーズに動作しないことがあった。
 - バグ修正：ドラッグ中に Esc キーを押すと、問題が発生する場合があった。
 - バグ修正：Ctrl キーで複数のタブを選択してコピーする操作が、時々うまく機能しなかった（Firefox バグ #1987160）。
@@ -817,9 +817,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 設定変更やテーマ変更を複数ウィンドウで行った際に Firefox がフリーズまたはラグが発生する問題を修正。
 
 [**Version 2.0**](https://github.com/Merci-chao/userChrome.js/raw/0ac08cc86ba14d0db05d618163b84892560594f3/MultiTabRows@Merci.chao.uc.js)
-- `tabsUnderControlButtons = 2`（デフォルト）を実装。
+- `tabsUnderControlButtons = 2`（既定）を実装。
 - 新設定追加：`floatingBackdropClip`, `floatingBackdropBlurriness`, `floatingBackdropOpacity`, `hideEmptyPlaceholderWhenScrolling`
-- `scrollbarTrackColor`, `scrollbarThumbColor` のデフォルト値を `auto` に変更。
+- `scrollbarTrackColor`, `scrollbarThumbColor` の既定値を `auto` に変更。
 - 設定が即時適用されるように改良。
 - タブのスクロール体験を向上。
 - Firefox 134 対応。
@@ -1072,7 +1072,7 @@ about:config を開いて `extensions.FloatToolbarsInFullScreen@Merci.chao.` で
 # [lockBookmarksDefaultLocation.uc.js](https://github.com/Merci-chao/userChrome.js/blob/main/lockBookmarksDefaultLocation.uc.js)
 新しく追加したブックマークの場所を設定して固定し、Firefox に変えられないようにする。
 
-このスクリプトを適用する前に、アドレスバーのスターボタンをクリックして新しいブックマークを作成し、フォルダーをデフォルトの保存先として設定してください。
+このスクリプトを適用する前に、アドレスバーのスターボタンをクリックして新しいブックマークを作成し、フォルダーを既定の保存先として設定してください。
 
 ---
 
