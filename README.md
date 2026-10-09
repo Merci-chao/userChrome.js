@@ -517,7 +517,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `tabVerticalMargin` might be missing in *about:config* in certain cases.
 
 <details>
-<summary>Minor Updates</summary>
+<summary>Minor Updates</summary><p></p>
 
 [**Version 4.1.2.5**](https://github.com/Merci-chao/userChrome.js/raw/c6e59860ed977aec878ce0550c5a7f0b8327d0b9/MultiTabRows@Merci.chao.uc.js)
 - Adjusts margin of mini-audio button to prevent overlap with tab label.
@@ -550,7 +550,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Padding issue for pinned tabs when enabling `pinnedTabsFlexWidth` since v4.1.
 
 <details>
-<summary>Minor Updates</summary>
+<summary>Minor Updates</summary><p></p>
 
 [**Version 4.1.0.7**](https://github.com/Merci-chao/userChrome.js/raw/4f41b6419194e5be3883ebd9c332386573459ccd/MultiTabRows@Merci.chao.uc.js)
 - Fixed an issue that may conflict with other scripts since v4.1.
@@ -572,7 +572,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Notification bar was placed incorrectly when  was enabled.
 
 <details>
-<summary>Minor Updates</summary>
+<summary>Minor Updates</summary><p></p>
 
 [**Version 4.0.2.3**](https://github.com/Merci-chao/userChrome.js/raw/5b908e70e03a724c9c7bee6208ede691498e6f13/MultiTabRows@Merci.chao.uc.js)
 - Updates the dependencies of settings in *about:config*.
@@ -638,7 +638,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Fixed a minor Firefox visual bug [#1995909](https://bugzilla.mozilla.org/show_bug.cgi?id=1995909).
 
 <details>
-<summary>Minor Updates</summary>
+<summary>Minor Updates</summary><p></p>
 
 [**Version 3.6.0.2**](https://github.com/Merci-chao/userChrome.js/raw/a3399b69e7f91e34f62a1fce4e61515c663d309e/MultiTabRows@Merci.chao.uc.js)
 - Reversed some code change for the scrollbar in the previous minor update.
@@ -689,7 +689,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Updates for this script will no longer be notified when using older versions of Firefox (except 115).
 
 <details>
-<summary>Minor Updates</summary>
+<summary>Minor Updates</summary><p></p>
 
 [**Version 3.4.1.3**](https://github.com/Merci-chao/userChrome.js/raw/2770e1cd7330b6ad59cddc9184ad1e967b65f7ce/MultiTabRows@Merci.chao.uc.js)
 - Drag-and-drop with a drop indicator now animate.
