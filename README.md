@@ -16,7 +16,7 @@ Make Firefox support multiple rows of tabs.
 Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights with screenshots and detailed descriptions.
 
 ## Compatibility
-- Firefox 156 - 158, ESR (115, 140, 153)
+- Firefox 157 - 159, ESR (115, 140, 153)
 
 - Windows 7 - 11
 
@@ -102,8 +102,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `autoCollapseDelayCollapsing` | <p>🔸 **Collapse Delay**</p><p>Delay before collapsing the tabs when the cursor moves away (in milliseconds). Minimum: `0`.</p> |
 | `autoCollapseDelayExpanding` | <p>🔸 **Expand Delay**</p><p>Delay before expanding the tabs when the cursor hovers over them (in milliseconds). Minimum: `0`.</p> |
 | `compactControlButtons` | <p>🔸 **Compact Control Buttons**</p><p>Display the window control buttons to a compact size. Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
-| `controlButtonsAutoHide` | <p>🔸 **Auto-Hide Control Buttons**</p><p>Hide the window control buttons and show them when the cursor enters the top right corner:</p><ul><li>`0` - disabled</li><li>`1` - only on maximized windows</li><li>`2` - on all windows</li></ul><p>Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
-| `controlButtonsAutoHideOnTriggerExit` | <p>🔸 **Hide on Leaving Trigger**</p><p>Control buttons hide when the cursor leaves the trigger area; when set to `false`, they only hide once the cursor fully leaves the buttons. Not available on Firefox 115.</p> |
+| `controlButtonsAutoHide` | <p>🔸 **Auto-Hide Control Buttons**</p><p>Hide the window control buttons and show them when the cursor enters the top corner or leaves the window from the top corner:</p><ul><li>`0` - disabled</li><li>`1` - only on maximized windows</li><li>`2` - on all windows</li></ul><p>Available on Windows 10 and later, when the title bar is hidden. Affects only web apps when the menu bar is displayed.</p> |
+| `controlButtonsAutoHideOnTriggerExit` | <p>🔸 **Hide on Leaving Trigger**</p><p>On maximized windows, control buttons hide when the cursor leaves the trigger area; when set to `false`, they only hide once the cursor fully leaves the buttons. Not available on Firefox 115.</p> |
 | `controlButtonsAutoHideTriggerHeight` | <p>🔸 **Trigger Height for Showing Control Buttons**</p><p>The height of the trigger area.</p> |
 | `hamburgerMenuOnTabBar` | <p>🔸 **Menu Button on Tab Bar (Smart Windows)**</p><p>Setting it to `false` moves the Firefox menu button (☰) back to the navigation toolbar on smart windows. Forcibly inactivated when `tabsAtBottom` is enabled. Not available on Firefox 115 and 140.</p> |
 | `hideAllTabs` | <p>🔸 **Hide All Tabs Button**</p><p>Hide the *List all tabs* button. Only available on Firefox 115. On newer versions of Firefox, remove it by right-clicking on it and choosing *Remove from Toolbar*.</p> |
@@ -193,6 +193,16 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## Changelog
 📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as)
+
+[**Version 4.14**](https://github.com/Merci-chao/userChrome.js/raw/6ef3e1fc3e0eb55bdbd51c00336c054ce00820e9/MultiTabRows@Merci.chao.uc.js)
+- Improvements
+	- Auto-Hide Control Buttons related:
+		- Window control buttons will temporarily appear when the cursor leaves the window from the top corner.
+		- `controlButtonsAutoHideOnTriggerExit` now only applies to maximized windows and is enabled by default on Windows.
+	- Updated for Firefox 159.
+- Fixes
+	- `hideDragPreview` did not work as expected on Linux.
+	- Minor layout issues.
 
 [**Version 4.13**](https://github.com/Merci-chao/userChrome.js/raw/cd493f61adfceab7f1e89da94aba821f34c8767f/MultiTabRows@Merci.chao.uc.js)
 - Change
