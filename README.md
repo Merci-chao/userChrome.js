@@ -72,8 +72,7 @@ If configuring via *user.js* (not recommended), be sure to include the prefix `u
 user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ```
 
-> [!NOTE]
-> Many of these settings may not take effect due to dependencies with other preferences. It is strongly recommended to configure them via *about:config* rather than using *user.js*.
+⚠️ Many of these settings may not take effect due to dependencies with other preferences. It is strongly recommended to configure them via *about:config* rather than using *user.js*.
 
 ### Interactions
 
@@ -127,8 +126,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ### Tab Sizing
 
-> [!NOTE]
-> Not recommended to set narrower than the default value, as Firefox is not designed to be more compact than the default options and unexpected glitches may occur. These settings may be overridden by rules in `userChrome.css` and have no effect.
+📝 Not recommended to set narrower than the default value, as Firefox is not designed to be more compact than the default options and unexpected glitches may occur. These settings may be overridden by rules in `userChrome.css` and have no effect.
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
@@ -912,8 +910,7 @@ Show page title in the address bar. [Add-on Page (web archive)](https://web.arch
 ## Settings
 Open *about:config* and search for the prefix `extensions.PageTitle@Merci.chao.`.
 
-> [!NOTE]
-> Settings will apply to new windows.
+📝 Settings will apply to new windows.
 
 | Name | Description |
 | ------------- | ------------- |
