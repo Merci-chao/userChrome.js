@@ -214,6 +214,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Visual glitch that occurred when moving multiple tabs near the edges to scroll up or down.
 	- Tabs scrolled unexpectedly after expansion with `autoCollapse` enabled.
 
+<details>
+<summary>Old Versions</summary><p></p>
+
 [**Version 4.12.2**](https://github.com/Merci-chao/userChrome.js/raw/8f2950b0c9a3011eeeea2745a8ba63c1b5af44a6/MultiTabRows@Merci.chao.uc.js)
 - Fixed a regression that caused drag‑to‑scroll to not function properly.
 
@@ -235,9 +238,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Using an old version of this script with update checking disabled on a new version of Firefox now shows a compatibility alert.
 - Fixes
 	- Issues when scrolling and using drag & drop on touch devices.
-
-<details>
-<summary>Old Versions</summary><p></p>
 
 <details>
 <summary>Minor Update</summary><p></p>
