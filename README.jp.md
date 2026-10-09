@@ -15,7 +15,7 @@ Firefox に多段タブ表示をサポートさせる。
 注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
-- Firefox 156〜158、ESR（115、140、153）
+- Firefox 157〜159、ESR（115、140、153）
 
 - Windows 7〜11
 
@@ -100,8 +100,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `autoCollapseDelayCollapsing` | <p>🔸 **折りたたみまでの遅延**</p><p>カーソルが離れてから折りたたむまでの遅延（ミリ秒）。最小値：`0`。</p> |
 | `autoCollapseDelayExpanding` | <p>🔸 **展開までの遅延**</p><p>ホバー後に展開されるまでの遅延（ミリ秒）。最小値：`0`。</p> |
 | `compactControlButtons` | <p>🔸 **操作ボタンをコンパクト表示**</p><p>ウィンドウ操作ボタンをコンパクトに表示。タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
-| `controlButtonsAutoHide` | <p>🔸 **操作ボタンを自動非表示**</p><p>ウィンドウの操作ボタンを隠し、カーソルが右上隅に入ったときに表示する：</p><ul><li>`0`－無効</li><li>`1`－最大化ウィンドウのみ</li><li>`2`－すべてのウィンドウ</li></ul><p>タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
-| `controlButtonsAutoHideOnTriggerExit` | <p>🔸 **トリガー離脱時非表示**</p><p>カーソルがトリガー領域から離れると操作ボタンが非表示になり、`false` に設定されている場合はカーソルがボタンから完全に離れた時のみ非表示になる。Firefox 115 では非対応。</p> |
+| `controlButtonsAutoHide` | <p>🔸 **操作ボタンを自動非表示**</p><p>ウィンドウ操作ボタンを非表示にし、カーソルが上部の角に入るか、または上部の角からウィンドウ外へ出た際に表示：</p><ul><li>`0`－無効</li><li>`1`－最大化ウィンドウのみ</li><li>`2`－すべてのウィンドウ</li></ul><p>タイトルバーが非表示のとき、Windows 10 以降で利用可能。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
+| `controlButtonsAutoHideOnTriggerExit` | <p>🔸 **トリガー離脱時非表示**</p><p>最大化ウィンドウにおいて、カーソルがトリガー領域から離れると操作ボタンが非表示になり、`false` に設定されている場合はカーソルがボタンから完全に離れた時のみ非表示になる。Firefox 115 では非対応。</p> |
 | `controlButtonsAutoHideTriggerHeight` | <p>🔸 **操作ボタン表示のトリガー高さ**</p><p>操作ボタンの表示トリガー領域の高さ。</p> |
 | `hamburgerMenuOnTabBar` | <p>🔸 **スマートウィンドウ時のタブバー上メニューボタン**</p><p>`false` に設定すると、スマートウィンドウ使用時に Firefox のメニューボタン（☰）がナビゲーションツールバーに戻される。`tabsAtBottom` が有効な場合は強制的に無効化される。Firefox 115 と 140 では非対応。</p> |
 | `hideAllTabs` | <p>🔸 **タブ一覧ボタンを非表示**</p><p>「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。</p> |
@@ -190,6 +190,16 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)（右クリックして保存）
 
+[**Version 4.14**](https://github.com/Merci-chao/userChrome.js/raw/6ef3e1fc3e0eb55bdbd51c00336c054ce00820e9/MultiTabRows@Merci.chao.uc.js)
+- 改善
+	- 「操作ボタンを自動非表示」関連：
+		- カーソルが上部の角からウィンドウ外へ出た際にウィンドウ操作ボタンを一時表示。
+		- `controlButtonsAutoHideOnTriggerExit` は最大化ウィンドウのみに適用し、Windows では既定で有効化。
+	- Firefox 159 に対応。
+- 修正
+	- Linux で `hideDragPreview` が期待通りに動作しない問題。
+	- 軽微なレイアウト問題。
+
 [**Version 4.13**](https://github.com/Merci-chao/userChrome.js/raw/cd493f61adfceab7f1e89da94aba821f34c8767f/MultiTabRows@Merci.chao.uc.js)
 - 変更
 	- Firefox 156 未満のバージョンでの Nova サポートを削除。
@@ -199,6 +209,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 修正
 	- 複数のタブを端に移動して上下スクロールしようとした際に発生する視覚的な不具合。
 	- `autoCollapse` 有効時にタブ展開後、予期せずスクロールする問題。
+
+<details>
+<summary>旧バージョン</summary><p></p>
 
 [**Version 4.12.2**](https://github.com/Merci-chao/userChrome.js/raw/8f2950b0c9a3011eeeea2745a8ba63c1b5af44a6/MultiTabRows@Merci.chao.uc.js)
 - ドラッグスクロールが正しく機能しなくなる回帰バグを修正。
@@ -221,9 +234,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- 新しい Firefox で更新チェックを無効にした古いバージョンのスクリプトを使用すると、互換性警告が表示されるようになった。
 - 修正
 	- タッチデバイスでスクロールやドラッグ＆ドロップ操作を行う際に発生する問題。
-
-<details>
-<summary>旧バージョン</summary><p></p>
 
 <details>
 <summary>軽微な更新</summary><p></p>
