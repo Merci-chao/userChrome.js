@@ -175,8 +175,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
-| `browser.compactmode.auto.threshold` | <p>🔸 **Auto Compact Threshold**</p><p>Switches to compact mode if the ratio of a single tab row height in compact mode to the window content height exceeds this value. Effective only when Nova automatic window density is enabled in Firefox 154+.</p><p>📝 Other factors besides height can also trigger the switch.</p> |
-| `browser.nova.enabled` | <p>🔸 **Nova Design**</p><p>Apply the Nova design (in development). Available on Firefox 152+.</p> |
+| `browser.compactmode.auto.threshold` | <p>🔸 **Auto Compact Threshold**</p><p>Switches to compact mode if the ratio of the tab height in compact mode to the window content height exceeds this value. Effective only when Nova automatic window density is enabled in Firefox 154+.</p><p>📝 Other factors besides height can also trigger the switch.</p> |
+| `browser.nova.enabled` | <p>🔸 **Nova Design**</p><p>Apply the Nova design. Available on Firefox 152+.</p> |
 | `browser.tabs.dragDrop.createGroup.delayMS` | <p>🔸 **Drag to Create Tab Group Delay**</p><p>Time to wait (in milliseconds) before starting to group tabs during dragging. Not available on Firefox 115.</p> |
 | `browser.tabs.dragDrop.createGroup.enabled` | <p>🔸 **Drag to Create Tab Group**</p><p>Drag tabs together to create tab groups. On Firefox 140, create a new boolean preference with this name to toggle. Not available on Firefox 115.</p> |
 | `browser.tabs.dragDrop.dragToPin.enabled` | <p>🔸 **Drag to Pin Tabs**</p><p>Enable tab pinning/unpinning via drag & drop in the same window, e.g. whether dropping tabs onto the pinned tabs will pin them. Create a new boolean preference with this name to toggle.</p> |
