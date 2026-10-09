@@ -173,7 +173,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ### Firefox の組み込み設定
 | 項目（接頭辞なし） | 説明 |
 | ------------- | ------------- |
-| `browser.compactmode.auto.threshold` | <p>🔸 **自動コンパクト閾値**</p><p>コンパクトモードでのタブ段の高さをウィンドウコンテンツの高さで割った比率がこの値を超える場合、コンパクトモードに切り替わる。Firefox 154 以降で Nova の自動ウィンドウ密度機能が有効なときのみ作用。</p><p>📝 高さ以外の要因でも切り替えが発生する。</p> |
+| `browser.compactmode.auto.threshold` | <p>🔸 **自動コンパクト閾値**</p><p>コンパクトモードでのタブの高さをウィンドウコンテンツの高さで割った比率がこの値を超える場合、コンパクトモードに切り替わる。Firefox 154 以降で Nova の自動ウィンドウ密度機能が有効なときのみ作用。</p><p>📝 高さ以外の要因でも切り替えが発生する。</p> |
 | `browser.nova.enabled` | <p>🔸 **Nova デザイン**</p><p>Nova デザイン（開発中）を適用。Firefox 152 以降で利用可能。</p> |
 | `browser.tabs.dragDrop.createGroup.delayMS` | <p>🔸 **ドラッグでグループ化遅延**</p><p>ドラッグしてグループ化を開始するま遅延時間（ミリ秒）。Firefox 115 では非対応。</p> |
 | `browser.tabs.dragDrop.createGroup.enabled` | <p>🔸 **ドラッグでグループ化**</p><p>タブを他のタブにドロップした際にグループ化。Firefox 140 では、この名前で新しい真偽設定を作成し切り替える。Firefox 115 では非対応。</p> |
