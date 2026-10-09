@@ -3,8 +3,8 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.13
-// @compatibility  Firefox 115, 140, 153, 156-158
+// @version        4.14
+// @compatibility  Firefox 115, 140, 153, 157-159
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
 // @supportURL     https://github.com/Merci-chao/userChrome.js/discussions/new/choose
@@ -422,7 +422,7 @@ function createDefaultPrefs() {
 		autoCollapse: false,
 		autoCollapseDelayExpanding: 100,
 		autoCollapseDelayCollapsing: 200,
-		hideDragPreview: OS == "WINNT" ? FOR_GROUP : 0,
+		hideDragPreview: OS != "Darwin" ? FOR_GROUP : 0,
 		tabsAtBottom: appVersion > 132 ? 0 : null,
 		tabMaxWidth: 225,
 		hideScrollButtonsWhenDragging: false,
@@ -457,7 +457,7 @@ function createDefaultPrefs() {
 		themeImageSize: bgImgHasRepeat ? -1 : 0,
 		controlButtonsAutoHide: win7 || win8 ? null : 0,
 		controlButtonsAutoHideTriggerHeight: win7 || win8 ? null : 2,
-		controlButtonsAutoHideOnTriggerExit: appVersion > 120 ? false : null,
+		controlButtonsAutoHideOnTriggerExit: appVersion > 120 ? OS == "WINNT" && !screen.availTop : null,
 		hamburgerMenuOnTabBar: HAS_AI_WINDOW ? true : null,
 	};
 }
@@ -862,6 +862,7 @@ async function onPrefChange(pref, type, name) {
 			updateAIWindowButtonsPosition();
 			updateNavBarOverflow();
 			updatePopupPosition();
+			toggleAutoHideControlHandlers();
 			break;
 
 		case "browser.uidensity":
@@ -1794,14 +1795,14 @@ ${prefs.controlButtonsAutoHide ? /*css*/`
 			);
 		position: absolute;
 		top: 0;
-		inset-inline-end: 0;
+		inset-inline-${OS == "Darwin" ? "start" : "end"}: 0;
 		box-shadow:
 			var(
 				${nova ? "--box-shadow-level-1" : "--tab-box-shadow-selected"},
 				var(--tab-selected-shadow, 0 0 4px rgba(0,0,0,.4))
 			);
 		border: var(--tabstrip-inner-border, 1px solid color-mix(in srgb, currentColor 25%, transparent));
-		border-inline-end: 0;
+		border-inline-${OS == "Darwin" ? "start" : "end"}: 0;
 		border-top: 0;
 		transition: background-color var(--inactive-window-transition);
 		z-index: calc(1/0) !important;
@@ -1830,6 +1831,7 @@ ${prefs.controlButtonsAutoHide ? /*css*/`
 
 	${context} ${__}:is(
 		:not(
+			#navigator-toolbox[temp-show-control-buttons] *,
 			${prefs.controlButtonsAutoHideOnTriggerExit
 				? ":has(> .titlebar-buttonbox > .titlebar-button:hover)"
 				: ":hover"}
@@ -1858,11 +1860,11 @@ ${prefs.controlButtonsAutoHide ? /*css*/`
 	}
 
 	${prefs.controlButtonsAutoHideOnTriggerExit ? /*css*/`
-		${context} .titlebar-button {
+		:root:not([sizemode=normal]) .titlebar-button {
 			pointer-events: none;
 		}
 
-		${context} .titlebar-button::after {
+		:root:not([sizemode=normal]) .titlebar-button::after {
 			content: "";
 			height: var(--trigger-height);
 			inset: 0 0;
@@ -1872,14 +1874,18 @@ ${prefs.controlButtonsAutoHide ? /*css*/`
 	` : ``}
 
 	/*prevent the snap layouts menu from showing, the buttons need to be inside the view*/
-	${context} ${__}:not(:hover) .titlebar-button {
+	${context} ${__}:not(:hover, #navigator-toolbox[temp-show-control-buttons] *)
+		.titlebar-button
+	{
 		bottom: calc(100% - 1px);
 		transition: bottom 0s var(--tabs-item-opacity-transition);
 	}
 
-	:root[sizemode=normal] #navigator-toolbox .titlebar-buttonbox-container {
-		--window-border: ${mozInnerScreenX - screenX}px;
-	}
+	${OS == "WINNT" ? /*css*/`
+		:root[sizemode=normal] #navigator-toolbox .titlebar-buttonbox-container {
+			--window-border: ${mozInnerScreenX - screenX}px;
+		}
+	` : ``}
 
 	${prefs.compactControlButtons ? /*css*/`
 		${context} #toolbar-menubar:not([inactive]) {
@@ -2006,7 +2012,15 @@ ${_="#tabbrowser-tabs[orient]"} {
 	--calculated-tab-min-width: 0px;
 	--tab-max-width: max(${prefs.tabMaxWidth}px, var(--calculated-tab-min-width));
 	--splitview-extra-padding-inline: ${appVersion > 157 ? `0px` : `var(--split-view-tab-padding-inline)`};
-	--splitview-min-width: calc((var(--calculated-tab-min-width) + var(--splitview-extra-padding-inline)) * 2 + 1px);
+	--splitview-min-width:
+		calc(
+			(
+				var(--calculated-tab-min-width)
+				+ var(--splitview-extra-padding-inline)
+				+ var(--split-view-tab-padding-inline)
+			) * 2
+			+ 1px
+		);
 	--splitview-max-width: max(var(--splitview-min-width), var(--tab-max-width));
 	--max-item-width:
 		max(
@@ -3699,7 +3713,7 @@ tab[animate-shifting=start]::after {
 }
 
 /*raise the specificity to win over the rule in fx 115*/
-${`#tabbrowser-arrowscrollbox`.repeat(3)} [movetarget]:not([stacking]) {
+${`#tabbrowser-arrowscrollbox`.repeat(3)} [movetarget][selected] {
 	z-index: 3;
 }
 
@@ -4951,11 +4965,7 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 
 			${nova ? /*css*/`
 				&, .tabs-placeholder::before {
-					${nativeTheme155up && appVersion < 157 ? `
-						--chrome-block-${isYAlign && bgImgAllRepeat ? "background" : "toolbar"}-color: var(--toolbox-background-color-current);
-					` : `
-						--chrome-block-toolbar-color: var(--toolbar-background-color, var(--toolbar-bgcolor));
-					`}
+					--chrome-block-toolbar-color: var(--toolbar-background-color, var(--toolbar-bgcolor));
 					--chrome-block-foreground-color: transparent;
 				}
 			` : ``}
@@ -4973,30 +4983,9 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 					&[open] {
 						translate: 0 calc(var(--urlbar-container-height) - 100%);
 
-						${nova ? /*css*/`
-							margin-top: calc(var(--urlbar-margin-block-start-breakout) * -1);
-
-							.urlbarView-results {
-								padding-block: 0 var(--urlbarView-padding);
-							}
-
-							:root[uidensity=compact] &[breakout-extend]:not([noresults]) {
-								.urlbar-background {
-									border-radius: var(--urlbar-background-border-radius);
-									border-bottom-left-radius:
-										${__="var(--urlbar-background-border-top-radius-breakout-compact)"};
-									border-bottom-right-radius: ${__};
-								}
-
-								.urlbarView-results {
-									padding-block: var(--urlbarView-padding);
-								}
-							}
-						` : /*css*/`
-							.urlbar-input-container {
-								min-height: var(--urlbar-container-height);
-							}
-						`}
+						.urlbar-input-container {
+							min-height: var(--urlbar-container-height);
+						}
 					}
 				}
 			` : /*css*/`
@@ -5021,7 +5010,7 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 
 						@media -moz-pref("browser.nova.enabled") {
 							:where(:root:not([uidensity=compact]) .urlbar:not([noresults])) > & {
-								padding-block: 0 var(--urlbarView-padding);
+								padding-block: 0 var(--urlbarview-padding, var(--urlbarView-padding));
 							}
 						}
 
@@ -5030,8 +5019,8 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 							border-end-start-radius: 0;
 							border-end-end-radius: 0;
 							inset-block:
-								calc(-1 * var(--urlbarView-joint-background-outset-block))
-								calc(-1 * var(--urlbarView-margin-block) - var(--urlbar-joint-background-overlap));
+								calc(-1 * var(--urlbarview-joint-background-outset-block, var(--urlbarView-joint-background-outset-block)))
+								calc(-1 * var(--urlbarview-margin-block, var(--urlbarView-margin-block)) - var(--urlbar-joint-background-overlap));
 							clip-path:
 								inset(
 									${__}
@@ -5044,7 +5033,7 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 			`}
 
 			:is(
-				${appVersion < 157 || OS != "Linux" ? `
+				${OS == "WINNT" || appVersion < 157 ? `
 					#alltabs-button,
 				` : ``}
 				.toolbarbutton-combined-buttons-dropmarker
@@ -5057,9 +5046,7 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 
 		${nova ? /*css*/`
 			/*https://bugzil.la/2055150*/
-			:root:root${
-				appVersion > 156 ? "" : ":not([inFullscreen])"
-			} {
+			:root:root {
 				#tabbrowser-tabpanels > :not(.split-view-panel) .browserContainer,
 				#sidebar-box,
 				#customization-container {
@@ -5158,7 +5145,8 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 		:root:not([inDOMFullscreen], [inFullscreen]) #tabbrowser-tabbox:has(~ #ai-window-box:not([collapsed]))
 			#tabbrowser-tabpanels > :not(.split-view-panel) .browserContainer
 		{
-			border-end-${sidebarAtStart ? "end" : "start"}-radius: var(--content-area-start-radius, var(--border-radius-medium));
+			border-end-${sidebarAtStart ? "end" : "start"}-radius:
+				var(--content-area-start-radius, var(--border-radius-medium));
 		}
 
 		@media -moz-pref("browser.fullscreen.autohide") {
@@ -5189,6 +5177,12 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 					}
 				}
 
+				${!nova ? /*css*/`
+					#browser, #customization-container {
+						--margin-bottom: var(--snapped-border-width);
+					}
+				` : ``}
+
 				&:not(:has(
 					> body > #navigator-toolbox > #TabsToolbar:is(:hover, :focus-within),
 					> body > #navigator-toolbox > #TabsToolbar
@@ -5218,7 +5212,7 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 					}
 
 					#browser, #customization-container {
-						margin-bottom: ${nova && appVersion > 156 ? `calc(var(--snapped-border-width) * -1)` : 0};
+						margin-bottom: ${nova ? `calc(var(--snapped-border-width) * -1)` : 0};
 						transition: margin-bottom var(--tab-bar-hiding-transition);
 					}
 				}
@@ -6626,9 +6620,12 @@ let GET_DRAG_TARGET;
 				ChromeUtils.defineESModuleGetters(lazy, {
 					OpenInTabsUtils:
 						"moz-src:///browser/components/tabbrowser/OpenInTabsUtils.sys.mjs",
-					Tabbrowser:
-						"moz-src:///browser/components/tabbrowser/Tabbrowser.sys.mjs",
 				});
+				${appVersion > 158 ? /*js*/`
+					const {Tabbrowser} = ChromeUtils.importESModule(
+						"moz-src:///browser/components/tabbrowser/Tabbrowser.sys.mjs"
+					);
+				` : ``}
 				window.TabDragAndDrop = ${constructorString};
 			`,
 			new Cu.Sandbox(window, {sandboxPrototype: window, sameZoneAs: window}),
@@ -6797,8 +6794,16 @@ let GET_DRAG_TARGET;
 
 		if (prefs.hideDragPreview & (draggingTab ? FOR_TAB : FOR_GROUP)) {
 			let dt = e.dataTransfer;
-			dt.setDragImage(document.createElement("div"), 0, 0);
-			dt.updateDragImage = dt.setDragImage = emptyFunc;
+			if (OS == "Linux") {
+				let {setDragImage} = dt;
+				dt.setDragImage = function(e) {
+					return setDragImage.call(this, e, screen.width * 10, screen.height * 10);
+				};
+			} else {
+				dt.setDragImage(document.createElement("div"), 0, 0);
+				dt.setDragImage = emptyFunc;
+			}
+			dt.updateDragImage = emptyFunc;
 		}
 
 		console?.timeLog("startTabDrag", "init");
@@ -7637,15 +7642,20 @@ let GET_DRAG_TARGET;
 			let maxZIndex = 0;
 			let stackedIndex = 0;
 			let draggedTabZIndex;
-			let draggingMulti = movingNodes[1] && !this.multiselectStacking;
+			let count = movingNodes.length;
+			let draggedTabIsFirstMoving = movingNodes[0] == draggedTab;
 
-			movingNodes.forEach((node, i, a) => {
+			movingNodes.forEach((node, i) => {
 				let {row} = _dragData.nodeRects.get(node);
 				let zIndex =
-					2
-					+ a.length
-					+ (movingForward ? a.length - i : i)
-					+ (movingUp ? row : lastRect.row - row) * a.length;
+					this.multiselectStacking && (draggedTabIsFirstMoving || prefs.dragStackPreceding)
+						? count + 3
+						: (
+							2
+							+ count
+							+ (movingForward ? count - i : i)
+							+ (movingUp ? row : lastRect.row - row) * count
+						);
 
 				if (node == draggedTab)
 					draggedTabZIndex = zIndex;
@@ -7665,7 +7675,7 @@ let GET_DRAG_TARGET;
 				let transform = {
 					"--translate-x": rTranX + "px",
 					"--translate-y": rTranY + "px",
-					zIndex:  draggingMulti ? zIndex : "",
+					zIndex,
 				};
 
 				style(node, transform);
@@ -7675,7 +7685,7 @@ let GET_DRAG_TARGET;
 						style(t, transform);
 			});
 
-			if (draggingMulti)
+			if (movingNodes[1])
 				style(gNavToolbox, {"--tabs-moving-max-z-index": maxZIndex});
 
 			if (pinDropInd && !numPinned) {
@@ -9803,9 +9813,11 @@ let GET_DRAG_TARGET;
 		const lastNode = nodes.filter(n => !n.stacking).at(-1);
 
 		if (prefs.tabsUnderControlButtons > 1) {
-			let hasControlButtons = isVisible($(".titlebar-buttonbox-container", tabsBar));
+			let hasControlButtonsAfterTabs =
+				OS != "Darwin" &&
+				isVisible($(".titlebar-buttonbox-container", tabsBar));
 			let hasExtraItemsPostSpacer =
-				!hasControlButtons &&
+				!hasControlButtonsAfterTabs &&
 				$$(".titlebar-spacer[type=post-tabs] ~ :not(.titlebar-buttonbox-container)", tabsBar)
 					.some(isVisible);
 			let attrs = new Map([
@@ -9813,7 +9825,7 @@ let GET_DRAG_TARGET;
 					"no-scrollbar-gutter",
 					!!(
 						OVERLAY_SCROLLBARS ||
-						hasControlButtons ||
+						hasControlButtonsAfterTabs ||
 						(
 							!hasExtraItemsPostSpacer &&
 							(
@@ -9829,7 +9841,7 @@ let GET_DRAG_TARGET;
 			]);
 
 			for (let dir of ["next", "previous"]) {
-				let hasVisible = dir == "next" && (hasControlButtons || hasExtraItemsPostSpacer);
+				let hasVisible = dir == "next" && (hasControlButtonsAfterTabs || hasExtraItemsPostSpacer);
 
 				if (!hasVisible && lastLayoutData[{next: "postTabsItemsSize", previous: "preTabsItemsSize"}[dir]])
 					checking: for (let center of [this, this.closest(".toolbar-items")])
@@ -11241,6 +11253,9 @@ addEventListener("resize", function(e) {
 		rAF(2).then(() => tabContainer._handleTabSelect(true));
 });
 
+if (prefs.controlButtonsAutoHide)
+	toggleAutoHideControlHandlers();
+
 identifyTitleBar();
 
 function identifyTitleBar() {
@@ -11613,6 +11628,34 @@ function restrictScroll(lines) {
 	if (getRect(tabContainer._placeholderNewTabButton, param).width)
 		rows--;
 	return Math.max(Math.min(lines, rows), 1);
+}
+
+function toggleAutoHideControlHandlers() {
+	let toggle = (prefs.controlButtonsAutoHide ? "add" : "remove") + "EventListener";
+	for (let e of ["mouseleave", "mouseenter"])
+		root[toggle](e, handleHoverWindow);
+}
+
+function handleHoverWindow(e) {
+	if (e.target != root) return;
+	if (e.type == "mouseleave") {
+		let rect = getRect($(".titlebar-buttonbox-container", tabsBar), {noFlush: true});
+		if (
+			e.clientY <= rect.bottom &&
+			pointDeltaH(rect.start, e.clientX) * (OS != "Darwin" ? 1 : -1) <= 0 &&
+			!(prefs.controlButtonsAutoHideOnTriggerExit && windowState != STATE_NORMAL)
+		)
+			gNavToolbox.setAttribute(
+				"temp-show-control-buttons",
+				setTimeout(() => gNavToolbox.removeAttribute("temp-show-control-buttons"), 1000),
+			);
+	} else {
+		let timeout = gNavToolbox.getAttribute("temp-show-control-buttons");
+		if (timeout) {
+			clearInterval(+timeout);
+			gNavToolbox.removeAttribute("temp-show-control-buttons")
+		}
+	}
 }
 
 function getThemeData() {
