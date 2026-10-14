@@ -17,7 +17,7 @@ Firefox に多段タブ表示をサポートさせる。
 ## 互換性
 - Firefox 157〜159、ESR（115、140、153）
 
-- Windows 7〜11、Ubuntu
+- Windows、Ubuntu
 
 - 一般的なスクリプトローダーに対応、例：
 	- [onemen/firefox-scripts](https://github.com/onemen/firefox-scripts)
@@ -28,7 +28,7 @@ Firefox に多段タブ表示をサポートさせる。
 
 ## 注意事項
 **🚨 ご使用の前に、以下の注意点をよくお読みください：**
-- このスクリプトは Windows 向けに作られ、Ubuntu（Linux）でテストをしていた。macOS では試していないので、動かないか不具合が出る可能性がある。Firefox をベースとしたその他の派生ブラウザーはサポート対象外。
+- このスクリプトは Windows 7〜11 向けに作られ、Ubuntu 26（Linux）でテストをしていた。macOS では試していないので、動かないか不具合が出る可能性がある。Firefox をベースとしたその他の派生ブラウザーはサポート対象外。
 
 - Firefox に最適化されたレイアウト計算を多く含むため、タブ関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト（`*.uc.js`）、カスタマイズスタイル（`userChrome.css`）との競合によって、不具合が発生する可能性がある。
   <p>⚠️ 以下のインストール手順をよく読んで、慎重に進めてください。</p>
