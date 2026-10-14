@@ -18,7 +18,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 ## Compatibility
 - Firefox 157 - 159, ESR (115, 140, 153)
 
-- Windows 7 - 11
+- Windows 7 - 11, Ubuntu
 
 - Supports general *userChrome.js* script loaders, such as:
 	- [*onemen/firefox-scripts*](https://github.com/onemen/firefox-scripts)
@@ -29,7 +29,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
-- This script is developed for Windows and has been lightly tested on Ubuntu (Linux). It has not been tested on macOS and probably does not work there. Other Firefox-based derivative browsers are not supported.
+- This script is developed for Windows and tested on Ubuntu (Linux). It has not been tested on macOS and probably does not work there. Other Firefox-based derivative browsers are not supported.
 
 - Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. [*Tab Mix Plus*](https://onemen.github.io/tabmixplus-docs)), user scripts (`*.uc.js`) or customized styles (`userChrome.css`) can cause weird glitches and bugs.
   <p>⚠️ Please follow the installation steps below carefully.</p>
