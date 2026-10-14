@@ -929,6 +929,9 @@ Open *about:config* and search for the prefix `extensions.PageTitle@Merci.chao.`
 ## Changelog
 📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js) (right-click and save as)
 
+[**Version 2026-07-14**](https://github.com/Merci-chao/userChrome.js/raw/b7686f9bfbbcd3cc45d507e76203a26a9a2f5c0a/PageTitle%40Merci.chao.uc.js)
+- Update for Firefox 160.
+
 [**Version 2026-09-07**](https://github.com/Merci-chao/userChrome.js/raw/c9d0de72354e98e43c0799ad3a5cc3a63119e194/PageTitle%40Merci.chao.uc.js)
 - Fixed a bug where the search bar might be wrongly targeted.
 
