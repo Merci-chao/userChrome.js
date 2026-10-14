@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name           Page Title in URL Bar
 // @description    Show page title in URL Bar.
-// @version        2026-09-07
+// @version        2026-10-14
 // @author         Merci chao
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#page-title-in-url-bar
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog-2
-// @supportURL     https://github.com/Merci-chao/userChrome.js/issues/new
+// @supportURL     https://github.com/Merci-chao/userChrome.js/discussions/new/choose
 // @updateURL      https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/PageTitle@Merci.chao.uc.js
 // ==/UserScript==
 
@@ -127,6 +127,15 @@ if (prefs.checkUpdate && (Date.now() / 1000 - prefs.checkUpdate) / 60 / 60 / 24 
 			);
 
 		async function showNotification(label, buttons, icon, color) {
+			if (icon)
+				await new Promise(rs => Object.assign(
+					new Image(),
+					{
+						src: icon,
+						onload: rs,
+						onerror: () => { icon = null; rs(); },
+					},
+				));
 			let box = await gNotificationBox.appendNotification(
 				"script-update",
 				{
@@ -537,7 +546,7 @@ function setupTabContainer() {
 		gURLBar.__proto__.setURI = function() {
 			let r = originalSetURI.apply(this, arguments);
 			try {
-				this.window.PageTitle?.updateURLBarPageTitleText();
+				(this.ownerDocument?.defaultView ?? this.window).PageTitle?.updateURLBarPageTitleText();
 			} catch (e) {
 				console.error(e);
 			}
