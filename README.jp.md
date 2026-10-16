@@ -79,7 +79,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | ------------- | ------------- |
 | `animateTabMoveShiftKeyToPause` | <p>🔸 **Shift キーでドラッグアニメ一時停止**</p><p>`Shift` キーを押している間、ドラッグ＆ドロップのアニメーションを一時停止して代わりにドロップインジケーターを表示し、他の段の特定アイテムの隣に移動しづらい特別な状況で役立つ。</p> |
 | `animateTabMoveUnderLimit` | <p>🔸 **タブ数上限でドラッグアニメ停止**</p><p>表示されているタブ数がこの値に達すると、ドラッグ＆ドロップのアニメーションを無効化し、代わりにドロップインジケーターを表示する。多くのタブでドラッグ操作が重くなる場合は、この値を下げることを検討。もし常にインジケーターを使ってタブを移動したいのであれば、値を `3` 未満に設定することでインジケーターモードを強制的に有効化できる。</p> |
-| `animationDuration` | <p>🔸 **アニメーション時間**</p><p>アニメーションの時間（ミリ秒）、値は `0`～`1000`。`0` に設定すると、タブに関連するすべてのアニメーションが無効になる。</p><p>📝 長すぎるとパフォーマンスに影響する可能性がある。</p> |
+| `animationDuration` | <p>🔸 **アニメーション時間**</p><p>アニメーションの時間（ミリ秒）、値は `0`～`1000`。`0` に設定すると、タブに関連するすべてのアニメーションが無効になる。</p><p>📝 長すぎるとパフォーマンスに影響する可能性がある。</p><p>📝 Firefox または OS の設定により、アニメーションが無効化されている可能性がある。[`ui.prefersReducedMotion`](#reducedMotion) を参照。</p> |
 | `dragStackPreceding` | <p>🔸 **ドラッグ時に前タブもスタック**</p><p>ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。</p> |
 | `dynamicMoveOverThreshold` | <p>🔸 **ドラッグ動作を滑らかに**</p><p>ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `browser.tabs.dragDrop.createGroup.enabled` が無効な場合は非対応。</p> |
 | `hideDragPreview` | <p>🔸 **ドラッグプレビューを非表示**</p><p>ドラッグ中にカーソルの傍に表示されるドラッグプレビューを非表示：</p><ul><li>`0`－常に表示</li><li>`1`－グループのみ</li><li>`2`－タブのみ</li><li>`3`－両方</li></ul> |
@@ -184,6 +184,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `browser.tabs.tabClipWidth` | <p>🔸 **閉じるボタン表示幅**</p><p>このサイズを超えるタブには閉じるボタンを表示。変更後、新しいウィンドウで有効になる。値が：<ul><li>`tabMaxWidth` 以上の場合－非選択タブには閉じるボタンを非表示</li><li>`browser.tabs.tabMinWidth` 未満の場合－非選択タブには常に閉じるボタンを表示</li></ul></p> |
 | `browser.tabs.tabMinWidth` | <p>🔸 **タブ最小幅**</p><p>通常タブの最小幅（周囲の余白を含む）を指定。最小値：`50`。</p> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | <p>🔸 **アクセントカラー適用**</p><p>Windows 10 のタブバーにシステムのアクセントカラーを適用。</p> |
+| `ui.prefersReducedMotion` | <p>🔸 **視覚効果を減らす**</p><p>大部分のアニメーションを無効化：</p><ul><li>`0`－しない</li><li>`1`－常に</li><li>未設定－システムに従う</li></ul> |
 | `widget.windows.mica` | <p>🔸 **Mica スタイル**</p><p>Windows 11 の透明スタイルを適用。</p> |
 | `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Mica 背景効果選択**</p><p>ウィンドウ背景効果の選択肢（Windows 11）：<ul><li>`0`－自動</li><li>`1`－Mica</li><li>`2`－Acrylic</li><li>`3`－Mica Alt</li></ul></p> |
 
