@@ -18,7 +18,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 ## Compatibility
 - Firefox 158 - 160, ESR (115, 153)
 
-- Windows, Ubuntu, macOS
+- Windows, macOS, Ubuntu
 
 - Supports general *userChrome.js* script loaders, such as:
 	- [*onemen/firefox-scripts*](https://github.com/onemen/firefox-scripts)
