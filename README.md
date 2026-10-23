@@ -29,7 +29,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
-- This script is developed for Windows 7 to 11, and tested on Ubuntu 26 (Linux) and macOS 27. Other Firefox-based derivative browsers are not supported.
+- This script is developed for Windows 7 to 11, and tested on macOS 27 and Ubuntu 26 (Linux). Other Firefox-based derivative browsers are not supported.
 
 - Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. [*Tab Mix Plus*](https://onemen.github.io/tabmixplus-docs)), user scripts (`*.uc.js`) or customized styles (`userChrome.css`) can cause weird glitches and bugs.
   <p>⚠️ Please follow the installation steps below carefully.</p>
