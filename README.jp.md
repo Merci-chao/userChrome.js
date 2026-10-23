@@ -15,7 +15,7 @@ Firefox に多段タブ表示をサポートさせる。
 注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
-- Firefox 157〜159、ESR（115、140、153）
+- Firefox 158〜160、ESR（115、153）
 
 - Windows、Ubuntu
 
@@ -28,7 +28,7 @@ Firefox に多段タブ表示をサポートさせる。
 
 ## 注意事項
 **🚨 ご使用の前に、以下の注意点をよくお読みください：**
-- このスクリプトは Windows 7〜11 向けに作られ、Ubuntu 26（Linux）でテストをしていた。macOS における一部の軽微な互換性問題を修正しており、次期リリースで反映される予定。Firefox をベースとしたその他の派生ブラウザーはサポート対象外。
+- このスクリプトは Windows 7〜11 向けに作られ、Ubuntu 26（Linux）と macOS 27 でテストをしていた。Firefox をベースとしたその他の派生ブラウザーはサポート対象外。
 
 - Firefox に最適化されたレイアウト計算を多く含むため、タブ関連の旧式拡張（例：[Tab Mix Plus](https://onemen.github.io/tabmixplus-docs)）、スクリプト（`*.uc.js`）、カスタマイズスタイル（`userChrome.css`）との競合によって、不具合が発生する可能性がある。
   <p>⚠️ 以下のインストール手順をよく読んで、慎重に進めてください。</p>
@@ -83,12 +83,12 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `dragStackPreceding` | <p>🔸 **ドラッグ時に前タブもスタック**</p><p>ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。</p> |
 | `dynamicMoveOverThreshold` | <p>🔸 **ドラッグ動作を滑らかに**</p><p>ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `browser.tabs.dragDrop.createGroup.enabled` が無効な場合は非対応。</p> |
 | `hideDragPreview` | <p>🔸 **ドラッグプレビューを非表示**</p><p>ドラッグ中にカーソルの傍に表示されるドラッグプレビューを非表示：</p><ul><li>`0`－常に表示</li><li>`1`－グループのみ</li><li>`2`－タブのみ</li><li>`3`－両方</li></ul> |
-| `hidePinnedDropIndicator` | <p id="hidePinnedDropIndicator">🔸 **ピン留めインジケーター非表示**</p><p>ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 と 140 では非対応。</p> |
+| `hidePinnedDropIndicator` | <p id="hidePinnedDropIndicator">🔸 **ピン留めインジケーター非表示**</p><p>ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 では非対応。</p> |
 | `hideScrollButtonsWhenDragging` | <p>🔸 **ドラッグ中スクロールボタン非表示**</p><p>ドラッグ中にスクロールボタンを視覚的に非表示。</p> |
 | `linesToDragScroll` | <p>🔸 **ドラッグでスクロール段数**</p><p>タブを上端・下端へドラッグしたときのスクロール段数。最小値：`1`。</p> |
 | `linesToScroll` | <p>🔸 **ホイールスクロール段数**</p><p>マウスホイール操作によるスクロール段数。最小値：`1`。</p> |
-| `previewPanelNoteEditable` | <p>🔸 **プレビュー内ノート編集**</p><p>Firefox のタブノート機能が有効になっている場合、タブプレビューパネルにカーソルを合わせると、内部のノートを編集可能。Firefox 115、140 と 160 以降では非対応。</p> |
-| `previewPanelShifted` | <p>🔸 **プレビューパネルをシフト**</p><p>多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 と 140 では非対応。</p><ul><li>`0`－無効</li><li>`1`－グループ用</li><li>`2`－タブ用</li><li>`3`－両方用</li></ul> |
+| `previewPanelNoteEditable` | <p>🔸 **プレビュー内ノート編集**</p><p>Firefox のタブノート機能が有効になっている場合、タブプレビューパネルにカーソルを合わせると、内部のノートを編集可能。Firefox 115 と 160 以降では非対応。</p> |
+| `previewPanelShifted` | <p>🔸 **プレビューパネルをシフト**</p><p>多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 では非対応。</p><ul><li>`0`－無効</li><li>`1`－グループ用</li><li>`2`－タブ用</li><li>`3`－両方用</li></ul> |
 | `previewPanelShiftedAlways` | <p>🔸 **常時プレビューパネルをシフト**</p><p>一段しかない場合でもプレビューパネルをシフト。</p> |
 | `scrollButtonsSize` | <p>🔸 **スクロールボタンの高さ**</p><p>ドラッグ中のスクロールボタンの高さ（ピクセル単位）。最小値：`0` だが、表示上は少なくとも 2 デバイスピクセルの高さになる。最大値はタブの高さの半分までに制限される。</p> |
 
@@ -103,7 +103,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `controlButtonsAutoHide` | <p>🔸 **操作ボタンを自動非表示**</p><p>ウィンドウ操作ボタンを非表示にし、カーソルが上部の角に入るか、または上部の角からウィンドウ外へ出た際に表示：</p><ul><li>`0`－無効</li><li>`1`－最大化ウィンドウのみ</li><li>`2`－すべてのウィンドウ</li></ul><p>Windows 7 および 8、またはタイトルバーが表示されている場合は利用不可。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
 | `controlButtonsAutoHideOnTriggerExit` | <p>🔸 **トリガー離脱時非表示**</p><p>最大化ウィンドウにおいて、カーソルがトリガー領域から離れると操作ボタンが非表示になり、`false` に設定されている場合はカーソルがボタンから完全に離れた時のみ非表示になる。Firefox 115 では非対応。</p> |
 | `controlButtonsAutoHideTriggerHeight` | <p>🔸 **操作ボタン表示のトリガー高さ**</p><p>操作ボタンの表示トリガー領域の高さ。</p> |
-| `hamburgerMenuOnTabBar` | <p>🔸 **スマートウィンドウ時のタブバー上メニューボタン**</p><p>`false` に設定すると、スマートウィンドウ使用時に Firefox のメニューボタン（☰）がナビゲーションツールバーに戻される。`tabsAtBottom` が有効な場合は強制的に無効化される。Firefox 115 と 140 では非対応。</p> |
+| `hamburgerMenuOnTabBar` | <p>🔸 **スマートウィンドウ時のタブバー上メニューボタン**</p><p>`false` に設定すると、スマートウィンドウ使用時に Firefox のメニューボタン（☰）がナビゲーションツールバーに戻される。`tabsAtBottom` が有効な場合は強制的に無効化される。Firefox 115 では非対応。</p> |
 | `hideAllTabs` | <p>🔸 **タブ一覧ボタンを非表示**</p><p>「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。</p> |
 | `hideEmptyPlaceholderWhenScrolling` | <p>🔸 **スクロール時の空白な浮動領域を非表示**</p><p>左上に何もない場合、タブバーがスクロール可能時にその空白な浮動領域を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。</p> |
 | `justifyCenter` | <p>🔸 **タブを中央揃え**</p><p>タブを水平方向に中央揃えする設定：</p><ul><li>`0`－無効</li><li>`1`－一段のみの場合</li><li>`2`－常に有効（タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある）</li></ul> |
@@ -176,11 +176,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `browser.compactmode.auto.threshold` | <p>🔸 **自動コンパクト閾値**</p><p>コンパクトモードでのタブの高さをウィンドウコンテンツの高さで割った比率がこの値を超える場合、コンパクトモードに切り替わる。Firefox 154 以降で Nova の自動ウィンドウ密度機能が有効なときのみ作用。</p><p>📝 高さ以外の要因でも切り替えが発生する。</p> |
 | `browser.nova.enabled` | <p>🔸 **Nova デザイン**</p><p>Nova デザインを適用。Firefox 152 以降で利用可能。</p> |
 | `browser.tabs.dragDrop.createGroup.delayMS` | <p>🔸 **ドラッグでグループ化遅延**</p><p>ドラッグしてグループ化を開始するま遅延時間（ミリ秒）。Firefox 115 では非対応。</p> |
-| `browser.tabs.dragDrop.createGroup.enabled` | <p>🔸 **ドラッグでグループ化**</p><p>タブを他のタブにドロップした際にグループ化。Firefox 140 では、この名前で新しい真偽設定を作成し切り替える。Firefox 115 では非対応。</p> |
+| `browser.tabs.dragDrop.createGroup.enabled` | <p>🔸 **ドラッグでグループ化**</p><p>タブを他のタブにドロップした際にグループ化。Firefox 115 では非対応。</p> |
 | `browser.tabs.dragDrop.dragToPin.enabled` | <p>🔸 **ドラッグでピン留め操作**</p><p>同じウィンドウにドラッグ＆ドロップによるピン留め・外すの動作を有効化。例：タブをピン留めされたタブにドロップするとピン留めされる。この名前で新しい真偽設定を作成し切り替える。</p> |
 | `browser.tabs.dragDrop.moveOverThresholdPercent` | <p>🔸 **ドラッグ移動の重なり閾値**</p><p>ドラッグして移動する際に必要な重なりの割合。`100 - n` がグループ化のしきい値を定義する。例えば値が `80` の場合、20% 以上重なればグループ化され、80% 以上重なれば移動される。値は `0`〜`100`。以下の場合は値が `50` に固定される：<ul><li>別の段へ移動する場合</li><li>Firefox 115 を使用している場合</li><li>ドラッグによるグループ化が無効化されている場合</li><li>`dynamicMoveOverThreshold` が有効な特定のシナリオ</li></ul></p> |
 | `browser.tabs.dragDrop.multiselectStacking` | <p id="multiselectStacking">🔸 **ドラッグ時のスタッキング**</p><p>タブのドラッグ時にスタッキング（積み重ね）を有効化。この名前で新しい真偽設定を作成し切り替える。</p> |
-| `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <p>🔸 **ピン留めインジケーター表示遅延**</p><p><a href="#hidePinnedDropIndicator">ピン留めインジケーター</a>を表示するま遅延時間（ミリ秒）。Firefox 115 と 140 では非対応。</p> |
+| `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <p>🔸 **ピン留めインジケーター表示遅延**</p><p><a href="#hidePinnedDropIndicator">ピン留めインジケーター</a>を表示するま遅延時間（ミリ秒）。Firefox 115 では非対応。</p> |
 | `browser.tabs.tabClipWidth` | <p>🔸 **閉じるボタン表示幅**</p><p>このサイズを超えるタブには閉じるボタンを表示。変更後、新しいウィンドウで有効になる。値が：<ul><li>`tabMaxWidth` 以上の場合－非選択タブには閉じるボタンを非表示</li><li>`browser.tabs.tabMinWidth` 未満の場合－非選択タブには常に閉じるボタンを表示</li></ul></p> |
 | `browser.tabs.tabMinWidth` | <p>🔸 **タブ最小幅**</p><p>通常タブの最小幅（周囲の余白を含む）を指定。最小値：`50`。</p> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | <p>🔸 **アクセントカラー適用**</p><p>Windows 10 のタブバーにシステムのアクセントカラーを適用。</p> |
@@ -190,6 +190,19 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)（右クリックして保存）
+
+[**Version 4.15**](https://github.com/Merci-chao/userChrome.js/raw/fc56af7ed06d1fcf65e3d674a99028f23bc64d1f/MultiTabRows@Merci.chao.uc.js)
+- 改善
+	- macOS に対応。
+	- Linux にてウィンドウ操作ボタンの左側表示に対応。
+- 改修
+	- Firefox 140 のサポートを終了。
+	- `previewPanelNoteEditable` は Firefox 160 以降で動作しなくなり、削除される。
+- 修正
+	- タブバーが上部にない場合、ウィンドウ操作ボタンの自動非表示が期待通りに動作しなかった。
+	- カスタムテーマで `themeGradientOpacity` が利用できなかった。
+	- タブバーが上部にある際、ウェブアプリでナビゲーションツールバーの背景色が正しく表示されなかった。
+	- サポートされていないアイテムをタブバーの上端または下端へドラッグした際にタブがスクロールしてしまった。
 
 [**Version 4.14**](https://github.com/Merci-chao/userChrome.js/raw/6ef3e1fc3e0eb55bdbd51c00336c054ce00820e9/MultiTabRows@Merci.chao.uc.js)
 - 改善
@@ -201,6 +214,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Linux で `hideDragPreview` が期待通りに動作しない問題。
 	- 軽微なレイアウト問題。
 
+<details>
+<summary>旧バージョン</summary><p></p>
+
 [**Version 4.13**](https://github.com/Merci-chao/userChrome.js/raw/cd493f61adfceab7f1e89da94aba821f34c8767f/MultiTabRows@Merci.chao.uc.js)
 - 変更
 	- Firefox 156 未満のバージョンでの Nova サポートを削除。
@@ -210,9 +226,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 修正
 	- 複数のタブを端に移動して上下スクロールしようとした際に発生する視覚的な不具合。
 	- `autoCollapse` 有効時にタブ展開後、予期せずスクロールする問題。
-
-<details>
-<summary>旧バージョン</summary><p></p>
 
 [**Version 4.12.2**](https://github.com/Merci-chao/userChrome.js/raw/8f2950b0c9a3011eeeea2745a8ba63c1b5af44a6/MultiTabRows@Merci.chao.uc.js)
 - ドラッグスクロールが正しく機能しなくなる回帰バグを修正。
