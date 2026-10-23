@@ -183,7 +183,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <p>🔸 **ピン留めインジケーター表示遅延**</p><p><a href="#hidePinnedDropIndicator">ピン留めインジケーター</a>を表示するま遅延時間（ミリ秒）。Firefox 115 では非対応。</p> |
 | `browser.tabs.tabClipWidth` | <p>🔸 **閉じるボタン表示幅**</p><p>このサイズを超えるタブには閉じるボタンを表示。変更後、新しいウィンドウで有効になる。値が：<ul><li>`tabMaxWidth` 以上の場合－非選択タブには閉じるボタンを非表示</li><li>`browser.tabs.tabMinWidth` 未満の場合－非選択タブには常に閉じるボタンを表示</li></ul></p> |
 | `browser.tabs.tabMinWidth` | <p>🔸 **タブ最小幅**</p><p>通常タブの最小幅（周囲の余白を含む）を指定。最小値：`50`。</p> |
-| `browser.theme.windows.accent-color-in-tabs.enabled` | <p>🔸 **アクセントカラー適用**</p><p>既定のテーマを使用している場合、タブバーにシステムのアクセントカラーを適用（Windows 10 および 11 のみ）</p> |
+| `browser.theme.windows.accent-color-in-tabs.enabled` | <p>🔸 **アクセントカラー適用**</p><p>既定のテーマを使用している場合、ツールバーにシステムのアクセントカラーを適用（Windows 10 および 11 のみ、タイトルバーへのアクセントカラー適用が有効な場合）。</p> |
 | `ui.prefersReducedMotion` | <p id="reducedMotion">🔸 **視覚効果を減らす**</p><p>大部分のアニメーションを無効化：</p><ul><li>`0`－しない</li><li>`1`－常に</li><li>未設定－システムに従う</li></ul> |
 | `widget.windows.mica` | <p>🔸 **Mica スタイル**</p><p>Windows 11 の透明スタイルを適用。</p> |
 | `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Mica 背景効果選択**</p><p>ウィンドウ背景効果の選択肢（Windows 11）：<ul><li>`0`－自動</li><li>`1`－Mica</li><li>`2`－Acrylic</li><li>`3`－Mica Alt</li></ul></p> |
