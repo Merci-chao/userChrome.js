@@ -3,8 +3,8 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.14
-// @compatibility  Firefox 115, 140, 153, 157-159
+// @version        4.15
+// @compatibility  Firefox 115, 153, 158-160
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
 // @supportURL     https://github.com/Merci-chao/userChrome.js/discussions/new/choose
@@ -23,8 +23,11 @@ const SCRIPT_NAME = "Multi Tab Rows";
 const SCRIPT_FILE_NAME = "MultiTabRows@Merci.chao.uc.js";
 
 try {
-const appVersion = parseInt(Services.appinfo.version);
+const FX_VER = parseInt(Services.appinfo.version);
 const {OS} = Services.appinfo;
+const IS_WINDOWS = OS == "WINNT";
+const IS_LINUX = OS == "Linux";
+const IS_MAC = OS == "Darwin";
 
 const DOCUMENT_GLOBAL = "documentGlobal" in document
 	? "documentGlobal" : "ownerGlobal";
@@ -87,7 +90,7 @@ class Rect {
 	/** @type {number} */
 	heightRoundingDiff;
 
-	/** @param {("start"|"y")} n */
+	/** @param {"start"|"y"} n */
 	#pos(n) {
 		let v = n == "y" ? this.#y : this.#start;
 		if (v == null)
@@ -137,7 +140,7 @@ class Rect {
 
 	/**
 	 * @param {Object} [param0={}]
-	 * @param {("x"|"y")} [param0.axis]
+	 * @param {"x"|"y"} [param0.axis]
 	 * @param {boolean} [param0.toEnd]
 	 */
 	collapse({axis = "x", toEnd = true} = {}) {
@@ -180,24 +183,24 @@ const prefBranchStr = "userChromeJS.multiTabRows@Merci.chao.";
 		if (compatible)
 			prefs.clearUserPref(compatibilityPref);
 		else {
-			let prefValue = version + "_" + appVersion;
+			let prefValue = version + "_" + FX_VER;
 			if (getPref(compatibilityPref) != prefValue) {
 				let [suggestedVer, maxSupportVer] = compatibility.at(-1);
 				maxSupportVer ||= suggestedVer;
 
 				let texts = l10n({
 					en: {
-						msg1: `You are currently using Firefox ${appVersion}, but this script only supports Firefox ${compatibility.map(r => r.join("–")).join(", ")}.`,
+						msg1: `You are currently using Firefox ${FX_VER}, but this script only supports Firefox ${compatibility.map(r => r.join("–")).join(", ")}.`,
 						msg2:
-							maxSupportVer < appVersion
+							maxSupportVer < FX_VER
 								? `To ensure compatibility, please reset “checkUpdate” to 1 to enable update checking, or manually update this script to the latest version.`
 								: `To ensure compatibility, please update Firefox to ${suggestedVer} or above.`,
 						checkMsg: "Don't show again",
 					},
 					ja: {
-						msg1: `現在使用しているバージョンは Firefox ${appVersion} ですが、このスクリプトは Firefox ${compatibility.map(r => r.join("～")).join("、")} のみをサポートしています。`,
+						msg1: `現在使用しているバージョンは Firefox ${FX_VER} ですが、このスクリプトは Firefox ${compatibility.map(r => r.join("～")).join("、")} のみをサポートしています。`,
 						msg2:
-							maxSupportVer < appVersion
+							maxSupportVer < FX_VER
 								? `互換性を確保するため、更新チェックを有効にするには「checkUpdate」を 1 にリセットするか、スクリプトを手動で最新バージョンに更新してください。`
 								: `互換性を確保するため、Firefox を ${suggestedVer} 以上に更新してください。`,
 						checkMsg: "今後表示しない",
@@ -272,18 +275,9 @@ const TEMP_SHOW_CONDITIONS = `:is(
 	[dragging],
 	:focus-within
 ):not([urlbar-view-open] #tabbrowser-tabs)`;
-const MENUBAR_AUTOHIDE = appVersion > 142 ? "[autohide]" : "[autohide=true]";
-const THEME_IMAGE_IN_TOOLBOX = appVersion > 152 ? "theme-image-in-toolbox" : "lwtheme-image-y-align";
-const SIDEBAR_CONTAINER = appVersion > 152 ? "#sidebar-container" : "#sidebar-main";
-
-const win7 = matchMedia("(-moz-platform: windows-win7)").matches;
-const win8 = matchMedia("(-moz-platform: windows-win8)").matches;
-const OVERLAY_SCROLLBARS = matchMedia("(-moz-overlay-scrollbars)").matches;
-const accentColorInTitlebarMQ = matchMedia("(-moz-windows-accent-color-in-titlebar)");
-const micaMQ = matchMedia("(-moz-windows-mica)");
-const novaMQ = matchMedia(`-moz-pref("browser.nova.enabled")`);
-const colorSchemeMQ = matchMedia("(prefers-color-scheme: dark)");
-const nativeThemeMQ = matchMedia("(-moz-native-theme)");
+const MENUBAR_AUTOHIDE = FX_VER > 142 ? "[autohide]" : "[autohide=true]";
+const THEME_IMAGE_IN_TOOLBOX = FX_VER > 152 ? "theme-image-in-toolbox" : "lwtheme-image-y-align";
+const SIDEBAR_CONTAINER = FX_VER > 152 ? "#sidebar-container" : "#sidebar-main";
 
 let micaEnabled = false,
 	mica = false,
@@ -302,7 +296,7 @@ let micaEnabled = false,
 
 const lastLayoutData = {};
 
-const CUSTOM_TITLEBAR = appVersion > 134 ? "customtitlebar" : "tabsintitlebar";
+const CUSTOM_TITLEBAR = FX_VER > 134 ? "customtitlebar" : "tabsintitlebar";
 //should be selectors directly under #mainPopupSet and splittable by comma
 const TABS_RELATED_PANELS = `
 	#tab-preview-panel,
@@ -317,27 +311,28 @@ const HAS_TAB_GROUP = "tabGroups" in gBrowser;
 const HAS_SPLIT_VIEW = "addTabSplitView" in gBrowser;
 const HAS_SWITCH_BY_SCROLLING_PROP = "switchByScrolling" in tabContainer;
 const HAS_TAB_NOTE = "tabNoteMenu" in gBrowser;
-const HAS_TAB_GROUP_PREVIEW = appVersion > 143;
-const HAS_TAB_STACKING = appVersion > 148 || "TabStacking" in window;
-const HAS_AI_WINDOW = appVersion > 148;
-const HAS_AUTO_UI_DENSITY = appVersion > 153;
-const HAS_NOVA = appVersion > 151;
-const AI_SWITCHER_FIXED = appVersion < 154;
-const BACKGROUND_ON_BODY = appVersion > 149;
-const NO_POST_TABS_SPACE = appVersion > 154;
-const URLBAR_POPOVER = appVersion < 157;
+const HAS_TAB_GROUP_PREVIEW = FX_VER > 143;
+const HAS_TAB_STACKING = FX_VER > 148 || "TabStacking" in window;
+const HAS_AI_WINDOW = FX_VER > 148;
+const HAS_AUTO_UI_DENSITY = FX_VER > 153;
+const HAS_NOVA = FX_VER > 151;
+const AI_SWITCHER_FIXED = FX_VER < 154;
+const BACKGROUND_ON_BODY = FX_VER > 149;
+const NO_POST_TABS_SPACE = FX_VER > 154;
+const URLBAR_POPOVER = FX_VER < 157;
+const NOTE_PREF_PROP_ACCESSIBLE = FX_VER < 160;
 
 const FOR_GROUP = 1;
 const FOR_TAB = 2;
 
 const __TAB_MARGIN_OVERFLOW_CLIP =
-	appVersion > 157 ? "--tab-margin-overflow-clip" : "--tab-overflow-clip-margin";
+	FX_VER > 157 ? "--tab-margin-overflow-clip" : "--tab-overflow-clip-margin";
 const __TAB_MARGIN_BLOCK =
-	appVersion > 153 ? "--tab-margin-block" : "--tab-block-margin";
+	FX_VER > 153 ? "--tab-margin-block" : "--tab-block-margin";
 const __TAB_PADDING_INLINE =
-	appVersion > 157
+	FX_VER > 157
 		? "--tab-padding-inline"
-		: appVersion > 131 ? "--tab-inline-padding" : "--inline-tab-padding";
+		: FX_VER > 131 ? "--tab-inline-padding" : "--inline-tab-padding";
 const TAB_CONTENT_HEIGHT_NOVA = [32, 28, 41];
 const TAB_INLINE_PADDING_NOVA = [8, 6, 8];
 const TAB_BLOCK_MARGIN_NOVA = [6, 4, 6];
@@ -360,6 +355,21 @@ const [
 		);
 })();
 
+const DUMMY_MQ = {matches: false};
+const WIN7 = matchMedia("(-moz-platform: windows-win7)").matches;
+const WIN8 = matchMedia("(-moz-platform: windows-win8)").matches;
+const overlayScrollbarsMQ = matchMedia("(-moz-overlay-scrollbars)");
+const accentColorInTitlebarMQ = IS_WINDOWS && !WIN7 && !WIN8
+	? matchMedia("(-moz-windows-accent-color-in-titlebar)") : DUMMY_MQ;
+const micaMQ = IS_WINDOWS && !WIN7 && !WIN8
+	? matchMedia("(-moz-windows-mica)") : DUMMY_MQ;
+const gtkCtrBtnsReversedMQ = IS_LINUX
+	? matchMedia("(-moz-gtk-csd-reversed-placement)") : DUMMY_MQ;
+const novaMQ = HAS_NOVA ? matchMedia(`-moz-pref("browser.nova.enabled")`) : DUMMY_MQ;
+const colorSchemeMQ = matchMedia("(prefers-color-scheme: dark)");
+const nativeThemeMQ = matchMedia("(-moz-native-theme)");
+const reduceMotionMQ = matchMedia("(prefers-reduced-motion: reduce)");
+
 /** @type {(Console|null)} */
 let console;
 let debug = false;
@@ -373,11 +383,11 @@ if (NO_POST_TABS_SPACE) {
 /** @type {Object} */
 let prefs;
 function createDefaultPrefs() {
-	const allowTransparent = appVersion > 130 || win7 || win8;
+	const allowTransparent = FX_VER > 130 || WIN7 || WIN8;
 	const shouldClip =
 		getPref(prefBranchStr + "nativeWindowStyle") ||
 		(
-			win7 || win8
+			WIN7 || WIN8
 				? defaultTheme
 				: mica && !!getPref("browser.tabs.inTitlebar")
 		);
@@ -392,9 +402,9 @@ function createDefaultPrefs() {
 		spaceAfterTabs: NO_POST_TABS_SPACE ? 0 : 40,
 		spaceAfterTabsOnMaximizedWindow: NO_POST_TABS_SPACE ? 0 : 40,
 		spaceBeforeTabs: 40,
-		spaceBeforeTabsOnMaximizedWindow: 0,
+		spaceBeforeTabsOnMaximizedWindow: IS_MAC || gtkCtrBtnsReversedMQ.matches ? 40 : 0,
 		hideEmptyPlaceholderWhenScrolling: true,
-		gapAfterPinned: appVersion < 143 ? 12 : 0,
+		gapAfterPinned: FX_VER < 143 ? 12 : 0,
 		tabsbarItemsAlign: "start",
 		linesToScroll: 1,
 		linesToDragScroll: 1,
@@ -404,9 +414,9 @@ function createDefaultPrefs() {
 		tabsUnderControlButtons: 2,
 		debugMode: 0,
 		floatingBackdropClip: shouldClip,
-		floatingBackdropBlurriness: appVersion > 116 ? 5 : null,
-		floatingBackdropOpacity: appVersion < 117 || shouldClip ? 100 : 50,
-		compactControlButtons: win7 || win8 ? null : false,
+		floatingBackdropBlurriness: FX_VER > 116 ? 5 : null,
+		floatingBackdropOpacity: FX_VER < 117 || shouldClip ? 100 : 50,
+		compactControlButtons: WIN7 || WIN8 ? null : false,
 		hideAllTabs: $("#alltabs-button")?.getAttribute("removable") == "false" ? false : null,
 		checkUpdate: 1,
 		checkUpdateFrequency: 1,
@@ -422,8 +432,8 @@ function createDefaultPrefs() {
 		autoCollapse: false,
 		autoCollapseDelayExpanding: 100,
 		autoCollapseDelayCollapsing: 200,
-		hideDragPreview: OS != "Darwin" ? FOR_GROUP : 0,
-		tabsAtBottom: appVersion > 132 ? 0 : null,
+		hideDragPreview: FOR_GROUP,
+		tabsAtBottom: FX_VER > 132 ? 0 : null,
 		tabMaxWidth: 225,
 		hideScrollButtonsWhenDragging: false,
 		scrollButtonsSize: 8,
@@ -444,7 +454,7 @@ function createDefaultPrefs() {
 		tabHorizontalPaddingCompact: HAS_AUTO_UI_DENSITY ? TAB_INLINE_PADDING_NOVA[1] : null,
 		tabHorizontalMargin: TAB_INLINE_MARGIN,
 		tabCornerRadius: -1,
-		previewPanelNoteEditable: HAS_TAB_NOTE ? true : null,
+		previewPanelNoteEditable: HAS_TAB_NOTE && NOTE_PREF_PROP_ACCESSIBLE ? true : null,
 		previewPanelShifted: HAS_TAB_GROUP_PREVIEW ? FOR_TAB | FOR_GROUP : null,
 		previewPanelShiftedAlways: HAS_TAB_GROUP_PREVIEW ? false : null,
 		newTabButtonAfterLastTab: true,
@@ -455,9 +465,9 @@ function createDefaultPrefs() {
 		smartWindowButtonOnNavBar: AI_SWITCHER_FIXED && HAS_AI_WINDOW ? false : null,
 		showScrollShadow: true,
 		themeImageSize: bgImgHasRepeat ? -1 : 0,
-		controlButtonsAutoHide: win7 || win8 ? null : 0,
-		controlButtonsAutoHideTriggerHeight: win7 || win8 ? null : 2,
-		controlButtonsAutoHideOnTriggerExit: appVersion > 120 ? OS == "WINNT" && !screen.availTop : null,
+		controlButtonsAutoHide: WIN7 || WIN8 ? null : 0,
+		controlButtonsAutoHideTriggerHeight: WIN7 || WIN8 ? null : 2,
+		controlButtonsAutoHideOnTriggerExit: FX_VER > 120 ? IS_WINDOWS && !screen.availTop : null,
 		hamburgerMenuOnTabBar: HAS_AI_WINDOW ? true : null,
 	};
 }
@@ -529,6 +539,8 @@ const getPrefs = (branch, data) => Object.fromEntries(
 			prefs.setBoolPref(prefBranchStr + "lastRowTabsFlexible", v),
 
 		...(!AI_SWITCHER_FIXED && {smartWindowButtonOnNavBar: null}),
+
+		...(!NOTE_PREF_PROP_ACCESSIBLE && {previewPanelNoteEditable: null}),
 	})) {
 		name = prefBranchStr + name;
 		if (Services.prefs.prefHasUserValue(name)) {
@@ -556,7 +568,6 @@ let observedBrowserPrefs = [
 	"layout.css.has-selector.enabled",
 	"sidebar.position_start",
 	"toolkit.tabbox.switchByScrolling",
-	"ui.prefersReducedMotion",
 	...Object.keys(PREFS_TO_PROPS),
 ];
 let observedNotifications = [
@@ -567,13 +578,16 @@ for (let p of observedBrowserPrefs)
 	Services.prefs.addObserver(p, onPrefChange);
 for (let p of observedNotifications)
 	Services.obs.addObserver(onNofitied, p);
+overlayScrollbarsMQ.onchange = () => onPrefChange(null, null, "-moz-overlay-scrollbars");
 accentColorInTitlebarMQ.onchange = () => onPrefChange(null, null, "-moz-windows-accent-color-in-titlebar");
 novaMQ.onchange = () => onPrefChange(null, null, "browser.nova.enabled");
 micaMQ.onchange = () => onPrefChange(null, null, "widget.windows.mica");
 nativeThemeMQ.onchange = () => onPrefChange(null, null, "browser.theme.native-theme");
+reduceMotionMQ.onchange = () => onPrefChange(null, null, "ui.prefersReducedMotion");
 colorSchemeMQ.onchange = () =>
 	prefs.themeGradientOpacity < 100 &&
 	onPrefChange(null, null, "browser.theme.toolbar-theme");
+gtkCtrBtnsReversedMQ.onchange = () => onPrefChange(null, null, "-moz-gtk-csd-reversed-placement");
 
 addEventListener("unload", e => {
 	if (e.target != document) return;
@@ -611,16 +625,19 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 			? prefs.tabsbarItemsAlign.toLowerCase()
 			: "start";
 
+	if (!NOTE_PREF_PROP_ACCESSIBLE)
+		prefs.previewPanelNoteEditable = true;
+
 	function clamp(props) {
 		for (let [p, [min, max]] of Object.entries(props))
 			if (p in prefs)
 				prefs[p] = Math.min(Math.max(prefs[p], min), max);
 	}
 
-	const showMenubar = !!$(`#toolbar-menubar:not(${MENUBAR_AUTOHIDE})`);
+	const showMenubar = !!$(`#toolbar-menubar:not(${MENUBAR_AUTOHIDE}, [collapsed])`);
 	const allWindowsHaveTitleOrMenuBar =
 		!getPref("browser.tabs.inTitlebar") ||
-		!("TaskbarTabsChrome" in window) && showMenubar;
+		!(IS_WINDOWS && "TaskbarTabsChrome" in window) && showMenubar;
 	const moveOverThreshold = getPref("browser.tabs.dragDrop.moveOverThresholdPercent", 0);
 	const singleRow = prefs.maxTabRows < 2;
 	const supportsHas = getPref("layout.css.has-selector.enabled", true, true);
@@ -698,7 +715,7 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 	lock("lastRowTabsFlexible", prefs.justifyCenter > 1);
 	lock("previewPanelShiftedAlways", !prefs.previewPanelShifted);
 	lock("animateTabMoveShiftKeyToPause", alwaysIndMove);
-	lock("animationDuration", getPref("ui.prefersReducedMotion") == 1);
+	lock("animationDuration", reduceMotionMQ.matches);
 	lock("hamburgerMenuOnTabBar", tabsAtBottom || noSmartWindow, false);
 	lock(
 		[
@@ -717,7 +734,7 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 	prefs.hamburgerMenuOnTabBar &&= !PrivateBrowsingUtils.isWindowPrivate(window);
 
 	/**
-	 * @param {string|Array<string>} name
+	 * @param {string|string[]} name
 	 * @param {boolean} toLock
 	 * @param {*} [defaultValue]
 	 */
@@ -726,7 +743,9 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 			if (Array.isArray(name))
 				name.forEach(n => lock(n, true, defaultValue));
 			else if (name in prefs) {
-				Services.prefs.lockPref(prefBranchStr + name);
+				try {
+					Services.prefs.lockPref(prefBranchStr + name);
+				} catch (e) {e}
 				prefs[name] = defaultValue ?? defaultPrefs[name];
 			}
 	}
@@ -831,6 +850,7 @@ async function onPrefChange(pref, type, name) {
 			tabContainer.updateLayout();
 			scrollbox.dispatchEvent(new Event("overflow"));
 			break;
+		case "-moz-overlay-scrollbars":
 		case "thinScrollbar":
 			setStyle();
 			updateScrollbarWidth();
@@ -1125,7 +1145,7 @@ console?.time("setup");
 const [
 	DRAGOVER_GROUPTARGET,          MOVINGTAB_GROUP,             CLEAR_DRAG_OVER_GROUPING_TIMER,
 	TRIGGER_DRAG_OVER_GROUPING,    DRAG_OVER_GROUPING_TIMER,
-] = appVersion > 142 ? [
+] = FX_VER > 142 ? [
 	"dragover-groupTarget",       "movingtab-group",           "_clearDragOverGroupingTimer",
 	"triggerDragOverGrouping",    "_dragOverGroupingTimer",
 ] : [
@@ -1215,7 +1235,7 @@ function setStyle() {
 root.setAttribute("multitabrows-applying-style", "");
 
 const __TAB_ICON_MARGIN_INLINE_END =
-	appVersion > 157 ? "--tab-icon-margin-inline-end" : "--tab-icon-end-margin";
+	FX_VER > 157 ? "--tab-icon-margin-inline-end" : "--tab-icon-end-margin";
 
 //fx 115 doesn't support CSS nesting so use some variables to save code
 let _, __, context, condition;
@@ -1228,8 +1248,8 @@ const visible = `:not([hidden], [closing], [stacking])`;
 const adjacentNewTab = "#tabbrowser-tabs[hasadjacentnewtabbutton] ~ #new-tab-button";
 const dropOnItems = ":is(#home-button, #downloads-button, #bookmarks-menu-button, #personal-bookmarks, #bookmarksMenu):not([moving-tabgroup] *)";
 const dropOnItemsExt = "#TabsToolbar[tabs-dragging-ext] :is(#new-tab-button, #new-window-button)";
-const shownMenubar = `#toolbar-menubar:not(:root[inFullscreen] *):is(:not([inactive]), :not(${MENUBAR_AUTOHIDE}))`;
-const hiddenMenubar = `#toolbar-menubar:is(${MENUBAR_AUTOHIDE}[inactive], :root[inFullscreen] *)`;
+const shownMenubar = `#toolbar-menubar:not(:root[inFullscreen] *, [collapsed]):is(:not([inactive]), :not(${MENUBAR_AUTOHIDE}))`;
+const hiddenMenubar = `#toolbar-menubar:is(${MENUBAR_AUTOHIDE}[inactive], :root[inFullscreen] *, [collapsed])`;
 const topMostTabsBar = prefs.tabsAtBottom
 	? "#TabsToolbar:not([id])"
 	: `:root[${CUSTOM_TITLEBAR}] ${hiddenMenubar} ~ #TabsToolbar`;
@@ -1258,9 +1278,9 @@ const topPlaceholdersWithSidebarAbove = `
 		#tabs-placeholder-post-tabs
 `;
 const aiHideNavbar =
-	appVersion > 155
+	FX_VER > 155
 		? "[aiwindow-first-run]"
-		: appVersion > 152
+		: FX_VER > 152
 			? ":is([aiwindow-new-window], [aiwindow-first-run])"
 			: "[aiwindow-immersive-view]";
 const placeholderBorderColor =
@@ -1271,7 +1291,7 @@ const placeholderBorderColor =
 /** @param {string} size */
 const borderSnapping = size => CSS.supports("flex", "round(1)")
 	//https://drafts.csswg.org/css-values-4/#snap-a-length-as-a-border-width
-	? size == "1px" && appVersion > 140
+	? size == "1px" && FX_VER > 140
 		? `var(--snapped-border-width)`
 		: /*js*/`calc(
 			max( /*at least 1 device px, or 0 if size <= 0*/
@@ -1309,7 +1329,7 @@ const colorToRGBA = (color, colorScheme) => {
 
 /**
  * @param {CSSStyleDeclaration} cs
- * @param {string|Array<string>} property
+ * @param {string|string[]} property
  */
 const getColor = (cs, property) => {
 	for (let p of [property].flat()) {
@@ -1328,7 +1348,7 @@ const outlineOffsetSnapping = size =>
 const rootCS = getComputedStyle(root);
 
 let controlBoxInfo;
-if (win7 || win8) {
+if (WIN7 || WIN8) {
 	//there are two buttonbox, get the visible one
 	let box = $( `toolbar:not(${MENUBAR_AUTOHIDE}) .titlebar-buttonbox`, gNavToolbox);
 	let width, height;
@@ -1359,7 +1379,7 @@ if (win7 || win8) {
 /*cannot use any nesting here since the properties are also applied on .tabs-placeholder::before*/
 const themeBackgroundStyle = `
 	background-image: var(--multirows-toolbox-background-image);
-	${!nova && !((win7 || win8) && defaultTheme) ? `
+	${!nova && !((WIN7 || WIN8) && defaultTheme) ? `
 		background-color: var(--multirows-toolbox-background-color);
 	` : ``}
 	background-size: var(--multirows-background-size);
@@ -1373,12 +1393,10 @@ const layeredBackgroundSytle = `
 	--chrome-block-background-image: var(--multirows-toolbox-background-image);
 	--chrome-block-background-color: transparent;
 	background-image:
-		/*ESR140*/
-		/*image() -> linear-gradient()*/
-		linear-gradient(var(--chrome-block-toolbar-color)),
-		linear-gradient(var(--chrome-block-foreground-color)),
+		image(var(--chrome-block-toolbar-color)),
+		image(var(--chrome-block-foreground-color)),
 		var(--chrome-block-background-image),
-		linear-gradient(var(--chrome-block-background-color));
+		image(var(--chrome-block-background-color));
 	background-color: var(--multirows-toolbox-background-color);
 	background-repeat:
 		repeat,
@@ -1598,7 +1616,7 @@ ${
 	`).join("\n")
 }
 
-${!win7 && !win8 ? /*css*/`
+${!WIN7 && !WIN8 ? /*css*/`
 	/*make the title bar able to be narrower on 115*/
 	:root[tabsintitlebar][sizemode] #titlebar {
 		appearance: none;
@@ -1657,12 +1675,12 @@ ${_="#TabsToolbar"} {
 	--tabs-placeholder-blurriness: ${mica || prefs.nativeWindowStyle ? 0 : prefs.floatingBackdropBlurriness}px;
 	--tabs-placeholder-background-color:
 		var(${
-			appVersion == 115
+			FX_VER == 115
 				? (
-					win7 && defaultDarkTheme
+					WIN7 && defaultDarkTheme
 						? "--tab-icon-overlay-fill"
 						: (
-							win8 && defaultTheme
+							WIN8 && defaultTheme
 								? "--tab-selected-bgcolor, var(--lwt-selected-tab-background-color)"
 								: "--lwt-accent-color"
 						)
@@ -1683,7 +1701,7 @@ ${_="#TabsToolbar"} {
 
 	${cssImgTheme ? /*css*/`
 		:root:not(
-			${appVersion < 154 ? `
+			${FX_VER < 154 ? `
 				[privatebrowsingmode=temporary],
 			` : ``}
 			[customtitlebar],
@@ -1795,14 +1813,14 @@ ${prefs.controlButtonsAutoHide ? /*css*/`
 			);
 		position: absolute;
 		top: 0;
-		inset-inline-${OS == "Darwin" ? "start" : "end"}: 0;
+		inset-inline-${isControlButtonsOnStart() ? "start" : "end"}: 0;
 		box-shadow:
 			var(
 				${nova ? "--box-shadow-level-1" : "--tab-box-shadow-selected"},
 				var(--tab-selected-shadow, 0 0 4px rgba(0,0,0,.4))
 			);
 		border: var(--tabstrip-inner-border, 1px solid color-mix(in srgb, currentColor 25%, transparent));
-		border-inline-${OS == "Darwin" ? "start" : "end"}: 0;
+		border-inline-${isControlButtonsOnStart() ? "start" : "end"}: 0;
 		border-top: 0;
 		transition: background-color var(--inactive-window-transition);
 		z-index: calc(1/0) !important;
@@ -1843,7 +1861,9 @@ ${prefs.controlButtonsAutoHide ? /*css*/`
 			Using opacity may block window dragging on the placeholder underneath,
 			whereas filter does not seem to have this problem.
 		*/
-		filter: opacity(0);
+		${!IS_MAC ? `
+			filter: opacity(0);
+		` : ``}
 		transition:
 			filter var(--tabs-item-opacity-transition),
 			background-color var(--inactive-window-transition),
@@ -1873,15 +1893,25 @@ ${prefs.controlButtonsAutoHide ? /*css*/`
 		}
 	` : ``}
 
-	/*prevent the snap layouts menu from showing, the buttons need to be inside the view*/
-	${context} ${__}:not(:hover, #navigator-toolbox[temp-show-control-buttons] *)
-		.titlebar-button
-	{
-		bottom: calc(100% - 1px);
-		transition: bottom 0s var(--tabs-item-opacity-transition);
-	}
+	${IS_MAC ? /*css*/`
+		${context} ${__}:not(:hover, #navigator-toolbox[temp-show-control-buttons] *)
+			.titlebar-buttonbox
+		{
+			opacity: 0;
+			transition: opacity 0s var(--tabs-item-opacity-transition);
+		}
 
-	${OS == "WINNT" ? /*css*/`
+	` : /*css*/`
+		/*prevent the snap layouts menu from showing, the buttons need to be inside the view*/
+		${context} ${__}:not(:hover, #navigator-toolbox[temp-show-control-buttons] *)
+			.titlebar-button
+		{
+			bottom: calc(100% - 1px);
+			transition: bottom 0s var(--tabs-item-opacity-transition);
+		}
+	`}
+
+	${IS_WINDOWS ? /*css*/`
 		:root[sizemode=normal] #navigator-toolbox .titlebar-buttonbox-container {
 			--window-border: ${mozInnerScreenX - screenX}px;
 		}
@@ -1904,14 +1934,14 @@ ${prefs.controlButtonsAutoHide ? /*css*/`
 	`}
 ` : ``}
 
-${win7 || win8 ? /*css*/`
+${WIN7 || WIN8 ? /*css*/`
 	/*refer to browser-aero.css and browser-aero.css*/
 	@media (-moz-windows-classic: 0) {
 		${_=":root[sizemode=normal] " + hiddenMenubar + " ~ #TabsToolbar"} {
 			--tabs-margin-top: 1px;
 		}
 	}
-	${win7 ? /*css*/`
+	${WIN7 ? /*css*/`
 		${_} {
 			--tabs-padding-top: 4px;
 		}
@@ -1940,16 +1970,22 @@ ${prefs.spaceBeforeTabsOnMaximizedWindow ? /*css*/`
 	}
 ` : ""}
 
-.titlebar-spacer[type=post-tabs] {
+${_=".titlebar-spacer[type=post-tabs]"} {
 	width: var(--space-after-tabs);
 }
+
+${gtkCtrBtnsReversedMQ.matches ? /*css*/`
+	:root[sizemode=maximized][${CUSTOM_TITLEBAR}] ${_} {
+		display: flex;
+	}
+` : ``}
 
 /*prevent from covering the scrollbar when the control buttons are hidden*/
 #TabsToolbar :is(toolbarspring, .titlebar-spacer) {
 	pointer-events: none;
 }
 
-${prefs.compactControlButtons || win7 || win8 ? /*css*/`
+${prefs.compactControlButtons || WIN7 || WIN8 ? /*css*/`
 	.titlebar-buttonbox-container {
 		align-self: start !important;
 		height: auto !important;
@@ -2008,10 +2044,10 @@ ${_="#tabbrowser-tabs[orient]"} {
 	--group-last-tab-line-indent:
 		${nova
 			? "calc(var(--tab-margin-overflow-clip) * -1)"
-			: appVersion > 144 ? "calc(var(--tab-border-radius) / 2)" : "0px"};
+			: FX_VER > 144 ? "calc(var(--tab-border-radius) / 2)" : "0px"};
 	--calculated-tab-min-width: 0px;
 	--tab-max-width: max(${prefs.tabMaxWidth}px, var(--calculated-tab-min-width));
-	--splitview-extra-padding-inline: ${appVersion > 157 ? `0px` : `var(--split-view-tab-padding-inline)`};
+	--splitview-extra-padding-inline: ${FX_VER > 157 ? `0px` : `var(--split-view-tab-padding-inline)`};
 	--splitview-min-width:
 		calc(
 			(
@@ -2054,7 +2090,7 @@ ${_}[movingtab] {
 
 ${preTabsButtons} ~ ${_} {
 	--tabstrip-padding: 2px;
-	${appVersion > 150 ? /*css*/`
+	${FX_VER > 150 ? /*css*/`
 		/* add back the traditional border which moved to ::before https://bugzil.la/2023473 */
 		border-inline-start: var(--tabstrip-inner-border);
 		margin-inline-start: var(--tabstrip-padding);
@@ -2266,7 +2302,7 @@ ${_="#tabbrowser-arrowscrollbox[id][id]"} {
 			${
 				!CSS.supports("color", prefs.scrollbarTrackColor)
 					? (
-						win7 && defaultDarkTheme
+						WIN7 && defaultDarkTheme
 							? "var(--tab-icon-overlay-fill)"
 							: "var(--toolbar-background-color, var(--toolbar-bgcolor))"
 					)
@@ -2362,7 +2398,7 @@ ${
 		);
 	translate: -100% -50%;
 	background:
-		url(chrome://${appVersion < 137 ? "activity-stream" : "newtab"}/content/data/content/assets/glyph-pin-16.svg)
+		url(chrome://${FX_VER < 137 ? "activity-stream" : "newtab"}/content/data/content/assets/glyph-pin-16.svg)
 		center / contain;
 }
 
@@ -2374,7 +2410,7 @@ ${
 			+ var(--tab-padding-inline)
 		);
 	translate: 0 -50%;
-	background-image: url(chrome://${appVersion < 137 ? "activity-stream" : "newtab"}/content/data/content/assets/glyph-unpin-16.svg);
+	background-image: url(chrome://${FX_VER < 137 ? "activity-stream" : "newtab"}/content/data/content/assets/glyph-unpin-16.svg);
 }
 
 /*use the start and end indicators for the hint of left and right edges when moving tabs*/
@@ -2409,7 +2445,7 @@ ${_}[overflowing]::part(overflow-end-indicator) {
 	inset-inline-end: var(--tabs-scrollbar-width);
 }
 
-@media ${win7 || win8 || prefs.tabsUnderControlButtons < 2 || !OVERLAY_SCROLLBARS && !nova
+@media ${WIN7 || WIN8 || prefs.tabsUnderControlButtons < 2 || !overlayScrollbarsMQ.matches && !nova
 	? "screen" : singleRow
 } {
 	/*
@@ -2417,7 +2453,7 @@ ${_}[overflowing]::part(overflow-end-indicator) {
 		TabsToolbar to ensure the indicators show after [moving-single-tab] is set properly
 	*/
 	${context = `#TabsToolbar[movingtab] #tabbrowser-tabs:is(
-		${prefs.tabsUnderControlButtons && !win7 && !win8 ? "" : "[multirows],"}
+		${prefs.tabsUnderControlButtons && !WIN7 && !WIN8 ? "" : "[multirows],"}
 		[overflow]
 	):not(
 		[moving-positioned-tab],
@@ -2480,7 +2516,7 @@ ${_}::part(scrollbutton-down-icon) {
 }
 
 ${_}::part(scrollbutton-down-icon) {
-	${appVersion == 115 && prefs.scrollButtonsSize < 8 ? `
+	${FX_VER == 115 && prefs.scrollButtonsSize < 8 ? `
 		align-self: end;
 	` : `
 		position: absolute;
@@ -2970,7 +3006,7 @@ ${!prefs.lastRowTabsFlexible ? /*css*/`
 	z-index: 1;
 }
 
-${appVersion < 132 ? /*css*/`
+${FX_VER < 132 ? /*css*/`
 	${_} {
 		padding: 0 var(--tab-margin-overflow-clip);
 	}
@@ -3033,7 +3069,7 @@ ${__} tab {
 		));
 }
 
-${appVersion < 134 ? /*css*/`
+${FX_VER < 134 ? /*css*/`
 	${_}[image] > .tab-stack > .tab-content:is([attention], [titlechanged]):not([pinned], [selected]) {
 		background-position-x: ${START} calc(var(--tab-padding-inline) + 6px);
 	}
@@ -3055,7 +3091,7 @@ ${context = `
 
 	${nova ? `
 		inset-block-start: var(--tab-context-line-block-offset);
-	` : appVersion < 145 ? `
+	` : FX_VER < 145 ? `
 		inset-block-start:
 			calc(
 				clamp(
@@ -3096,7 +3132,7 @@ ${nova ? /*css*/`
 
 ${prefs.pinnedTabsFlexWidth ? /*css*/`
 	${_}[pinned] {
-		--tab-label-mask-size: ${appVersion < 130 ? 2 : 1}em !important;
+		--tab-label-mask-size: ${FX_VER < 130 ? 2 : 1}em !important;
 		flex: 100 100;
 	}
 
@@ -3257,7 +3293,7 @@ ${prefs.tabContentHeight <= TAB_CONTENT_HEIGHT[1] ? /*css*/`
 	height: min(var(--tab-content-button-size, 24px), var(--tab-min-height));
 }
 
-${appVersion > 136 ? /*css*/`
+${FX_VER > 136 ? /*css*/`
 	.tab-icon-overlay,
 	.tab-note-icon-overlay {
 		/* needs follow-up for https://bugzil.la/2039774 */
@@ -3587,7 +3623,7 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-split-view-wrapper {
 	}
 }
 
-${prefs.pinnedTabsFlexWidth && appVersion < 139 ? ["ltr", "rtl"].map(dir => /*css*/`
+${prefs.pinnedTabsFlexWidth && FX_VER < 139 ? ["ltr", "rtl"].map(dir => /*css*/`
 	${__=".tab-label-container[textoverflow]"}[labeldirection=${dir}],
 	${__}:not([labeldirection]):-moz-locale-dir(${dir}) {
 		direction: ${dir};
@@ -4012,12 +4048,12 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 
 	${_}:-moz-window-inactive {
 		--tabs-placeholder-background-color: var(${
-			appVersion == 115
+			FX_VER == 115
 				? (
-					win7 && defaultDarkTheme
+					WIN7 && defaultDarkTheme
 						? "--tab-icon-overlay-fill"
 						: (
-							win8 && defaultTheme
+							WIN8 && defaultTheme
 								? "--tab-selected-bgcolor, var(--lwt-selected-tab-background-color)"
 								: "--lwt-accent-color-inactive, var(--lwt-accent-color)"
 						)
@@ -4167,7 +4203,7 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 			}
 		}
 
-		${win7 || win8 ? /*css*/`
+		${WIN7 || WIN8 ? /*css*/`
 			/*buggy when applying transition*/
 			${context} .titlebar-buttonbox-container {
 				transition: none !important;
@@ -4186,7 +4222,7 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 		}
 	}
 
-	${win7 || win8 ? /*css*/`
+	${WIN7 || WIN8 ? /*css*/`
 		${_=topMostTabsBar} {
 			--control-box-reserved-height: ${controlBoxInfo.normal.height}px;
 			--control-box-reserved-width: ${controlBoxInfo.normal.width}px;
@@ -4202,7 +4238,7 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 				--control-box-margin-end: 3px;
 			}
 
-			${win7 ? /*css*/`
+			${WIN7 ? /*css*/`
 				${_} {
 					--control-box-radius-start: 3px;
 					--control-box-radius-end: 1px;
@@ -4327,7 +4363,7 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 						),
 					].join()};
 			}
-		` : win7 || win8 ? /*css*/`
+		` : WIN7 || WIN8 ? /*css*/`
 			/*Clip the control buttons*/
 			${topMostTabsBar}${showPlaceHolder}:not(${tbDraggingHidePlaceHolder})
 				#tabbrowser-tabs[overflow]
@@ -4355,7 +4391,7 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 		` : ``}
 	}
 
-	${win7 || win8 ? /*css*/`
+	${WIN7 || WIN8 ? /*css*/`
 		/*Clip the scrollbar when dragging*/
 		${topMostTabsBar}${showPlaceHolder}${tbDraggingHidePlaceHolder}${defaultTheme ? "" : "[tabs-scrolledtostart]"}
 			#tabbrowser-tabs[overflow]
@@ -4396,7 +4432,7 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 					])};
 			}
 
-			${win8 ? /*css*/`
+			${WIN8 ? /*css*/`
 				#TabsToolbar {
 					--control-box-height-adjustment: calc(var(--tabs-margin-top) * -1);
 					--control-box-width-adjustment: -5px;
@@ -4405,7 +4441,7 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 		` : ``}
 	` : ``}
 
-	${win8 && defaultDarkTheme ? /*css*/`
+	${WIN8 && defaultDarkTheme ? /*css*/`
 		#TabsToolbar:not([tabs-scrolledtostart])${prefs.floatingBackdropClip ? tbDraggingHidePlaceHolder : showPlaceHolder}
 			:is(
 				#TabsToolbar:not(${condition="[pinned-tabs-wraps-placeholder]"}) ${_="#personal-bookmarks"},
@@ -4504,7 +4540,7 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 		pointer-events: none;
 	}
 
-	${win7 || win8 ? /*css*/`
+	${WIN7 || WIN8 ? /*css*/`
 		:root[${CUSTOM_TITLEBAR}] ${hiddenMenubar} ~ #TabsToolbar
 			:is(
 				#TabsToolbar:not(${staticPreTabsPlaceHolder}) #tabs-placeholder-pre-tabs,
@@ -4702,7 +4738,7 @@ ${prefs.tabsUnderControlButtons ? /*css*/`
 							:root:not([inFullscreen])
 								#TabsToolbar:has(~ #PersonalToolbar:not([collapsed=true], [collapsed=""])),
 						` : ``}
-						${!nova && BACKGROUND_ON_BODY || appVersion > 156 ? `
+						${!nova && BACKGROUND_ON_BODY || FX_VER > 156 ? `
 							:root:not([${THEME_IMAGE_IN_TOOLBOX}])
 								${sidebarAtStart ? navToolboxWithAsk : navToolboxWithSidebar},
 							:root${aiHideNavbar},
@@ -4873,11 +4909,9 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 		&${_} tab:not([selected]) {/*raise the specificity*/
 			.tab-icon-overlay {
 				background-image:
-					/*ESR140*/
-					/*image() -> linear-gradient()*/
-					linear-gradient(var(--audio-overlay-extra-background)),
-					linear-gradient(${nativeTheme155up ? "transparent" : "var(--toolbar-background-color, var(--toolbar-bgcolor))"}),
-					linear-gradient(var(--toolbox-background-color));
+					image(var(--audio-overlay-extra-background)),
+					image(${nativeTheme155up ? "transparent" : "var(--toolbar-background-color, var(--toolbar-bgcolor))"}),
+					image(var(--toolbox-background-color));
 			}
 
 			.tab-note-icon-overlay {
@@ -4910,7 +4944,7 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 		}
 
 		:root:not([ai-window]) & {
-			${prefs.tabsAtBottom < 0 && prefs.toolbarColorOpacity ? /*css*/`
+			${prefs.tabsAtBottom < 0 && prefs.toolbarColorOpacity ? `
 				&:has(~ #notifications-toolbar > .notificationbox-stack:not(:empty)),
 				:root:not([inFullscreen]) &:has(~ #PersonalToolbar:not([collapsed]))
 			` : `
@@ -4944,7 +4978,9 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 		display: none;
 	}
 
-	:root[${CUSTOM_TITLEBAR}] #toolbar-menubar${MENUBAR_AUTOHIDE} ~ #nav-bar .titlebar-spacer[class] {
+	:root[${CUSTOM_TITLEBAR}] #toolbar-menubar:is(${MENUBAR_AUTOHIDE}, [collapsed]) ~ #nav-bar
+		.titlebar-spacer[class]
+	{
 		display: flex;
 	}
 
@@ -5033,7 +5069,7 @@ ${prefs.tabsAtBottom && !taskBarTab ? /*css*/`
 			`}
 
 			:is(
-				${OS == "WINNT" || appVersion < 157 ? `
+				${IS_WINDOWS && FX_VER < 160 || FX_VER < 157 ? `
 					#alltabs-button,
 				` : ``}
 				.toolbarbutton-combined-buttons-dropmarker
@@ -5290,7 +5326,7 @@ ${prefs.toolbarColorOpacity < 100 ? /*css*/`
 		--toolbar-bgcolor: var(--toolbar-background-color);
 	}
 
-	${win7 || win8 ? /*css*/`
+	${WIN7 || WIN8 ? /*css*/`
 		#tabbrowser-tabpanels {
 			--toolbar-bgcolor: var(--original-toolbar-background-color);
 		}
@@ -5428,7 +5464,7 @@ ${prefs.nativeWindowStyle ? /*css*/`
 		background-color: transparent !important;
 	}
 
-	${win7 || win8 ? /*css*/`
+	${WIN7 || WIN8 ? /*css*/`
 		:root:-moz-lwtheme {
 			background-image: none;
 		}
@@ -5462,12 +5498,12 @@ ${BACKGROUND_ON_BODY
 		#main-window[lwtheme]:not([${THEME_IMAGE_IN_TOOLBOX}], [ai-window]) body,
 		:root[${THEME_IMAGE_IN_TOOLBOX}] #navigator-toolbox
 		`
-	: `:root[lwtheme] ${"#navigator-toolbox".repeat(win7 || win8 ? 3 : 1)}`}
+	: `:root[lwtheme] ${"#navigator-toolbox".repeat(WIN7 || WIN8 ? 3 : 1)}`}
 {
 	${themeBackgroundStyle}
 }
 
-${appVersion < 121 ? /*css*/`
+${FX_VER < 121 ? /*css*/`
 	:root[lwtheme-image] :is(
 		#firefox-view-button > .toolbarbutton-icon,
 		.tab-background
@@ -5823,10 +5859,11 @@ rAF(2).then(() => root.removeAttribute("multitabrows-applying-style"));
 			} else
 				return;
 
-		//prevent the scrollbar fade in/out when clicking on tabs on windows 11
+		//prevent the scrollbar fade in/out when clicking on tabs
 		style(scrollbar, {
 			opacity: 1,
 			outline: "transparent solid 1px",
+			pointerEvents: "auto",
 		});
 	}, true);
 
@@ -5834,7 +5871,7 @@ rAF(2).then(() => root.removeAttribute("multitabrows-applying-style"));
 		if (e.target != this || !scrollbar?.isConnected)
 			return;
 
-		style(scrollbar, {opacity: "", outline: ""});
+		style(scrollbar, {opacity: "", outline: "", pointerEvents: ""});
 	}, true);
 
 	let ensureSnapDelay = getPref("general.smoothScroll.mouseWheel.durationMaxMS");
@@ -6042,7 +6079,7 @@ rAF(2).then(() => root.removeAttribute("multitabrows-applying-style"));
 			//clear the _isScrolling to prevent incorrect determine
 			delete this._isScrolling;
 
-		if (appVersion > 130)
+		if (FX_VER > 130)
 			this._updateScrollButtonsDisabledState();
 
 		scrollbox._lastScrollTop = scrollTop;
@@ -6074,7 +6111,7 @@ rAF(2).then(() => root.removeAttribute("multitabrows-applying-style"));
 		e.stopPropagation();
 		e.preventDefault();
 	};
-	if (appVersion < 131) {
+	if (FX_VER < 131) {
 		arrowScrollbox.removeEventListener("wheel", on_wheel);
 		arrowScrollbox.addEventListener("wheel", arrowScrollbox.on_wheel);
 	}
@@ -6621,7 +6658,7 @@ let GET_DRAG_TARGET;
 					OpenInTabsUtils:
 						"moz-src:///browser/components/tabbrowser/OpenInTabsUtils.sys.mjs",
 				});
-				${appVersion > 158 ? /*js*/`
+				${FX_VER > 158 ? /*js*/`
 					const {Tabbrowser} = ChromeUtils.importESModule(
 						"moz-src:///browser/components/tabbrowser/Tabbrowser.sys.mjs"
 					);
@@ -6631,8 +6668,9 @@ let GET_DRAG_TARGET;
 			new Cu.Sandbox(window, {sandboxPrototype: window, sameZoneAs: window}),
 			{
 				isTab, isTabGroupLabel, isSplitViewWrapper, elementToMove, getGroup,
-				STALE_DRAG_CHECK_INTERVAL_MS: 1000,
 				DROP_ANIMATION_GRACE_MS: 1000,
+				// < fx 160
+				STALE_DRAG_CHECK_INTERVAL_MS: 1000,
 			},
 		);
 
@@ -6640,6 +6678,7 @@ let GET_DRAG_TARGET;
 			_updateTabStylesOnDrag: emptyFunc,
 			_resetTabsAfterDrop: emptyFunc,
 			_moveTogetherSelectedTabs: emptyFunc,
+			_animateDrop: emptyFunc,
 		});
 
 		(tabContainer.tabDragAndDrop = new TabDragAndDrop(tabContainer)).init();
@@ -6648,20 +6687,7 @@ let GET_DRAG_TARGET;
 
 		HANDLE = "handle";
 	} else {
-		assign(tabContainer, {
-			tabDragAndDrop: tabContainer,
-			/*ESR140*/
-			_pinnedDropIndicator: tabContainer.pinnedDropIndicator,
-		});
-
-		/*ESR140*/
-		if (!tabContainer._getDragTargetTab) {
-			let MozTabbrowserTabs = customElements.get("tabbrowser-tabs");
-			[
-				"#getDropIndex", "#setDragOverGroupColor", "#"+TRIGGER_DRAG_OVER_GROUPING,
-			].forEach(n => exposePrivateMethod(MozTabbrowserTabs, n, {isTab, isTabGroupLabel}));
-			tabContainer._rtlMode = RTL_UI;
-		}
+		tabContainer.tabDragAndDrop = tabContainer;
 
 		const {on_dragend} = tabContainer;
 		const tabsProto = Object.getPrototypeOf(tabContainer);
@@ -6794,7 +6820,7 @@ let GET_DRAG_TARGET;
 
 		if (prefs.hideDragPreview & (draggingTab ? FOR_TAB : FOR_GROUP)) {
 			let dt = e.dataTransfer;
-			if (OS == "Linux") {
+			if (IS_LINUX) {
 				let {setDragImage} = dt;
 				dt.setDragImage = function(e) {
 					return setDragImage.call(this, e, screen.width * 10, screen.height * 10);
@@ -6897,12 +6923,17 @@ let GET_DRAG_TARGET;
 		console?.timeEnd("_groupSelectedTabs");
 
 		/**
-		 * @param {(MozTabbrowserTab|MozTabSplitViewWrapper)} item
+		 * @param {MozTabbrowserTab|MozTabSplitViewWrapper} item
 		 */
 		function pos(item) {
 			return item.elementIndex ?? visibleTabs.indexOf(item);
 		}
 	};
+
+	tabContainer.addEventListener("dragenter", function(e) {
+		if (["", "none"].includes(this.tabDragAndDrop.getDropEffectForTabDrag(e)))
+			this._showFakeScrollbar();
+	});
 
 	dragDropProto[`${HANDLE}_dragover`] = function(e) {
 		//workaround with fx bug:
@@ -7764,7 +7795,7 @@ let GET_DRAG_TARGET;
 										targetGroup &&
 										(
 											targetGroup.collapsed
-												? dragToGroupTabs && appVersion > 142
+												? dragToGroupTabs && FX_VER > 142
 												: backward
 										)
 									)
@@ -7982,7 +8013,7 @@ let GET_DRAG_TARGET;
 								isTabGroupOverflowContainer(t) ||
 								(
 									isTabGroupLabelContainer(t) &&
-									t.parentNode[appVersion > 142 ? "isShowingOverflowCount" : "collapsed"]
+									t.parentNode[FX_VER > 142 ? "isShowingOverflowCount" : "collapsed"]
 								) ||
 								(
 									moveForward &&
@@ -8076,7 +8107,7 @@ let GET_DRAG_TARGET;
 				(
 					overlappingTab && !overlapTarget.group ||
 					(
-						appVersion > 142 &&
+						FX_VER > 142 &&
 						isTabGroupLabelContainer(overlapTarget) &&
 						overlapTarget.parentNode.collapsed &&
 						groupOfDraggedNode != overlapTarget.parentNode
@@ -8426,7 +8457,7 @@ let GET_DRAG_TARGET;
 		this[DRAG_OVER_GROUPING_TIMER] = setTimeout(
 			() => {
 				let args = [overlappingTab ? target : target.parentNode.labelElement];
-				if (appVersion > 142) {
+				if (FX_VER > 142) {
 					_dragData[
 						overlappingTab ? "shouldCreateGroupOnDrop" : "shouldDropIntoCollapsedTabGroup"
 					] = true;
@@ -8962,7 +8993,7 @@ let GET_DRAG_TARGET;
 			return !!(
 				scrollbox._lastScrollTop ||
 				this.positioningPinnedTabs ||
-				!OVERLAY_SCROLLBARS && this.overflowing ||
+				!overlayScrollbarsMQ.matches && this.overflowing ||
 				prefs.tabsAtBottom < 0
 			);
 		},
@@ -9057,8 +9088,8 @@ let GET_DRAG_TARGET;
 			!prefs.positionPinnedTabs && !this.positioningPinnedTabs ||
 			!tabHeight ||
 			//it seems this checking is no necessary anymore but there's no harm to keep it
-			appVersion < 132 && isCalledBy("_initializeArrowScrollbox/<") ||
-			appVersion < 141 && isCalledBy("on_(ov|und)erflow")
+			FX_VER < 132 && isCalledBy("_initializeArrowScrollbox/<") ||
+			FX_VER < 141 && isCalledBy("on_(ov|und)erflow")
 		)
 			return;
 
@@ -9353,7 +9384,7 @@ let GET_DRAG_TARGET;
 						width /= 2;
 					let {pinned} = t;
 					t.toggleAttribute("closebutton", !pinned && pointDelta(width, _tabClipWidth) > 0);
-					if (appVersion > 136) {
+					if (FX_VER > 136) {
 						pinned &&= !prefs.pinnedTabsFlexWidth;
 						t.toggleAttribute("mini-button", !pinned && width < minWidth);
 						t.audioButton.toggleAttribute("pinned", pinned);
@@ -9814,7 +9845,7 @@ let GET_DRAG_TARGET;
 
 		if (prefs.tabsUnderControlButtons > 1) {
 			let hasControlButtonsAfterTabs =
-				OS != "Darwin" &&
+				!isControlButtonsOnStart() &&
 				isVisible($(".titlebar-buttonbox-container", tabsBar));
 			let hasExtraItemsPostSpacer =
 				!hasControlButtonsAfterTabs &&
@@ -9824,7 +9855,7 @@ let GET_DRAG_TARGET;
 				[
 					"no-scrollbar-gutter",
 					!!(
-						OVERLAY_SCROLLBARS ||
+						overlayScrollbarsMQ.matches ||
 						hasControlButtonsAfterTabs ||
 						(
 							!hasExtraItemsPostSpacer &&
@@ -9840,19 +9871,31 @@ let GET_DRAG_TARGET;
 				],
 			]);
 
+			let items =
+				[
+					...[...tabsBar.children].filter(e => !e.matches(".toolbar-items")),
+					...this.parentNode.children,
+				]
+					.map(e => ({
+						e,
+						x: e.screenX + (e == this ? lastLayoutData[(RTL_UI ? "post" : "pre") + "TabsItemsSize"] : 0)
+					}))
+					.sort((a, b) => (a.x - b.x) * DIR)
+					.map(o => o.e);
+			let centerIdx = items.indexOf(this);
+
 			for (let dir of ["next", "previous"]) {
 				let hasVisible = dir == "next" && (hasControlButtonsAfterTabs || hasExtraItemsPostSpacer);
 
 				if (!hasVisible && lastLayoutData[{next: "postTabsItemsSize", previous: "preTabsItemsSize"}[dir]])
-					checking: for (let center of [this, this.closest(".toolbar-items")])
-						for (let item = center; (item = item[dir + "Sibling"]);)
-							if (
-								!item.matches(".titlebar-spacer, toolbarspring") &&
-								isVisible(item)
-							) {
-								hasVisible = true;
-								break checking;
-							}
+					for (let item of items.slice(...(dir == "next" ? [centerIdx + 1] : [0, centerIdx])))
+						if (
+							!item.matches(".titlebar-spacer, toolbarspring") &&
+							isVisible(item)
+						) {
+							hasVisible = true;
+							break;
+						}
 
 				attrs.set(`tabs-no-${dir}-visible`, !hasVisible);
 			}
@@ -10504,10 +10547,10 @@ let GET_DRAG_TARGET;
 		});
 
 		let minWidthPref = this._tabMinWidthPref;
-		let extraWidth = appVersion > 146
+		let extraWidth = FX_VER > 146
 			? parseFloat(getStyle(tabContainer, "--tab-min-width-uidensity", true))
 			: root.getAttribute("uidensity") == "touch"
-				? appVersion > 136
+				? FX_VER > 136
 					? Math.max(86 - minWidthPref, 0)
 					: 10
 				: 0;
@@ -11036,7 +11079,7 @@ if (HAS_TAB_GROUP_PREVIEW) {
 	tabContainer.ensureTabPreviewPanelLoaded();
 	const {tabPanel, tabGroupPanel} = tabContainer.previewPanel;
 
-	if (HAS_TAB_NOTE) {
+	if (HAS_TAB_NOTE && "_prefUseTabNotes" in tabPanel) {
 		tabPanel._prefUseTabNotes;
 		const {get} = Object.getOwnPropertyDescriptor(
 			tabPanel,
@@ -11260,7 +11303,10 @@ identifyTitleBar();
 
 function identifyTitleBar() {
 	tabsBar.classList.toggle("browser-titlebar", !prefs.tabsAtBottom);
-	$("#nav-bar").classList.toggle("browser-titlebar", prefs.tabsAtBottom);
+	$("#nav-bar").classList.toggle(
+		"browser-titlebar",
+		prefs.tabsAtBottom || gNavToolbox.hasAttribute("tabs-hidden"),
+	);
 }
 
 function updateNavToolboxSizeInfo() {
@@ -11293,7 +11339,7 @@ function observeDPRChange(callback) {
  * because _handleTabSelect will try to scroll the translated position into view
  * @this {Element}
  * @param {Object} [param0={}]
- * @param {("smooth"|"instant"|"auto")} param0.behavior
+ * @param {"smooth"|"instant"|"auto"} param0.behavior
  */
 function scrollIntoView({behavior} = {}) {
 	if (!arrowScrollbox.overflowing || !arrowScrollbox.contains(this))
@@ -11347,7 +11393,7 @@ function scrollIntoView({behavior} = {}) {
 	});
 }
 
-/** @param {(Element|null)} n */
+/** @param {Element|null} n */
 function getGroup(n) {
 	return getRootHost(n)?.closest("tab-group");
 }
@@ -11360,7 +11406,7 @@ function contains(c, e) {
 	return c?.contains(getRootHost(e));
 }
 
-/** @param {(Element|null)} n */
+/** @param {Element|null} n */
 function getRootHost(n) {
 	let host;
 	while ((host = n?.getRootNode().host))
@@ -11368,22 +11414,22 @@ function getRootHost(n) {
 	return n;
 }
 
-/** @param {(Element|null)} n */
+/** @param {Element|null} n */
 function isTab(n) {
 	return n?.tagName == "tab";
 }
 
-/** @param {(Element|null)} n */
+/** @param {Element|null} n */
 function isTabGroupLabel(n) {
 	return !!n?.classList?.contains("tab-group-label");
 }
 
-/** @param {(Element|null)} n */
+/** @param {Element|null} n */
 function isTabGroupLabelContainer(n) {
 	return !!n?.classList?.contains("tab-group-label-container");
 }
 
-/** @param {(Element|null)} n */
+/** @param {Element|null} n */
 function isTabGroupOverflowContainer(n) {
 	return !!n?.classList?.contains("tab-group-overflow-count-container");
 }
@@ -11548,7 +11594,7 @@ function updateAIWindowButtonsPosition() {
 		).before($("#ai-window-toggle"));
 
 	(
-		prefs.tabsAtBottom || !aiActive && appVersion != 153 || !prefs.hamburgerMenuOnTabBar
+		prefs.tabsAtBottom || !aiActive && FX_VER != 153 || !prefs.hamburgerMenuOnTabBar
 			? nav : tabs
 	).before($("#PanelUI-button"));
 
@@ -11568,7 +11614,7 @@ function maxTabRows() {
 
 /**
  * @param {Element} box
- * @param {("vertical"|"horizontal")} [orient]
+ * @param {"vertical"|"horizontal"} [orient]
  * @returns {Element}
  */
 function getScrollbar(box, orient = "vertical") {
@@ -11638,24 +11684,35 @@ function toggleAutoHideControlHandlers() {
 
 function handleHoverWindow(e) {
 	if (e.target != root) return;
-	if (e.type == "mouseleave") {
-		let rect = getRect($(".titlebar-buttonbox-container", tabsBar), {noFlush: true});
-		if (
-			e.clientY <= rect.bottom &&
-			pointDeltaH(rect.start, e.clientX) * (OS != "Darwin" ? 1 : -1) <= 0 &&
-			!(prefs.controlButtonsAutoHideOnTriggerExit && windowState != STATE_NORMAL)
-		)
-			gNavToolbox.setAttribute(
-				"temp-show-control-buttons",
-				setTimeout(() => gNavToolbox.removeAttribute("temp-show-control-buttons"), 1000),
-			);
-	} else {
+	if (e.type == "mouseleave")
+		for (let box of $$(":is(:not([tabs-hidden]) > #TabsToolbar, #nav-bar) .titlebar-buttonbox-container")) {
+			let rect = getRect(box, {noFlush: true});
+			if (rect.visible) {
+				if (
+					e.clientY <= rect.bottom &&
+					pointDeltaH(rect.start, e.clientX) < (RTL_UI ? 0 : 1) &&
+					pointDeltaH(e.clientX, rect.end) < (RTL_UI ? 1 : 0) &&
+					!(prefs.controlButtonsAutoHideOnTriggerExit && windowState != STATE_NORMAL)
+				)
+					gNavToolbox.setAttribute(
+						"temp-show-control-buttons",
+						setTimeout(() => gNavToolbox.removeAttribute("temp-show-control-buttons"), 1000),
+					);
+
+				break;
+			}
+		}
+	else {
 		let timeout = gNavToolbox.getAttribute("temp-show-control-buttons");
 		if (timeout) {
 			clearInterval(+timeout);
 			gNavToolbox.removeAttribute("temp-show-control-buttons")
 		}
 	}
+}
+
+function isControlButtonsOnStart() {
+	return !IS_WINDOWS && (IS_MAC ? !RTL_UI : gtkCtrBtnsReversedMQ.matches);
 }
 
 function getThemeData() {
@@ -11676,7 +11733,7 @@ function updateThemeStatus(themeData = getThemeData()) {
 			.includes(id);
 	defaultDarkTheme = !tempTheme && id == "firefox-compact-dark@mozilla.org";
 	defaultAutoTheme = !tempTheme && ["", "default-theme@mozilla.org"].includes(id);
-	nativeTheme155up = appVersion > 154 && nativeThemeMQ.matches;
+	nativeTheme155up = FX_VER > 154 && nativeThemeMQ.matches;
 	useAccentColor =
 		defaultAutoTheme &&
 		accentColorInTitlebarMQ.matches &&
@@ -11703,12 +11760,9 @@ function updateThemeStatus(themeData = getThemeData()) {
 	cssImgTheme =
 		(
 			nova && defaultTheme && !nativeTheme155up &&
-			!(appVersion > 157 && (useAccentColor || mica))
+			!(FX_VER > 157 && (useAccentColor || mica))
 		) ||
 		(
-			theme?.backgroundsAlignment?.split(",").some(a =>
-				["center", "bottom"].includes(a.split(" ")[1] || a)
-			) &&
 			theme?.additionalBackgrounds?.[0] &&
 			theme?.additionalBackgrounds.every(v =>
 				Object.keys(v ?? {})[0]?.endsWith("-gradient")
@@ -11777,55 +11831,6 @@ function minPointH(a, b) {
 	return Math[RTL_UI ? "max" : "min"](a, b);
 }
 
-/*ESR140*/
-/**
- * @param {(string|CustomElementConstructor)} element
- * @param {string} method
- * @param {Object} [context]
- */
-function exposePrivateMethod(element, method, context) {
-	if (typeof element == "string")
-		element = customElements.get(element);
-	let newMethod = method.replace("#", "_");
-	if (newMethod in element.prototype)
-		return;
-	let relatedMehtods = new Set();
-	let code = element.toString().match(new RegExp(`(?<=\\s+)${method}.+|$`, "s"))[0];
-	let idx = 0, parenthesesIdx = 0, argPartDone;
-	code = code.slice(0, [...code].findIndex(c => {
-		if (argPartDone)
-			switch(c) {
-				case "{": idx++; break;
-				case "}": if (!--idx) return true;
-			}
-		else
-			switch(c) {
-				case "(":
-					parenthesesIdx++;
-					break;
-				case ")":
-					if (!argPartDone && !--parenthesesIdx)
-						argPartDone = true;
-					break;
-			}
-	}) + 1).replace(/\bthis\s*\.\s*(#[\w\s]+)(\()?/gs, (match, property, bracket = "") => {
-		if (bracket)
-			relatedMehtods.add(property);
-		return "this._" + property.slice(1) + bracket;
-	}).slice(method.length);
-	if (code)
-		try {
-			evalInSandbox(
-				/*js*/`element.prototype["${newMethod}"] = (function ${newMethod} ${code})`,
-				new Cu.Sandbox(window, {sandboxPrototype: window, sameZoneAs: window}),
-				{element, ...context},
-			);
-			relatedMehtods.forEach(m => exposePrivateMethod(element, m, context));
-		} catch (e) {
-			showError(e, method, e.stack);
-		}
-}
-
 function setDebug() {
 	({console} = ((debug = prefs.debugMode)) ? window : {});
 	if (debug)
@@ -11848,16 +11853,16 @@ function restartFirefox() {
 }
 
 /**
- * @param {{(): void|Promise<Element>|Array<Promise<Element>>}} action
+ * @param {{(): void|Promise<Element>|Promise<Element>[]}} action
  * @param {Object} [param1]
  * @param {Element[]} [param1.nodes]
- * @param {(Element|Element[])} [param1.includeNodes]
- * @param {(Element|Element[])} [param1.excludeNodes]
+ * @param {Element|Element[]} [param1.includeNodes]
+ * @param {Element|Element[]} [param1.excludeNodes]
  * @param {Map<Element, Rect>} [param1.rects]
  * @param {Map<Element, Rect>} [param1.newRects]
  * @param {boolean} [param1.includeClosing]
  * @param {boolean} [param1.bypassCache]
- * @param {(boolean|"transorm"|"translate"|Array<"transorm"|"translate">)} [param1.translated]
+ * @param {boolean|"transorm"|"translate"|("transorm"|"translate")[]} [param1.translated]
  * @param {boolean} [param1.animate]
  * @param {boolean} [param1.shouldUpdateLayout]
  */
@@ -12321,7 +12326,7 @@ function isOverlapping(r1, r2) {
 
 /**
  * @param {Element} n
- * @param {(boolean|"transorm"|"translate"|Array<"transorm"|"translate">)} [translated="translate"] return the translated box
+ * @param {boolean|"transorm"|"translate"|("transorm"|"translate")[]} [translated="translate"] return the translated box
  */
 function getVisualRect(n, translated = "translate") {
 	let r = getRect(n, {translated});
@@ -12347,10 +12352,10 @@ function roundingDiff(l, r, w) {
 
 /**
  * @remarks not compatible with scale and rotate
- * @param {(Node|null)} node
+ * @param {Node|null} node
  * @param {Object} [param1={}]
- * @param {("margin"|"border"|"padding"|"content")} [param1.box]
- * @param {(boolean|"transorm"|"translate"|Array<"transorm"|"translate">)} [param1.translated] return the translated box
+ * @param {"margin"|"border"|"padding"|"content"} [param1.box]
+ * @param {boolean|"transorm"|"translate"|("transorm" | "translate")[]} [param1.translated] return the translated box
  * @param {boolean} [param1.checkVisibility] if visibility is collapse, then size = 0, end = start
  * @param {boolean} [param1.noFlush] using `getBoundsWithoutFlushing()` instead
  */
@@ -12456,9 +12461,9 @@ async function defer(timeout = 0) {
 
 /**
  * @param {string} name
- * @param {(number|boolean|string)} [fallback]
+ * @param {number|boolean|string} [fallback]
  * @param {boolean} [fallbackWhenNoDefault]
- * @returns {(number|boolean|string)}
+ * @returns {number|boolean|string}
  */
 function getPref(name, fallback, fallbackWhenNoDefault) {
 	let {prefs} = Services;
@@ -12475,7 +12480,7 @@ function getPref(name, fallback, fallbackWhenNoDefault) {
 }
 
 /**
- * @param {(Object|CSSStyleDeclaration|null)} o object
+ * @param {Object|CSSStyleDeclaration|null} o object
  * @param {Object} [p] parameters
  * @returns {Object} a copy of `p` if `o` is `null`
  */
@@ -12569,7 +12574,7 @@ function define(obj, props, overwrite = true) {
 
 /**
  * @param {string} selector
- * @param {(Element|Document)} [scope]
+ * @param {Element|Document} [scope]
  */
 function $(selector, scope = document) {
 	return scope.querySelector(selector);
@@ -12577,8 +12582,8 @@ function $(selector, scope = document) {
 
 /**
  * @param {string} selector
- * @param {(Element|Document)} [scope]
- * @returns {Array<Element>}
+ * @param {Element|Document} [scope]
+ * @returns {Element[]}
  */
 function $$(selector, scope = document) {
 	return [...scope.querySelectorAll(selector)];
@@ -12625,8 +12630,8 @@ async function getScriptInfo({
 		.replace(/firefox\s*/i, "")
 		.split(/\s*,\s*/).map(v => v.split(/\s*-\s*/));
 	let compatible =
-		!!prefs.checkUpdate && appVersion > compatibility.at(-1).at(-1) ||
-		compatibility.some(([min, max]) => max ? min <= appVersion && appVersion <= max : appVersion == min);
+		!!prefs.checkUpdate && FX_VER > compatibility.at(-1).at(-1) ||
+		compatibility.some(([min, max]) => max ? min <= FX_VER && FX_VER <= max : FX_VER == min);
 	return {script, version, compatible, compatibility, uri};
 }
 
