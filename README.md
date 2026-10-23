@@ -216,6 +216,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- `hideDragPreview` did not work as expected on Linux.
 	- Minor layout issues.
 
+<details>
+<summary>Old Versions</summary><p></p>
+
 [**Version 4.13**](https://github.com/Merci-chao/userChrome.js/raw/cd493f61adfceab7f1e89da94aba821f34c8767f/MultiTabRows@Merci.chao.uc.js)
 - Change
 	- Dropped support for Nova on Firefox versions below 156.
@@ -225,9 +228,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Fixes
 	- Visual glitch that occurred when moving multiple tabs near the edges to scroll up or down.
 	- Tabs scrolled unexpectedly after expansion with `autoCollapse` enabled.
-
-<details>
-<summary>Old Versions</summary><p></p>
 
 [**Version 4.12.2**](https://github.com/Merci-chao/userChrome.js/raw/8f2950b0c9a3011eeeea2745a8ba63c1b5af44a6/MultiTabRows@Merci.chao.uc.js)
 - Fixed a regression that caused drag‑to‑scroll to not function properly.
