@@ -185,7 +185,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `browser.tabs.dragDrop.pinInteractionCue.delayMS` | <p>🔸 **Pinned Drop Indicator Delay**</p><p>Time to wait (in milliseconds) before showing the <a href="#hidePinnedDropIndicator">pinned drop indicator</a>. Not available on Firefox 115.</p> |
 | `browser.tabs.tabClipWidth` | <p>🔸 **Close Button Display Width**</p><p>Close buttons will show on the tabs that are wider than this size. Takes effect in new windows after changing. When the value is:</p><ul><li>equal to or larger than `tabMaxWidth` - never show close buttons on non-selected tabs</li><li>smaller than `browser.tabs.tabMinWidth` - always show close buttons on non-selected tabs</li></ul> |
 | `browser.tabs.tabMinWidth` | <p>🔸 **Tab Minimum Width**</p><p>Minimum width of normal tabs, including the white space around. Minimum: `50`.</p> |
-| `browser.theme.windows.accent-color-in-tabs.enabled` | <p>🔸 **Accent Color in Tabs**</p><p>Apply the system accent color on the tab bar (Windows 10).</p> |
+| `browser.theme.windows.accent-color-in-tabs.enabled` | <p>🔸 **Accent Color in Tabs**</p><p>Apply the system accent color on the tab bar when using the default theme (Windows 10 and 11 only).</p> |
 | `ui.prefersReducedMotion` | <p id="reducedMotion">🔸 **Reduce Motion**</p><p>Disable most animations:</p><ul><li>`0` - never</li><li>`1` - always</li><li>Not configured - system default</li></ul> |
 | `widget.windows.mica` | <p>🔸 **Mica Style**</p><p>Apply the native window style (Windows 11).</p> |
 | `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Mica Backdrop Effect**</p><p>Choose the effect of the window backdrop (Windows 11):</p><ul><li>`0` - auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
