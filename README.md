@@ -193,6 +193,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as)
 
+[**Version 4.15.1**](https://github.com/Merci-chao/userChrome.js/raw/e83c452d1dd3c44a26d19736a94ffd8d7f3938d2/MultiTabRows@Merci.chao.uc.js)
+- Fixed the following issues when showing the title bar in certain situations:
+	- `themeGradientOpacity` was not available.
+	- Missing background of the floating areas.
+
 [**Version 4.15**](https://github.com/Merci-chao/userChrome.js/raw/fc56af7ed06d1fcf65e3d674a99028f23bc64d1f/MultiTabRows@Merci.chao.uc.js)
 - Improvements
 	- Added support for macOS.
