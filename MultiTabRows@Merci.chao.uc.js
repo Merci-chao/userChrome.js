@@ -3,7 +3,7 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.15
+// @version        4.15.1
 // @compatibility  Firefox 115, 153, 158-160
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
@@ -788,6 +788,7 @@ async function onPrefChange(pref, type, name) {
 		case "-moz-windows-accent-color-in-titlebar":
 		case "widget.windows.mica":
 		case "browser.nova.enabled":
+		case "browser.tabs.inTitlebar":
 		case "browser.theme.native-theme":
 		case "browser.theme.windows.accent-color-in-tabs.enabled":
 		case "nativeWindowStyle":
@@ -11724,6 +11725,7 @@ function getThemeData() {
 function updateThemeStatus(themeData = getThemeData()) {
 	let {theme} = themeData;
 	let {id} = theme || {id: ""};
+	let tabsInTitlebar = !!getPref("browser.tabs.inTitlebar");
 
 	micaEnabled = micaMQ.matches;
 	nova = novaMQ.matches || HAS_NOVA && !Services.prefs.prefHasDefaultValue("browser.nova.enabled");
@@ -11742,7 +11744,7 @@ function updateThemeStatus(themeData = getThemeData()) {
 			nativeThemeMQ.matches ||
 			getPref("browser.theme.windows.accent-color-in-tabs.enabled")
 		);
-	mica = micaEnabled && defaultAutoTheme && !useAccentColor;
+	mica = micaEnabled && defaultAutoTheme && !useAccentColor && tabsInTitlebar;
 	micaTheme =
 		!root.hasAttribute("ai-window") &&
 		(mica || micaEnabled && getPref(prefBranchStr + "nativeWindowStyle"));
@@ -11760,7 +11762,7 @@ function updateThemeStatus(themeData = getThemeData()) {
 	cssImgTheme =
 		(
 			nova && defaultTheme && !nativeTheme155up &&
-			!(FX_VER > 157 && (useAccentColor || mica))
+			!(FX_VER > 157 && (useAccentColor || mica) && tabsInTitlebar)
 		) ||
 		(
 			theme?.additionalBackgrounds?.[0] &&
