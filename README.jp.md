@@ -191,6 +191,11 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)（右クリックして保存）
 
+[**バージョン 4.15.1**](https://github.com/Merci-chao/userChrome.js/raw/e83c452d1dd3c44a26d19736a94ffd8d7f3938d2/MultiTabRows@Merci.chao.uc.js)
+- 特定の状況下でタイトルバーを表示した際の以下の問題を修正：
+	- `themeGradientOpacity` が利用できない問題。
+	- 浮動領域の背景が欠落する問題。
+
 [**バージョン 4.15**](https://github.com/Merci-chao/userChrome.js/raw/fc56af7ed06d1fcf65e3d674a99028f23bc64d1f/MultiTabRows@Merci.chao.uc.js)
 - 改善
 	- macOS に対応。
