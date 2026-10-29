@@ -187,7 +187,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `browser.tabs.tabMinWidth` | <p>🔸 **Tab Minimum Width**</p><p>Minimum width of normal tabs, including the white space around. Minimum: `50`.</p> |
 | `browser.theme.windows.accent-color-in-tabs.enabled` | <p>🔸 **Accent Color in Toolbars**</p><p>Apply the system accent color to toolbars when using the default theme (Windows 10 and 11 only, when enabling apply accent color to title bars).</p> |
 | `ui.prefersReducedMotion` | <p id="reducedMotion">🔸 **Reduce Motion**</p><p>Disable most animations:</p><ul><li>`0` - never</li><li>`1` - always</li><li>Not configured - system default</li></ul> |
-| `widget.windows.mica` | <p>🔸 **Mica Style**</p><p>Apply the native window style (Windows 11).</p> |
+| `widget.windows.mica` | <p>🔸 **Mica Style**</p><p>Apply the window transparency effect on Windows 11.</p> |
 | `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Mica Backdrop Effect**</p><p>Choose the effect of the window backdrop (Windows 11):</p><ul><li>`0` - auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
 
 ## Changelog
