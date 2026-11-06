@@ -198,7 +198,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
   - Updated for Firefox 161.
 - Fixes
   - Error and minor visual glitches that occurred when dragging multiple tabs in specific situations.
-  - Tab sizes might not be released immediately when collapsing a tab group after the cursor left the tab bar.
+  - After collapsing a tab group, tab sizes might not be released immediately once the cursor leaves the tab bar.
 
 [**Version 4.15.1**](https://github.com/Merci-chao/userChrome.js/raw/e83c452d1dd3c44a26d19736a94ffd8d7f3938d2/MultiTabRows@Merci.chao.uc.js)
 - Fixed the following issues when showing the title bar in certain situations:
