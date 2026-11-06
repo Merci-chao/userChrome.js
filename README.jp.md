@@ -195,7 +195,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 改善
   - Firefox 161 に対応。
 - 修正
-  - 特定の状況下で複数のタブをドラッグした際に発生するエラーおよび軽微な表示上の不具合。
+  - 特定の状況下で複数のタブをドラッグした際に発生するエラーおよびアニメーションの不具合。
   - タブグループを折りたたんだ際、カーソルがタブバーから離れてもタブのサイズが即座に解放されない場合がある問題。
 
 [**バージョン 4.15.1**](https://github.com/Merci-chao/userChrome.js/raw/e83c452d1dd3c44a26d19736a94ffd8d7f3938d2/MultiTabRows@Merci.chao.uc.js)
