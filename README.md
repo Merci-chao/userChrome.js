@@ -16,7 +16,7 @@ Make Firefox support multiple rows of tabs.
 Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights with screenshots and detailed descriptions.
 
 ## Compatibility
-- Firefox 158 - 160, ESR (115, 153)
+- Firefox 159 - 161, ESR (115, 153)
 
 - Windows, macOS, Ubuntu
 
@@ -192,6 +192,13 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## Changelog
 📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as)
+
+[**Version 4.15.2**](https://github.com/Merci-chao/userChrome.js/raw/c444f36d73cbd9a0fec2cb6505068db78bbd4577/MultiTabRows@Merci.chao.uc.js)
+- Improvement
+  - Updated for Firefox 161.
+- Fixes
+  - Error and minor visual glitches that occurred when dragging multiple tabs in specific situations.
+  - Tab sizes might not be released immediately when collapsing a tab group after the cursor left the tab bar.
 
 [**Version 4.15.1**](https://github.com/Merci-chao/userChrome.js/raw/e83c452d1dd3c44a26d19736a94ffd8d7f3938d2/MultiTabRows@Merci.chao.uc.js)
 - Fixed the following issues when showing the title bar in certain situations:
