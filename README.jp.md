@@ -15,7 +15,7 @@ Firefox に多段タブ表示をサポートさせる。
 注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
-- Firefox 158〜160、ESR（115、153）
+- Firefox 159〜161、ESR（115、153）
 
 - Windows、macOS、Ubuntu
 
@@ -190,6 +190,13 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)（右クリックして保存）
+
+[**バージョン 4.15.2**](https://github.com/Merci-chao/userChrome.js/raw/c444f36d73cbd9a0fec2cb6505068db78bbd4577/MultiTabRows@Merci.chao.uc.js)
+- 改善
+  - Firefox 161 に対応。
+- 修正
+  - 特定の状況下で複数のタブをドラッグした際に発生するエラーおよび軽微な表示上の不具合。
+  - タブグループを折りたたんだ際、カーソルがタブバーから離れてもタブのサイズが即座に解放されない場合がある問題。
 
 [**バージョン 4.15.1**](https://github.com/Merci-chao/userChrome.js/raw/e83c452d1dd3c44a26d19736a94ffd8d7f3938d2/MultiTabRows@Merci.chao.uc.js)
 - 特定の状況下でタイトルバーを表示した際の以下の問題を修正：
