@@ -3,8 +3,8 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.15.1
-// @compatibility  Firefox 115, 153, 158-160
+// @version        4.15.2
+// @compatibility  Firefox 115, 153, 159-161
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
 // @supportURL     https://github.com/Merci-chao/userChrome.js/discussions/new/choose
@@ -306,7 +306,7 @@ const TABS_RELATED_PANELS = `
 	#tab-note-preview-panel
 `;
 
-const HAS_DRAG_TO_PIN = !!window.TabDragAndDrop;
+const HAS_DRAG_TO_PIN = FX_VER > 160 || !!window.TabDragAndDrop;
 const HAS_TAB_GROUP = "tabGroups" in gBrowser;
 const HAS_SPLIT_VIEW = "addTabSplitView" in gBrowser;
 const HAS_SWITCH_BY_SCROLLING_PROP = "switchByScrolling" in tabContainer;
@@ -1721,6 +1721,24 @@ ${_="#TabsToolbar"} {
 			`}
 		}
 	` : ``}
+
+	${FX_VER > 160 ? /*css*/`
+		/*
+		 lining up the buttons does not work that well for multi-rows
+		 since the padding won't be applied on the 2nd row and beyond
+		 */
+		:root[sizemode]:not([customtitlebar]) & {
+			padding-inline-start: 0;
+		}
+
+		/*
+		 only removing the extra padding when [multirows][overflow] is considerable but it
+		 causes animation glitch when turning to underflow
+		*/
+		#tabbrowser-tabs ~ * {
+			--toolbar-edge-padding: var(--toolbarbutton-padding-outer);
+		}
+	` : ``}
 }
 
 ${!prefs.tabsAtBottom ? /*css*/`
@@ -3078,11 +3096,9 @@ ${FX_VER < 134 ? /*css*/`
 
 /*the context line margin causes the tab background can't shrink*/
 ${context = `
-	${prefs.pinnedTabsFlexWidth || prefs.tabCornerRadius > -1 ? `
-		#tabbrowser-arrowscrollbox
-	` : ``}
-			.tabbrowser-tab[usercontextid] > .tab-stack > .tab-background >
-				.tab-context-line
+	${"#tabbrowser-arrowscrollbox".repeat(2)}
+		.tabbrowser-tab[usercontextid] > .tab-stack > .tab-background >
+			.tab-context-line
 `}
 {
 	position: relative;
@@ -3090,28 +3106,40 @@ ${context = `
 	width: calc(100% - var(--tab-context-line-inline-offset, 0px) * 2);
 	align-self: center;
 
-	${nova ? `
-		inset-block-start: var(--tab-context-line-block-offset);
-	` : FX_VER < 145 ? `
+	${FX_VER < 145 || FX_VER > 160 && nova ? `
 		inset-block-start:
 			calc(
-				clamp(
-					${nova ? "var(--snapped-border-width)" : "0px"},
-					var(--tab-margin-block),
-					${nova ? 6 : 3}px
-				) * -1
+				${nova ? `
+					min(
+						var(--snapped-border-width) - var(--tab-context-line-outer-offset),
+						var(--tab-margin-block) + var(--snapped-border-width)
+					)
+				` : `
+					clamp(
+						0px,
+						var(--tab-margin-block),
+						3px
+					)
+				`} * -1
 				- var(--splitview-adjustment, 0px)
 			);
+	` : nova ? `
+		inset-block-start: var(--tab-context-line-block-offset);
 	` : ``}
 }
 
-${nova ? /*css*/`
+${FX_VER > 160 && nova ? /*css*/`
+	${context} {
+		--tab-context-line-inline-offset: calc(8px - var(--snapped-border-width));
+		inset-inline: 0;
+
+		tab-split-view-wrapper & {
+			--splitview-adjustment: var(--split-view-padding-block);
+		}
+	}
+` : nova ? /*css*/`
 	${context} {
 		--tab-context-line-inline-offset: calc(var(--tab-padding-inline) + 2px);
-	}
-` : nova && prefs.tabCornerRadius < 0 ? /*css*/`
-	${!prefs.pinnedTabsFlexWidth ? `tab:not([pinned])` : ``} :is(${context}) {
-		--tab-context-line-inline-offset: calc(var(--tab-padding-inline) + 8px);
 	}
 ` : /*css*/`
 	${context} {
@@ -3602,7 +3630,9 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-split-view-wrapper {
 			margin-inline: 0;
 
 			tab[multiselected] & {
-				outline-color: var(--focus-outline-color);
+				${FX_VER < 161 ? `
+					outline-color: var(--focus-outline-color);
+				` : ``}
 				background-color: var(--tab-background-color-selected, var(--tab-selected-bgcolor));
 			}
 		}
@@ -6335,13 +6365,11 @@ if (groupProto) {
 					return;
 				}
 
-				let shouldLockTabSize = this[CLICKED_BY_MOUSE] || tabContainer.isMovingTab;
 				this.togglingAnimation = animateLayout(() => {
 					if (!v)
 						this.stacked = false;
-					else if (shouldLockTabSize) {
+					else if (this[CLICKED_BY_MOUSE] || tabContainer.isMovingTab) {
 						tabContainer._lockTabSizing(this.labelElement);
-						tabContainer._keepTabSizeLocked = true;
 						this.stacked = willStack;
 					}
 
@@ -6365,8 +6393,6 @@ if (groupProto) {
 					includeNodes: !v ? this.nonHiddenTabLikes.filter(t => !t.visible) : null,
 				}).finally(() => {
 					delete this.togglingAnimation;
-					if (shouldLockTabSize)
-						delete tabContainer._keepTabSizeLocked;
 					this.setAttribute("toggling", v ? "collapsed" : "expanded")
 					requestAnimationFrame(() => this.removeAttribute("toggling"));
 				});
@@ -6631,49 +6657,46 @@ let GET_DRAG_TARGET;
 			);
 		})()`;
 
-	if (window.TabDragAndDrop) {
-		/*global TabDragAndDrop*/
-		let constructorString = TabDragAndDrop.toString().replace(/(^(\s+([gs]et\s+)?)|this.)(#)/mg, "$1_");
+	if (tabContainer.tabDragAndDrop) {
+		let stream = NetUtil.newChannel({
+			uri: `chrome://browser/content/tabbrowser/drag-and-drop.${FX_VER > 161 || !window.TabDragAndDrop ? "mjs" : "js"}`,
+			loadUsingSystemPrincipal: true,
+		}).open();
 
-		constructorString = constructorString.replace(
-			/* _getDragTarget, https://bugzil.la/2007720 */
-			/*js*/`target === this._tabbrowserTabs.arrowScrollbox`,
-			false,
-		).replace(
-			/* _getDropIndex, https://bugzil.la/1988159 */
-			/*js*/`let item = this._getDragTarget(event);`,
-			/*js*/`let item = this._getDragTarget(event);
-				if (!item) {
-					let overflowContainer = event.target?.closest(".tab-group-overflow-count-container");
-					if (overflowContainer)
-						return getGroup(overflowContainer).visibleNodes.at(-2).elementIndex + 1;
-				}
-			`,
-		/*handle_dragend*/
-		).replace(OLD_DETACH_CONDITION, NEW_DETACH_CONDITION);
+		let constructorString = NetUtil.readInputStreamToString(stream, stream.available(), {charset: "UTF-8"});
+		stream.close();
 
+		constructorString = constructorString
+			.replace(/(^(\s+([gs]et\s+)?)|this.)(#)/mg, "$1_")
+			.replace(
+				/* _getDragTarget, https://bugzil.la/2007720 */
+				/*js*/`target === this._tabbrowserTabs.arrowScrollbox`,
+				false,
+			).replace(
+				/* _getDropIndex, https://bugzil.la/1988159 */
+				/*js*/`let item = this._getDragTarget(event);`,
+				/*js*/`$&
+					if (!item) {
+						let overflowContainer = event.target?.closest(".tab-group-overflow-count-container");
+						if (overflowContainer)
+							return overflowContainer.closest("tab-group").visibleNodes.at(-2).elementIndex + 1;
+					}
+				`,
+			/*handle_dragend*/
+			).replace(OLD_DETACH_CONDITION, NEW_DETACH_CONDITION)
+			.replace(/export class/g, "class");
+
+		let output = {};
 		evalInSandbox(
 			/*js*/`
-				const lazy = {};
-				ChromeUtils.defineESModuleGetters(lazy, {
-					OpenInTabsUtils:
-						"moz-src:///browser/components/tabbrowser/OpenInTabsUtils.sys.mjs",
-				});
-				${FX_VER > 158 ? /*js*/`
-					const {Tabbrowser} = ChromeUtils.importESModule(
-						"moz-src:///browser/components/tabbrowser/Tabbrowser.sys.mjs"
-					);
-				` : ``}
-				window.TabDragAndDrop = ${constructorString};
+				${constructorString}
+				output.TabDragAndDrop = TabDragAndDrop;
 			`,
 			new Cu.Sandbox(window, {sandboxPrototype: window, sameZoneAs: window}),
-			{
-				isTab, isTabGroupLabel, isSplitViewWrapper, elementToMove, getGroup,
-				DROP_ANIMATION_GRACE_MS: 1000,
-				// < fx 160
-				STALE_DRAG_CHECK_INTERVAL_MS: 1000,
-			},
+			{output},
 		);
+
+		let {TabDragAndDrop} = output;
 
 		assign(TabDragAndDrop.prototype, {
 			_updateTabStylesOnDrag: emptyFunc,
@@ -6683,8 +6706,6 @@ let GET_DRAG_TARGET;
 		});
 
 		(tabContainer.tabDragAndDrop = new TabDragAndDrop(tabContainer)).init();
-
-		window.TabStacking &&= TabDragAndDrop;
 
 		HANDLE = "handle";
 	} else {
@@ -7230,7 +7251,7 @@ let GET_DRAG_TARGET;
 		let groupTarget;
 
 		if (target) {
-			let targetRect = getRect(elementToMove(target), {translated: false});
+			let targetRect = getRect(asNode(target), {translated: false});
 			let boxRect = getRect(arrowScrollbox);
 			let dropBefore = idx == indexOf(target);
 			let x = +(targetRect[dropBefore ? "start" : "end"] - boxRect.start).toFixed(3);
@@ -7425,63 +7446,72 @@ let GET_DRAG_TARGET;
 				let followingTabs = movingTabs.slice(draggedIdx + 1);
 
 				if (followingTabs[0] || prefs.dragStackPreceding)
-					_dragData.stacking = animateLayout(() => {
-						//set it truthy first for the following code to determine
-						_dragData.stacking = true;
+					_dragData.stacking =
+						animateLayout(
+							() => {
+								//set it truthy first for the following code to determine
+								_dragData.stacking = true;
 
-						let precedingTabs = movingTabs.slice(0, draggedIdx);
-						let stackPreceding = prefs.dragStackPreceding && precedingTabs[0];
-						let leader = stackPreceding ? movingTabs[0] : draggedTab;
-						style(tabContainer, {"--stacking-size": getRect(draggedTab).width + "px"});
-						tabContainer.setAttribute("stackingtabs", "");
+								let precedingTabs = movingTabs.slice(0, draggedIdx);
+								let stackPreceding = prefs.dragStackPreceding && precedingTabs[0];
+								let leader = stackPreceding ? movingTabs[0] : draggedTab;
+								style(tabContainer, {"--stacking-size": getRect(draggedTab).width + "px"});
+								tabContainer.setAttribute("stackingtabs", "");
 
-						/*
-						  it's better to not lock when stacking in flow pinned tabs
-						  since it looks weird that the tab in next row may sneak in.
-						  and currently the placeholder logic on 115 doesn't work with wrapping locked tabs
-						*/
-						if (
-							!pinned ||
-							movingPositionPinned ||
-							prefs.pinnedTabsFlexWidth ||
-							prefs.justifyCenter == 1 && !tabContainer.hasAttribute("multirows") ||
-							//may want to ignore the new tabs button if there is only pinned tabs
-							getNodes({onlyFocusable: true}).at(-1).pinned
-						)
-							tabContainer._lockTabSizing(leader, {stacking: true});
+								/*
+								it's better to not lock when stacking in flow pinned tabs
+								since it looks weird that the tab in next row may sneak in.
+								and currently the placeholder logic on 115 doesn't work with wrapping locked tabs
+								*/
+								if (
+									!pinned ||
+									movingPositionPinned ||
+									prefs.pinnedTabsFlexWidth ||
+									prefs.justifyCenter == 1 && !tabContainer.hasAttribute("multirows") ||
+									//may want to ignore the new tabs button if there is only pinned tabs
+									getNodes({onlyFocusable: true}).at(-1).pinned
+								)
+									tabContainer._lockTabSizing(leader, {stacking: true});
 
-						if (stackPreceding)
-							precedingTabs.reverse().forEach((t, i) => setStackingVar(t, i, true));
-						followingTabs.forEach((t, i) => setStackingVar(t, i, false));
+								if (stackPreceding)
+									precedingTabs.reverse().forEach((t, i) => setStackingVar(t, i, true));
+								followingTabs.forEach((t, i) => setStackingVar(t, i, false));
 
-						if (movingPositionPinned)
-							tabContainer._positionPinnedTabs();
-						tabContainer.updateLayout();
+								if (movingPositionPinned)
+									tabContainer._positionPinnedTabs();
+								tabContainer.updateLayout();
 
-						if (animatingLayout) {
-							if (stackPreceding || prefs.justifyCenter > 1) {
-								let {rects, newRects} = animatingLayout;
-								let oldDraggedR = rects.get(draggedNode);
-								let newDraggedR = getRect(draggedNode);
-								let stackedR = assign(newDraggedR.clone(), {start: 0, y: 0});
-								_dragData.rectsBeforeStacking = new Map(rects);
+								if (animatingLayout) {
+									if (stackPreceding || prefs.justifyCenter > 1) {
+										let {rects, newRects} = animatingLayout;
+										let oldDraggedR = rects.get(draggedNode);
+										let newDraggedR = getRect(draggedNode);
+										let stackedR = assign(newDraggedR.clone(), {start: 0, y: 0});
+										_dragData.rectsBeforeStacking = new Map(rects);
 
-								for (let n of movingNodes) {
-									if (n.stacking == "hidden")
-										continue;
-									rects.set(n, rects.get(n).relativeTo(oldDraggedR));
-									newRects.set(
-										n,
-										n.stacking || n == draggedNode
-											? stackedR
-											: getRect(n).relativeTo(newDraggedR),
-									);
+										for (let n of movingNodes) {
+											let oldR = rects.get(n);
+											if (!oldR || n.stacking == "hidden")
+												continue;
+											rects.set(n, oldR.relativeTo(oldDraggedR));
+											newRects.set(
+												n,
+												n.stacking || n == draggedNode
+													? stackedR
+													: getRect(n).relativeTo(newDraggedR),
+											);
+										}
+									}
+
+									animatingLayout.nodes = animatingLayout.nodes.filter(n => n.stacking != "hidden");
 								}
-							}
-
-							animatingLayout.nodes = animatingLayout.nodes.filter(n => n.stacking != "hidden");
-						}
-					}, {shouldUpdateLayout: false}).then(() => _dragData.stacking = true);
+							},
+							{
+								shouldUpdateLayout: false,
+								includeNodes: groupOfDraggedNode?.collapsed ? movingNodes : null,
+							},
+						)
+							.then(() => _dragData.stacking = true);
 
 				/**
 				 * @param {MozTabbrowserTab} t
@@ -7495,7 +7525,7 @@ let GET_DRAG_TARGET;
 					else {
 						t.stacking = preceding ? "preceding" : "following";
 						style(t, {
-							"--stacking-index": i * (preceding ? -1 : 1),
+							"--stacking-index": preceding ? -i : i,
 							"--stacking-opacity": opacity,
 						});
 					}
@@ -8374,6 +8404,7 @@ let GET_DRAG_TARGET;
 			}, {
 				shouldUpdateLayout: false,
 				animate: !recursion,
+				includeNodes: groupOfDraggedNode?.collapsed ? movingNodes : null,
 			});
 		} else {
 			console?.time("_animateTabMove - update layout with no move");
@@ -8883,6 +8914,7 @@ let GET_DRAG_TARGET;
 				for (let node of new Set(nodesToClear)) {
 					style(node, noMoving);
 					node.removeAttribute("movetarget");
+					node.stacking = false;
 				}
 
 				for (let node of $$(":hover", arrowScrollbox))
@@ -11469,14 +11501,6 @@ function getMinWidth(n, r = getRect(n)) {
 			: isSplitViewWrapper(n)
 				? splitViewMinWidth
 				: r.width;
-}
-
-/**
- * @param {Element} item
- * @returns {Element}
- */
-function elementToMove(item) {
-	return asNode(item);
 }
 
 /**
