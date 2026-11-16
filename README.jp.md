@@ -103,7 +103,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `controlButtonsAutoHide` | <p>🔸 **操作ボタンを自動非表示**</p><p>ウィンドウ操作ボタンを非表示にし、カーソルが上部の角に入るか、または上部の角からウィンドウ外へ出た際に表示：</p><ul><li>`0`－無効</li><li>`1`－最大化ウィンドウのみ</li><li>`2`－すべてのウィンドウ</li></ul><p>Windows 7 および 8、またはタイトルバーが表示されている場合は利用不可。メニューバーが表示されているとき、ウェブアプリのみに影響。</p> |
 | `controlButtonsAutoHideOnTriggerExit` | <p>🔸 **トリガー離脱時非表示**</p><p>最大化ウィンドウにおいて、カーソルがトリガー領域から離れると操作ボタンが非表示になり、`false` に設定されている場合はカーソルがボタンから完全に離れた時のみ非表示になる。Firefox 115 では非対応。</p> |
 | `controlButtonsAutoHideTriggerHeight` | <p>🔸 **操作ボタン表示のトリガー高さ**</p><p>操作ボタンの表示トリガー領域の高さ。</p> |
-| `hamburgerMenuOnTabBar` | <p>🔸 **スマートウィンドウ時のタブバー上メニューボタン**</p><p>`false` に設定すると、スマートウィンドウ使用時に Firefox のメニューボタン（☰）がナビゲーションツールバーに戻される。`tabsAtBottom` が有効な場合は強制的に無効化される。Firefox 115 では非対応。</p> |
+| `hamburgerMenuOnTabBar` | <p>🔸 **スマートウィンドウ時のタブバー上メニューボタン**</p><p>`false` に設定すると、スマートウィンドウ使用時に Firefox のメニューボタン（☰）がナビゲーションツールバーに戻される。`tabsAtBottom` が有効な場合は強制的に無効化される。Firefox 115 と 162 以降では非対応。</p> |
 | `hideAllTabs` | <p>🔸 **タブ一覧ボタンを非表示**</p><p>「タブの一覧を表示」ボタンを非表示。Firefox 115 のみ対応。新バージョンの Firefox では、ボタンを右クリックして「ツールバーから削除」で非表示。</p> |
 | `hideEmptyPlaceholderWhenScrolling` | <p>🔸 **スクロール時の空白な浮動領域を非表示**</p><p>左上に何もない場合、タブバーがスクロール可能時にその空白な浮動領域を非表示。`tabsUnderControlButtons` が `2` のときのみ有効。</p> |
 | `justifyCenter` | <p>🔸 **タブを中央揃え**</p><p>タブを水平方向に中央揃えする設定：</p><ul><li>`0`－無効</li><li>`1`－一段のみの場合</li><li>`2`－常に有効（タブの閉じ方やグループの折りたたみ動作が若干異なる場合がある）</li></ul> |
