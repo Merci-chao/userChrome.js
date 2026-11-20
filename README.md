@@ -16,7 +16,7 @@ Make Firefox support multiple rows of tabs.
 Check out the [introduction page](https://merci-chao.github.io/userChrome.js/multitabrows/en/) to explore the highlights with screenshots and detailed descriptions.
 
 ## Compatibility
-- Firefox 159 - 161, ESR (115, 153)
+- Firefox 160 - 162, ESR (115, 153)
 
 - Windows, macOS, Ubuntu
 
@@ -82,6 +82,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `animateTabMoveUnderLimit` | <p>🔸 **Drag Animation Limit**</p><p>When the number of visible tabs reaches this amount, disable the drag & drop animation and show the drop indicator instead. If dragging becomes sluggish with many tabs, consider lowering this value. If you prefer to always use the indicator for moving tabs, set the value below `3` to effectively force indicator mode.</p> |
 | `animationDuration` | <p>🔸 **Animation Duration**</p><p>Duration of animations in milliseconds, valid range: `0` - `1000`. Setting the value to `0` will disable all tab‑related animations.</p><p>📝 Lengthy animations could strain system performance.</p><p>📝 Animations may be disabled due to Firefox or OS settings, see [`ui.prefersReducedMotion`](#reducedMotion).</p> |
 | `dragStackPreceding` | <p>🔸 **Stack Preceding Tabs on Drag**</p><p>Stack the preceding selected tabs of the dragged one (see [`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking)). When dragging the middle tab among selected ones, the following ones of the selected tabs may move forward undesirably. Disabling this setting can avoid the issue.</p> |
+| `dragToGroupHighlight` | <p>🔸 **Drag-to-Group Highlight**</p><p>Highlights the dragged tabs when they are going to be grouped. Available when Nova is applied.</p> |
 | `dynamicMoveOverThreshold` | <p>🔸 **Smooth Dragging**</p><p>Make tab-dragging movement smoother in certain scenarios, e.g. dragging pinned or grouped tabs. Not available on Firefox 115, or `browser.tabs.dragDrop.createGroup.enabled` is `false`.</p> |
 | `hideDragPreview` | <p>🔸 **Hide Drag Preview**</p><p>Hide the drag preview that appears next to the cursor during dragging:</p><ul><li>`0` - never</li><li>`1` - tab groups only</li><li>`2` - tabs only</li><li>`3` - both</li></ul> |
 | `hidePinnedDropIndicator` | <p id="hidePinnedDropIndicator">🔸 **Hide Pinned Drop Indicator**</p><p>Hide the indicator that appears when dragging a tab to pin it, if there are no existing pinned tabs. Not available on Firefox 115.</p> |
@@ -193,6 +194,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## Changelog
 📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as)
 
+[**Version 4.15.3**](https://github.com/Merci-chao/userChrome.js/raw/bb1605bb0e1efe91981a193123148e8fbcf047ff/MultiTabRows@Merci.chao.uc.js)
+- Added `dragToGroupHighlight`: Highlights the dragged tabs when they are going to be grouped. Available when Nova is applied.
+- Updated for Firefox 162.
+
 [**Version 4.15.2**](https://github.com/Merci-chao/userChrome.js/raw/c444f36d73cbd9a0fec2cb6505068db78bbd4577/MultiTabRows@Merci.chao.uc.js)
 - Improvement
   - Updated for Firefox 161.
@@ -218,6 +223,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- Background color of the navigation toolbar was incorrect on web apps when the tab bar was at the top.
 	- Dragging unsupported items onto the top or bottom edge of the tab bar caused the tabs to scroll.
 
+<details>
+<summary>Old Versions</summary><p></p>
+
 [**Version 4.14**](https://github.com/Merci-chao/userChrome.js/raw/6ef3e1fc3e0eb55bdbd51c00336c054ce00820e9/MultiTabRows@Merci.chao.uc.js)
 - Improvements
 	- Auto-Hide Control Buttons related:
@@ -227,9 +235,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - Fixes
 	- `hideDragPreview` did not work as expected on Linux.
 	- Minor layout issues.
-
-<details>
-<summary>Old Versions</summary><p></p>
 
 [**Version 4.13**](https://github.com/Merci-chao/userChrome.js/raw/cd493f61adfceab7f1e89da94aba821f34c8767f/MultiTabRows@Merci.chao.uc.js)
 - Change
