@@ -3,8 +3,8 @@
 // @name           Multi Tab Rows (MultiTabRows@Merci.chao.uc.js)
 // @description    Make Firefox support multiple rows of tabs.
 // @author         Merci chao
-// @version        4.15.2
-// @compatibility  Firefox 115, 153, 159-161
+// @version        4.15.3
+// @compatibility  Firefox 115, 153, 160-162
 // @homepageURL    https://github.com/Merci-chao/userChrome.js#multi-tab-rows
 // @changelogURL   https://github.com/Merci-chao/userChrome.js#changelog
 // @supportURL     https://github.com/Merci-chao/userChrome.js/discussions/new/choose
@@ -316,7 +316,8 @@ const HAS_TAB_STACKING = FX_VER > 148 || "TabStacking" in window;
 const HAS_AI_WINDOW = FX_VER > 148;
 const HAS_AUTO_UI_DENSITY = FX_VER > 153;
 const HAS_NOVA = FX_VER > 151;
-const AI_SWITCHER_FIXED = FX_VER < 154;
+const AI_SWITCHER_FIXED = HAS_AI_WINDOW && FX_VER < 154;
+const AI_HAMBURGER_MOVED = HAS_AI_WINDOW && FX_VER < 162;
 const BACKGROUND_ON_BODY = FX_VER > 149;
 const NO_POST_TABS_SPACE = FX_VER > 154;
 const URLBAR_POPOVER = FX_VER < 157;
@@ -462,13 +463,14 @@ function createDefaultPrefs() {
 		lastRowTabsFlexible: true,
 		animateTabMoveShiftKeyToPause: true,
 		// dlpButtonOnNavBar: $(".content-analysis-indicator") ? false : null,
-		smartWindowButtonOnNavBar: AI_SWITCHER_FIXED && HAS_AI_WINDOW ? false : null,
+		smartWindowButtonOnNavBar: AI_SWITCHER_FIXED ? false : null,
 		showScrollShadow: true,
 		themeImageSize: bgImgHasRepeat ? -1 : 0,
 		controlButtonsAutoHide: WIN7 || WIN8 ? null : 0,
 		controlButtonsAutoHideTriggerHeight: WIN7 || WIN8 ? null : 2,
 		controlButtonsAutoHideOnTriggerExit: FX_VER > 120 ? IS_WINDOWS && !screen.availTop : null,
-		hamburgerMenuOnTabBar: HAS_AI_WINDOW ? true : null,
+		hamburgerMenuOnTabBar: AI_HAMBURGER_MOVED ? true : null,
+		dragToGroupHighlight: HAS_TAB_GROUP ? !nova : null,
 	};
 }
 
@@ -725,6 +727,7 @@ function loadPrefs(defaultPrefs = createDefaultPrefs()) {
 		],
 		!isAutoUIDensity(),
 	);
+	lock("dragToGroupHighlight", !nova);
 
 	if (gNavToolbox.hasAttribute("tabs-hidden"))
 		prefs.tabsUnderControlButtons = 0;
@@ -3501,7 +3504,7 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-split-view-wrapper {
 		:not(:has(> :not([multiselected]))),
 		#tabbrowser-tabs[movingtab-group]
 			:is(
-				${!nova ? `[dragover-groupSource],` : ``}
+				${prefs.dragToGroupHighlight ? `[dragover-groupSource],` : ``}
 				[dragover-groupTarget]
 			),
 		#tabbrowser-tabs[stackingtabs]:not([movingtab-finishing])
@@ -3518,7 +3521,7 @@ ${"#tabbrowser-arrowscrollbox".repeat(3)} tab-split-view-wrapper {
 		}
 
 		#tabbrowser-tabs[movingtab-group] & {
-			${!nova ? /*css*/`
+			${prefs.dragToGroupHighlight ? /*css*/`
 				&[dragover-groupSource] {
 					--splitview-outline-color: var(--dragover-tab-group-color);
 					--splitview-outline-width: 2px;
@@ -3965,6 +3968,16 @@ ${!nova ? `
 .tab-background[multiselected][selected] {
 	--tab-outline-offset: -2px;
 }
+
+${nova && prefs.dragToGroupHighlight ? /*css*/`
+	#tabbrowser-tabs[movingtab-group] tab[dragover-groupSource]
+		.tab-background
+	{
+		outline-color: var(--dragover-tab-group-color);
+		outline-width: 2px;
+		outline-offset: -2px;
+	}
+` : ``}
 
 ${condition="[ignore-newtab-btn]"}:not([overflow]) #tabbrowser-arrowscrollbox-periphery {
 	margin-inline-end: calc(var(--new-tab-button-width) * -1);
@@ -6645,7 +6658,6 @@ const tabProto = customElements.get("tabbrowser-tab").prototype;
 let GET_DRAG_TARGET;
 {
 	let HANDLE;
-	const OLD_DETACH_CONDITION = /*js*/`crossAxisPos > crossAxisStart && crossAxisPos < crossAxisEnd`;
 	const NEW_DETACH_CONDITION =
 		/*js*/`(() => {
 			let halfTab = windowUtils.getBoundsWithoutFlushing(draggedTab).height / 2;
@@ -6667,7 +6679,7 @@ let GET_DRAG_TARGET;
 		stream.close();
 
 		constructorString = constructorString
-			.replace(/(^(\s+([gs]et\s+)?)|this.)(#)/mg, "$1_")
+			.replace(/(^(\s+([gs]et\s+)?)|this.)#/mg, "$1_")
 			.replace(
 				/* _getDragTarget, https://bugzil.la/2007720 */
 				/*js*/`target === this._tabbrowserTabs.arrowScrollbox`,
@@ -6683,8 +6695,10 @@ let GET_DRAG_TARGET;
 					}
 				`,
 			/*handle_dragend*/
-			).replace(OLD_DETACH_CONDITION, NEW_DETACH_CONDITION)
-			.replace(/export class/g, "class");
+			).replace(
+				/*js*/`crossAxisPos > crossAxisStart && crossAxisPos < crossAxisEnd`,
+				NEW_DETACH_CONDITION,
+			).replace(/export class/g, "class");
 
 		let output = {};
 		evalInSandbox(
@@ -6722,10 +6736,7 @@ let GET_DRAG_TARGET;
 								.replace(
 									/*js*/`eY < detachTabThresholdY && eY > window.screenY`,
 									NEW_DETACH_CONDITION,
-								).replace(
-									/*js*/`this.#expandGroupOnDrop(draggedTab);`,
-									"",
-								).replace(OLD_DETACH_CONDITION, NEW_DETACH_CONDITION)
+								)
 						});
 					`,
 					new Cu.Sandbox(window, {sandboxPrototype: window, sameZoneAs: window}),
@@ -11302,7 +11313,7 @@ if ("hideAllTabs" in prefs)
 	toggleAllTabsButton();
 tabContainer._updateNewTabVisibility();
 
-if (HAS_AI_WINDOW) {
+if (AI_HAMBURGER_MOVED) {
 	let name = ["_updateHamburgerMenuPosition", "_updateToolbarButtonPositions"]
 		.find(n => n in AIWindow);
 	if (!AIWindow["_ori" + name])
@@ -11606,7 +11617,7 @@ function toggleAllTabsButton() {
 }
 
 function updateAIWindowButtonsPosition() {
-	if (!HAS_AI_WINDOW) return;
+	if (!AI_HAMBURGER_MOVED) return;
 
 	let [nav, tabs] = ["nav-bar", "TabsToolbar"]
 		.map(id => $(`#${id} .titlebar-buttonbox-container`));
