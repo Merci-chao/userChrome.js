@@ -15,7 +15,7 @@ Firefox に多段タブ表示をサポートさせる。
 注目ポイントは、スクリーンショットや詳しい説明とともに[紹介ページ](https://merci-chao.github.io/userChrome.js/multitabrows/ja)にまとめていますので、ぜひご覧ください。
 
 ## 互換性
-- Firefox 159〜161、ESR（115、153）
+- Firefox 160〜162、ESR（115、153）
 
 - Windows、macOS、Ubuntu
 
@@ -81,6 +81,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `animateTabMoveUnderLimit` | <p>🔸 **タブ数上限でドラッグアニメ停止**</p><p>表示されているタブ数がこの値に達すると、ドラッグ＆ドロップのアニメーションを無効化し、代わりにドロップインジケーターを表示する。多くのタブでドラッグ操作が重くなる場合は、この値を下げることを検討。もし常にインジケーターを使ってタブを移動したいのであれば、値を `3` 未満に設定することでインジケーターモードを強制的に有効化できる。</p> |
 | `animationDuration` | <p>🔸 **アニメーション時間**</p><p>アニメーションの時間（ミリ秒）、値は `0`～`1000`。`0` に設定すると、タブに関連するすべてのアニメーションが無効になる。</p><p>📝 長すぎるとパフォーマンスに影響する可能性がある。</p><p>📝 Firefox または OS の設定により、アニメーションが無効化されている可能性がある。[`ui.prefersReducedMotion`](#reducedMotion) を参照。</p> |
 | `dragStackPreceding` | <p>🔸 **ドラッグ時に前タブもスタック**</p><p>ドラッグしたタブの前の選択したタブをスタックする（[`browser.tabs.dragDrop.multiselectStacking`](#multiselectStacking) を参照）。選択したタブの中央をドラッグすると、後続のタブが意図せず前に移動してしまう問題が発生するため、この設定を無効にすることで回避可能。</p> |
+| `dragToGroupHighlight` | <p>🔸 **ドラッグ中グループ化強調**</p><p>グループ化される際にドラッグ中のタブを強調表示。Nova が適用されている場合に利用可能。</p> |
 | `dynamicMoveOverThreshold` | <p>🔸 **ドラッグ動作を滑らかに**</p><p>ピン留めやグループ化されたタブのドラッグ時の移動を滑らかにする。Firefox 115 または `browser.tabs.dragDrop.createGroup.enabled` が無効な場合は非対応。</p> |
 | `hideDragPreview` | <p>🔸 **ドラッグプレビューを非表示**</p><p>ドラッグ中にカーソルの傍に表示されるドラッグプレビューを非表示：</p><ul><li>`0`－常に表示</li><li>`1`－グループのみ</li><li>`2`－タブのみ</li><li>`3`－両方</li></ul> |
 | `hidePinnedDropIndicator` | <p id="hidePinnedDropIndicator">🔸 **ピン留めインジケーター非表示**</p><p>ピン留めされたタブが存在しない場合に、タブをドラッグしてピン留めに変換する際に表示されるインジケーターを非表示。Firefox 115 では非対応。</p> |
@@ -191,6 +192,10 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)（右クリックして保存）
 
+[**バージョン 4.15.3**](https://github.com/Merci-chao/userChrome.js/raw/bb1605bb0e1efe91981a193123148e8fbcf047ff/MultiTabRows@Merci.chao.uc.js)
+- `dragToGroupHighlight` を追加：グループ化される際にドラッグ中のタブを強調表示。Nova が適用されている場合に利用可能。
+- Firefox 162 に対応。
+
 [**バージョン 4.15.2**](https://github.com/Merci-chao/userChrome.js/raw/c444f36d73cbd9a0fec2cb6505068db78bbd4577/MultiTabRows@Merci.chao.uc.js)
 - 改善
   - Firefox 161 に対応。
@@ -216,6 +221,9 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 	- タブバーが上部にある際、ウェブアプリでナビゲーションツールバーの背景色が正しく表示されなかった。
 	- サポートされていないアイテムをタブバーの上端または下端へドラッグした際にタブがスクロールしてしまった。
 
+<details>
+<summary>旧バージョン</summary><p></p>
+
 [**バージョン 4.14**](https://github.com/Merci-chao/userChrome.js/raw/6ef3e1fc3e0eb55bdbd51c00336c054ce00820e9/MultiTabRows@Merci.chao.uc.js)
 - 改善
 	- 「操作ボタンを自動非表示」関連：
@@ -225,9 +233,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 - 修正
 	- Linux で `hideDragPreview` が期待通りに動作しない問題。
 	- 軽微なレイアウト問題。
-
-<details>
-<summary>旧バージョン</summary><p></p>
 
 [**バージョン 4.13**](https://github.com/Merci-chao/userChrome.js/raw/cd493f61adfceab7f1e89da94aba821f34c8767f/MultiTabRows@Merci.chao.uc.js)
 - 変更
