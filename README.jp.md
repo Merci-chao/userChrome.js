@@ -40,6 +40,7 @@ Firefox に多段タブ表示をサポートさせる。
 - 信頼できるソースからのスクリプトやファイルのみを使用してください。悪意のあるコードは深刻な被害を引き起こす可能性があり、ファイルの破損、アカウントへの不正侵入、銀行やクレジットカードなどの個人情報の盗難につながる恐れがある。しかも、これらはまったく気づかないうちに発生することもある。
 
 ## インストール手順
+
 <details>
 	<summary>🚀 クイック手順（今北産業向け）</summary>
 	<ol>
@@ -54,7 +55,7 @@ Firefox に多段タブ表示をサポートさせる。
 			<p>userChrome.js をインストール（導入済みの場合はスキップ）：</p>
 			<ol>
 				<li>
-					<p><a href="https://github.com/onemen/firefox-scripts/releases/tag/latest">インストーラー</a>をダウンロード：</p>
+					<p>インストーラーをダウンロード：</p>
 					<ul>
 						<li>Windows ⸺ <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_win.exe"><code>installer_win.exe</code></a></li>
 						<li>macOS ⸺ <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_mac"><code>installer_mac</code></a></li>
@@ -69,7 +70,7 @@ Firefox に多段タブ表示をサポートさせる。
 			</ol>
 		</li>
 		<li>
-			<p><a href="https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js">スクリプト</a>をダウンロードし、<code>chrome</code> フォルダーに入れる。</p>
+			<p><a href="https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js">スクリプト</a>を右クリックして保存し、<code>chrome</code> フォルダーに入れる。</p>
 		</li>
 		<li>
 			<p>Firefox を再起動して完了！</p>
