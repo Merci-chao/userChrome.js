@@ -71,7 +71,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 			</ol>
 		</li>
 		<li>
-			<p>Download the <a href="https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js">script</a> and drop it into the <code>chrome</code> folder.</p>
+			<p>Right-click and save the <a href="https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js">script</a> and drop it into the <code>chrome</code> folder.</p>
 		</li>
 		<li>
 			<p>Restart Firefox and fave fun!</p>
