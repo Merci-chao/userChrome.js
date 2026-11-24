@@ -69,7 +69,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 	<p>🛟 Stuck? Check out the detailed steps below and give it another shot.</p>
 </details>
 <details>
-	<summary>📖 Detailed Steps (Recommended)</summary>
+	<summary>📘 Detailed Steps (Recommended)</summary>
 	<ol>
 		<li><p>Ensure you are using a Firefox version listed in the <a href="#compatibility">compatibility list</a> above. Other Firefox versions and systems may potentially not be supported.</p></li>
 		<li>
