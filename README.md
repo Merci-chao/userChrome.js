@@ -55,8 +55,19 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 		<li>
 			<p>Install <code>userChrome.js</code> (skip if already installed):</p>
 			<ol>
-				<li>Download the <a href="https://github.com/onemen/firefox-scripts/releases/tag/latest">installer</a>.</li>
-				<li>Run it and complete the installation in the Firefox tab that pops up.</li>
+				<li>
+					<p>Download the installer:</p>
+					<ul>
+						<li>Windows — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_win.exe"><code>installer_win.exe</code></a></li>
+						<li>macOS — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_mac"><code>installer_mac</code></a></li>
+						<li>Linux — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_linux"><code>installer_linux</code></a></li>
+						<li>Linux ARM64 — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_linux_aarch64"><code>installer_linux_aarch64</code></a></li>
+					</ul>
+				</li>
+				<li>
+					<p>Run it and complete the installation in the Firefox tab that pops up:</p>
+					<img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-installer.png">
+				</li>
 			</ol>
 		</li>
 		<li>
