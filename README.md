@@ -48,12 +48,12 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 		<li>
 			<p>Remove the following:</p>
 			<ul>
-				<li><code>userChrome.css</code> (potential conflict)</li>
+				<li><code>userChrome.css</code> (likely conflicts)</li>
 				<li>Multi-row tabs scripts or extensions (e.g., <em>MultiRowTabLiteforFx.uc.js</em>, <em>Tab Mix Plus</em>, etc.)</li>
 			</ul>
 		</li>
 		<li>
-			<p>Install <code>userChrome.js</code> (skip if already installed).</p>
+			<p>Install <code>userChrome.js</code> (skip if already installed);</p>
 			<details>
 				<summary>Installation Steps</summary>
 				<ol>
@@ -74,7 +74,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 			</details>
 		</li>
 		<li>
-			<p>Right-click and save the <a href="https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js">script file</a> into the <code>chrome</code> folder.</p>
+			<p>Right-click and save the <a href="https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js">script file</a> into the <code>chrome</code> folder;</p>
 		</li>
 		<li>
 			<p>Restart Firefox and you're done!</p>
