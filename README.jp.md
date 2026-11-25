@@ -52,7 +52,7 @@ Firefox に多段タブ表示をサポートさせる。
 			</ul>
 		</li>
 		<li>
-			<p>userChrome.js をインストール（導入済みの場合はスキップ）：</p>
+			<p>userChrome.js をインストール（導入済みの場合はスキップ）；</p>
 			<details>
 				<summary>インストール手順</summary>
 				<ol>
@@ -73,7 +73,7 @@ Firefox に多段タブ表示をサポートさせる。
 			</details>
 		</li>
 		<li>
-			<p><a href="https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js">スクリプト</a>を右クリックして保存し、<code>chrome</code> に入れる。</p>
+			<p><a href="https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js">スクリプト</a>を右クリックして保存し、<code>chrome</code> に入れる；</p>
 		</li>
 		<li>
 			<p>Firefox を再起動して完了！</p>
