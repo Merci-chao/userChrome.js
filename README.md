@@ -43,20 +43,20 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 ## Installation
 
 <details>
-	<summary>🚀 Quick Steps (TL;DR no BS)</summary>
+	<summary>🚀 Quick Steps (TL;DR, no BS)</summary>
 	<ol>
 		<li>
-			<p>Clean up potential conflicts by removing:</p>
+			<p>Remove the following:</p>
 			<ul>
-				<li>The existing <code>userChrome.css</code></li>
-				<li>Any other multi-row tabs scripts or extensions (e.g., <em>MultiRowTabLiteforFx.uc.js</em>, <em>Tab Mix Plus</em>)</li>
+				<li><code>userChrome.css</code> (potential conflict)</li>
+				<li>Multi-row tabs scripts or extensions (e.g., <em>MultiRowTabLiteforFx.uc.js</em>, <em>Tab Mix Plus</em>, etc.)</li>
 			</ul>
 		</li>
 		<li>
 			<p>Install <code>userChrome.js</code> (skip if already installed):</p>
 			<ol>
 				<li>
-					<p>Download the installer:</p>
+					<p>Download and run the installer:</p>
 					<ul>
 						<li>Windows — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_win.exe"><code>installer_win.exe</code></a></li>
 						<li>macOS — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_mac"><code>installer_mac</code></a></li>
@@ -65,16 +65,16 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 					</ul>
 				</li>
 				<li>
-					<p>Run it and complete the installation in the Firefox tab that pops up:</p>
-					<img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-installer.png">
+					<p>In the page that pops up in Firefox, select the 2 items and click <em>Install</em>:</p>
+					<img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-installer-no-restart.png">
 				</li>
 			</ol>
 		</li>
 		<li>
-			<p>Right-click and save the <a href="https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js">script</a> and drop it into the <code>chrome</code> folder.</p>
+			<p>Right-click and save the <a href="https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js">script file</a> into the <code>chrome</code> folder.</p>
 		</li>
 		<li>
-			<p>Restart Firefox and fave fun!</p>
+			<p>Restart Firefox and you're done!</p>
 		</li>
 	</ol>
 	<p>🛟 Stuck? Check out the detailed steps below and give it another shot.</p>
