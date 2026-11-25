@@ -49,14 +49,18 @@ Firefox に多段タブ表示をサポートさせる。
 			<ul>
 				<li><code>userChrome.css</code>（競合の可能性高）</li>
 				<li>
-					<p>多段タブ用スクリプトや拡張機能、例：</p>
-					<ul>
-						<li>MultiRowTabLiteforFx.uc.js</li>
-						<li>MultiRowTab-scrollable.uc.js</li>
-						<li>MultiRowNew@Fu.uc.js</li>
-						<li>TabMoveOnly.uc.js</li>
-						<li>Tab Mix Plus</li>
-					</ul>
+					<p>多段タブ用スクリプト・拡張機能</p>
+					<details>
+						<summary>例</summary>
+						<p></p>
+						<ul>
+							<li>MultiRowTabLiteforFx.uc.js</li>
+							<li>MultiRowTab-scrollable.uc.js</li>
+							<li>MultiRowNew@Fu.uc.js</li>
+							<li>TabMoveOnly.uc.js</li>
+							<li>Tab Mix Plus</li>
+						</ul>
+					</details>
 				</li>
 			</ul>
 		</li>
