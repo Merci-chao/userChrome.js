@@ -47,7 +47,7 @@ Firefox に多段タブ表示をサポートさせる。
 		<li>
 			<p>以下を取り除く：</p>
 			<ul>
-				<li><code>userChrome.css</code>（競合の可能性あり）</li>
+				<li><code>userChrome.css</code>（競合の可能性高）</li>
 				<li>多段タブ用スクリプトや拡張機能（例：MultiRowTabLiteforFx.uc.js、Tab Mix Plus など）</li>
 			</ul>
 		</li>
