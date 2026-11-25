@@ -58,7 +58,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 				<summary>Installation Steps</summary>
 				<ol>
 					<li>
-						<p>Download and run the installer:</p>
+						<p>Download and run the installer with Firefox running:</p>
 						<ul>
 							<li>Windows — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_win.exe"><code>installer_win.exe</code></a></li>
 							<li>macOS — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_mac"><code>installer_mac</code></a></li>
