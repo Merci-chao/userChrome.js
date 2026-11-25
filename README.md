@@ -67,7 +67,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 						</ul>
 					</li>
 					<li>
-						<p>In the page that pops up in Firefox, select the 2 items and click <em>Install</em>:</p>
+						<p>In the page that pops up in Firefox, select the 2 items and click <em>Install / Update</em>:</p>
 						<img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-installer-no-restart.png">
 					</li>
 				</ol>
