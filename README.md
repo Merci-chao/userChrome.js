@@ -53,22 +53,25 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 			</ul>
 		</li>
 		<li>
-			<p>Install <code>userChrome.js</code> (skip if already installed):</p>
-			<ol>
-				<li>
-					<p>Download and run the installer:</p>
-					<ul>
-						<li>Windows — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_win.exe"><code>installer_win.exe</code></a></li>
-						<li>macOS — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_mac"><code>installer_mac</code></a></li>
-						<li>Linux — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_linux"><code>installer_linux</code></a></li>
-						<li>Linux ARM64 — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_linux_aarch64"><code>installer_linux_aarch64</code></a></li>
-					</ul>
-				</li>
-				<li>
-					<p>In the page that pops up in Firefox, select the 2 items and click <em>Install</em>:</p>
-					<img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-installer-no-restart.png">
-				</li>
-			</ol>
+			<p>Install <code>userChrome.js</code> (skip if already installed).</p>
+			<details>
+				<summary>Installation Steps</summary>
+				<ol>
+					<li>
+						<p>Download and run the installer:</p>
+						<ul>
+							<li>Windows — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_win.exe"><code>installer_win.exe</code></a></li>
+							<li>macOS — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_mac"><code>installer_mac</code></a></li>
+							<li>Linux — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_linux"><code>installer_linux</code></a></li>
+							<li>Linux ARM64 — <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_linux_aarch64"><code>installer_linux_aarch64</code></a></li>
+						</ul>
+					</li>
+					<li>
+						<p>In the page that pops up in Firefox, select the 2 items and click <em>Install</em>:</p>
+						<img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-installer-no-restart.png">
+					</li>
+				</ol>
+			</details>
 		</li>
 		<li>
 			<p>Right-click and save the <a href="https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js">script file</a> into the <code>chrome</code> folder.</p>
