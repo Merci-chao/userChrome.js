@@ -57,7 +57,7 @@ Firefox に多段タブ表示をサポートさせる。
 				<summary>インストール手順</summary>
 				<ol>
 					<li>
-						<p>インストーラーをダウンロードして実行：</p>
+						<p>インストーラーをダウンロードして実行（Firefox は起動したままで）：</p>
 						<ul>
 							<li>Windows ⸺ <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_win.exe"><code>installer_win.exe</code></a></li>
 							<li>macOS ⸺ <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_mac"><code>installer_mac</code></a></li>
