@@ -45,32 +45,35 @@ Firefox に多段タブ表示をサポートさせる。
 	<summary>🚀 クイック手順（今北産業向け・3 行じゃないけど）</summary>
 	<ol>
 		<li>
-			<p>競合を防ぐため、以下を取り除いてください：</p>
+			<p>以下を取り除く：</p>
 			<ul>
-				<li>既存の <code>userChrome.css</code></li>
-				<li>他の多段タブ用スクリプトや拡張機能（例：MultiRowTabLiteforFx.uc.js、Tab Mix Plus）</li>
+				<li><code>userChrome.css</code>（競合の可能性あり）</li>
+				<li>多段タブ用スクリプトや拡張機能（例：MultiRowTabLiteforFx.uc.js、Tab Mix Plus など）</li>
 			</ul>
 		</li>
 		<li>
 			<p>userChrome.js をインストール（導入済みの場合はスキップ）：</p>
-			<ol>
-				<li>
-					<p>インストーラーをダウンロード：</p>
-					<ul>
-						<li>Windows ⸺ <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_win.exe"><code>installer_win.exe</code></a></li>
-						<li>macOS ⸺ <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_mac"><code>installer_mac</code></a></li>
-						<li>Linux ⸺ <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_linux"><code>installer_linux</code></a></li>
-						<li>Linux ARM64 ⸺ <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_linux_aarch64"><code>installer_linux_aarch64</code></a></li>
-					</ul>
-				</li>
-				<li>
-					<p>実行して、Firefox で開いたタブからインストールを完了する：</p>
-					<img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-installer.png">
-				</li>
-			</ol>
+			<details>
+				<summary>インストール手順</summary>
+				<ol>
+					<li>
+						<p>インストーラーをダウンロードして実行：</p>
+						<ul>
+							<li>Windows ⸺ <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_win.exe"><code>installer_win.exe</code></a></li>
+							<li>macOS ⸺ <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_mac"><code>installer_mac</code></a></li>
+							<li>Linux ⸺ <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_linux"><code>installer_linux</code></a></li>
+							<li>Linux ARM64 ⸺ <a href="https://github.com/onemen/firefox-scripts/releases/latest/download/installer_linux_aarch64"><code>installer_linux_aarch64</code></a></li>
+						</ul>
+					</li>
+					<li>
+						<p>Firefox で開いたタブで 2 項目を選択し、「インストール」をクリック：</p>
+						<img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-installer-no-restart.png">
+					</li>
+				</ol>
+			</details>
 		</li>
 		<li>
-			<p><a href="https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js">スクリプト</a>を右クリックして保存し、<code>chrome</code> フォルダーに入れる。</p>
+			<p><a href="https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js">スクリプト</a>を右クリックして保存し、<code>chrome</code> に入れる。</p>
 		</li>
 		<li>
 			<p>Firefox を再起動して完了！</p>
