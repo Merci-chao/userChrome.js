@@ -43,7 +43,7 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 ## Installation
 
 <details>
-	<summary>🚀 Quick Steps (TL;DR, no BS)</summary>
+	<summary>🚀 Quick Guide (TL;DR, no BS)</summary>
 	<ol>
 		<li>
 			<p>Remove the following:</p>
