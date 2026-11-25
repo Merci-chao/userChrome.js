@@ -50,10 +50,11 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 			<ul>
 				<li><code>userChrome.css</code> (likely conflicts)</li>
 				<li>
-					<p>All multi-row tabs scripts or extensions, e.g.:</p>
+					<p>Multi-row tabs scripts or extensions, e.g.:</p>
 					<ul>
 						<li><em>MultiRowTabLiteforFx.uc.js</em></li>
 						<li><em>MultiRowTab-scrollable.uc.js</em></li>
+						<li><em>MultiRowNew@Fu.uc.js</em></li>
 						<li><em>TabMoveOnly.uc.js</em></li>
 						<li><em>Tab Mix Plus</em></li>
 					</ul>
