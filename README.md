@@ -49,7 +49,15 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 			<p>Remove the following:</p>
 			<ul>
 				<li><code>userChrome.css</code> (likely conflicts)</li>
-				<li>Multi-row tabs scripts or extensions (e.g., <em>MultiRowTabLiteforFx.uc.js</em>, <em>Tab Mix Plus</em>, etc.)</li>
+				<li>
+					<p>All multi-row tabs scripts or extensions, e.g.:</p>
+					<ul>
+						<li><em>MultiRowTabLiteforFx.uc.js</em></li>
+						<li><em>MultiRowTab-scrollable.uc.js</em></li>
+						<li><em>TabMoveOnly.uc.js</em></li>
+						<li><em>Tab Mix Plus</em></li>
+					</ul>
+				</li>
 			</ul>
 		</li>
 		<li>
