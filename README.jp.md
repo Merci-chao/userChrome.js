@@ -66,7 +66,7 @@ Firefox に多段タブ表示をサポートさせる。
 						</ul>
 					</li>
 					<li>
-						<p>Firefox で開いたタブで 2 項目を選択し、「インストール」をクリック：</p>
+						<p>Firefox で開いたタブで 2 項目を選択し、Install / Update をクリック：</p>
 						<img src="https://cdn.jsdelivr.net/gh/Merci-chao/userChrome.js@main/screenshots/firefox-scripts-installer-no-restart.png">
 					</li>
 				</ol>
