@@ -423,12 +423,17 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 ## Settings
 Open [*about:config*](https://support.mozilla.org/kb/about-config-editor-firefox) and search for the prefix `userChromeJS.multiTabRows@Merci.chao.`. Settings shown in gray are disabled due to dependency on other preferences.
 
-If configuring via *user.js* (not recommended), be sure to include the prefix `userChromeJS.multiTabRows@Merci.chao.`. Example:
+<details>
+	<summary>Using <code>user.js</code> (Not Recommended)</summary>
+	<p></p>
+	<p>Be sure to include the prefix <code>userChromeJS.multiTabRows@Merci.chao.</code>. Example:</p>
+	
 ```js
 user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ```
 
-⚠️ Many of these settings may not take effect due to dependencies with other preferences. It is strongly recommended to configure them via *about:config* rather than using *user.js*.
+<p>⚠️ Many of these settings may not take effect due to dependencies with other preferences. It is strongly recommended to configure them via <em>about:config</em> rather than using <code>user.js</code>.</p>
+</details>
 
 ### Interactions
 
