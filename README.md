@@ -29,16 +29,27 @@ Check out the [introduction page](https://merci-chao.github.io/userChrome.js/mul
 
 ## Cautions
 **🚨 Please read the following notes carefully before using this script:**
-- This script is developed for Windows 7 to 11, and tested on macOS 27 and Ubuntu 26 (Linux). Other Firefox-based derivative browsers are not supported.
+- **Incompatibility**
+  
+  This script is developed for Windows 7 to 11, and tested on macOS 27 and Ubuntu 26 (Linux). Other Firefox-based derivative browsers are not supported.
 
-- Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. [*Tab Mix Plus*](https://onemen.github.io/tabmixplus-docs)), user scripts (`*.uc.js`) or customized styles (`userChrome.css`) can cause weird glitches and bugs.
-  <p>⚠️ Please follow the installation steps below carefully.</p>
+- **Potential Conflicts**
+  
+  Since this script contains many sensitive layout calculations designed for native Firefox, any tab-related legacy extensions (e.g. [*Tab Mix Plus*](https://onemen.github.io/tabmixplus-docs)), user scripts (`*.uc.js`) or customized styles (`userChrome.css`) can cause weird glitches and bugs.
+  
+  ⚠️ Please follow the installation steps below carefully.
 
-- This is an unofficial and complex script maintained solely by me. It may contain unforeseen bugs, and if unexpected issues occur, restarting Firefox may be required. In extreme cases — especially when using an outdated version of the script with a newly updated Firefox — the browser may become unusable, potentially resulting in the permanent loss of your previous browsing session. You may need to disable the script in such situations. Please use this script only if you are capable of and prepared to handle these risks.
+- **Use at Your Own Risk**
+  
+  This is an unofficial and complex script maintained solely by me. It may contain unforeseen bugs, and if unexpected issues occur, restarting Firefox may be required. In extreme cases — especially when using an outdated version of the script with a newly updated Firefox — the browser may become unusable, potentially resulting in the permanent loss of your previous browsing session. You may need to disable the script in such situations. Please use this script only if you are capable of and prepared to handle these risks.
 
-- This script is more like a meticulous tab extension than a simple multi-row tweak. It consolidates thousands of lines of logic and styling into a single file, yet remains as manageable as a typical script. It is a hardcore implementation built with perfection and performance in mind. The number of lines is never a concern during development — just as *Tab Mix Plus* could never be achieved with only a few hundred lines of half-baked code. However, if you prefer something simple and fully understandable in coding — providing a stronger sense of safety and allowing you to easily make changes at will — this may not be your favorite choice.
+- **Complex & Hard to Modify**
 
-- Always use scripts and files from sources you trust. Malicious code can cause severe damage, such as corrupting your files, hacking into your accounts, or stealing sensitive information like bank and credit card details — and all of this can happen without you even noticing.
+  This script is more like a meticulous tab extension than a simple multi-row tweak. It consolidates thousands of lines of logic and styling into a single file, yet remains as manageable as a typical script. It is a hardcore implementation built with perfection and performance in mind. The number of lines is never a concern during development — just as *Tab Mix Plus* could never be achieved with only a few hundred lines of half-baked code. However, if you prefer something simple and fully understandable in coding — providing a stronger sense of safety and allowing you to easily make changes at will — this may not be your favorite choice.
+
+- **Security Warning**
+
+  Always use scripts and files from sources you trust. Malicious code can cause severe damage, such as corrupting your files, hacking into your accounts, or stealing sensitive information like bank and credit card details — and all of this can happen without you even noticing.
 
 ## Installation
 
