@@ -446,8 +446,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <p>⚠️ Many of these settings may not take effect due to dependencies with other preferences. It is strongly recommended to configure them via <em>about:config</em> rather than using <code>user.js</code>.</p>
 </details>
 
-<details>
-<summary><h3>Interactions</h3></summary><p></p>
+### Interactions
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
@@ -467,11 +466,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `previewPanelShiftedAlways` | <p>🔸 **Always Shift Preview Panel**</p><p>Shift the preview panel even when there is only one row.</p> |
 | `scrollButtonsSize` | <p>🔸 **Scroll Button Height**</p><p>The height (in pixels) of the scroll buttons during dragging. Minimum: `0`, but it will be rendered as at least 2 device pixels in height; the maximum is limited to half the tab height.</p> |
 
-</details>
-
-
-<details>
-<summary><h3>Tab Bar Layout</h3></summary><p></p>
+### Tab Bar Layout
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
@@ -502,10 +497,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `tabsUnderControlButtons` | <p>🔸 **Full-Width Tab Bar Usage**</p><p>Tabs starting from the second row use the full width of the tab bar:</p><ul><li>`0` - never</li><li>`1` - when the tab bar is not scrollable (legacy option, not recommended)</li><li>`2` - always</li></ul> |
 | `thinScrollbar` | <p>🔸 **Thin Scrollbar**</p><p>Use a thin scrollbar without up and down buttons when the tab bar is scrollable.</p> |
 
-</details>
-
-<details>
-<summary><h3>Tab Sizing</h3></summary><p></p>
+### Tab Sizing
 
 📝 Not recommended to set narrower than the default value, as Firefox is not designed to be more compact than the default options and unexpected glitches may occur. These settings may be overridden by rules in `userChrome.css` and have no effect.
 
@@ -525,10 +517,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `tabVerticalMargin` | <p>🔸 **Tab Vertical Margin**</p><p>Vertical space around tab. Minimum: `0`.</p> |
 | `tabVerticalMarginCompact` | <p>🔸 **Tab Vertical Margin in Auto-Compact**</p><p>Compact mode size when Nova automatic window density is enabled in Firefox 154+. The value is capped to the standard mode value.</p> |
 
-</details>
-
-<details>
-<summary><h3>Appearance</h3></summary><p></p>
+### Appearance
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
@@ -543,10 +532,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `themeImageSize` | <p>🔸 **Theme Image Size**</p><p>When using themes with background images, size the image according to:</p><ul><li>`-1` - the original size of the image</li><li>`0` - the maximum number of rows allowed</li><li>`1` - the maximum number of rows allowed within the current window width</li><li>`2` - the current number of rows</li></ul><p>The best choice depends on your preference and the design of the theme. No difference when the image height is large enough to support the number of rows.</p> |
 | `toolbarColorOpacity` | <p>🔸 **Toolbar Color Opacity**</p><p>Opacity of the background color of toolbars, and the dividing line between the navigation toolbar and the tab bar, valid range: `0` - `100`. Changing this setting cannot increase opacity if the original color contains transparency.</p> |
 | `urlBarColorOpacity` | <p>🔸 **Address Bar Color Opacity**</p><p>Opacity of the background color of the address bar and the search bar, valid range: `0` - `100`. Changing this setting cannot increase opacity if the original color includes transparency.</p> |
-</details>
 
-<details>
-<summary><h3>Miscellaneous</h3></summary><p></p>
+### Miscellaneous
 
 | Name (w/ prefix) | Description |
 | ------------- | ------------- |
@@ -556,10 +543,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `currentVersion` | <p>🔸 **Current Version**</p><p>The version number you are currently using.</p> |
 | `debugMode` | <p>🔸 **Debug Mode**</p><p>⛔ Not for general use.</p> |
 | `incompatible` | <p>🔸 **Incompatible Info**</p><p>This item only appears when you are running an incompatible version of Firefox. Modifying it will cause the compatibility alert to show up again when Firefox starts up.</p> |
-</details>
 
-<details>
-<summary><h3>Firefox Built-in Settings</h3></summary><p></p>
+### Firefox Built-in Settings
 
 | Name (w/o prefix) | Description |
 | ------------- | ------------- |
@@ -577,7 +562,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `ui.prefersReducedMotion` | <p id="reducedMotion">🔸 **Reduce Motion**</p><p>Disable most animations:</p><ul><li>`0` - never</li><li>`1` - always</li><li>Not configured - system default</li></ul> |
 | `widget.windows.mica` | <p>🔸 **Mica Style**</p><p>Apply the window transparency effect on Windows 11.</p> |
 | `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Mica Backdrop Effect**</p><p>Choose the effect of the window backdrop (Windows 11):</p><ul><li>`0` - auto</li><li>`1` - Mica</li><li>`2` - Acrylic</li><li>`3` - Mica Alt</li></ul> |
-</details>
 
 ## Changelog
 📥 [Download the Latest Version](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js) (right-click and save as)
