@@ -592,7 +592,6 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `ui.prefersReducedMotion` | <p id="reducedMotion">🔸 **視覚効果を減らす**</p><p>大部分のアニメーションを無効化：</p><ul><li>`0`－しない</li><li>`1`－常に</li><li>未設定－システムに従う</li></ul> |
 | `widget.windows.mica` | <p>🔸 **Mica スタイル**</p><p>Windows 11 でウィンドウの透明効果を適用。</p> |
 | `widget.windows.mica.toplevel-backdrop` | <p>🔸 **Mica 背景効果選択**</p><p>ウィンドウ背景効果の選択肢（Windows 11）：<ul><li>`0`－自動</li><li>`1`－Mica</li><li>`2`－Acrylic</li><li>`3`－Mica Alt</li></ul></p> |
-</details>
 
 ## 変更履歴
 📥 [最新版をダウンロード](https://github.com/Merci-chao/userChrome.js/raw/refs/heads/main/MultiTabRows@Merci.chao.uc.js)（右クリックして保存）
