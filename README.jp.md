@@ -476,8 +476,7 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 <p>⚠️ 他の設定との依存関係により、これらの設定の多くが反映されない可能性がある。<code>user.js</code> を使用するのではなく、about:config 経由で直接設定することを強く推奨。</p>
 </details>
 
-<details>
-<summary><h3>操作</h3></summary><p></p>
+### 操作
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
@@ -496,10 +495,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `previewPanelShifted` | <p>🔸 **プレビューパネルをシフト**</p><p>多段がある場合にプレビューパネルをシフトし、下の段の項目が使いにくくなる影響を軽減。`previewPanelNoteEditable` が `true` の場合のみタブに影響。Firefox 115 では非対応。</p><ul><li>`0`－無効</li><li>`1`－グループ用</li><li>`2`－タブ用</li><li>`3`－両方用</li></ul> |
 | `previewPanelShiftedAlways` | <p>🔸 **常時プレビューパネルをシフト**</p><p>一段しかない場合でもプレビューパネルをシフト。</p> |
 | `scrollButtonsSize` | <p>🔸 **スクロールボタンの高さ**</p><p>ドラッグ中のスクロールボタンの高さ（ピクセル単位）。最小値：`0` だが、表示上は少なくとも 2 デバイスピクセルの高さになる。最大値はタブの高さの半分までに制限される。</p> |
-</details>
 
-<details>
-<summary><h3>タブバーレイアウト</h3></summary><p></p>
+### タブバーレイアウト
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
@@ -529,10 +526,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `tabsbarItemsAlign` | <p>🔸 **タブバー項目の縦位置**</p><p>多段モードでタブバー内の項目（主にボタン）の配置：</p><ul><li>`start`－上</li><li>`center`－中</li><li>`end`－下</li></ul>`tabsUnderControlButtons` が `0` または `1` でタブバーがスクロール可能時のみ有効。 |
 | `tabsUnderControlButtons` | <p>🔸 **タブバー全幅使用**</p><p>2 段目からタブバー全体の幅を使用：</p><ul><li>`0`－無効</li><li>`1`－タブバーがスクロール不可能時のみ（旧式オプション、非推奨）</li><li>`2`－常に有効</li></ul> |
 | `thinScrollbar` | <p>🔸 **細いスクロールバー**</p><p>タブバーがスクロール可能な時、上下ボタンなしの細いスクロールバーを使用。</p> |
-</details>
 
-<details>
-<summary><h3>タブサイズ</h3></summary><p></p>
+### タブサイズ
 
 📝 既定値より狭く設定するのは推奨されない。Firefox は既定のオプション以上にコンパクトに動作するよう設計されていないため、予期しない不具合が起こる可能性がある。これらの設定は `userChrome.css` のルールで上書きされ、効果がなくなる場合がある。
 
@@ -551,10 +546,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `tabMaxWidth` | <p>🔸 **タブ最大幅**</p><p>タブの最大幅（周囲の余白を含む）。最小幅には `browser.tabs.tabMinWidth` を使用し、実際の最大幅は必ずこの値より小さくなることはない。</p> |
 | `tabVerticalMargin` | <p>🔸 **タブ外側の垂直余白**</p><p>最小値：`0`。</p> |
 | `tabVerticalMarginCompact` | <p>🔸 **自動コンパクトでの垂直余白**</p><p>Firefox 154 以降で Nova の自動ウィンドウ密度機能を有効化した際のコンパクトモードのサイズ。値は通常モードの値に制限される。</p> |
-</details>
 
-<details>
-<summary><h3>外観</h3></summary><p></p>
+### 外観
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
@@ -569,10 +562,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `themeImageSize` | <p>🔸 **テーマ背景画像サイズ**</p><p>背景画像付きのテーマを使用する場合、その画像のサイズは以下に基づいて決定される：</p><ul><li>`-1`－画像の元のサイズ</li><li>`0`－許可されている最大段数</li><li>`1`－現在のウィンドウ幅で許可されている最大段数</li><li>`2`－現在の段数</li></ul><p>最適な選択は好みとテーマのデザインに依存。画像の高さが段数を収容できるほど十分に大きい場合は、違いはない。</p> |
 | `toolbarColorOpacity` | <p>🔸 **ツールバー背景色の不透明度**</p><p>ツールバーの背景色と、ナビゲーションツールバーとタブバーの間にある区切り線の不透明度。値は `0`〜`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。</p> |
 | `urlBarColorOpacity` | <p>🔸 **アドレスバー背景色の不透明度**</p><p>アドレスバーと検索バーの背景色の不透明度。値は `0`〜`100`。元の色に透明度が含まれている場合、この設定を変更しても不透明度を高めることはできない。</p> |
-</details>
 
-<details>
-<summary><h3>その他</h3></summary><p></p>
+### その他
 
 | 項目（接頭辞あり） | 説明 |
 | ------------- | ------------- |
@@ -582,10 +573,8 @@ user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 | `currentVersion` | <p>🔸 **現在のバージョン**</p><p>現在使用しているバージョン。</p> |
 | `debugMode` | <p>🔸 **デバッグモード**</p><p>⛔ 一般向けではない。</p> |
 | `incompatible` | <p>🔸 **互換性警告**</p><p>この項目は互換性のないバージョンの Firefox を実行している場合にのみ表示される。変更すると、Firefox の起動時に再び互換性警告が表示される。</p> |
-</details>
 
-<details>
-<summary><h3>Firefox の組み込み設定</h3></summary><p></p>
+### Firefox の組み込み設定
 
 | 項目（接頭辞なし） | 説明 |
 | ------------- | ------------- |
