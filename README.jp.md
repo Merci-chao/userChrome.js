@@ -453,12 +453,17 @@ Firefox に多段タブ表示をサポートさせる。
 ## 設定
 [about:config](https://support.mozilla.org/kb/about-config-editor-firefox) を開いて、`userChromeJS.multiTabRows@Merci.chao.` で始まる設定項目を検索してください。グレー表示の項目は他の設定との関係で無効化されている。
 
-user.js で設定する場合（※非推奨）、接頭辞 `userChromeJS.multiTabRows@Merci.chao.` を含めてください。例：
+<details>
+	<summary><code>user.js</code> による設定（非推奨）</summary>
+	<p></p>
+	<p>接頭辞 <code>userChromeJS.multiTabRows@Merci.chao.</code> を含めてください。例：</p>
+
 ```js
 user_pref("userChromeJS.multiTabRows@Merci.chao.maxTabRows", 5);
 ```
 
-⚠️ 他の設定との依存関係により、これらの設定の多くが反映されない可能性がある。user.js を使用するのではなく、about:config 経由で直接設定することを強く推奨。
+<p>⚠️ 他の設定との依存関係により、これらの設定の多くが反映されない可能性がある。<code>user.js</code> を使用するのではなく、about:config 経由で直接設定することを強く推奨。</p>
+</details>
 
 ### 操作
 
